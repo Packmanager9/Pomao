@@ -1,6 +1,12 @@
 
 window.addEventListener('DOMContentLoaded', (event) =>{
 
+
+
+    let floors = []
+
+    let dry = 0
+
     let jazz = new Audio('gulpnoise.wav');
     let jazz2 = new Audio('gulpnoise2.wav');
 
@@ -559,7 +565,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     class Pomao{
         constructor(){
             this.eggtimer = 0
-            this.body = new Circlex(425,350, 32, "transparent")
+            this.body = new Circlex(425,350, 32, "red")
             this.tongue = new Circle(this.body.x, this.body.y, 6, "blue")
             this.tonguex = 0
             this.tonguey = 0
@@ -575,7 +581,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.eggs = [this.body]
         }
         gravity(){
-            if(this.body.y+this.body.radius >= 650){
+
+
+
+            if(dry == 1){
                 if(this.body.ymom > 0){
                     this.body.ymom = 0
                 }
@@ -594,6 +603,19 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
              
             }
+            dry = 0
+            for(let t = 0; t<floors.length; t++){
+
+                if(squarecirclefeet(floors[t], this.body)){
+                    if(Math.abs(this.body.y-floors[t].y) <= this.body.radius){
+                        tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
+                        this.body.y = floors[t].y-this.body.radius
+                        dry = 1
+                        break
+                    }
+                }
+            }
+
             for(let t = 1; t<this.eggs.length; t++){
                 if(this.eggs[t].marked == 0){
                     this.eggs[t].steery()
@@ -602,10 +624,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         draw(){
 
+            this.timeloop+=.05
+            this.timeloops+=.01
             this.bodytight = new Circle(this.body.x,this.body.y, 10, "yellow")
             this.control()
-            this.gravity()
             this.body.move()
+            this.gravity()
             // this.body.draw()
             this.tonguex+=this.tonguexmom
             this.tonguey+=this.tongueymom
@@ -656,8 +680,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.dir = -1
         }
 
-        this.timeloop+=.05
-        this.timeloops+=.01
         this.height = 64+(Math.sin(this.timeloop)*3)
         this.width = 64+(Math.sin(this.timeloopx)*1)
         if(this.jumping == 1){
@@ -958,10 +980,23 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     let pomao = new Pomao()
 
+
+    let floor = new Rectangle(-10000, 650, 500, 7000000, "red")
+
+    let floor2 = new Rectangle(100, 500, 20, 400, "red")
+    floors.push(floor)
+    floors.push(floor2)
+
     let fruits = []
     for(let t = 0;t<300; t++){
         let fruit = new Fruit(-6000+(Math.random()*12000),225+(Math.random()*315), 50,50, "red")
         let wet = 0
+        for(let s = 0; s<floors.length; s++){
+            if(floors[s].isPointInside(fruit.body)){
+                wet = 1
+                break
+            }
+        }
         for(let k = 0;k<fruits.length; k++){
             if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 320 && fruit.body.x < 530) ){
                 wet = 1
@@ -1081,8 +1116,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     let seep
 
-    let floor = new Rectangle(-10000, 650, 500, 7000000, "red")
-
         // let seep = new Seed(pomao.eggs[pomao.eggs.length-1])
     // let seeds = []
 
@@ -1096,7 +1129,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     window.setInterval(function(){ 
         tutorial_canvas_context.clearRect(-10000,-10000,tutorial_canvas.width*10000, tutorial_canvas.height*10000)
   
-        floor.draw()
+        for(let t = 0; t<floors.length; t++){
+            floors[t].draw()
+        }
+        // floor.draw()
         pomao.draw()
         for(let t = 0; t<fruits.length; t++){
             fruits[t].clean()
@@ -1122,6 +1158,22 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
 
+function squarecirclefeet(square, circle){
+
+    let squareendh = square.y + square.height
+    let squareendw = square.x + square.width
+
+    if(square.x <= circle.x){
+        if(square.y <= circle.y+circle.radius){
+            if(squareendw >= circle.x){
+                if(squareendh >= circle.y){
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
         
 function getRandomLightColor() {
     var letters = '0123456789ABCDEF';
