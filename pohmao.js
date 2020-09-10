@@ -26,8 +26,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let pomaoimglup = new Image()
     pomaoimglup.src = 'pomaoupl.png'
     
-    let fissed = new Image()
-    fissed.src = 'fissed2.png'
     let keysPressed = {}
 
     document.addEventListener('keydown', (event) => {
