@@ -576,6 +576,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.timeloop = 0
             this.timeloopx = 0
             this.thrown = []
+            this.pounding = 0
             this.eggs = [this.body]
         }
         gravity(){
@@ -589,6 +590,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 if(this.jumping == 0){
                      this.timeloopx = 0
                 }
+                this.pounding = 0
                 this.jumping = 0
                 this.hng = 0
                 
@@ -678,13 +680,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.dir = -1
         }
 
-        this.height = 64+(Math.sin(this.timeloop)*3)
+        this.height = 64+(Math.sin(this.timeloop)*(3+this.pounding))
         this.width = 64+(Math.sin(this.timeloopx)*1)
         if(this.jumping == 1){
-            this.height  = 68
+            this.height  = 68+this.pounding
         }
         if(this.jumping == 1){
-            this.width  = 60
+            this.width  = 60-this.pounding
         }
 
         if(this.diry == -1){
@@ -706,6 +708,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             // console.log(pomao)
             this.ydir = 0
             this.xdir = 0
+
+
+            if(keysPressed['f'] || keysPressed['n']){
+                if(this.jumping == 1){
+                    if(this.body.ymom > -3.5){
+                        this.pounding = 10
+                        this.body.ymom = 17
+                        this.timeloop = Math.PI
+                    }
+                }
+
+            }
          
             if(keysPressed['w']){
                 // this.body.y-=2
@@ -784,7 +798,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
             if(keysPressed['f']){
-                tutorial_canvas_context.clearRect(0,0,tutorial_canvas.width, tutorial_canvas.height)
+                // tutorial_canvas_context.clearRect(0,0,tutorial_canvas.width, tutorial_canvas.height)
             }
 
             if(keysPressed[' ']){
