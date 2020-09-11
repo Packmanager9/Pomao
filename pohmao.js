@@ -4,6 +4,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
     let floors = []
+    let ramps = []
 
     let dry = 0
 
@@ -69,15 +70,15 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     
     
 
-    class Triangle{
+     class Trianglex{
         constructor(x, y, color, length){
             this.x = x
             this.y = y
             this.color= color
-            this.length = length
-            this.x1 = this.x + this.length
-            this.x2 = this.x - this.length
-            this.tip = this.y - this.length*2
+            this.length = length*3
+            this.x1 = this.x + this.length*2
+            this.x2 = this.x - this.length*5
+            this.tip = this.y - this.length
             this.accept1 = (this.y-this.tip)/(this.x1-this.x)
             this.accept2 = (this.y-this.tip)/(this.x2-this.x)
 
@@ -85,6 +86,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
         draw(){
             tutorial_canvas_context.strokeStyle = this.color
+            tutorial_canvas_context.fillStyle = this.color
             tutorial_canvas_context.stokeWidth = 3
             tutorial_canvas_context.moveTo(this.x, this.y)
             tutorial_canvas_context.lineTo(this.x1, this.y)
@@ -92,6 +94,65 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             tutorial_canvas_context.lineTo(this.x2, this.y)
             tutorial_canvas_context.lineTo(this.x, this.y)
             tutorial_canvas_context.stroke()
+            tutorial_canvas_context.fill()
+        }
+
+        isPointInside(point){
+            if(point.x <= this.x1){
+                if(point.y >= this.tip){
+                    if(point.y <= this.y){
+                        if(point.x >= this.x2){
+                            this.accept1 = (this.y-this.tip)/(this.x1-this.x)
+                            this.accept2 = (this.y-this.tip)/(this.x2-this.x)
+                            this.basey = point.y-this.tip
+                            this.basex = point.x - this.x
+                            if(this.basex == 0){
+                                return true
+                            }
+                            this.slope = this.basey/this.basex
+                            if(this.slope >= this.accept1){
+                                return true
+                            }else if(this.slope <= this.accept2){
+                                return true
+                            }
+                        }
+                    }
+                }
+            }
+            return false
+        }
+    }
+
+
+
+
+
+
+    class Triangle{
+        constructor(x, y, color, length){
+            this.x = x
+            this.y = y
+            this.color= color
+            this.length = length
+            this.x1 = this.x + this.length*5
+            this.x2 = this.x - this.length*5
+            this.tip = this.y - this.length
+            this.accept1 = (this.y-this.tip)/(this.x1-this.x)
+            this.accept2 = (this.y-this.tip)/(this.x2-this.x)
+
+        }
+
+        draw(){
+            tutorial_canvas_context.strokeStyle = this.color
+            tutorial_canvas_context.fillStyle = this.color
+            tutorial_canvas_context.stokeWidth = 3
+            tutorial_canvas_context.moveTo(this.x, this.y)
+            tutorial_canvas_context.lineTo(this.x1, this.y)
+            tutorial_canvas_context.lineTo(this.x, this.tip)
+            tutorial_canvas_context.lineTo(this.x2, this.y)
+            tutorial_canvas_context.lineTo(this.x, this.y)
+            tutorial_canvas_context.stroke()
+            tutorial_canvas_context.fill()
         }
 
         isPointInside(point){
@@ -815,6 +876,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             dry = 0
             for(let t = 0; t<floors.length; t++){
+                
 
                 if(squarecirclefeet(floors[t], this.body)){
                     if(Math.abs(this.body.y-floors[t].y) <= this.body.radius){
@@ -823,6 +885,32 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         dry = 1
                         break
                     }
+                }
+            }
+            this.footspot = new Circle(this.body.x, this.body.y+(this.body.radius-.01), 3, "red")
+            for(let t = 0; t<ramps.length; t++){
+                
+            // this.accept1 = (this.y-this.tip)/(this.x1-this.x)
+            // this.accept2 = (this.y-this.tip)/(this.x2-this.x)
+
+            // let yrat = (ramps[t].y-ramps[t].tip)
+            // let x1dis = ramps[t].x1-ramps[t].x
+            // let x2dis = this.footspot.x-ramps[t].x
+
+            for(let k = 0; k< 10000; k++){
+
+                this.footspot = new Circle(this.body.x, this.body.y+(this.body.radius-1), 3, "red")
+                if(ramps[t].isPointInside(this.footspot)){
+                
+                        tutorial_canvas_context.translate(0,  this.body.y- (this.footspot.y - this.body.radius ))
+                        this.body.y =  this.footspot.y - this.body.radius 
+                    
+                }
+            }
+
+                if(ramps[t].isPointInside(this.footspot)){
+                    dry = 1
+                    break
                 }
             }
 
@@ -921,6 +1009,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
         }
         // this.diry = 1
+        // this.body.draw()
+        // this.footspot.draw()
         }
         control(){
             // console.log(pomao)
@@ -1214,6 +1304,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let floor = new Rectangle(-10000, 650, 500, 7000000, "red")
 
     let floor2 = new Rectangle(-100, 500, 20, 550, "red")
+
+    let ramp = new Triangle(800, 650, "red", 40)
+    ramps.push(ramp)
+
+    let ramp2 = new Trianglex(1300, 650, "red", 40)
+    ramps.push(ramp2)
     floors.push(floor)
     floors.push(floor2)
 
@@ -1367,6 +1463,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
         for(let t = 0; t<floors.length; t++){
             floors[t].draw()
+        }
+        for(let t = 0; t<ramps.length; t++){
+            ramps[t].draw()
         }
 
         pomao.draw()
