@@ -897,6 +897,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             // let x1dis = ramps[t].x1-ramps[t].x
             // let x2dis = this.footspot.x-ramps[t].x
 
+            if(ramps[t].isPointInside(this.footspot)){
             for(let k = 0; k< 10000; k++){
 
                 this.footspot = new Circle(this.body.x, this.body.y+(this.body.radius-1), 3, "red")
@@ -911,7 +912,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
 
-                if(ramps[t].isPointInside(this.footspot)){
                     dry = 1
                     break
                 }
@@ -1443,7 +1443,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
     }
 
-    let seep
+    // let seep
 
         // let seep = new Seed(pomao.eggs[pomao.eggs.length-1])
     // let seeds = []
