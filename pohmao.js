@@ -901,7 +901,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 this.footspot = new Circle(this.body.x, this.body.y+(this.body.radius-1), 3, "red")
                 if(ramps[t].isPointInside(this.footspot)){
-                
+                   
+                this.pounding = 0
+                this.jumping = 0
+                this.hng = 0
                         tutorial_canvas_context.translate(0,  this.body.y- (this.footspot.y - this.body.radius ))
                         this.body.y =  this.footspot.y - this.body.radius 
                     
