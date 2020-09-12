@@ -323,16 +323,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.height*=.91
             this.marked = 2
             pomao.diry = 1
-          }else if (this.body.repelCheck(pomao.body) ){
+          }else if (this.body.repelCheck(pomao.body) && !this.body.repelCheck(pomao.tongue )){
             //   console.log(pomao.dir)
 
             if(pomao.body.ymom == 0){
 
                 // if(pomao.body.isPointInside(pomao.tongue)){
-                pomao.body.xmom = -3*(pomao.dir)
-                pomao.disabled = 1
-                pomao.hits--
-                 pomao.body.ymom = -1.5
+                    if(this.width >= 50){
+                        pomao.body.xmom = -3*(pomao.dir)
+                        pomao.disabled = 1
+                        pomao.hits--
+                         pomao.body.ymom = -1.5
+                    }
                 // }
             }
             // console.log(pomao.dir, pomao.body.xmom)
