@@ -328,10 +328,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             if(pomao.body.ymom == 0){
 
+                // if(pomao.body.isPointInside(pomao.tongue)){
                 pomao.body.xmom = -3*(pomao.dir)
                 pomao.disabled = 1
                 pomao.hits--
                  pomao.body.ymom = -1.5
+                // }
             }
             // console.log(pomao.dir, pomao.body.xmom)
           }
@@ -873,7 +875,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     class Pomao{
         constructor(){
-            this.eggtimer = 0
+            this.eggtimer = 10
             this.body = new Circlex(425,350, 32, "red")
             this.tongue = new Circle(this.body.x, this.body.y, 6, "blue")
             this.tonguex = 0
@@ -1059,8 +1061,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         // this.footspot.draw()
         this.body.xmom *= .96
         if(Math.abs(this.body.xmom) < .5){
-            this.body.xmom = 0
-            this.disabled = 0
+                this.body.xmom = 0
+                this.disabled = 0
         }
         this.health.draw()
         }
@@ -1244,7 +1246,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 this.eggs[this.eggs.length-1].x  = this.body.x
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
-                                this.eggs[this.eggs.length-1].xmom  = -8
+                                this.eggs[this.eggs.length-1].xmom  = -12
                                 this.eggs[this.eggs.length-1].ymom = -3
                                 // this.thrown.push(this.eggs[this.eggs.length-1])
                                 // this.eggs.pop()
@@ -1254,7 +1256,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 this.eggs[this.eggs.length-1].x  = this.body.x
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
-                                this.eggs[this.eggs.length-1].xmom  = 8
+                                this.eggs[this.eggs.length-1].xmom  = 12
                                 this.eggs[this.eggs.length-1].ymom = -3
                                 // this.thrown.push(this.eggs[this.eggs.length-1])
                                 // this.eggs.pop()
@@ -1296,7 +1298,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 this.eggs[this.eggs.length-1].x  = this.body.x
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
-                                this.eggs[this.eggs.length-1].xmom = 8
+                                this.eggs[this.eggs.length-1].xmom = 12
                                 this.eggs[this.eggs.length-1].ymom = -.95
                                     // this.thrown.push(this.eggs[this.eggs.length-1])
                                     // this.eggs.pop()
@@ -1305,7 +1307,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 this.eggs[this.eggs.length-1].x  = this.body.x
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
-                                    this.eggs[this.eggs.length-1].xmom= -8
+                                    this.eggs[this.eggs.length-1].xmom= -12
                                     this.eggs[this.eggs.length-1].ymom = -.95
                                     // this.thrown.push(this.eggs[this.eggs.length-1])
                                     // this.eggs.pop()
