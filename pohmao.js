@@ -1,6 +1,6 @@
 
 window.addEventListener('DOMContentLoaded', (event) =>{
-
+    let hot =0
 
 
     let floors = []
@@ -13,6 +13,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     let fruitsprites = new Image()
     fruitsprites.src = 'fruit sprites.png'
+
+    let pomaospit = new Image()
+    pomaospit.src = 'pomaospit.png'
+
+    let pomaospitl = new Image()
+    pomaospitl.src = 'pomaospitl.png'
 
     let boysprites = new Image()
     boysprites.src = 'boisterousboys.png'
@@ -608,7 +614,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             tutorial_canvas_context.strokeStyle = this.color
             tutorial_canvas_context.beginPath();
             tutorial_canvas_context.arc(this.x, this.y, this.radius-1, 0, (Math.PI*2), true)
+            if(!ramps.includes(this)){
             tutorial_canvas_context.fillStyle = "cyan" //this.color
+            }else{
+            tutorial_canvas_context.fillStyle = this.color
+            }
            tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke(); 
         }
@@ -1045,11 +1055,29 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.width  = 60-this.pounding
         }
 
+        for(let t = 0; t<pomao.thrown.length; t++){
+            pomao.thrown[t].draw()
+        }
         if(this.diry == -1){
-            if(this.dir == 1){
-                tutorial_canvas_context.drawImage(pomaoimg, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+            hot--
+            for(let t = 0;t<this.thrown.length; t++){
+                if(this.body.isPointInside(this.thrown[t])){
+                    hot=20
+                }
+            }
+            if(hot<=0){
+                if(this.dir == 1){
+                    tutorial_canvas_context.drawImage(pomaoimg, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                }else{
+                tutorial_canvas_context.drawImage(pomaoimgl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                }
             }else{
-            tutorial_canvas_context.drawImage(pomaoimgl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+
+                if(this.dir == 1){
+                    tutorial_canvas_context.drawImage(pomaospit, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                }else{
+                tutorial_canvas_context.drawImage(pomaospitl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                }
             }
         }else{
             if(this.dir == 1){
@@ -1373,6 +1401,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     let ramp2 = new Trianglex(1300, 650, "red", 40)
     ramps.push(ramp2)
+
+    let ramp4 = new Circle(1900,700, 120, "red")
+    ramps.push(ramp4)
+    let ramp3 = new Circle(1900,1200, 600, "red")
+    ramps.push(ramp3)
     floors.push(floor)
     floors.push(floor2)
 
@@ -1382,8 +1415,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let fruitx = new Fruit(510,340, 50,50, "red")
     fruits.push(fruitx)
 
-    for(let t = 0;t<300; t++){
-        let fruit = new Fruit(-6000+(Math.random()*12000),225+(Math.random()*315), 50,50, "red")
+    for(let t = 0;t<3000; t++){
+        let fruit = new Fruit(-60000+(Math.random()*120000),225+(Math.random()*315), 50,50, "red")
         let wet = 0
         for(let s = 0; s<floors.length; s++){
             if(floors[s].isPointInside(fruit.body)){
@@ -1561,10 +1594,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     
     
     
-            for(let t = 0; t<pomao.thrown.length; t++){
-                pomao.thrown[t].draw()
-            }
     
+            
     
             for(let k = 0; k<boys.length; k++){
             for(let t = 0; t<pomao.thrown.length; t++){
@@ -1573,9 +1604,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 boys[k].body.radius*=1.333333
                    if(boys[k].body.repelCheck(pomao.thrown[t])){
                         boys.splice(k,1)
+                    }else{
+                        boys[k].body.radius*=.75
                     }
     
-                boys[k].body.radius*=.75
                 }
             }
     
