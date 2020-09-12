@@ -319,10 +319,21 @@ window.addEventListener('DOMContentLoaded', (event) =>{
           if(this.body.repelCheck(pomao.body) && this.body.repelCheck(pomao.tongue)){
             // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
             // this.y -= (((this.body.y-(this.height/2))-pomao.body.y)/100)
-            this.width*=.94
-            this.height*=.94
+            this.width*=.91
+            this.height*=.91
             this.marked = 2
             pomao.diry = 1
+          }else if (this.body.repelCheck(pomao.body) ){
+            //   console.log(pomao.dir)
+
+            if(pomao.body.ymom == 0){
+
+                pomao.body.xmom = -3*(pomao.dir)
+                pomao.disabled = 1
+                pomao.hits--
+                 pomao.body.ymom = -1.5
+            }
+            // console.log(pomao.dir, pomao.body.xmom)
           }
 
           if(this.marked == 1){
@@ -365,7 +376,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 //     jazz.play()
                 // }
                 // jazz2.play()
-            
+                pomao.hits+=1
+                if(pomao.hits>9){
+                    pomao.hits = 9
+                }
             if(pomao.eggs.length < 10){
 
             let seepx = new Seed(pomao.eggs[pomao.eggs.length-1])
@@ -509,6 +523,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 //     jazz.play()
                 // }
                 // jazz2.play()
+                pomao.hits+=2
+                if(pomao.hits>9){
+                    pomao.hits = 9
+                }
             
             if(pomao.eggs.length < 10){
 
@@ -830,6 +848,28 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
 
     }
+    class Health{
+        constructor(pomao){
+            this.pomao = pomao
+            this.rays = []
+            this.body = new Circle(this.pomao.body.x - 375, this.pomao.body.y - 300, 25, "red" )
+        }
+        draw(){
+            this.body = new Circle(this.pomao.body.x - 375, this.pomao.body.y - 300, 25, "red" )
+            this.body.draw()
+            let a = Math.PI
+            this.rays = []
+            for(let t = 0; t<9; t++){
+                let ray = new Circle(this.body.x+(Math.sin(a)*26),this.body.y+(Math.cos(a)*26), 5,"yellow")
+                this.rays.push(ray)
+                a+=(Math.PI/4.5)
+            }
+            for(let t = 0; t<this.pomao.hits;t++){
+                this.rays[t].draw()
+            }
+
+        }
+    }
 
     class Pomao{
         constructor(){
@@ -849,6 +889,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.thrown = []
             this.pounding = 0
             this.eggs = [this.body]
+            this.disabled = 0
+            this.hits = 9
+            this.health = new Health(this)
         }
         gravity(){
 
@@ -1014,6 +1057,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         // this.diry = 1
         // this.body.draw()
         // this.footspot.draw()
+        this.body.xmom *= .96
+        if(Math.abs(this.body.xmom) < .5){
+            this.body.xmom = 0
+            this.disabled = 0
+        }
+        this.health.draw()
         }
         control(){
             // console.log(pomao)
@@ -1063,15 +1112,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     }
                 }
             }
-            if(keysPressed['d']){
-                this.body.x+=3
-                this.dir =1
-                tutorial_canvas_context.translate(-3, 0)
-                for(let t = 0; t<fruits.length; t++){
-                    if(this.body.repelCheck(fruits[t].body)  || fruits[t].body.repelCheck(this.tongue)){
-                        fruits[t].x+=2.9
-                        // fruits[t].x+=this.body.xmom
-                        // fruits[t].y+=this.body.ymom
+            if(this.disabled == 0){
+
+                if(keysPressed['d']){
+                    this.body.x+=3
+                    this.dir =1
+                    tutorial_canvas_context.translate(-3, 0)
+                    for(let t = 0; t<fruits.length; t++){
+                        if(this.body.repelCheck(fruits[t].body)  || fruits[t].body.repelCheck(this.tongue)){
+                            fruits[t].x+=2.9
+                            // fruits[t].x+=this.body.xmom
+                            // fruits[t].y+=this.body.ymom
+                        }
                     }
                 }
             }
@@ -1095,6 +1147,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 //     }
                 // }
             }
+
+
+            if(this.disabled == 0){
             if(keysPressed['a']){
                 this.dir = -1
                 this.body.x-=3
@@ -1108,6 +1163,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     }
                 }
             }
+        }
             if(keysPressed['f']){
                 // tutorial_canvas_context.clearRect(0,0,tutorial_canvas.width, tutorial_canvas.height)
             }
@@ -1241,7 +1297,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
                                 this.eggs[this.eggs.length-1].xmom = 8
-                                this.eggs[this.eggs.length-1].ymom = -3
+                                this.eggs[this.eggs.length-1].ymom = -.95
                                     // this.thrown.push(this.eggs[this.eggs.length-1])
                                     // this.eggs.pop()
                                 }else{
@@ -1250,7 +1306,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
                                     this.eggs[this.eggs.length-1].xmom= -8
-                                    this.eggs[this.eggs.length-1].ymom = -3
+                                    this.eggs[this.eggs.length-1].ymom = -.95
                                     // this.thrown.push(this.eggs[this.eggs.length-1])
                                     // this.eggs.pop()
                                 }
@@ -1317,6 +1373,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     floors.push(floor2)
 
     let fruits = []
+
+
+    let fruitx = new Fruit(510,340, 50,50, "red")
+    fruits.push(fruitx)
+
     for(let t = 0;t<300; t++){
         let fruit = new Fruit(-6000+(Math.random()*12000),225+(Math.random()*315), 50,50, "red")
         let wet = 0
@@ -1464,53 +1525,64 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     window.setInterval(function(){ 
         tutorial_canvas_context.clearRect(-10000,-10000,tutorial_canvas.width*10000, tutorial_canvas.height*10000)
 
-        for(let t = 0; t<floors.length; t++){
-            floors[t].draw()
-        }
-        for(let t = 0; t<ramps.length; t++){
-            ramps[t].draw()
-        }
+        if(pomao.hits > -1){
 
-        pomao.draw()
-        // for(let t = 0; t<boys.length; t++){
-        //     boys[t].draw()
-        // }
-        for(let t = 0; t<boys.length; t++){
-            boys[t].clean()
-        }
-        // floor.draw()
-        for(let t = 0; t<fruits.length; t++){
-            fruits[t].clean()
-        }
-        for(let t = 0; t<pomao.eggs.length; t++){
-            pomao.eggs[t].draw()
-        }
-
-        for(let t = 0; t<pomao.eggs.length; t++){
-            if(pomao.thrown.includes(pomao.eggs[t])){
-                pomao.eggs.splice(t,1)
+            for(let t = 0; t<floors.length; t++){
+                floors[t].draw()
             }
-        }
-
-
-
-        for(let t = 0; t<pomao.thrown.length; t++){
-            pomao.thrown[t].draw()
-        }
-
-
-        for(let k = 0; k<boys.length; k++){
-        for(let t = 0; t<pomao.thrown.length; t++){
-            // console.log(boys[k])
-            // console.log(pomao.thrown[t])
-               if(boys[k].body.repelCheck(pomao.thrown[t])){
-                    boys.splice(k,1)
+            for(let t = 0; t<ramps.length; t++){
+                ramps[t].draw()
+            }
+    
+            pomao.draw()
+            // for(let t = 0; t<boys.length; t++){
+            //     boys[t].draw()
+            // }
+            for(let t = 0; t<boys.length; t++){
+                boys[t].clean()
+            }
+            // floor.draw()
+            for(let t = 0; t<fruits.length; t++){
+                fruits[t].clean()
+            }
+            for(let t = 0; t<pomao.eggs.length; t++){
+                pomao.eggs[t].draw()
+            }
+    
+            for(let t = 0; t<pomao.eggs.length; t++){
+                if(pomao.thrown.includes(pomao.eggs[t])){
+                    pomao.eggs.splice(t,1)
                 }
             }
+    
+    
+    
+            for(let t = 0; t<pomao.thrown.length; t++){
+                pomao.thrown[t].draw()
+            }
+    
+    
+            for(let k = 0; k<boys.length; k++){
+            for(let t = 0; t<pomao.thrown.length; t++){
+                // console.log(boys[k])
+                // console.log(pomao.thrown[t])
+                boys[k].body.radius*=1.333333
+                   if(boys[k].body.repelCheck(pomao.thrown[t])){
+                        boys.splice(k,1)
+                    }
+    
+                boys[k].body.radius*=.75
+                }
+            }
+    
+        }else{
+            tutorial_canvas_context.fillStyle = "White";
+            tutorial_canvas_context.font = "30px Arial";
+            tutorial_canvas_context.fillText(`Pomao fell asleep and went home`, pomao.body.x-200, pomao.body.y);
+              tutorial_canvas.style.background = "#8888CC"
         }
-
     }, 14) 
-}, 2000); 
+}, 1000); 
 
 
 
