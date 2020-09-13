@@ -193,6 +193,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     class Boys {
         constructor(x, y, height, width, color) {
+            this.pops = []
             this.squish = []
             this.x = x
             this.marked = 0
@@ -209,6 +210,38 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.type = Math.floor(Math.random()*17)
             // this.type2 = Math.floor(Math.random()*2)
             this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
+        }
+        pop(){
+            let start = 0
+            let rotx = start
+            let roty = start
+        
+            let deathrays = Math.floor(Math.random()*7)+2
+
+            for(let g = 0; g < 9; g++){
+                let dot1 = new Circlec(this.body.x, this.body.y, this.body.radius, getRandomLightColor(), Math.cos(rotx)*1, Math.sin(roty)*1 )
+                this.pops.push(dot1)
+                rotx += 2*Math.PI/9
+                roty += 2*Math.PI/9
+            }
+        
+        }
+        popdraw(){
+            for(let t = 0;t<this.pops.length; t++){
+                if(this.pops[t].radius < .1){
+                    this.pops.splice(t,1)
+                }
+            }
+            for(let t = 0;t<this.pops.length; t++){
+                this.pops[t].radius*=.9
+                this.pops[t].move()
+                this.pops[t].draw()
+            }
+            for(let t = 0;t<this.pops.length; t++){
+                if(this.pops[t].radius < .1){
+                    this.pops.splice(t,1)
+                }
+            }
         }
 
         gravity(){
@@ -647,6 +680,59 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             return false
         }
     }
+    class Circlec{
+        constructor(x, y, radius, color, xmom = 0, ymom = 0){
+
+            this.height = 0
+            this.width = 0
+            this.x = x
+            this.y = y
+            this.radius = radius
+            this.color = color
+            this.xmom = xmom
+            this.ymom = ymom
+            this.xrepel = 0
+            this.yrepel = 0
+            this.lens = 0
+        }       
+         draw(){
+            tutorial_canvas_context.lineWidth = 4
+            tutorial_canvas_context.strokeStyle = this.color
+            tutorial_canvas_context.beginPath();
+            tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI*2), true)
+            if(!ramps.includes(this)){
+            tutorial_canvas_context.fillStyle = this.color
+            }else{
+            tutorial_canvas_context.fillStyle = this.color
+            }
+           tutorial_canvas_context.fill()
+            tutorial_canvas_context.stroke(); 
+        }
+        move(){
+            this.x += this.xmom
+            this.y += this.ymom
+            if(this == pomao.body){
+                tutorial_canvas_context.translate(-this.xmom, -this.ymom)
+            }
+        }
+        isPointInside(point){
+            this.areaY = point.y - this.y 
+            this.areaX = point.x - this.x
+            if(((this.areaX*this.areaX)+(this.areaY*this.areaY)) <= (this.radius*this.radius)){
+                return true
+            }
+            return false
+        }
+
+        repelCheck(point){
+            this.areaY = point.y - this.y 
+            this.areaX = point.x - this.x
+            if(((this.areaX*this.areaX)+(this.areaY*this.areaY)) <= (this.radius+point.radius)*(point.radius+this.radius)){
+                return true
+            }
+            return false
+        }
+    }
     class Circlex{
         constructor(x, y, radius, color, xmom = 0, ymom = 0){
 
@@ -1036,6 +1122,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 if(boys[t].x > this.body.x-(tutorial_canvas.width) && boys[t].x < this.body.x+(tutorial_canvas.width) ){
                     boys[t].draw()
                 }
+            }
+        
+            for(let t = 0; t<deadboys.length; t++){
+              deadboys[t].popdraw()
             }
         
 
@@ -1553,6 +1643,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     tutorial_canvas_context.fillText("loading", 300,350)
 
     let boys = []
+    let deadboys = []
     for(let t = 0; t<4; t++){
         let boy = new Boys(0+(t*100),100,50,50,"red")
         boys.push(boy)
@@ -1603,6 +1694,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 // console.log(pomao.thrown[t])
                 boys[k].body.radius*=1.333333
                    if(boys[k].body.repelCheck(pomao.thrown[t])){
+                       boys[k].pop()
+                       deadboys.push(boys[k])
                         boys.splice(k,1)
                     }else{
                         boys[k].body.radius*=.75
