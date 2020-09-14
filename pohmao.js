@@ -1069,7 +1069,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         }else{
                             this.body.symom -=this.tongueymom/1.1
                             if(Math.abs(this.tonguexmom) > 1){
-                                this.body.sxmom +=this.tonguexmom/1.1
+                                if( this.dir == -1){
+                                    this.body.sxmom +=this.tonguexmom/1.1
+                                }
                             }
                             this.tongueymom*=.5
                             this.tonguexmom*=.5
@@ -1263,6 +1265,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             // console.log(pomao)
             this.ydir = 0
             this.xdir = 0
+            // for(let t = 0; Math.abs(this.body.ymom) > 5.2;t++){
+            //     this.body.ymom*=.99
+            // }
+            for(let t = 0; Math.abs(this.body.symom) > 5.2;t++){
+                this.body.symom*=.99
+            }
+            this.sxmom*=.96
 
 
             if(keysPressed['f'] || keysPressed['n']){
