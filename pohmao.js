@@ -1,6 +1,6 @@
 
 window.addEventListener('DOMContentLoaded', (event) =>{
-    let hot =0
+    let hot = 0
 
 
     let floors = []
@@ -36,8 +36,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     seedegg.src = 'seedegg.png'
     let pomaoimgl = new Image()
     pomaoimgl.src = 'pomaol.png'
-    let mangosteen = new Image()
-    mangosteen.src = 'Fruit 03 - Mangosteen.png'
+    // let mangosteen = new Image()
+    // mangosteen.src = 'Fruit 03 - Mangosteen.png'
     
     let pomaoimgup = new Image()
     pomaoimgup.src = 'pomaoup.png'
@@ -52,7 +52,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     document.addEventListener('keydown', (event) => {
         keysPressed[event.key] = true;
-        // console.log(keysPressed)
      });
      
      document.addEventListener('keyup', (event) => {
@@ -217,19 +216,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.xmom = 0
             this.ymom = 0
             this.dry = 0
-            this.xmom = 0
-            this.ymom = 0
             this.timeloop = 0
             this.type = Math.floor(Math.random()*17)
-            // this.type2 = Math.floor(Math.random()*2)
             this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
         }
         pop(){
-            let start = 0
-            let rotx = start
-            let roty = start
-        
-            let deathrays = Math.floor(Math.random()*7)+2
+            let rotx = 0
+            let roty = 0
 
             for(let g = 0; g < 9; g++){
                 let dot1 = new Circlec(this.body.x, this.body.y, this.body.radius, getRandomLightColor(), Math.cos(rotx)*1, Math.sin(roty)*1 )
@@ -258,9 +251,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
 
         gravity(){
-
-
-
             if(this.dry == 1){
                 if(this.ymom > 0){
                     this.ymom = 0
@@ -278,7 +268,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 if(squarecirclefeet(floors[t], this.body)){
                     if(Math.abs((this.y+this.height)-floors[t].y) <= this.height){
-                        // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                         this.y = floors[t].y-Math.abs((this.y)-floors[t].y)
                         this.dry = 1
                         break
@@ -350,7 +339,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     if(this.marked == 3){
 
                     }else{
-                     tutorial_canvas_context.drawImage(boysprites, srcx, srcy, width, height, this.x, (10+this.y)-(Math.sin(this.timeloop)), this.width, this.height+(Math.sin(this.timeloop)),)
+                     tutorial_canvas_context.drawImage(boysprites, srcx, srcy, width, height, this.x, (10+this.y)-(Math.sin(this.timeloop)), this.width, this.height+(Math.sin(this.timeloop)))
                     }
 
 
@@ -456,10 +445,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             return false
         }
-        move(){
-            this.x+=this.xmom
-            this.y+=this.ymom
-        }
+        // move(){
+        //     this.x+=this.xmom
+        //     this.y+=this.ymom
+        // }
     }
 
     class Fruit {
@@ -1220,18 +1209,17 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             if(hot<=0){
                 if(this.dir == 1){
-
-                    if(this.hng ===0){
-                        tutorial_canvas_context.drawImage(pomaoimg, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
-                    }else{
-                    tutorial_canvas_context.drawImage(pomaof, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
-                     }
+                    if(this.hng != 0 && this.pounding == 0){
+                        tutorial_canvas_context.drawImage(pomaof, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                       }else{  
+                            tutorial_canvas_context.drawImage(pomaoimg, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                      }
                 }else{
-                    if(this.hng ===0){
-                        tutorial_canvas_context.drawImage(pomaoimgl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
-                    }else{
-                    tutorial_canvas_context.drawImage(pomaofl, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
-                     }
+                    if(this.hng != 0 && this.pounding == 0){
+                        tutorial_canvas_context.drawImage(pomaofl, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                       }else{  
+                            tutorial_canvas_context.drawImage(pomaoimgl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                      }
                 }
             }else{
 
@@ -1371,9 +1359,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
         }
-            if(keysPressed['f']){
-                // tutorial_canvas_context.clearRect(0,0,tutorial_canvas.width, tutorial_canvas.height)
-            }
+            // if(keysPressed['f']){
+            //     // tutorial_canvas_context.clearRect(0,0,tutorial_canvas.width, tutorial_canvas.height)
+            // }
 
             if(keysPressed[' ']){
                 if(this.bodytight.isPointInside(this.tongue)){
@@ -1764,11 +1752,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         boys.push(boy)
     }
     
-    let totalcut = 0
+
     setTimeout(function(){
     window.setInterval(function(){ 
         tutorial_canvas_context.clearRect(-10000,-10000,tutorial_canvas.width*10000, tutorial_canvas.height*10000)
-        totalcut+=.1
         if(pomao.hits > -1){
 
             for(let t = 0; t<floors.length; t++){
@@ -1813,6 +1800,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                        boys[k].pop()
                        deadboys.push(boys[k])
                         boys.splice(k,1)
+                        break
                     }else{
                         boys[k].body.radius*=.75
                     }
@@ -1826,7 +1814,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             tutorial_canvas_context.fillText(`Pomao fell asleep and went home`, pomao.body.x-200, pomao.body.y);
               tutorial_canvas.style.background = "#8888CC"
         }
-        // tutorial_canvas_context.drawImage(mangosteen, 390, 347, 360-totalcut, 324-(totalcut*.9))
     }, 14) 
 }, 1000); 
 
