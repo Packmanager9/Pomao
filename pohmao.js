@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let jazz2 = new Audio('gulpnoise2.wav');
 
     let fruitsprites = new Image()
-    fruitsprites.src = 'fruit sprites.png'
+    fruitsprites.src = 'fruitsprites2.png'
 
     let pomaospit = new Image()
     pomaospit.src = 'pomaospit.png'
@@ -30,6 +30,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     seedegg.src = 'seedegg.png'
     let pomaoimgl = new Image()
     pomaoimgl.src = 'pomaol.png'
+    let mangosteen = new Image()
+    mangosteen.src = 'Fruit 03 - Mangosteen.png'
     
     let pomaoimgup = new Image()
     pomaoimgup.src = 'pomaoup.png'
@@ -60,6 +62,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let xs
     let ys
    
+    // tutorial_canvas_context.scale(1/3, 1/3)
    
     
     window.addEventListener('mousedown', e => {
@@ -461,7 +464,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.xmom = 0
             this.ymom = 0
             this.type = Math.floor(Math.random()*10)
-            this.type2 = Math.floor(Math.random()*2)
+            this.type2 = Math.floor(Math.random()*3)
             this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
         }
         draw(){
@@ -476,7 +479,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             let sheetwidth = fruitsprites.width
             let sheetheight = fruitsprites.height
             let cols = 10
-            let rows = 2
+            let rows = 3
         
             // for(let q = 0; q < 3;q++){
 
@@ -744,6 +747,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.color = color
             this.xmom = xmom
             this.ymom = ymom
+            this.sxmom = 0
+            this.symom = 0
             this.xrepel = 0
             this.yrepel = 0
             this.lens = 0
@@ -755,6 +760,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.y += this.ymom
             if(this == pomao.body){
                 tutorial_canvas_context.translate(-this.xmom, -this.ymom)
+            }
+            this.smove()
+        }
+        smove(){
+            this.x += this.sxmom
+            this.y += this.symom
+            if(this == pomao.body){
+                tutorial_canvas_context.translate(-this.sxmom, -this.symom)
             }
         }
         isPointInside(point){
@@ -1020,15 +1033,49 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             dry = 0
             for(let t = 0; t<floors.length; t++){
                 
+                if(t > 0 && keysPressed['s']){
 
-                if(squarecirclefeet(floors[t], this.body)){
-                    if(Math.abs(this.body.y-floors[t].y) <= this.body.radius){
-                        tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
-                        this.body.y = floors[t].y-this.body.radius
-                        dry = 1
+                }else{
+
+                    if(squarecirclefeet(floors[t], this.body)){
+                        if(Math.abs(this.body.y-floors[t].y) <= this.body.radius){
+                            tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
+                            this.body.y = floors[t].y-this.body.radius
+                            dry = 1
+                            if(pomao.body.symom != 0 || pomao.body.sxmom != 0){
+                                this.tonguex = 0
+                                this.tonguey = 0
+                            }
+                            pomao.body.symom = 0
+                            pomao.body.ymom = 0
+                            pomao.body.sxmom = 0
+                            break
+                        }
+                    }else if(floors[t].isPointInside(pomao.tongue)){
+                        // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
+                        // this.body.y = floors[t].y-this.body.radius
+                        if(this.tongueymom <0){
+                            this.body.symom +=this.tongueymom/1.1
+                            if(Math.abs(this.tonguexmom) > 1){
+                                this.body.sxmom +=this.tonguexmom/1.1
+                            }
+                            this.tongueymom*=.5
+                            this.tonguexmom*=.5
+                        }else{
+                            this.body.symom -=this.tongueymom/1.1
+                            if(Math.abs(this.tonguexmom) > 1){
+                                this.body.sxmom +=this.tonguexmom/1.1
+                            }
+                            this.tongueymom*=.5
+                            this.tonguexmom*=.5
+                        }
+                        pomao.body.ymom = 0
+                        pomao.body.xmom = 0
+                        this.dry = 1
                         break
                     }
                 }
+
             }
             this.footspot = new Circle(this.body.x, this.body.y+(this.body.radius-.01), 3, "red")
             for(let t = 0; t<ramps.length; t++){
@@ -1250,7 +1297,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
 
-            if(keysPressed['a']  || keysPressed['d']){
+            if(keysPressed['a']  || keysPressed['d'] || (this.body.symom !== 0 || this.body.sxmom !== 0)){
         for(let t = 1; t<this.eggs.length; t++){
             if(this.eggs[t].marked == 0){
             this.eggs[t].steer()
@@ -1481,7 +1528,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     let pomao = new Pomao()
 
-
+    let boys = []
+    let deadboys = []
+    let fruits = []
     let floor = new Rectangle(-10000, 650, 500, 7000000, "red")
 
     let floor2 = new Rectangle(-100, 500, 20, 550, "red")
@@ -1499,14 +1548,43 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     floors.push(floor)
     floors.push(floor2)
 
-    let fruits = []
+    for(let t = 0 ; t< 100; t++){
+        let floor3 = new Rectangle(-100+600*t, 500-(t*100), 20, 400, "red")
+        floors.push(floor3)
+    
+        // let boy = new Boys(floor3.x+(Math.random()*400),floor3.y-(Math.random()*400), 60+(t*.1),60+(t*.1), "red")
+        // boys.push(boy)
+        for(let t = 0;t<10; t++){
+            let fruit = new Fruit(floor3.x+(Math.random()*400),floor3.y-(100+Math.random()*400), 60,60, "red")
+           
+            let wet = 0
+            for(let s = 0; s<floors.length; s++){
+                if(floors[s].isPointInside(fruit.body)){
+                    wet = 1
+                    break
+                }
+            }
+            for(let k = 0;k<fruits.length; k++){
+                if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 320 && fruit.body.x < 530) ){
+                    wet = 1
+                    break
+                }
+            }
+            if(wet == 0){
+                fruits.push(fruit)
+            }
+        }
+    }
 
 
-    let fruitx = new Fruit(510,340, 50,50, "red")
+
+    let fruitx = new Fruit(510,340, 60,60, "red")
+    fruitx.type = 2
+    fruitx.type2 = 0
     fruits.push(fruitx)
 
-    for(let t = 0;t<3000; t++){
-        let fruit = new Fruit(-60000+(Math.random()*120000),225+(Math.random()*315), 50,50, "red")
+    for(let t = 0;t<10000; t++){
+        let fruit = new Fruit(-200000+(Math.random()*400000),225+(Math.random()*315), 60,60, "red")
         let wet = 0
         for(let s = 0; s<floors.length; s++){
             if(floors[s].isPointInside(fruit.body)){
@@ -1524,6 +1602,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             fruits.push(fruit)
         }
     }
+
     class Seed{
         constructor(target){
             // console.log(pomao)
@@ -1642,17 +1721,16 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     tutorial_canvas_context.font = `${30}px Arial`;
     tutorial_canvas_context.fillText("loading", 300,350)
 
-    let boys = []
-    let deadboys = []
     for(let t = 0; t<4; t++){
         let boy = new Boys(0+(t*100),100,50,50,"red")
         boys.push(boy)
     }
     
+    let totalcut = 0
     setTimeout(function(){
     window.setInterval(function(){ 
         tutorial_canvas_context.clearRect(-10000,-10000,tutorial_canvas.width*10000, tutorial_canvas.height*10000)
-
+        totalcut+=.1
         if(pomao.hits > -1){
 
             for(let t = 0; t<floors.length; t++){
@@ -1710,6 +1788,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             tutorial_canvas_context.fillText(`Pomao fell asleep and went home`, pomao.body.x-200, pomao.body.y);
               tutorial_canvas.style.background = "#8888CC"
         }
+        // tutorial_canvas_context.drawImage(mangosteen, 390, 347, 360-totalcut, 324-(totalcut*.9))
     }, 14) 
 }, 1000); 
 
