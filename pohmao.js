@@ -1060,17 +1060,23 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                         // this.body.y = floors[t].y-this.body.radius
                         if(this.tongueymom <0){
-                            this.body.symom +=this.tongueymom/1.1
+                            this.body.symom +=this.tongueymom*1.1
                             if(Math.abs(this.tonguexmom) > 1){
-                                this.body.sxmom +=this.tonguexmom/1.1
+                                if( this.dir == -1){
+                                    this.body.sxmom -=Math.abs(this.tonguexmom*3)
+                                }else{
+                                    this.body.sxmom +=Math.abs(this.tonguexmom*3)
+                                }
                             }
                             this.tongueymom*=.5
                             this.tonguexmom*=.5
                         }else{
-                            this.body.symom -=this.tongueymom/1.1
-                            if(Math.abs(this.tonguexmom) > 1){
+                            this.body.symom -=this.tongueymom*1.1
+                            if(Math.abs(this.tonguexmom) >1){
                                 if( this.dir == -1){
-                                    this.body.sxmom +=this.tonguexmom/1.1
+                                    this.body.sxmom -=Math.abs(this.tonguexmom*3)
+                                }else{
+                                    this.body.sxmom +=Math.abs(this.tonguexmom*3)
                                 }
                             }
                             this.tongueymom*=.5
@@ -1099,7 +1105,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 this.footspot = new Circle(this.body.x, this.body.y+(this.body.radius-1), 3, "red")
                 if(ramps[t].isPointInside(this.footspot)){
-                   
+
+                this.body.sxmom = 0
+                this.body.symom = 0
                 this.pounding = 0
                 this.jumping = 0
                 this.hng = 0
@@ -1131,6 +1139,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             // this.body.draw()
             this.tonguex+=this.tonguexmom
             this.tonguey+=this.tongueymom
+            this.tonguex-=this.body.sxmom*.05
+            this.tonguey-=this.body.symom*.05
             if(this.tongue.x > this.body.x){
                 this.tonguexmom -=.5
             }
@@ -1270,6 +1280,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             // }
             for(let t = 0; Math.abs(this.body.symom) > 5.2;t++){
                 this.body.symom*=.99
+            }
+            for(let t = 0; Math.abs(this.body.sxmom) > 3.5;t++){
+                this.body.sxmom*=.99
             }
             this.sxmom*=.96
 
