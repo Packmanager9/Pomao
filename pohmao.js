@@ -463,7 +463,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.xmom = 0
             this.ymom = 0
             this.type = Math.floor(Math.random()*10)
-            this.type2 = Math.floor(Math.random()*3)
+            this.type2 = Math.floor(Math.random()*4)
             this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
         }
         draw(){
@@ -478,7 +478,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             let sheetwidth = fruitsprites.width
             let sheetheight = fruitsprites.height
             let cols = 10
-            let rows = 3
+            let rows = 4
         
             // for(let q = 0; q < 3;q++){
 
