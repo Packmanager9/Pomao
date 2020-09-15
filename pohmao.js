@@ -51,6 +51,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     let seedegg = new Image()
     seedegg.src = 'seedegg.png'
+    let seedeggf = new Image()
+    seedeggf.src = 'eggf.png'
+    let seedeggfl = new Image()
+    seedeggfl.src = 'eggfl.png'
     let pomaoimgl = new Image()
     pomaoimgl.src = 'pomaol.png'
     let pomaoimgbl = new Image()
@@ -1674,6 +1678,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         
             
     
+                            if(pomao.blush > 1){
+                                this.eggs[this.eggs.length-1].hot = 1
+                            }
                             this.thrown.push(this.eggs[this.eggs.length-1])
                             for(let t = 0; t<pomao.eggs.length; t++){
                                 if(pomao.thrown.includes(pomao.eggs[t])){
@@ -1805,6 +1812,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.county = 0
             this.jiggle = Math.random()*Math.PI*2
             this.color = getRandomLightColor()
+            this.hot = 0
         }
         steer(){
 
@@ -1861,15 +1869,31 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(this.marked == 0){
 
                 this.jiggle+=.2
-                tutorial_canvas_context.drawImage(seedegg, this.x-(this.width/2), (this.y+7)-(this.height/2)+(7*Math.cos(this.jiggle)),  this.width ,  this.height )
+                    tutorial_canvas_context.drawImage(seedegg, this.x-(this.width/2), (this.y+7)-(this.height/2)+(7*Math.cos(this.jiggle)),  this.width ,  this.height )
+           
               
             }else{
 
                 // this.newboll = new Circle(this.x, this.y, 10, this.color)
                
                 // this.newboll.draw()
-            tutorial_canvas_context.drawImage(seedegg, this.x-(this.width/2), (this.y)-(this.height/2),  this.width ,  this.height )
-            
+            if(this.hot == 0){
+                tutorial_canvas_context.drawImage(seedegg, this.x-(this.width/2), (this.y)-(this.height/2),  this.width ,  this.height )
+            }else{
+                if(this.xmom > 0){
+                    if(pomao.body.isPointInside(this)){
+                        tutorial_canvas_context.drawImage(seedeggfl, this.x-(this.width/2), (this.y)-(this.height/2),  this.width/10 ,  this.height/10)
+                    }else{
+                    tutorial_canvas_context.drawImage(seedeggfl, this.x-(this.width/2), (this.y)-(this.height/2),  this.width ,  this.height )
+                    }
+                }else{
+                    if(pomao.body.isPointInside(this)){
+                    tutorial_canvas_context.drawImage(seedeggf, this.x-(this.width/2), (this.y)-(this.height/2),  this.width/10 ,  this.height/10 )
+                    }else{
+                    tutorial_canvas_context.drawImage(seedeggf, this.x-(this.width/2), (this.y)-(this.height/2),  this.width ,  this.height )
+                    }
+                }
+            }
             }
             
             this.move()
@@ -1978,7 +2002,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             tutorial_canvas_context.fillText(`Pomao fell asleep and went home`, pomao.body.x-200, pomao.body.y);
               tutorial_canvas.style.background = "#8888CC"
         }
-    }, 14) 
+    },  14) 
 }, 1000); 
 
 
