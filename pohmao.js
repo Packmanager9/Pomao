@@ -1333,7 +1333,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }else{
                 if(this.hng > 0){
-                    this.hng *= .99
+                    this.hng *= .997
                 }
             }
             if(this.disabled == 0){
