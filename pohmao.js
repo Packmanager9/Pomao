@@ -1305,10 +1305,19 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         this.height = 64+(Math.sin(this.timeloop)*(3+this.pounding))
         this.width = 64+(Math.sin(this.timeloopx)*1)
         if(this.jumping == 1){
-            this.height  = 68+this.pounding
+            if(this.body.ymom < 0){
+                this.height  = 68+this.pounding+Math.round((Math.abs(this.body.ymom)+Math.abs(this.hng)+Math.abs(this.body.symom))*1.9)
+            }else{
+                this.height  = 68+this.pounding
+            }
         }
         if(this.jumping == 1){
-            this.width  = 60-this.pounding
+            if(this.body.ymom < 0){
+                this.width  = 60-(this.pounding+((Math.abs(this.body.ymom)+Math.abs(this.hng)+Math.abs(this.body.symom))*1.5))
+            }else{
+                this.width  = 60-this.pounding
+            }
+            // this.width  = 60-this.pounding
         }
 
         for(let t = 0; t<pomao.thrown.length; t++){
@@ -1317,8 +1326,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         if(this.diry == -1){
             hot--
             for(let t = 0;t<this.thrown.length; t++){
-                if(this.body.isPointInside(this.thrown[t])){
+                if(this.body.repelCheck(this.thrown[t]) && this.thrown[t].timer < 5){
                     hot=20
+                    this.thrown[t].timer = 6
                 }
             }
             if(hot<=0){
@@ -1603,18 +1613,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                     // this.tonguexmom = 33
                                     }
                     if(this.xdir == 1){
-                        this.tonguexmom = 33
+                        this.tonguexmom = 33.1
                         this.dir = 1
                     }
                     if(this.ydir == 1){
-                        this.tongueymom = 33
+                        this.tongueymom = 33.1
                     }
                     if(this.xdir == -1){
-                        this.tonguexmom = -33
+                        this.tonguexmom = -33.1
                         this.dir = -1
                     }
                     if(this.ydir == -1){
-                        this.tongueymom = -33
+                        this.tongueymom = -33.1
                     }
                     if(this.xdir*this.ydir != 0){
                         this.tonguexmom *= .8
@@ -1623,9 +1633,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                     if(this.xdir == 0 && this.ydir ==0){
                         if(this.dir == 1){
-                        this.tonguexmom = 33
+                        this.tonguexmom = 34
                         }else{
-                        this.tonguexmom = -33
+                        this.tonguexmom = -34
                         }
                     }
 
@@ -1662,7 +1672,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                             }
 
                             if(this.xdir == -1){
-                                this.eggs[this.eggs.length-1].x  = this.body.x
+                                this.eggs[this.eggs.length-1].x  = this.body.x+(this.dir*29)
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
                                 this.eggs[this.eggs.length-1].xmom  = -12
@@ -1672,7 +1682,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 this.dir = -1
                             }
                             if(this.xdir == 1){
-                                this.eggs[this.eggs.length-1].x  = this.body.x
+                                this.eggs[this.eggs.length-1].x  = this.body.x+(this.dir*29)
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
                                 this.eggs[this.eggs.length-1].xmom  = 12
@@ -1682,7 +1692,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 this.dir = 1
                             }
                             if(this.ydir == 1){
-                                this.eggs[this.eggs.length-1].x  = this.body.x
+                                this.eggs[this.eggs.length-1].x  = this.body.x+(this.dir*29)
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
                                 this.eggs[this.eggs.length-1].xmom += this.dir
@@ -1691,7 +1701,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 // this.eggs.pop()
                             }
                             if(this.ydir == -1){
-                                this.eggs[this.eggs.length-1].x  = this.body.x
+                                this.eggs[this.eggs.length-1].x  = this.body.x+(this.dir*29)
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
                                 this.eggs[this.eggs.length-1].xmom += this.dir
@@ -1703,7 +1713,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 // this.eggs[this.eggs.length-1].x  = this.body.x
                                 // this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
-                                this.eggs[this.eggs.length-1].x  = this.body.x
+                                this.eggs[this.eggs.length-1].x  = this.body.x+(this.dir*29)
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].xmom *= .8
                                 this.eggs[this.eggs.length-1].ymom *= .8
@@ -1714,7 +1724,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             if(this.xdir == 0 && this.ydir ==0){
                                 if(this.dir == 1){
     
-                                this.eggs[this.eggs.length-1].x  = this.body.x
+                                this.eggs[this.eggs.length-1].x  = this.body.x+(this.dir*29)
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
                                 this.eggs[this.eggs.length-1].xmom = 12
@@ -1723,7 +1733,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                     // this.eggs.pop()
                                 }else{
     
-                                this.eggs[this.eggs.length-1].x  = this.body.x
+                                this.eggs[this.eggs.length-1].x  = this.body.x+(this.dir*29)
                                 this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length-1].marked  = 1
                                     this.eggs[this.eggs.length-1].xmom= -12
@@ -1878,6 +1888,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.jiggle = Math.random()*Math.PI*2
             this.color = getRandomLightColor()
             this.hot = 0
+            this.timer = 0
         }
         steer(){
 
@@ -1892,6 +1903,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.pos.push(this.target.x)
             }
 
+            
+
             if((this.pos.length-15) > this.count){
                 this.x = this.pos[this.count]
                 this.count++
@@ -1905,6 +1918,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             if(pomao.thrown.includes(this)){
                 this.marked = 1
+                this.timer++
             }
             if(this.marked == 0){
             this.ymom = 0
