@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let jazz2 = new Audio('gulpnoise2.wav');
 
     let fruitsprites = new Image()
-    fruitsprites.src = 'fruitsprites2.png'
+    fruitsprites.src = 'fruitsprites3.png'
 
     let pomaospit = new Image()
     pomaospit.src = 'pomaospit.png'
@@ -463,7 +463,37 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.xmom = 0
             this.ymom = 0
             this.type = Math.floor(Math.random()*10)
-            this.type2 = Math.floor(Math.random()*4)
+            this.type2 = Math.floor(Math.random()*9)
+            // if(this.type == 1){
+            //     if(this.type2 == 4){
+            //         this.type = Math.floor(Math.random()*10)
+            //         this.type2 = Math.floor(Math.random()*9)
+            //     }
+            // }
+            // if(this.type == 1){
+            //     if(this.type2 == 4){
+            //         this.type = Math.floor(Math.random()*10)
+            //         this.type2 = Math.floor(Math.random()*9)
+            //     }
+            // }
+            // if(this.type == 1){
+            //     if(this.type2 == 4){
+            //         this.type = Math.floor(Math.random()*10)
+            //         this.type2 = Math.floor(Math.random()*9)
+            //     }
+            // }
+            // if(this.type == 1){
+            //     if(this.type2 == 4){
+            //         this.type = Math.floor(Math.random()*10)
+            //         this.type2 = Math.floor(Math.random()*9)
+            //     }
+            // }
+            // if(this.type == 1){
+            //     if(this.type2 == 4){
+            //         this.type = Math.floor(Math.random()*10)
+            //         this.type2 = Math.floor(Math.random()*9)
+            //     }
+            // }
             this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
         }
         draw(){
@@ -478,7 +508,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             let sheetwidth = fruitsprites.width
             let sheetheight = fruitsprites.height
             let cols = 10
-            let rows = 4
+            let rows = 9
         
             // for(let q = 0; q < 3;q++){
 
@@ -558,7 +588,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         clean(){
           if(this.body.repelCheck(pomao.body)){
             if(this.width < 20){
+                if(this.type == 1){
+                    if(this.type2 == 4){
+                        pomao.high = 500
+                    }
+                }
                 fruits.splice(fruits.indexOf(this),1)
+
                 //sound (obnoxious)
                 // if (jazz.duration > 0 && !jazz.paused) {
                 //     console.log("top")
@@ -985,6 +1021,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     class Pomao{
         constructor(){
+            this.high = 0
             this.eggtimer = 10
             this.body = new Circlex(425,350, 32, "red")
             this.tongue = new Circle(this.body.x, this.body.y, 6, "blue")
@@ -1129,7 +1166,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
         }
         draw(){
-
+            this.high--
             this.timeloop+=.05
             this.timeloops+=.01
             this.bodytight = new Circle(this.body.x,this.body.y, 10, "yellow")
@@ -1791,7 +1828,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     setTimeout(function(){
     window.setInterval(function(){ 
-        tutorial_canvas_context.clearRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
+        "#AAAAFF"
+        if(pomao.high > 1){
+            tutorial_canvas_context.fillStyle =`rgba(0, 0, 0,${15/255})`
+            tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
+            }else{
+                tutorial_canvas_context.fillStyle =`rgba(170, 170, 255,${255/255})`
+                tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
+               }
         if(pomao.hits > -1){
 
             for(let t = 0; t<floors.length; t++){
