@@ -418,23 +418,23 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
           }
           if(this.marked == 2){
-            this.x  -= ((this.body.x-pomao.body.x)/3.5)
-            this.y -= ((this.body.y-pomao.body.y)/3.5)
+            this.x  -= ((this.body.x-pomao.body.x)/1.5)
+            this.y -= ((this.body.y-pomao.body.y)/1.5)
             this.marked = 2
             pomao.diry = 1
 
 
             // console.log(pomao)
           }
-          if(this.marked == 3){
-            this.x  -= ((this.body.x-pomao.body.x)/3.5)
-            this.y -= ((this.body.y-pomao.body.y)/3.5)
-            this.marked = 3
-            // pomao.diry = 1
+        //   if(this.marked == 3){
+        //     this.x  -= ((this.body.x-pomao.body.x)/3.5)
+        //     this.y -= ((this.body.y-pomao.body.y)/3.5)
+        //     this.marked = 3
+        //     // pomao.diry = 1
 
 
-            // console.log(pomao)
-          }
+        //     // console.log(pomao)
+        //   }
 
 
         }
@@ -1207,6 +1207,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.timeloop+=.05
             this.timeloops+=.01
             this.bodytight = new Circle(this.body.x,this.body.y, 10, "yellow")
+            this.bodyloose = new Circle(this.body.x,this.body.y, 25, "yellow")
             this.control()
             this.body.move()
             this.gravity()
@@ -1229,8 +1230,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
 
             if(this.body.isPointInside(this.tongue)){
-                this.tonguexmom*=.5
-                this.tongueymom*=.5
+                // if(!keysPressed[' ']){
+                    // if(Math.abs(this.tongueymom) > 20  || Math.abs(this.tonguexmom) > 20 ){
+                        this.tonguexmom*=.5
+                        this.tongueymom*=.5
+                    // }
+                // }
             }else{
             this.tonguexmom*=.91
             this.tongueymom*=.91
@@ -1525,6 +1530,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             // }
 
             if(keysPressed[' ']){
+            this.tongue = new Circle(this.body.x+this.tonguex, this.body.y+this.tonguey, 5, "blue")
                 if(this.bodytight.isPointInside(this.tongue)){
                     if(keysPressed['ArrowDown'] || keysPressed['k'] ){
                         this.ydir = 1
@@ -1569,6 +1575,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
                 }
+            }else if (this.body.isPointInside(this.tongue)){
+                this.tonguey *=.5
+                this.tonguex *=.5
             }
 
 
