@@ -41,11 +41,34 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let pomaoflb = new Image()
     pomaoflb.src = 'pomaoflb.png'
 
+    let pomaoflbh = new Image()
+    pomaoflbh.src = 'pomaofbhl.png'
+
+    let pomaoflh = new Image()
+    pomaoflh.src = 'pomaoflh.png'
+
+    let pomaofbh = new Image()
+    pomaofbh.src = 'pomaofbh.png'
+
     let boysprites = new Image()
     boysprites.src = 'boisterousboys.png'
 
     let pomaoimg = new Image()
     pomaoimg.src = 'pomao.png'
+
+    let pomaofh = new Image()
+    pomaofh.src = 'pomaofh.png'
+
+    let pomaoimgh = new Image()
+    pomaoimgh.src = 'pomaoh.png'
+
+    let pomaoimglhb = new Image()
+    pomaoimglhb.src = 'pomaolhb.png'
+    let pomaoimghb = new Image()
+    pomaoimghb.src = 'pomaohb.png'
+
+    let pomaoimglh = new Image()
+    pomaoimglh.src = 'pomaolh.png'
     let pomaoimgb = new Image()
     pomaoimgb.src = 'pomaob.png'
 
@@ -1301,6 +1324,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(hot<=0){
 
                 if(this.blush <= 1){
+
+                if(this.disabled == 0){
                 if(this.dir == 1){
                     if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
                         tutorial_canvas_context.drawImage(pomaof, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -1314,20 +1339,51 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             tutorial_canvas_context.drawImage(pomaoimgl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }
-
             }else{
                 if(this.dir == 1){
                     if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
-                        tutorial_canvas_context.drawImage(pomaofb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                        tutorial_canvas_context.drawImage(pomaofh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
-                            tutorial_canvas_context.drawImage(pomaoimgb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                            tutorial_canvas_context.drawImage(pomaoimgh, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }else{
                     if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
-                        tutorial_canvas_context.drawImage(pomaoflb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                        tutorial_canvas_context.drawImage(pomaoflh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
-                            tutorial_canvas_context.drawImage(pomaoimgbl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                            tutorial_canvas_context.drawImage(pomaoimglh, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
+                }
+            }
+            }else{
+                if(this.disabled == 0){
+                    if(this.dir == 1){
+                        if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                            tutorial_canvas_context.drawImage(pomaofb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                           }else{  
+                                tutorial_canvas_context.drawImage(pomaoimgb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                          }
+                    }else{
+                        if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                            tutorial_canvas_context.drawImage(pomaoflb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                           }else{  
+                                tutorial_canvas_context.drawImage(pomaoimgbl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                          }
+                    }
+                }else{
+
+                if(this.dir == 1){
+                    if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                        tutorial_canvas_context.drawImage(pomaofbh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                       }else{  
+                            tutorial_canvas_context.drawImage(pomaoimglhb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                      }
+                }else{
+                    if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                        tutorial_canvas_context.drawImage(pomaoflbh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                       }else{  
+                            tutorial_canvas_context.drawImage(pomaoimghb , this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                      }
+                }
                 }
             }
             }else{
