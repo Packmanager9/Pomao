@@ -17,25 +17,44 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let pomaospit = new Image()
     pomaospit.src = 'pomaospit.png'
 
+    let pomaospitb = new Image()
+    pomaospitb.src = 'pomaospitb.png'
+
     let pomaospitl = new Image()
     pomaospitl.src = 'pomaospitl.png'
+    let pomaospitlb = new Image()
+    pomaospitlb.src = 'pomaospitbl.png'
 
     let pomaospitf = new Image()
     pomaospitf.src = 'pomaospitf.png'
 
+    let pomaospitfb = new Image()
+    pomaospitfb.src = 'pomaospitfb.png'
+
     let pomaospitfl = new Image()
     pomaospitfl.src = 'pomaospitfl.png'
+
+
+    let pomaospitflb = new Image()
+    pomaospitflb.src = 'pomaospitflb.png'
+
+    let pomaoflb = new Image()
+    pomaoflb.src = 'pomaoflb.png'
 
     let boysprites = new Image()
     boysprites.src = 'boisterousboys.png'
 
     let pomaoimg = new Image()
     pomaoimg.src = 'pomao.png'
+    let pomaoimgb = new Image()
+    pomaoimgb.src = 'pomaob.png'
 
     let seedegg = new Image()
     seedegg.src = 'seedegg.png'
     let pomaoimgl = new Image()
     pomaoimgl.src = 'pomaol.png'
+    let pomaoimgbl = new Image()
+    pomaoimgbl.src = 'pomaobl.png'
     // let mangosteen = new Image()
     // mangosteen.src = 'Fruit 03 - Mangosteen.png'
     
@@ -43,10 +62,17 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     pomaoimgup.src = 'pomaoup.png'
     let pomaoimglup = new Image()
     pomaoimglup.src = 'pomaoupl.png'
+    
+    let pomaoimgupb = new Image()
+    pomaoimgupb.src = 'pomaoupb.png'
+    let pomaoimglupb = new Image()
+    pomaoimglupb.src = 'pomaoupbl.png'
     let pomaof = new Image()
     pomaof.src = 'pomaof.png'
     let pomaofl = new Image()
     pomaofl.src = 'pomaofl.png'
+    let pomaofb = new Image()
+    pomaofb.src = 'pomaofb.png'
     
     let keysPressed = {}
 
@@ -593,6 +619,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         pomao.high = 500
                     }
                 }
+                if(this.type == 7){
+                    if(this.type2 == 7){
+                        pomao.blush = 1000
+                    }
+                }
                 fruits.splice(fruits.indexOf(this),1)
 
                 //sound (obnoxious)
@@ -1021,6 +1052,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     class Pomao{
         constructor(){
+            this.blush = 0
             this.high = 0
             this.eggtimer = 10
             this.body = new Circlex(425,350, 32, "red")
@@ -1167,6 +1199,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         draw(){
             this.high--
+            this.blush--
             this.timeloop+=.05
             this.timeloops+=.01
             this.bodytight = new Circle(this.body.x,this.body.y, 10, "yellow")
@@ -1257,6 +1290,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
             if(hot<=0){
+
+                if(this.blush <= 1){
                 if(this.dir == 1){
                     if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
                         tutorial_canvas_context.drawImage(pomaof, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -1270,8 +1305,25 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             tutorial_canvas_context.drawImage(pomaoimgl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }
+
+            }else{
+                if(this.dir == 1){
+                    if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                        tutorial_canvas_context.drawImage(pomaofb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                       }else{  
+                            tutorial_canvas_context.drawImage(pomaoimgb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                      }
+                }else{
+                    if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                        tutorial_canvas_context.drawImage(pomaoflb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                       }else{  
+                            tutorial_canvas_context.drawImage(pomaoimgbl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                      }
+                }
+            }
             }else{
 
+                if(this.blush <= 1){
                 if(this.dir == 1){
 
                     if(this.hng !==0){
@@ -1290,12 +1342,44 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                     }
                 }
+            }else{
+                if(this.dir == 1){
+
+                    if(this.hng !==0){
+                        tutorial_canvas_context.drawImage(pomaospitfb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                      
+                    }else{
+
+                        tutorial_canvas_context.drawImage(pomaospitb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                    }
+                }else{
+
+                    if(this.hng !==0){
+                        tutorial_canvas_context.drawImage(pomaospitflb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+                    }else{
+                        tutorial_canvas_context.drawImage(pomaospitlb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+
+                    }
+                }
+
+            }
             }
         }else{
+            if(this.blush <= 1){
+              
             if(this.dir == 1){
                 tutorial_canvas_context.drawImage(pomaoimgup, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
             }else{
             tutorial_canvas_context.drawImage(pomaoimglup, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+            }
+
+            }else{
+
+            if(this.dir == 1){
+                tutorial_canvas_context.drawImage(pomaoimgupb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+            }else{
+            tutorial_canvas_context.drawImage(pomaoimglupb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+            }
             }
         }
         // this.diry = 1
@@ -1678,8 +1762,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
     let fruitx = new Fruit(510,340, 60,60, "red")
-    fruitx.type = 2
-    fruitx.type2 = 0
+    fruitx.type = 7
+    fruitx.type2 = 7
     fruits.push(fruitx)
 
     for(let t = 0;t<10000; t++){
