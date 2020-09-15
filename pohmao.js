@@ -1221,13 +1221,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             if(hot<=0){
                 if(this.dir == 1){
-                    if(this.hng != 0 && this.pounding == 0){
+                    if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
                         tutorial_canvas_context.drawImage(pomaof, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimg, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }else{
-                    if(this.hng != 0 && this.pounding == 0){
+                    if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
                         tutorial_canvas_context.drawImage(pomaofl, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimgl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -1284,7 +1284,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             for(let t = 0; Math.abs(this.body.sxmom) > 3.5;t++){
                 this.body.sxmom*=.99
             }
-            this.sxmom*=.96
+            this.body.sxmom*=.999
 
 
             if(keysPressed['f'] || keysPressed['n']){
@@ -1324,9 +1324,16 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         }
                         if(this.hng < .216){
                         this.body.ymom += -this.hng
+                        }else{
+                            // this.hng = -.05
+                            // this.runner = 0
                         }
 
                     }
+                }
+            }else{
+                if(this.hng > 0){
+                    this.hng *= .99
                 }
             }
             if(this.disabled == 0){
