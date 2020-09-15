@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let jazz2 = new Audio('gulpnoise2.wav');
 
     let fruitsprites = new Image()
-    fruitsprites.src = 'fruitsprites5.png'
+    fruitsprites.src = 'fruitsprites6.png'
 
     let pomaospit = new Image()
     pomaospit.src = 'pomaospit.png'
@@ -141,6 +141,252 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
      });
     
+     class CircleF{
+        constructor(x, y, radius, color, xmom = 0, ymom = 0){
+
+            this.height = 0
+            this.width = 0
+            this.x = x
+            this.y = y
+            this.radius = radius
+            this.color = color
+            this.xmom = xmom
+            this.ymom = ymom
+            this.xrepel = 0
+            this.yrepel = 0
+            this.lens = 0
+        }       
+         draw(){
+
+            tutorial_canvas_context.fillStyle = this.color
+            tutorial_canvas_context.lineWidth = 1
+            tutorial_canvas_context.strokeStyle = this.color
+            tutorial_canvas_context.beginPath();
+            tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI*2), true)
+           tutorial_canvas_context.fill()
+            tutorial_canvas_context.stroke(); 
+        }
+        move(){
+            this.x += this.xmom
+            this.y += this.ymom
+            // tutorial_canvas_context.translate(-this.xmom,-this.ymom)
+        }
+        isPointInside(point){
+            this.areaY = point.y - this.y 
+            this.areaX = point.x - this.x
+            if(((this.areaX*this.areaX)+(this.areaY*this.areaY)) <= (this.radius*this.radius)){
+                return true
+            }
+            return false
+        }
+
+        repelCheck(point){
+            this.areaY = point.y - this.y 
+            this.areaX = point.x - this.x
+            if(((this.areaX*this.areaX)+(this.areaY*this.areaY)) <= (this.radius+point.radius)*(point.radius+this.radius)){
+                return true
+            }
+            return false
+        }
+    }
+
+
+    class Fractal{
+        constructor(x){
+            this.runner =0
+            this.runclick = 0
+            this.center = {}
+            this.center.x = tutorial_canvas.width*.5
+            this.center.y = tutorial_canvas.height*.5
+            this.count = x
+            this.angle = 0
+            this.spin = 0
+            this.macrospin = 0
+            this.joints = []
+            this.threshold =50
+        }
+        draw(){
+            if(pomao.tripping < 0){
+                this.runner = 0
+                this.count = 10
+                this.threshold =50
+            }
+            this.runner++
+            if(this.runner%this.threshold == 0){
+                this.runner = 0
+                this.count--
+                this.threshold+=10
+            }
+            if(pomao.tripping > 0){
+               this.spin+=.015
+               this.macrospin += .03
+               this.joints = []
+               for(let t = 0; t<this.count; t++){
+                   let joint = new CircleF(pomao.body.x+(Math.sin(this.angle+this.spin)*250)+(Math.sin(this.macrospin)*15),pomao.body.y+(Math.cos(this.angle+this.spin)*250)+(Math.cos(this.macrospin)*15), 0, getRandomLightColortp() )
+                   this.joints.push(joint)
+                   this.angle += (Math.PI*2)/this.count
+               }
+               if(this.count > 0){
+
+                   tutorial_canvas_context.moveTo(this.joints[0].x, this.joints[0].y)
+                   tutorial_canvas_context.lineWidth = 10+((4-(this.spin%this.count)))
+                   // tutorial_canvas_context.strokeStyle = getRandomLightColortp()
+                    for(let t = 0; t<this.count; t++){
+
+                       tutorial_canvas_context.strokeStyle = getRandomLightColortp()
+                       tutorial_canvas_context.fillStyle = getRandomLightColortp()
+                           tutorial_canvas_context.lineTo(this.joints[t].x,this.joints[t].y)
+                    }
+                    tutorial_canvas_context.lineTo(this.joints[0].x, this.joints[0].y)
+                    tutorial_canvas_context.stroke()
+       
+                    tutorial_canvas_context.lineWidth = 0
+                    for(let t = 1; t<2; t++){
+                       tutorial_canvas_context.fillStyle = getRandomLightColortp()
+                       this.joints[t].color = getRandomLightColortp()
+                       this.joints[t].draw()
+                       
+                    
+                }
+               }
+            }
+        }
+    }
+
+
+
+    class Fractal2{
+        constructor(x){
+            this.runner =0
+            this.runclick = 0
+            this.center = {}
+            this.center.x = tutorial_canvas.width*.5
+            this.center.y = tutorial_canvas.height*.5
+            this.count = x
+            this.angle = 0
+            this.spin = 0
+            this.macrospin = 0
+            this.joints = []
+        }
+        draw(){
+         
+            if(pomao.tripping < 0){
+                this.runner = 0
+                this.count = 10
+                this.threshold =50
+            }
+            this.runner++
+            if(this.runner%this.threshold == 0){
+                this.runner = 0
+                this.count--
+                this.threshold+=10
+            }
+            if(pomao.tripping > 0){
+               this.spin-=.015
+               this.macrospin += .03
+               this.joints = []
+               for(let t = 0; t<this.count; t++){
+                   let joint = new CircleF(pomao.body.x+(Math.sin(this.angle+this.spin)*160)+(Math.sin(this.macrospin)*20),pomao.body.y+(Math.cos(this.angle+this.spin)*160)+(Math.cos(this.macrospin)*5), 0, getRandomLightColortp() )
+                   this.joints.push(joint)
+                   this.angle += (Math.PI*2)/this.count
+               }
+               if(this.count > 0){
+
+                   tutorial_canvas_context.moveTo(this.joints[0].x, this.joints[0].y)
+                   tutorial_canvas_context.lineWidth = 0//40+((4-(this.spin%this.count)))
+                   // tutorial_canvas_context.strokeStyle = getRandomLightColortp()
+                    for(let t = 0; t<this.count; t++){
+
+                       tutorial_canvas_context.strokeStyle = getRandomLightColortp()
+                       tutorial_canvas_context.fillStyle = getRandomLightColortp()
+                           tutorial_canvas_context.lineTo(this.joints[t].x,this.joints[t].y)
+                    }
+                    tutorial_canvas_context.lineTo(this.joints[0].x, this.joints[0].y)
+                    tutorial_canvas_context.stroke()
+                    tutorial_canvas_context.fill()
+       
+                    tutorial_canvas_context.lineWidth = 0
+                    for(let t = 1; t<2; t++){
+                       tutorial_canvas_context.fillStyle = getRandomLightColortp()
+                       this.joints[t].color = getRandomLightColortp()
+                       this.joints[t].draw()
+                       
+                    
+                }
+               }
+            }
+        }
+    }
+   
+
+     class Fractal3{
+         constructor(x){
+             this.runner =0
+             this.runclick = 0
+             this.center = {}
+             this.center.x = tutorial_canvas.width*.5
+             this.center.y = tutorial_canvas.height*.5
+             this.count = x
+             this.angle = 0
+             this.spin = 0
+             this.macrospin = 0
+             this.joints = []
+         }
+         draw(){
+
+            if(pomao.tripping < 0){
+                this.runner = 0
+                this.count = 10
+                this.threshold =50
+            }
+            this.runner++
+            if(this.runner%this.threshold == 0){
+                this.runner = 0
+                this.count--
+                this.threshold+=10
+            }
+             if(pomao.tripping > 0){
+                this.spin+=.015*Math.random()*2
+                this.macrospin += .03*Math.random()*2
+                this.joints = []
+                for(let t = 0; t<this.count; t++){
+                    let joint = new CircleF(pomao.body.x+(Math.sin(this.angle+this.spin)*70)+(Math.sin(this.macrospin)*7),pomao.body.y+(Math.cos(this.angle+this.spin)*70)+(Math.cos(this.macrospin)*13), 0, getRandomLightColortp() )
+                    this.joints.push(joint)
+                    this.angle += (Math.PI*2)/this.count
+                }
+                if(this.count > 0){
+
+                    tutorial_canvas_context.moveTo(this.joints[0].x, this.joints[0].y)
+                    tutorial_canvas_context.lineWidth = 0 // 30+((4-(this.spin%this.count)))
+                    // tutorial_canvas_context.strokeStyle = getRandomLightColortp()
+                     for(let t = 0; t<this.count; t++){
+
+                        tutorial_canvas_context.strokeStyle = getRandomLightColortp()
+                        tutorial_canvas_context.fillStyle = getRandomLightColortp()
+                            tutorial_canvas_context.lineTo(this.joints[t].x,this.joints[t].y)
+                     }
+                     for(let t = this.count.length; t>0; t--){
+
+                        tutorial_canvas_context.strokeStyle = getRandomLightColortp()
+                        tutorial_canvas_context.fillStyle = getRandomLightColortp()
+                            tutorial_canvas_context.lineTo(this.joints[t].x,this.joints[t].y)
+                     }
+                     tutorial_canvas_context.lineTo(this.joints[0].x, this.joints[0].y)
+                     tutorial_canvas_context.stroke()
+                     tutorial_canvas_context.fill()
+        
+                     tutorial_canvas_context.lineWidth = 0
+                     for(let t = 1; t<2; t++){
+                        tutorial_canvas_context.fillStyle = getRandomLightColortp()
+                        this.joints[t].color = getRandomLightColortp()
+                        this.joints[t].draw()
+                        
+                     
+                 }
+                }
+             }
+         }
+     }
     
 
      class Trianglex{
@@ -166,8 +412,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             tutorial_canvas_context.lineTo(this.x, this.tip)
             tutorial_canvas_context.lineTo(this.x2, this.y)
             tutorial_canvas_context.lineTo(this.x, this.y)
-            tutorial_canvas_context.stroke()
             tutorial_canvas_context.fill()
+            tutorial_canvas_context.stroke()
         }
 
         isPointInside(point){
@@ -518,7 +764,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.xmom = 0
             this.ymom = 0
             this.type = Math.floor(Math.random()*10)
-            this.type2 = Math.floor(Math.random()*9)
+            this.type2 = Math.floor(Math.random()*10)
+            if(this.type2 == 9){
+                if(Math.random()<.95){
+                    this.type2 =  Math.floor(Math.random()*9)
+                }
+            }
             // if(this.type == 1){
             //     if(this.type2 == 4){
             //         this.type = Math.floor(Math.random()*10)
@@ -563,7 +814,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             let sheetwidth = fruitsprites.width
             let sheetheight = fruitsprites.height
             let cols = 10
-            let rows = 9
+            let rows = 10
         
             // for(let q = 0; q < 3;q++){
 
@@ -596,7 +847,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
           if(this.type < 10){
 
 
+            if(pomao.tripping <= 0){
             tutorial_canvas_context.drawImage(fruitsprites, srcx, srcy, width, height, this.x, this.y, this.width, this.height)
+            }else{
+                tutorial_canvas_context.drawImage(fruitsprites, srcx, srcy, width, height, this.x+(Math.sin(pomao.timeloop)*7.5), this.y+(Math.cos((pomao.timeloop/10))*7.5), this.width+(Math.sin((pomao.timeloop/10))*15), this.height+(Math.cos(pomao.timeloop)*15))
+            }
    
 
 
@@ -645,8 +900,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(this.width < 20){
                 if(this.type == 1){
                     if(this.type2 == 4){
-                        pomao.high = 500
+                        pomao.high = 1000
                     }
+                }
+
+                if(this.type2 == 9){
+                    pomao.tripping = 820
                 }
                 if(this.type == 7){
                     if(this.type2 == 7){
@@ -741,15 +1000,17 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.lens = 0
         }       
          draw(){
+
+            if(!ramps.includes(this)){
+                tutorial_canvas_context.fillStyle = "cyan" //this.color
+                }else{
+                tutorial_canvas_context.fillStyle = this.color
+                }
             tutorial_canvas_context.lineWidth = 4
             tutorial_canvas_context.strokeStyle = this.color
             tutorial_canvas_context.beginPath();
             tutorial_canvas_context.arc(this.x, this.y, this.radius-1, 0, (Math.PI*2), true)
-            if(!ramps.includes(this)){
-            tutorial_canvas_context.fillStyle = "cyan" //this.color
-            }else{
-            tutorial_canvas_context.fillStyle = this.color
-            }
+       
            tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke(); 
         }
@@ -793,16 +1054,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.yrepel = 0
             this.lens = 0
         }       
-         draw(){
-            tutorial_canvas_context.lineWidth = 4
-            tutorial_canvas_context.strokeStyle = this.color
-            tutorial_canvas_context.beginPath();
-            tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI*2), true)
+         draw(){   
+             
             if(!ramps.includes(this)){
             tutorial_canvas_context.fillStyle = this.color
             }else{
             tutorial_canvas_context.fillStyle = this.color
             }
+            tutorial_canvas_context.lineWidth = 4
+            tutorial_canvas_context.strokeStyle = this.color
+            tutorial_canvas_context.beginPath();
+            tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI*2), true)
+     
            tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke(); 
         }
@@ -910,152 +1173,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
     }
 
-    class Spring{
-        constructor(body = 0){
-            if(body == 0){
-                this.body = new Circle(350, 350, 5, "red",10,10)
-                this.anchor = new Circle(this.body.x, this.body.y+5, 3, "red")
-                this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
-                this.length = 1
-            }else{
-                this.body = body
-                this.length = .1
-                this.anchor = new Circle(this.body.x-((Math.random()-.5)*10), this.body.y-((Math.random()-.5)*10), 3, "red")
-                this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
-            }
-
-        }
-        balance(){
-            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
-
-                if(this.beam.hypotenuse() !=0){
-            if(this.beam.hypotenuse() < this.length){
-                    this.body.xmom += (this.body.x-this.anchor.x)/(this.length)/300
-                    this.body.ymom += (this.body.y-this.anchor.y)/(this.length)/300
-                    this.anchor.xmom -= (this.body.x-this.anchor.x)/(this.length)/300
-                    this.anchor.ymom -= (this.body.y-this.anchor.y)/(this.length)/300
-            }else if(this.beam.hypotenuse() > this.length){
-                    this.body.xmom -= (this.body.x-this.anchor.x)/(this.length)/300
-                    this.body.ymom -= (this.body.y-this.anchor.y)/(this.length)/300
-                    this.anchor.xmom += (this.body.x-this.anchor.x)/(this.length)/300
-                    this.anchor.ymom += (this.body.y-this.anchor.y)/(this.length)/300
-            }
-
-        }
-
-        let xmomentumaverage 
-        let ymomentumaverage
-        xmomentumaverage = ((this.body.xmom)+this.anchor.xmom)/2
-        ymomentumaverage = ((this.body.ymom)+this.anchor.ymom)/2
-
-                this.body.xmom = ((this.body.xmom)+xmomentumaverage)/2
-                this.body.ymom = ((this.body.ymom)+ymomentumaverage)/2
-                this.anchor.xmom = ((this.anchor.xmom)+xmomentumaverage)/2
-                this.anchor.ymom = ((this.anchor.ymom)+ymomentumaverage)/2
-        }
-        draw(){
-            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
-            this.beam.draw()
-            this.body.draw()
-            this.anchor.draw()
-        }
-        move(){
-                    this.body.move()
-                    this.anchor.move()
-        }
-
-    }
-
-
-    class Observer{
-        constructor(){
-            this.body = new Circle( 500, 500, 5, "white")
-            this.ray = []
-            this.rayrange = 220
-            this.globalangle = Math.PI
-            this.gapangle = Math.PI/8
-            this.currentangle = 0
-            this.obstacles = []
-            this.raymake = 40
-        }
-
-        beam(){
-            this.currentangle  = this.gapangle/2
-            for(let k = 0; k<this.raymake; k++){
-                this.currentangle+=(this.gapangle/Math.ceil(this.raymake/2))
-                let ray = new Circle(this.body.x, this.body.y, 1, "white",((this.rayrange * (Math.cos(this.globalangle+this.currentangle))))/this.rayrange*2, ((this.rayrange * (Math.sin(this.globalangle+this.currentangle))))/this.rayrange*2 )
-                ray.collided = 0
-                ray.lifespan = this.rayrange-1
-                this.ray.push(ray)
-            }
-            for(let f = 3; f<this.rayrange/2; f++){
-                for(let t = 0; t<this.ray.length; t++){
-                    if(this.ray[t].collided < 1){
-                        this.ray[t].move()
-                    for(let q = 0; q<this.obstacles.length; q++){
-                        if(this.obstacles[q].isPointInside(this.ray[t])){
-                            this.ray[t].collided = 1
-                        }
-                      }
-                    }
-                }
-            }
-        }
-
-        draw(){
-            this.beam()
-            this.body.draw()
-            tutorial_canvas_context.lineWidth = 1
-            tutorial_canvas_context.fillStyle = "red"
-            tutorial_canvas_context.strokeStyle = "red"
-            tutorial_canvas_context.beginPath()
-            tutorial_canvas_context.moveTo(this.body.x, this.body.y)
-            for(let y = 0; y<this.ray.length; y++){
-                    tutorial_canvas_context.lineTo(this.ray[y].x, this.ray[y].y)
-                        tutorial_canvas_context.lineTo(this.body.x, this.body.y)
-                }
-            tutorial_canvas_context.stroke()
-            tutorial_canvas_context.fill()
-            this.ray =[]
-        }
-
-        control(){
-            if(keysPressed['t']){
-                this.globalangle += .05
-            }
-            if(keysPressed['r']){
-                this.globalangle -= .05
-            }
-            if(keysPressed['w']){
-                this.body.y-=2
-            }
-            if(keysPressed['d']){
-                this.body.x+=2
-            }
-            if(keysPressed['s']){
-                this.body.y+=2
-            }
-            if(keysPressed['a']){
-                this.body.x-=2
-            }
-        }
-    }
-
-    class Shape{
-        constructor(shapes){
-            this.shapes = shapes
-        }
-        isPointInside(point){
-            for(let t = 0; t<this.shapes.length;t++){
-                if(this.shapes[t].isPointInside(point)){
-                    return true
-                }
-            }
-        
-            return false
-        }
-
-    }
     class Health{
         constructor(pomao){
             this.pomao = pomao
@@ -1083,6 +1200,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         constructor(){
             this.blush = 0
             this.high = 0
+            this.tripping = 0
             this.eggtimer = 10
             this.body = new Circlex(425,350, 32, "red")
             this.tongue = new Circle(this.body.x, this.body.y, 6, "blue")
@@ -1104,6 +1222,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.flap = 0
             this.flapstep = 0
             this.health = new Health(this)
+
+            this.positron = new CircleF(this.body.x, this.body.y,3, "gray",1)
+            this.electron = new CircleF(this.body.x, this.body.y, 3, "gray",-1)
+            this.positron2 = new CircleF(this.body.x, this.body.y,3, "gray",0,1)
+            this.electron2 = new CircleF(this.body.x, this.body.y, 3, "gray",0,-1)
+         
         }
         gravity(){
             this.flapstep++
@@ -1112,6 +1236,62 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.flap++
                 this.flap %= 3
             }
+
+            if(this.tripping > 0){
+
+            for(let t = 0; t< 3; t++){
+
+                this.positron.xmom -= (this.positron.x-this.electron.x)/1000
+                this.electron.xmom += (this.positron.x-this.electron.x)/1000
+                this.positron.ymom -= (this.positron.y-this.electron.y)/1000
+                this.electron.ymom += (this.positron.y-this.electron.y)/1000
+    
+                this.positron.xmom -= (this.positron.x-this.body.x)/1000
+                this.electron.xmom -= (this.electron.x-this.body.x)/1000
+                this.positron.ymom -= (this.positron.y-this.body.y)/1000
+                this.electron.ymom -= (this.electron.y-this.body.y)/1000
+    
+                // this.electron.xmom*=.99
+                // this.electron.ymom*=.99
+                // this.positron.xmom*=.99
+                // this.positron.ymom*=.99
+    
+                this.electron.color = getRandomLightColortp()
+                this.positron.color = getRandomLightColortp()
+                this.electron.move()
+                this.electron.draw()
+                this.positron.move()
+                this.positron.draw()
+            }
+
+            for(let t = 0; t< 3; t++){
+
+                this.positron2.xmom -= (this.positron2.x-this.electron2.x)/1000
+                this.electron2.xmom += (this.positron2.x-this.electron2.x)/1000
+                this.positron2.ymom -= (this.positron2.y-this.electron2.y)/1000
+                this.electron2.ymom += (this.positron2.y-this.electron2.y)/1000
+    
+                this.positron2.xmom -= (this.positron2.x-this.body.x)/1000
+                this.electron2.xmom -= (this.electron2.x-this.body.x)/1000
+                this.positron2.ymom -= (this.positron2.y-this.body.y)/1000
+                this.electron2.ymom -= (this.electron2.y-this.body.y)/1000
+    
+                // this.electron2.xmom*=.99
+                // this.electron2.ymom*=.99
+                // this.positron2.xmom*=.99
+                // this.positron2.ymom*=.99
+    
+                this.electron2.color = getRandomLightColortp()
+                this.positron2.color = getRandomLightColortp()
+                this.electron2.move()
+                this.electron2.draw()
+                this.positron2.move()
+                this.positron2.draw()
+            }
+
+
+            }
+            // console.log(this.electron, this.positron)
 
             if(dry == 1){
                 if(this.body.ymom > 0){
@@ -1228,6 +1408,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         draw(){
             this.high--
+            this.tripping--
             this.blush--
             this.timeloop+=.05
             this.timeloops+=.01
@@ -1870,6 +2051,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
     }
 
+    let fractal = new Fractal(7)
+    let fracta2l = new Fractal2(7)
+    let fracta3l = new Fractal3(7)
+    // let fracta4l = new Fractal4(7)
     class Seed{
         constructor(target){
             // console.log(pomao)
@@ -2017,13 +2202,20 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     setTimeout(function(){
     window.setInterval(function(){ 
-        "#AAAAFF"
-        if(pomao.high > 1){
+        // "#AAAAFF"
+        if(pomao.high > 1 && pomao.tripping > 0){
+            tutorial_canvas_context.fillStyle =`rgba(85, 85, 128,${15/255})`
+            tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
+            }else if(pomao.high > 1){
             tutorial_canvas_context.fillStyle =`rgba(0, 0, 0,${15/255})`
             tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
-            }else{
+            }else if (pomao.tripping > 0){
+                tutorial_canvas_context.fillStyle =`rgba(190, 190, 255,${14/255})`
+                tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
+               }else{
                 tutorial_canvas_context.fillStyle =`rgba(170, 170, 255,${255/255})`
                 tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
+
                }
         if(pomao.hits > -1){
 
@@ -2079,6 +2271,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
     
+            fractal.draw()
+            fracta2l.draw()
+            fracta3l.draw()
+            // fracta4l.draw()
         }else{
             tutorial_canvas_context.fillStyle = "White";
             tutorial_canvas_context.font = "30px Arial";
@@ -2113,6 +2309,16 @@ function getRandomLightColor() {
     for (var i = 0; i < 6; i++) {
       color += letters[(Math.floor(Math.random() * 15)+1)];
     }
+    return color;
+  }
+
+  function getRandomLightColortp() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[(Math.floor(Math.random() * 12)+3)];
+    }
+    color+="11"
     return color;
   }
 
