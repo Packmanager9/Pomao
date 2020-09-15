@@ -1061,7 +1061,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         // this.body.y = floors[t].y-this.body.radius
                         if(this.tongueymom <0){
                             this.body.symom +=this.tongueymom*1.1
-                            if(Math.abs(this.tonguexmom) > 1){
+                            if(Math.abs(this.tonguex) >15){
                                 if( this.dir == -1){
                                     this.body.sxmom -=Math.abs(this.tonguexmom*3)
                                 }else{
@@ -1072,7 +1072,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             this.tonguexmom*=.5
                         }else{
                             this.body.symom -=this.tongueymom*1.1
-                            if(Math.abs(this.tonguexmom) >1){
+                            if(Math.abs(this.tonguex) >15){
                                 if( this.dir == -1){
                                     this.body.sxmom -=Math.abs(this.tonguexmom*3)
                                 }else{
