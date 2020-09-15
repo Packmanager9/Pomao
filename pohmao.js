@@ -1791,7 +1791,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     setTimeout(function(){
     window.setInterval(function(){ 
-        tutorial_canvas_context.clearRect(-10000,-10000,tutorial_canvas.width*10000, tutorial_canvas.height*10000)
+        tutorial_canvas_context.clearRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
         if(pomao.hits > -1){
 
             for(let t = 0; t<floors.length; t++){
