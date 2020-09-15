@@ -1334,6 +1334,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 if(keysPressed['d']){
                     this.body.x+=3
                     this.dir =1
+                    if(this.body.sxmom < 0){
+                        this.body.sxmom = 0
+                    }
+    
                     tutorial_canvas_context.translate(-3, 0)
                     for(let t = 0; t<fruits.length; t++){
                         if(this.body.repelCheck(fruits[t].body)  || fruits[t].body.repelCheck(this.tongue)){
@@ -1370,6 +1374,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(keysPressed['a']){
                 this.dir = -1
                 this.body.x-=3
+                if(this.body.sxmom > 0){
+                    this.body.sxmom = 0
+                }
 
                 tutorial_canvas_context.translate(3, 0)
                 for(let t = 0; t<fruits.length; t++){
