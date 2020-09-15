@@ -7,12 +7,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let ramps = []
 
     let dry = 0
+    let floorimg = new Image()
+    floorimg.src ="floor4.png"
 
     let jazz = new Audio('gulpnoise.wav');
     let jazz2 = new Audio('gulpnoise2.wav');
 
     let fruitsprites = new Image()
-    fruitsprites.src = 'fruitsprites3.png'
+    fruitsprites.src = 'fruitsprites5.png'
 
     let pomaospit = new Image()
     pomaospit.src = 'pomaospit.png'
@@ -2026,8 +2028,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         if(pomao.hits > -1){
 
             for(let t = 0; t<floors.length; t++){
-                floors[t].draw()
+                tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                // floors[t].draw()
             }
+            floor.draw()
             for(let t = 0; t<ramps.length; t++){
                 ramps[t].draw()
             }
