@@ -1121,6 +1121,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             this.smove()
         }
+        ymove(){
+            // this.x += this.xmom
+            this.y += this.ymom
+            if(this == pomao.body){
+                tutorial_canvas_context.translate(-this.xmom, -this.ymom)
+            }
+        }
         smove(){
             this.x += this.sxmom
             this.y += this.symom
@@ -1198,6 +1205,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     class Pomao{
         constructor(){
+            this.blocked = 0
+            this.bonked = 0
             this.blush = 0
             this.high = 0
             this.tripping = 0
@@ -1357,8 +1366,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                     this.body.sxmom +=Math.abs(this.tonguexmom*3)
                                 }
                             }
+                            if(!roofs.includes(floors[t])){
+
                             this.tongueymom*=.5
                             this.tonguexmom*=.5
+                            }
                         }
                         pomao.body.ymom = 0
                         pomao.body.xmom = 0
@@ -1414,8 +1426,37 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.timeloops+=.01
             this.bodytight = new Circle(this.body.x,this.body.y, 10, "yellow")
             this.bodyloose = new Circle(this.body.x,this.body.y, 25, "yellow")
+
+            this.blocked = 0
+            for(let t = 0; t<walls.length;t++){
+                if(squarecircleface(walls[t],pomao.body)){
+                    if(pomao.body.x > walls[t].x){
+                    this.blocked = 1
+                    }else{
+                        this.blocked = -1
+                    }
+                }
+            }
+            this.bonked = 0
+            for(let t = 0; t<walls.length;t++){
+                if(squarecirclehead(walls[t],pomao.body)){
+           
+                    this.bonked = 1
+                    if(this.body.ymom < 0){
+                        this.body.ymom *=-1
+                    }
+                    if(this.body.symom < 0){
+                        this.body.symom *=-1
+                    }
+                }
+            }
             this.control()
+            if(this.blocked==0){
+
             this.body.move()
+            }else{
+            this.body.ymove()
+            }
             this.gravity()
             // this.body.draw()
             this.tonguex+=this.tonguexmom
@@ -1689,8 +1730,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             if(keysPressed['w']){
                 if(this.jumping == 0){
+                    if(this.bonked ==0){
+                        
                     this.body.ymom = -5.1
                     this.runner = 0
+                    }
                 }else{
                     if(this.runner > 37){
 
@@ -1711,13 +1755,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     }
                 }
             }else{
-                if(this.hng > 0){
+            if(this.hng != 0){
                     this.hng *= .997
                 }
             }
             if(this.disabled == 0){
 
                 if(keysPressed['d']){
+                    if(this.blocked !== -1){
                     this.body.x+=3
                     this.dir =1
                     if(this.body.sxmom < 0){
@@ -1732,13 +1777,16 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             // fruits[t].y+=this.body.ymom
                         }
                     }
+                    }
                 }
             }
 
             if(keysPressed['a']  || keysPressed['d'] || (this.body.symom !== 0 || this.body.sxmom !== 0)){
         for(let t = 1; t<this.eggs.length; t++){
             if(this.eggs[t].marked == 0){
+                if(this.blocked == 0){
             this.eggs[t].steer()
+                }
             }
         }
     }
@@ -1758,6 +1806,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             if(this.disabled == 0){
             if(keysPressed['a']){
+
+                    if(this.blocked !== 1){
                 this.dir = -1
                 this.body.x-=3
                 if(this.body.sxmom > 0){
@@ -1772,6 +1822,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         // fruits[t].y+=this.body.ymom
                     }
                 }
+                    }
             }
         }
             // if(keysPressed['f']){
@@ -1979,7 +2030,24 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let boys = []
     let deadboys = []
     let fruits = []
-    let floor = new Rectangle(-10000, 650, 500, 7000000, "red")
+    let walls = []
+    let roofs = []
+    let floor = new Rectangle(-100000000, 650, 500, 7000000000, "red")
+
+    let wall = new Rectangle(2460, 0, 2000, 50, "red")
+
+    let roof = new Rectangle(0, 0, 50, 2500, "red")
+
+    floors.push(wall)
+    walls.push(wall)
+    floors.push(roof)
+    walls.push(roof)
+    roofs.push(roof)
+
+    let wall2 = new Rectangle(-2500, -2000, 2000, 50, "red")
+
+    floors.push(wall2)
+    walls.push(wall2)
 
     let floor2 = new Rectangle(-100, 500, 20, 550, "red")
 
@@ -1996,8 +2064,37 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     floors.push(floor)
     floors.push(floor2)
 
-    for(let t = 0 ; t< 100; t++){
-        let floor3 = new Rectangle(-100+600*t, 500-(t*100), 20, 400, "red")
+    for(let t = 0 ; t< 4; t++){
+        let floor3 = new Rectangle(-100+600*t, 500-(t*90), 20, 400, "red")
+        floors.push(floor3)
+    
+        // let boy = new Boys(floor3.x+(Math.random()*400),floor3.y-(Math.random()*400), 60+(t*.1),60+(t*.1), "red")
+        // boys.push(boy)
+        for(let t = 0;t<10; t++){
+            let fruit = new Fruit(floor3.x+(Math.random()*400),floor3.y-(100+Math.random()*400), 60,60, "red")
+           
+            let wet = 0
+            for(let s = 0; s<floors.length; s++){
+                if(floors[s].isPointInside(fruit.body)){
+                    wet = 1
+                    break
+                }
+            }
+            for(let k = 0;k<fruits.length; k++){
+                if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 320 && fruit.body.x < 530) ){
+                    wet = 1
+                    break
+                }
+            }
+            if(wet == 0){
+                fruits.push(fruit)
+            }
+        }
+    }
+
+
+    for(let t = 0 ; t< 4; t++){
+        let floor3 = new Rectangle(-100-300*t, 500-(t*200), 20, 400, "red")
         floors.push(floor3)
     
         // let boy = new Boys(floor3.x+(Math.random()*400),floor3.y-(Math.random()*400), 60+(t*.1),60+(t*.1), "red")
@@ -2031,8 +2128,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     fruitx.type2 = 7
     fruits.push(fruitx)
 
-    for(let t = 0;t<10000; t++){
-        let fruit = new Fruit(-200000+(Math.random()*400000),225+(Math.random()*315), 60,60, "red")
+    for(let t = 0;t<100; t++){
+        let fruit = new Fruit(-2500+(Math.random()*5000),225+(Math.random()*315), 60,60, "red")
         let wet = 0
         for(let s = 0; s<floors.length; s++){
             if(floors[s].isPointInside(fruit.body)){
@@ -2202,6 +2299,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     setTimeout(function(){
     window.setInterval(function(){ 
+
         // "#AAAAFF"
         if(pomao.high > 1 && pomao.tripping > 0){
             tutorial_canvas_context.fillStyle =`rgba(85, 85, 128,${15/255})`
@@ -2219,6 +2317,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                }
         if(pomao.hits > -1){
 
+    tutorial_canvas_context.fillStyle = "black";
+    tutorial_canvas_context.font = `${30}px Arial`;
+    tutorial_canvas_context.fillText("<- W to jump", 300,350)
+    tutorial_canvas_context.fillText("^ hold W to hover", -400,350)
+    tutorial_canvas_context.fillText("Lick down in air to pogo", -400,-120)
             for(let t = 0; t<floors.length; t++){
                 tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                 // floors[t].draw()
@@ -2294,6 +2397,39 @@ function squarecirclefeet(square, circle){
     if(square.x <= circle.x){
         if(square.y <= circle.y+circle.radius){
             if(squareendw >= circle.x){
+                if(squareendh >= circle.y){
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+
+
+function squarecirclehead(square, circle){
+
+    let squareendh = square.y + square.height
+    let squareendw = square.x + square.width
+
+    if(square.x <= circle.x){
+        if(square.y <= circle.y){
+            if(squareendw >= circle.x){
+                if(squareendh >= circle.y-circle.radius){
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+
+function squarecircleface(square, circle){
+    let squareendh = square.y + square.height
+    let squareendw = square.x + square.width
+    if(square.x <= circle.x+circle.radius){
+        if(square.y <= circle.y){
+            if(squareendw+circle.radius >= circle.x){
                 if(squareendh >= circle.y){
                     return true
                 }
