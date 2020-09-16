@@ -1397,7 +1397,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             dry = 0
             for(let t = 0; t<floors.length; t++){
                 
-                if(t > 0 && keysPressed['s']){
+                if(t > 0 && keysPressed['s'] && !walls.includes(floors[t])){
 
                 }else{
 
