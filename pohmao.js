@@ -19,38 +19,72 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let pomaospit = new Image()
     pomaospit.src = 'pomaospit.png'
 
+    let pomaospitg= new Image()
+    pomaospitg.src = 'pomaospitg.png'
+
     let pomaospitb = new Image()
     pomaospitb.src = 'pomaospitb.png'
 
+    let pomaospitbg = new Image()
+    pomaospitbg.src = 'pomaospitbg.png'
+
     let pomaospitl = new Image()
     pomaospitl.src = 'pomaospitl.png'
+    let pomaospitlg = new Image()
+    pomaospitlg.src = 'pomaospitlg.png'
     let pomaospitlb = new Image()
     pomaospitlb.src = 'pomaospitbl.png'
+    let pomaospitlbg = new Image()
+    pomaospitlbg.src = 'pomaospitblg.png'
 
     let pomaospitf = new Image()
     pomaospitf.src = 'pomaospitf.png'
 
+    let pomaospitfg = new Image()
+    pomaospitfg.src = 'pomaospitfg.png'
+
     let pomaospitfb = new Image()
     pomaospitfb.src = 'pomaospitfb.png'
 
+    let pomaospitfbg = new Image()
+    pomaospitfbg.src = 'pomaospitfbg.png'
+
     let pomaospitfl = new Image()
     pomaospitfl.src = 'pomaospitfl.png'
+
+    let pomaospitflg = new Image()
+    pomaospitflg.src = 'pomaospitflg.png'
 
 
     let pomaospitflb = new Image()
     pomaospitflb.src = 'pomaospitflb.png'
 
+
+    let pomaospitflbg = new Image()
+    pomaospitflbg.src = 'pomaospitflbg.png'
+
     let pomaoflb = new Image()
     pomaoflb.src = 'pomaoflb.png'
+    let pomaoflbg = new Image()
+    pomaoflbg.src = 'pomaoflbg.png'
 
     let pomaoflbh = new Image()
     pomaoflbh.src = 'pomaofbhl.png'
 
+    let pomaoflbhg = new Image()
+    pomaoflbhg.src = 'pomaofbhlg.png'
+
     let pomaoflh = new Image()
     pomaoflh.src = 'pomaoflh.png'
 
+    let pomaoflhg = new Image()
+    pomaoflhg.src = 'pomaoflhg.png'
+
     let pomaofbh = new Image()
     pomaofbh.src = 'pomaofbh.png'
+
+    let pomaofbhg = new Image()
+    pomaofbhg.src = 'pomaofbhg.png'
 
     let boysprites = new Image()
     boysprites.src = 'boisterousboys.png'
@@ -58,21 +92,40 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let pomaoimg = new Image()
     pomaoimg.src = 'pomao.png'
 
+    let pomaoimgg = new Image()
+    pomaoimgg.src = 'pomaog.png'
+
+    let pomaoimggl = new Image()
+    pomaoimggl.src = 'pomaogl.png'
+
     let pomaofh = new Image()
     pomaofh.src = 'pomaofh.png'
 
+    let pomaofhg = new Image()
+    pomaofhg.src = 'pomaofhg.png'
+
     let pomaoimgh = new Image()
     pomaoimgh.src = 'pomaoh.png'
+    let pomaoimghg = new Image()
+    pomaoimghg.src = 'pomaohg.png'
 
     let pomaoimglhb = new Image()
     pomaoimglhb.src = 'pomaolhb.png'
+    let pomaoimglhbg = new Image()
+    pomaoimglhbg.src = 'pomaolhbg.png'
     let pomaoimghb = new Image()
     pomaoimghb.src = 'pomaohb.png'
+    let pomaoimghbg = new Image()
+    pomaoimghbg.src = 'pomaohbg.png'
 
     let pomaoimglh = new Image()
     pomaoimglh.src = 'pomaolh.png'
+    let pomaoimglhg = new Image()
+    pomaoimglhg.src = 'pomaolhg.png'
     let pomaoimgb = new Image()
     pomaoimgb.src = 'pomaob.png'
+    let pomaoimgbg = new Image()
+    pomaoimgbg.src = 'pomaobg.png'
 
     let seedegg = new Image()
     seedegg.src = 'seedegg.png'
@@ -82,26 +135,44 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     seedeggfl.src = 'eggfl.png'
     let pomaoimgl = new Image()
     pomaoimgl.src = 'pomaol.png'
+    let pomaoimglg = new Image()
+    pomaoimglg.src = 'pomaolg.png'
     let pomaoimgbl = new Image()
     pomaoimgbl.src = 'pomaobl.png'
+    let pomaoimgblg = new Image()
+    pomaoimgblg.src = 'pomaoblg.png'
     // let mangosteen = new Image()
     // mangosteen.src = 'Fruit 03 - Mangosteen.png'
     
     let pomaoimgup = new Image()
     pomaoimgup.src = 'pomaoup.png'
+    let pomaoimgupg = new Image()
+    pomaoimgupg.src = 'pomaoupg.png'
     let pomaoimglup = new Image()
     pomaoimglup.src = 'pomaoupl.png'
+    let pomaoimglupg = new Image()
+    pomaoimglupg.src = 'pomaouplg.png'
     
     let pomaoimgupb = new Image()
     pomaoimgupb.src = 'pomaoupb.png'
+    let pomaoimgupbg = new Image()
+    pomaoimgupbg.src = 'pomaoupbg.png'
     let pomaoimglupb = new Image()
     pomaoimglupb.src = 'pomaoupbl.png'
+    let pomaoimglupbg = new Image()
+    pomaoimglupbg.src = 'pomaoupblg.png'
     let pomaof = new Image()
     pomaof.src = 'pomaof.png'
+    let pomaofg = new Image()
+    pomaofg.src = 'pomaofg.png'
     let pomaofl = new Image()
     pomaofl.src = 'pomaofl.png'
+    let pomaoflg = new Image()
+    pomaoflg.src = 'pomaoflg.png'
     let pomaofb = new Image()
     pomaofb.src = 'pomaofb.png'
+    let pomaofbg = new Image()
+    pomaofbg.src = 'pomaofbg.png'
     
     let keysPressed = {}
 
@@ -241,7 +312,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     tutorial_canvas_context.stroke()
        
                     tutorial_canvas_context.lineWidth = 0
-                    for(let t = 1; t<2; t++){
+                    for(let t = 0; t<1; t++){
                        tutorial_canvas_context.fillStyle = getRandomLightColortp()
                        this.joints[t].color = getRandomLightColortp()
                        this.joints[t].draw()
@@ -1230,7 +1301,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.hits = 9
             this.flap = 0
             this.flapstep = 0
-            this.health = new Health(this)
+            this.health = new Health(this)  
+            this.rattled = 0
 
             this.positron = new CircleF(this.body.x, this.body.y,3, "gray",1)
             this.electron = new CircleF(this.body.x, this.body.y, 3, "gray",-1)
@@ -1421,6 +1493,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         draw(){
             this.high--
             this.tripping--
+            if(this.rattled > 0){
+            this.rattled--
+            }else if(this.rattled < 0){
+            this.rattled++
+            }
+            if(Math.abs(this.rattled < 3)){
+                this.rattled = 0
+            }
             this.blush--
             this.timeloop+=.05
             this.timeloops+=.01
@@ -1438,9 +1518,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
             this.bonked = 0
-            for(let t = 0; t<walls.length;t++){
-                if(squarecirclehead(walls[t],pomao.body)){
-           
+            for(let t = 0; t<roofs.length;t++){
+                if(squarecirclehead(roofs[t],pomao.body)){
+                    this.rattled = Math.min(Math.round(20*(Math.abs(this.body.ymom)+Math.abs(this.body.symom))), 100)
+                    
                     this.bonked = 1
                     if(this.body.ymom < 0){
                         this.body.ymom *=-1
@@ -1450,6 +1531,15 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     }
                 }
             }
+            if(this.rattled == 50){
+                this.rattled += 40.5
+            }
+            if(this.rattled == 50.5){
+                this.rattled += 35.51
+            }
+            // if(this.rattled == 50.51){
+            //     this.rattled *- -1.5
+            // }
             this.control()
             if(this.blocked==0){
 
@@ -1488,9 +1578,20 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.tongueymom*=.91
             }
             this.tongue = new Circle(this.body.x+this.tonguex, this.body.y+this.tonguey, 5, "blue")
+            this.tongued1 = new Circle(this.body.x+this.tonguex+(this.rattled/3), this.body.y+this.tonguey, 5, "#0000FF77")
+            this.tongued2 = new Circle(this.body.x+this.tonguex-(this.rattled/3), this.body.y+this.tonguey, 5, "#0000FF77")
+            // if(this.rattled == 0){
             this.tongue.draw()
             this.link = new Line(this.body.x, 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongue.x, this.tongue.y, "blue", 3)
             this.link.draw()
+            // }else{
+            // this.tongued1.draw()
+            // this.link = new Line(this.body.x+(this.rattled/3), 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongued1.x, this.tongued1.y, "blue", 3)
+            // this.link.draw()
+            // this.tongued2.draw()
+            // this.link = new Line(this.body.x-(this.rattled/3), 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongued2.x, this.tongued2.y, "blue", 3)
+            // this.link.draw()
+            // }
 
             if(this.tongue.y > this.body.y - 14){
                 this.diry = -1
@@ -1544,10 +1645,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             // this.width  = 60-this.pounding
         }
 
+            if(Math.abs(this.rattled < 3)){
+                this.rattled = 0
+            }
         for(let t = 0; t<pomao.thrown.length; t++){
             pomao.thrown[t].draw()
         }
-        if(this.diry == -1){
+      if(this.diry == -1){
             hot--
             for(let t = 0;t<this.thrown.length; t++){
                 if(this.body.repelCheck(this.thrown[t]) && this.thrown[t].timer < 5){
@@ -2033,21 +2137,30 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let walls = []
     let roofs = []
     let floor = new Rectangle(-100000000, 650, 500, 7000000000, "red")
-
+    floors.push(floor)
     let wall = new Rectangle(2460, 0, 2000, 50, "red")
 
     let roof = new Rectangle(0, 0, 50, 2500, "red")
+    let roof2 = new Rectangle(-2500, -500, 50, 5500, "red")
 
     floors.push(wall)
     walls.push(wall)
     floors.push(roof)
     walls.push(roof)
     roofs.push(roof)
+    floors.push(roof2)
+    walls.push(roof2)
+    roofs.push(roof2)
 
-    let wall2 = new Rectangle(-2500, -2000, 2000, 50, "red")
+    let wall2 = new Rectangle(-2500, -500, 2000, 50, "red")
+    let wall3 = new Rectangle(2800, -500, 520, 50, "red")
 
+    let tutfloor = new Rectangle(2500, 0, 20, 350, "red")
     floors.push(wall2)
+    floors.push(tutfloor)
     walls.push(wall2)
+    floors.push(wall3)
+    walls.push(wall3)
 
     let floor2 = new Rectangle(-100, 500, 20, 550, "red")
 
@@ -2061,7 +2174,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     ramps.push(ramp4)
     let ramp3 = new Circle(1900,1200, 600, "red")
     ramps.push(ramp3)
-    floors.push(floor)
     floors.push(floor2)
 
     for(let t = 0 ; t< 4; t++){
@@ -2305,7 +2417,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             tutorial_canvas_context.fillStyle =`rgba(85, 85, 128,${15/255})`
             tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
             }else if(pomao.high > 1){
-            tutorial_canvas_context.fillStyle =`rgba(0, 0, 0,${15/255})`
+            tutorial_canvas_context.fillStyle =`rgba(153, 153, 230,${63/255})`
             tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
             }else if (pomao.tripping > 0){
                 tutorial_canvas_context.fillStyle =`rgba(190, 190, 255,${14/255})`
@@ -2319,9 +2431,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     tutorial_canvas_context.fillStyle = "black";
     tutorial_canvas_context.font = `${30}px Arial`;
+    tutorial_canvas_context.fillText("M to throw eggs", 0,350)
     tutorial_canvas_context.fillText("<- W to jump", 300,350)
+    tutorial_canvas_context.fillText("Space to lick", 310,290)
     tutorial_canvas_context.fillText("^ hold W to hover", -400,350)
-    tutorial_canvas_context.fillText("Lick down in air to pogo", -400,-120)
+    tutorial_canvas_context.fillText("Lick down in air (K+space) to pogo ->", -400,-120)
+    tutorial_canvas_context.fillText("Lick diagonally (K+L/J+space) before you touch the floor to gain speed ->", 800,-120)
+    tutorial_canvas_context.fillText("Hold S to pass down through floors V", 2200,-120)
             for(let t = 0; t<floors.length; t++){
                 tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                 // floors[t].draw()
