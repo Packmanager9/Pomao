@@ -14,7 +14,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let jazz2 = new Audio('gulpnoise2.wav');
 
     let fruitsprites = new Image()
-    fruitsprites.src = 'fruitsprites6.png'
+    fruitsprites.src = 'fruitsprites8.png'
+
+    let fractalsheet = new Image()
+    fractalsheet.src = 'fractalsheet.png'
 
     let pomaospit = new Image()
     pomaospit.src = 'pomaospit.png'
@@ -265,6 +268,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     class Fractal{
         constructor(x){
             this.runner =0
+            this.runnerx =0
+            this.runnerxd = 1
             this.runclick = 0
             this.center = {}
             this.center.x = tutorial_canvas.width*.5
@@ -283,6 +288,15 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.threshold =50
             }
             this.runner++
+            if(this.runner%11 == 0){
+                this.runnerx+=this.runnerxd
+                if(this.runnerx == 6){
+                this.runnerxd*=-1
+                }
+                if(this.runnerx == 0){
+                this.runnerxd*=-1
+                }
+            }
             if(this.runner%this.threshold == 0){
                 this.runner = 0
                 this.count--
@@ -836,11 +850,21 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.ymom = 0
             this.type = Math.floor(Math.random()*10)
             this.type2 = Math.floor(Math.random()*10)
-            if(this.type2 == 9){
-                if(Math.random()<.95){
-                    this.type2 =  Math.floor(Math.random()*9)
+
+                if(this.type == 1){
+                    if(this.type2 == 4){
+                        if(Math.random()<.5){
+                            this.type = Math.floor(Math.random()*10)
+                            this.type2 =  Math.floor(Math.random()*10)
+                        }
+                    }
                 }
-            }
+                if(this.type2 == 9){
+                    if(Math.random()<.95){
+                        this.type2 =  Math.floor(Math.random()*9)
+                    }
+                }
+
             // if(this.type == 1){
             //     if(this.type2 == 4){
             //         this.type = Math.floor(Math.random()*10)
@@ -1040,6 +1064,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         move(){
             this.x+=this.xmom
+            this.xmom *= .96
             this.y+=this.ymom
         }
         isPointInside(point){
@@ -1185,8 +1210,16 @@ window.addEventListener('DOMContentLoaded', (event) =>{
          draw(){
         }
         move(){
+
+            for(let t = 0; t<blocks.length; t++){
+                if(squarecirclefaceblockjump(blocks[t], pomao.body)){
+                            blocks[t].xmom = this.xmom
+                            // console.log(blocks[t])
+                }
+            }
             this.x += this.xmom
-            this.y += this.ymom
+            this.y += this.ymom  
+            
             if(this == pomao.body){
                 tutorial_canvas_context.translate(-this.xmom, -this.ymom)
             }
@@ -1202,6 +1235,19 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         smove(){
             this.x += this.sxmom
             this.y += this.symom
+
+            for(let t = 0; t<blocks.length; t++){
+                if(squarecirclefaceblockjump(blocks[t], pomao.body)){
+                    // blocks[t].ymom=this.symom
+                }
+            }
+
+            for(let t = 0; t<blocks.length; t++){
+                if(squarecirclefaceblockjump(blocks[t], pomao.body)){
+                            blocks[t].xmom = this.sxmom
+                            console.log(blocks[t])
+                }
+            }
             if(this == pomao.body){
                 tutorial_canvas_context.translate(-this.sxmom, -this.symom)
             }
@@ -1402,6 +1448,20 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }else{
 
                     if(squarecirclefeet(floors[t], this.body)){
+                        if(jellys.includes(floors[t])){
+                            if(this.body.ymom>0){
+                            this.body.ymom*=.9
+                            }else{
+                            this.body.ymom*=.95
+                            }
+                            // if(this.body.symom>0){
+                            this.body.symom*=.4
+                            // }
+                    if(floors[t].isPointInside(this.body)){
+                             dry = 1
+                            
+                    }
+                        }else{
                         if(Math.abs(this.body.y-floors[t].y) <= this.body.radius){
                             tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                             this.body.y = floors[t].y-this.body.radius
@@ -1414,6 +1474,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             pomao.body.ymom = 0
                             pomao.body.sxmom = 0
                             break
+                        }
                         }
                     }else if(floors[t].isPointInside(pomao.tongue)){
                         // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
@@ -1439,6 +1500,78 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 }
                             }
                             if(!roofs.includes(floors[t])){
+
+                            this.tongueymom*=.5
+                            this.tonguexmom*=.5
+                            }
+                        }
+                        pomao.body.ymom = 0
+                        pomao.body.xmom = 0
+                        this.dry = 1
+                        break
+                    }
+                }
+
+            }
+            for(let t = 0; t<ramps.length; t++){
+                
+                if(t > 0 && keysPressed['s'] && !walls.includes(ramps[t])){
+
+                }else{
+
+                    if(squarecirclefeet(ramps[t], this.body)){
+                        if(jellys.includes(ramps[t])){
+                            if(this.body.ymom>0){
+                            this.body.ymom*=.9
+                            }else{
+                            this.body.ymom*=.95
+                            }
+                            // if(this.body.symom>0){
+                            this.body.symom*=.4
+                            // }
+                    if(ramps[t].isPointInside(this.body)){
+                             dry = 1
+                            
+                    }
+                        }else{
+                        if(Math.abs(this.body.y-ramps[t].y) <= this.body.radius){
+                            tutorial_canvas_context.translate(0,  this.body.y-(ramps[t].y-this.body.radius))
+                            this.body.y = ramps[t].y-this.body.radius
+                            dry = 1
+                            if(pomao.body.symom != 0 || pomao.body.sxmom != 0){
+                                this.tonguex = 0
+                                this.tonguey = 0
+                            }
+                            pomao.body.symom = 0
+                            pomao.body.ymom = 0
+                            pomao.body.sxmom = 0
+                            break
+                        }
+                        }
+                    }else if(ramps[t].isPointInside(pomao.tongue)){
+                        // tutorial_canvas_context.translate(0,  this.body.y-(ramps[t].y-this.body.radius))
+                        // this.body.y = ramps[t].y-this.body.radius
+                        if(this.tongueymom <0){
+                            this.body.symom +=this.tongueymom*1.1
+                            if(Math.abs(this.tonguex) >15){
+                                if( this.dir == -1){
+                                    this.body.sxmom -=Math.abs(this.tonguexmom*3)
+                                }else{
+                                    this.body.sxmom +=Math.abs(this.tonguexmom*3)
+                                }
+                            }
+                            this.tongueymom*=.5
+                            this.tonguexmom*=.5
+                        }else{
+                            this.body.symom -=this.tongueymom*1.1
+                            if(Math.abs(this.tonguex) >15){
+                                if( this.dir == -1){
+                                    this.body.sxmom -=Math.abs(this.tonguexmom*3)
+                                }else{
+                                    this.body.sxmom +=Math.abs(this.tonguexmom*3)
+                                }
+                            }
+                            if(!roofs.includes(ramps[t])){
 
                             this.tongueymom*=.5
                             this.tonguexmom*=.5
@@ -1510,10 +1643,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.blocked = 0
             for(let t = 0; t<walls.length;t++){
                 if(squarecircleface(walls[t],pomao.body)){
+                    if(!blocks.includes(walls[t])){
+
                     if(pomao.body.x > walls[t].x){
                     this.blocked = 1
                     }else{
                         this.blocked = -1
+                    }
                     }
                 }
             }
@@ -1797,6 +1933,23 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         control(){
             // console.log(pomao)
+            for(let t =0; t<blocks.length; t++){
+                blocks[t].marked = 0
+            }
+
+            for(let t =0; t<blocks.length; t++){
+                if(squarecirclefaceblockjump(blocks[t], pomao.body)){
+                    if(blocks[t].x < pomao.body.x){
+                    blocks[t].marked = 1
+                    }else{
+                    blocks[t].marked = -1
+                    }
+                }
+            }
+
+
+
+
             this.ydir = 0
             this.xdir = 0
             // for(let t = 0; Math.abs(this.body.ymom) > 5.2;t++){
@@ -1880,7 +2033,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             // fruits[t].x+=this.body.xmom
                             // fruits[t].y+=this.body.ymom
                         }
+                    }    
                     }
+                    for(let t = 0; t<blocks.length; t++){
+                        if(blocks[t].marked == -1){
+                            blocks[t].x+=2.9999
+                            // blocks[t].xmom+=.1
+                        }
                     }
                 }
             }
@@ -1926,6 +2085,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         // fruits[t].y+=this.body.ymom
                     }
                 }
+
+                    }
+
+                    for(let t = 0; t<blocks.length; t++){
+                        if(blocks[t].marked == 1){
+                            blocks[t].x-=2.9999
+                            // blocks[t].xmom-=.1
+                        }
                     }
             }
         }
@@ -2135,16 +2302,42 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let deadboys = []
     let fruits = []
     let walls = []
+    let jellys = []
     let roofs = []
+    let blocks = []
     let floor = new Rectangle(-100000000, 650, 500, 7000000000, "red")
     floors.push(floor)
     let wall = new Rectangle(2460, 0, 2000, 50, "red")
+    let wallt = new Rectangle(4500, -800, 2800, 50, "red")
+
+    let jwall1 = new Rectangle(3150, -200, 500, 50, "red")
+    let jelly = new Rectangle(3200, -180, 480, 500, "#00FFFF88")
+    let jwall2 = new Rectangle(3700, -200, 500, 50, "red")
+    let jfloor = new Rectangle(3150, 300, 50, 600, "red")
+    let jfloorsafe = new Rectangle(3000, 300, 20, 159, "red")
+    let jfloorsafe2 = new Rectangle(3691, 300, 20, 809, "red")
+
+
+
 
     let roof = new Rectangle(0, 0, 50, 2500, "red")
     let roof2 = new Rectangle(-2500, -500, 50, 5500, "red")
 
+    floors.push(wallt)
     floors.push(wall)
+    floors.push(jwall1)
+    floors.push(jwall2)
+    floors.push(jfloor)
+    floors.push(jfloorsafe)
+    floors.push(jfloorsafe2)
+    walls.push(jfloor)
+    roofs.push(jfloor)
+    walls.push(jwall1)
+    walls.push(jwall2)
+    floors.push(jelly)
+    jellys.push(jelly)
     walls.push(wall)
+    walls.push(wallt)
     floors.push(roof)
     walls.push(roof)
     roofs.push(roof)
@@ -2162,6 +2355,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     floors.push(wall3)
     walls.push(wall3)
 
+    let block = new Rectangle(-1500, 200, 500,200, "orange")
+
     let floor2 = new Rectangle(-100, 500, 20, 550, "red")
 
     let ramp = new Triangle(800, 650, "red", 40)
@@ -2175,6 +2370,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let ramp3 = new Circle(1900,1200, 600, "red")
     ramps.push(ramp3)
     floors.push(floor2)
+    floors.push(block)
+    walls.push(block)
+    blocks.push(block)
+
+
 
     for(let t = 0 ; t< 4; t++){
         let floor3 = new Rectangle(-100+600*t, 500-(t*90), 20, 400, "red")
@@ -2241,7 +2441,27 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     fruits.push(fruitx)
 
     for(let t = 0;t<100; t++){
-        let fruit = new Fruit(-2500+(Math.random()*5000),225+(Math.random()*315), 60,60, "red")
+        let fruit = new Fruit(-2500+(Math.random()*4900),225+(Math.random()*315), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+            if(floors[s].isPointInside(fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 320 && fruit.body.x < 530) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+
+    for(let t = 0;t<30; t++){
+        let fruit = new Fruit(3700+(Math.random()*650),-470+(Math.random()*730), 60,60, "red")
         let wet = 0
         for(let s = 0; s<floors.length; s++){
             if(floors[s].isPointInside(fruit.body)){
@@ -2420,6 +2640,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             tutorial_canvas_context.fillStyle =`rgba(153, 153, 230,${63/255})`
             tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
             }else if (pomao.tripping > 0){
+
+
                 tutorial_canvas_context.fillStyle =`rgba(190, 190, 255,${14/255})`
                 tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
                }else{
@@ -2428,6 +2650,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                }
         if(pomao.hits > -1){
+            drawFractal()   
 
     tutorial_canvas_context.fillStyle = "black";
     tutorial_canvas_context.font = `${30}px Arial`;
@@ -2437,10 +2660,20 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     tutorial_canvas_context.fillText("^ hold W to hover", -400,350)
     tutorial_canvas_context.fillText("Lick down in air (K+space) to pogo ->", -400,-120)
     tutorial_canvas_context.fillText("Lick diagonally (K+L/J+space) before you touch the floor to gain speed ->", 800,-120)
-    tutorial_canvas_context.fillText("Hold S to pass down through floors V", 2200,-120)
+    tutorial_canvas_context.fillText("Hold S to pass down through thin floors     vvv", 2100,-120)
+    tutorial_canvas_context.fillText("You made it! ->", 2900,500)
+    tutorial_canvas_context.fillText(" Press N to Ground pound", 2600,220)
+    tutorial_canvas_context.fillText(" Pomao can swim >^", 3200, -500)
+    tutorial_canvas_context.fillText("^ Cancel your grappling momentum by tapping A/D", 3500, 500)
+    tutorial_canvas_context.fillText("Canceling momentum can help you climb walls! ^", 3800, 420)
             for(let t = 0; t<floors.length; t++){
+                if(!jellys.includes(floors[t])){
+
                 tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                // floors[t].draw()
+                }else{
+
+                 floors[t].draw()
+                }
             }
             floor.draw()
             for(let t = 0; t<ramps.length; t++){
@@ -2448,9 +2681,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
     
             pomao.draw()
-            // for(let t = 0; t<boys.length; t++){
-            //     boys[t].draw()
-            // }
+            // block.draw()
+            for(let t = 0; t<blocks.length; t++){
+                blocks[t].move()
+            }
+    
             for(let t = 0; t<boys.length; t++){
                 boys[t].clean()
             }
@@ -2469,7 +2704,15 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
     
     
-    
+                  for(let t = 0; t<jellys.length; t++){
+                // if(!jellys.includes(floors[t])){
+
+                // tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                // }else{
+
+                 jellys[t].draw()
+                // }
+            }
     
             
     
@@ -2503,7 +2746,20 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     },  14) 
 }, 1000); 
 
-
+function squarecirclefaceblockjump(square, circle){
+    let squareendh = square.y + square.height
+    let squareendw = square.x + square.width
+    if(square.x <= circle.x+circle.radius-3){
+        if(square.y <= circle.y){
+            if(squareendw+circle.radius-5 >= circle.x){
+                if(squareendh >= circle.y){
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
 
 function squarecirclefeet(square, circle){
 
@@ -2573,5 +2829,20 @@ function getRandomLightColor() {
     color+="11"
     return color;
   }
+ function drawFractal(){
+
+if(pomao.tripping > 0){
+            let sheetwidtht = fractalsheet.width
+            let sheetheightt = fractalsheet.height
+            let colst = 7
+            let rowst = 1
+            let widtht = sheetwidtht/colst
+            let heightt = sheetheightt/rowst
+             let  srcxt = Math.floor(fractal.runnerx%colst)*widtht
+              let   srcyt = 0
+             tutorial_canvas_context.drawImage(fractalsheet, srcxt, srcyt, widtht, heightt, pomao.body.x-386, pomao.body.y-270, 768, 540)
+}
+  }
+
 
 })
