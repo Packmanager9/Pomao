@@ -1284,7 +1284,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         move(){
             this.x+=this.xmom
-            this.xmom *= .96
+            this.xmom *= .97
             this.y+=this.ymom
         }
         isPointInside(point){
@@ -1431,24 +1431,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         move(){
 
-            for(let t = 0; t<blocks.length; t++){
-                if(squarecirclefaceblockjump(blocks[t], pomao.body)){
-                    blocks[t].xmom = this.xmom
-                    blocks[t].ymom = this.ymom+this.symom
-                            // console.log(blocks[t])
-                }
-            }
             this.x += this.xmom
             this.y += this.ymom  
 
 
-            for(let t = 0; t<blocks.length; t++){
-                if(squarecirclefaceblockjump(blocks[t], pomao.body)){
-                    // blocks[t].xmom = this.sxmom
-                    // blocks[t].ymom = this.ymom
-                            // console.log(blocks[t])
-                }
-            }
             
             if(this == pomao.body){
                 for(let t =1; t<pomao.eggs.length;t++){
@@ -1477,15 +1463,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             for(let t = 0; t<blocks.length; t++){
                 if(squarecirclefaceblockjump(blocks[t], pomao.body)){
-                    // blocks[t].ymom=this.symom
-                }
-            }
-
-            for(let t = 0; t<blocks.length; t++){
-                if(squarecirclefaceblockjump(blocks[t], pomao.body)){
-                    blocks[t].xmom = this.sxmom
-                    // blocks[t].ymom = this.symom
-                            // console.log(blocks[t])
+                    blocks[t].ymom = this.ymom+this.symom
+                    blocks[t].xmom = this.sxmom+this.xmom
                 }
             }
             if(this == pomao.body){
@@ -2702,6 +2681,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     walls.push(wall3)
 
     let block = new Rectangle(-1500, 200, 200,200, "orange")
+    let block2 = new Rectangle(2200, 200, 200,200, "orange")
 
     let floor2 = new Rectangle(-100, 500, 20, 550, "red")
 
@@ -2719,6 +2699,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     floors.push(block)
     walls.push(block)
     blocks.push(block)
+    floors.push(block2)
+    walls.push(block2)
+    blocks.push(block2)
 
 
 
@@ -3308,6 +3291,7 @@ if(pomao.tripping > 0){
         let  srcyt = Math.floor(fractal.runnery%rowst)*heightt
         
          tutorial_canvas_context.drawImage(zimgs[fractal.sheet], srcxt, srcyt, widtht, heightt, pomao.body.x-640, pomao.body.y-360, 1280, 720)
+        //tutorial_canvas_context.drawImage(zimgs[fractal.sheet], 0, 0, widtht*3, heightt*3, pomao.body.x-640, pomao.body.y-360, 1280, 720)
 
         //  console.timeEnd("frac")
     // }
