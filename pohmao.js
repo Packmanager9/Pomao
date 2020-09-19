@@ -173,7 +173,7 @@
     for(let t = 42; t>0; t--){
         zimgs.push(zimgs[t])
     }
-    // console.log(zimgs)
+    // //console.log(zimgs)
 
 window.addEventListener('DOMContentLoaded', (event) =>{
 
@@ -183,17 +183,55 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         turbo: true,
         
         connect: function(evt) {
-            gamepadAPI.controller = evt.gamepad;
-            gamepadAPI.turbo = true;
-            console.log('Gamepad connected.');
+            // if(evt.gamepad){
+
+                if(navigator.getGamepads()[0] != null){
+                    gamepadAPI.controller = navigator.getGamepads()[0]
+                    gamepadAPI.turbo = true;
+                } else  if(navigator.getGamepads()[1] != null){
+                    gamepadAPI.controller = navigator.getGamepads()[0]
+                    gamepadAPI.turbo = true;
+                }else  if(navigator.getGamepads()[2] != null){
+                    gamepadAPI.controller = navigator.getGamepads()[0]
+                    gamepadAPI.turbo = true;
+                }else  if(navigator.getGamepads()[3] != null){
+                    gamepadAPI.controller = navigator.getGamepads()[0]
+                    gamepadAPI.turbo = true;
+                }
+                //console.log('Gamepad connected.');
+                //console.log(navigator.getGamepads()[0]);
+    
+            // }
+
+    for (let i = 0; i < gamepads.length; i++) {
+        //console.log("Gamepad " + i + ":");
+    
+        if (gamepads[i] === null) {
+            //console.log("[null]");
+            continue;
+        }
+    
+        if (!gamepads[i].connected) {
+            //console.log("[disconnected]");
+            continue;
+        }
+    
+        //console.log("    Index: " + gamepads[i].index);
+        //console.log("    ID: " + gamepads[i].id);
+        //console.log("    Axes: " + gamepads[i].axes.length);
+        //console.log("    Buttons: " + gamepads[i].buttons.length);
+        //console.log("    Mapping: " + gamepads[i].mapping);
+    }
+    
           },
           disconnect: function(evt) {
             gamepadAPI.turbo = false;
             delete gamepadAPI.controller;
-            console.log('Gamepad disconnected.');
+            //console.log('Gamepad disconnected.');
           },
           update: function() {
             // clear the buttons cache
+            gamepadAPI.controller = navigator.getGamepads()[0]
             gamepadAPI.buttonsCache = [];
             // move the buttons status from the previous frame to the cache
             for(var k=0; k<gamepadAPI.buttonsStatus.length; k++) {
@@ -210,7 +248,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
               for(var b=0,t=c.buttons.length; b<t; b++) {
                 if(c.buttons[b].pressed) {
                   pressed.push(gamepadAPI.buttons[b]);
-                  console.log(gamepadAPI.buttons[b])
+                  //console.log(gamepadAPI.buttons[b])
                 }
               }
             }
@@ -1085,7 +1123,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.marked = 1  
             this.width*=.995
             this.height*=.995
-            // console.log(this)
+            // //console.log(this)
           }
           if(this.body.repelCheck(pomao.body) && this.body.repelCheck(pomao.tongue)){
             // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
@@ -1095,7 +1133,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.marked = 2
             pomao.diry = 1
           }else if (this.body.repelCheck(pomao.body) && !this.body.repelCheck(pomao.tongue )){
-            //   console.log(pomao.dir)
+            //   //console.log(pomao.dir)
 
             if(pomao.body.ymom == 0){
 
@@ -1108,7 +1146,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     }
                 // }
             }
-            // console.log(pomao.dir, pomao.body.xmom)
+            // //console.log(pomao.dir, pomao.body.xmom)
           }
 
           if(this.marked == 1){
@@ -1124,7 +1162,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             pomao.diry = 1
 
 
-            // console.log(pomao)
+            // //console.log(pomao)
           }
         //   if(this.marked == 3){
         //     this.x  -= ((this.body.x-pomao.body.x)/3.5)
@@ -1133,7 +1171,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         //     // pomao.diry = 1
 
 
-        //     // console.log(pomao)
+        //     // //console.log(pomao)
         //   }
 
 
@@ -1144,10 +1182,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 boys.splice(boys.indexOf(this),1)
                 //sound (obnoxious)
                 // if (jazz.duration > 0 && !jazz.paused) {
-                //     console.log("top")
+                //     //console.log("top")
                 //         jazz2.play()
                 // }else{
-                //     console.log("bottom")
+                //     //console.log("bottom")
                 //     jazz.play()
                 // }
                 // jazz2.play()
@@ -1310,7 +1348,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.marked = 1  
             this.width*=.995
             this.height*=.995
-            // console.log(this)
+            // //console.log(this)
           }
           if(this.body.repelCheck(pomao.body)){
             // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
@@ -1323,7 +1361,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             this.marked = 2
             pomao.diry = 1
-            // console.log(pomao)
+            // //console.log(pomao)
           }
 
           if(this.marked == 1){
@@ -1338,7 +1376,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             pomao.diry = 1
 
 
-            // console.log(pomao)
+            // //console.log(pomao)
           }
 
 
@@ -1364,10 +1402,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 //sound (obnoxious)
                 // if (jazz.duration > 0 && !jazz.paused) {
-                //     console.log("top")
+                //     //console.log("top")
                 //         jazz2.play()
                 // }else{
-                //     console.log("bottom")
+                //     //console.log("bottom")
                 //     jazz.play()
                 // }
                 // jazz2.play()
@@ -1588,7 +1626,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     if(Math.abs(this.sxmom)>0)
                          pomao.eggs[t].steer()
                 //          break
-                //         // console.log(pomao.eggs[t].pos)
+                //         // //console.log(pomao.eggs[t].pos)
                 //     }
                 }
                 tutorial_canvas_context.translate(-this.xmom, -this.ymom)
@@ -1681,7 +1719,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         draw(){
             this.detect()
-            // console.log(this)      
+            // //console.log(this)      
             // this.body.draw()
              tutorial_canvas_context.drawImage(this.img,   (this.img.width/2)*this.state, 0, (this.img.width/2), (this.img.height), this.body.x, this.body.y, this.body.width, this.body.height)
          
@@ -1741,6 +1779,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     class Pomao{
         constructor(){
+            this.fired = 0
             this.blocked = 0
             this.bonked = 0
             this.blush = 0
@@ -1837,11 +1876,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
             }
-            // console.log(this.electron, this.positron)
+            // //console.log(this.electron, this.positron)
 
             if(dry == 1){
                 if(this.body.ymom > 0){
-                    if(!keysPressed['s']){
+                    if(!keysPressed['s']  || (gamepadAPI.axesStatus[1] > .5)){
                     this.body.ymom = 0
                     }else{
                         this.body.ymom +=11.1
@@ -1866,7 +1905,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             dry = 0
             for(let t = 0; t<floors.length; t++){
                 
-                if(t > 0 && keysPressed['s'] && !walls.includes(floors[t])){
+                if(t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(floors[t])){
 
                 }else{
 
@@ -1994,7 +2033,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             for(let t = 0; t<ramps.length; t++){
                 
-                if(t > 0 && keysPressed['s'] && !walls.includes(ramps[t])){
+                if(t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1]  > .5)) && !walls.includes(ramps[t])){
 
                 }else{
 
@@ -2177,6 +2216,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.tonguey+=this.tongueymom
             this.tonguex-=this.body.sxmom*.05
             this.tonguey-=this.body.symom*.05
+            
+            
             if(this.tongue.x > this.body.x){
                 this.tonguexmom -=.5
             }
@@ -2189,12 +2230,16 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(this.tongue.y < this.body.y && ((!keysPressed['l'] && !keysPressed['j']) || this.tongue.y < this.body.y-5)){
                 this.tongueymom +=.5
             }
-
-            if(this.body.isPointInside(this.tongue)){
+            this.fired--
+            if(this.bodytight.isPointInside(this.tongue)){
                 // if(!keysPressed[' ']){
                     // if(Math.abs(this.tongueymom) > 20  || Math.abs(this.tonguexmom) > 20 ){
-                        this.tonguexmom*=.5
-                        this.tongueymom*=.5
+                        if(this.fired <=0){
+                            this.tonguexmom*=0
+                            this.tongueymom*=0
+                            this.tonguex*=.9
+                            this.tonguey*=.9
+                        }
                     // }
                 // }
             }else{
@@ -2291,13 +2336,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 if(this.disabled == 0){
                 if(this.dir == 1){
-                    if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
                         tutorial_canvas_context.drawImage(pomaof, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimg, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }else{
-                    if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
                         tutorial_canvas_context.drawImage(pomaofl, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimgl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -2305,13 +2350,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }else{
                 if(this.dir == 1){
-                    if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
                         tutorial_canvas_context.drawImage(pomaofh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimgh, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }else{
-                    if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
                         tutorial_canvas_context.drawImage(pomaoflh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimglh, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -2321,13 +2366,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }else{
                 if(this.disabled == 0){
                     if(this.dir == 1){
-                        if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                        if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
                             tutorial_canvas_context.drawImage(pomaofb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                            }else{  
                                 tutorial_canvas_context.drawImage(pomaoimgb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                           }
                     }else{
-                        if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                        if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
                             tutorial_canvas_context.drawImage(pomaoflb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                            }else{  
                                 tutorial_canvas_context.drawImage(pomaoimgbl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -2336,13 +2381,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }else{
 
                 if(this.dir == 1){
-                    if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
                         tutorial_canvas_context.drawImage(pomaofbh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimglhb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }else{
-                    if(this.hng != 0 && this.pounding == 0 && keysPressed['w']){
+                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
                         tutorial_canvas_context.drawImage(pomaoflbh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimghb , this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -2422,10 +2467,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         this.health.draw()
         }
         control(){
-
-
-    let gamepad
-            // console.log(pomao)
             for(let t =0; t<blocks.length; t++){
                 blocks[t].marked = 0
             }
@@ -2440,6 +2481,170 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
 
+            gamepadAPI.update()
+
+            // //console.log(gamepadAPI)
+    //   if(gamepadAPI.buttonsStatus[0] == 'A'){
+        if(gamepadAPI.axesStatus[1] < -.5){
+          if(pomao.jumping == 0){
+            pomao.body.ymom = -5.1
+
+            this.runner = 0
+          }else{
+
+            if(pomao.runner > 37){
+
+                if(pomao.hng < .1){
+                    pomao.hng+=.006
+                }else  if(pomao.hng < .2){
+                    pomao.hng+=.006
+                }else{
+                pomao.hng+=.001
+                }
+                if(pomao.hng < .216){
+                pomao.body.ymom += -pomao.hng
+                //console.log(pomao.hng)
+                }else{
+                    // pomao.hng = -.05
+                    // pomao.runner = 0
+                }
+
+            }
+        
+          }
+    }else if(keysPressed['w']){
+        if(this.jumping == 0){
+            if(this.bonked ==0){
+                
+            this.body.ymom = -5.1
+            this.runner = 0
+            }
+        }else{
+            if(this.runner > 37){
+
+                if(this.hng < .1){
+                    this.hng+=.006
+                }else  if(this.hng < .2){
+                    this.hng+=.006
+                }else{
+                this.hng+=.001
+                }
+                if(this.hng < .216){
+                this.body.ymom += -this.hng
+                }else{
+                    // this.hng = -.05
+                    // this.runner = 0
+                }
+
+            }
+        }
+    }else{
+    if(this.hng != 0){
+            this.hng *= .997
+        }
+    }
+    
+    pomao.xdir = 0
+    pomao.ydir = 0
+    if(gamepadAPI.axesStatus.length > 0){
+        if(Math.abs(gamepadAPI.axesStatus[2]) +Math.abs(gamepadAPI.axesStatus[3]) > .2  && !gamepadAPI.buttonsStatus.includes('Axis-Right')){
+            if(pomao.bodytight.isPointInside(pomao.tongue)){
+                if(gamepadAPI.axesStatus[3] < -.17){
+                    pomao.ydir = -1
+                    pomao.tongueymom = -33.1/2
+                } if(gamepadAPI.axesStatus[3] > .17){
+                    pomao.ydir = 1
+                    pomao.tongueymom = 33.1/2
+                    pomao.dir = 1
+                }
+                if(gamepadAPI.axesStatus[2] > .17){
+                    pomao.xdir = 1
+                    pomao.tonguexmom = 33.1/2
+                }
+                if(gamepadAPI.axesStatus[2] < -.17){
+                    pomao.xdir = -1
+                    pomao.tonguexmom = -33.1/2
+                    pomao.dir = -1
+                }
+
+                if(pomao.xdir*pomao.ydir != 0){
+                    pomao.tonguexmom *= .8
+                    pomao.tongueymom *= .8
+                }
+
+                this.fired = 3
+            }
+        }
+    }
+    
+
+    if(gamepadAPI.axesStatus.length > 0){
+        if(Math.abs(gamepadAPI.axesStatus[0]) >.2){
+                // pomao.body.x+= gamepadAPI.axesStatus[0]*3
+                // tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+   
+            // }else{
+            // }else if(pomao.blocked*gamepadAPI.axesStatus[0]*3 > 0){
+
+         
+
+            if(this.blocked == 0){
+                if(gamepadAPI.axesStatus[0]*3 > 0 ){
+                    // console.log("top")
+                    pomao.body.x+= gamepadAPI.axesStatus[0]*3
+                    tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+
+                    for(let t = 0; t<blocks.length; t++){
+                        if(blocks[t].marked == -1){
+                      if(!nails.includes(blocks[t])){
+                            blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
+                            }
+                            // blocks[t].xmom+=.1
+                        }
+                    }
+                }else{
+                    // console.log("bottom")
+                    pomao.body.x+= gamepadAPI.axesStatus[0]*3
+                    tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+                    
+                    for(let t = 0; t<blocks.length; t++){
+                        if(blocks[t].marked == 1){
+                      if(!nails.includes(blocks[t])){
+                            blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
+                            }
+                            // blocks[t].xmom+=.1
+                        }
+                    }
+                }
+                }else if(gamepadAPI.axesStatus[0]*3*this.blocked > 0){
+
+                    pomao.body.x+= gamepadAPI.axesStatus[0]*3
+                    tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+                }
+         
+            
+            // }
+            if(gamepadAPI.axesStatus[0]*3 < .1){
+                pomao.dir = -1
+                if(pomao.body.sxmom >0){
+                    pomao.body.sxmom = 0
+                }
+            }
+             if(gamepadAPI.axesStatus[0]*3 > -.1){
+                pomao.dir = 1
+                if(pomao.body.sxmom <0){
+                    pomao.body.sxmom = 0
+                }
+            }
+            for(let t = 1;t<pomao.eggs.length;t++){
+                pomao.eggs[t].steer()
+            }
+        }
+    }
+
+    let gamepad
+            // //console.log(pomao)
+       
 
 
 
@@ -2457,7 +2662,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.body.sxmom*=.999
 
 
-            if(keysPressed['f'] || keysPressed['n']){
+    //   if(gamepadAPI.buttonsStatus[0] == 'A'){
+            if(keysPressed['f'] || keysPressed['n']  ||gamepadAPI.buttonsStatus.includes('DPad-Left')){
                 if(this.jumping == 1){
                     if(this.body.ymom > -3.5){
                         this.pounding = 10
@@ -2478,37 +2684,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 //     }
                 // }
             }
-            if(keysPressed['w']){
-                if(this.jumping == 0){
-                    if(this.bonked ==0){
-                        
-                    this.body.ymom = -5.1
-                    this.runner = 0
-                    }
-                }else{
-                    if(this.runner > 37){
-
-                        if(this.hng < .1){
-                            this.hng+=.006
-                        }else  if(this.hng < .2){
-                            this.hng+=.006
-                        }else{
-                        this.hng+=.001
-                        }
-                        if(this.hng < .216){
-                        this.body.ymom += -this.hng
-                        }else{
-                            // this.hng = -.05
-                            // this.runner = 0
-                        }
-
-                    }
-                }
-            }else{
-            if(this.hng != 0){
-                    this.hng *= .997
-                }
-            }
+            
             if(this.disabled == 0){
 
                 if(keysPressed['d']){
@@ -2607,7 +2783,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         // this.tongueymom = 33
                         } if(keysPressed['ArrowUp'] || keysPressed['i'] ){
                             this.ydir = -1
-                            // console.log('hit')
+                            // //console.log('hit')
                             // this.tongueymom = -33
                             } if(keysPressed['ArrowLeft'] || keysPressed['j'] ){
                                 this.xdir = -1
@@ -2617,18 +2793,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                     // this.tonguexmom = 33
                                     }
                     if(this.xdir == 1){
-                        this.tonguexmom = 33.1
+                        this.tonguexmom = 33.1/2
                         this.dir = 1
                     }
                     if(this.ydir == 1){
-                        this.tongueymom = 33.1
+                        this.tongueymom = 33.1/2
                     }
                     if(this.xdir == -1){
-                        this.tonguexmom = -33.1
+                        this.tonguexmom = -33.1/2
                         this.dir = -1
                     }
                     if(this.ydir == -1){
-                        this.tongueymom = -33.1
+                        this.tongueymom = -33.1/2
                     }
                     if(this.xdir*this.ydir != 0){
                         this.tonguexmom *= .8
@@ -2639,17 +2815,17 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         if(this.dir == 1){
                             this.tonguey = 0
                             this.tongueymom = 0
-                        this.tonguexmom = 34
+                        this.tonguexmom = 34/2
                         }else{
                             this.tonguey = 0
                             this.tongueymom = 0
-                        this.tonguexmom = -34
+                        this.tonguexmom = -34/2
                         }
                     }
 
-
+                    this.fired = 3
                 }
-            }else if (this.body.isPointInside(this.tongue)){
+            }else if (this.bodytight.isPointInside(this.tongue)){
                 this.tonguey *=.5
                 this.tonguex *=.5
             }
@@ -2662,14 +2838,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 if(this.eggs.length > 1 && this.eggtimer > 10){
                     this.eggtimer = 0
-                    if(keysPressed['m']){
+                    if(keysPressed['m'] || (  gamepadAPI.buttonsStatus.includes('Axis-Right')      && (Math.abs(gamepadAPI.axesStatus[2]) +Math.abs(gamepadAPI.axesStatus[3]) > .3 ))){
 
                             if(keysPressed['ArrowDown'] || keysPressed['k'] ){
                                 this.ydir = 1
                                 // this.tongueymom = 33
                                 } if(keysPressed['ArrowUp'] || keysPressed['i'] ){
                                     this.ydir = -1
-                                    // console.log('hit')
+                                    // //console.log('hit')
                                     // this.tongueymom = -33
                                     } if(keysPressed['ArrowLeft'] || keysPressed['j'] ){
                                         this.xdir = -1
@@ -2678,6 +2854,25 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                             this.xdir = 1
                                             // this.tonguexmom = 33
                                             }
+
+
+                                    if(gamepadAPI.axesStatus[3] < -.3){
+                                        pomao.ydir = -1
+                                        // pomao.tongueymom = -33.1
+                                    } if(gamepadAPI.axesStatus[3] > .3){
+                                        pomao.ydir = 1
+                                        // pomao.tongueymom = 33.1
+                                        pomao.dir = 1
+                                    }
+                                    if(gamepadAPI.axesStatus[2] > .3){
+                                        pomao.xdir = 1
+                                        // pomao.tonguexmom = 33.1
+                                    }
+                                    if(gamepadAPI.axesStatus[2] < -.3){
+                                        pomao.xdir = -1
+                                        // pomao.tonguexmom = -33.1
+                                        pomao.dir = -1
+                                    }
 
                             if(this.xdir == -1){
                                 this.eggs[this.eggs.length-1].x  = this.body.x+(this.dir*29)
@@ -2754,9 +2949,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
 
-                        // console.log(this.eggs)
+                        // //console.log(this.eggs)
                         // this.eggs.splice(this.eggs.length-1, 1)
-                        // console.log(this.eggs)
+                        // //console.log(this.eggs)
                             }
         
             
@@ -3005,7 +3200,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     class Seed{
         constructor(target){
-            // console.log(pomao)
+            // //console.log(pomao)
             this.markedx = 0
             this.marked = 0
             this.target = target
@@ -3089,7 +3284,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(pomao.thrown.includes(this)){
                 this.marked = 1
             }
-            // console.log(pomao.eggs, pomao.thrown)
+            // //console.log(pomao.eggs, pomao.thrown)
 
             if(this.marked == 0){
 
@@ -3333,8 +3528,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     
             for(let k = 0; k<boys.length; k++){
             for(let t = 0; t<pomao.thrown.length; t++){
-                // console.log(boys[k])
-                // console.log(pomao.thrown[t])
+                // //console.log(boys[k])
+                // //console.log(pomao.thrown[t])
                 boys[k].body.radius*=1.333333
                    if(boys[k].body.repelCheck(pomao.thrown[t])){
                        boys[k].pop()
@@ -3373,20 +3568,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
             
-            gamepadAPI.update()
-
-            console.log(gamepadAPI)
-      if(gamepadAPI.buttonsStatus[0] == 'A'){
-          if(pomao.jumping == 0){
-            pomao.body.ymom = 5.1
-          }
-    }
-    
-    if(gamepadAPI.axesStatus.length > 0){
-        if(gamepadAPI.axesStatus[1] < 0) {
-            pomao.body.ymom = gamepadAPI.axesStatus[1]/1000
-          }
-    }
     },  14) 
 }, 7000); 
 
@@ -3494,7 +3675,7 @@ function getRandomLightColor() {
 
 if(pomao.tripping > 0){
     // if(Math.random()<.5){
-        // console.time("frac")
+        // //console.time("frac")
         let sheetwidtht = zimg01.width
         let sheetheightt = zimg01.height
         let colst = 3
@@ -3507,7 +3688,7 @@ if(pomao.tripping > 0){
          tutorial_canvas_context.drawImage(zimgs[fractal.sheet], srcxt, srcyt, widtht, heightt, pomao.body.x-640, pomao.body.y-360, 1280, 720)
         //tutorial_canvas_context.drawImage(zimgs[fractal.sheet], 0, 0, widtht*3, heightt*3, pomao.body.x-640, pomao.body.y-360, 1280, 720)
 
-        //  console.timeEnd("frac")
+        //  //console.timeEnd("frac")
     // }
    }
   }
