@@ -367,11 +367,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let keysPressed = {}
 
     document.addEventListener('keydown', (event) => {
-        keysPressed[event.key] = true;
+        keysPressed[event.key.toLocaleLowerCase()] = true;
      });
      
      document.addEventListener('keyup', (event) => {
-         delete keysPressed[event.key];
+         delete keysPressed[event.key.toLocaleLowerCase()];
       });
 
     let tutorial_canvas = document.getElementById("tutorial");
