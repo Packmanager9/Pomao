@@ -183,6 +183,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let dry = 0
     let floorimg = new Image()
     floorimg.src ="floor4.png"
+    let nailimg = new Image()
+    nailimg.src ="poundnail.png"
 
     let jazz = new Audio('gulpnoise.wav');
     let jazz2 = new Audio('gulpnoise2.wav');
@@ -1287,6 +1289,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.xmom *= .97
             this.y+=this.ymom
         }
+        ymove(){
+            if(this.ymom > 0){
+                this.y+=this.ymom
+            }
+        }
         isPointInside(point){
             if(point.x >= this.x){
                 if(point.y >= this.y){
@@ -1726,6 +1733,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                     if(walls.includes(floors[t]) && squarecirclefacetopbottom(floors[t], this.body)){
                         dry = 1
+
+                        if(blocks.includes(floors[t])){
+                            if(this.pounding == 10){
+                                floors[t].ymom = this.body.radius
+                                floors[t].move()
+                            }
+                        }
                         if(pomao.body.x > floors[t].x){
                             this.blocked = 1
                             }else{
@@ -1737,6 +1751,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-(this.body.radius)))
                                 this.body.y = floors[t].y-(this.body.radius)
                                 dry = 1
+                                if(blocks.includes(floors[t])){
+                                    if(this.pounding == 10){
+                                        floors[t].ymom = this.body.radius
+                                        floors[t].move()
+                                    }
+                                }
                                 if(pomao.body.symom != 0 || pomao.body.sxmom != 0){
                                     this.tonguex = 0
                                     this.tonguey = 0
@@ -1760,6 +1780,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             // }
                     if(floors[t].isPointInside(this.body)){
                              dry = 1
+
+                            if(blocks.includes(floors[t])){
+                                if(this.pounding == 10){
+                                    floors[t].ymom = this.body.radius
+                                    floors[t].move()
+                                }
+                            }
                             
                     }
                         }else{
@@ -1769,6 +1796,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                             this.body.y = floors[t].y-this.body.radius
                             dry = 1
+                            if(blocks.includes(floors[t])){
+                                if(this.pounding == 10){
+                                    floors[t].ymom = this.body.radius
+                                    floors[t].move()
+                                }
+                            }
                             if(pomao.body.symom != 0 || pomao.body.sxmom != 0){
                                 this.tonguex = 0
                                 this.tonguey = 0
@@ -2356,7 +2389,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     }
                     for(let t = 0; t<blocks.length; t++){
                         if(blocks[t].marked == -1){
+                      if(!nails.includes(blocks[t])){
                             blocks[t].x+=2.9999
+                            }
                             // blocks[t].xmom+=.1
                         }
                     }
@@ -2409,7 +2444,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                     for(let t = 0; t<blocks.length; t++){
                         if(blocks[t].marked == 1){
-                            blocks[t].x-=2.9999
+                      if(!nails.includes(blocks[t])){
+
+                                blocks[t].x-=2.9999
+                            }
                             // blocks[t].xmom-=.1
                         }
                     }
@@ -2680,9 +2718,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     floors.push(wall3)
     walls.push(wall3)
 
+    let nails = []
     let block = new Rectangle(-1500, 200, 200,200, "orange")
     let block2 = new Rectangle(2200, 200, 200,200, "orange")
-
+    let nail = new Rectangle(-1800, 200, 200,200, "orange")
+    nails.push(nail)
     let floor2 = new Rectangle(-100, 500, 20, 550, "red")
 
     let ramp2 = new Trianglex(1300, 650, "red", 40)
@@ -2701,6 +2741,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     blocks.push(block)
     floors.push(block2)
     walls.push(block2)
+    floors.push(nail)
+    // walls.push(nail)
+    blocks.push(nail)
     blocks.push(block2)
 
 
@@ -3049,9 +3092,16 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
           
         for(let t = 0; t<floors.length; t++){
-                if(!jellys.includes(floors[t])){
+            if(!jellys.includes(floors[t])){
+
+                if(!nails.includes(floors[t])){
 
                 tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                }else{
+                tutorial_canvas_context.drawImage(nailimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                    
+
+                }
                 }else{
 
                  floors[t].draw()
@@ -3102,7 +3152,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
             for(let t = 0; t<blocks.length; t++){
+
+                if(!nails.includes(blocks[t])){
                 blocks[t].move()
+                }else{
+                blocks[t].ymove()
+                }
             }
 
             
