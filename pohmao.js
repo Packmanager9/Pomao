@@ -330,7 +330,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     rampcurveimg1.src = 'rampcurve1.png'
 
     let fruitsprites = new Image()
-    fruitsprites.src = 'fruitsprites8.png'
+    fruitsprites.src = 'fruitsprites9.png'
     let cake = new Image()
     cake.src = 'Fruit 92 - Cake.png'
 
@@ -2272,25 +2272,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
 
 
-            for(let t = 0; t<fruits.length; t++){
-                if(fruits[t].x > this.body.x-(tutorial_canvas.width) && fruits[t].x < this.body.x+(tutorial_canvas.width) ){
-    
-                    fruits[t].draw()
-                }
-            }
-
-
-
-            for(let t = 0; t<boys.length; t++){
-                if(boys[t].x > this.body.x-(tutorial_canvas.width) && boys[t].x < this.body.x+(tutorial_canvas.width) ){
-                    boys[t].draw()
-                }
-            }
-        
-            for(let t = 0; t<deadboys.length; t++){
-              deadboys[t].popdraw()
-            }
-        
 
         if(this.tongue.x > this.body.x + 14){
             this.dir = 1
@@ -2326,8 +2307,28 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
         this.tongue.draw()
+
         this.link = new Line(this.body.x, 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongue.x, this.tongue.y, "blue", 3)
         this.link.draw()
+        for(let t = 0; t<fruits.length; t++){
+            if(fruits[t].x > this.body.x-(tutorial_canvas.width) && fruits[t].x < this.body.x+(tutorial_canvas.width) ){
+
+                fruits[t].draw()
+            }
+        }
+
+
+
+        for(let t = 0; t<boys.length; t++){
+            if(boys[t].x > this.body.x-(tutorial_canvas.width) && boys[t].x < this.body.x+(tutorial_canvas.width) ){
+                boys[t].draw()
+            }
+        }
+    
+        for(let t = 0; t<deadboys.length; t++){
+          deadboys[t].popdraw()
+        }
+    
 
 
         // this.link = new Line(this.body.x, 3+this.body.y, this.tongue.x, this.tongue.y, "blue", 3)
