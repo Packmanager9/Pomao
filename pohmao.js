@@ -339,6 +339,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
 
+    // let jumpometer = new Image()
+    // jumpometer.src = 'jumpometer.png'
+
     let pomaospit = new Image()
     pomaospit.src = 'pomaospit.png'
 
@@ -3684,6 +3687,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
                }
         if(pomao.hits > -1){
+            // tutorial_canvas_context.drawImage(jumpometer, 0, 0, 10, 1000, -2200, -350, 10, 1000)
+                 
             drawFractal()   
 
     tutorial_canvas_context.fillStyle = "black";
