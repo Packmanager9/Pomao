@@ -2349,13 +2349,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 if(this.disabled == 0){
                 if(this.dir == 1){
-                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
+                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
                         tutorial_canvas_context.drawImage(pomaof, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimg, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }else{
-                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
+                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
                         tutorial_canvas_context.drawImage(pomaofl, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimgl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -2363,13 +2363,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }else{
                 if(this.dir == 1){
-                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
+                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
                         tutorial_canvas_context.drawImage(pomaofh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimgh, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }else{
-                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
+                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
                         tutorial_canvas_context.drawImage(pomaoflh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimglh, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -2379,13 +2379,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }else{
                 if(this.disabled == 0){
                     if(this.dir == 1){
-                        if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
+                        if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
                             tutorial_canvas_context.drawImage(pomaofb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                            }else{  
                                 tutorial_canvas_context.drawImage(pomaoimgb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                           }
                     }else{
-                        if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
+                        if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
                             tutorial_canvas_context.drawImage(pomaoflb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                            }else{  
                                 tutorial_canvas_context.drawImage(pomaoimgbl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -2394,13 +2394,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }else{
 
                 if(this.dir == 1){
-                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
+                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
                         tutorial_canvas_context.drawImage(pomaofbh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimglhb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }else{
-                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5)){
+                    if(this.hng != 0 && this.pounding == 0 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
                         tutorial_canvas_context.drawImage(pomaoflbh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimghb , this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
