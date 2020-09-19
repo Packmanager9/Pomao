@@ -173,7 +173,7 @@
     for(let t = 42; t>0; t--){
         zimgs.push(zimgs[t])
     }
-    // //console.log(zimgs)
+    // ////console.log(zimgs)
 
 window.addEventListener('DOMContentLoaded', (event) =>{
 
@@ -198,36 +198,36 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     gamepadAPI.controller = navigator.getGamepads()[0]
                     gamepadAPI.turbo = true;
                 }
-                //console.log('Gamepad connected.');
-                //console.log(navigator.getGamepads()[0]);
+                ////console.log('Gamepad connected.');
+                ////console.log(navigator.getGamepads()[0]);
     
             // }
 
     for (let i = 0; i < gamepads.length; i++) {
-        //console.log("Gamepad " + i + ":");
+        ////console.log("Gamepad " + i + ":");
     
         if (gamepads[i] === null) {
-            //console.log("[null]");
+            ////console.log("[null]");
             continue;
         }
     
         if (!gamepads[i].connected) {
-            //console.log("[disconnected]");
+            ////console.log("[disconnected]");
             continue;
         }
     
-        //console.log("    Index: " + gamepads[i].index);
-        //console.log("    ID: " + gamepads[i].id);
-        //console.log("    Axes: " + gamepads[i].axes.length);
-        //console.log("    Buttons: " + gamepads[i].buttons.length);
-        //console.log("    Mapping: " + gamepads[i].mapping);
+        ////console.log("    Index: " + gamepads[i].index);
+        ////console.log("    ID: " + gamepads[i].id);
+        ////console.log("    Axes: " + gamepads[i].axes.length);
+        ////console.log("    Buttons: " + gamepads[i].buttons.length);
+        ////console.log("    Mapping: " + gamepads[i].mapping);
     }
     
           },
           disconnect: function(evt) {
             gamepadAPI.turbo = false;
             delete gamepadAPI.controller;
-            //console.log('Gamepad disconnected.');
+            ////console.log('Gamepad disconnected.');
           },
           update: function() {
             // clear the buttons cache
@@ -248,7 +248,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
               for(var b=0,t=c.buttons.length; b<t; b++) {
                 if(c.buttons[b].pressed) {
                   pressed.push(gamepadAPI.buttons[b]);
-                  //console.log(gamepadAPI.buttons[b])
+                  ////console.log(gamepadAPI.buttons[b])
                 }
               }
             }
@@ -263,6 +263,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             gamepadAPI.axesStatus = axes;
             gamepadAPI.buttonsStatus = pressed;
             // return buttons for debugging purposes
+            //console.log(pressed)
             return pressed;
           },
           buttonPressed: function(button, hold) {
@@ -1123,7 +1124,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.marked = 1  
             this.width*=.995
             this.height*=.995
-            // //console.log(this)
+            // ////console.log(this)
           }
           if(this.body.repelCheck(pomao.body) && this.body.repelCheck(pomao.tongue)){
             // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
@@ -1133,7 +1134,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.marked = 2
             pomao.diry = 1
           }else if (this.body.repelCheck(pomao.body) && !this.body.repelCheck(pomao.tongue )){
-            //   //console.log(pomao.dir)
+            //   ////console.log(pomao.dir)
 
             if(pomao.body.ymom == 0){
 
@@ -1146,7 +1147,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     }
                 // }
             }
-            // //console.log(pomao.dir, pomao.body.xmom)
+            // ////console.log(pomao.dir, pomao.body.xmom)
           }
 
           if(this.marked == 1){
@@ -1162,7 +1163,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             pomao.diry = 1
 
 
-            // //console.log(pomao)
+            // ////console.log(pomao)
           }
         //   if(this.marked == 3){
         //     this.x  -= ((this.body.x-pomao.body.x)/3.5)
@@ -1171,7 +1172,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         //     // pomao.diry = 1
 
 
-        //     // //console.log(pomao)
+        //     // ////console.log(pomao)
         //   }
 
 
@@ -1182,10 +1183,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 boys.splice(boys.indexOf(this),1)
                 //sound (obnoxious)
                 // if (jazz.duration > 0 && !jazz.paused) {
-                //     //console.log("top")
+                //     ////console.log("top")
                 //         jazz2.play()
                 // }else{
-                //     //console.log("bottom")
+                //     ////console.log("bottom")
                 //     jazz.play()
                 // }
                 // jazz2.play()
@@ -1348,7 +1349,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.marked = 1  
             this.width*=.995
             this.height*=.995
-            // //console.log(this)
+            // ////console.log(this)
           }
           if(this.body.repelCheck(pomao.body)){
             // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
@@ -1361,7 +1362,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             this.marked = 2
             pomao.diry = 1
-            // //console.log(pomao)
+            // ////console.log(pomao)
           }
 
           if(this.marked == 1){
@@ -1376,7 +1377,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             pomao.diry = 1
 
 
-            // //console.log(pomao)
+            // ////console.log(pomao)
           }
 
 
@@ -1402,10 +1403,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 //sound (obnoxious)
                 // if (jazz.duration > 0 && !jazz.paused) {
-                //     //console.log("top")
+                //     ////console.log("top")
                 //         jazz2.play()
                 // }else{
-                //     //console.log("bottom")
+                //     ////console.log("bottom")
                 //     jazz.play()
                 // }
                 // jazz2.play()
@@ -1626,7 +1627,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     if(Math.abs(this.sxmom)>0)
                          pomao.eggs[t].steer()
                 //          break
-                //         // //console.log(pomao.eggs[t].pos)
+                //         // ////console.log(pomao.eggs[t].pos)
                 //     }
                 }
                 tutorial_canvas_context.translate(-this.xmom, -this.ymom)
@@ -1719,7 +1720,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         draw(){
             this.detect()
-            // //console.log(this)      
+            // ////console.log(this)      
             // this.body.draw()
              tutorial_canvas_context.drawImage(this.img,   (this.img.width/2)*this.state, 0, (this.img.width/2), (this.img.height), this.body.x, this.body.y, this.body.width, this.body.height)
          
@@ -1876,7 +1877,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
             }
-            // //console.log(this.electron, this.positron)
+            // ////console.log(this.electron, this.positron)
 
             if(dry == 1){
                 if(this.body.ymom > 0){
@@ -2164,7 +2165,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.blush--
             this.timeloop+=.05
             this.timeloops+=.01
-            this.bodytight = new Circle(this.body.x,this.body.y, 10, "yellow")
+            // this.bodytight = new Circle(this.body.x,this.body.y, 10, "yellow")
+            // this.bodytight = new Circle(this.body.x,this.body.y, 15, "yellow")
+            this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
+            // this.bodytight.draw()
+            // this.bodyxtight.draw()
             this.bodyloose = new Circle(this.body.x,this.body.y, 25, "yellow")
 
             this.blocked = 0
@@ -2243,8 +2249,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     // }
                 // }
             }else{
-            this.tonguexmom*=.91
-            this.tongueymom*=.91
+                this.tonguexmom*=.91
+                this.tongueymom*=.91
             }
             this.tongue = new Circle(this.body.x+this.tonguex, this.body.y+this.tonguey, 5, "blue")
             this.tongued1 = new Circle(this.body.x+this.tonguex+(this.rattled/3), this.body.y+this.tonguey, 5, "#0000FF77")
@@ -2322,6 +2328,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         this.tongue.draw()
         this.link = new Line(this.body.x, 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongue.x, this.tongue.y, "blue", 3)
         this.link.draw()
+
+
+        // this.link = new Line(this.body.x, 3+this.body.y, this.tongue.x, this.tongue.y, "blue", 3)
+        // this.link.draw()
+
+
       if(this.diry == -1){
             hot--
             for(let t = 0;t<this.thrown.length; t++){
@@ -2483,7 +2495,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             gamepadAPI.update()
 
-            // //console.log(gamepadAPI)
+            // ////console.log(gamepadAPI)
     //   if(gamepadAPI.buttonsStatus[0] == 'A'){
         if(gamepadAPI.axesStatus[1] < -.5){
           if(pomao.jumping == 0){
@@ -2503,7 +2515,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
                 if(pomao.hng < .216){
                 pomao.body.ymom += -pomao.hng
-                //console.log(pomao.hng)
+                ////console.log(pomao.hng)
                 }else{
                     // pomao.hng = -.05
                     // pomao.runner = 0
@@ -2512,7 +2524,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
         
           }
-    }else if(keysPressed['w']){
+    }else if(keysPressed['w']  || gamepadAPI.buttonsStatus[0] == 'A'){
         if(this.jumping == 0){
             if(this.bonked ==0){
                 
@@ -2544,106 +2556,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
     }
     
-    pomao.xdir = 0
-    pomao.ydir = 0
-    if(gamepadAPI.axesStatus.length > 0){
-        if(Math.abs(gamepadAPI.axesStatus[2]) +Math.abs(gamepadAPI.axesStatus[3]) > .2  && !gamepadAPI.buttonsStatus.includes('Axis-Right')){
-            if(pomao.bodytight.isPointInside(pomao.tongue)){
-                if(gamepadAPI.axesStatus[3] < -.17){
-                    pomao.ydir = -1
-                    pomao.tongueymom = -33.1/2
-                } if(gamepadAPI.axesStatus[3] > .17){
-                    pomao.ydir = 1
-                    pomao.tongueymom = 33.1/2
-                    pomao.dir = 1
-                }
-                if(gamepadAPI.axesStatus[2] > .17){
-                    pomao.xdir = 1
-                    pomao.tonguexmom = 33.1/2
-                }
-                if(gamepadAPI.axesStatus[2] < -.17){
-                    pomao.xdir = -1
-                    pomao.tonguexmom = -33.1/2
-                    pomao.dir = -1
-                }
-
-                if(pomao.xdir*pomao.ydir != 0){
-                    pomao.tonguexmom *= .8
-                    pomao.tongueymom *= .8
-                }
-
-                this.fired = 3
-            }
-        }
-    }
+    // pomao.xdir = 0
+    // pomao.ydir = 0
+   
     
 
-    if(gamepadAPI.axesStatus.length > 0){
-        if(Math.abs(gamepadAPI.axesStatus[0]) >.2){
-                // pomao.body.x+= gamepadAPI.axesStatus[0]*3
-                // tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
-   
-            // }else{
-            // }else if(pomao.blocked*gamepadAPI.axesStatus[0]*3 > 0){
-
-         
-
-            if(this.blocked == 0){
-                if(gamepadAPI.axesStatus[0]*3 > 0 ){
-                    // console.log("top")
-                    pomao.body.x+= gamepadAPI.axesStatus[0]*3
-                    tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
-
-                    for(let t = 0; t<blocks.length; t++){
-                        if(blocks[t].marked == -1){
-                      if(!nails.includes(blocks[t])){
-                            blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
-                            }
-                            // blocks[t].xmom+=.1
-                        }
-                    }
-                }else{
-                    // console.log("bottom")
-                    pomao.body.x+= gamepadAPI.axesStatus[0]*3
-                    tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
-                    
-                    for(let t = 0; t<blocks.length; t++){
-                        if(blocks[t].marked == 1){
-                      if(!nails.includes(blocks[t])){
-                            blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
-                            }
-                            // blocks[t].xmom+=.1
-                        }
-                    }
-                }
-                }else if(gamepadAPI.axesStatus[0]*3*this.blocked > 0){
-
-                    pomao.body.x+= gamepadAPI.axesStatus[0]*3
-                    tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
-                }
-         
-            
-            // }
-            if(gamepadAPI.axesStatus[0]*3 < .1){
-                pomao.dir = -1
-                if(pomao.body.sxmom >0){
-                    pomao.body.sxmom = 0
-                }
-            }
-             if(gamepadAPI.axesStatus[0]*3 > -.1){
-                pomao.dir = 1
-                if(pomao.body.sxmom <0){
-                    pomao.body.sxmom = 0
-                }
-            }
-            for(let t = 1;t<pomao.eggs.length;t++){
-                pomao.eggs[t].steer()
-            }
-        }
-    }
 
     let gamepad
-            // //console.log(pomao)
+            // ////console.log(pomao)
        
 
 
@@ -2661,6 +2581,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             this.body.sxmom*=.999
 
+            this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
 
     //   if(gamepadAPI.buttonsStatus[0] == 'A'){
             if(keysPressed['f'] || keysPressed['n']  ||gamepadAPI.buttonsStatus.includes('DPad-Left')){
@@ -2685,37 +2607,154 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 // }
             }
             
-            if(this.disabled == 0){
 
-                if(keysPressed['d']){
-                    this.dir =1
-                    if(this.blocked !== -1){
-                    this.body.x+=3
-                    this.dir =1
-                    if(this.body.sxmom < 0){
-                        this.body.sxmom = 0
-                    }
-    
-                    tutorial_canvas_context.translate(-3, 0)
-                    for(let t = 0; t<fruits.length; t++){
-                        if(this.body.repelCheck(fruits[t].body)  || fruits[t].body.repelCheck(this.tongue)){
-                            fruits[t].x+=2.9
-                            // fruits[t].x+=this.body.xmom
-                            // fruits[t].y+=this.body.ymom
-                        }
-                    }    
-                    }
-                    for(let t = 0; t<blocks.length; t++){
-                        if(blocks[t].marked == -1){
-                      if(!nails.includes(blocks[t])){
-                            blocks[t].x+=2.9999
-                            }
-                            // blocks[t].xmom+=.1
-                        }
-                    }
-                }
-            }
+    // if(gamepadAPI.axesStatus.length > 0){
+    //     if(Math.abs(gamepadAPI.axesStatus[0]) >.2){
+    //             // pomao.body.x+= gamepadAPI.axesStatus[0]*3
+    //             // tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+   
+    //         // }else{
+    //         // }else if(pomao.blocked*gamepadAPI.axesStatus[0]*3 > 0){
 
+         
+
+    //         if(this.blocked == 0){
+    //             if(gamepadAPI.axesStatus[0]*3 > 0 ){
+    //                 // //console.log("top")
+    //                 pomao.body.x+= gamepadAPI.axesStatus[0]*3
+    //                 tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+
+    //                 for(let t = 0; t<blocks.length; t++){
+    //                     if(blocks[t].marked == -1){
+    //                   if(!nails.includes(blocks[t])){
+    //                         blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
+    //                         }
+    //                         // blocks[t].xmom+=.1
+    //                     }
+    //                 }
+    //             }else{
+    //                 // //console.log("bottom")
+    //                 pomao.body.x+= gamepadAPI.axesStatus[0]*3
+    //                 tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+                    
+    //                 for(let t = 0; t<blocks.length; t++){
+    //                     if(blocks[t].marked == 1){
+    //                   if(!nails.includes(blocks[t])){
+    //                         blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
+    //                         }
+    //                         // blocks[t].xmom+=.1
+    //                     }
+    //                 }
+    //             }
+    //             }else if(gamepadAPI.axesStatus[0]*3*this.blocked > 0){
+
+    //                 pomao.body.x+= gamepadAPI.axesStatus[0]*3
+    //                 tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+
+    //                 for(let t = 0; t<blocks.length; t++){
+    //                     if(blocks[t].marked == 1){
+    //                   if(!nails.includes(blocks[t])){
+    //                         blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
+    //                         }
+    //                         // blocks[t].xmom+=.1
+    //                     }
+    //                 }
+    //             }
+         
+            
+    //         // }
+    //         if(gamepadAPI.axesStatus[0]*3 < .1){
+    //             pomao.dir = -1
+    //             if(pomao.body.sxmom >0){
+    //                 pomao.body.sxmom = 0
+    //             }
+    //         }
+    //          if(gamepadAPI.axesStatus[0]*3 > -.1){
+    //             pomao.dir = 1
+    //             if(pomao.body.sxmom <0){
+    //                 pomao.body.sxmom = 0
+    //             }
+    //         }
+    //         for(let t = 1;t<pomao.eggs.length;t++){
+    //             pomao.eggs[t].steer()
+    //         }
+    //     }
+    // }
+            
+            // if(gamepadAPI.axesStatus.length > 0){
+            //     if(Math.abs(gamepadAPI.axesStatus[0]) >.2){
+            //             // pomao.body.x+= gamepadAPI.axesStatus[0]*3
+            //             // tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+           
+            //         // }else{
+            //         // }else if(pomao.blocked*gamepadAPI.axesStatus[0]*3 > 0){
+        
+                 
+        
+            //         if(this.blocked == 0){
+            //             if(gamepadAPI.axesStatus[0]*3 > 0 ){
+            //                 // //console.log("top")
+            //                 pomao.body.x+= gamepadAPI.axesStatus[0]*3
+            //                 tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+        
+            //                 for(let t = 0; t<blocks.length; t++){
+            //                     if(blocks[t].marked == -1){
+            //                   if(!nails.includes(blocks[t])){
+            //                         blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
+            //                         }
+            //                         // blocks[t].xmom+=.1
+            //                     }
+            //                 }
+            //             }else{
+            //                 // //console.log("bottom")
+            //                 pomao.body.x+= gamepadAPI.axesStatus[0]*3
+            //                 tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+                            
+            //                 for(let t = 0; t<blocks.length; t++){
+            //                     if(blocks[t].marked == 1){
+            //                   if(!nails.includes(blocks[t])){
+            //                         blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
+            //                         }
+            //                         // blocks[t].xmom+=.1
+            //                     }
+            //                 }
+            //             }
+            //             }else if(gamepadAPI.axesStatus[0]*3*this.blocked > 0){
+            //                 pomao.body.x+= gamepadAPI.axesStatus[0]*3
+            //                 tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+        
+            //                 for(let t = 0; t<blocks.length; t++){
+            //                     if(blocks[t].marked == 1){
+            //                   if(!nails.includes(blocks[t])){
+            //                         blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
+            //                         }
+            //                         // blocks[t].xmom+=.1
+            //                     }
+            //                 }
+            //             }
+                 
+                    
+            //         // }
+            //         if(gamepadAPI.axesStatus[0]*3 < .1){
+            //             pomao.dir = -1
+            //             if(pomao.body.sxmom >0){
+            //                 pomao.body.sxmom = 0
+            //             }
+            //         }
+            //          if(gamepadAPI.axesStatus[0]*3 > -.1){
+            //             pomao.dir = 1
+            //             if(pomao.body.sxmom <0){
+            //                 pomao.body.sxmom = 0
+            //             }
+            //         }
+            //         for(let t = 1;t<pomao.eggs.length;t++){
+            //             pomao.eggs[t].steer()
+            //         }
+            //     }
+            // }
+
+            this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
             if(keysPressed['a']  || keysPressed['d'] || (this.body.symom !== 0 || this.body.sxmom !== 0)){
         for(let t = 1; t<this.eggs.length; t++){
             if(this.eggs[t].marked == 0){
@@ -2739,6 +2778,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
 
 
+            this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
             if(this.disabled == 0){
             if(keysPressed['a']){
                 this.dir = -1
@@ -2769,21 +2810,122 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             // blocks[t].xmom-=.1
                         }
                     }
+            }else if(keysPressed['d']){
+                this.dir =1
+                if(this.blocked !== -1){
+                this.body.x+=3
+                this.dir =1
+                if(this.body.sxmom < 0){
+                    this.body.sxmom = 0
+                }
+
+                tutorial_canvas_context.translate(-3, 0)
+                for(let t = 0; t<fruits.length; t++){
+                    if(this.body.repelCheck(fruits[t].body)  || fruits[t].body.repelCheck(this.tongue)){
+                        fruits[t].x+=2.9
+                        // fruits[t].x+=this.body.xmom
+                        // fruits[t].y+=this.body.ymom
+                    }
+                }    
+                }
+                for(let t = 0; t<blocks.length; t++){
+                    if(blocks[t].marked == -1){
+                  if(!nails.includes(blocks[t])){
+                        blocks[t].x+=2.9999
+                        }
+                        // blocks[t].xmom+=.1
+                    }
+                }
+            }else if(gamepadAPI.axesStatus.length > 0){
+                if(Math.abs(gamepadAPI.axesStatus[0]) >.2){
+                        // pomao.body.x+= gamepadAPI.axesStatus[0]*3
+                        // tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+           
+                    // }else{
+                    // }else if(pomao.blocked*gamepadAPI.axesStatus[0]*3 > 0){
+        
+                 
+        
+                    if(this.blocked == 0){
+                        if(gamepadAPI.axesStatus[0]*3 > 0 ){
+                            // //console.log("top")
+                            pomao.body.x+= gamepadAPI.axesStatus[0]*3
+                            tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+        
+                            for(let t = 0; t<blocks.length; t++){
+                                if(blocks[t].marked == -1){
+                              if(!nails.includes(blocks[t])){
+                                    blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
+                                    }
+                                    // blocks[t].xmom+=.1
+                                }
+                            }
+                        }else{
+                            // //console.log("bottom")
+                            pomao.body.x+= gamepadAPI.axesStatus[0]*3
+                            tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+                            
+                            for(let t = 0; t<blocks.length; t++){
+                                if(blocks[t].marked == 1){
+                              if(!nails.includes(blocks[t])){
+                                    blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
+                                    }
+                                    // blocks[t].xmom+=.1
+                                }
+                            }
+                        }
+                        }else if(gamepadAPI.axesStatus[0]*3*this.blocked > 0){
+                            pomao.body.x+= gamepadAPI.axesStatus[0]*3
+                            tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+        
+                            for(let t = 0; t<blocks.length; t++){
+                                if(blocks[t].marked == 1){
+                              if(!nails.includes(blocks[t])){
+                                    blocks[t].x+=gamepadAPI.axesStatus[0]*2.999
+                                    }
+                                    // blocks[t].xmom+=.1
+                                }
+                            }
+                        }
+                 
+                    
+                    // }
+                    if(gamepadAPI.axesStatus[0]*3 < .1){
+                        pomao.dir = -1
+                        if(pomao.body.sxmom >0){
+                            pomao.body.sxmom = 0
+                        }
+                    }
+                     if(gamepadAPI.axesStatus[0]*3 > -.1){
+                        pomao.dir = 1
+                        if(pomao.body.sxmom <0){
+                            pomao.body.sxmom = 0
+                        }
+                    }
+                    for(let t = 1;t<pomao.eggs.length;t++){
+                        pomao.eggs[t].steer()
+                    }
+                }
             }
         }
             // if(keysPressed['f']){
             //     // tutorial_canvas_context.clearRect(0,0,tutorial_canvas.width, tutorial_canvas.height)
             // }
 
+            this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
             if(keysPressed[' ']){
+
+            this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
             this.tongue = new Circle(this.body.x+this.tonguex, this.body.y+this.tonguey, 5, "blue")
-                if(this.bodytight.isPointInside(this.tongue)){
+                if(this.bodyxtight.isPointInside(this.tongue)){
                     if(keysPressed['ArrowDown'] || keysPressed['k'] ){
                         this.ydir = 1
                         // this.tongueymom = 33
                         } if(keysPressed['ArrowUp'] || keysPressed['i'] ){
                             this.ydir = -1
-                            // //console.log('hit')
+                            // ////console.log('hit')
                             // this.tongueymom = -33
                             } if(keysPressed['ArrowLeft'] || keysPressed['j'] ){
                                 this.xdir = -1
@@ -2825,6 +2967,157 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                     this.fired = 3
                 }
+            }else if(gamepadAPI.axesStatus.length > 0){
+                if(Math.abs(gamepadAPI.axesStatus[2]) +Math.abs(gamepadAPI.axesStatus[3]) > .2  && !gamepadAPI.buttonsStatus.includes('Axis-Right')){
+                    if(pomao.bodyxtight.isPointInside(pomao.tongue)){
+        
+                        this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
+                        this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
+                        // if(Math.abs(gamepadAPI.axesStatus[2]) - Math.abs(gamepadAPI.axesStatus[3]) < -.085){
+                        //     if(gamepadAPI.axesStatus[2] > .25){
+                        //         pomao.xdir = 1
+                        //         pomao.tonguexmom = 33.1/2
+                        //         if(Math.abs(Math.abs(gamepadAPI.axesStatus[2])-Math.abs(gamepadAPI.axesStatus[3])) > .17){
+                        //             pomao.tongueymom *= .707
+                        //             pomao.tonguey*= .707
+                        //         }
+                        //     }else if(gamepadAPI.axesStatus[2] < -.25){
+                        //         pomao.xdir = -1
+                        //         pomao.tonguexmom = -33.1/2
+                        //         if(Math.abs(Math.abs(gamepadAPI.axesStatus[2])-Math.abs(gamepadAPI.axesStatus[3])) > .17){
+                        //             pomao.tongueymom *= .707
+                        //             pomao.tonguey*= .707
+                        //         }
+                        //         pomao.dir = -1
+                        //     }
+                        //     if(gamepadAPI.axesStatus[3] < -.25){
+                        //         pomao.ydir = -1
+                        //         pomao.tongueymom = -33.1/2
+                        //         if(Math.abs(Math.abs(gamepadAPI.axesStatus[2])-Math.abs(gamepadAPI.axesStatus[3])) > .17){
+                        //             pomao.tonguexmom *= .707
+                        //             pomao.tonguex*= .707
+                        //         }
+                        //     }else if(gamepadAPI.axesStatus[3] > .25){
+                        //         pomao.ydir = 1
+                        //         pomao.tongueymom = 33.1/2
+                        //         if(Math.abs(Math.abs(gamepadAPI.axesStatus[2])-Math.abs(gamepadAPI.axesStatus[3])) > .17){
+                        //             pomao.tonguexmom *= .707
+                        //             pomao.tonguex*= .707
+                        //         }
+                        //         pomao.dir = 1
+                        //     }
+                        // }else  if(Math.abs(gamepadAPI.axesStatus[3]) - Math.abs(gamepadAPI.axesStatus[2]) > .085){
+        
+                        //     if(gamepadAPI.axesStatus[3] < -.25){
+                        //         pomao.ydir = -1
+                        //         pomao.tongueymom = -33.1/2
+                        //         if(Math.abs(Math.abs(gamepadAPI.axesStatus[2])-Math.abs(gamepadAPI.axesStatus[3])) > .17){
+                        //             pomao.tonguexmom *= .707
+                        //             pomao.tonguex*= .707
+                        //         }
+                        //     }else if(gamepadAPI.axesStatus[3] > .25){
+                        //         pomao.ydir = 1
+                        //         pomao.tongueymom = 33.1/2
+                        //         if(Math.abs(Math.abs(gamepadAPI.axesStatus[2])-Math.abs(gamepadAPI.axesStatus[3])) > .17){
+                        //             pomao.tonguexmom *= .707
+                        //             pomao.tonguex*= .707
+                        //         }
+                        //         pomao.dir = 1
+                        //     }
+                        // if(gamepadAPI.axesStatus[2] > .25){
+                        //     pomao.xdir = 1
+                        //     pomao.tonguexmom = 33.1/2
+                        //     if(Math.abs(Math.abs(gamepadAPI.axesStatus[2])-Math.abs(gamepadAPI.axesStatus[3])) > .17){
+                        //         pomao.tongueymom *= .707
+                        //         pomao.tonguey*= .707
+                        //     }
+                        // }else if(gamepadAPI.axesStatus[2] < -.25){
+                        //     pomao.xdir = -1
+                        //     pomao.tonguexmom = -33.1/2
+                        //     if(Math.abs(Math.abs(gamepadAPI.axesStatus[2])-Math.abs(gamepadAPI.axesStatus[3])) > .17){
+                        //         pomao.tongueymom *= .707
+                        //         pomao.tonguey*= .707
+                        //     }
+                        //     pomao.dir = -1
+                        // }
+                        // }else{
+                          
+                        // //console.log("3", gamepadAPI.axesStatus[3], "2", gamepadAPI.axesStatus[2])
+                        let kick = 0
+
+                        if(Math.abs(Math.abs(gamepadAPI.axesStatus[2])-Math.abs(gamepadAPI.axesStatus[3])) > (Math.abs(Math.abs(gamepadAPI.axesStatus[2])+Math.abs(gamepadAPI.axesStatus[3])))/2){
+
+                            //gives straight shots
+                            if((Math.abs(gamepadAPI.axesStatus[2])<Math.abs(gamepadAPI.axesStatus[3])) ){
+
+                                if(gamepadAPI.axesStatus[3] <= -.18){
+                                    pomao.ydir = -1
+                                    pomao.tongueymom = -33.1/2
+                                    kick++
+                                }else if(gamepadAPI.axesStatus[3] >= .18){
+                                    pomao.ydir = 1
+                                    pomao.tongueymom = 33.1/2
+                                    pomao.dir = 1
+                                    kick++
+                                }
+
+                            }else{
+
+                                if(gamepadAPI.axesStatus[2] >= .18){
+                                    pomao.xdir = 1
+                                    pomao.tonguexmom = 33.1/2
+                                    kick++
+                                }else if(gamepadAPI.axesStatus[2] <= -.18){
+                                    pomao.xdir = -1
+                                    pomao.tonguexmom = -33.1/2
+                                    pomao.dir = -1
+                                    kick++
+                                }  
+                            }
+
+
+                        if(kick == 2){
+                            pomao.tonguexmom *= .8
+                           pomao.tongueymom *= .8
+                        }
+
+                        }else{
+                            //gives diagonals
+                            if(gamepadAPI.axesStatus[3] <= -.18){
+                                pomao.ydir = -1
+                                pomao.tongueymom = -33.1/2
+                                kick++
+                            }else if(gamepadAPI.axesStatus[3] >= .18){
+                                pomao.ydir = 1
+                                pomao.tongueymom = 33.1/2
+                                pomao.dir = 1
+                                kick++
+                            }
+                        if(gamepadAPI.axesStatus[2] >= .18){
+                            pomao.xdir = 1
+                            pomao.tonguexmom = 33.1/2
+                            kick++
+                        }else if(gamepadAPI.axesStatus[2] <= -.18){
+                            pomao.xdir = -1
+                            pomao.tonguexmom = -33.1/2
+                            pomao.dir = -1
+                            kick++
+                        }  
+                        if(kick == 2){
+                            pomao.tonguexmom *= .8
+                           pomao.tongueymom *= .8
+                        }
+                        }
+                        // }
+        
+                        // if(pomao.xdir*pomao.ydir != 0){
+                        //     pomao.tonguexmom *= .8
+                        //     pomao.tongueymom *= .8
+                        // }
+        
+                        this.fired = 3
+                    }
+                }
             }else if (this.bodytight.isPointInside(this.tongue)){
                 this.tonguey *=.5
                 this.tonguex *=.5
@@ -2834,6 +3127,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.ydir = 0
             this.xdir = 0
             this.eggtimer++
+
+            this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
             if(this.eggs[this.eggs.length-1] != this.body){
 
                 if(this.eggs.length > 1 && this.eggtimer > 10){
@@ -2845,7 +3141,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 // this.tongueymom = 33
                                 } if(keysPressed['ArrowUp'] || keysPressed['i'] ){
                                     this.ydir = -1
-                                    // //console.log('hit')
+                                    // ////console.log('hit')
                                     // this.tongueymom = -33
                                     } if(keysPressed['ArrowLeft'] || keysPressed['j'] ){
                                         this.xdir = -1
@@ -2949,9 +3245,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
 
-                        // //console.log(this.eggs)
+                        // ////console.log(this.eggs)
                         // this.eggs.splice(this.eggs.length-1, 1)
-                        // //console.log(this.eggs)
+                        // ////console.log(this.eggs)
                             }
         
             
@@ -3200,7 +3496,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     class Seed{
         constructor(target){
-            // //console.log(pomao)
+            // ////console.log(pomao)
             this.markedx = 0
             this.marked = 0
             this.target = target
@@ -3284,7 +3580,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(pomao.thrown.includes(this)){
                 this.marked = 1
             }
-            // //console.log(pomao.eggs, pomao.thrown)
+            // ////console.log(pomao.eggs, pomao.thrown)
 
             if(this.marked == 0){
 
@@ -3528,8 +3824,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     
             for(let k = 0; k<boys.length; k++){
             for(let t = 0; t<pomao.thrown.length; t++){
-                // //console.log(boys[k])
-                // //console.log(pomao.thrown[t])
+                // ////console.log(boys[k])
+                // ////console.log(pomao.thrown[t])
                 boys[k].body.radius*=1.333333
                    if(boys[k].body.repelCheck(pomao.thrown[t])){
                        boys[k].pop()
@@ -3675,7 +3971,7 @@ function getRandomLightColor() {
 
 if(pomao.tripping > 0){
     // if(Math.random()<.5){
-        // //console.time("frac")
+        // ////console.time("frac")
         let sheetwidtht = zimg01.width
         let sheetheightt = zimg01.height
         let colst = 3
@@ -3688,7 +3984,7 @@ if(pomao.tripping > 0){
          tutorial_canvas_context.drawImage(zimgs[fractal.sheet], srcxt, srcyt, widtht, heightt, pomao.body.x-640, pomao.body.y-360, 1280, 720)
         //tutorial_canvas_context.drawImage(zimgs[fractal.sheet], 0, 0, widtht*3, heightt*3, pomao.body.x-640, pomao.body.y-360, 1280, 720)
 
-        //  //console.timeEnd("frac")
+        //  ////console.timeEnd("frac")
     // }
    }
   }
