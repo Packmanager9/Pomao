@@ -1236,7 +1236,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 if(this.type2 == 11){
                     pomao.hits = 9
                 }
-                if(this.type2 == 9){
+                if(this.type2 == 8){
                     if(this.type == 9){
                     pomao.hits+=2
                     }
@@ -2721,7 +2721,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let nails = []
     let block = new Rectangle(-1500, 200, 200,200, "orange")
     let block2 = new Rectangle(2200, 200, 200,200, "orange")
-    let nail = new Rectangle(-1800, 200, 200,200, "orange")
+    let nail = new Rectangle(-1950, 200, 200,200, "orange")
     nails.push(nail)
     let floor2 = new Rectangle(-100, 500, 20, 550, "red")
 
