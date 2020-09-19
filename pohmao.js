@@ -2498,7 +2498,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             // ////console.log(gamepadAPI)
     //   if(gamepadAPI.buttonsStatus[0] == 'A'){
-        if(gamepadAPI.axesStatus[1] < -.5){
+        if(gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A'){
           if(pomao.jumping == 0){
             pomao.body.ymom = -5.1
 
