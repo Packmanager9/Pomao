@@ -1,6 +1,8 @@
 
     let zimgs = []
 
+    // let gamepads
+
     let zimg01 = new Image()
     zimg01.src ="z - 1 copy-min.png"
     zimgs.push(zimg01)
@@ -174,7 +176,97 @@
     // console.log(zimgs)
 
 window.addEventListener('DOMContentLoaded', (event) =>{
+
+
+    let gamepadAPI = {
+        controller: {},
+        turbo: true,
+        
+        connect: function(evt) {
+            gamepadAPI.controller = evt.gamepad;
+            gamepadAPI.turbo = true;
+            console.log('Gamepad connected.');
+          },
+          disconnect: function(evt) {
+            gamepadAPI.turbo = false;
+            delete gamepadAPI.controller;
+            console.log('Gamepad disconnected.');
+          },
+          update: function() {
+            // clear the buttons cache
+            gamepadAPI.buttonsCache = [];
+            // move the buttons status from the previous frame to the cache
+            for(var k=0; k<gamepadAPI.buttonsStatus.length; k++) {
+              gamepadAPI.buttonsCache[k] = gamepadAPI.buttonsStatus[k];
+            }
+            // clear the buttons status
+            gamepadAPI.buttonsStatus = [];
+            // get the gamepad object
+            var c = gamepadAPI.controller || {};
+          
+            // loop through buttons and push the pressed ones to the array
+            var pressed = [];
+            if(c.buttons) {
+              for(var b=0,t=c.buttons.length; b<t; b++) {
+                if(c.buttons[b].pressed) {
+                  pressed.push(gamepadAPI.buttons[b]);
+                  console.log(gamepadAPI.buttons[b])
+                }
+              }
+            }
+            // loop through axes and push their values to the array
+            var axes = [];
+            if(c.axes) {
+              for(var a=0,x=c.axes.length; a<x; a++) {
+                axes.push(c.axes[a].toFixed(2));
+              }
+            }
+            // assign received values
+            gamepadAPI.axesStatus = axes;
+            gamepadAPI.buttonsStatus = pressed;
+            // return buttons for debugging purposes
+            return pressed;
+          },
+          buttonPressed: function(button, hold) {
+            var newPress = false;
+            // loop through pressed buttons
+            for(var i=0,s=gamepadAPI.buttonsStatus.length; i<s; i++) {
+              // if we found the button we're looking for...
+              if(gamepadAPI.buttonsStatus[i] == button) {
+                // set the boolean variable to true
+                newPress = true;
+                // if we want to check the single press
+                if(!hold) {
+                  // loop through the cached states from the previous frame
+                  for(var j=0,p=gamepadAPI.buttonsCache.length; j<p; j++) {
+                    // if the button was already pressed, ignore new press
+                    if(gamepadAPI.buttonsCache[j] == button) {
+                      newPress = false;
+                    }
+                  }
+                }
+              }
+            }
+            return newPress;
+          },
+          buttons: [
+            'A','DPad-Down','DPad-Left','DPad-Right',
+            'Start','Back','Axis-Left','Axis-Right',
+            'LB','RB','Power','DPad-Up','B','X','Y',
+          ],
+        buttonsCache: [],
+        buttonsStatus: [],
+        axesStatus: []
+      };
+
+
+    window.addEventListener("gamepadconnected", gamepadAPI.connect);
+    window.addEventListener("gamepaddisconnected", gamepadAPI.disconnect)
+
+    let gamepad = {}
+    let gamepads = {}
     let hot = 0
+
 
 
     let floors = []
@@ -369,11 +461,58 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let keysPressed = {}
 
     document.addEventListener('keydown', (event) => {
+        if(event.key != "ArrowRight"){
+
+        if(event.key != "ArrowUp"){
+            
+        if(event.key != "ArrowDown"){
+            
+        if(event.key != "ArrowLeft"){
         keysPressed[event.key.toLocaleLowerCase()] = true;
+        }else{
+
+        keysPressed[event.key] = true;
+        }
+        }else{
+
+        keysPressed[event.key] = true;
+        }
+        }else{
+
+        keysPressed[event.key] = true;
+        }
+        }else{
+
+            keysPressed[event.key] = true;
+        }
      });
      
      document.addEventListener('keyup', (event) => {
-         delete keysPressed[event.key.toLocaleLowerCase()];
+         
+        if(event.key != "ArrowRight"){
+
+            if(event.key != "ArrowUp"){
+                
+            if(event.key != "ArrowDown"){
+                
+            if(event.key != "ArrowLeft"){
+                delete keysPressed[event.key.toLocaleLowerCase()];
+            }else{
+    
+                delete keysPressed[event.key];
+            }
+            }else{
+    
+                delete keysPressed[event.key];
+            }
+            }else{
+    
+                delete keysPressed[event.key];
+            }
+            }else{
+    
+                delete keysPressed[event.key];
+            }
       });
 
     let tutorial_canvas = document.getElementById("tutorial");
@@ -2283,6 +2422,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         this.health.draw()
         }
         control(){
+
+
+    let gamepad
             // console.log(pomao)
             for(let t =0; t<blocks.length; t++){
                 blocks[t].marked = 0
@@ -3228,6 +3370,23 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     switches[t].clear()
                 }
             }
+
+
+            
+            gamepadAPI.update()
+
+            console.log(gamepadAPI)
+      if(gamepadAPI.buttonsStatus[0] == 'A'){
+          if(pomao.jumping == 0){
+            pomao.body.ymom = 5.1
+          }
+    }
+    
+    if(gamepadAPI.axesStatus.length > 0){
+        if(gamepadAPI.axesStatus[1] < 0) {
+            pomao.body.ymom = gamepadAPI.axesStatus[1]/1000
+          }
+    }
     },  14) 
 }, 7000); 
 
