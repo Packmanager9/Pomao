@@ -3449,16 +3449,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             if(this.shocksl.length > 0){
             if(this.shocksr.length > 0){
-                let link2 = new Line(this.shocksl[0].x,  this.shocksl[0].y, this.shocksl[this.shocksl.length-1].x,  this.shocksl[this.shocksl.length-1].y, "cyan", this.shocksl[0].radius*2)
-                let link = new Line(this.shocksr[0].x,  this.shocksr[0].y, this.shocksr[this.shocksr.length-1].x,  this.shocksr[this.shocksr.length-1].y, "cyan", this.shocksr[0].radius*2)
-         
-            link.draw()
-            link2.draw() 
+                for (let n = 0; n<this.shocksl.length-1; n++){
+                    let link2 = new Line(this.shocksl[n].x,  this.shocksl[n].y, this.shocksl[n+1].x,  this.shocksl[n+1].y, "cyan", this.shocksl[n].radius)
+                    let link = new Line(this.shocksr[n].x,  this.shocksr[n].y, this.shocksr[n+1].x,  this.shocksr[n+1].y, "cyan", this.shocksr[n].radius)
+             
+                link.draw()
+                link2.draw() 
+                }
             }
         }
         }
         shock(){
-            if(pomao.body.ymom+pomao.body.symom > 12){
+            if(pomao.body.ymom > 10.2){
             let shockright = new Circlec(this.center.x, this.center.y+34, this.center.radius/10, "yellow", 20.5, 0)
             let shockleft = new Circlec(this.center.x, this.center.y+34, this.center.radius/10, "yellow", -20.5, 0)
             this.shocksl.push(shockleft)
