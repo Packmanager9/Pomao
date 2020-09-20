@@ -2243,6 +2243,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         draw(){
             this.high--
             this.tripping--
+            if(this.body.ymom + this.body.symom < 0){
+                this.pounding = 0
+            }
             if(this.rattled > 0){
             this.rattled--
             }else if(this.rattled < 0){
@@ -4082,11 +4085,39 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             
     
             for(let k = 0; k<boys.length; k++){
-            for(let t = 0; t<pomao.thrown.length; t++){
+                for(let t = 0; t<pomao.thrown.length; t++){
+                    // ////console.log(boys[k])
+                    // ////console.log(pomao.thrown[t])
+                    boys[k].body.radius*=1.333333
+                       if(boys[k].body.repelCheck(pomao.thrown[t])){
+                           boys[k].pop()
+                           deadboys.push(boys[k])
+                            boys.splice(k,1)
+                            break
+                        }else{
+                            boys[k].body.radius*=.75
+                        }
+        
+                    }
+                    for(let t = 0; t<shockfriendly.shocksl.length; t++){
+                        // ////console.log(boys[k])
+                        // ////console.log(pomao.thrown[t])
+                        boys[k].body.radius*=1.333333
+                           if(boys[k].body.repelCheck(shockfriendly.shocksl[t])){
+                               boys[k].pop()
+                               deadboys.push(boys[k])
+                                boys.splice(k,1)
+                                break
+                            }else{
+                                boys[k].body.radius*=.75
+                            }
+            
+                        }
+            for(let t = 0; t<shockfriendly.shocksr.length; t++){
                 // ////console.log(boys[k])
                 // ////console.log(pomao.thrown[t])
                 boys[k].body.radius*=1.333333
-                   if(boys[k].body.repelCheck(pomao.thrown[t])){
+                   if(boys[k].body.repelCheck(shockfriendly.shocksr[t])){
                        boys[k].pop()
                        deadboys.push(boys[k])
                         boys.splice(k,1)
