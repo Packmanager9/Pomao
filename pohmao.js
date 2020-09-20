@@ -345,60 +345,60 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let pomaospit = new Image()
     pomaospit.src = 'pomaospit.png'
 
-    let pomaospitg= new Image()
-    pomaospitg.src = 'pomaospitg.png'
+    // let pomaospitg= new Image()
+    // pomaospitg.src = 'pomaospitg.png'
 
     let pomaospitb = new Image()
     pomaospitb.src = 'pomaospitb.png'
 
-    let pomaospitbg = new Image()
-    pomaospitbg.src = 'pomaospitbg.png'
+    // let pomaospitbg = new Image()
+    // pomaospitbg.src = 'pomaospitbg.png'
 
     let pomaospitl = new Image()
     pomaospitl.src = 'pomaospitl.png'
-    let pomaospitlg = new Image()
-    pomaospitlg.src = 'pomaospitlg.png'
+    // let pomaospitlg = new Image()
+    // pomaospitlg.src = 'pomaospitlg.png'
     let pomaospitlb = new Image()
     pomaospitlb.src = 'pomaospitbl.png'
-    let pomaospitlbg = new Image()
-    pomaospitlbg.src = 'pomaospitblg.png'
+    // let pomaospitlbg = new Image()
+    // pomaospitlbg.src = 'pomaospitblg.png'
 
     let pomaospitf = new Image()
     pomaospitf.src = 'pomaospitf.png'
 
-    let pomaospitfg = new Image()
-    pomaospitfg.src = 'pomaospitfg.png'
+    // let pomaospitfg = new Image()
+    // pomaospitfg.src = 'pomaospitfg.png'
 
     let pomaospitfb = new Image()
     pomaospitfb.src = 'pomaospitfb.png'
 
-    let pomaospitfbg = new Image()
-    pomaospitfbg.src = 'pomaospitfbg.png'
+    // let pomaospitfbg = new Image()
+    // pomaospitfbg.src = 'pomaospitfbg.png'
 
     let pomaospitfl = new Image()
     pomaospitfl.src = 'pomaospitfl.png'
 
-    let pomaospitflg = new Image()
-    pomaospitflg.src = 'pomaospitflg.png'
+    // let pomaospitflg = new Image()
+    // pomaospitflg.src = 'pomaospitflg.png'
 
 
     let pomaospitflb = new Image()
     pomaospitflb.src = 'pomaospitflb.png'
 
 
-    let pomaospitflbg = new Image()
-    pomaospitflbg.src = 'pomaospitflbg.png'
+    // let pomaospitflbg = new Image()
+    // pomaospitflbg.src = 'pomaospitflbg.png'
 
     let pomaoflb = new Image()
     pomaoflb.src = 'pomaoflb.png'
-    let pomaoflbg = new Image()
-    pomaoflbg.src = 'pomaoflbg.png'
+    // let pomaoflbg = new Image()
+    // pomaoflbg.src = 'pomaoflbg.png'
 
     let pomaoflbh = new Image()
     pomaoflbh.src = 'pomaofbhl.png'
 
-    let pomaoflbhg = new Image()
-    pomaoflbhg.src = 'pomaofbhlg.png'
+    // let pomaoflbhg = new Image()
+    // pomaoflbhg.src = 'pomaofbhlg.png'
 
     let pomaoflh = new Image()
     pomaoflh.src = 'pomaoflh.png'
@@ -409,8 +409,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let pomaofbh = new Image()
     pomaofbh.src = 'pomaofbh.png'
 
-    let pomaofbhg = new Image()
-    pomaofbhg.src = 'pomaofbhg.png'
+    // let pomaofbhg = new Image()
+    // pomaofbhg.src = 'pomaofbhg.png'
 
     let boysprites = new Image()
     boysprites.src = 'boisterousboys.png'
@@ -427,22 +427,22 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let pomaofh = new Image()
     pomaofh.src = 'pomaofh.png'
 
-    let pomaofhg = new Image()
-    pomaofhg.src = 'pomaofhg.png'
+    // let pomaofhg = new Image()
+    // pomaofhg.src = 'pomaofhg.png'
 
     let pomaoimgh = new Image()
     pomaoimgh.src = 'pomaoh.png'
-    let pomaoimghg = new Image()
-    pomaoimghg.src = 'pomaohg.png'
+    // let pomaoimghg = new Image()
+    // pomaoimghg.src = 'pomaohg.png'
 
     let pomaoimglhb = new Image()
     pomaoimglhb.src = 'pomaolhb.png'
-    let pomaoimglhbg = new Image()
-    pomaoimglhbg.src = 'pomaolhbg.png'
+    // let pomaoimglhbg = new Image()
+    // pomaoimglhbg.src = 'pomaolhbg.png'
     let pomaoimghb = new Image()
     pomaoimghb.src = 'pomaohb.png'
-    let pomaoimghbg = new Image()
-    pomaoimghbg.src = 'pomaohbg.png'
+    // let pomaoimghbg = new Image()
+    // pomaoimghbg.src = 'pomaohbg.png'
 
     let pomaoimglh = new Image()
     pomaoimglh.src = 'pomaolh.png'
