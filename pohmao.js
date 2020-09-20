@@ -3433,6 +3433,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     walls.push(wall2)
     floors.push(wall3)
     walls.push(wall3)
+    roofs.push(wall3)
 
     let nails = []
     let block = new Rectangle(-1500, 200, 200,200, "orange")
