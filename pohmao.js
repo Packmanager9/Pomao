@@ -991,6 +991,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.timeloop = 0
             this.type = Math.floor(Math.random()*17)
             this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
+            this.jumpcountercap = Math.floor(Math.random()*700)+100
+            this.jumpcounter = Math.floor(Math.random()*this.jumpcountercap)
         }
         pop(){
             let rotx = 0
@@ -1036,24 +1038,82 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.ymom += .1
             }
             this.dry = 0
+            this.rstorage  = this.body.radius
+            this.body.radius =  this.height*1.15
             for(let t = 0; t<floors.length; t++){
 
                 if(squarecirclefeet(floors[t], this.body)){
-                    if(Math.abs((this.y+this.height)-floors[t].y) <= this.height){
-                        this.y = floors[t].y-Math.abs((this.y)-floors[t].y)
-                        this.dry = 1
+                    if(Math.abs((this.y+this.body.radius)-floors[t].y) <= this.body.radius){
+                        if(this.ymom > -.3){
+                            this.y = floors[t].y-this.body.radius
+                            this.dry = 1
+                        }
                         break
                     }
                 }
             }
+            
+            // this.body.radius =  this.height/2.8
+            this.footspot = new Circle(this.body.x, this.body.y+((this.body.radius/2)-.01), 3, "red")
+            // this.body.draw()
+            // this.footspot.draw()
+            for(let t = 0; t<ramps.length; t++){
+            if(ramps[t].isPointInside(this.footspot)){
+            for(let k = 0; k< 10000; k++){
 
+                    this.footspot = new Circle(this.body.x, this.body.y+((this.body.radius/2)-1), 3, "red")
+                    if(ramps[t].isPointInside(this.footspot)){
 
+                        // if(this.footspot.y - this.body.radius  < this.body.y + this.body.radius ){
+
+                            this.body.y =  this.footspot.y - this.body.radius/2 
+                            this.y = this.body.y - this.height/2.3
+
+                        // }
+                    
+                        }
+                    }
+
+                    this.dry = 1
+                    // break
+                }
+            }
+            this.body.radius =  this.body.radius/2
+            for(let t = 0; t<floors.length; t++){
+
+                if(squarecirclefeet(floors[t], this.body)){
+                    if(Math.abs((this.y+this.body.radius)-floors[t].y) <= this.body.radius){
+                        if(this.ymom > -.3){
+                            if(floors[t].y-this.body.radius < this.y){
+                                this.y = floors[t].y-this.body.radius
+                                this.dry = 1
+                            }
+                        }
+                        break
+                    }
+                }
+            }
+            this.body.radius =  this.rstorage 
         }
         move(){
             this.x+=this.xmom
             this.y+=this.ymom
             this.ymom*=.99
             this.xmom*=.99
+            if(Math.abs(this.xmom) <1.5){  
+             if(this.dry == 1){
+            this.xmom = -1*(this.x-pomao.body.x)
+            for (let t = 0;Math.abs(this.xmom) > 3; t++){
+            this.xmom*=.99
+             }
+            }
+            }
+            this.jumpcounter++
+            if(this.jumpcounter%this.jumpcountercap == 0){
+                if(this.dry == 1){
+                    this.ymom = -7.1
+                }
+            }
         }
         draw(){
 
@@ -3002,7 +3062,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     this.fired = 3
                 }
             }else if(gamepadAPI.axesStatus.length > 0){
-                if(Math.abs(gamepadAPI.axesStatus[2]) +Math.abs(gamepadAPI.axesStatus[3]) > .2  && !gamepadAPI.buttonsStatus.includes('Axis-Right')){
+                if(Math.abs(gamepadAPI.axesStatus[2]) +Math.abs(gamepadAPI.axesStatus[3]) > .9  && !gamepadAPI.buttonsStatus.includes('Axis-Right')){
 
                     this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
                     this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
@@ -3539,9 +3599,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     nails.push(nail)
     let floor2 = new Rectangle(-100, 500, 20, 550, "red")
 
-    let ramp2 = new Trianglex(1300, 650, "red", 40)
+    let ramp2 = new Trianglex(1300, 651, "red", 40)
     ramps.push(ramp2)
-    let ramp = new Triangle(800, 650, "red", 40)
+    let ramp = new Triangle(800, 651, "red", 40)
     ramps.push(ramp)
 
 
