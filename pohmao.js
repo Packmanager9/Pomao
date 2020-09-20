@@ -2196,10 +2196,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     
                     this.bonked = 1
                     if(this.body.ymom < 0){
-                        this.body.ymom *=-1
+                        this.body.ymom *=-.333 //1
                     }
                     if(this.body.symom < 0){
-                        this.body.symom *=-1
+                        this.body.symom *=-.333 //1
                     }
                 }
             }
@@ -2973,6 +2973,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }else if(gamepadAPI.axesStatus.length > 0){
                 if(Math.abs(gamepadAPI.axesStatus[2]) +Math.abs(gamepadAPI.axesStatus[3]) > .2  && !gamepadAPI.buttonsStatus.includes('Axis-Right')){
+
+                    this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
+                    this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
                     if(pomao.bodyxtight.isPointInside(pomao.tongue)){
         
                         this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
@@ -3049,77 +3052,153 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         // //console.log("3", gamepadAPI.axesStatus[3], "2", gamepadAPI.axesStatus[2])
                         let kick = 0
 
-                        if(Math.abs(Math.abs(gamepadAPI.axesStatus[2])-Math.abs(gamepadAPI.axesStatus[3])) > (Math.abs(Math.abs(gamepadAPI.axesStatus[2])+Math.abs(gamepadAPI.axesStatus[3])))/2){
-
-                            //gives straight shots
-                            if((Math.abs(gamepadAPI.axesStatus[2])<Math.abs(gamepadAPI.axesStatus[3])) ){
-
-                                if(gamepadAPI.axesStatus[3] <= -.18){
-                                    pomao.ydir = -1
-                                    pomao.tongueymom = -33.1/2
-                                    kick++
-                                }else if(gamepadAPI.axesStatus[3] >= .18){
-                                    pomao.ydir = 1
-                                    pomao.tongueymom = 33.1/2
-                                    pomao.dir = 1
-                                    kick++
-                                }
-
-                            }else{
-
-                                if(gamepadAPI.axesStatus[2] >= .18){
-                                    pomao.xdir = 1
-                                    pomao.tonguexmom = 33.1/2
-                                    kick++
-                                }else if(gamepadAPI.axesStatus[2] <= -.18){
-                                    pomao.xdir = -1
-                                    pomao.tonguexmom = -33.1/2
-                                    pomao.dir = -1
-                                    kick++
-                                }  
-                            }
 
 
-                        if(kick == 2){
-                            pomao.tonguexmom *= .8
-                           pomao.tongueymom *= .8
-                        }
 
-                        }else{
-                            //gives diagonals
-                            if(gamepadAPI.axesStatus[3] <= -.18){
-                                pomao.ydir = -1
-                                pomao.tongueymom = -33.1/2
-                                kick++
-                            }else if(gamepadAPI.axesStatus[3] >= .18){
-                                pomao.ydir = 1
-                                pomao.tongueymom = 33.1/2
-                                pomao.dir = 1
-                                kick++
-                            }
-                        if(gamepadAPI.axesStatus[2] >= .18){
+
+                        let hurtle = (Rax(Math.atan2(((gamepadAPI.axesStatus[3])), ((gamepadAPI.axesStatus[2]))))) 
+
+
+                        if( (hurtle > 0 && hurtle < 22.5) ||  (hurtle > (360-22.5))){
                             pomao.xdir = 1
                             pomao.tonguexmom = 33.1/2
+                            pomao.dir = 1
                             kick++
-                        }else if(gamepadAPI.axesStatus[2] <= -.18){
+                        }
+                        if( (hurtle > 22.5 && hurtle < 67.5)){
+                            pomao.xdir = 1
+                            pomao.tonguexmom = 33.1/2
+                            pomao.dir = 1
+                            kick++
+                            pomao.ydir = 1
+                            pomao.tongueymom = 33.1/2
+                            kick++
+                        }
+                        if( (hurtle > 67.5 && hurtle < 112.5)){
+                            pomao.ydir = 1
+                            pomao.tongueymom = 33.1/2
+                            kick++
+                        }
+                        if( (hurtle > 112.5 && hurtle < 157.5)){
                             pomao.xdir = -1
                             pomao.tonguexmom = -33.1/2
                             pomao.dir = -1
                             kick++
-                        }  
+                            pomao.ydir = 1
+                            pomao.tongueymom = 33.1/2
+                            kick++
+                        }
+                        if( (hurtle > 157.5 && hurtle < 202.5)){
+                            pomao.xdir = -1
+                            pomao.tonguexmom = -33.1/2
+                            pomao.dir = -1
+                            kick++
+                        }
+                        if( (hurtle > 202.5 && hurtle < 247.5)){
+                            pomao.xdir = -1
+                            pomao.tonguexmom = -33.1/2
+                            pomao.dir = -1
+                            kick++
+                            pomao.ydir = -1
+                            pomao.tongueymom = -33.1/2
+                            kick++
+                        }
+                        if( (hurtle > 247.5 && hurtle < 292.5)){
+                            pomao.ydir = -1
+                            pomao.tongueymom = -33.1/2
+                            kick++
+                        }
+                        if( (hurtle > 292.5 && hurtle < (360-22.5))){
+                            pomao.xdir = 1
+                            pomao.tonguexmom = 33.1/2
+                            kick++
+                            pomao.dir = 1
+                            pomao.ydir = -1
+                            pomao.tongueymom = -33.1/2
+                            kick++
+                        }
+
+
                         if(kick == 2){
-                            pomao.tonguexmom *= .8
-                           pomao.tongueymom *= .8
+                            pomao.tonguexmom *= .81
+                           pomao.tongueymom *= .81
                         }
-                        }
-                        // }
-        
-                        // if(pomao.xdir*pomao.ydir != 0){
-                        //     pomao.tonguexmom *= .8
-                        //     pomao.tongueymom *= .8
-                        // }
-        
+
                         this.fired = 3
+
+                //         if(Math.abs(Math.abs(gamepadAPI.axesStatus[2])-Math.abs(gamepadAPI.axesStatus[3])) > (Math.abs(Math.abs(gamepadAPI.axesStatus[2])+Math.abs(gamepadAPI.axesStatus[3])))/1.7){
+
+
+                //             console.log(Rax(Math.atan2(((gamepadAPI.axesStatus[3])), ((gamepadAPI.axesStatus[2])))))
+                //             //gives straight shots
+                //             if((Math.abs(gamepadAPI.axesStatus[2])<Math.abs(gamepadAPI.axesStatus[3])) ){
+
+                //                 if(gamepadAPI.axesStatus[3] <= -.18){
+                //                     pomao.ydir = -1
+                //                     pomao.tongueymom = -33.1/2
+                //                     kick++
+                //                 }else if(gamepadAPI.axesStatus[3] >= .18){
+                //                     pomao.ydir = 1
+                //                     pomao.tongueymom = 33.1/2
+                //                     pomao.dir = 1
+                //                     kick++
+                //                 }
+
+                //             }else{
+
+                //                 if(gamepadAPI.axesStatus[2] >= .18){
+                //                     pomao.xdir = 1
+                //                     pomao.tonguexmom = 33.1/2
+                //                     kick++
+                //                 }else if(gamepadAPI.axesStatus[2] <= -.18){
+                //                     pomao.xdir = -1
+                //                     pomao.tonguexmom = -33.1/2
+                //                     pomao.dir = -1
+                //                     kick++
+                //                 }  
+                //             }
+
+
+                //         if(kick == 2){
+                //             pomao.tonguexmom *= .8
+                //            pomao.tongueymom *= .8
+                //         }
+
+                //         }else{
+                //             //gives diagonals
+                //             if(gamepadAPI.axesStatus[3] <= -.1){
+                //                 pomao.ydir = -1
+                //                 pomao.tongueymom = -33.1/2
+                //                 kick++
+                //             }else if(gamepadAPI.axesStatus[3] >= .1){
+                //                 pomao.ydir = 1
+                //                 pomao.tongueymom = 33.1/2
+                //                 pomao.dir = 1
+                //                 kick++
+                //             }
+                //         if(gamepadAPI.axesStatus[2] >= .1){
+                //             pomao.xdir = 1
+                //             pomao.tonguexmom = 33.1/2
+                //             kick++
+                //         }else if(gamepadAPI.axesStatus[2] <= -.1){
+                //             pomao.xdir = -1
+                //             pomao.tonguexmom = -33.1/2
+                //             pomao.dir = -1
+                //             kick++
+                //         }  
+                //         if(kick == 2){
+                //             pomao.tonguexmom *= .8
+                //            pomao.tongueymom *= .8
+                //         }
+                //         }
+                //         // }
+        
+                //         // if(pomao.xdir*pomao.ydir != 0){
+                //         //     pomao.tonguexmom *= .8
+                //         //     pomao.tongueymom *= .8
+                //         // }
+        
+                        // this.fired = 3
                     }
                 }
             }else if (this.bodytight.isPointInside(this.tongue)){
@@ -4018,4 +4097,13 @@ if(pomao.tripping > 0){
     }
 }
 
+function Rax(isn){
+    let out = isn*(180 / Math.PI)
+    for(let i = 0;out<0;i++){
+        out+=360
+    }
+    out = out%360
+    // //console.log(out)
+    return out
+}
 })
