@@ -1747,6 +1747,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.button.draw()
         }
         clear(){
+            // console.log("hit")
             if(this.cleared == 0){
                 if(this.button.state == 1){
                     floors.splice( floors.indexOf(this.floor),1)
@@ -1893,7 +1894,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 if(this.jumping == 0){
                      this.timeloopx = 0
                 }
-                this.pounding = 0
+                if(this.pounding > 0){
+                    this.pounding--
+                }
                 this.jumping = 0
                 this.hng = 0
                 
@@ -1928,6 +1931,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 this.blocked = -1
                             }
 
+                            if(this.pounding == 10){
+                                let cloudpuff = new Shockwave(this.body)
+                                shocks.push(cloudpuff)
+                            }
                             if(Math.abs(this.body.y-floors[t].y) <= this.body.radius){
                           
                                 tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-(this.body.radius)))
@@ -1938,6 +1945,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                         floors[t].ymom = this.body.radius
                                         floors[t].move()
                                     }
+                                }
+
+                                if(this.pounding == 10){
+                                    let cloudpuff = new Shockwave(this.body)
+                                    shocks.push(cloudpuff)
                                 }
                                 if(pomao.body.symom != 0 || pomao.body.sxmom != 0){
                                     this.tonguex = 0
@@ -1993,6 +2005,16 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             pomao.body.sxmom = 0
                             break
                         }
+
+                        if(this.pounding == 10){
+                            let cloudpuff = new Shockwave(this.body)
+                            shocks.push(cloudpuff)
+                        }
+                        }
+
+                        if(this.pounding == 10){
+                            let cloudpuff = new Shockwave(this.body)
+                            shocks.push(cloudpuff)
                         }
                     }else if(floors[t].isPointInside(pomao.tongue)){
                         // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
@@ -2134,7 +2156,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 this.body.sxmom = 0
                 this.body.symom = 0
-                this.pounding = 0
+                if(k==0){
+                    if(this.pounding > 0){
+                        this.pounding--
+                    }
+                }
                 this.jumping = 0
                 this.hng = 0
                         tutorial_canvas_context.translate(0,  this.body.y- (this.footspot.y - this.body.radius ))
@@ -2592,9 +2618,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(keysPressed['f'] || keysPressed['n']  ||gamepadAPI.buttonsStatus.includes('DPad-Left')){
                 if(this.jumping == 1){
                     if(this.body.ymom > -3.5){
-                        this.pounding = 10
-                        this.body.ymom = 17
-                        this.timeloop = Math.PI
+                        if(this.runner > 21){
+
+
+                            this.pounding = 10
+                            this.body.ymom = 17
+                            this.timeloop = Math.PI
+                        }
                     }
                 }
 
@@ -3334,6 +3364,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             }
         
             
+                            if(Math.abs(gamepadAPI.axesStatus[3]) > .25 || Math.abs(gamepadAPI.axesStatus[2]) > .25){
+                                this.eggs[this.eggs.length-1].ymom = (gamepadAPI.axesStatus[3]*14)
+                                this.eggs[this.eggs.length-1].xmom = (gamepadAPI.axesStatus[2]*14)
+                            }
+
     
                             if(pomao.blush > 1){
                                 this.eggs[this.eggs.length-1].hot = 1
@@ -3373,6 +3408,65 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     }
 
+    class Shockwave{
+        constructor(body){
+                this.center = body
+                this.shocksl = []
+                this.shocksr = []
+                this.shock()
+                console.log(this)
+
+        }
+        draw(){
+        
+            for (let n = 0; n<this.shocksr.length; n++){
+                if(this.shocksr[n].radius < .35){
+                    this.shocksr.splice(n,1)
+                }
+            }
+            for (let n = 0; n<this.shocksr.length; n++){
+                this.shocksr[n].xmom *= .945
+                this.shocksr[n].ymom *= .945
+                this.shocksr[n].radius *= .92
+                this.shocksr[n].move()
+                this.shocksr[n].draw()
+            }
+
+
+
+            for (let n = 0; n<this.shocksl.length; n++){
+                if(this.shocksl[n].radius < .35){
+                    this.shocksl.splice(n,1)
+                }
+            }
+            for (let n = 0; n<this.shocksl.length; n++){
+                this.shocksl[n].xmom *= .945
+                this.shocksl[n].ymom *= .945
+                this.shocksl[n].radius *= .92
+                this.shocksl[n].move()
+                this.shocksl[n].draw()
+            }
+
+            if(this.shocksl.length > 0){
+            if(this.shocksr.length > 0){
+                let link2 = new Line(this.shocksl[0].x,  this.shocksl[0].y, this.shocksl[this.shocksl.length-1].x,  this.shocksl[this.shocksl.length-1].y, "cyan", this.shocksl[0].radius*2)
+                let link = new Line(this.shocksr[0].x,  this.shocksr[0].y, this.shocksr[this.shocksr.length-1].x,  this.shocksr[this.shocksr.length-1].y, "cyan", this.shocksr[0].radius*2)
+         
+            link.draw()
+            link2.draw() 
+            }
+        }
+        }
+        shock(){
+            if(pomao.body.ymom+pomao.body.symom > 12){
+            let shockright = new Circlec(this.center.x, this.center.y+34, this.center.radius/10, "yellow", 20.5, 0)
+            let shockleft = new Circlec(this.center.x, this.center.y+34, this.center.radius/10, "yellow", -20.5, 0)
+            this.shocksl.push(shockleft)
+            this.shocksr.push(shockright)
+            }
+        }
+    }
+
     let pomao = new Pomao()
 
     let boys = []
@@ -3382,6 +3476,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let jellys = []
     let roofs = []
     let switches = []
+    let shocks =[]
     let blocks = []
     let floor = new Rectangle(-100000000, 650, 50, 7000000000, "red")
     floors.push(floor)
@@ -3577,6 +3672,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     // let fracta4l = new Fractal4(7)
 
 
+    let shockfriendly = new Shockwave(pomao.body)
+    shocks.push(shockfriendly)
 
     class Seed{
         constructor(target){
@@ -3836,6 +3933,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             
             pomao.draw()
 
+
+            if(pomao.pounding > 0){
+                    shockfriendly.shock()
+            }   
+
     tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
             // block.draw()
 
@@ -3896,7 +3998,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
     
     
-                  for(let t = 0; t<jellys.length; t++){
+            for(let t = 0; t<jellys.length; t++){
                 // if(!jellys.includes(floors[t])){
 
                 // tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
@@ -3905,6 +4007,15 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                  jellys[t].draw()
                 // }
             }
+    
+        //     for(let t = 0; t<shocks.length; t++){
+        //         if(shocks[t].shocksr.length == 0){
+        //             shocks.splice(t,1)
+        //         }
+        //    }
+           for(let t = 0; t<shocks.length; t++){
+                shocks[t].draw()
+           }
     
             
     
@@ -3948,6 +4059,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
 
+            // if(pomao.eggs.length < 10){
+
+            //     let seepx = new Seed(pomao.eggs[pomao.eggs.length-1])
+            //         pomao.eggs.push(seepx)
+            //     }
 
             
     },  14) 
