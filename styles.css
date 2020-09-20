@@ -621,11 +621,11 @@ w
 .disable-dbl-tap-zoom {
   touch-action: manipulation;
 }
-
+/* 
 @font-face {
   font-family: 'programming6';
   src: url('http://www.ditzbitz.com/ft.ttf');
-}
+} */
 
 .ExampleCard {
   padding: 1px;
