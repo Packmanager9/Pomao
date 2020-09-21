@@ -976,6 +976,172 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
 
+    class Swimmer{
+        constructor(x,y){
+            this.body = new Circlec(x,y,15,"red")
+            this.bodydraw = new Circlec(this.body.x,this.body.y,22,"red")
+            this.marked = 0
+            this.out = 0
+            this.pops = []
+            this.bopped = 0
+        }
+        
+        pop(){
+            let rotx = 0
+            let roty = 0
+
+            for(let g = 0; g < 9; g++){
+                let dot1 = new Circlec(this.body.x, this.body.y, this.body.radius, getRandomLightColor(), Math.cos(rotx)*1, Math.sin(roty)*1 )
+                this.pops.push(dot1)
+                rotx += 2*Math.PI/9
+                roty += 2*Math.PI/9
+            }
+        
+        }
+        popdraw(){
+            for(let t = 0;t<this.pops.length; t++){
+                if(this.pops[t].radius < .1){
+                    this.pops.splice(t,1)
+                }
+            }
+            for(let t = 0;t<this.pops.length; t++){
+                this.pops[t].radius*=.9
+                this.pops[t].move()
+                this.pops[t].draw()
+            }
+            for(let t = 0;t<this.pops.length; t++){
+                if(this.pops[t].radius < .1){
+                    this.pops.splice(t,1)
+                }
+            }
+        }
+        move(){
+
+            
+     
+
+            let link = new Line(pomao.body.x,pomao.body.y, this.body.x,this.body.y, "red", 1)
+            if(link.hypotenuse() < 300){
+                this.body.xmom += (pomao.body.x-this.body.x)/1800
+                this.body.ymom += (pomao.body.y-this.body.y)/1800
+                this.body.x+=this.body.xmom
+                this.body.y+=this.body.ymom
+            }
+            this.body.xmom*=.95
+            this.body.ymom*=.95
+
+            this.xrepel = 0
+            this.yrepel = 0
+            
+        
+        if(this.bodydraw.repelCheck(pomao.tongue)){
+          this.marked = 1  
+          this.body.radius*=.95
+        }
+        if(this.bodydraw.repelCheck(pomao.body) && this.bodydraw.repelCheck(pomao.tongue)){
+          this.body.radius*=.4
+          this.marked = 2
+          pomao.diry = 1
+        }else if (this.bodydraw.repelCheck(pomao.body) && !this.bodydraw.repelCheck(pomao.tongue )){
+            if(this.body.x > pomao.body.x){
+                this.bump = 1
+            }else{
+                this.bump = -1
+            }
+        //   if(pomao.body.ymom == 0){
+                  if(this.body.radius >= 15){
+                      if(pomao.disabled != 1){
+                          pomao.body.xmom = -3*(this.bump)
+                          pomao.disabled = 1
+                          pomao.hits--
+                           pomao.body.ymom = -1.8
+                      }
+                  }
+        //   }
+        }
+
+        if(this.marked == 1){
+          this.body.x  -= (this.body.x-pomao.tongue.x)/1
+          this.body.y -= (this.body.y-pomao.tongue.y)/1
+        }
+        if(this.marked == 2){
+          this.body.x  -= ((this.body.x-pomao.body.x)/1.1)
+          this.body.y -= ((this.body.y-pomao.body.y)/1.1)
+          this.marked = 2
+          pomao.diry = 1
+        }
+
+                for(let f = 0; f<swimmers.length; f++){
+                    if(this!==swimmers[f]){
+                        if(this.bodydraw.repelCheck( swimmers[f].bodydraw)){
+                            let distance = ((new Line(swimmers[f].body.x, swimmers[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse())-(swimmers[f].bodydraw.radius+this.bodydraw.radius)
+                            let angleRadians = Math.atan2(swimmers[f].body.y - this.body.y, swimmers[f].body.x - this.body.x);
+                            this.xrepel += (Math.cos(angleRadians)*distance)/1.25
+                            this.yrepel += (Math.sin(angleRadians)*distance)/1.25
+                        }
+                    }
+                }
+                this.body.x+=this.xrepel
+                this.body.x+=this.yrepel
+        }
+        clean(){
+        
+            for(let t = 0; t<shockfriendly.shocksl.length; t++){
+                if(this.bodydraw.repelCheck(shockfriendly.shocksl[t])){
+                 //    boys[k].pop()
+                 //    deadboys.push(boys[k])
+                 //     boys.splice(k,1)
+                 this.out =45
+                 this.pop()
+                     break
+                 }
+ 
+             }
+             for(let t = 0; t<shockfriendly.shocksr.length; t++){
+                    if(this.bodydraw.repelCheck(shockfriendly.shocksr[t])){
+                     //    boys[k].pop()
+                     //    deadboys.push(boys[k])
+                     //     boys.splice(k,1)
+                     this.out =45
+                     this.pop()
+                         break
+                     }
+     
+                 }
+             for(let t = 0; t<pomao.thrown.length; t++){
+                    if(this.bodydraw.repelCheck(pomao.thrown[t])){
+                     //    boys[k].pop()
+                     //    deadboys.push(boys[k])
+                     //     boys.splice(k,1)
+                     this.out =45
+                     this.pop()
+                         break
+                     }
+     
+                 }
+
+            if(this.body.radius <= 1.5){
+                this.out = 1
+            }
+
+            if(this.out==1){
+                
+                swimmers.splice(swimmers.indexOf(this),1)
+            }else if(this.out>1){
+                this.popdraw()
+            }
+            this.out--
+        }
+        draw(){
+            if(this.out<=0 ){
+
+                this.move()
+                this.bodydraw = new Circlec(this.body.x,this.body.y,this.body.radius+7,"red")
+                this.bodydraw.draw()
+            }
+        }
+
+    }
 
 
     class Boys {
@@ -1198,8 +1364,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         draw(){
 
             this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width, "blue")
-            this.gravity()
-            this.move()
+            if(this.marked == 0){
+                this.gravity()
+                this.move()
+            }
             // tutorial_canvas_context.lineWidth = 1
             // tutorial_canvas_context.fillStyle = this.color
             // tutorial_canvas_context.strokeStyle = "blue"
@@ -1279,21 +1447,23 @@ window.addEventListener('DOMContentLoaded', (event) =>{
           }else if (this.body.repelCheck(pomao.body) && !this.body.repelCheck(pomao.tongue )){
             //   ////console.log(pomao.dir)
 
-            if(pomao.body.ymom == 0){
-
-                // if(pomao.body.isPointInside(pomao.tongue)){
-                    if(this.width >= 50){
-                        if(pomao.disabled != 1){
-                            pomao.body.xmom = -3*(pomao.dir)
-                            pomao.disabled = 1
-                            pomao.hits--
-                             pomao.body.ymom = -1.5
-                        }
-                    }
-                // }
+            if(this.body.x > pomao.body.x){
+                this.bump = 1
+            }else{
+                this.bump = -1
+            }
+        //   if(pomao.body.ymom == 0){    if(this.width >= 50){
+                      if(pomao.disabled != 1){
+                          pomao.body.xmom = -3*(this.bump)
+                          pomao.disabled = 1
+                          pomao.hits--
+                          pomao.body.sxmom = 0
+                          pomao.body.symom = 0
+                          pomao.body.ymom = -1.8
+                      }
             }
             // ////console.log(pomao.dir, pomao.body.xmom)
-          }
+
 
           if(this.marked == 1){
             this.x  -= (this.body.x-pomao.tongue.x)/1
@@ -1302,8 +1472,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
           }
           if(this.marked == 2){
-            this.x  -= ((this.body.x-pomao.body.x)/1.5)
-            this.y -= ((this.body.y-pomao.body.y)/1.5)
+            this.x  -= ((this.body.x-pomao.body.x)/1.1)
+            this.y -= ((this.body.y-pomao.body.y)/1.1)
             this.marked = 2
             pomao.diry = 1
 
@@ -1339,7 +1509,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 if(pomao.hits>9){
                     pomao.hits = 9
                 }
-            if(pomao.eggs.length < 10){
+            if(pomao.eggs.length < 16){
 
             let seepx = new Seed(pomao.eggs[pomao.eggs.length-1])
                 pomao.eggs.push(seepx)
@@ -1569,7 +1739,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     pomao.hits = 9
                 }
             
-            if(pomao.eggs.length < 10){
+            if(pomao.eggs.length < 16){
 
             let seepx = new Seed(pomao.eggs[pomao.eggs.length-1])
                 pomao.eggs.push(seepx)
@@ -2505,6 +2675,22 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 // boys[t].move()
             }
         }
+
+        for(let t = 0; t<swimmers.length; t++){
+            if(swimmers[t].body.x > this.body.x-(tutorial_canvas.width) && swimmers[t].body.x < this.body.x+(tutorial_canvas.width) ){
+                if(swimmers[t].body.y > this.body.y-(tutorial_canvas.height) && swimmers[t].body.y < this.body.y+(tutorial_canvas.height) ){
+                swimmers[t].draw()
+                }
+            }
+            // }else{
+            //     // boys[t].gravity()
+            //     // boys[t].move()
+            // }
+        }
+        for(let t = 0; t<swimmers.length; t++){
+                swimmers[t].clean()
+        }
+
     
         for(let t = 0; t<deadboys.length; t++){
           deadboys[t].popdraw()
@@ -3831,6 +4017,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         if(wet == 0){
             fruits.push(fruit)
         }
+    }
+    
+    let swimmers = []
+    for(let t = 0; t<70; t++){
+        let swimmer = new Swimmer( 4250+(Math.random()*6000), -4300+(Math.random()*3500))
+        swimmers.push(swimmer)
     }
 
     console.log(floors)
