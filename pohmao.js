@@ -991,7 +991,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             let roty = 0
 
             for(let g = 0; g < 9; g++){
-                let dot1 = new Circlec(this.body.x, this.body.y, this.body.radius, getRandomLightColor(), Math.cos(rotx)*1, Math.sin(roty)*1 )
+                let color
+                if(g%2==0){
+                    color = "red"
+                }else{
+                    color = "yellow"
+                }
+                let dot1 = new Circlec(this.body.x, this.body.y, this.body.radius, color, Math.cos(rotx)*1, Math.sin(roty)*1 )
                 this.pops.push(dot1)
                 rotx += 2*Math.PI/9
                 roty += 2*Math.PI/9
@@ -1051,10 +1057,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         //   if(pomao.body.ymom == 0){
                   if(this.body.radius >= 15){
                       if(pomao.disabled != 1){
-                          pomao.body.xmom = -3*(this.bump)
-                          pomao.disabled = 1
-                          pomao.hits--
-                           pomao.body.ymom = -1.8
+                          if(pomao.poundong!=10){
+                            pomao.body.xmom = -3*(this.bump)
+                            pomao.disabled = 1
+                            pomao.hits--
+                             pomao.body.ymom = -1.8
+                             this.body.xmom = -pomao.body.xmom
+                          }
                       }
                   }
         //   }
@@ -1091,8 +1100,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                  //    boys[k].pop()
                  //    deadboys.push(boys[k])
                  //     boys.splice(k,1)
+                 if(this.out<=0){
+                    this.pop()
+                 }
                  this.out =45
-                 this.pop()
                      break
                  }
  
@@ -1102,8 +1113,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                      //    boys[k].pop()
                      //    deadboys.push(boys[k])
                      //     boys.splice(k,1)
+                     if(this.out<=0){
+                        this.pop()
+                     }
                      this.out =45
-                     this.pop()
                          break
                      }
      
@@ -1113,8 +1126,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                      //    boys[k].pop()
                      //    deadboys.push(boys[k])
                      //     boys.splice(k,1)
+                     if(this.out<=0){
+                        this.pop()
+                     }
                      this.out =45
-                     this.pop()
                          break
                      }
      
@@ -1138,6 +1153,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.move()
                 this.bodydraw = new Circlec(this.body.x,this.body.y,this.body.radius+7,"red")
                 this.bodydraw.draw()
+                this.bodydraw1 = new Circlec(this.body.x,this.body.y,this.body.radius+3,"yellow")
+                this.bodydraw1.draw()
+                this.bodydraw2 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius,0),"red")
+                this.bodydraw2.draw()
+                this.bodydraw3 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-4,0),"yellow")
+                this.bodydraw3.draw()
+                this.bodydraw4 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-7,0),"red")
+                this.bodydraw4.draw()
+                this.bodydraw5 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-10,0),"yellow")
+                this.bodydraw5.draw()
+                this.bodydraw6 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-13,0),"red")
+                this.bodydraw6.draw()
             }
         }
 
@@ -1452,16 +1479,21 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }else{
                 this.bump = -1
             }
-        //   if(pomao.body.ymom == 0){    if(this.width >= 50){
+        //   if(pomao.body.ymom == 0){  
+              if(this.width >= 50){
                       if(pomao.disabled != 1){
-                          pomao.body.xmom = -3*(this.bump)
+                        if(pomao.poundong!=10){
+                          pomao.body.xmom = -(3+Math.abs(this.xmom))*(this.bump)
                           pomao.disabled = 1
                           pomao.hits--
                           pomao.body.sxmom = 0
                           pomao.body.symom = 0
                           pomao.body.ymom = -1.8
+                          this.xmom = -pomao.body.xmom*.8
+                        }
                       }
             }
+        }
             // ////console.log(pomao.dir, pomao.body.xmom)
 
 
@@ -2669,7 +2701,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
         for(let t = 0; t<boys.length; t++){
             if(boys[t].x > this.body.x-(tutorial_canvas.width) && boys[t].x < this.body.x+(tutorial_canvas.width) ){
+                if(boys[t].y > this.body.y-(tutorial_canvas.width) && boys[t].y < this.body.y+(tutorial_canvas.width) ){
                 boys[t].draw()
+                }
             }else{
                 // boys[t].gravity()
                 // boys[t].move()
@@ -3842,6 +3876,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         let lvl1floorloop = new Rectangle(4200, -4480+(t*350), 20,400+(Math.round(width)*400), "red")
         floors.push(lvl1floorloop)
         let lvl1floorloopsolid = new Rectangle(lvl1floorloop.x+lvl1floorloop.width-10,lvl1floorloop.y, 50, Math.round((t*t*70)*.0025)*400, "red")
+        for(let t =lvl1floorloopsolid.x+750;t<lvl1floorloopsolid.x+lvl1floorloopsolid.width;t+=300){
+            let boy = new Boys(t,lvl1floorloopsolid.y-50,50,50,'red')
+            boys.push(boy)
+        }
         floors.push(lvl1floorloopsolid)
         roofs.push(lvl1floorloopsolid)
         walls.push(lvl1floorloopsolid)
@@ -4020,8 +4058,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     }
     
     let swimmers = []
-    for(let t = 0; t<70; t++){
-        let swimmer = new Swimmer( 4250+(Math.random()*6000), -4300+(Math.random()*3500))
+    for(let t = 0; t<60; t++){
+        let swimmer = new Swimmer( 4250+(Math.random()*6000), -4300+(Math.random()*3200))
         swimmers.push(swimmer)
     }
 
