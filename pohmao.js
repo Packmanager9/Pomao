@@ -1296,6 +1296,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.ymom = 0
             this.type = Math.floor(Math.random()*10)
             this.type2 = Math.floor(Math.random()*10)
+            this.loopoffset = Math.random()*Math.PI*2
 
                 if(this.type == 1){
                     if(this.type2 == 4){
@@ -1386,14 +1387,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
            let  srcx = Math.floor(this.type)*width
           let   srcy = Math.floor(this.type2)*height
 
-        //   this.type = 11
+        //   this.type2 = 9
           if(this.type < 10){
 
 
             if(pomao.tripping <= 0){
             tutorial_canvas_context.drawImage(fruitsprites, srcx, srcy, width, height, this.x, this.y, this.width, this.height)
             }else{
-                tutorial_canvas_context.drawImage(fruitsprites, srcx, srcy, width, height, this.x+(Math.sin(pomao.timeloop)*7.5), this.y+(Math.cos((pomao.timeloop/10))*7.5), this.width+(Math.sin((pomao.timeloop/10))*15), this.height+(Math.cos(pomao.timeloop)*15))
+                tutorial_canvas_context.drawImage(fruitsprites, srcx, srcy, width, height, this.x+(Math.sin(pomao.timeloop+this.loopoffset)*7.5), this.y+(Math.cos((pomao.timeloop/10)+this.loopoffset)*7.5), this.width+(Math.sin((pomao.timeloop/10)+this.loopoffset)*15), this.height+(Math.cos(pomao.timeloop+this.loopoffset)*15))
             }
    
 
