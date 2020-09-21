@@ -1025,6 +1025,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
 
         gravity(){
+            
             if(this.dry == 1){
                 if(this.ymom > 0){
                     this.ymom = 0
@@ -1096,7 +1097,83 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.body.radius =  this.rstorage 
         }
         move(){
-            this.x+=this.xmom
+
+            this.xrepel = 0
+            this.yrepel = 0
+
+            this.rstorage  = this.body.radius
+            this.body.radius = 20
+
+            
+
+                for(let f = 0; f<boys.length; f++){
+                    if(this!==boys[f]){
+                        if(this.body.repelCheck( boys[f].body)){
+                            let distance = ((new Line(boys[f].body.x, boys[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse())-(boys[f].body.radius+this.body.radius)
+                            let angleRadians = Math.atan2(boys[f].body.y - this.body.y, boys[f].body.x - this.body.x);
+                            this.xrepel += (Math.cos(angleRadians)*distance)/1.25
+                            this.yrepel += (Math.sin(angleRadians)*distance)/1.25
+                        }
+                    }
+                }
+
+
+            // for(let t = 0; t<boys.length;t++){
+            //     if(this!=boys[t]){
+            //         if(this.body.repelCheck(boys[t].body)){
+            //             let link = new Line(this.body.x, this.body.y, boys[t].body.x, boys[t].body.y, "red", 1)
+            //             link.draw()
+            //             if(this.x<boys[t].x){
+            //                 this.xrepel = -link.hypotenuse()*.5
+            //             }else{
+            //                 this.xrepel = link.hypotenuse()*.5
+            //             }
+
+            //         }
+            //     }
+            // }
+
+
+            this.body.radius =  this.rstorage 
+            this.rstorage  = this.body.radius
+            this.body.radius = this.body.radius/2 
+            
+            this.blocked = 0
+            for(let t = 0; t<walls.length;t++){
+                if(squarecircleface(walls[t],this.body)){
+
+                    if(this.body.x > walls[t].x){
+                    this.blocked = 1
+                    }else{
+                        this.blocked = -1
+                    }
+                }
+            }
+
+            
+
+
+            if(this.blocked == 0){
+                this.x+=this.xmom
+                this.x+=this.xrepel
+            }else if (this.blocked == 1){
+                if(this.xmom > 0){
+                    this.x+=this.xmom
+                }
+                if(this.xrepel > 0){
+                      this.x+=this.xrepel
+                }
+            }else{
+                if(this.xmom < 0){
+                    this.x+=this.xmom
+                }
+                
+                if(this.xrepel < 0){
+                      this.x+=this.xrepel
+                }
+            }
+            
+            this.body.radius =  this.rstorage 
             this.y+=this.ymom
             this.ymom*=.99
             this.xmom*=.99
@@ -2415,6 +2492,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         for(let t = 0; t<boys.length; t++){
             if(boys[t].x > this.body.x-(tutorial_canvas.width) && boys[t].x < this.body.x+(tutorial_canvas.width) ){
                 boys[t].draw()
+            }else{
+                // boys[t].gravity()
+                // boys[t].move()
             }
         }
     
@@ -3493,7 +3573,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.shocksr[n].ymom *= .945
                 this.shocksr[n].radius *= .92
                 this.shocksr[n].move()
-                this.shocksr[n].draw()
+                // this.shocksr[n].draw()
             }
 
 
@@ -3508,7 +3588,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.shocksl[n].ymom *= .945
                 this.shocksl[n].radius *= .92
                 this.shocksl[n].move()
-                this.shocksl[n].draw()
+                // this.shocksl[n].draw()
             }
 
             if(this.shocksl.length > 0){
@@ -3547,6 +3627,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let floor = new Rectangle(-100000000, 650, 50, 7000000000, "red")
     floors.push(floor)
     let wall = new Rectangle(2460, 0, 2000, 50, "red")
+    // let walltest = new Rectangle(500, 0, 2000, 50, "red")
     let wallt = new Rectangle(4500, -800, 2800, 50, "red")
 
     let jwall1 = new Rectangle(3150, -200, 500, 50, "red")
@@ -3577,6 +3658,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     floors.push(jelly)
     jellys.push(jelly)
     walls.push(wall)
+    // walls.push(walltest)
+    // floors.push(walltest)
     walls.push(wallt)
     floors.push(roof)
     walls.push(roof)
@@ -3630,8 +3713,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         let floor3 = new Rectangle(-130+600*t, 500-(t*90), 20, 400, "red")
         floors.push(floor3)
     
-        // let boy = new Boys(floor3.x+(Math.random()*400),floor3.y-(Math.random()*400), 60+(t*.1),60+(t*.1), "red")
-        // boys.push(boy)
         for(let t = 0;t<10; t++){
             let fruit = new Fruit(floor3.x+(Math.random()*400),floor3.y-(100+Math.random()*400), 60,60, "red")
            
@@ -3891,8 +3972,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     tutorial_canvas_context.font = `${30}px Arial`;
     tutorial_canvas_context.fillText("loading", 300,350)
 
+    for(let t = 0; t<10; t++){
+        let boy = new Boys(3750+(t*80),0,50,50,"red")
+        boys.push(boy)
+    }
+    
+
     for(let t = 0; t<4; t++){
-        let boy = new Boys(0+(t*100),100,50,50,"red")
+        let boy = new Boys(-1000+(t*100),550,50,50,"red")
         boys.push(boy)
     }
     
