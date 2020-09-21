@@ -1491,7 +1491,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         //   if(pomao.body.ymom == 0){  
               if(this.width >= 50){
                       if(pomao.disabled != 1){
-                        if(pomao.poundong!=10){
+                        if(pomao.pounding!=10){
                           pomao.body.xmom = -(3+Math.abs(this.xmom))*(this.bump)
                           pomao.disabled = 1
                           pomao.hits--
