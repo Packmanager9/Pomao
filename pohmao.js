@@ -1057,7 +1057,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         //   if(pomao.body.ymom == 0){
                   if(this.body.radius >= 15){
                       if(pomao.disabled != 1){
-                          if(pomao.poundong!=10){
+                          if(pomao.pounding!=10){
                             pomao.body.xmom = -3*(this.bump)
                             pomao.disabled = 1
                             pomao.hits--
@@ -1137,6 +1137,15 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             if(this.body.radius <= 1.5){
                 this.out = 1
+                pomao.hits+=1
+                if(pomao.hits>9){
+                    pomao.hits = 9
+                }
+            if(pomao.eggs.length < 16){
+
+            let seepx = new Seed(pomao.eggs[pomao.eggs.length-1])
+                pomao.eggs.push(seepx)
+            }
             }
 
             if(this.out==1){
