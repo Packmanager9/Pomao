@@ -1387,7 +1387,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
                 
                 if(this.type2 == 9){
-                    if(Math.random()<.95){
+                    if(Math.random()<.99){
                         this.type2 =  Math.floor(Math.random()*9)
                     }
                 }
