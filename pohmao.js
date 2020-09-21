@@ -993,9 +993,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             for(let g = 0; g < 9; g++){
                 let color
                 if(g%2==0){
-                    color = "red"
+                    color = "#AA00DD"
                 }else{
-                    color = "yellow"
+                    color = "#FFDD00"
                 }
                 let dot1 = new Circlec(this.body.x, this.body.y, this.body.radius, color, Math.cos(rotx)*1, Math.sin(roty)*1 )
                 this.pops.push(dot1)
@@ -1027,14 +1027,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
      
 
             let link = new Line(pomao.body.x,pomao.body.y, this.body.x,this.body.y, "red", 1)
-            if(link.hypotenuse() < 300){
-                this.body.xmom += (pomao.body.x-this.body.x)/1800
-                this.body.ymom += (pomao.body.y-this.body.y)/1800
+            if(link.hypotenuse() < 450){
+                this.body.xmom += (pomao.body.x-this.body.x)/1200
+                this.body.ymom += (pomao.body.y-this.body.y)/1200
                 this.body.x+=this.body.xmom
                 this.body.y+=this.body.ymom
             }
-            this.body.xmom*=.95
-            this.body.ymom*=.95
+            this.body.xmom*=.955
+            this.body.ymom*=.955
 
             this.xrepel = 0
             this.yrepel = 0
@@ -1044,7 +1044,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
           this.marked = 1  
           this.body.radius*=.95
         }
-        if(this.bodydraw.repelCheck(pomao.body) && this.bodydraw.repelCheck(pomao.tongue)){
+        if(this.bodydraw.repelCheck(pomao.body) && (this.bodydraw.repelCheck(pomao.tongue)|| (this.marked == 1 ||this.marked == 2))){
           this.body.radius*=.4
           this.marked = 2
           pomao.diry = 1
@@ -1160,19 +1160,19 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(this.out<=0 ){
 
                 this.move()
-                this.bodydraw = new Circlec(this.body.x,this.body.y,this.body.radius+7,"red")
+                this.bodydraw = new Circlec(this.body.x,this.body.y,this.body.radius+7,"#AA00DD")
                 this.bodydraw.draw()
-                this.bodydraw1 = new Circlec(this.body.x,this.body.y,this.body.radius+3,"yellow")
+                this.bodydraw1 = new Circlec(this.body.x,this.body.y,this.body.radius+3,"#FFFF00")
                 this.bodydraw1.draw()
-                this.bodydraw2 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius,0),"red")
+                this.bodydraw2 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius,0),"#AA00DD")
                 this.bodydraw2.draw()
-                this.bodydraw3 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-4,0),"yellow")
+                this.bodydraw3 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-4,0),"#FFDD00")
                 this.bodydraw3.draw()
-                this.bodydraw4 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-7,0),"red")
+                this.bodydraw4 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-7,0),"#AA00DD")
                 this.bodydraw4.draw()
-                this.bodydraw5 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-10,0),"yellow")
+                this.bodydraw5 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-10,0),"#FFBB00")
                 this.bodydraw5.draw()
-                this.bodydraw6 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-13,0),"red")
+                this.bodydraw6 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-13,0),"#AA00DD")
                 this.bodydraw6.draw()
             }
         }
@@ -1416,25 +1416,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             let cols = 17
             let rows = 1
         
-            // for(let q = 0; q < 3;q++){
-
-            //     for(let s = 0;s<this.squish.length;s++){
-            //         this.squish[s].move()
-            //         this.squish[s].draw()
-            //         this.squish[s].radius -= .05
-            //         if(this.squish[s].radius <= 0){
-            //             this.squish[s].radius = 0
-            //         }
-            //     }
-            
-            //     for(let s = 0;s<this.squish.length;s++){
-            //         if(this.squish[s].radius <= 0){
-            //             this.squish.splice(s,1)
-            //         }
-            //     }
-            
-
-            // }
 
 
             let width = sheetwidth/cols
@@ -1463,7 +1444,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
         
-        this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
+        this.bodyx = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
+        
+        this.body = new Circle(this.x+this.width/2, this.y+this.height/2+(this.width/5), this.width/1.8, "blue")
+        // this.body.draw()
+        // this.bodyx.draw()
           if(this.body.repelCheck(pomao.tongue)){
             // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
             // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
@@ -1473,7 +1458,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.height*=.995
             // ////console.log(this)
           }
-          if(this.body.repelCheck(pomao.body) && this.body.repelCheck(pomao.tongue)){
+          if(this.body.repelCheck(pomao.body) && (this.body.repelCheck(pomao.tongue) || (this.marked == 1 ||this.marked == 2))){
             // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
             // this.y -= (((this.body.y-(this.height/2))-pomao.body.y)/100)
             this.width*=.91
@@ -1507,14 +1492,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
           if(this.marked == 1){
-            this.x  -= (this.body.x-pomao.tongue.x)/1
-            this.y -= (this.body.y-pomao.tongue.y)/1
+            this.x  -= (this.bodyx.x-pomao.tongue.x)/1
+            this.y -= (this.bodyx.y-pomao.tongue.y)/1
             // pomao.diry = 1
 
           }
           if(this.marked == 2){
-            this.x  -= ((this.body.x-pomao.body.x)/1.1)
-            this.y -= ((this.body.y-pomao.body.y)/1.1)
+            this.x  -= ((this.bodyx.x-pomao.body.x)/1.1)
+            this.y -= ((this.bodyx.y-pomao.body.y)/1.1)
             this.marked = 2
             pomao.diry = 1
 
@@ -1652,26 +1637,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             let cols = 10
             let rows = 10
         
-            // for(let q = 0; q < 3;q++){
-
-            //     for(let s = 0;s<this.squish.length;s++){
-            //         this.squish[s].move()
-            //         this.squish[s].draw()
-            //         this.squish[s].radius -= .05
-            //         if(this.squish[s].radius <= 0){
-            //             this.squish[s].radius = 0
-            //         }
-            //     }
-            
-            //     for(let s = 0;s<this.squish.length;s++){
-            //         if(this.squish[s].radius <= 0){
-            //             this.squish.splice(s,1)
-            //         }
-            //     }
-            
-
-            // }
-
+      
 
             let width = sheetwidth/cols
             let height = sheetheight/rows
@@ -2709,8 +2675,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
         for(let t = 0; t<boys.length; t++){
-            if(boys[t].x > this.body.x-(tutorial_canvas.width) && boys[t].x < this.body.x+(tutorial_canvas.width) ){
-                if(boys[t].y > this.body.y-(tutorial_canvas.width) && boys[t].y < this.body.y+(tutorial_canvas.width) ){
+            if(boys[t].x > this.body.x-(tutorial_canvas.width/1.8) && boys[t].x < this.body.x+(tutorial_canvas.width/1.8) ){
+                if(boys[t].y > this.body.y-(tutorial_canvas.height/1.8) && boys[t].y < this.body.y+(tutorial_canvas.height/1.8) ){
                 boys[t].draw()
                 }
             }else{
@@ -2720,8 +2686,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
 
         for(let t = 0; t<swimmers.length; t++){
-            if(swimmers[t].body.x > this.body.x-(tutorial_canvas.width) && swimmers[t].body.x < this.body.x+(tutorial_canvas.width) ){
-                if(swimmers[t].body.y > this.body.y-(tutorial_canvas.height) && swimmers[t].body.y < this.body.y+(tutorial_canvas.height) ){
+            if(swimmers[t].body.x > this.body.x-(tutorial_canvas.width/1.8) && swimmers[t].body.x < this.body.x+(tutorial_canvas.width/1.8) ){
+                if(swimmers[t].body.y > this.body.y-(tutorial_canvas.height/1.8) && swimmers[t].body.y < this.body.y+(tutorial_canvas.height/1.8) ){
                 swimmers[t].draw()
                 }
             }
@@ -4139,7 +4105,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.posy = []
             this.x = target.x + (pomao.dir*-30)
             this.y = target.y
-            this.radius = 10
+            this.radius = 20
             this.ymom = -1.5
             this.xmom = 0
             this.gravity = .1
@@ -4231,6 +4197,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(this.hot == 0){
                 tutorial_canvas_context.drawImage(seedegg, this.x-(this.width/2), (this.y)-(this.height/2),  this.width ,  this.height )
             }else{
+                
+            this.radius = 23
                 if(this.xmom > 0){
                     if(pomao.body.isPointInside(this)){
                         tutorial_canvas_context.drawImage(seedeggfl, this.x-(this.width/2), (this.y)-(this.height/2),  this.width/10 ,  this.height/10)
@@ -4250,7 +4218,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.move()
 
             if(this.marked == 0){
-            if(this.y+this.radius > 650){
+            if(this.y+this.radius > 660){
                 if(this.ymom > 0){
                     if(this.marked == 0){
                         this.ymom*=-1
