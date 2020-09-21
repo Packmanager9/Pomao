@@ -2486,7 +2486,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         this.link = new Line(this.body.x, 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongue.x, this.tongue.y, "blue", 3)
         this.link.draw()
         for(let t = 0; t<fruits.length; t++){
-            if(fruits[t].x > this.body.x-(tutorial_canvas.width) && fruits[t].x < this.body.x+(tutorial_canvas.width) ){
+            if(fruits[t].x > this.body.x-((tutorial_canvas.width/2)+fruits[t].width) && fruits[t].x < this.body.x+((tutorial_canvas.width/2)+fruits[t].width) ){
 
                 fruits[t].draw()
             }
