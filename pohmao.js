@@ -560,6 +560,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let tutorial_canvas = document.getElementById("tutorial");
     let tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
+    // tutorial_canvas_context.scale(.05,.05)
+    // tutorial_canvas_context.translate(0,10000)
+
     tutorial_canvas.style.background = "#664613"
 
 
@@ -1514,8 +1517,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
           }
           if(this.marked == 2){
-            this.x  -= ((this.body.x-pomao.body.x)/3.5)
-            this.y -= ((this.body.y-pomao.body.y)/3.5)
+            this.x  -= ((this.body.x-pomao.body.x)/1.9)
+            this.y -= ((this.body.y-pomao.body.y)/1.9)
             this.marked = 2
             pomao.diry = 1
 
@@ -3642,8 +3645,49 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let jfloorsafe = new Rectangle(2900, 300, 20, 259, "red")
     let jfloorsafe2 = new Rectangle(3691, 270, 20, 809, "red")
 
+    let lvl1floor1 = new Rectangle(4500, -800, 50, 7000, "red")
+
+    let lvl1wall1 = new Rectangle(4150, -4530, 3780, 50, "red")
+
+    for(let t = 0; t< 10; t++){
+        
+    if(t!= 0){
+        let width = (((100*60)-(t*(600+t)))/400)
+        let lvl1floorloop = new Rectangle(4200, -4480+(t*350), 20,400+(Math.round(width)*400), "red")
+        floors.push(lvl1floorloop)
+        let lvl1floorloopsolid = new Rectangle(lvl1floorloop.x+lvl1floorloop.width-10,lvl1floorloop.y, 50, Math.round((t*t*70)*.0025)*400, "red")
+        floors.push(lvl1floorloopsolid)
+        roofs.push(lvl1floorloopsolid)
+        walls.push(lvl1floorloopsolid)
+        
+        for(let k = 0; k<floors.length;k++){
+            
+            if(k!=floors.indexOf(lvl1floorloopsolid)){
+                if(lvl1floorloopsolid.x+lvl1floorloopsolid.width == floors[k].x + floors[k].width){
+                    let lvl1wallloopsolid = new Rectangle(lvl1floorloopsolid.x+lvl1floorloopsolid.width,floors[k].y, Math.abs(floors[k].y-lvl1floorloopsolid.y)+50 , 50, "red")
+                    
+                    floors.push(lvl1wallloopsolid)
+                    roofs.push(lvl1wallloopsolid)
+                    walls.push(lvl1wallloopsolid)
+                }
+            }
+        }
+    }else{
+    let lvl1floorloop = new Rectangle(4200, -4480+(t*330), 50, 7000-(t*90), "red")
+    floors.push(lvl1floorloop)
+    roofs.push(lvl1floorloop)
+    }
+    }
 
 
+
+    floors.push(lvl1floor1)
+    walls.push(lvl1floor1)
+    roofs.push(lvl1floor1)
+    walls.push(lvl1floor1)
+    walls.push(lvl1wall1)
+    floors.push(lvl1wall1)
+    roofs.push(lvl1wall1)
 
     let roof = new Rectangle(0, 0, 50, 2500, "red")
     let roof2 = new Rectangle(-2500, -500, 50, 5500, "red")
@@ -3768,9 +3812,28 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
         }
     }
+    for(let t = 0;t<200; t++){
+        let fruit = new Fruit( 4250+(Math.random()*6000), -4300+(Math.random()*3500), 60,60, "red")
+       
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+            if(floors[s].isPointInside(fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
 
-
-
+    console.log(floors)
     let fruitx = new Fruit(510,340, 60,60, "red")
     let fruity = new Fruit(-3200,600, 60,60, "red")
     fruity.type = 11
@@ -4253,7 +4316,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             
     },  14) 
-}, 7000); 
+}, 6969); 
 
 function squarecirclefaceblockjump(square, circle){
     let squareendh = square.y + square.height
