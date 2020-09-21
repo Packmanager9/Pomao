@@ -1767,8 +1767,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(this == pomao.body){
                 for(let t =1; t<pomao.eggs.length;t++){
                 //     for(let k = 0; pomao.eggs[t].pos.length; k++){
-                    if(Math.abs(this.sxmom)>0)
-                         pomao.eggs[t].steer()
+                    if(Math.abs(this.sxmom)>0){
+                        pomao.eggs[t].steer()
+                    }else  if(Math.abs(this.xmom)>0){
+                        pomao.eggs[t].steer()
+                    }
                 //          break
                 //         // ////console.log(pomao.eggs[t].pos)
                 //     }
