@@ -897,8 +897,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.anchor.xdif = pomao.tongue.x-this.bodydraw.x
             this.anchor.ydif =pomao.tongue.y- this.bodydraw.y
             const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red",1)
-            const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x+this.anchor.xdif, pomao.tongue.y+this.anchor.ydif, "red",1)
-            if(link2.hypotenuse() < link1.hypotenuse()-10){
+            const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x-this.anchor.xdif, pomao.tongue.y-this.anchor.ydif, "red",1)
+            if(link2.hypotenuse() > link1.hypotenuse()-10){
             this.anchor.xdif = .001
             this.anchor.ydif = 0
             }
@@ -936,8 +936,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
 
         if(this.marked == 1){
-            this.body.x  -= ((this.body.x-pomao.tongue.x)/1)+(this.anchor.xdif*.5)
-            this.body.y -= ((this.body.y-pomao.tongue.y)/1)+(this.anchor.ydif*.5)
+            this.body.x  -= ((this.body.x-pomao.tongue.x)/1)+(this.anchor.xdif*.9)
+            this.body.y -= ((this.body.y-pomao.tongue.y)/1)+(this.anchor.ydif*.9)
         }
         if(this.marked == 2){
           this.body.x  -= ((this.body.x-pomao.body.x)/1.1)
@@ -1340,8 +1340,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.anchor.xdif = pomao.tongue.x-this.body.x
                 this.anchor.ydif =pomao.tongue.y- this.body.y
                 const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red",1)
-                const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x+this.anchor.xdif, pomao.tongue.y+this.anchor.ydif, "red",1)
-                if(link2.hypotenuse() < link1.hypotenuse()-10){
+                const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x-this.anchor.xdif, pomao.tongue.y-this.anchor.ydif, "red",1)
+                if(link2.hypotenuse() > link1.hypotenuse()-10){
                 this.anchor.xdif = .001
                 this.anchor.ydif = 0
                 }
@@ -1396,8 +1396,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
           if(this.marked == 1){
-            this.x  -= ((this.bodyx.x-pomao.tongue.x)/1)+(this.anchor.xdif*.5)
-            this.y -= (((this.bodyx.y-pomao.tongue.y)/1)+(this.anchor.ydif*.5))+10
+            this.x  -= ((this.bodyx.x-pomao.tongue.x)/1)+(this.anchor.xdif*.9)
+            this.y -= (((this.bodyx.y-pomao.tongue.y)/1)+(this.anchor.ydif*.9))+10
             // pomao.diry = 1
 
           }
@@ -1542,6 +1542,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
         
+          this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/3, "blue")
           if(this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)){
             // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
             // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
@@ -1553,14 +1554,15 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.anchor.xdif = pomao.tongue.x-this.body.x
                 this.anchor.ydif =pomao.tongue.y- this.body.y
                 const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red",1)
-                const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x+this.anchor.xdif, pomao.tongue.y+this.anchor.ydif, "red",1)
-                if(link2.hypotenuse() < link1.hypotenuse()-10){
+                const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x-this.anchor.xdif, pomao.tongue.y-this.anchor.ydif, "red",1)
+                if(link2.hypotenuse() > link1.hypotenuse()-10){
                 this.anchor.xdif = .001
                 this.anchor.ydif = 0
                 }
             }
             // ////console.log(this)
-          }
+        }
+          this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
           if(this.body.repelCheck(pomao.body)){
             // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
             // this.y -= (((this.body.y-(this.height/2))-pomao.body.y)/100)
@@ -1577,8 +1579,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
           if(this.marked == 1){
           //console.log(this.anchor)
-                this.x  -= ((this.body.x-pomao.tongue.x)/1)+(this.anchor.xdif*.5)
-                this.y -= ((this.body.y-pomao.tongue.y)/1)+(this.anchor.ydif*.5)
+                this.x  -= ((this.body.x-pomao.tongue.x)/1)+(this.anchor.xdif*.9)
+                this.y -= ((this.body.y-pomao.tongue.y)/1)+(this.anchor.ydif*.9)
 
           }
           if(this.marked == 2){
