@@ -11,6 +11,7 @@
     }
     // console.log(zimgs)
 
+
 window.addEventListener('DOMContentLoaded', (event) =>{
 
 
@@ -99,7 +100,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             gamepadAPI.axesStatus = axes;
             gamepadAPI.buttonsStatus = pressed;
             // return buttons for debugging purposes
-            //console.log(pressed)
+            console.log(pressed)
             return pressed;
           },
           buttonPressed: function(button, hold) {
@@ -905,9 +906,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                              this.body.xmom = -pomao.body.xmom
                           }
                       }else{
-                        pomao.body.xmom = -1.8*(this.bump)
-                         pomao.body.ymom = -1.8
-                         this.body.xmom = -pomao.body.xmom
+                          if(this.bump*pomao.body.xmom >0){
+                            pomao.body.xmom = -1.8*(this.bump)
+                            pomao.body.ymom = -1.8
+                            this.body.xmom = -pomao.body.xmom
+                          }
                       }
                   }
         //   }
@@ -1309,9 +1312,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                           this.xmom = -pomao.body.xmom*.8
                         }
                       }else{
-                        pomao.body.xmom = -1.8*(this.bump)
-                         pomao.body.ymom = -1.8
-                         this.body.xmom = -pomao.body.xmom
+                        if(this.bump*pomao.body.xmom> 0){
+                            pomao.body.xmom = -1.8*(this.bump)
+                            pomao.body.ymom = -1.8
+                            this.body.xmom = -pomao.body.xmom
+                          }
                       }
             }
         }
@@ -1906,6 +1911,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     class Pomao{
         constructor(){
+            this.pausetimer = 10
+            this.paused = 10
             this.fired = 0
             this.blocked = 0
             this.bonked = 0
@@ -2527,13 +2534,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 if(this.disabled == 0){
                 if(this.dir == 1){
-                    if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
+                    if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A') )){
                         tutorial_canvas_context.drawImage(pomaof, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimg, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }else{
-                    if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
+                    if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A') )){
                         tutorial_canvas_context.drawImage(pomaofl, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimgl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -2541,13 +2548,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }else{
                 if(this.dir == 1){
-                    if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
+                    if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A') )){
                         tutorial_canvas_context.drawImage(pomaofh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimgh, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }else{
-                    if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
+                    if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A') )){
                         tutorial_canvas_context.drawImage(pomaoflh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimglh, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -2557,13 +2564,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }else{
                 if(this.disabled == 0){
                     if(this.dir == 1){
-                        if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
+                        if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A') )){
                             tutorial_canvas_context.drawImage(pomaofb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                            }else{  
                                 tutorial_canvas_context.drawImage(pomaoimgb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                           }
                     }else{
-                        if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
+                        if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A') )){
                             tutorial_canvas_context.drawImage(pomaoflb, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                            }else{  
                                 tutorial_canvas_context.drawImage(pomaoimgbl, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -2572,13 +2579,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }else{
 
                 if(this.dir == 1){
-                    if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
+                    if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A') )){
                         tutorial_canvas_context.drawImage(pomaofbh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimglhb, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                       }
                 }else{
-                    if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A' )){
+                    if(this.hng != 0 && this.pounding < 10 && (keysPressed['w'] ||   gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A') )){
                         tutorial_canvas_context.drawImage(pomaoflbh, (pomaof.width/3*this.flap), 0, pomaof.width/3, pomaof.height, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
                        }else{  
                             tutorial_canvas_context.drawImage(pomaoimghb , this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
@@ -2658,6 +2665,16 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         this.health.draw()
         }
         control(){
+
+            if(gamepadAPI.buttonsStatus.includes('RB') || keysPressed['p']){
+                if(this.pausetimer <= 0){
+                    this.paused =-10
+                    this.pausetimer = 20
+                }
+            }
+            this.pausetimer--
+
+
             for(let t =0; t<blocks.length; t++){
                 blocks[t].marked = 0
             }
@@ -2675,8 +2692,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             gamepadAPI.update()
 
             // ////console.log(gamepadAPI)
-    //   if(gamepadAPI.buttonsStatus[0] == 'A'){
-        if(gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus[0] == 'A'){
+    //   if(gamepadAPI.buttonsStatus.includes('A')){
+        if(gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A')){
           if(pomao.jumping == 0){
             pomao.body.ymom = -5.1
 
@@ -2703,7 +2720,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
         
           }
-    }else if(keysPressed['w']  || gamepadAPI.buttonsStatus[0] == 'A'){
+    }else if(keysPressed['w']  || gamepadAPI.buttonsStatus.includes('A')){
         if(this.jumping == 0){
             if(this.bonked ==0){
                 
@@ -2763,7 +2780,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
             this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
 
-    //   if(gamepadAPI.buttonsStatus[0] == 'A'){
+    //   if(gamepadAPI.buttonsStatus.includes('A')){
             if(keysPressed['f'] || keysPressed['n']  ||gamepadAPI.buttonsStatus.includes('DPad-Left')){
                 if(this.jumping == 1){
                     if(this.body.ymom > -3.5){
@@ -3303,8 +3320,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(this.shocksl.length > 0){
             if(this.shocksr.length > 0){
                 for (let n = 0; n<this.shocksl.length-1; n++){
-                    const link2 = new Line(this.shocksl[n].x,  this.shocksl[n].y, this.shocksl[n+1].x,  this.shocksl[n+1].y, "cyan", this.shocksl[n].radius)
-                    const link = new Line(this.shocksr[n].x,  this.shocksr[n].y, this.shocksr[n+1].x,  this.shocksr[n+1].y, "cyan", this.shocksr[n].radius)
+                    const link2 = new Line(this.shocksl[n].x,  this.shocksl[n].y+34, this.shocksl[n+1].x,  this.shocksl[n+1].y+34, "cyan", this.shocksl[n].radius)
+                    const link = new Line(this.shocksr[n].x,  this.shocksr[n].y+34, this.shocksr[n+1].x,  this.shocksr[n+1].y+34, "cyan", this.shocksr[n].radius)
              
                 link.draw()
                 link2.draw() 
@@ -3314,8 +3331,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         shock(){
             if(pomao.body.ymom > 10.2){
-            const shockright = new Circlec(this.center.x, this.center.y+34, this.center.radius/10, "yellow", 20.5, 0)
-            const shockleft = new Circlec(this.center.x, this.center.y+34, this.center.radius/10, "yellow", -20.5, 0)
+            const shockright = new Circlec(this.center.x, this.center.y, this.center.radius/10, "yellow", 20.5, 2)
+            const shockleft = new Circlec(this.center.x, this.center.y, this.center.radius/10, "yellow", -20.5, 2)
             this.shocksl.push(shockleft)
             this.shocksr.push(shockright)
             }
@@ -3517,7 +3534,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
         }
     }
-    for(let t = 0;t<200; t++){
+    for(let t = 0;t<456; t++){
         const fruit = new Fruit( 4250+(Math.random()*6000), -4300+(Math.random()*3500), 60,60, "red")
        
         let wet = 0
@@ -3772,6 +3789,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     setTimeout(function(){
     window.setInterval(function(){ 
+        if(pomao.paused == 10){
 
         // "#AAAAFF"
         if(pomao.high > 1 && pomao.tripping > 0){
@@ -4028,6 +4046,21 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             //     }
 
             
+        }else{
+            pomao.pausetimer++
+            gamepadAPI.update()
+
+            if(gamepadAPI.buttonsStatus.includes('RB') || keysPressed['p']){
+                if(pomao.pausetimer > 40){
+                    pomao.paused = 10
+                    pomao.pausetimer = 10
+                }
+            }
+        
+            tutorial_canvas_context.fillStyle = "magenta";
+            tutorial_canvas_context.fillText("paused", pomao.body.x-50,pomao.body.y-70)
+        }
+
     },  14) 
 }, 6969); 
 
