@@ -3318,7 +3318,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         
             for (let n = 0; n<this.shocksr.length; n++){
                 if(this.shocksr[n].radius < .35){
-                    this.shocksr.splice(n,1)
+                    this.shocksr.splice(n,3)
                 }
             }
             for (let n = 0; n<this.shocksr.length; n++){
@@ -3333,7 +3333,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             for (let n = 0; n<this.shocksl.length; n++){
                 if(this.shocksl[n].radius < .35){
-                    this.shocksl.splice(n,1)
+                    this.shocksl.splice(n,3)
                 }
             }
             for (let n = 0; n<this.shocksl.length; n++){
@@ -3346,9 +3346,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             if(this.shocksl.length > 0){
             if(this.shocksr.length > 0){
-                for (let n = 0; n<this.shocksl.length-1; n++){
-                    const link2 = new Line(this.shocksl[n].x,  this.shocksl[n].y+34, this.shocksl[n+1].x,  this.shocksl[n+1].y+34, "cyan", this.shocksl[n].radius)
-                    const link = new Line(this.shocksr[n].x,  this.shocksr[n].y+34, this.shocksr[n+1].x,  this.shocksr[n+1].y+34, "cyan", this.shocksr[n].radius)
+                for (let n = 0; n<this.shocksl.length-3; n+=3){
+                    const link2 = new Line(this.shocksl[n].x,  this.shocksl[n].y+34, this.shocksl[n+3].x,  this.shocksl[n+3].y+34, "cyan", this.shocksl[n].radius)
+                    const link = new Line(this.shocksr[n].x,  this.shocksr[n].y+34, this.shocksr[n+3].x,  this.shocksr[n+3].y+34, "cyan", this.shocksr[n].radius)
              
                 link.draw()
                 link2.draw() 
@@ -3358,10 +3358,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         shock(){
             if(pomao.body.ymom > 10.2){
-            const shockright = new Circlec(this.center.x, this.center.y, this.center.radius/10, "yellow", 20.5, 2)
-            const shockleft = new Circlec(this.center.x, this.center.y, this.center.radius/10, "yellow", -20.5, 2)
-            this.shocksl.push(shockleft)
-            this.shocksr.push(shockright)
+                const shockright = new Circlec(this.center.x-3, this.center.y, this.center.radius/10, "yellow", 20.5, 2)
+                const shockleft = new Circlec(this.center.x+3, this.center.y, this.center.radius/10, "yellow", -20.5, 2)
+                const shockrightx = new Circlec(this.center.x-3, this.center.y+17, this.center.radius/10, "yellow", 20.5, 2)
+                const shockleftx = new Circlec(this.center.x+3, this.center.y+17, this.center.radius/10, "yellow", -20.5, 2)
+                const shockrightx2 = new Circlec(this.center.x-3, this.center.y+34, this.center.radius/10, "yellow", 20.5, 2)
+                const shockleftx2 = new Circlec(this.center.x+3, this.center.y+34, this.center.radius/10, "yellow", -20.5, 2)
+                this.shocksl.push(shockleft)
+                this.shocksr.push(shockright)
+                this.shocksl.push(shockleftx)
+                this.shocksr.push(shockrightx)
+                this.shocksl.push(shockleftx2)
+                this.shocksr.push(shockrightx2)
             }
         }
     }
