@@ -822,6 +822,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.type = 2//Math.floor(Math.random()*3)
             this.body = new Circlec(x,y,15,"red")
             this.bodydraw = new Circlec(this.body.x,this.body.y,22,"red")
+            this.bodydrawhuge = new Circlec(this.body.x,this.body.y,this.body.radius+17,"#AA00DD")
             this.marked = 0
             this.out = 0
             this.pops = []
@@ -886,7 +887,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.yrepel = 0
             
         
-        if(this.bodydraw.repelCheck(pomao.tongue)){
+        if(this.bodydraw.repelCheck(pomao.tongue)  || pomao.tonguebox.isPointInside(this.body)){
           this.marked = 1  
           this.body.radius*=.95
         }
@@ -956,7 +957,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         clean(){
         
             for(let t = 0; t<shockfriendly.shocksl.length; t++){
-                if(this.bodydraw.repelCheck(shockfriendly.shocksl[t])){
+                if(this.bodydrawhuge.repelCheck(shockfriendly.shocksl[t])){
                  if(this.out<=0){
                     this.pop()
                  }
@@ -966,7 +967,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
  
              }
              for(let t = 0; t<shockfriendly.shocksr.length; t++){
-                    if(this.bodydraw.repelCheck(shockfriendly.shocksr[t])){
+                    if(this.bodydrawhuge.repelCheck(shockfriendly.shocksr[t])){
                      if(this.out<=0){
                         this.pop()
                      }
@@ -1015,6 +1016,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 this.move()
                 this.bodydraw = new Circlec(this.body.x,this.body.y,this.body.radius+7,"#AA00DD")
+                this.bodydrawhuge = new Circlec(this.body.x,this.body.y,this.body.radius+17,"#AA00DD")
                 // this.bodydraw.draw()
                 // this.bodydraw1 = new Circlec(this.body.x,this.body.y,this.body.radius+3,"#FFFF00")
                 // this.bodydraw1.draw()
@@ -1311,7 +1313,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         this.body = new Circle(this.x+this.width/2, this.y+this.height/2+(this.width/5), this.width/1.8, "blue")
         // this.body.draw()
         // this.bodyx.draw()
-          if(this.body.repelCheck(pomao.tongue)){
+          if(this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)){
             // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
             // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
             // this.move()
@@ -1319,8 +1321,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.width*=.995
             this.height*=.995
             // ////console.log(this)
+
+            
           }
-          if(this.body.repelCheck(pomao.body) && (this.body.repelCheck(pomao.tongue) || (this.marked == 1 ||this.marked == 2))){
+          if(this.body.repelCheck(pomao.body) && ((this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) || (this.marked == 1 ||this.marked == 2))){
             // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
             // this.y -= (((this.body.y-(this.height/2))-pomao.body.y)/100)
             this.width*=.91
@@ -1503,7 +1507,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
         
-          if(this.body.repelCheck(pomao.tongue)){
+          if(this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)){
             // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
             // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
             // this.move()
@@ -1944,9 +1948,25 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
         }
     }
+    class Shape{
+        constructor(shapes){
+            this.shapes = shapes
+        }
+        isPointInside(point){
+            for(let t = 0; t<this.shapes.length;t++){
+                if(this.shapes[t].repelCheck(point)){
+                    return true
+                }
+            }
+        
+            return false
+        }
 
+    }
     class Pomao{
         constructor(){
+            this.tongueray = []
+            this.tonguebox = new Shape(this.tongueray)
             this.pausetimer = 10
             this.paused = 10
             this.fired = 0
@@ -1983,6 +2003,19 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.positron2 = new CircleF(this.body.x, this.body.y,3, "gray",0,1)
             this.electron2 = new CircleF(this.body.x, this.body.y, 3, "gray",0,-1)
          
+        }
+        tonguecast(){
+            
+            this.tongueray = []
+            if(!this.body.repelCheck(this.tongue)){
+                for(let t=0;t<15;t++){
+                    const ray = new Circlec(this.body.x+(this.tonguex-(this.tonguex*.066666*t)),  (-(Math.sin(this.timeloop)*1.5))+this.body.y+(this.tonguey-(this.tonguey*.066666*t)), this.tongue.radius, "red"  )
+                    // ray.draw()
+                    this.tongueray.push(ray)
+                }
+                this.tonguebox  = new Shape(this.tongueray)
+
+            }
         }
         gravity(){
             this.flapstep++
@@ -2452,6 +2485,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.tongue = new Circle(this.body.x+this.tonguex, this.body.y+this.tonguey, 5, "blue")
             this.tongued1 = new Circle(this.body.x+this.tonguex+(this.rattled/3), this.body.y+this.tonguey, 5, "#0000FF77")
             this.tongued2 = new Circle(this.body.x+this.tonguex-(this.rattled/3), this.body.y+this.tonguey, 5, "#0000FF77")
+            this.tonguecast()
             // if(this.rattled == 0){
             // }else{
             // this.tongued1.draw()
