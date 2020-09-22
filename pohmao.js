@@ -1523,8 +1523,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
           }
           if(this.marked == 2){
-            this.x  -= ((this.body.x-pomao.body.x)/1.9)
-            this.y -= ((this.body.y-pomao.body.y)/1.9)
+            this.x  -= ((this.body.x-pomao.body.x)/1.7)
+            this.y -= ((this.body.y-pomao.body.y)/1.7)
             this.marked = 2
             pomao.diry = 1
 
