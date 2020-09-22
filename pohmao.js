@@ -12,7 +12,7 @@
     // console.log(zimgs)
 
     let rimgs = []
-    for(let i = 1; i < 8; i++) {
+    for(let i = 1; i < 10; i++) {
         rimgs.push(Object.assign(new Image(), { 'src': `r${i}.png` }));
         }
 
@@ -1022,26 +1022,26 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 
                 // if(this.body.radius+7 >= 0){
-                    tutorial_canvas_context.drawImage(rimgs[0], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                    tutorial_canvas_context.drawImage(rimgs[8], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
                 // }    
                 // if(this.body.radius+3 >= 0){
-                    tutorial_canvas_context.drawImage(rimgs[1], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // }    
-                // if(this.body.radius >= 0){
-                    tutorial_canvas_context.drawImage(rimgs[2], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // }    
-                // if(this.body.radius-3 >= 0){
-                    tutorial_canvas_context.drawImage(rimgs[3], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // }    
-                // if(this.body.radius-6 >= 0){
-                    tutorial_canvas_context.drawImage(rimgs[4], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // }  
-                // if(this.body.radius-9 >= 0){
-                    tutorial_canvas_context.drawImage(rimgs[5], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // }
-                // if(this.body.radius-12 >= 0){
-                    tutorial_canvas_context.drawImage(rimgs[6], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // }
+                //     tutorial_canvas_context.drawImage(rimgs[1], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // // }    
+                // // if(this.body.radius >= 0){
+                //     tutorial_canvas_context.drawImage(rimgs[2], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // // }    
+                // // if(this.body.radius-3 >= 0){
+                //     tutorial_canvas_context.drawImage(rimgs[3], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // // }    
+                // // if(this.body.radius-6 >= 0){
+                //     tutorial_canvas_context.drawImage(rimgs[4], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // // }  
+                // // if(this.body.radius-9 >= 0){
+                //     tutorial_canvas_context.drawImage(rimgs[5], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // // }
+                // // if(this.body.radius-12 >= 0){
+                //     tutorial_canvas_context.drawImage(rimgs[6], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // // }
           }
         }
 
