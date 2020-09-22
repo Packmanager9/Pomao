@@ -560,8 +560,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let tutorial_canvas = document.getElementById("tutorial");
     let tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
-    // tutorial_canvas_context.scale(.05,.05)
-    // tutorial_canvas_context.translate(0,10000)
+    // tutorial_canvas_context.scale(.1,.1)
+    // tutorial_canvas_context.translate(2500,6000)
 
     tutorial_canvas.style.background = "#664613"
 
@@ -2652,9 +2652,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         this.link.draw()
         for(let t = 0; t<fruits.length; t++){
             if(fruits[t].x > this.body.x-((tutorial_canvas.width/2)+fruits[t].width) && fruits[t].x < this.body.x+((tutorial_canvas.width/2)+fruits[t].width) ){
+                if(fruits[t].y > this.body.y-((tutorial_canvas.height/2)+fruits[t].height) && fruits[t].y < this.body.y+((tutorial_canvas.height/2)+fruits[t].height) ){
 
                 fruits[t].draw()
+                
             }
+        }
         }
 
 
@@ -3315,8 +3318,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         this.tongueymom = -33.1/2
                     }
                     if(this.xdir*this.ydir != 0){
-                        this.tonguexmom *= .8
-                        this.tongueymom *= .8
+                        this.tonguexmom *= .81
+                        this.tongueymom *= .81
                     }
 
                     if(this.xdir == 0 && this.ydir ==0){
