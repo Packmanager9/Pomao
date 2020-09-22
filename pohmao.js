@@ -904,6 +904,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                              pomao.body.ymom = -1.8
                              this.body.xmom = -pomao.body.xmom
                           }
+                      }else{
+                        pomao.body.xmom = -1.8*(this.bump)
+                         pomao.body.ymom = -1.8
+                         this.body.xmom = -pomao.body.xmom
                       }
                   }
         //   }
@@ -1304,6 +1308,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                           pomao.body.ymom = -1.8
                           this.xmom = -pomao.body.xmom*.8
                         }
+                      }else{
+                        pomao.body.xmom = -1.8*(this.bump)
+                         pomao.body.ymom = -1.8
+                         this.body.xmom = -pomao.body.xmom
                       }
             }
         }
