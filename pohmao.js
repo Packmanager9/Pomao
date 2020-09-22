@@ -1095,15 +1095,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     }
                 }
                 this.body.x+=this.xrepel
-                this.body.x+=this.yrepel
+                this.body.y+=this.yrepel
         }
         clean(){
         
             for(let t = 0; t<shockfriendly.shocksl.length; t++){
                 if(this.bodydraw.repelCheck(shockfriendly.shocksl[t])){
-                 //    boys[k].pop()
-                 //    deadboys.push(boys[k])
-                 //     boys.splice(k,1)
                  if(this.out<=0){
                     this.pop()
                  }
@@ -1114,9 +1111,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
              }
              for(let t = 0; t<shockfriendly.shocksr.length; t++){
                     if(this.bodydraw.repelCheck(shockfriendly.shocksr[t])){
-                     //    boys[k].pop()
-                     //    deadboys.push(boys[k])
-                     //     boys.splice(k,1)
                      if(this.out<=0){
                         this.pop()
                      }
@@ -1326,21 +1320,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     }
                 }
 
-
-            // for(let t = 0; t<boys.length;t++){
-            //     if(this!=boys[t]){
-            //         if(this.body.repelCheck(boys[t].body)){
-            //             let link = new Line(this.body.x, this.body.y, boys[t].body.x, boys[t].body.y, "red", 1)
-            //             link.draw()
-            //             if(this.x<boys[t].x){
-            //                 this.xrepel = -link.hypotenuse()*.5
-            //             }else{
-            //                 this.xrepel = link.hypotenuse()*.5
-            //             }
-
-            //         }
-            //     }
-            // }
 
 
             this.body.radius =  this.rstorage 
@@ -2043,8 +2022,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         detect(){
             for(let t = 0; t<pomao.thrown.length; t++){
                 if(this.body.isPointInside(pomao.thrown[t])){
-                    pomao.thrown[t].markedx = 3
-                    this.state = 1
+                    if(this.state!=1){
+                        pomao.thrown[t].markedx = 3
+                        this.state = 1
+                    }
                 }
             }
         }
@@ -3765,7 +3746,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.shocksl = []
                 this.shocksr = []
                 this.shock()
-                console.log(this)
+                // console.log(this)
 
         }
         draw(){
