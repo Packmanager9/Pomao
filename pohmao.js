@@ -2229,8 +2229,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                     this.body.sxmom +=Math.abs(this.tonguexmom*3)
                                 }
                             }
-                            this.tongueymom*=.5
-                            this.tonguexmom*=.5
+                            this.tongueymom*=.45
+                            this.tonguexmom*=.45
                         }else{
                             if(Math.abs(this.tonguey) >1){
                             this.body.symom -=this.tongueymom*1.1
@@ -2244,8 +2244,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             }
                             if(!roofs.includes(floors[t])){
 
-                            this.tongueymom*=.5
-                            this.tonguexmom*=.5
+                            this.tongueymom*=.45
+                            this.tonguexmom*=.45
                             }
                         }
                         pomao.body.ymom = 0
@@ -3902,7 +3902,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
               
         tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
             }else{
-                tutorial_canvas_context.fillStyle =`rgba(170, 170, 255,${255/255})`
+                tutorial_canvas_context.fillStyle =`rgba(170, 170, 255,${1})`
                 tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
 
                 tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
