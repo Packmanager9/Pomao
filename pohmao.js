@@ -820,6 +820,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     class Swimmer{
         constructor(x,y){
             this.type = 2//Math.floor(Math.random()*3)
+            this.anchor = {}
+            this.anchor.xdif = 0
+            this.anchor.ydif = 0
             this.body = new Circlec(x,y,15,"red")
             this.bodydraw = new Circlec(this.body.x,this.body.y,22,"red")
             this.bodydrawhuge = new Circlec(this.body.x,this.body.y,this.body.radius+17,"#AA00DD")
@@ -890,6 +893,16 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         if(this.bodydraw.repelCheck(pomao.tongue)  || pomao.tonguebox.isPointInside(this.body)){
           this.marked = 1  
           this.body.radius*=.95
+          if(this.anchor.xdif+this.anchor.ydif == 0){
+            this.anchor.xdif = pomao.tongue.x-this.bodydraw.x
+            this.anchor.ydif =pomao.tongue.y- this.bodydraw.y
+            const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red",1)
+            const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x+this.anchor.xdif, pomao.tongue.y+this.anchor.ydif, "red",1)
+            if(link2.hypotenuse() < link1.hypotenuse()-10){
+            this.anchor.xdif = .001
+            this.anchor.ydif = 0
+            }
+        }
         }
         if(this.bodydraw.repelCheck(pomao.body) && (this.bodydraw.repelCheck(pomao.tongue)|| (this.marked == 1 ||this.marked == 2))){
           this.body.radius*=.4
@@ -923,8 +936,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
 
         if(this.marked == 1){
-          this.body.x  -= (this.body.x-pomao.tongue.x)/1
-          this.body.y -= (this.body.y-pomao.tongue.y)/1
+            this.body.x  -= ((this.body.x-pomao.tongue.x)/1)+(this.anchor.xdif*.5)
+            this.body.y -= ((this.body.y-pomao.tongue.y)/1)+(this.anchor.ydif*.5)
         }
         if(this.marked == 2){
           this.body.x  -= ((this.body.x-pomao.body.x)/1.1)
@@ -1074,6 +1087,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.xmom = 0
             this.ymom = 0
             this.dry = 0
+            this.anchor = {}
+            this.anchor.xdif = 0
+            this.anchor.ydif = 0
             this.timeloop = 0
             this.type = Math.floor(Math.random()*17)
             this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
@@ -1312,13 +1328,25 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         
         this.bodyx = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
         
-        this.body = new Circle(this.x+this.width/2, this.y+this.height/2+(this.width/5), this.width/1.8, "blue")
+        this.body = new Circle(this.x+this.width/2, this.y+this.height/1.5+(this.width/5), this.width/2.4, "blue")
         // this.body.draw()
+        tutorial_canvas_context.drawImage(boysprites, srcx, srcy, width, height, this.x, (10+this.y)-(Math.sin(this.timeloop)), this.width, this.height+(Math.sin(this.timeloop)))
         // this.bodyx.draw()
           if(this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)){
             // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
             // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
             // this.move()
+            if(this.anchor.xdif+this.anchor.ydif == 0){
+                this.anchor.xdif = pomao.tongue.x-this.body.x
+                this.anchor.ydif =pomao.tongue.y- this.body.y
+                const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red",1)
+                const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x+this.anchor.xdif, pomao.tongue.y+this.anchor.ydif, "red",1)
+                if(link2.hypotenuse() < link1.hypotenuse()-10){
+                this.anchor.xdif = .001
+                this.anchor.ydif = 0
+                }
+            }
+            // console.log(this.anchor)
             this.marked = 1  
             this.width*=.995
             this.height*=.995
@@ -1326,7 +1354,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             
           }
-          if(this.body.repelCheck(pomao.body) && ((this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) || (this.marked == 1 ||this.marked == 2))){
+          
+        this.body = new Circle(this.x+this.width/2, this.y+this.height/2+(this.width/5), this.width/1.8, "blue")
+          if(this.body.repelCheck(pomao.bodytight) && ((this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) || (this.marked == 1 ||this.marked == 2))){
             // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
             // this.y -= (((this.body.y-(this.height/2))-pomao.body.y)/100)
             this.width*=.91
@@ -1366,8 +1396,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
           if(this.marked == 1){
-            this.x  -= (this.bodyx.x-pomao.tongue.x)/1
-            this.y -= (this.bodyx.y-pomao.tongue.y)/1
+            this.x  -= ((this.bodyx.x-pomao.tongue.x)/1)+(this.anchor.xdif*.5)
+            this.y -= (((this.bodyx.y-pomao.tongue.y)/1)+(this.anchor.ydif*.5))+10
             // pomao.diry = 1
 
           }
@@ -1437,6 +1467,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     class Fruit {
         constructor(x, y, height, width, color) {
+            this.anchor = {}
+            this.anchor.xdif = 0
+            this.anchor.ydif = 0
             this.squish = []
             this.x = x
             this.marked = 0
@@ -1516,6 +1549,16 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.marked = 1  
             this.width*=.995
             this.height*=.995
+            if(this.anchor.xdif+this.anchor.ydif == 0){
+                this.anchor.xdif = pomao.tongue.x-this.body.x
+                this.anchor.ydif =pomao.tongue.y- this.body.y
+                const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red",1)
+                const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x+this.anchor.xdif, pomao.tongue.y+this.anchor.ydif, "red",1)
+                if(link2.hypotenuse() < link1.hypotenuse()-10){
+                this.anchor.xdif = .001
+                this.anchor.ydif = 0
+                }
+            }
             // ////console.log(this)
           }
           if(this.body.repelCheck(pomao.body)){
@@ -1533,8 +1576,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
           }
 
           if(this.marked == 1){
-            this.x  -= (this.body.x-pomao.tongue.x)/1
-            this.y -= (this.body.y-pomao.tongue.y)/1
+          //console.log(this.anchor)
+                this.x  -= ((this.body.x-pomao.tongue.x)/1)+(this.anchor.xdif*.5)
+                this.y -= ((this.body.y-pomao.tongue.y)/1)+(this.anchor.ydif*.5)
 
           }
           if(this.marked == 2){
@@ -1979,7 +2023,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.tripping = 0
             this.eggtimer = 10
             this.body = new Circlex(640,360, 32, "red")
-            this.tongue = new Circle(this.body.x, this.body.y, 6, "blue")
+            this.tongue = new Circlec(this.body.x, this.body.y, 6, "blue")
             this.tonguex = 0
             this.tonguey = 0
             this.tonguexmom = 0
@@ -2010,8 +2054,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             
             this.tongueray = []
             if(!this.body.repelCheck(this.tongue)){
-                for(let t=0;t<15;t++){
-                    const ray = new Circlec(this.body.x+(this.tonguex-(this.tonguex*.066666*t)),  (-(Math.sin(this.timeloop)*1.5))+this.body.y+(this.tonguey-(this.tonguey*.066666*t)), this.tongue.radius, "red"  )
+                for(let t=0;t<30;t++){
+                    const ray = new Circlec(this.body.x+(this.tonguex-(this.tonguex*.033333*t)),  (-(Math.sin(this.timeloop)*1.5))+this.body.y+(this.tonguey-(this.tonguey*.033333*t)), 1.5, "red"  )
                     // ray.draw()
                     this.tongueray.push(ray)
                 }
@@ -2155,6 +2199,25 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 if(pomao.body.symom != 0 || pomao.body.sxmom != 0){
                                     this.tonguex = 0
                                     this.tonguey = 0
+                                    for(let g = 0; g<fruits.length;g++){
+                                        if(fruits[g].marked == 1){
+                                            fruits[g].anchor.xdif = 0
+                                            fruits[g].anchor.ydif = 0
+                                        }
+                                    }
+                                    
+                                for(let g = 0; g<boys.length;g++){
+                                    if(boys[g].marked == 1){
+                                        boys[g].anchor.xdif = 0
+                                        boys[g].anchor.ydif = 0
+                                    }
+                                }
+                                for(let g = 0; g<swimmers.length;g++){
+                                    if(swimmers[g].marked == 1){
+                                        swimmers[g].anchor.xdif = 0
+                                        swimmers[g].anchor.ydif = 0
+                                    }
+                                }
                                 }
                                 pomao.body.symom = 0
                                 pomao.body.ymom = 0
@@ -2200,6 +2263,25 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             if(pomao.body.symom != 0 || pomao.body.sxmom != 0){
                                 this.tonguex = 0
                                 this.tonguey = 0
+                                for(let g = 0; g<fruits.length;g++){
+                                    if(fruits[g].marked == 1){
+                                        fruits[g].anchor.xdif = 0
+                                        fruits[g].anchor.ydif = 0
+                                    }
+                                }
+                                
+                                for(let g = 0; g<boys.length;g++){
+                                    if(boys[g].marked == 1){
+                                        boys[g].anchor.xdif = 0
+                                        boys[g].anchor.ydif = 0
+                                    }
+                                }
+                                for(let g = 0; g<swimmers.length;g++){
+                                    if(swimmers[g].marked == 1){
+                                        swimmers[g].anchor.xdif = 0
+                                        swimmers[g].anchor.ydif = 0
+                                    }
+                                }
                             }
                             pomao.body.symom = 0
                             pomao.body.ymom = 0
@@ -2286,6 +2368,24 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             if(pomao.body.symom != 0 || pomao.body.sxmom != 0){
                                 this.tonguex = 0
                                 this.tonguey = 0
+                                for(let g = 0; g<fruits.length;g++){
+                                    if(fruits[g].marked == 1){
+                                        fruits[g].anchor.xdif = 0
+                                        fruits[g].anchor.ydif = 0
+                                    }
+                                } 
+                                for(let g = 0; g<boys.length;g++){
+                                    if(boys[g].marked == 1){
+                                        boys[g].anchor.xdif = 0
+                                        boys[g].anchor.ydif = 0
+                                    }
+                                }
+                                for(let g = 0; g<swimmers.length;g++){
+                                    if(swimmers[g].marked == 1){
+                                        swimmers[g].anchor.xdif = 0
+                                        swimmers[g].anchor.ydif = 0
+                                    }
+                                }
                             }
                             pomao.body.symom = 0
                             pomao.body.ymom = 0
@@ -2485,7 +2585,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.tonguexmom*=.91
                 this.tongueymom*=.91
             }
-            this.tongue = new Circle(this.body.x+this.tonguex, this.body.y+this.tonguey, 5, "blue")
+            this.tongue = new Circlec(this.body.x+this.tonguex, this.body.y+this.tonguey, 5, "blue")
             this.tongued1 = new Circle(this.body.x+this.tonguex+(this.rattled/3), this.body.y+this.tonguey, 5, "#0000FF77")
             this.tongued2 = new Circle(this.body.x+this.tonguex-(this.rattled/3), this.body.y+this.tonguey, 5, "#0000FF77")
             this.tonguecast()
@@ -3037,7 +3137,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
             this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
-            this.tongue = new Circle(this.body.x+this.tonguex, this.body.y+this.tonguey, 5, "blue")
+            this.tongue = new Circlec(this.body.x+this.tonguex, this.body.y+this.tonguey, 5, "blue")
                 if(this.bodyxtight.isPointInside(this.tongue)){
                     if(keysPressed['ArrowDown'] || keysPressed['k'] ){
                         this.ydir = 1
