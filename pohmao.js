@@ -1,15 +1,15 @@
 
-    const zimgs = []
+    let zimgs = []
 
     // const gamepads
 
-    for(let i = 1; i < 43; i++) {
+    for(let i = 1; i < 44; i++) {
         zimgs.push(Object.assign(new Image(), { 'src': `z - ${i} copy-min.png` }));
         }
     for(let t = 42; t>0; t--){
         zimgs.push(zimgs[t])
     }
-    // ////console.log(zimgs)
+    // console.log(zimgs)
 
 window.addEventListener('DOMContentLoaded', (event) =>{
 
@@ -3483,13 +3483,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
     for(let t = 0 ; t< 4; t++){
-        const floor3 = new Rectangle(-100-300*t, 500-(t*200), 20, 400, "red")
+        const floor3 = new Rectangle(-90-300*t, 500-(t*200), 20, 400, "red")
         floors.push(floor3)
     
         // const boy = new Boys(floor3.x+(Math.random()*400),floor3.y-(Math.random()*400), 60+(t*.1),60+(t*.1), "red")
         // boys.push(boy)
         for(let t = 0;t<10; t++){
-            const fruit = new Fruit(floor3.x+(Math.random()*400),floor3.y-(100+Math.random()*400), 60,60, "red")
+            const fruit = new Fruit(floor3.x+(Math.random()*400),floor3.y-(100+Math.random()*320), 60,60, "red")
            
             let wet = 0
             for(let s = 0; s<floors.length; s++){
@@ -4128,16 +4128,20 @@ function getRandomLightColor() {
 if(pomao.tripping > 0){
     // if(Math.random()<.5){
         // ////console.time("frac")
-        const sheetwidtht = zimgs[0].width/3
-        const sheetheightt = zimgs[0].height/3
+        const sheetwidtht = zimgs[0].width
+        const sheetheightt = zimgs[0].height
         const colst = 3
         const rowst = 3
         const widtht = sheetwidtht/colst
         const heightt = sheetheightt/rowst
         const  srcxt = Math.floor(fractal.runnerx%colst)*widtht
         const  srcyt = Math.floor(fractal.runnery%rowst)*heightt
-        
-         tutorial_canvas_context.drawImage(zimgs[fractal.sheet], srcxt, srcyt, widtht, heightt, pomao.body.x-640, pomao.body.y-360, 1280, 720)
+
+        if(fractal.sheet < 0){
+            fractal.sheet=0
+        }
+        // console.log(fractal.sheet, zimgs[fractal.sheet%zimgs.length])
+         tutorial_canvas_context.drawImage(zimgs[fractal.sheet%zimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x-640, pomao.body.y-360, 1280, 720)
         //tutorial_canvas_context.drawImage(zimgs[fractal.sheet], 0, 0, widtht*3, heightt*3, pomao.body.x-640, pomao.body.y-360, 1280, 720)
 
         //  ////console.timeEnd("frac")
