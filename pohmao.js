@@ -12,8 +12,8 @@
     // console.log(zimgs)
 
     let rimgs = []
-    for(let i = 1; i < 10; i++) {
-        rimgs.push(Object.assign(new Image(), { 'src': `r9.png` }));
+    for(let i = 9; i < 12; i++) {
+        rimgs.push(Object.assign(new Image(), { 'src': `r${i}.png` }));
         }
 
 window.addEventListener('DOMContentLoaded', (event) =>{
@@ -819,6 +819,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     class Swimmer{
         constructor(x,y){
+            this.type = 2//Math.floor(Math.random()*3)
             this.body = new Circlec(x,y,15,"red")
             this.bodydraw = new Circlec(this.body.x,this.body.y,22,"red")
             this.marked = 0
@@ -941,8 +942,16 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         }
                     }
                 }
-                this.body.x+=this.xrepel
-                this.body.y+=this.yrepel
+                if(this.type == 0){
+                    this.body.x+=this.xrepel
+                    this.body.y+=this.yrepel
+                }else  if(this.type == 1){
+                    this.body.x+=this.xrepel
+                    this.body.x+=this.yrepel/2
+                }else  if(this.type == 2){
+                    this.body.y+=this.xrepel/2
+                    this.body.y+=this.yrepel
+                }
         }
         clean(){
         
@@ -1022,7 +1031,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 
                 // if(this.body.radius+7 >= 0){
-                    tutorial_canvas_context.drawImage(rimgs[8], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                    tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
                 // }    
                 // if(this.body.radius+3 >= 0){
                 //     tutorial_canvas_context.drawImage(rimgs[1], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
@@ -2172,7 +2181,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             const cloudpuff = new Shockwave(this.body)
                             shocks.push(cloudpuff)
                         }
-                    }else if(floors[t].isPointInside(pomao.tongue)){
+                    }else if(squarecircleedges(floors[t],pomao.tongue)){
                         // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                         // this.body.y = floors[t].y-this.body.radius
                         if(this.tongueymom <0){
@@ -3524,7 +3533,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
            
             let wet = 0
             for(let s = 0; s<floors.length; s++){
-                if(floors[s].isPointInside(fruit.body)){
+               if(squarecircleedges(floors[s],fruit.body)){
                     wet = 1
                     break
                 }
@@ -3553,7 +3562,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
            
             let wet = 0
             for(let s = 0; s<floors.length; s++){
-                if(floors[s].isPointInside(fruit.body)){
+               if(squarecircleedges(floors[s],fruit.body)){
                     wet = 1
                     break
                 }
@@ -3574,7 +3583,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
        
         let wet = 0
         for(let s = 0; s<floors.length; s++){
-            if(floors[s].isPointInside(fruit.body)){
+           if(squarecircleedges(floors[s],fruit.body)){
                 wet = 1
                 break
             }
@@ -3591,8 +3600,21 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     }
     
     const swimmers = []
-    for(let t = 0; t<60; t++){
-        const swimmer = new Swimmer( 4250+(Math.random()*6000), -4300+(Math.random()*3200))
+    for(let t = 0; t<30; t++){
+        const swimmer = new Swimmer( 4250+(Math.random()*6000), -4300+(Math.random()*1350))
+        swimmer.type = 1
+        swimmers.push(swimmer)
+    }
+
+    for(let t = 0; t<30; t++){
+        const swimmer = new Swimmer( 4250+(Math.random()*6000), -3475+(Math.random()*1350))
+        swimmer.type =0
+        swimmers.push(swimmer)
+    }
+
+    for(let t = 0; t<30; t++){
+        const swimmer = new Swimmer( 4250+(Math.random()*6000), -2700+(Math.random()*1350))
+        swimmer.type = 2
         swimmers.push(swimmer)
     }
 
@@ -3608,7 +3630,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         const fruit = new Fruit(-2450+(Math.random()*4850),225+(Math.random()*315), 60,60, "red")
         let wet = 0
         for(let s = 0; s<floors.length; s++){
-            if(floors[s].isPointInside(fruit.body)){
+           if(squarecircleedges(floors[s],fruit.body)){
                 wet = 1
                 break
             }
@@ -3628,7 +3650,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         const fruit = new Fruit(3740+(Math.random()*650),-470+(Math.random()*730), 60,60, "red")
         let wet = 0
         for(let s = 0; s<floors.length; s++){
-            if(floors[s].isPointInside(fruit.body)){
+           if(squarecircleedges(floors[s],fruit.body)){
                 wet = 1
                 break
             }
@@ -4173,6 +4195,20 @@ function squarecircleface(square, circle){
         if(square.y <= circle.y){
             if(squareendw+circle.radius >= circle.x){
                 if(squareendh >= circle.y){
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+function squarecircleedges(square, circle){
+    const squareendh = square.y + square.height
+    const squareendw = square.x + square.width
+    if(square.x <= circle.x+circle.radius){
+        if(square.y <= circle.y+circle.radius){
+            if(squareendw+circle.radius >= circle.x){
+                if(squareendh+circle.radius >= circle.y){
                     return true
                 }
             }
