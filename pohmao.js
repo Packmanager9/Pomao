@@ -13,7 +13,7 @@
 
     let rimgs = []
     for(let i = 1; i < 10; i++) {
-        rimgs.push(Object.assign(new Image(), { 'src': `r${i}.png` }));
+        rimgs.push(Object.assign(new Image(), { 'src': `r9.png` }));
         }
 
 window.addEventListener('DOMContentLoaded', (event) =>{
