@@ -2013,9 +2013,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     // ray.draw()
                     this.tongueray.push(ray)
                 }
-                this.tonguebox  = new Shape(this.tongueray)
 
             }
+            
+            this.tonguebox  = new Shape(this.tongueray)
         }
         gravity(){
             this.flapstep++
@@ -2214,7 +2215,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             const cloudpuff = new Shockwave(this.body)
                             shocks.push(cloudpuff)
                         }
-                    }else if(squarecircleedges(floors[t],pomao.tongue)){
+                    }else if(squarecircleedges(floors[t],pomao.tongue) && !this.body.repelCheck(this.tongue)){
                         // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                         // this.body.y = floors[t].y-this.body.radius
                         if(this.tongueymom <0){
