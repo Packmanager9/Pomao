@@ -952,8 +952,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         if(this.bodydraw.repelCheck( swimmers[f].bodydraw)){
                             const distance = ((new Line(swimmers[f].body.x, swimmers[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse())-(swimmers[f].bodydraw.radius+this.bodydraw.radius)
                             const angleRadians = Math.atan2(swimmers[f].body.y - this.body.y, swimmers[f].body.x - this.body.x);
-                            this.xrepel += (Math.cos(angleRadians)*distance)/2.1
-                            this.yrepel += (Math.sin(angleRadians)*distance)/2.1
+                            this.xrepel += (Math.cos(angleRadians)*distance)/2
+                            this.yrepel += (Math.sin(angleRadians)*distance)/2
                         }
                     }
                 }
