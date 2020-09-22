@@ -2229,8 +2229,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                     this.body.sxmom +=Math.abs(this.tonguexmom*3)
                                 }
                             }
-                            this.tongueymom*=.45
-                            this.tonguexmom*=.45
+                            this.tongueymom*=.49
+                            this.tonguexmom*=.49
                         }else{
                             if(Math.abs(this.tonguey) >1){
                             this.body.symom -=this.tongueymom*1.1
@@ -2244,12 +2244,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             }
                             if(!roofs.includes(floors[t])){
 
-                            this.tongueymom*=.45
-                            this.tonguexmom*=.45
+                            this.tongueymom*=.49
+                            this.tonguexmom*=.49
                             }
                         }
                         pomao.body.ymom = 0
-                        pomao.body.xmom = 0
+                        pomao.body.xmom *= .975
                         this.dry = 1
                         break
                     }
