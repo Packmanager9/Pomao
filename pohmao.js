@@ -1030,6 +1030,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(link.hypotenuse() < 450){
                 this.body.xmom += (pomao.body.x-this.body.x)/1200
                 this.body.ymom += (pomao.body.y-this.body.y)/1200
+                for(let t = 0; (Math.abs(this.body.xmom)+Math.abs(this.body.ymom)) < 2; t++){
+                    this.body.ymom *=1.01
+                    this.body.xmom *=1.01
+                }   
                 this.body.x+=this.body.xmom
                 this.body.y+=this.body.ymom
             }
@@ -1085,8 +1089,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         if(this.bodydraw.repelCheck( swimmers[f].bodydraw)){
                             let distance = ((new Line(swimmers[f].body.x, swimmers[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse())-(swimmers[f].bodydraw.radius+this.bodydraw.radius)
                             let angleRadians = Math.atan2(swimmers[f].body.y - this.body.y, swimmers[f].body.x - this.body.x);
-                            this.xrepel += (Math.cos(angleRadians)*distance)/1.25
-                            this.yrepel += (Math.sin(angleRadians)*distance)/1.25
+                            this.xrepel += (Math.cos(angleRadians)*distance)/2
+                            this.yrepel += (Math.sin(angleRadians)*distance)/2
                         }
                     }
                 }
@@ -2675,8 +2679,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
         for(let t = 0; t<boys.length; t++){
-            if(boys[t].x > this.body.x-(tutorial_canvas.width/1.8) && boys[t].x < this.body.x+(tutorial_canvas.width/1.8) ){
-                if(boys[t].y > this.body.y-(tutorial_canvas.height/1.8) && boys[t].y < this.body.y+(tutorial_canvas.height/1.8) ){
+            if(boys[t].x > this.body.x-(tutorial_canvas.width/1.6) && boys[t].x < this.body.x+(tutorial_canvas.width/1.6) ){
+                if(boys[t].y > this.body.y-(tutorial_canvas.height/1.6) && boys[t].y < this.body.y+(tutorial_canvas.height/1.6) ){
                 boys[t].draw()
                 }
             }else{
@@ -2686,8 +2690,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
 
         for(let t = 0; t<swimmers.length; t++){
-            if(swimmers[t].body.x > this.body.x-(tutorial_canvas.width/1.8) && swimmers[t].body.x < this.body.x+(tutorial_canvas.width/1.8) ){
-                if(swimmers[t].body.y > this.body.y-(tutorial_canvas.height/1.8) && swimmers[t].body.y < this.body.y+(tutorial_canvas.height/1.8) ){
+            if(swimmers[t].body.x > this.body.x-(tutorial_canvas.width/1.6) && swimmers[t].body.x < this.body.x+(tutorial_canvas.width/1.6) ){
+                if(swimmers[t].body.y > this.body.y-(tutorial_canvas.height/1.6) && swimmers[t].body.y < this.body.y+(tutorial_canvas.height/1.6) ){
                 swimmers[t].draw()
                 }
             }
