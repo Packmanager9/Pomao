@@ -11,6 +11,10 @@
     }
     // console.log(zimgs)
 
+    let rimgs = []
+    for(let i = 1; i < 8; i++) {
+        rimgs.push(Object.assign(new Image(), { 'src': `r${i}.png` }));
+        }
 
 window.addEventListener('DOMContentLoaded', (event) =>{
 
@@ -100,7 +104,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             gamepadAPI.axesStatus = axes;
             gamepadAPI.buttonsStatus = pressed;
             // return buttons for debugging purposes
-            console.log(pressed)
+            // console.log(pressed)
             return pressed;
           },
           buttonPressed: function(button, hold) {
@@ -1002,20 +1006,43 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 this.move()
                 this.bodydraw = new Circlec(this.body.x,this.body.y,this.body.radius+7,"#AA00DD")
-                this.bodydraw.draw()
-                this.bodydraw1 = new Circlec(this.body.x,this.body.y,this.body.radius+3,"#FFFF00")
-                this.bodydraw1.draw()
-                this.bodydraw2 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius,0),"#AA00DD")
-                this.bodydraw2.draw()
-                this.bodydraw3 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-4,0),"#FFDD00")
-                this.bodydraw3.draw()
-                this.bodydraw4 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-7,0),"#AA00DD")
-                this.bodydraw4.draw()
-                this.bodydraw5 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-10,0),"#FFBB00")
-                this.bodydraw5.draw()
-                this.bodydraw6 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-13,0),"#AA00DD")
-                this.bodydraw6.draw()
-            }
+                // this.bodydraw.draw()
+                // this.bodydraw1 = new Circlec(this.body.x,this.body.y,this.body.radius+3,"#FFFF00")
+                // this.bodydraw1.draw()
+                // this.bodydraw2 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius,0),"#AA00DD")
+                // this.bodydraw2.draw()
+                // this.bodydraw3 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-4,0),"#FFDD00")
+                // this.bodydraw3.draw()
+                // this.bodydraw4 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-7,0),"#AA00DD")
+                // this.bodydraw4.draw()
+                // this.bodydraw5 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-10,0),"#FFBB00")
+                // this.bodydraw5.draw()
+                // this.bodydraw6 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-13,0),"#AA00DD")
+                // this.bodydraw6.draw()
+
+                
+                // if(this.body.radius+7 >= 0){
+                    tutorial_canvas_context.drawImage(rimgs[0], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // }    
+                // if(this.body.radius+3 >= 0){
+                    tutorial_canvas_context.drawImage(rimgs[1], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // }    
+                // if(this.body.radius >= 0){
+                    tutorial_canvas_context.drawImage(rimgs[2], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // }    
+                // if(this.body.radius-3 >= 0){
+                    tutorial_canvas_context.drawImage(rimgs[3], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // }    
+                // if(this.body.radius-6 >= 0){
+                    tutorial_canvas_context.drawImage(rimgs[4], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // }  
+                // if(this.body.radius-9 >= 0){
+                    tutorial_canvas_context.drawImage(rimgs[5], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // }
+                // if(this.body.radius-12 >= 0){
+                    tutorial_canvas_context.drawImage(rimgs[6], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+                // }
+          }
         }
 
     }
