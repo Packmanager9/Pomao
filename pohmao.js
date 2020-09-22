@@ -892,7 +892,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         
         if(this.bodydraw.repelCheck(pomao.tongue)  || pomao.tonguebox.isPointInside(this.body)){
           this.marked = 1  
-          this.body.radius*=.95
+          this.body.radius*=.975
           if(this.anchor.xdif+this.anchor.ydif == 0){
             this.anchor.xdif = pomao.tongue.x-this.bodydraw.x
             this.anchor.ydif =pomao.tongue.y- this.bodydraw.y
@@ -905,7 +905,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         }
         if(this.bodydraw.repelCheck(pomao.body) && (this.bodydraw.repelCheck(pomao.tongue)|| (this.marked == 1 ||this.marked == 2))){
-          this.body.radius*=.4
+          this.body.radius*=.9
           this.marked = 2
           pomao.diry = 1
         }else if (this.bodydraw.repelCheck(pomao.body) && !this.bodydraw.repelCheck(pomao.tongue )){
