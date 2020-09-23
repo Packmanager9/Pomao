@@ -838,12 +838,28 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             for(let g = 0; g < 7; g++){
                 let color
-                if(g%2==0){
-                    color = "#AA00DD"
-                }else{
-                    color = "#FFDD00"
+                if(this.type == 0){
+                    if(g%2==0){
+                        color = "#AA00DD"
+                    }else{
+                        color = "#FFDD00"
+                    }
                 }
-                const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius/4, color, Math.cos(rotx)*1, Math.sin(roty)*1 )
+                if(this.type == 1){
+                    if(g%2==0){
+                        color = "#1100DD"
+                    }else{
+                        color = "#DD0011"
+                    }
+                }
+                if(this.type == 2){
+                    if(g%2==0){
+                        color = "#FF0000"
+                    }else{
+                        color = "#00FF00"
+                    }
+                }
+                const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius/4, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
                 this.pops.push(dot1)
                 rotx += 2*Math.PI/7
                 roty += 2*Math.PI/7
@@ -857,7 +873,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
             for(let t = 0;t<this.pops.length; t++){
-                this.pops[t].radius*=.95
+                this.pops[t].radius*=.8
                 this.pops[t].move()
                 this.pops[t].draw()
             }
@@ -1101,7 +1117,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             let roty = 0
             const color = getRandomLightColor()
             for(let g = 0; g < 7; g++){
-                const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius/4, color, Math.cos(rotx)*1, Math.sin(roty)*1 )
+                const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius/4, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
                 this.pops.push(dot1)
                 rotx += 2*Math.PI/7
                 roty += 2*Math.PI/7
@@ -1115,7 +1131,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
             for(let t = 0;t<this.pops.length; t++){
-                this.pops[t].radius*=.95
+                this.pops[t].radius*=.8
                 this.pops[t].move()
                 this.pops[t].draw()
             }
@@ -1498,7 +1514,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     }
                 }
 
-            this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
+                this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
+                this.bodybig = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/1.5, "blue")
         }
         draw(){
             // tutorial_canvas_context.lineWidth = 1
@@ -3565,7 +3582,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         floors.push(lvl1floorloop)
         const lvl1floorloopsolid = new Rectangle(lvl1floorloop.x+lvl1floorloop.width-10,lvl1floorloop.y, 50, Math.round((t*t*70)*.0025)*400, "red")
         for(let t =lvl1floorloopsolid.x+750;t<lvl1floorloopsolid.x+lvl1floorloopsolid.width;t+=300){
-            const boy = new Boys(t,lvl1floorloopsolid.y-50,50,50,'red')
+            const boy = new Boys(t-50,lvl1floorloopsolid.y-50,50,50,'red')
             boys.push(boy)
         }
         floors.push(lvl1floorloopsolid)
@@ -3669,6 +3686,37 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     blocks.push(block2)
 
 
+    const buttonswitch = new Switchfloor(4500,-640,  4500-2000, -800,50, 2050)
+    const lvl1buttonswitch = new Switchfloor(6500,-3540,  9800, -3540,50, 1200)
+    const lvl1buttonswitch1 = new Switchfloor(4080,-2540,  4200, -4150,50,380)
+    const lvl1buttonswitchwall2 = new Switchfloor(4080,-2540,  4550, -4450,330, 50)
+
+    lvl1buttonswitchwall2.button = lvl1buttonswitch1.button
+    const lvl1fooroverhang = new Rectangle(10800, -2800, 50, 250, "red")
+    floors.push(lvl1fooroverhang)
+    walls.push(lvl1fooroverhang)
+    roofs.push(lvl1fooroverhang)
+  
+    const lvl1fooroverhangwall = new Rectangle(11000, -3540, 790, 50, "red")
+    floors.push(lvl1fooroverhangwall)
+    walls.push(lvl1fooroverhangwall)
+    roofs.push(lvl1fooroverhangwall)
+  
+  
+    const lvl1fooroverhangwall2 = new Rectangle(10140, -2440, 790, 50, "red")
+    floors.push(lvl1fooroverhangwall2)
+    walls.push(lvl1fooroverhangwall2)
+    roofs.push(lvl1fooroverhangwall2)
+  
+  
+    const lvl1fooroverhangwal3 = new Rectangle(6240, -2380, 380, 50, "red")
+    floors.push(lvl1fooroverhangwal3)
+    walls.push(lvl1fooroverhangwal3)
+    roofs.push(lvl1fooroverhangwal3)
+  
+    const lvl1fooroverhangthin = new Rectangle( 9800, -2800,20, 1000, "red")
+    floors.push(lvl1fooroverhangthin)
+  
 
     for(let t = 0 ; t< 4; t++){
         const floor3 = new Rectangle(-130+600*t, 500-(t*90), 20, 400, "red")
@@ -3984,43 +4032,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         boys.push(boy)
     }
     
-    const buttonswitch = new Switchfloor(4500,-640,  4500-2000, -800,50, 2050)
-    const lvl1buttonswitch = new Switchfloor(6500,-3540,  9800, -3540,50, 1200)
-    const lvl1buttonswitch1 = new Switchfloor(4080,-2540,  4200, -4150,50,380)
-    const lvl1buttonswitchwall2 = new Switchfloor(4080,-2540,  4550, -4450,330, 50)
-
-    lvl1buttonswitchwall2.button = lvl1buttonswitch1.button
-    const lvl1fooroverhang = new Rectangle(10800, -2800, 50, 250, "red")
-    floors.push(lvl1fooroverhang)
-    walls.push(lvl1fooroverhang)
-    roofs.push(lvl1fooroverhang)
-  
-    const lvl1fooroverhangwall = new Rectangle(11000, -3540, 790, 50, "red")
-    floors.push(lvl1fooroverhangwall)
-    walls.push(lvl1fooroverhangwall)
-    roofs.push(lvl1fooroverhangwall)
-  
-  
-    const lvl1fooroverhangwall2 = new Rectangle(10140, -2440, 790, 50, "red")
-    floors.push(lvl1fooroverhangwall2)
-    walls.push(lvl1fooroverhangwall2)
-    roofs.push(lvl1fooroverhangwall2)
-  
-  
-    const lvl1fooroverhangwal3 = new Rectangle(6240, -2380, 380, 50, "red")
-    floors.push(lvl1fooroverhangwal3)
-    walls.push(lvl1fooroverhangwal3)
-    roofs.push(lvl1fooroverhangwal3)
-  
-    const lvl1fooroverhangthin = new Rectangle( 9800, -2800,20, 1000, "red")
-    floors.push(lvl1fooroverhangthin)
-  
     
     for(let t = 0;t<90; t++){
         const fruit = new Fruit(4200+(Math.random()*330),-4450+(Math.random()*330), 60,60, "red")
         let wet = 0
         for(let s = 0; s<floors.length; s++){
            if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) ){
                 wet = 1
                 break
             }
@@ -4035,6 +4058,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         let wet = 0
         for(let s = 0; s<floors.length; s++){
            if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.bodybig.repelCheck(fruits[k].body) ){
                 wet = 1
                 break
             }
