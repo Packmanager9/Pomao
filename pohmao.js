@@ -2157,6 +2157,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     }
     class Pomao{
         constructor(){
+            this.dry = 0
             this.tongueray = []
             this.tonguebox = new Shape(this.tongueray)
             this.pausetimer = 10
