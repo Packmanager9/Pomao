@@ -405,8 +405,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     const tutorial_canvas = document.getElementById("tutorial");
     const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
-    tutorial_canvas_context.scale(.07,.07)
-    tutorial_canvas_context.translate(-4050,8750)
+    // tutorial_canvas_context.scale(.07,.07)
+    // tutorial_canvas_context.translate(-4050,8750)
     // tutorial_canvas_context.translate(2500,6000)
 
     tutorial_canvas.style.background = "#664613"
@@ -4518,7 +4518,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
 
     },  14) 
-}, 1); 
+}, 6969); 
 
 function squarecirclefaceblockjump(square, circle){
     const squareendh = square.y + square.height
