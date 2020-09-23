@@ -3554,7 +3554,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.body1anchor = new Circle(this.body1.x+((Math.random()-.5)*200), this.body1.y+((Math.random()-.5)*200), 10,"transparent")
             this.body2anchor = new Circle(this.body2.x+((Math.random()-.5)*200), this.body2.y+((Math.random()-.5)*200), 10,"transparent")
             this.body3anchor = new Circle(this.body3.x+((Math.random()-.5)*200), this.body3.y+((Math.random()-.5)*200), 10,"transparent")
-            this.health = 333
+            this.health = 666
             this.beams = []
             this.beambox = new Shape(this.beams)
             this.bump = 0
@@ -3606,7 +3606,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                   if(pomao.pounding!=10){
                                     pomao.body.xmom = -3*(this.bump)
                                     pomao.disabled = 1
-                                    pomao.hits--
+                                    pomao.hits-=2
                                      pomao.body.ymom = -1.8
                                     //  this.body.xmom = -pomao.body.xmom
                                   }
@@ -3687,7 +3687,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         beam(){
                 
             this.beams = []
-            if(this.health/10 >= 10){
+            if(this.health/20 >= 10){
 
                 for(let t=0;t<this.health;t+=10){
                         
@@ -3698,7 +3698,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     let battley = battey/this.health
                     battley*=t
                         
-                        const ray = new Circlec(this.body1.x+battle, this.body1.y+battley,(this.health/10)+5, "red"  )
+                        const ray = new Circlec(this.body1.x+battle, this.body1.y+battley,(this.health/20)+5, "red"  )
                         this.beams.push(ray)
                         
                     let battez = (this.body3.x-this.body2.x)
@@ -3708,7 +3708,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     let battleyz = batteyz/this.health
                     battleyz*=t
                         
-                        const rayx = new Circlec(this.body1.x+battlez, this.body1.y+battleyz,(this.health/10)+5, "red"  )
+                        const rayx = new Circlec(this.body1.x+battlez, this.body1.y+battleyz,(this.health/20)+5, "red"  )
                         this.beams.push(rayx)
                 }
             }else{
@@ -3722,7 +3722,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     let battley = battey/20
                     battley*=t
                         
-                        const ray = new Circlec(this.body1.x+battle, this.body1.y+battley,(this.health/10)+5, "red"  )
+                        const ray = new Circlec(this.body1.x+battle, this.body1.y+battley,(this.health/20)+5, "red"  )
                         this.beams.push(ray)
                         
                     let battez = (this.body3.x-this.body2.x)
@@ -3732,7 +3732,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     let battleyz = batteyz/20
                     battleyz*=t
                         
-                        const rayx = new Circlec(this.body1.x+battlez, this.body1.y+battleyz,(this.health/10)+5, "red"  )
+                        const rayx = new Circlec(this.body1.x+battlez, this.body1.y+battleyz,(this.health/20)+5, "red"  )
                         this.beams.push(rayx)
                 }
             }
