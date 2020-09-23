@@ -3987,7 +3987,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     const buttonswitch = new Switchfloor(4500,-640,  4500-2000, -800,50, 2050)
     const lvl1buttonswitch = new Switchfloor(6500,-3540,  9800, -3540,50, 1200)
     const lvl1buttonswitch1 = new Switchfloor(4080,-2540,  4200, -4150,50,380)
-    const lvl1buttonswitchwall2 = new Switchfloor(0,0,  4550, -4450,330, 50)
+    const lvl1buttonswitchwall2 = new Switchfloor(4080,-2540,  4550, -4450,330, 50)
 
     lvl1buttonswitchwall2.button = lvl1buttonswitch1.button
     const lvl1fooroverhang = new Rectangle(10800, -2800, 50, 250, "red")
@@ -4322,7 +4322,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
 
     },  14) 
-}, 1); 
+}, 6969); 
 
 function squarecirclefaceblockjump(square, circle){
     const squareendh = square.y + square.height
