@@ -401,7 +401,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     const tutorial_canvas = document.getElementById("tutorial");
     const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
-    // tutorial_canvas_context.scale(.1,.1)
+    // tutorial_canvas_context.scale(.09,.09)
     // tutorial_canvas_context.translate(2500,6000)
 
     tutorial_canvas.style.background = "#664613"
@@ -836,17 +836,17 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             let rotx = 0
             let roty = 0
 
-            for(let g = 0; g < 9; g++){
+            for(let g = 0; g < 7; g++){
                 let color
                 if(g%2==0){
                     color = "#AA00DD"
                 }else{
                     color = "#FFDD00"
                 }
-                const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius, color, Math.cos(rotx)*1, Math.sin(roty)*1 )
+                const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius/4, color, Math.cos(rotx)*1, Math.sin(roty)*1 )
                 this.pops.push(dot1)
-                rotx += 2*Math.PI/9
-                roty += 2*Math.PI/9
+                rotx += 2*Math.PI/7
+                roty += 2*Math.PI/7
             }
         
         }
@@ -857,7 +857,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
             for(let t = 0;t<this.pops.length; t++){
-                this.pops[t].radius*=.9
+                this.pops[t].radius*=.95
                 this.pops[t].move()
                 this.pops[t].draw()
             }
@@ -1099,12 +1099,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         pop(){
             let rotx = 0
             let roty = 0
-
-            for(let g = 0; g < 9; g++){
-                const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius, getRandomLightColor(), Math.cos(rotx)*1, Math.sin(roty)*1 )
+            const color = getRandomLightColor()
+            for(let g = 0; g < 7; g++){
+                const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius/4, color, Math.cos(rotx)*1, Math.sin(roty)*1 )
                 this.pops.push(dot1)
-                rotx += 2*Math.PI/9
-                roty += 2*Math.PI/9
+                rotx += 2*Math.PI/7
+                roty += 2*Math.PI/7
             }
         
         }
@@ -1115,7 +1115,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }
             for(let t = 0;t<this.pops.length; t++){
-                this.pops[t].radius*=.9
+                this.pops[t].radius*=.95
                 this.pops[t].move()
                 this.pops[t].draw()
             }
@@ -1952,6 +1952,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         constructor(x,y,x2,y2,h,w){
             this.button = new Switchbutton(x,y)
             this.floor = new Rectangle(x2,y2,h,w, "red")
+            floors.push(this.button.body)
+            walls.push(this.button.body)
+            roofs.push(this.button.body)
             floors.push(this.floor)
             walls.push(this.floor)
             roofs.push(this.floor)
@@ -2647,13 +2650,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         this.link = new Line(this.body.x, 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongue.x, this.tongue.y, "blue", 3)
         this.link.draw()
         for(let t = 0; t<fruits.length; t++){
-            if(fruits[t].x > this.body.x-((tutorial_canvas.width/2)+fruits[t].width) && fruits[t].x < this.body.x+((tutorial_canvas.width/2)+fruits[t].width) ){
-                if(fruits[t].y > this.body.y-((tutorial_canvas.height/2)+fruits[t].height) && fruits[t].y < this.body.y+((tutorial_canvas.height/2)+fruits[t].height) ){
+            // if(fruits[t].x > this.body.x-((tutorial_canvas.width/2)+fruits[t].width) && fruits[t].x < this.body.x+((tutorial_canvas.width/2)+fruits[t].width) ){
+            //     if(fruits[t].y > this.body.y-((tutorial_canvas.height/2)+fruits[t].height) && fruits[t].y < this.body.y+((tutorial_canvas.height/2)+fruits[t].height) ){
 
                 fruits[t].draw()
                 
-            }
-        }
+        //     }
+        // }
         }
 
 
@@ -3982,10 +3985,65 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     }
     
     const buttonswitch = new Switchfloor(4500,-640,  4500-2000, -800,50, 2050)
+    const lvl1buttonswitch = new Switchfloor(6500,-3540,  9800, -3540,50, 1200)
+    const lvl1buttonswitch1 = new Switchfloor(4080,-2540,  4200, -4150,50,380)
+    const lvl1buttonswitchwall2 = new Switchfloor(0,0,  4550, -4450,330, 50)
+
+    lvl1buttonswitchwall2.button = lvl1buttonswitch1.button
+    const lvl1fooroverhang = new Rectangle(10800, -2800, 50, 250, "red")
+    floors.push(lvl1fooroverhang)
+    walls.push(lvl1fooroverhang)
+    roofs.push(lvl1fooroverhang)
   
-    floors.push(buttonswitch.button.body)
-    walls.push(buttonswitch.button.body)
-    roofs.push(buttonswitch.button.body)
+    const lvl1fooroverhangwall = new Rectangle(11000, -3540, 790, 50, "red")
+    floors.push(lvl1fooroverhangwall)
+    walls.push(lvl1fooroverhangwall)
+    roofs.push(lvl1fooroverhangwall)
+  
+  
+    const lvl1fooroverhangwall2 = new Rectangle(10140, -2440, 790, 50, "red")
+    floors.push(lvl1fooroverhangwall2)
+    walls.push(lvl1fooroverhangwall2)
+    roofs.push(lvl1fooroverhangwall2)
+  
+  
+    const lvl1fooroverhangwal3 = new Rectangle(6240, -2380, 380, 50, "red")
+    floors.push(lvl1fooroverhangwal3)
+    walls.push(lvl1fooroverhangwal3)
+    roofs.push(lvl1fooroverhangwal3)
+  
+    const lvl1fooroverhangthin = new Rectangle( 9800, -2800,20, 1000, "red")
+    floors.push(lvl1fooroverhangthin)
+  
+    
+    for(let t = 0;t<90; t++){
+        const fruit = new Fruit(4200+(Math.random()*330),-4450+(Math.random()*330), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+    
+    for(let t = 0;t<50; t++){
+        const fruit = new Fruit(9800+(Math.random()*1150),-3490+(Math.random()*740), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+
 
     setTimeout(function(){
     window.setInterval(function(){ 
@@ -4077,7 +4135,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             // floor.draw()
     
-            buttonswitch.draw()
+            for(let t = 0;t<switches.length;t++){
+                switches[t].draw()
+            }
             tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
             for(let t = 0; t<pomao.eggs.length; t++){
                 pomao.eggs[t].draw()
@@ -4262,7 +4322,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
 
     },  14) 
-}, 6969); 
+}, 1); 
 
 function squarecirclefaceblockjump(square, circle){
     const squareendh = square.y + square.height
