@@ -773,7 +773,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.tip = this.y - this.length*2.5
             this.width = length*10
             this.height = length*2.5
-            this.accept1 = (this.y-this.tip)/(this.x1-this.x)
+            // this.accept1 = (this.y-this.tip)/(this.x1-this.x)
             this.accept2 = (this.y-this.tip)/(this.x2-this.x)
 
         }
@@ -797,7 +797,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 if(point.y >= this.tip){
                     if(point.y <= this.y){
                         if(point.x >= this.x2){
-                            this.accept1 = (this.y-this.tip)/(this.x1-this.x)
+                            // this.accept1 = (this.y-this.tip)/(this.x1-this.x)
                             this.accept2 = (this.y-this.tip)/(this.x2-this.x)
                             this.basey = point.y-this.tip
                             this.basex = point.x - this.x
@@ -805,9 +805,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 return true
                             }
                             this.slope = this.basey/this.basex
-                            if(this.slope >= this.accept1){
-                                return true
-                            }else if(this.slope <= this.accept2){
+                            if(this.slope <= this.accept2){
                                 return true
                             }
                         }
@@ -3583,20 +3581,77 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     }
     class Bossbeam {
         constructor(){
-            this.body1 = new Circle(640,360, 10,"transparent")
-            this.body2 = new Circle(640,360, 10,"transparent")
-            this.body3 = new Circle(640,360, 10,"transparent")
+            this.body1 = new Circle(9000,100, 10,"transparent")
+            this.body2 = new Circle(9000,100, 10,"transparent")
+            this.body3 = new Circle(9000,100, 10,"transparent")
             this.body1anchor = new Circle(this.body1.x+((Math.random()-.5)*200), this.body1.y+((Math.random()-.5)*200), 10,"transparent")
             this.body2anchor = new Circle(this.body2.x+((Math.random()-.5)*200), this.body2.y+((Math.random()-.5)*200), 10,"transparent")
             this.body3anchor = new Circle(this.body3.x+((Math.random()-.5)*200), this.body3.y+((Math.random()-.5)*200), 10,"transparent")
-            this.health = 20
+            this.health = 333
             this.beams = []
             this.beambox = new Shape(this.beams)
+            this.bump = 0
+            this.xrepel = 0
+            this.yrepel = 0
         }
         draw(){
-            this.move()
-            for(let t=0;t<this.beams.length;t++){
-                this.beams[t].draw()
+            if(this.health > 0){
+
+                if(boss.body1.x > pomao.body.x-((tutorial_canvas.width*1)+boss.body1.radius) && boss.body1.x < pomao.body.x+((tutorial_canvas.width*1)+boss.body1.radius) ){
+                    if(boss.body1.y > pomao.body.y-((tutorial_canvas.height*1)+boss.body1.radius) && boss.body1.y < pomao.body.y+((tutorial_canvas.height*1)+boss.body1.radius) ){
+                        this.move()
+                    }else{
+                        this.beam()
+                    }
+                 }else{
+                     this.beam()
+                 }
+
+                for(let t=0;t<this.beams.length;t++){
+                    tutorial_canvas_context.drawImage(rimgs[0], 0, 0, 48, 48, this.beams[t].x-(24*(this.beams[t].radius*.06666666666)), this.beams[t].y-(24*(this.beams[t].radius*.06666666666)), 48*(this.beams[t].radius*.06666666666),  48*(this.beams[t].radius*.06666666666))
+   
+                }
+    
+                for(let t=0;t<pomao.thrown.length; t++){   
+                    if(this.beambox.isPointInside(pomao.thrown[t])){
+                        this.health-=2.5
+                    }
+                }
+                for(let t=0;t<shockfriendly.shocksl.length; t++){   
+                    if(this.beambox.isPointInside(shockfriendly.shocksl[t])){
+                        this.health-=.2
+                    }
+                }
+                for(let t=0;t<shockfriendly.shocksr.length; t++){   
+                    if(this.beambox.isPointInside(shockfriendly.shocksr[t])){
+                        this.health-=.2
+                    }
+                }
+                if(this.beambox.isPointInside(pomao.body)){
+                    if(this.body1.x > pomao.body.x){
+                        this.bump = 1
+                    }else{
+                        this.bump = -1
+                    }
+                //   if(pomao.body.ymom == 0){
+                          if(this.body1.radius >= 1){
+                              if(pomao.disabled != 1){
+                                  if(pomao.pounding!=10){
+                                    pomao.body.xmom = -3*(this.bump)
+                                    pomao.disabled = 1
+                                    pomao.hits--
+                                     pomao.body.ymom = -1.8
+                                    //  this.body.xmom = -pomao.body.xmom
+                                  }
+                              }else{
+                                  if(this.bump*pomao.body.xmom >0){
+                                    pomao.body.xmom = -1.8*(this.bump)
+                                    pomao.body.ymom = -1.8
+                                    // this.body.xmom = -pomao.body.xmom
+                                  }
+                              }
+                          }
+                }
             }
         }
         move(){
@@ -3608,33 +3663,66 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.body3.x+= (this.body3anchor.x-this.body3.x)/80
             this.body3.y+= (this.body3anchor.y-this.body3.y)/80
             
-            this.body1anchor.xmom+= (this.body1anchor.x-pomao.body.x)/-190
-            this.body1anchor.ymom+= (this.body1anchor.y-pomao.body.y)/-190
-            this.body2anchor.xmom+= (this.body2anchor.x-pomao.body.x)/-190
-            this.body2anchor.ymom+= (this.body2anchor.y-pomao.body.y)/-190
-            this.body3anchor.xmom+= (this.body3anchor.x-pomao.body.x)/-190
-            this.body3anchor.ymom+= (this.body3anchor.y-pomao.body.y)/-190
+            this.body1anchor.xmom+= (this.body1anchor.x-pomao.body.x)/-500
+            this.body1anchor.ymom+= (this.body1anchor.y-pomao.body.y)/-500
+            this.body2anchor.xmom+= (this.body2anchor.x-pomao.body.x)/-500
+            this.body2anchor.ymom+= (this.body2anchor.y-pomao.body.y)/-500
+            this.body3anchor.xmom+= (this.body3anchor.x-pomao.body.x)/-500
+            this.body3anchor.ymom+= (this.body3anchor.y-pomao.body.y)/-500
             
             this.body1anchor.move()
             this.body2anchor.move()
             this.body3anchor.move()
-    
-            if(Math.random()<.01){
-                this.body3anchor = new Circle(this.body3anchor.x+((Math.random()-.5)*1280), this.body3anchor.y+((Math.random()-.5)*720), 100,"transparent")
+
+            
+            this.body1anchor.xmom *= .98
+            this.body2anchor.xmom *= .98
+            this.body3anchor.xmom *= .98
+            this.body1anchor.ymom *= .98
+            this.body2anchor.ymom *= .98
+            this.body3anchor.ymom *= .98
+
+            if(this.body3anchor.repelCheck(this.body1anchor)){
+                const distance = ((new Line(this.body1anchor.x, this.body1anchor.y, this.body3anchor.x, this.body3anchor.y, 1, "red")).hypotenuse())-(this.body1anchor.radius+this.body3anchor.radius)
+                const angleRadians = Math.atan2(this.body1anchor.y - this.body3anchor.y, this.body1anchor.x - this.body3anchor.x);
+                this.xrepel += (Math.cos(angleRadians)*distance)/2
+                this.yrepel += (Math.sin(angleRadians)*distance)/2
+            }
+            
+
+            this.body3anchor.x-=this.xrepel
+            this.body3anchor.y-=this.yrepel
+            this.body1anchor.x+=this.xrepel
+            this.body1anchor.y+=this.yrepel
+
+            
+            this.xrepel = 0
+            this.yrepel = 0
+
+
+            if(Math.random()<.02){
+                this.body3anchor = new Circle(this.body3anchor.x+((Math.random()-.5)*3300), this.body3anchor.y+((Math.random()-.5)*2100), 100,"transparent")
+                // this.body3anchor.draw()
                 }
     
                 if(Math.random()<.01){
-                    this.body1anchor = new Circle(this.body1anchor.x+((Math.random()-.5)*1280), this.body1anchor.y+((Math.random()-.5)*720), 100,"transparent")
+                    this.body1anchor = new Circle(this.body1anchor.x+((Math.random()-.5)*3300), this.body1anchor.y+((Math.random()-.5)*2100), 100,"transparent")
                     }
     
-                    if(Math.random()<.01){
+                    if(Math.random()<.005){
                         this.body2anchor = new Circle(this.body2anchor.x+((Math.random()-.5)*1280), this.body2anchor.y+((Math.random()-.5)*720), 100,"transparent")
                         }
+
+                        // this.body1anchor.draw()
+                        // this.body2anchor.draw()
+                        // this.body3anchor.draw()
         }
         beam(){
                 
             this.beams = []
-                for(let t=0;t<this.health;t++){
+            if(this.health/10 >= 10){
+
+                for(let t=0;t<this.health;t+=10){
                         
                     let batte = (this.body1.x-this.body2.x)
                     let battle = batte/this.health
@@ -3643,7 +3731,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     let battley = battey/this.health
                     battley*=t
                         
-                        const ray = new Circlec(this.body1.x+battle, this.body1.y+battley,this.health+10, "red"  )
+                        const ray = new Circlec(this.body1.x+battle, this.body1.y+battley,(this.health/10)+5, "red"  )
                         this.beams.push(ray)
                         
                     let battez = (this.body3.x-this.body2.x)
@@ -3653,9 +3741,34 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     let battleyz = batteyz/this.health
                     battleyz*=t
                         
-                        const rayx = new Circlec(this.body1.x+battlez, this.body1.y+battleyz,this.health+10, "red"  )
+                        const rayx = new Circlec(this.body1.x+battlez, this.body1.y+battleyz,(this.health/10)+5, "red"  )
                         this.beams.push(rayx)
                 }
+            }else{
+                
+                for(let t=0;t<10;t++){
+                        
+                    let batte = (this.body1.x-this.body2.x)
+                    let battle = batte/10
+                    battle*=t
+                    let battey = (this.body1.y-this.body2.y)
+                    let battley = battey/10
+                    battley*=t
+                        
+                        const ray = new Circlec(this.body1.x+battle, this.body1.y+battley,(this.health/10)+5, "red"  )
+                        this.beams.push(ray)
+                        
+                    let battez = (this.body3.x-this.body2.x)
+                    let battlez = battez/10
+                    battlez*=t
+                    let batteyz = (this.body3.y-this.body2.y)
+                    let battleyz = batteyz/10
+                    battleyz*=t
+                        
+                        const rayx = new Circlec(this.body1.x+battlez, this.body1.y+battleyz,(this.health/10)+5, "red"  )
+                        this.beams.push(rayx)
+                }
+            }
     
         
             
@@ -4326,6 +4439,26 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     let boss = new Bossbeam()
 
+    for(let t = 0;t<500; t++){
+        const fruit = new Fruit(-2000+boss.body1.x+((Math.random()-.5)*9500),boss.body1.y-800+(Math.random()*1250), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+
 
     setTimeout(function(){
     window.setInterval(function(){ 
@@ -4378,6 +4511,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     tutorial_canvas_context.fillText("Canceling momentum can help you climb walls! ^", 3800, 180)
     tutorial_canvas_context.fillText("Put an egg in the switch with M", 4050, -700)
     tutorial_canvas_context.fillText("Nice!", 4050, -770)
+    tutorial_canvas_context.fillText("Beware the cave of the beast!", 11000, 500)
            
     for(let t = 0; t<ramps.length; t++){
         if(t > 1){
@@ -4425,9 +4559,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 pomao.eggs[t].draw()
             }
             
-            pomao.draw()
-            // boss.draw()
-
+            pomao.draw()   
+            
+               if(boss.body1.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body1.radius) && boss.body1.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body1.radius) ){
+                       if(boss.body1.y > pomao.body.y-((tutorial_canvas.height*3)+boss.body1.radius) && boss.body1.y < pomao.body.y+((tutorial_canvas.height*3)+boss.body1.radius) ){
+        
+                        boss.draw()
+                       }
+                    }
 
             if(pomao.pounding > 0){
                     shockfriendly.shock()
