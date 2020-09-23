@@ -2324,25 +2324,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                 if(pomao.body.symom != 0 || pomao.body.sxmom != 0){
                                     this.tonguex = 0
                                     this.tonguey = 0
-                                    for(let g = 0; g<fruits.length;g++){
-                                        if(fruits[g].marked == 1){
-                                            fruits[g].anchor.xdif = 0
-                                            fruits[g].anchor.ydif = 0
-                                        }
-                                    }
-                                    
-                                for(let g = 0; g<boys.length;g++){
-                                    if(boys[g].marked == 1){
-                                        boys[g].anchor.xdif = 0
-                                        boys[g].anchor.ydif = 0
-                                    }
-                                }
-                                for(let g = 0; g<swimmers.length;g++){
-                                    if(swimmers[g].marked == 1){
-                                        swimmers[g].anchor.xdif = 0
-                                        swimmers[g].anchor.ydif = 0
-                                    }
-                                }
+                                    resettonguediff()
                                 }
                                 pomao.body.symom = 0
                                 pomao.body.ymom = 0
@@ -2388,25 +2370,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             if(pomao.body.symom != 0 || pomao.body.sxmom != 0){
                                 this.tonguex = 0
                                 this.tonguey = 0
-                                for(let g = 0; g<fruits.length;g++){
-                                    if(fruits[g].marked == 1){
-                                        fruits[g].anchor.xdif = 0
-                                        fruits[g].anchor.ydif = 0
-                                    }
-                                }
-                                
-                                for(let g = 0; g<boys.length;g++){
-                                    if(boys[g].marked == 1){
-                                        boys[g].anchor.xdif = 0
-                                        boys[g].anchor.ydif = 0
-                                    }
-                                }
-                                for(let g = 0; g<swimmers.length;g++){
-                                    if(swimmers[g].marked == 1){
-                                        swimmers[g].anchor.xdif = 0
-                                        swimmers[g].anchor.ydif = 0
-                                    }
-                                }
+                                resettonguediff()
                             }
                             pomao.body.symom = 0
                             pomao.body.ymom = 0
@@ -2487,35 +2451,38 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     }
                         }else{
                         if(Math.abs(this.body.y-ramps[t].y) <= this.body.radius){
+                            if(ramps90.includes(ramps[t])){
+                                if(ramps[t].x > pomao.body.x){
+
+                                    tutorial_canvas_context.translate(0,  this.body.y-(ramps[t].y-this.body.radius))
+                                    this.body.y = ramps[t].y-this.body.radius
+                                    dry = 1
+                                    if(pomao.body.symom != 0 || pomao.body.sxmom != 0){
+                                        this.tonguex = 0
+                                        this.tonguey = 0
+                                        resettonguediff()
+                                    }
+                                    pomao.body.symom = 0
+                                    pomao.body.ymom = 0
+                                    pomao.body.sxmom = 0
+                                    break
+
+                                }
+
+                            }else{
                             tutorial_canvas_context.translate(0,  this.body.y-(ramps[t].y-this.body.radius))
                             this.body.y = ramps[t].y-this.body.radius
                             dry = 1
                             if(pomao.body.symom != 0 || pomao.body.sxmom != 0){
                                 this.tonguex = 0
                                 this.tonguey = 0
-                                for(let g = 0; g<fruits.length;g++){
-                                    if(fruits[g].marked == 1){
-                                        fruits[g].anchor.xdif = 0
-                                        fruits[g].anchor.ydif = 0
-                                    }
-                                } 
-                                for(let g = 0; g<boys.length;g++){
-                                    if(boys[g].marked == 1){
-                                        boys[g].anchor.xdif = 0
-                                        boys[g].anchor.ydif = 0
-                                    }
-                                }
-                                for(let g = 0; g<swimmers.length;g++){
-                                    if(swimmers[g].marked == 1){
-                                        swimmers[g].anchor.xdif = 0
-                                        swimmers[g].anchor.ydif = 0
-                                    }
-                                }
+                                resettonguediff()
                             }
                             pomao.body.symom = 0
                             pomao.body.ymom = 0
                             pomao.body.sxmom = 0
                             break
+                        }
                         }
                         }
                     }else if(ramps[t].isPointInside(pomao.tongue)){
@@ -4005,9 +3972,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     walls.push(lvl1fooroverhangwall)
     roofs.push(lvl1fooroverhangwall)
   
+    let ramps90 = []
   
     const ramp5 = new Triangle90(lvl1fooroverhangwall.x+1300, lvl1fooroverhangwall.y, "red", 100)
     ramps.push(ramp5)
+    ramps90.push(ramp5)
   
     const ramp6 = new Triangle90l(lvl1fooroverhangwall.x, lvl1fooroverhangwall.y-530, "red", 75)
     ramps.push(ramp6)
@@ -4918,4 +4887,27 @@ function Rax(isn){
     // //console.log(out)
     return out
 }
+
+
+function resettonguediff(){
+    for(let g = 0; g<fruits.length;g++){
+        if(fruits[g].marked == 1){
+            fruits[g].anchor.xdif = 0
+            fruits[g].anchor.ydif = 0
+        }
+    } 
+    for(let g = 0; g<boys.length;g++){
+        if(boys[g].marked == 1){
+            boys[g].anchor.xdif = 0
+            boys[g].anchor.ydif = 0
+        }
+    }
+    for(let g = 0; g<swimmers.length;g++){
+        if(swimmers[g].marked == 1){
+            swimmers[g].anchor.xdif = 0
+            swimmers[g].anchor.ydif = 0
+        }
+    }
+}
+
 })
