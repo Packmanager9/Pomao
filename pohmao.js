@@ -2781,7 +2781,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         }
 
-
+        // for(let t = 0; t<fruits.length; t++){
+        //         //394929
+        //         fruits[t].draw()
+   
+        // }
 
         for(let t = 0; t<boys.length; t++){
             if(boys[t].x > this.body.x-(tutorial_canvas.width/1.6) && boys[t].x < this.body.x+(tutorial_canvas.width/1.6) ){
@@ -3577,7 +3581,87 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         
 
     }
-
+    class Bossbeam {
+        constructor(){
+            this.body1 = new Circle(640,360, 10,"transparent")
+            this.body2 = new Circle(640,360, 10,"transparent")
+            this.body3 = new Circle(640,360, 10,"transparent")
+            this.body1anchor = new Circle(this.body1.x+((Math.random()-.5)*200), this.body1.y+((Math.random()-.5)*200), 10,"transparent")
+            this.body2anchor = new Circle(this.body2.x+((Math.random()-.5)*200), this.body2.y+((Math.random()-.5)*200), 10,"transparent")
+            this.body3anchor = new Circle(this.body3.x+((Math.random()-.5)*200), this.body3.y+((Math.random()-.5)*200), 10,"transparent")
+            this.health = 20
+            this.beams = []
+            this.beambox = new Shape(this.beams)
+        }
+        draw(){
+            this.move()
+            for(let t=0;t<this.beams.length;t++){
+                this.beams[t].draw()
+            }
+        }
+        move(){
+            this.beam()
+            this.body1.x+= (this.body1anchor.x-this.body1.x)/80
+            this.body1.y+= (this.body1anchor.y-this.body1.y)/80
+            this.body2.x+= (this.body2anchor.x-this.body2.x)/80
+            this.body2.y+= (this.body2anchor.y-this.body2.y)/80
+            this.body3.x+= (this.body3anchor.x-this.body3.x)/80
+            this.body3.y+= (this.body3anchor.y-this.body3.y)/80
+            
+            this.body1anchor.xmom+= (this.body1anchor.x-pomao.body.x)/-190
+            this.body1anchor.ymom+= (this.body1anchor.y-pomao.body.y)/-190
+            this.body2anchor.xmom+= (this.body2anchor.x-pomao.body.x)/-190
+            this.body2anchor.ymom+= (this.body2anchor.y-pomao.body.y)/-190
+            this.body3anchor.xmom+= (this.body3anchor.x-pomao.body.x)/-190
+            this.body3anchor.ymom+= (this.body3anchor.y-pomao.body.y)/-190
+            
+            this.body1anchor.move()
+            this.body2anchor.move()
+            this.body3anchor.move()
+    
+            if(Math.random()<.01){
+                this.body3anchor = new Circle(this.body3anchor.x+((Math.random()-.5)*1280), this.body3anchor.y+((Math.random()-.5)*720), 100,"transparent")
+                }
+    
+                if(Math.random()<.01){
+                    this.body1anchor = new Circle(this.body1anchor.x+((Math.random()-.5)*1280), this.body1anchor.y+((Math.random()-.5)*720), 100,"transparent")
+                    }
+    
+                    if(Math.random()<.01){
+                        this.body2anchor = new Circle(this.body2anchor.x+((Math.random()-.5)*1280), this.body2anchor.y+((Math.random()-.5)*720), 100,"transparent")
+                        }
+        }
+        beam(){
+                
+            this.beams = []
+                for(let t=0;t<this.health;t++){
+                        
+                    let batte = (this.body1.x-this.body2.x)
+                    let battle = batte/this.health
+                    battle*=t
+                    let battey = (this.body1.y-this.body2.y)
+                    let battley = battey/this.health
+                    battley*=t
+                        
+                        const ray = new Circlec(this.body1.x+battle, this.body1.y+battley,this.health+10, "red"  )
+                        this.beams.push(ray)
+                        
+                    let battez = (this.body3.x-this.body2.x)
+                    let battlez = battez/this.health
+                    battlez*=t
+                    let batteyz = (this.body3.y-this.body2.y)
+                    let battleyz = batteyz/this.health
+                    battleyz*=t
+                        
+                        const rayx = new Circlec(this.body1.x+battlez, this.body1.y+battleyz,this.health+10, "red"  )
+                        this.beams.push(rayx)
+                }
+    
+        
+            
+            this.beambox  = new Shape(this.beams)
+        }
+    }
     class Shockwave{
         constructor(body){
                 this.center = body
@@ -4240,6 +4324,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
     }
 
+    let boss = new Bossbeam()
+
 
     setTimeout(function(){
     window.setInterval(function(){ 
@@ -4340,6 +4426,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
             
             pomao.draw()
+            // boss.draw()
 
 
             if(pomao.pounding > 0){
@@ -4518,7 +4605,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
 
     },  14) 
-}, 6969); 
+}, 6969);  //6969
 
 function squarecirclefaceblockjump(square, circle){
     const squareendh = square.y + square.height
