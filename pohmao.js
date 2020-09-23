@@ -3713,23 +3713,23 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }else{
                 
-                for(let t=0;t<10;t++){
+                for(let t=0;t<20;t++){
                         
                     let batte = (this.body1.x-this.body2.x)
-                    let battle = batte/10
+                    let battle = batte/20
                     battle*=t
                     let battey = (this.body1.y-this.body2.y)
-                    let battley = battey/10
+                    let battley = battey/20
                     battley*=t
                         
                         const ray = new Circlec(this.body1.x+battle, this.body1.y+battley,(this.health/10)+5, "red"  )
                         this.beams.push(ray)
                         
                     let battez = (this.body3.x-this.body2.x)
-                    let battlez = battez/10
+                    let battlez = battez/20
                     battlez*=t
                     let batteyz = (this.body3.y-this.body2.y)
-                    let battleyz = batteyz/10
+                    let battleyz = batteyz/20
                     battleyz*=t
                         
                         const rayx = new Circlec(this.body1.x+battlez, this.body1.y+battleyz,(this.health/10)+5, "red"  )
@@ -4408,6 +4408,15 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     let boss = new Bossbeam()
 
+    for(let t = 0;t<30; t++){
+        let bossfloors = new Rectangle(4800+(t*200), 300+Math.random()*200, 20, 120, "red")
+        floors.push(bossfloors)
+        let bossfloors2 = new Rectangle(4800+(t*200), -500+Math.random()*200, 20, 120, "red")
+        floors.push(bossfloors2)
+        let bossfloors3 = new Rectangle(4800+(t*200), -100+Math.random()*200, 20, 120, "red")
+        floors.push(bossfloors3)
+    }
+
     for(let t = 0;t<500; t++){
         const fruit = new Fruit(-2000+boss.body1.x+((Math.random()-.5)*9500),boss.body1.y-800+(Math.random()*1250), 60,60, "red")
         let wet = 0
@@ -4530,12 +4539,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             
             pomao.draw()   
             
-               if(boss.body1.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body1.radius) && boss.body1.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body1.radius) ){
-                       if(boss.body1.y > pomao.body.y-((tutorial_canvas.height*3)+boss.body1.radius) && boss.body1.y < pomao.body.y+((tutorial_canvas.height*3)+boss.body1.radius) ){
-        
-                        boss.draw()
-                       }
-                    }
 
             if(pomao.pounding > 0){
                     shockfriendly.shock()
@@ -4678,6 +4681,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
               tutorial_canvas.style.background = "#8888CC"
         }
         tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+        if(boss.body1.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body1.radius) && boss.body1.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body1.radius) ){
+            if(boss.body1.y > pomao.body.y-((tutorial_canvas.height*3)+boss.body1.radius) && boss.body1.y < pomao.body.y+((tutorial_canvas.height*3)+boss.body1.radius) ){
+
+             boss.draw()
+            }
+         }
 
         for(let t = 0; t<pomao.thrown.length; t++){
             if(pomao.thrown[t].markedx == 3){
