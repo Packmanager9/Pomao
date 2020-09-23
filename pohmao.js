@@ -340,6 +340,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     pomaofb.src = 'pomaofb.png'
     const pomaofbg = new Image()
     pomaofbg.src = 'pomaofbg.png'
+    const ramp90 = new Image()
+    ramp90.src = 'ramp90.png'
+    const ramp90l = new Image()
+    ramp90l.src = 'ramp90l.png'
     
     const keysPressed = {}
 
@@ -401,7 +405,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     const tutorial_canvas = document.getElementById("tutorial");
     const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
-    // tutorial_canvas_context.scale(.09,.09)
+    // tutorial_canvas_context.scale(.07,.07)
+    // // tutorial_canvas_context.translate(-4050,8750)
     // tutorial_canvas_context.translate(2500,6000)
 
     tutorial_canvas.style.background = "#664613"
@@ -756,6 +761,106 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             return false
         }
     }
+
+     class Triangle90{
+        constructor(x, y, color, length){
+            this.x = x
+            this.y = y
+            this.color= color
+            this.length = length
+            this.x1 = this.x
+            this.x2 = this.x - this.length*10
+            this.tip = this.y - this.length*2.5
+            this.width = length*10
+            this.height = length*2.5
+            this.accept1 = (this.y-this.tip)/(this.x1-this.x)
+            this.accept2 = (this.y-this.tip)/(this.x2-this.x)
+
+        }
+
+        draw(){
+            tutorial_canvas_context.drawImage(ramp90,0,0, ramp90.width,ramp90.height, this.x2, this.tip, this.width, this.height)
+            // tutorial_canvas_context.strokeStyle = this.color
+            // tutorial_canvas_context.fillStyle = this.color
+            // tutorial_canvas_context.stokeWidth = 3
+            // tutorial_canvas_context.moveTo(this.x, this.y)
+            // tutorial_canvas_context.lineTo(this.x1, this.y)
+            // tutorial_canvas_context.lineTo(this.x, this.tip)
+            // tutorial_canvas_context.lineTo(this.x2, this.y)
+            // tutorial_canvas_context.lineTo(this.x, this.y)
+            // tutorial_canvas_context.fill()
+            // tutorial_canvas_context.stroke()
+        }
+
+        isPointInside(point){
+            if(point.x <= this.x1){
+                if(point.y >= this.tip){
+                    if(point.y <= this.y){
+                        if(point.x >= this.x2){
+                            this.accept1 = (this.y-this.tip)/(this.x1-this.x)
+                            this.accept2 = (this.y-this.tip)/(this.x2-this.x)
+                            this.basey = point.y-this.tip
+                            this.basex = point.x - this.x
+                            if(this.basex == 0){
+                                return true
+                            }
+                            this.slope = this.basey/this.basex
+                            if(this.slope >= this.accept1){
+                                return true
+                            }else if(this.slope <= this.accept2){
+                                return true
+                            }
+                        }
+                    }
+                }
+            }
+            return false
+        }
+    }
+  
+    class Triangle90l{
+        constructor(x, y, color, length){
+            this.x = x
+            this.y = y
+            this.color= color
+            this.length = length
+            this.x1 = this.x + this.length*10
+            this.x2 = this.x 
+            this.tip = this.y - this.length*2.5
+            this.width = length*10
+            this.height = length*2.5
+            this.accept1 = (this.y-this.tip)/(this.x1-this.x)
+            // this.accept2 =  (this.y-this.tip)/(this.x2-this.x)
+
+        }
+
+        draw(){
+            tutorial_canvas_context.drawImage(ramp90l,0,0, ramp90l.width,ramp90l.height, this.x, this.tip, this.width, this.height)
+       }
+
+       isPointInside(point){
+           if(point.x <= this.x1){
+               if(point.y >= this.tip){
+                   if(point.y <= this.y){
+                       if(point.x >= this.x2){
+                           this.accept1 = (this.y-this.tip)/(this.x1-this.x)
+                        //    this.accept2 = (this.y-this.tip)/(this.x2-this.x)
+                           this.basey = point.y-this.tip
+                           this.basex = point.x - this.x
+                           if(this.basex == 0){
+                               return true
+                           }
+                           this.slope = this.basey/this.basex
+                           if(this.slope >= this.accept1){
+                               return true
+                           }
+                       }
+                   }
+               }
+           }
+           return false
+       }
+   }
 
 
 
@@ -2667,13 +2772,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         this.link = new Line(this.body.x, 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongue.x, this.tongue.y, "blue", 3)
         this.link.draw()
         for(let t = 0; t<fruits.length; t++){
-            // if(fruits[t].x > this.body.x-((tutorial_canvas.width/2)+fruits[t].width) && fruits[t].x < this.body.x+((tutorial_canvas.width/2)+fruits[t].width) ){
-            //     if(fruits[t].y > this.body.y-((tutorial_canvas.height/2)+fruits[t].height) && fruits[t].y < this.body.y+((tutorial_canvas.height/2)+fruits[t].height) ){
+            if(fruits[t].x > this.body.x-((tutorial_canvas.width/2)+fruits[t].width) && fruits[t].x < this.body.x+((tutorial_canvas.width/2)+fruits[t].width) ){
+                if(fruits[t].y > this.body.y-((tutorial_canvas.height/2)+fruits[t].height) && fruits[t].y < this.body.y+((tutorial_canvas.height/2)+fruits[t].height) ){
 
                 fruits[t].draw()
                 
-        //     }
-        // }
+            }
+        }
         }
 
 
@@ -3572,7 +3677,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     const lvl1floor1 = new Rectangle(4500, -800, 50, 7000, "red")
 
-    const lvl1wall1 = new Rectangle(4150, -4530, 3780, 50, "red")
+    const lvl1wall1 = new Rectangle(4150, -9530, 8780, 50, "red")
 
     for(let t = 0; t< 10; t++){
         
@@ -3602,9 +3707,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
         }
     }else{
-    const lvl1floorloop = new Rectangle(4200, -4480+(t*330), 50, 7000-(t*90), "red")
+    const lvl1floorloop = new Rectangle(4200, -4480+(t*330), 50, 6850-(t*90), "red")
     floors.push(lvl1floorloop)
     roofs.push(lvl1floorloop)
+    walls.push(lvl1floorloop)
     }
     }
 
@@ -3669,11 +3775,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     const ramp = new Triangle(800, 651, "red", 40)
     ramps.push(ramp)
 
-
     const ramp4 = new Circle(1900,700, 120, "red")
     ramps.push(ramp4)
     const ramp3 = new Circle(1900,1200, 600, "red")
     ramps.push(ramp3)
+
     floors.push(floor2)
     floors.push(block)
     walls.push(block)
@@ -3687,7 +3793,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
     const buttonswitch = new Switchfloor(4500,-640,  4500-2000, -800,50, 2050)
-    const lvl1buttonswitch = new Switchfloor(6500,-3540,  9800, -3540,50, 1200)
+    const lvl1buttonswitch = new Switchfloor(6500,-3540,  9800, -3540,50, 1300)
     const lvl1buttonswitch1 = new Switchfloor(4080,-2540,  4200, -4150,50,380)
     const lvl1buttonswitchwall2 = new Switchfloor(4080,-2540,  4550, -4450,330, 50)
 
@@ -3697,12 +3803,73 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     walls.push(lvl1fooroverhang)
     roofs.push(lvl1fooroverhang)
   
-    const lvl1fooroverhangwall = new Rectangle(11000, -3540, 790, 50, "red")
+    const lvl1fooroverhangwall = new Rectangle(11000, -3540, 3900, 50, "red")
     floors.push(lvl1fooroverhangwall)
     walls.push(lvl1fooroverhangwall)
     roofs.push(lvl1fooroverhangwall)
   
   
+    const ramp5 = new Triangle90(lvl1fooroverhangwall.x+1300, lvl1fooroverhangwall.y, "red", 100)
+    ramps.push(ramp5)
+  
+    const ramp6 = new Triangle90l(lvl1fooroverhangwall.x, lvl1fooroverhangwall.y-530, "red", 75)
+    ramps.push(ramp6)
+
+    for(let t = ramp6.y-1000;t<ramp6.y-150; t+=150){
+        let ladderfloor = new Rectangle(ramp6.x, t, 20, 150)
+        floors.push(ladderfloor)
+    }
+
+    
+
+
+
+
+
+    const trapswitch1 = new Switchfloor(ramp6.x-120,ramp6.y-350, ramp6.x-500, ramp6.y, 50, 550 )
+    const trapswitch2 = new Switchfloor(ramp6.x-120,ramp6.y-350, ramp6.x-500, ramp6.y-400, 450, 50)
+    trapswitch1.button = trapswitch2.button
+    for(let t = 0;t<100; t++){
+        const fruit = new Fruit(ramp6.x-550+(Math.random()*400),ramp6.y-350+(Math.random()*400), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+
+    
+    const lvl1fooroverhangwallramp = new Rectangle(ramp6.x-40, ramp6.y, 50, 790, "red")
+    floors.push(lvl1fooroverhangwallramp)
+    walls.push(lvl1fooroverhangwallramp)
+    roofs.push(lvl1fooroverhangwallramp)
+    
+    const lvl1fooroverhangwallrampx = new Rectangle(ramp5.x-20, ramp5.y-2000, 2050, 50, "red")
+    floors.push(lvl1fooroverhangwallrampx)
+    walls.push(lvl1fooroverhangwallrampx)
+    roofs.push(lvl1fooroverhangwallrampx)
+    
+    const lvl1fooroverhangwallrampy = new Rectangle(ramp6.x, ramp6.y-1000, 1000, 50, "red")
+    floors.push(lvl1fooroverhangwallrampy)
+    walls.push(lvl1fooroverhangwallrampy)
+    roofs.push(lvl1fooroverhangwallrampy)
+  
+    const lvl1fooroverhangwall2z = new Rectangle(lvl1fooroverhangwall.x, lvl1fooroverhangwall.y, 50, 1350,"red")
+    floors.push(lvl1fooroverhangwall2z)
+    walls.push(lvl1fooroverhangwall2z)
+    roofs.push(lvl1fooroverhangwall2z)
+
     const lvl1fooroverhangwall2 = new Rectangle(10140, -2440, 790, 50, "red")
     floors.push(lvl1fooroverhangwall2)
     walls.push(lvl1fooroverhangwall2)
