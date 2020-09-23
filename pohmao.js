@@ -149,6 +149,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
 
+    const swimmers = []
     const floors = []
     const ramps = []
 
@@ -406,7 +407,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
     // tutorial_canvas_context.scale(.07,.07)
-    // tutorial_canvas_context.translate(-4050,8750)
+    // tutorial_canvas_context.translate(2900,8750)
     // tutorial_canvas_context.translate(2500,6000)
 
     tutorial_canvas.style.background = "#664613"
@@ -933,6 +934,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.out = 0
             this.pops = []
             this.bopped = 0
+            this.xrepelled = 0
+            this.yrepelled = 0
         }
         
         pop(){
@@ -993,8 +996,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
             const link = new Line(pomao.body.x,pomao.body.y, this.body.x,this.body.y, "red", 1)
             if(link.hypotenuse() < 450){
+                if(this.type == 0){
                 this.body.xmom += (pomao.body.x-this.body.x)/1200
                 this.body.ymom += (pomao.body.y-this.body.y)/1200
+                }
+                if(this.type == 1){
+                this.body.xmom += (pomao.body.x-this.body.x)/1000
+                this.body.ymom += (pomao.body.y-this.body.y)/1200
+                }
+                if(this.type == 2){
+                this.body.xmom += (pomao.body.x-this.body.x)/1200
+                this.body.ymom += (pomao.body.y-this.body.y)/1000
+                }
                 for(let t = 0; (Math.abs(this.body.xmom)+Math.abs(this.body.ymom)) < 2; t++){
                     this.body.ymom *=1.01
                     this.body.xmom *=1.01
@@ -1073,19 +1086,27 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             const angleRadians = Math.atan2(swimmers[f].body.y - this.body.y, swimmers[f].body.x - this.body.x);
                             this.xrepel += (Math.cos(angleRadians)*distance)/2
                             this.yrepel += (Math.sin(angleRadians)*distance)/2
+                            // swimmers[f].xrepelled = 1
                         }
                     }
                 }
-                if(this.type == 0){
-                    this.body.x+=this.xrepel
-                    this.body.y+=this.yrepel
-                }else  if(this.type == 1){
-                    this.body.x+=this.xrepel
-                    this.body.x+=this.yrepel/2
-                }else  if(this.type == 2){
-                    this.body.y+=this.xrepel/2
-                    this.body.y+=this.yrepel
+
+                if(this.xrepelled == 0){
+                    if(this.type == 0){
+                        this.body.x+=this.xrepel
+                        this.body.y+=this.yrepel
+                    }else  if(this.type == 1){
+                        this.body.x+=this.xrepel
+                        this.body.x+=this.yrepel/2
+                    }else  if(this.type == 2){
+                        this.body.y+=this.xrepel/2
+                        this.body.y+=this.yrepel
+                    }
                 }
+
+                this.xrepelled = 0
+                this.yrepelled = 0
+
             }
         }
         clean(){
@@ -2774,6 +2795,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             //     // boys[t].move()
             // }
         }
+        // for(let t = 0; t<swimmers.length; t++){
+        //         swimmers[t].draw()
+        // }
         for(let t = 0; t<swimmers.length; t++){
                 swimmers[t].clean()
         }
@@ -4077,6 +4101,68 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
     }
 
+    
+    for(let t = 0;t<15; t++){
+        let topfloorlvl1 = new Rectangle(4300+(t*530), -7000+t*140, 20,330, "red")
+
+        
+    for(let t = 0;t<15; t++){
+        const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+
+        floors.push(topfloorlvl1)
+        // fruits.push(fruit)
+    }
+
+    for(let t = 0;t<15; t++){
+        let topfloorlvl1 = new Rectangle(4300+(t*530), -4800-t*140, 20,330, "red")
+             
+    for(let t = 0;t<15; t++){
+        const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+        if(t!=8){
+            floors.push(topfloorlvl1)
+        }
+    }
+
+    for(let t = 0;t<101; t++){
+        let swimmertop = new Swimmer(4300+Math.random()*6700, -7000+Math.random()*2200)
+        swimmertop.type = 1
+        swimmers.push(swimmertop)
+    }
+
 
     for(let t = 0 ; t< 4; t++){
         const floor3 = new Rectangle(-90-300*t, 500-(t*200), 20, 400, "red")
@@ -4126,7 +4212,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
     }
     
-    const swimmers = []
     for(let t = 0; t<30; t++){
         const swimmer = new Swimmer( 4250+(Math.random()*6000), -4300+(Math.random()*1350))
         swimmer.type = 1
@@ -4434,6 +4519,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         if(wet == 0){
             fruits.push(fruit)
+        }
+    }
+
+    for(let t=0;t<floors.length;t++){
+        for(let k = 0;k<fruits.length;k++){
+            if(squarecircleedges(floors[t], fruits[k].body)){
+                fruits.splice(k,1)
+            }
         }
     }
 
