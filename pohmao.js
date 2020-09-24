@@ -2768,11 +2768,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         }
 
-        for(let t = 0; t<fruits.length; t++){
-                //394929
-                fruits[t].draw()
+        // for(let t = 0; t<fruits.length; t++){
+        //         //394929
+        //         fruits[t].draw()
    
-        }
+        // }
 
         for(let t = 0; t<boys.length; t++){
             if(boys[t].x > this.body.x-(tutorial_canvas.width/1.6) && boys[t].x < this.body.x+(tutorial_canvas.width/1.6) ){
