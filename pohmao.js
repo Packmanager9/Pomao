@@ -2768,11 +2768,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         }
 
-        // for(let t = 0; t<fruits.length; t++){
-        //         //394929
-        //         fruits[t].draw()
+        for(let t = 0; t<fruits.length; t++){
+                //394929
+                fruits[t].draw()
    
-        // }
+        }
 
         for(let t = 0; t<boys.length; t++){
             if(boys[t].x > this.body.x-(tutorial_canvas.width/1.6) && boys[t].x < this.body.x+(tutorial_canvas.width/1.6) ){
@@ -4046,7 +4046,88 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     walls.push(lvl1fooroverhangwallramp)
     roofs.push(lvl1fooroverhangwallramp)
     
-    const lvl1fooroverhangwallrampx = new Rectangle(ramp5.x-20, ramp5.y-2000, 2050, 50, "red")
+    const lvl1fooroverhangwallfar = new Rectangle(ramp6.x+2000,-8100, 8850, 50, "red")
+    floors.push(lvl1fooroverhangwallfar)
+    walls.push(lvl1fooroverhangwallfar)
+    roofs.push(lvl1fooroverhangwallfar)
+    
+    const lvl1fooroverhangwallfarzig = new Rectangle(ramp6.x+300,-3100, 50, 1750, "red")
+    floors.push(lvl1fooroverhangwallfarzig)
+    walls.push(lvl1fooroverhangwallfarzig)
+    roofs.push(lvl1fooroverhangwallfarzig)
+    
+    const lvl1fooroverhangwallfarzag = new Rectangle(ramp6.x,-2700, 50, 1750, "red")
+    floors.push(lvl1fooroverhangwallfarzag)
+    walls.push(lvl1fooroverhangwallfarzag)
+    roofs.push(lvl1fooroverhangwallfarzag)
+    
+    const lvl1fooroverhangwallfarzug = new Rectangle(ramp6.x,-1400, 50, 1750, "red")
+    floors.push(lvl1fooroverhangwallfarzug)
+    walls.push(lvl1fooroverhangwallfarzug)
+    roofs.push(lvl1fooroverhangwallfarzug)
+    
+    const lvl1fooroverhangwallfarzyg = new Rectangle(ramp6.x+300,-1900, 50, 500, "red")
+    floors.push(lvl1fooroverhangwallfarzyg)
+    walls.push(lvl1fooroverhangwallfarzyg)
+    roofs.push(lvl1fooroverhangwallfarzyg)
+    
+    const lvl1fooroverhangwallfarzag2 = new Rectangle(ramp6.x+300,-2300, 600, 50, "red")
+    floors.push(lvl1fooroverhangwallfarzag2)
+    walls.push(lvl1fooroverhangwallfarzag2)
+    roofs.push(lvl1fooroverhangwallfarzag2)
+    
+    
+    const lvl1fooroverhangwallfarzag4 = new Rectangle(ramp6.x+1700,-2000, 600, 50, "red")
+    floors.push(lvl1fooroverhangwallfarzag4)
+    walls.push(lvl1fooroverhangwallfarzag4)
+    roofs.push(lvl1fooroverhangwallfarzag4)
+    
+    
+    const lvl1fooroverhangwallfarzag4x = new Rectangle(ramp6.x+1350,-1800, 400, 50, "red")
+    floors.push(lvl1fooroverhangwallfarzag4x)
+    walls.push(lvl1fooroverhangwallfarzag4x)
+    roofs.push(lvl1fooroverhangwallfarzag4x)
+    
+    
+    const lvl1fooroverhangwallfarzag4y = new Rectangle(ramp6.x+1000,-1600, 200, 50, "red")
+    floors.push(lvl1fooroverhangwallfarzag4y)
+    walls.push(lvl1fooroverhangwallfarzag4y)
+    roofs.push(lvl1fooroverhangwallfarzag4y)
+    
+    
+    for(let t = 0;t<400; t++){
+        const fruit = new Fruit(ramp6.x+(Math.random()*2000),ramp5.y+(Math.random()*4000), 60,60, "red")
+       
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+    
+    
+    const lvl1fooroverhangwallfarzag3 = new Rectangle(ramp6.x+300,-2300, 50, 1750, "red")
+    floors.push(lvl1fooroverhangwallfarzag3)
+    walls.push(lvl1fooroverhangwallfarzag3)
+    roofs.push(lvl1fooroverhangwallfarzag3)
+    
+    const lvl1fooroverhangwallfarroof = new Rectangle(4200, -8100, 50, 10050, "red")
+    floors.push(lvl1fooroverhangwallfarroof)
+    walls.push(lvl1fooroverhangwallfarroof)
+    roofs.push(lvl1fooroverhangwallfarroof)
+    
+    const lvl1fooroverhangwallrampx = new Rectangle(ramp5.x-20, ramp5.y-4000, 4050, 50, "red")
     floors.push(lvl1fooroverhangwallrampx)
     walls.push(lvl1fooroverhangwallrampx)
     roofs.push(lvl1fooroverhangwallrampx)
@@ -4129,6 +4210,61 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
         floors.push(topfloorlvl1)
         // fruits.push(fruit)
+    }
+
+    for(let t = 0;t<10; t++){
+        
+        let topfloorlvl1 = new Rectangle(4300+(t*530), -6300+t*140, 20,330, "red")
+             
+    for(let t = 0;t<15; t++){
+        const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+        if(t!=5){
+            floors.push(topfloorlvl1)
+        }
+    }
+    for(let t = 0;t<10; t++){
+        
+        let topfloorlvl1 = new Rectangle(4300+(t*530), -7840+t*140, 20,330, "red")
+             
+    for(let t = 0;t<15; t++){
+        const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+        if(t!=5){
+            floors.push(topfloorlvl1)
+        }
     }
 
     for(let t = 0;t<15; t++){
@@ -4584,6 +4720,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     tutorial_canvas_context.fillText("Put an egg in the switch with M", 4050, -700)
     tutorial_canvas_context.fillText("Nice!", 4050, -770)
     tutorial_canvas_context.fillText("Beware the cave of the beast!", 11000, 500)
+    tutorial_canvas_context.fillText("<= <= <=", 12800, 500)
            
     for(let t = 0; t<ramps.length; t++){
         if(t > 1){
