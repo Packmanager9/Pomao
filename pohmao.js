@@ -4904,6 +4904,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             fractal.draw()
             fracta2l.draw()
             fracta3l.draw()
+            tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+            if(boss.body1.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body1.radius) && boss.body1.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body1.radius) ){
+                if(boss.body1.y > pomao.body.y-((tutorial_canvas.height*3)+boss.body1.radius) && boss.body1.y < pomao.body.y+((tutorial_canvas.height*3)+boss.body1.radius) ){
+    
+                 boss.draw()
+                }
+             }
             // fracta4l.draw()
         }else{
             tutorial_canvas_context.fillStyle = "White";
@@ -4911,13 +4918,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             tutorial_canvas_context.fillText(`Pomao fell asleep and went home`, pomao.body.x-200, pomao.body.y);
               tutorial_canvas.style.background = "#8888CC"
         }
-        tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
-        if(boss.body1.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body1.radius) && boss.body1.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body1.radius) ){
-            if(boss.body1.y > pomao.body.y-((tutorial_canvas.height*3)+boss.body1.radius) && boss.body1.y < pomao.body.y+((tutorial_canvas.height*3)+boss.body1.radius) ){
 
-             boss.draw()
-            }
-         }
 
         for(let t = 0; t<pomao.thrown.length; t++){
             if(pomao.thrown[t].markedx == 3){
