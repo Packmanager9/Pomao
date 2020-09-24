@@ -4020,7 +4020,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     const trapswitch1 = new Switchfloor(ramp6.x-120,ramp6.y-350, ramp6.x-500, ramp6.y, 50, 550 )
     const trapswitch2 = new Switchfloor(ramp6.x-120,ramp6.y-350, ramp6.x-500, ramp6.y-400, 450, 50)
     trapswitch1.button = trapswitch2.button
-    for(let t = 0;t<100; t++){
+    for(let t = 0;t<10000; t++){
         const fruit = new Fruit(ramp6.x-550+(Math.random()*400),ramp6.y-350+(Math.random()*400), 60,60, "red")
         let wet = 0
         for(let s = 0; s<floors.length; s++){
@@ -4669,6 +4669,17 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
     setTimeout(function(){
+        
+        for(let k = 0;k<fruits.length;k++){
+            if(fruits[k].body.x > 11500 && fruits[k].body.y > -700){
+                fruits.splice(k,1)
+            }
+        }
+        for(let k = 0;k<fruits.length;k++){
+            if(fruits[k].body.x > 11800 && fruits[k].body.y > -900){
+                fruits.splice(k,1)
+            }
+        }
     window.setInterval(function(){ 
         if(pomao.paused == 10){
 
