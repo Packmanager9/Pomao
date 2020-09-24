@@ -492,10 +492,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.body = new Circle(350, 350, 5, "red",10,10)
                 this.anchor = new Circle(this.body.x, this.body.y+5, 5, "red")
                 this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
-                this.length = 5
+                this.length = 1
             }else{
                 this.body = body
-                this.length = 5
+                this.length = 7
                 this.anchor = new Circle(this.body.x-(this.length), this.body.y, 5, "red")
                 if(!objsprings.includes(this.anchor)){
                     objsprings.push(this.anchor)
@@ -516,10 +516,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                  ymomentumaverage = ((this.body.ymom)+this.anchor.ymom)/2
             }
 
-            if(this.body != pin){
+            // if(this.body != pin){
                 this.body.xmom = ((this.body.xmom)+xmomentumaverage)/2
                 this.body.ymom = ((this.body.ymom)+ymomentumaverage)/2
-            }
+            // }
 
             if(this.anchor != pin2){
             this.anchor.xmom = ((this.anchor.xmom)+xmomentumaverage)/2
@@ -551,14 +551,17 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         draw(){
             this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
             this.beam.draw()
-            this.body.draw()
-            this.anchor.draw()
+            // this.body.draw()
+            if(ramps.includes(this.anchor)){
+                this.anchor.draw()
+            }
+            // this.anchor.draw()
         }
         move(){
             if(this.anchor.ymom > 0 && (this.anchor.y+this.anchor.radius) >=650){
                 this.anchor.ymom *=-1
             }
-            if(this.anchor.ymom < 0 && (this.anchor.y-this.anchor.radius) <= (roof2.y+roof2.height)){
+            if(this.anchor.ymom < 0 && (this.anchor.y-this.anchor.radius) <= (roof2.y+roof2.height+(pomao.body.radius*2))){
                 this.anchor.ymom *=-1
             }
             if(this.body !== pin){
@@ -1964,6 +1967,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         move(){
             this.x += this.xmom
             this.y += this.ymom
+            if(pomao.rooted == this){
+                console.log(pomao)
+                pomao.body.x += this.xmom
+                pomao.body.y += this.ymom
+                tutorial_canvas_context.translate(-this.xmom, -this.ymom)
+                for(let t = 1; t<pomao.eggs.length; t++){
+                    if(pomao.eggs[t].marked == 0){
+                        pomao.eggs[t].steer()
+                        pomao.eggs[t].steery()
+                    }
+                }
+            }
             if(this == pomao.body){
                 tutorial_canvas_context.translate(-this.xmom, -this.ymom)
             }
@@ -2249,6 +2264,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     }
     class Pomao{
         constructor(){
+            this.rooted = {}
             this.dry = 0
             this.tongueray = []
             this.tonguebox = new Shape(this.tongueray)
@@ -2390,7 +2406,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }else{
                 this.jumping = 1
                 this.body.ymom += .1
-
+                this.rooted = {}
              
             }
             dry = 0
@@ -2660,9 +2676,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
                 this.footspot = new Circle(this.body.x, this.body.y+(this.body.radius-1), 3, "red")
                 if(ramps[t].isPointInside(this.footspot)){
+                    if(objsprings.includes(ramps[t])){
+                        pomao.rooted = ramps[t]
+                    }
 
                     ramps[t].xmom += (this.body.xmom+this.body.sxmom)
-                    ramps[t].ymom += (this.body.ymom+this.body.symom)/5
+                    if(pomao.body.ymom > 0){
+                        ramps[t].ymom += (this.body.ymom+this.body.symom)/8
+                    }
                 this.body.sxmom = 0
                 this.body.symom = 0
                 if(k==0){
@@ -3082,6 +3103,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             // ////console.log(gamepadAPI)
     //   if(gamepadAPI.buttonsStatus.includes('A')){
         if(gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A')){
+            this.rooted = {}
           if(pomao.jumping == 0){
             pomao.body.ymom = -5.1
 
@@ -3109,6 +3131,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         
           }
     }else if(keysPressed['w']  || gamepadAPI.buttonsStatus.includes('A')){
+        this.rooted = {}
         if(this.jumping == 0){
             if(this.bonked ==0){
                 
@@ -3170,6 +3193,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     //   if(gamepadAPI.buttonsStatus.includes('A')){
             if(keysPressed['f'] || keysPressed['n']  ||gamepadAPI.buttonsStatus.includes('DPad-Left')){
+                this.rooted = {}
                 if(this.jumping == 1){
                     if(this.body.ymom > -3.5){
                         if(this.runner > 21){
@@ -3190,6 +3214,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
             this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
             if(keysPressed['a']  || keysPressed['d'] || (this.body.symom !== 0 || this.body.sxmom !== 0)){
+                // this.rooted = {}
         for(let t = 1; t<this.eggs.length; t++){
             if(this.eggs[t].marked == 0){
                 if(this.blocked == 0){
@@ -3216,6 +3241,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
             if(this.disabled == 0){
             if(keysPressed['a']){
+                this.rooted = {}
                 this.dir = -1
                     if(this.blocked !== 1){
                 this.dir = -1
@@ -3245,6 +3271,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         }
                     }
             }else if(keysPressed['d']){
+                this.rooted = {}
                 this.dir =1
                 if(this.blocked !== -1){
                 this.body.x+=3
@@ -3272,6 +3299,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }else if(gamepadAPI.axesStatus.length > 0){
                 if(Math.abs(gamepadAPI.axesStatus[0]) >.2){
+                    this.rooted = {}
                         // pomao.body.x+= gamepadAPI.axesStatus[0]*3
                         // tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
            
@@ -3309,6 +3337,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             }
                         }
                         }else if(gamepadAPI.axesStatus[0]*3*this.blocked > 0){
+                            // this.rooted = {}
                             pomao.body.x+= gamepadAPI.axesStatus[0]*3
                             tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
         
@@ -3325,12 +3354,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     
                     // }
                     if(gamepadAPI.axesStatus[0]*3 < .1){
+                        this.rooted = {}
                         pomao.dir = -1
                         if(pomao.body.sxmom >0){
                             pomao.body.sxmom = 0
                         }
                     }
                      if(gamepadAPI.axesStatus[0]*3 > -.1){
+                        this.rooted = {}
                         pomao.dir = 1
                         if(pomao.body.sxmom <0){
                             pomao.body.sxmom = 0
@@ -4767,6 +4798,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let pin = new Circle(-1680,-450, 10, "blue")
     let pin2 = new Circle(-1680,350, 100, "orange")
 
+    objsprings.push(pin2)
+
     let spring = new Spring(pin)
     springs.push(spring)
     for(let k = 0; k<18;k++){
@@ -4848,7 +4881,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     for(let t = 0; t<ramps.length; t++){
         if(t > 1){
 
-            ramps[t].draw()
+            // ramps[t].draw()
                
             tutorial_canvas_context.drawImage(rampcurveimg1, 1656, 578, 488, 73 )
         
@@ -4894,13 +4927,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             
     
             if(pin.x > pomao.body.x-((tutorial_canvas.width*1.2)+pin.radius) && pin.x < pomao.body.x+((tutorial_canvas.width*1.2)+pin.radius) ){
-                if(pin.y > pomao.body.y-((tutorial_canvas.height*1.2)+pin.radius) && pin.y < pomao.body.y+((tutorial_canvas.height*1.2)+pin.radius) ){
-                    swinger1move()
-                }
-            }else if(pin2.x > pomao.body.x-((tutorial_canvas.width*1.2)+pin2.radius) && pin2.x < pomao.body.x+((tutorial_canvas.width*1.2)+pin2.radius) ){
-                if(pin2.y > pomao.body.y-((tutorial_canvas.height*1.2)+pin2.radius) && pin2.y < pomao.body.y+((tutorial_canvas.height*1.2)+pin2.radius) ){
-                    swinger1move()
-                }
+                swinger1move()
+            }else if(pin.y > pomao.body.y-((tutorial_canvas.height*1.2)+pin.radius) && pin.y < pomao.body.y+((tutorial_canvas.height*1.2)+pin.radius) ){
+                swinger1move()
+           }else if(pin2.x > pomao.body.x-((tutorial_canvas.width*1.2)+pin2.radius) && pin2.x < pomao.body.x+((tutorial_canvas.width*1.2)+pin2.radius) ){
+            swinger1move()
+            }else if(pin2.y > pomao.body.y-((tutorial_canvas.height*1.2)+pin2.radius) && pin2.y < pomao.body.y+((tutorial_canvas.height*1.2)+pin2.radius) ){
+                swinger1move()
             }
             
             pomao.draw()   
@@ -5286,14 +5319,15 @@ function resettonguediff(){
     }
 }
 function swinger1move(){
-    pin.draw()
     for(let s = 0; s<springs.length; s++){
         if(pegged == 1){
         // pin2.xmom = 0
         // pin2.ymom = 0
         }else{
             }
-        springs[s].balance()
+            springs[s].balance()
+            // springs[s].balance()
+            // springs[s].balance()
         if(pegged == 1){
         // pin2.xmom = 0
         pin2.ymom += .01
@@ -5302,18 +5336,21 @@ function swinger1move(){
         }
     }
     for(let s = 0; s<springs.length; s++){
-
+        springs[s].move()
+        springs[s].move()
         springs[s].move()
     }
     for(let s = 0; s<springs.length; s++){
 
         springs[s].draw()
     }
-    pin.xmom *= .90
-    pin.ymom *= .90
+    pin.xmom *= .1
+    pin.ymom *= .1
 
-    pin2.xmom *= .95
-    pin2.ymom *= .95
+    pin2.xmom *= .98
+    pin2.ymom *= .98
+    
+    pin.draw()
 }
 
 })
