@@ -496,7 +496,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }else{
                 this.body = body
                 this.length = 7
-                this.anchor = new Circle(this.body.x-(this.length), this.body.y, 5, "red")
+                this.anchor = new Circle(this.body.x, this.body.y+(this.length), 5, "red")
                 if(!objsprings.includes(this.anchor)){
                     objsprings.push(this.anchor)
                 }
@@ -561,9 +561,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(this.anchor.ymom > 0 && (this.anchor.y+this.anchor.radius) >=650){
                 this.anchor.ymom *=-1
             }
-            if(this.anchor.ymom < 0 && (this.anchor.y-this.anchor.radius) <= (roof2.y+roof2.height+(pomao.body.radius*2))){
-                this.anchor.ymom *=-1
-            }
+            // if(this.anchor.ymom < 0 && (this.anchor.y-this.anchor.radius) <= (roof2.y+roof2.height+(pomao.body.radius*2))){
+            //     this.anchor.ymom *=-1
+            // }
             if(this.body !== pin){
                 this.body.move()
             }
@@ -2523,6 +2523,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                             shocks.push(cloudpuff)
                         }
                     }else if(squarecircleedges(floors[t],pomao.tongue) && !this.body.repelCheck(this.tongue)){
+                        if(!ungrapplable.includes(floors[t])){
                         // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                         // this.body.y = floors[t].y-this.body.radius
                         if(this.tongueymom <0){
@@ -2559,6 +2560,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         pomao.body.xmom *= .975
                         this.dry = 1
                         break
+                    }
                     }
                 }
 
@@ -2688,6 +2690,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     ramps[t].xmom += (this.body.xmom+this.body.sxmom)/3
                     if(pomao.body.ymom > 0){
                         ramps[t].ymom += (this.body.ymom+this.body.symom)/8
+                    }
+                    if(ramps[t].ymom > 5){
+                        ramps[t].ymom = 5
+                    }
+                    if(ramps[t].ymom < -5){
+                        ramps[t].ymom = -5
                     }
                 this.body.sxmom = 0
                 this.body.symom = 0
@@ -3976,6 +3984,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     const deadboys = []
     const fruits = []
     const walls = []
+    const ungrapplable = []
     const jellys = []
     const roofs = []
     const switches = []
@@ -4252,15 +4261,25 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     walls.push(lvl1fooroverhangwallfarzag3)
     roofs.push(lvl1fooroverhangwallfarzag3)
     
-    const lvl1fooroverhangwallfarroof = new Rectangle(4200, -8100, 50, 10050, "red")
+    const lvl1fooroverhangwallfarroof = new Rectangle(4200, -8100, 50, 10050, "cyan")
     floors.push(lvl1fooroverhangwallfarroof)
     walls.push(lvl1fooroverhangwallfarroof)
     roofs.push(lvl1fooroverhangwallfarroof)
+    ungrapplable.push(lvl1fooroverhangwallfarroof)
     
-    const lvl1fooroverhangwallrampx = new Rectangle(ramp5.x-20, ramp5.y-4000, 4050, 50, "red")
+    const lvl1fooroverhangwallrampxnograp = new Rectangle(ramp5.x-20, ramp5.y-4000, 2050, 50, "cyan")
+    floors.push(lvl1fooroverhangwallrampxnograp)
+    walls.push(lvl1fooroverhangwallrampxnograp)
+    roofs.push(lvl1fooroverhangwallrampxnograp)
+    
+    ungrapplable.push(lvl1fooroverhangwallrampxnograp)
+    
+    
+    const lvl1fooroverhangwallrampx = new Rectangle(ramp5.x-20, ramp5.y-2000, 2050, 50, "red")
     floors.push(lvl1fooroverhangwallrampx)
     walls.push(lvl1fooroverhangwallrampx)
     roofs.push(lvl1fooroverhangwallrampx)
+    
     
     const lvl1fooroverhangwallrampy = new Rectangle(ramp6.x, ramp6.y-1000, 1000, 50, "red")
     floors.push(lvl1fooroverhangwallrampy)
@@ -4397,8 +4416,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
     }
 
-    for(let t = 0;t<15; t++){
-        let topfloorlvl1 = new Rectangle(4300+(t*530), -4800-t*140, 20,330, "red")
+    for(let t = 0;t<14; t++){
+        const topfloorlvl1 = new Rectangle(4300+(t*530), -4800-t*140, 20,330, "red")
              
     for(let t = 0;t<15; t++){
         const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
@@ -4419,10 +4438,15 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             fruits.push(fruit)
         }
     }
-        if(t!=8){
+        if(t!=8 && t!= 10){
             floors.push(topfloorlvl1)
         }
     }
+
+
+    
+    const topfloorlvl1x = new Rectangle(4300+(14*530), -5100-(14*140), 20,330, "red")
+    floors.push(topfloorlvl1x)
 
     for(let t = 0;t<101; t++){
         let swimmertop = new Swimmer(4300+Math.random()*6700, -7000+Math.random()*2200)
@@ -4800,18 +4824,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     
     let springs = []
 
-    let pin = new Circle(-1680,-450, 10, "blue")
-    let pin2 = new Circle(-1680,350, 100, "orange")
+    let pin = new Circle(9900,-8100, 10, "blue")
+    let pin2 = new Circle(9900, -8100+(7*220), 100, "orange")
 
     objsprings.push(pin2)
 
     let spring = new Spring(pin)
     springs.push(spring)
-    for(let k = 0; k<18;k++){
+    for(let k = 0; k<33;k++){
         spring = new Spring(spring.anchor)
-        if(k < 17){
+        if(k < 32){
             springs.push(spring)
-        }else if(k == 17 ){
+        }else if(k == 32 ){
             spring.anchor = pin2
             springs.push(spring)
         }
@@ -4829,6 +4853,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(fruits[k].body.x > 11800 && fruits[k].body.y > -900){
                 fruits.splice(k,1)
             }
+        }
+
+        for(let k = 0;k<fruits.length;k++){
+        swinger1move()
         }
     window.setInterval(function(){ 
         if(pomao.paused == 10){
@@ -4886,7 +4914,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     for(let t = 0; t<ramps.length; t++){
         if(t > 1){
 
-            // ramps[t].draw()
+            ramps[t].draw()
                
             tutorial_canvas_context.drawImage(rampcurveimg1, 1656, 578, 488, 73 )
         
@@ -4906,17 +4934,19 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         for(let t = 0; t<floors.length; t++){
             if(!jellys.includes(floors[t])){
 
-                if(!nails.includes(floors[t])){
-
-                tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+            if(!nails.includes(floors[t]) && !ungrapplable.includes(floors[t])){
+                        tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                 }else{
-                tutorial_canvas_context.drawImage(nailimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                     
-
+                if(nails.includes(floors[t]) ){
+                tutorial_canvas_context.drawImage(nailimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                }
+                if(ungrapplable.includes(floors[t])){
+                    floors[t].draw()
+                }
                 }
                 }else{
-
-                 floors[t].draw()
+                        floors[t].draw()
                 }
             }
             // floor.draw()
@@ -5126,6 +5156,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             tutorial_canvas_context.fillText("paused", pomao.body.x-50,pomao.body.y-70)
         }
 
+        // for(let t =0;t<ungrapplable.length;t++){
+        //     ungrapplable[t].draw()
+        // }
+        // swinger1move()
     },  14) 
 }, 6969);  //6969
 
