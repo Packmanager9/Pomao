@@ -1,6 +1,7 @@
 
     let zimgs = []
 
+    let objsprings  =[]
     // const gamepads
 
     for(let i = 1; i < 44; i++) {
@@ -484,6 +485,97 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
     }
 
+    let pegged = 1
+    class Spring{
+        constructor(body = 0){
+            if(body == 0){
+                this.body = new Circle(350, 350, 5, "red",10,10)
+                this.anchor = new Circle(this.body.x, this.body.y+5, 5, "red")
+                this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+                this.length = 5
+            }else{
+                this.body = body
+                this.length = 5
+                this.anchor = new Circle(this.body.x-(this.length), this.body.y, 5, "red")
+                if(!objsprings.includes(this.anchor)){
+                    objsprings.push(this.anchor)
+                }
+                this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+            }
+
+        }
+        balance(){
+            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+            let xmomentumaverage 
+            let ymomentumaverage
+            if(this.anchor != pin2){
+             xmomentumaverage = (this.body.xmom+this.anchor.xmom)/2
+             ymomentumaverage = (this.body.ymom+this.anchor.ymom)/2
+            }else{
+                 xmomentumaverage = ((this.body.xmom)+this.anchor.xmom)/2
+                 ymomentumaverage = ((this.body.ymom)+this.anchor.ymom)/2
+            }
+
+            if(this.body != pin){
+                this.body.xmom = ((this.body.xmom)+xmomentumaverage)/2
+                this.body.ymom = ((this.body.ymom)+ymomentumaverage)/2
+            }
+
+            if(this.anchor != pin2){
+            this.anchor.xmom = ((this.anchor.xmom)+xmomentumaverage)/2
+            this.anchor.ymom = ((this.anchor.ymom)+ymomentumaverage)/2
+            }else{
+            this.anchor.xmom = ((this.anchor.xmom)+xmomentumaverage)/2
+            this.anchor.ymom = ((this.anchor.ymom)+ymomentumaverage)/2
+            }
+                if(this.beam.hypotenuse() !=0){
+            if(this.beam.hypotenuse() < this.length){
+                if(this.body != pin){
+                this.body.xmom += (this.body.x-this.anchor.x)/(this.length)/30
+                this.body.ymom += (this.body.y-this.anchor.y)/(this.length)/30
+                }
+                    this.anchor.xmom -= (this.body.x-this.anchor.x)/(this.length)/30
+                    this.anchor.ymom -= (this.body.y-this.anchor.y)/(this.length)/30
+            }else if(this.beam.hypotenuse() > this.length){
+
+                if(this.body != pin){
+                this.body.xmom -= (this.body.x-this.anchor.x)/(this.length)/30
+                this.body.ymom -= (this.body.y-this.anchor.y)/(this.length)/30
+                }
+                    this.anchor.xmom += (this.body.x-this.anchor.x)/(this.length)/30
+                    this.anchor.ymom += (this.body.y-this.anchor.y)/(this.length)/30
+            }
+
+        }
+        }
+        draw(){
+            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+            this.beam.draw()
+            this.body.draw()
+            this.anchor.draw()
+        }
+        move(){
+            if(this.anchor.ymom > 0 && (this.anchor.y+this.anchor.radius) >=650){
+                this.anchor.ymom *=-1
+            }
+            if(this.anchor.ymom < 0 && (this.anchor.y-this.anchor.radius) <= (roof2.y+roof2.height)){
+                this.anchor.ymom *=-1
+            }
+            if(this.body !== pin){
+                this.body.move()
+            }
+            if(pegged == 1){
+                // if(this.anchor != pin2){
+                    this.anchor.move()
+                // }
+            }else{
+                this.anchor.move()
+            }
+        }
+
+    }
+
+    
 
     class Fractal{
         constructor(x){
@@ -2569,6 +2661,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.footspot = new Circle(this.body.x, this.body.y+(this.body.radius-1), 3, "red")
                 if(ramps[t].isPointInside(this.footspot)){
 
+                    ramps[t].xmom += (this.body.xmom+this.body.sxmom)
+                    ramps[t].ymom += (this.body.ymom+this.body.symom)/5
                 this.body.sxmom = 0
                 this.body.symom = 0
                 if(k==0){
@@ -4667,6 +4761,24 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
     }
 
+    
+    let springs = []
+
+    let pin = new Circle(-1680,-450, 10, "blue")
+    let pin2 = new Circle(-1680,350, 100, "orange")
+
+    let spring = new Spring(pin)
+    springs.push(spring)
+    for(let k = 0; k<18;k++){
+        spring = new Spring(spring.anchor)
+        if(k < 17){
+            springs.push(spring)
+        }else if(k == 17 ){
+            spring.anchor = pin2
+            springs.push(spring)
+        }
+    }
+    ramps.push(pin2)
 
     setTimeout(function(){
         
@@ -4777,6 +4889,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
             for(let t = 0; t<pomao.eggs.length; t++){
                 pomao.eggs[t].draw()
+            }
+
+            
+    
+            if(pin.x > pomao.body.x-((tutorial_canvas.width*1.2)+pin.radius) && pin.x < pomao.body.x+((tutorial_canvas.width*1.2)+pin.radius) ){
+                if(pin.y > pomao.body.y-((tutorial_canvas.height*1.2)+pin.radius) && pin.y < pomao.body.y+((tutorial_canvas.height*1.2)+pin.radius) ){
+                    swinger1move()
+                }
+            }else if(pin2.x > pomao.body.x-((tutorial_canvas.width*1.2)+pin2.radius) && pin2.x < pomao.body.x+((tutorial_canvas.width*1.2)+pin2.radius) ){
+                if(pin2.y > pomao.body.y-((tutorial_canvas.height*1.2)+pin2.radius) && pin2.y < pomao.body.y+((tutorial_canvas.height*1.2)+pin2.radius) ){
+                    swinger1move()
+                }
             }
             
             pomao.draw()   
@@ -5160,6 +5284,36 @@ function resettonguediff(){
             swimmers[g].anchor.ydif = 0
         }
     }
+}
+function swinger1move(){
+    pin.draw()
+    for(let s = 0; s<springs.length; s++){
+        if(pegged == 1){
+        // pin2.xmom = 0
+        // pin2.ymom = 0
+        }else{
+            }
+        springs[s].balance()
+        if(pegged == 1){
+        // pin2.xmom = 0
+        pin2.ymom += .01
+        }
+        if(pegged == 1){
+        }
+    }
+    for(let s = 0; s<springs.length; s++){
+
+        springs[s].move()
+    }
+    for(let s = 0; s<springs.length; s++){
+
+        springs[s].draw()
+    }
+    pin.xmom *= .90
+    pin.ymom *= .90
+
+    pin2.xmom *= .95
+    pin2.ymom *= .95
 }
 
 })
