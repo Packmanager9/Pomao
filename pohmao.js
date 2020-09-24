@@ -2265,6 +2265,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     class Pomao{
         constructor(){
             this.rooted = {}
+            this.rootedframe = 0
             this.dry = 0
             this.tongueray = []
             this.tonguebox = new Shape(this.tongueray)
@@ -2406,7 +2407,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }else{
                 this.jumping = 1
                 this.body.ymom += .1
-                this.rooted = {}
+                if(this.rootedframe <=0){
+                    this.rooted = {}
+                }
+                this.rootedframe--
              
             }
             dry = 0
@@ -2678,9 +2682,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 if(ramps[t].isPointInside(this.footspot)){
                     if(objsprings.includes(ramps[t])){
                         pomao.rooted = ramps[t]
+                        pomao.rootedframe = 20
                     }
 
-                    ramps[t].xmom += (this.body.xmom+this.body.sxmom)
+                    ramps[t].xmom += (this.body.xmom+this.body.sxmom)/3
                     if(pomao.body.ymom > 0){
                         ramps[t].ymom += (this.body.ymom+this.body.symom)/8
                     }
@@ -3103,7 +3108,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             // ////console.log(gamepadAPI)
     //   if(gamepadAPI.buttonsStatus.includes('A')){
         if(gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A')){
-            this.rooted = {}
+            // this.rooted = {}
           if(pomao.jumping == 0){
             pomao.body.ymom = -5.1
 
@@ -3131,7 +3136,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         
           }
     }else if(keysPressed['w']  || gamepadAPI.buttonsStatus.includes('A')){
-        this.rooted = {}
+        // this.rooted = {}
         if(this.jumping == 0){
             if(this.bonked ==0){
                 
@@ -3193,7 +3198,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     //   if(gamepadAPI.buttonsStatus.includes('A')){
             if(keysPressed['f'] || keysPressed['n']  ||gamepadAPI.buttonsStatus.includes('DPad-Left')){
-                this.rooted = {}
+                // this.rooted = {}
                 if(this.jumping == 1){
                     if(this.body.ymom > -3.5){
                         if(this.runner > 21){
@@ -3241,7 +3246,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.bodytight = new Circle(this.body.x,this.body.y, 21, "yellow")
             if(this.disabled == 0){
             if(keysPressed['a']){
-                this.rooted = {}
+                // this.rooted = {}
                 this.dir = -1
                     if(this.blocked !== 1){
                 this.dir = -1
@@ -3271,7 +3276,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                         }
                     }
             }else if(keysPressed['d']){
-                this.rooted = {}
+                // this.rooted = {}
                 this.dir =1
                 if(this.blocked !== -1){
                 this.body.x+=3
@@ -3299,7 +3304,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 }
             }else if(gamepadAPI.axesStatus.length > 0){
                 if(Math.abs(gamepadAPI.axesStatus[0]) >.2){
-                    this.rooted = {}
+                    // this.rooted = {}
                         // pomao.body.x+= gamepadAPI.axesStatus[0]*3
                         // tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
            
@@ -3354,14 +3359,14 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                     
                     // }
                     if(gamepadAPI.axesStatus[0]*3 < .1){
-                        this.rooted = {}
+                        // this.rooted = {}
                         pomao.dir = -1
                         if(pomao.body.sxmom >0){
                             pomao.body.sxmom = 0
                         }
                     }
                      if(gamepadAPI.axesStatus[0]*3 > -.1){
-                        this.rooted = {}
+                        // this.rooted = {}
                         pomao.dir = 1
                         if(pomao.body.sxmom <0){
                             pomao.body.sxmom = 0
