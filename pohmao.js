@@ -175,7 +175,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     rampcurveimg1.src = 'rampcurve1.png'
 
     const fruitsprites = new Image()
-    fruitsprites.src = 'fruitsprites9.png'
+    fruitsprites.src = 'fruitsprites10.png'
     const cake = new Image()
     cake.src = 'Fruit 92 - Cake.png'
 
