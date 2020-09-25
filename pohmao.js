@@ -5217,7 +5217,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         //     ungrapplable[t].draw()
         // }
         // swinger1move()
-    },  1) 
+    },  14) 
 }, 6969);  //6969
 
 function squarecirclefaceblockjump(square, circle){
