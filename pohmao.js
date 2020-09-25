@@ -161,6 +161,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     walling.src ="wall.png"
     const nailimg = new Image()
     nailimg.src ="poundnail.png"
+    const ballsprite = new Image()
+    ballsprite.src ="ballsprite3.png"
 
     const jazz = new Audio('gulpnoise.wav');
     const jazz2 = new Audio('gulpnoise2.wav');
@@ -495,7 +497,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(body == 0){
                 this.body = new Circle(350, 350, 5, "red",10,10)
                 this.anchor = new Circle(this.body.x, this.body.y+5, 5, "red")
-                this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+                this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "green", 5)
                 this.length = 1
             }else{
                 this.body = body
@@ -504,12 +506,12 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 if(!objsprings.includes(this.anchor)){
                     objsprings.push(this.anchor)
                 }
-                this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+                this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "green", 5)
             }
 
         }
         balance(){
-            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "green", 5)
             let xmomentumaverage 
             let ymomentumaverage
             if(this.anchor != pin2){
@@ -553,11 +555,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
         }
         draw(){
-            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "green", 5)
             this.beam.draw()
             // this.body.draw()
             if(ramps.includes(this.anchor)){
-                this.anchor.draw()
+                tutorial_canvas_context.drawImage(ballsprite, 0,0,ballsprite.width,ballsprite.height,pin2.x-pin2.radius,pin2.y-pin2.radius,pin2.radius*2,pin2.radius*2)
             }
             // this.anchor.draw()
         }
@@ -572,9 +574,37 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.body.move()
             }
             if(pegged == 1){
-                // if(this.anchor != pin2){
-                    this.anchor.move()
-                // }
+                    if(this.anchor == pin2){
+                        for(let t = 0;t<walls.length;t++){
+                            if(squarecirclefaceball(walls[t],pin2)){
+                                if(walls[t].x > pin2.x){
+                                    if(pin2.xmom > 0){
+                                        pin2.xmom*=-1
+                                        break
+                                    }
+                                }else{
+                                    if(pin2.xmom < 0){
+                                        pin2.xmom*=-1
+                                        break
+                                    }
+                                }
+                            }
+                            if(squarecirclehead(walls[t],pin2)){
+                                    if(pin2.ymom < 0){
+                                        pin2.ymom*=-1
+                                    }
+                            }
+                            if(squarecirclefeet(walls[t],pin2)){
+                                    if(pin2.ymom > 0){
+                                        pin2.ymom*=-1
+                                        break
+                                    }
+                            }
+                        }
+                        this.anchor.move()
+                    }else{
+                        this.anchor.move()
+                    }
             }else{
                 this.anchor.move()
             }
@@ -2739,8 +2769,10 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             this.eggmake--
             if(this.eggmake>0){
                 if(this.eggmake%10 == 0){
+                    if(pomao.eggs.length < 16){
                         const seepx = new Seed(pomao.eggs[pomao.eggs.length-1])
                         pomao.eggs.push(seepx)
+                    }
                 }
             }
             this.high--
@@ -4961,7 +4993,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     for(let t = 0; t<ramps.length; t++){
         if(t > 1){
 
-            ramps[t].draw()
+            if(typeof ramps[t].radius == "number"){
+
+            }else{
+                ramps[t].draw()
+            }
                
             tutorial_canvas_context.drawImage(rampcurveimg1, 1656, 578, 488, 73 )
         
@@ -5288,6 +5324,20 @@ function squarecirclehead(square, circle){
 }
 
 function squarecircleface(square, circle){
+    const squareendh = square.y + square.height
+    const squareendw = square.x + square.width
+    if(square.x <= circle.x+circle.radius){
+        if(square.y <= circle.y){
+            if(squareendw+circle.radius >= circle.x){
+                if(squareendh >= circle.y){
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+function squarecirclefaceball(square, circle){
     const squareendh = square.y + square.height
     const squareendw = square.x + square.width
     if(square.x <= circle.x+circle.radius){
