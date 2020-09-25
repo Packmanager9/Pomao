@@ -4278,6 +4278,22 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     
     ungrapplable.push(lvl1fooroverhangwallrampxnograp)
     
+    const backwall = new Rectangle(-5000,-10000, 12000, 50, "cyan")
+    floors.push(backwall)
+    walls.push(backwall)
+    roofs.push(backwall)
+    
+    ungrapplable.push(backwall)
+    
+    ungrapplable.push(lvl1fooroverhangwallrampxnograp)
+    
+    const topwall = new Rectangle(-5000,-5000, 50, 9150, "cyan")
+    floors.push(topwall)
+    walls.push(topwall)
+    roofs.push(topwall)
+    
+    ungrapplable.push(topwall)
+    
     
     const lvl1fooroverhangwallrampx = new Rectangle(ramp5.x-20, ramp5.y-2000, 2050, 50, "red")
     floors.push(lvl1fooroverhangwallrampx)
