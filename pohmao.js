@@ -408,7 +408,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
     // tutorial_canvas_context.scale(.07,.07)
-    // tutorial_canvas_context.translate(2900,8750)
+    // tutorial_canvas_context.translate(3300,8750)
     // tutorial_canvas_context.translate(2500,6000)
 
     tutorial_canvas.style.background = "#664613"
@@ -433,6 +433,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
           tip.y = ys
     
           tip.body = tip
+
+          console.log(pomao)
 
      });
     
@@ -4333,7 +4335,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     }
 
     
-    for(let t = 0;t<15; t++){
+    for(let t = 1;t<15; t++){
         let topfloorlvl1 = new Rectangle(4300+(t*530), -7000+t*140, 20,330, "red")
 
         
@@ -4357,33 +4359,34 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         }
     }
 
+
         floors.push(topfloorlvl1)
         // fruits.push(fruit)
     }
 
-    for(let t = 0;t<10; t++){
+    for(let t = 1;t<10; t++){
         
         let topfloorlvl1 = new Rectangle(4300+(t*530), -6300+t*140, 20,330, "red")
              
-    for(let t = 0;t<15; t++){
-        const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
-        let wet = 0
-        for(let s = 0; s<floors.length; s++){
-           if(squarecircleedges(floors[s],fruit.body)){
-                wet = 1
-                break
+            for(let t = 0;t<15; t++){
+                const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
+                let wet = 0
+                for(let s = 0; s<floors.length; s++){
+                   if(squarecircleedges(floors[s],fruit.body)){
+                        wet = 1
+                        break
+                    }
+                }
+                for(let k = 0;k<fruits.length; k++){
+                    if(fruit.body.repelCheck(fruits[k].body) ){
+                        wet = 1
+                        break
+                    }
+                }
+                if(wet == 0){
+                    fruits.push(fruit)
+                }
             }
-        }
-        for(let k = 0;k<fruits.length; k++){
-            if(fruit.body.repelCheck(fruits[k].body) ){
-                wet = 1
-                break
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
         if(t!=5){
             floors.push(topfloorlvl1)
         }
@@ -4392,6 +4395,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         
         let topfloorlvl1 = new Rectangle(4300+(t*530), -7840+t*140, 20,330, "red")
              
+        if(t!=0){
     for(let t = 0;t<15; t++){
         const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
         let wet = 0
@@ -4411,6 +4415,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             fruits.push(fruit)
         }
     }
+}
         if(t!=5){
             floors.push(topfloorlvl1)
         }
@@ -4522,12 +4527,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     }
 
     // console.log(floors)
-    const fruitx = new Fruit(510,340, 60,60, "red")
-    const fruity = new Fruit(-3200,600, 60,60, "red")
-    fruity.type = 11
-    fruity.type2 = 11
-    fruits.push(fruitx)
-    fruits.push(fruity)
 
     for(let t = 0;t<100; t++){
         const fruit = new Fruit(-2450+(Math.random()*4850),225+(Math.random()*315), 60,60, "red")
@@ -4854,6 +4853,18 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 fruits.splice(k,1)
             }
         }
+        
+    const fruitx = new Fruit(510,340, 60,60, "red")
+    const fruity = new Fruit(-3200,600, 60,60, "red")
+    fruity.type = 11
+    fruity.type2 = 11
+    fruits.push(fruitx)
+    fruits.push(fruity)
+
+    const cake2 = new Fruit(4458,-7890, 60,60, "red")
+    cake2.type = 11
+    cake2.type2 = 11
+    fruits.push(cake2)
 
         for(let k = 0;k<fruits.length;k++){
         swinger1move()
@@ -4910,6 +4921,9 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     tutorial_canvas_context.fillText("Nice!", 4050, -770)
     tutorial_canvas_context.fillText("Beware the cave of the beast!", 11000, 500)
     tutorial_canvas_context.fillText("<= <= <=", 12800, 500)
+    tutorial_canvas_context.fillText("Can't grapple ice!", 4300+(14*530),-5100-(14*150))
+    tutorial_canvas_context.fillText("Try to pogo, then flutter up", 4300+(14*530),-5100-(14*148))
+
            
     for(let t = 0; t<ramps.length; t++){
         if(t > 1){
