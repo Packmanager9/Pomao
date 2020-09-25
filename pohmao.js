@@ -1,7 +1,7 @@
 
+let level = 1
     let zimgs = []
 
-    let objsprings  =[]
     // const gamepads
 
     for(let i = 1; i < 44; i++) {
@@ -150,10 +150,23 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
 
 
-    const swimmers = []
-    const floors = []
-    const ramps = []
-
+    let springs = []
+    let objsprings = []
+    let ramps90 = []
+    let swimmers = []
+    let floors = []
+    let ramps = []
+    let boys = []
+    let deadboys = []
+    let fruits = []
+    let walls = []
+    let ungrapplable = []
+    let jellys = []
+    let roofs = []
+    let switches = []
+    let shocks =[]
+    let blocks = []
+    let nails = []
     let dry = 0
     const floorimg = new Image()
     floorimg.src ="floor4.png"
@@ -1301,42 +1314,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 this.move()
                 this.bodydraw = new Circlec(this.body.x,this.body.y,this.body.radius+7,"#AA00DD")
                 this.bodydrawhuge = new Circlec(this.body.x,this.body.y,this.body.radius+17,"#AA00DD")
-                // this.bodydraw.draw()
-                // this.bodydraw1 = new Circlec(this.body.x,this.body.y,this.body.radius+3,"#FFFF00")
-                // this.bodydraw1.draw()
-                // this.bodydraw2 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius,0),"#AA00DD")
-                // this.bodydraw2.draw()
-                // this.bodydraw3 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-4,0),"#FFDD00")
-                // this.bodydraw3.draw()
-                // this.bodydraw4 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-7,0),"#AA00DD")
-                // this.bodydraw4.draw()
-                // this.bodydraw5 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-10,0),"#FFBB00")
-                // this.bodydraw5.draw()
-                // this.bodydraw6 = new Circlec(this.body.x,this.body.y,Math.max(this.body.radius-13,0),"#AA00DD")
-                // this.bodydraw6.draw()
+                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
 
-                
-                // if(this.body.radius+7 >= 0){
-                    tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // }    
-                // if(this.body.radius+3 >= 0){
-                //     tutorial_canvas_context.drawImage(rimgs[1], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // // }    
-                // // if(this.body.radius >= 0){
-                //     tutorial_canvas_context.drawImage(rimgs[2], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // // }    
-                // // if(this.body.radius-3 >= 0){
-                //     tutorial_canvas_context.drawImage(rimgs[3], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // // }    
-                // // if(this.body.radius-6 >= 0){
-                //     tutorial_canvas_context.drawImage(rimgs[4], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // // }  
-                // // if(this.body.radius-9 >= 0){
-                //     tutorial_canvas_context.drawImage(rimgs[5], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // // }
-                // // if(this.body.radius-12 >= 0){
-                //     tutorial_canvas_context.drawImage(rimgs[6], 0, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
-                // // }
           }
         }
 
@@ -3762,6 +3741,11 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     }
     class Bossbeam {
         constructor(){
+            this.wall1 = new Rectangle(4700, -800, 1500, 50, "red")
+            this.cleared = 0
+            floors.push(this.wall1)
+            walls.push(this.wall1)
+            roofs.push(this.wall1)
             this.body1 = new Circle(9000,100, 10,"transparent")
             this.body2 = new Circle(9000,100, 10,"transparent")
             this.body3 = new Circle(9000,100, 10,"transparent")
@@ -3832,6 +3816,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                                   }
                               }
                           }
+                }
+            }else{
+                if(this.cleared == 0){
+                    this.cleared = 1
+                    walls.splice(walls.indexOf(this.wall1),1)
+                    floors.splice(floors.indexOf(this.wall1),1)
+                    roofs.splice(roofs.indexOf(this.wall1),1)
                 }
             }
         }
@@ -4031,617 +4022,6 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
     const pomao = new Pomao()
 
-    const boys = []
-    const deadboys = []
-    const fruits = []
-    const walls = []
-    const ungrapplable = []
-    const jellys = []
-    const roofs = []
-    const switches = []
-    const shocks =[]
-    const blocks = []
-    const floor = new Rectangle(-100000000, 650, 50, 7000000000, "red")
-    floors.push(floor)
-    const wall = new Rectangle(2460, 0, 2000, 50, "red")
-    // const walltest = new Rectangle(500, 0, 2000, 50, "red")
-    const wallt = new Rectangle(4500, -800, 2800, 50, "red")
-
-    const jwall1 = new Rectangle(3150, -200, 500, 50, "red")
-    const jelly = new Rectangle(3200, -180, 480, 500, "#00FFFF88")
-    const jwall2 = new Rectangle(3700, -200, 500, 50, "red")
-    const jfloor = new Rectangle(3150, 300, 50, 600, "red")
-    const jfloorsafe = new Rectangle(2900, 300, 20, 259, "red")
-    const jfloorsafe2 = new Rectangle(3691, 270, 20, 809, "red")
-
-    const lvl1floor1 = new Rectangle(4500, -800, 50, 7000, "red")
-
-    const lvl1wall1 = new Rectangle(4150, -9530, 8780, 50, "red")
-
-    for(let t = 0; t< 10; t++){
-        
-    if(t!= 0){
-        const width = (((100*60)-(t*(600+t)))/400)
-        const lvl1floorloop = new Rectangle(4200, -4480+(t*350), 20,400+(Math.round(width)*400), "red")
-        floors.push(lvl1floorloop)
-        const lvl1floorloopsolid = new Rectangle(lvl1floorloop.x+lvl1floorloop.width-10,lvl1floorloop.y, 50, Math.round((t*t*70)*.0025)*400, "red")
-        for(let t =lvl1floorloopsolid.x+750;t<lvl1floorloopsolid.x+lvl1floorloopsolid.width;t+=300){
-            const boy = new Boys(t-50,lvl1floorloopsolid.y-50,50,50,'red')
-            boys.push(boy)
-        }
-        floors.push(lvl1floorloopsolid)
-        roofs.push(lvl1floorloopsolid)
-        walls.push(lvl1floorloopsolid)
-        
-        for(let k = 0; k<floors.length;k++){
-            
-            if(k!=floors.indexOf(lvl1floorloopsolid)){
-                if(lvl1floorloopsolid.x+lvl1floorloopsolid.width == floors[k].x + floors[k].width){
-                    const lvl1wallloopsolid = new Rectangle(lvl1floorloopsolid.x+lvl1floorloopsolid.width,floors[k].y, Math.abs(floors[k].y-lvl1floorloopsolid.y)+50 , 50, "red")
-                    
-                    floors.push(lvl1wallloopsolid)
-                    roofs.push(lvl1wallloopsolid)
-                    walls.push(lvl1wallloopsolid)
-                }
-            }
-        }
-    }else{
-    const lvl1floorloop = new Rectangle(4200, -4480+(t*330), 50, 6850-(t*90), "red")
-    floors.push(lvl1floorloop)
-    roofs.push(lvl1floorloop)
-    walls.push(lvl1floorloop)
-    }
-    }
-
-
-
-    floors.push(lvl1floor1)
-    walls.push(lvl1floor1)
-    roofs.push(lvl1floor1)
-    walls.push(lvl1floor1)
-    walls.push(lvl1wall1)
-    floors.push(lvl1wall1)
-    roofs.push(lvl1wall1)
-
-    const roof = new Rectangle(0, 0, 50, 2500, "red")
-    const roof2 = new Rectangle(-2500, -500, 50, 5500, "red")
-    const buttonfloor = new Rectangle(4100, -530, 20, 420, "red")
-    floors.push(buttonfloor)
-    floors.push(wallt)
-    floors.push(wall)
-    floors.push(jwall1)
-    floors.push(jwall2)
-    floors.push(jfloor)
-    floors.push(jfloorsafe)
-    floors.push(jfloorsafe2)
-    walls.push(jfloor)
-    roofs.push(jfloor)
-    walls.push(jwall1)
-    walls.push(jwall2)
-    floors.push(jelly)
-    jellys.push(jelly)
-    walls.push(wall)
-    // walls.push(walltest)
-    // floors.push(walltest)
-    walls.push(wallt)
-    floors.push(roof)
-    walls.push(roof)
-    roofs.push(roof)
-    floors.push(roof2)
-    walls.push(roof2)
-    roofs.push(roof2)
-
-    const wall2 = new Rectangle(-2500, -500, 2000, 50, "red")
-    const wall3 = new Rectangle(2800, -500, 520, 50, "red")
-
-    const tutfloor = new Rectangle(2500, 0, 20, 350, "red")
-    floors.push(wall2)
-    floors.push(tutfloor)
-    walls.push(wall2)
-    floors.push(wall3)
-    walls.push(wall3)
-    roofs.push(wall3)
-
-    const nails = []
-    const block = new Rectangle(-1500, 200, 200,200, "orange")
-    const block2 = new Rectangle(2200, 200, 200,200, "orange")
-    const nail = new Rectangle(-1950, 200, 200,200, "orange")
-    nails.push(nail)
-    const floor2 = new Rectangle(-100, 500, 20, 550, "red")
-
-    const ramp2 = new Trianglex(1300, 651, "red", 40)
-    ramps.push(ramp2)
-    const ramp = new Triangle(800, 651, "red", 40)
-    ramps.push(ramp)
-
-    const ramp4 = new Circle(1900,700, 120, "red")
-    ramps.push(ramp4)
-    const ramp3 = new Circle(1900,1200, 600, "red")
-    ramps.push(ramp3)
-
-    floors.push(floor2)
-    floors.push(block)
-    walls.push(block)
-    blocks.push(block)
-    floors.push(block2)
-    walls.push(block2)
-    floors.push(nail)
-    // walls.push(nail)
-    blocks.push(nail)
-    blocks.push(block2)
-
-
-    const buttonswitch = new Switchfloor(4500,-640,  4500-2000, -800,50, 2050)
-    const lvl1buttonswitch = new Switchfloor(6500,-3540,  9800, -3540,50, 1300)
-    const lvl1buttonswitch1 = new Switchfloor(4080,-2540,  4200, -4150,50,380)
-    const lvl1buttonswitchwall2 = new Switchfloor(4080,-2540,  4550, -4450,330, 50)
-
-    lvl1buttonswitchwall2.button = lvl1buttonswitch1.button
-    const lvl1fooroverhang = new Rectangle(10800, -2800, 50, 250, "red")
-    floors.push(lvl1fooroverhang)
-    walls.push(lvl1fooroverhang)
-    roofs.push(lvl1fooroverhang)
-  
-    const lvl1fooroverhangwall = new Rectangle(11000, -3540, 3900, 50, "red")
-    floors.push(lvl1fooroverhangwall)
-    walls.push(lvl1fooroverhangwall)
-    roofs.push(lvl1fooroverhangwall)
-  
-    let ramps90 = []
-  
-    const ramp5 = new Triangle90(lvl1fooroverhangwall.x+1300, lvl1fooroverhangwall.y, "red", 100)
-    ramps.push(ramp5)
-    ramps90.push(ramp5)
-  
-    const ramp6 = new Triangle90l(lvl1fooroverhangwall.x, lvl1fooroverhangwall.y-530, "red", 75)
-    ramps.push(ramp6)
-
-    for(let t = ramp6.y-1000;t<ramp6.y-150; t+=150){
-        let ladderfloor = new Rectangle(ramp6.x, t, 20, 150)
-        floors.push(ladderfloor)
-    }
-
-    
-
-
-
-
-
-    const trapswitch1 = new Switchfloor(ramp6.x-120,ramp6.y-350, ramp6.x-500, ramp6.y, 50, 550 )
-    const trapswitch2 = new Switchfloor(ramp6.x-120,ramp6.y-350, ramp6.x-500, ramp6.y-400, 450, 50)
-    trapswitch1.button = trapswitch2.button
-    for(let t = 0;t<10000; t++){
-        const fruit = new Fruit(ramp6.x-550+(Math.random()*400),ramp6.y-350+(Math.random()*400), 60,60, "red")
-        let wet = 0
-        for(let s = 0; s<floors.length; s++){
-           if(squarecircleedges(floors[s],fruit.body)){
-                wet = 1
-                break
-            }
-        }
-        for(let k = 0;k<fruits.length; k++){
-            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
-                wet = 1
-                break
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
-
-    
-    const lvl1fooroverhangwallramp = new Rectangle(ramp6.x-40, ramp6.y, 50, 790, "red")
-    floors.push(lvl1fooroverhangwallramp)
-    walls.push(lvl1fooroverhangwallramp)
-    roofs.push(lvl1fooroverhangwallramp)
-    
-    const lvl1fooroverhangwallfar = new Rectangle(ramp6.x+2000,-8100, 8850, 50, "red")
-    floors.push(lvl1fooroverhangwallfar)
-    walls.push(lvl1fooroverhangwallfar)
-    roofs.push(lvl1fooroverhangwallfar)
-    
-    const lvl1fooroverhangwallfarzig = new Rectangle(ramp6.x+300,-3100, 50, 1750, "red")
-    floors.push(lvl1fooroverhangwallfarzig)
-    walls.push(lvl1fooroverhangwallfarzig)
-    roofs.push(lvl1fooroverhangwallfarzig)
-    
-    const lvl1fooroverhangwallfarzag = new Rectangle(ramp6.x,-2700, 50, 1750, "red")
-    floors.push(lvl1fooroverhangwallfarzag)
-    walls.push(lvl1fooroverhangwallfarzag)
-    roofs.push(lvl1fooroverhangwallfarzag)
-    
-    const lvl1fooroverhangwallfarzug = new Rectangle(ramp6.x,-1400, 50, 1750, "red")
-    floors.push(lvl1fooroverhangwallfarzug)
-    walls.push(lvl1fooroverhangwallfarzug)
-    roofs.push(lvl1fooroverhangwallfarzug)
-    
-    const lvl1fooroverhangwallfarzyg = new Rectangle(ramp6.x+300,-1900, 50, 500, "red")
-    floors.push(lvl1fooroverhangwallfarzyg)
-    walls.push(lvl1fooroverhangwallfarzyg)
-    roofs.push(lvl1fooroverhangwallfarzyg)
-    
-    const lvl1fooroverhangwallfarzag2 = new Rectangle(ramp6.x+300,-2300, 600, 50, "red")
-    floors.push(lvl1fooroverhangwallfarzag2)
-    walls.push(lvl1fooroverhangwallfarzag2)
-    roofs.push(lvl1fooroverhangwallfarzag2)
-    
-    
-    const lvl1fooroverhangwallfarzag4 = new Rectangle(ramp6.x+1700,-2000, 600, 50, "red")
-    floors.push(lvl1fooroverhangwallfarzag4)
-    walls.push(lvl1fooroverhangwallfarzag4)
-    roofs.push(lvl1fooroverhangwallfarzag4)
-    
-    
-    const lvl1fooroverhangwallfarzag4x = new Rectangle(ramp6.x+1350,-1800, 400, 50, "red")
-    floors.push(lvl1fooroverhangwallfarzag4x)
-    walls.push(lvl1fooroverhangwallfarzag4x)
-    roofs.push(lvl1fooroverhangwallfarzag4x)
-    
-    
-    const lvl1fooroverhangwallfarzag4y = new Rectangle(ramp6.x+1000,-1600, 200, 50, "red")
-    floors.push(lvl1fooroverhangwallfarzag4y)
-    walls.push(lvl1fooroverhangwallfarzag4y)
-    roofs.push(lvl1fooroverhangwallfarzag4y)
-    
-    
-    for(let t = 0;t<400; t++){
-        const fruit = new Fruit(ramp6.x+(Math.random()*2000),ramp5.y+(Math.random()*4000), 60,60, "red")
-       
-        let wet = 0
-        for(let s = 0; s<floors.length; s++){
-           if(squarecircleedges(floors[s],fruit.body)){
-                wet = 1
-                break
-            }
-        }
-        for(let k = 0;k<fruits.length; k++){
-            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
-                wet = 1
-                break
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
-    
-    
-    const lvl1fooroverhangwallfarzag3 = new Rectangle(ramp6.x+300,-2300, 50, 1750, "red")
-    floors.push(lvl1fooroverhangwallfarzag3)
-    walls.push(lvl1fooroverhangwallfarzag3)
-    roofs.push(lvl1fooroverhangwallfarzag3)
-    
-    const lvl1fooroverhangwallfarroof = new Rectangle(4200, -8100, 50, 10050, "cyan")
-    floors.push(lvl1fooroverhangwallfarroof)
-    walls.push(lvl1fooroverhangwallfarroof)
-    roofs.push(lvl1fooroverhangwallfarroof)
-    ungrapplable.push(lvl1fooroverhangwallfarroof)
-    
-    const lvl1fooroverhangwallrampxnograp = new Rectangle(ramp5.x-20, ramp5.y-4000, 2050, 50, "cyan")
-    floors.push(lvl1fooroverhangwallrampxnograp)
-    walls.push(lvl1fooroverhangwallrampxnograp)
-    roofs.push(lvl1fooroverhangwallrampxnograp)
-    
-    ungrapplable.push(lvl1fooroverhangwallrampxnograp)
-    
-    const backwall = new Rectangle(-5000,-10000, 12000, 50, "cyan")
-    floors.push(backwall)
-    walls.push(backwall)
-    roofs.push(backwall)
-    
-    ungrapplable.push(backwall)
-    
-    ungrapplable.push(lvl1fooroverhangwallrampxnograp)
-    
-    const topwall = new Rectangle(-5000,-5000, 50, 9150, "cyan")
-    floors.push(topwall)
-    walls.push(topwall)
-    roofs.push(topwall)
-    
-    ungrapplable.push(topwall)
-    
-    
-    const lvl1fooroverhangwallrampx = new Rectangle(ramp5.x-20, ramp5.y-2000, 2050, 50, "red")
-    floors.push(lvl1fooroverhangwallrampx)
-    walls.push(lvl1fooroverhangwallrampx)
-    roofs.push(lvl1fooroverhangwallrampx)
-    
-    
-    const lvl1fooroverhangwallrampy = new Rectangle(ramp6.x, ramp6.y-1000, 1000, 50, "red")
-    floors.push(lvl1fooroverhangwallrampy)
-    walls.push(lvl1fooroverhangwallrampy)
-    roofs.push(lvl1fooroverhangwallrampy)
-  
-    const lvl1fooroverhangwall2z = new Rectangle(lvl1fooroverhangwall.x, lvl1fooroverhangwall.y, 50, 1350,"red")
-    floors.push(lvl1fooroverhangwall2z)
-    walls.push(lvl1fooroverhangwall2z)
-    roofs.push(lvl1fooroverhangwall2z)
-
-    const lvl1fooroverhangwall2 = new Rectangle(10140, -2440, 790, 50, "red")
-    floors.push(lvl1fooroverhangwall2)
-    walls.push(lvl1fooroverhangwall2)
-    roofs.push(lvl1fooroverhangwall2)
-  
-  
-    const lvl1fooroverhangwal3 = new Rectangle(6240, -2380, 380, 50, "red")
-    floors.push(lvl1fooroverhangwal3)
-    walls.push(lvl1fooroverhangwal3)
-    roofs.push(lvl1fooroverhangwal3)
-  
-    const lvl1fooroverhangthin = new Rectangle( 9800, -2800,20, 1000, "red")
-    floors.push(lvl1fooroverhangthin)
-  
-
-    for(let t = 0 ; t< 4; t++){
-        const floor3 = new Rectangle(-130+600*t, 500-(t*90), 20, 400, "red")
-        floors.push(floor3)
-    
-        for(let t = 0;t<10; t++){
-            const fruit = new Fruit(floor3.x+(Math.random()*400),floor3.y-(100+Math.random()*400), 60,60, "red")
-           
-            let wet = 0
-            for(let s = 0; s<floors.length; s++){
-               if(squarecircleedges(floors[s],fruit.body)){
-                    wet = 1
-                    break
-                }
-            }
-            for(let k = 0;k<fruits.length; k++){
-                if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
-                    wet = 1
-                    break
-                }
-            }
-            if(wet == 0){
-                fruits.push(fruit)
-            }
-        }
-    }
-
-    
-    for(let t = 1;t<15; t++){
-        let topfloorlvl1 = new Rectangle(4300+(t*530), -7000+t*140, 20,330, "red")
-
-        
-    for(let t = 0;t<15; t++){
-        const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
-        let wet = 0
-        for(let s = 0; s<floors.length; s++){
-           if(squarecircleedges(floors[s],fruit.body)){
-                wet = 1
-                break
-            }
-        }
-        for(let k = 0;k<fruits.length; k++){
-            if(fruit.body.repelCheck(fruits[k].body) ){
-                wet = 1
-                break
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
-
-
-        floors.push(topfloorlvl1)
-        // fruits.push(fruit)
-    }
-
-    for(let t = 1;t<10; t++){
-        
-        let topfloorlvl1 = new Rectangle(4300+(t*530), -6300+t*140, 20,330, "red")
-             
-            for(let t = 0;t<15; t++){
-                const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
-                let wet = 0
-                for(let s = 0; s<floors.length; s++){
-                   if(squarecircleedges(floors[s],fruit.body)){
-                        wet = 1
-                        break
-                    }
-                }
-                for(let k = 0;k<fruits.length; k++){
-                    if(fruit.body.repelCheck(fruits[k].body) ){
-                        wet = 1
-                        break
-                    }
-                }
-                if(wet == 0){
-                    fruits.push(fruit)
-                }
-            }
-        if(t!=5){
-            floors.push(topfloorlvl1)
-        }
-    }
-    for(let t = 0;t<10; t++){
-        
-        let topfloorlvl1 = new Rectangle(4300+(t*530), -7840+t*140, 20,330, "red")
-             
-        if(t!=0){
-    for(let t = 0;t<15; t++){
-        const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
-        let wet = 0
-        for(let s = 0; s<floors.length; s++){
-           if(squarecircleedges(floors[s],fruit.body)){
-                wet = 1
-                break
-            }
-        }
-        for(let k = 0;k<fruits.length; k++){
-            if(fruit.body.repelCheck(fruits[k].body) ){
-                wet = 1
-                break
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
-}
-        if(t!=5){
-            floors.push(topfloorlvl1)
-        }
-    }
-
-    for(let t = 0;t<14; t++){
-        const topfloorlvl1 = new Rectangle(4300+(t*530), -4800-t*140, 20,330, "red")
-             
-    for(let t = 0;t<15; t++){
-        const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
-        let wet = 0
-        for(let s = 0; s<floors.length; s++){
-           if(squarecircleedges(floors[s],fruit.body)){
-                wet = 1
-                break
-            }
-        }
-        for(let k = 0;k<fruits.length; k++){
-            if(fruit.body.repelCheck(fruits[k].body) ){
-                wet = 1
-                break
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
-        if(t!=8 && t!= 10){
-            floors.push(topfloorlvl1)
-        }
-    }
-
-
-    
-    const topfloorlvl1x = new Rectangle(4300+(14*530), -5100-(14*140), 20,330, "red")
-    floors.push(topfloorlvl1x)
-
-    for(let t = 0;t<101; t++){
-        let swimmertop = new Swimmer(4300+Math.random()*6700, -7000+Math.random()*2200)
-        swimmertop.type = 1
-        swimmers.push(swimmertop)
-    }
-
-
-    for(let t = 0 ; t< 4; t++){
-        const floor3 = new Rectangle(-90-300*t, 500-(t*200), 20, 400, "red")
-        floors.push(floor3)
-    
-        // const boy = new Boys(floor3.x+(Math.random()*400),floor3.y-(Math.random()*400), 60+(t*.1),60+(t*.1), "red")
-        // boys.push(boy)
-        for(let t = 0;t<10; t++){
-            const fruit = new Fruit(floor3.x+(Math.random()*400),floor3.y-(100+Math.random()*320), 60,60, "red")
-           
-            let wet = 0
-            for(let s = 0; s<floors.length; s++){
-               if(squarecircleedges(floors[s],fruit.body)){
-                    wet = 1
-                    break
-                }
-            }
-            for(let k = 0;k<fruits.length; k++){
-                if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
-                    wet = 1
-                    break
-                }
-            }
-            if(wet == 0){
-                fruits.push(fruit)
-            }
-        }
-    }
-    for(let t = 0;t<456; t++){
-        const fruit = new Fruit( 4250+(Math.random()*6000), -4300+(Math.random()*3500), 60,60, "red")
-       
-        let wet = 0
-        for(let s = 0; s<floors.length; s++){
-           if(squarecircleedges(floors[s],fruit.body)){
-                wet = 1
-                break
-            }
-        }
-        for(let k = 0;k<fruits.length; k++){
-            if(fruit.body.repelCheck(fruits[k].body) ){
-                wet = 1
-                break
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
-    
-    for(let t = 0; t<30; t++){
-        const swimmer = new Swimmer( 4250+(Math.random()*6000), -4300+(Math.random()*1350))
-        swimmer.type = 1
-        swimmers.push(swimmer)
-    }
-
-    for(let t = 0; t<30; t++){
-        const swimmer = new Swimmer( 4250+(Math.random()*6000), -3475+(Math.random()*1350))
-        swimmer.type =0
-        swimmers.push(swimmer)
-    }
-
-    for(let t = 0; t<30; t++){
-        const swimmer = new Swimmer( 4250+(Math.random()*6000), -2700+(Math.random()*1350))
-        swimmer.type = 2
-        swimmers.push(swimmer)
-    }
-
-    // console.log(floors)
-
-    for(let t = 0;t<100; t++){
-        const fruit = new Fruit(-2450+(Math.random()*4850),225+(Math.random()*315), 60,60, "red")
-        let wet = 0
-        for(let s = 0; s<floors.length; s++){
-           if(squarecircleedges(floors[s],fruit.body)){
-                wet = 1
-                break
-            }
-        }
-        for(let k = 0;k<fruits.length; k++){
-            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
-                wet = 1
-                break
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
-
-    for(let t = 0;t<30; t++){
-        const fruit = new Fruit(3740+(Math.random()*650),-470+(Math.random()*730), 60,60, "red")
-        let wet = 0
-        for(let s = 0; s<floors.length; s++){
-           if(squarecircleedges(floors[s],fruit.body)){
-                wet = 1
-                break
-            }
-        }
-        for(let k = 0;k<fruits.length; k++){
-            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
-                wet = 1
-                break
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
-
-    const fractal = new Fractal(7)
-    const fracta2l = new Fractal2(7)
-    const fracta3l = new Fractal3(7)
-    // const fracta4l = new Fractal4(7)
-
-
-    const shockfriendly = new Shockwave(pomao.body)
-    shocks.push(shockfriendly)
-
     class Seed{
         constructor(target){
             // ////console.log(pomao)
@@ -4794,146 +4174,25 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     tutorial_canvas_context.font = `${30}px Arial`;
     tutorial_canvas_context.fillText("loading", 300,350)
 
-    for(let t = 0; t<10; t++){
-        const boy = new Boys(3750+(t*80),0,50,50,"red")
-        boys.push(boy)
-    }
-    
-
-    for(let t = 0; t<4; t++){
-        const boy = new Boys(-1000+(t*100),550,50,50,"red")
-        boys.push(boy)
-    }
-    
-    
-    for(let t = 0;t<90; t++){
-        const fruit = new Fruit(4200+(Math.random()*330),-4450+(Math.random()*330), 60,60, "red")
-        let wet = 0
-        for(let s = 0; s<floors.length; s++){
-           if(squarecircleedges(floors[s],fruit.body)){
-                wet = 1
-                break
-            }
-        }
-        for(let k = 0;k<fruits.length; k++){
-            if(fruit.body.repelCheck(fruits[k].body) ){
-                wet = 1
-                break
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
-    
-    for(let t = 0;t<50; t++){
-        const fruit = new Fruit(9800+(Math.random()*1150),-3490+(Math.random()*740), 60,60, "red")
-        let wet = 0
-        for(let s = 0; s<floors.length; s++){
-           if(squarecircleedges(floors[s],fruit.body)){
-                wet = 1
-                break
-            }
-        }
-        for(let k = 0;k<fruits.length; k++){
-            if(fruit.bodybig.repelCheck(fruits[k].body) ){
-                wet = 1
-                break
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
-
+   
     let boss = new Bossbeam()
-
-    for(let t = 0;t<30; t++){
-        let bossfloors = new Rectangle(4800+(t*200), 300+Math.random()*200, 20, 120, "red")
-        floors.push(bossfloors)
-        let bossfloors2 = new Rectangle(4800+(t*200), -500+Math.random()*200, 20, 120, "red")
-        floors.push(bossfloors2)
-        let bossfloors3 = new Rectangle(4800+(t*200), -100+Math.random()*200, 20, 120, "red")
-        floors.push(bossfloors3)
-    }
-
-    for(let t = 0;t<500; t++){
-        const fruit = new Fruit(-2000+boss.body1.x+((Math.random()-.5)*9500),boss.body1.y-800+(Math.random()*1250), 60,60, "red")
-        let wet = 0
-        for(let s = 0; s<floors.length; s++){
-           if(squarecircleedges(floors[s],fruit.body)){
-                wet = 1
-                break
-            }
-        }
-        for(let k = 0;k<fruits.length; k++){
-            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
-                wet = 1
-                break
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
-
-    for(let t=0;t<floors.length;t++){
-        for(let k = 0;k<fruits.length;k++){
-            if(squarecircleedges(floors[t], fruits[k].body)){
-                fruits.splice(k,1)
-            }
-        }
-    }
-
-    
-    let springs = []
-
     let pin = new Circle(9900,-8100, 10, "blue")
     let pin2 = new Circle(9900, -8100+(7*220), 100, "orange")
+    const fractal = new Fractal(7)
+    const fracta2l = new Fractal2(7)
+    const fracta3l = new Fractal3(7)
+    const door = new Rectangle(4550, 450, 200, 200, "#090909")
+    // const fracta4l = new Fractal4(7)
 
-    objsprings.push(pin2)
 
-    let spring = new Spring(pin)
-    springs.push(spring)
-    for(let k = 0; k<33;k++){
-        spring = new Spring(spring.anchor)
-        if(k < 32){
-            springs.push(spring)
-        }else if(k == 32 ){
-            spring.anchor = pin2
-            springs.push(spring)
-        }
-    }
-    ramps.push(pin2)
+    const shockfriendly = new Shockwave(pomao.body)
+    shocks.push(shockfriendly)
+
+    loadlvl1()
 
     setTimeout(function(){
         
-        for(let k = 0;k<fruits.length;k++){
-            if(fruits[k].body.x > 11500 && fruits[k].body.y > -700){
-                fruits.splice(k,1)
-            }
-        }
-        for(let k = 0;k<fruits.length;k++){
-            if(fruits[k].body.x > 11800 && fruits[k].body.y > -900){
-                fruits.splice(k,1)
-            }
-        }
-        
-    const fruitx = new Fruit(510,340, 60,60, "red")
-    const fruity = new Fruit(-3200,600, 60,60, "red")
-    fruity.type = 11
-    fruity.type2 = 11
-    fruits.push(fruitx)
-    fruits.push(fruity)
 
-    const cake2 = new Fruit(4458,-7890, 60,60, "red")
-    cake2.type = 11
-    cake2.type2 = 11
-    fruits.push(cake2)
-
-        for(let k = 0;k<fruits.length;k++){
-        swinger1move()
-        }
     window.setInterval(function(){ 
         if(pomao.paused == 10){
 
@@ -4966,28 +4225,34 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                  
             drawFractal()   
 
-    tutorial_canvas_context.fillStyle = "black";
-    tutorial_canvas_context.font = `${30}px Arial`;
-    tutorial_canvas_context.fillText("M to throw eggs", 0,350)
-    tutorial_canvas_context.fillText("<- W to jump", 300,350)
-    tutorial_canvas_context.fillText("Space to lick", 310,290)
-    tutorial_canvas_context.fillText("^ hold W to hover", -400,350)
-    tutorial_canvas_context.fillText("Lick down in air (K+space) to pogo ->", -400,-120)
-    tutorial_canvas_context.fillText("Lick diagonally (K+L/J+space) before you touch the floor to gain speed ->", 800,-120)
-    tutorial_canvas_context.fillText("Hold S to pass down through thin floors     vvv", 2100,-120)
-    tutorial_canvas_context.fillText("You made it! ->", 2900,500)
-    tutorial_canvas_context.fillText(" Press N to Ground pound", 2600,220)
-    tutorial_canvas_context.fillText(" Pomao can swim >^", 3200, -500)
-    tutorial_canvas_context.fillText("Cancel your grappling momentum by tapping A/D ^", 3450, 500)
-    tutorial_canvas_context.fillText("You can go up through thin floors ^", 3880, 420) 
-    tutorial_canvas_context.fillText("pull yourself up with your tongue 'I' ^", 3880, 450)
-    tutorial_canvas_context.fillText("Canceling momentum can help you climb walls! ^", 3800, 180)
-    tutorial_canvas_context.fillText("Put an egg in the switch with M", 4050, -700)
-    tutorial_canvas_context.fillText("Nice!", 4050, -770)
-    tutorial_canvas_context.fillText("Beware the cave of the beast!", 11000, 500)
-    tutorial_canvas_context.fillText("<= <= <=", 12800, 500)
-    tutorial_canvas_context.fillText("Can't grapple ice!", 4300+(14*530),-5100-(14*150))
-    tutorial_canvas_context.fillText("Try to pogo, then flutter up", 4300+(14*530),-5100-(14*148))
+            if(level == 1){
+                tutorial_canvas_context.fillStyle = "black";
+                tutorial_canvas_context.font = `${30}px Arial`;
+                tutorial_canvas_context.fillText("M to throw eggs", 0,350)
+                tutorial_canvas_context.fillText("<- W to jump", 300,350)
+                tutorial_canvas_context.fillText("Space to lick", 310,290)
+                tutorial_canvas_context.fillText("^ hold W to hover", -400,350)
+                tutorial_canvas_context.fillText("Lick down in air (K+space) to pogo ->", -400,-120)
+                tutorial_canvas_context.fillText("Lick diagonally (K+L/J+space) before you touch the floor to gain speed ->", 800,-120)
+                tutorial_canvas_context.fillText("Hold S to pass down through thin floors     vvv", 2100,-120)
+                tutorial_canvas_context.fillText("You made it! ->", 2900,500)
+                tutorial_canvas_context.fillText(" Press N to Ground pound", 2600,220)
+                tutorial_canvas_context.fillText(" Pomao can swim >^", 3200, -500)
+                tutorial_canvas_context.fillText("Cancel your grappling momentum by tapping A/D ^", 3450, 500)
+                tutorial_canvas_context.fillText("You can go up through thin floors ^", 3880, 420) 
+                tutorial_canvas_context.fillText("pull yourself up with your tongue 'I' ^", 3880, 450)
+                tutorial_canvas_context.fillText("Canceling momentum can help you climb walls! ^", 3800, 180)
+                tutorial_canvas_context.fillText("Put an egg in the switch with M", 4050, -700)
+                tutorial_canvas_context.fillText("Nice!", 4050, -770)
+                tutorial_canvas_context.fillText("Beware the cave of the beast!", 11000, 500)
+                tutorial_canvas_context.fillText("<= <= <=", 12800, 500)
+                tutorial_canvas_context.fillText("Can't grapple ice!", 4300+(14*530),-5100-(14*150))
+                tutorial_canvas_context.fillText("Try to pogo, then flutter up", 4300+(14*530),-5100-(14*148))
+                door.draw()
+                if(door.isPointInside(pomao.body)){
+                    loadlvl2()
+                }
+            }
 
            
     for(let t = 0; t<ramps.length; t++){
@@ -5254,6 +4519,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         // }
         // swinger1move()
     },  14) 
+    
 }, 6969);  //6969
 
 function squarecirclefaceblockjump(square, circle){
@@ -5497,6 +4763,655 @@ function swinger1move(){
     pin2.ymom *= .98
     
     pin.draw()
+}
+
+function loadlvl1(){
+    const floor = new Rectangle(-100000000, 650, 50, 7000000000, "red")
+    walls.push(floor)
+    roofs.push(floor)
+    floors.push(floor)
+
+    
+        
+    for(let t = 0; t<10; t++){
+        const boy = new Boys(3750+(t*80),0,50,50,"red")
+        boys.push(boy)
+    }
+    
+
+    for(let t = 0; t<4; t++){
+        const boy = new Boys(-1000+(t*100),550,50,50,"red")
+        boys.push(boy)
+    }
+    
+    
+    for(let t = 0;t<90; t++){
+        const fruit = new Fruit(4200+(Math.random()*330),-4450+(Math.random()*330), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+    
+    for(let t = 0;t<50; t++){
+        const fruit = new Fruit(9800+(Math.random()*1150),-3490+(Math.random()*740), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.bodybig.repelCheck(fruits[k].body) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+
+    for(let t = 0;t<30; t++){
+        let bossfloors = new Rectangle(4800+(t*200), 300+Math.random()*200, 20, 120, "red")
+        floors.push(bossfloors)
+        let bossfloors2 = new Rectangle(4800+(t*200), -500+Math.random()*200, 20, 120, "red")
+        floors.push(bossfloors2)
+        let bossfloors3 = new Rectangle(4800+(t*200), -100+Math.random()*200, 20, 120, "red")
+        floors.push(bossfloors3)
+    }
+
+    for(let t = 0;t<500; t++){
+        const fruit = new Fruit(-2000+boss.body1.x+((Math.random()-.5)*9500),boss.body1.y-800+(Math.random()*1250), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+
+
+    
+    objsprings.push(pin2)
+
+    let spring = new Spring(pin)
+    springs.push(spring)
+    for(let k = 0; k<33;k++){
+        spring = new Spring(spring.anchor)
+        if(k < 32){
+            springs.push(spring)
+        }else if(k == 32 ){
+            spring.anchor = pin2
+            springs.push(spring)
+        }
+    }
+    const wall = new Rectangle(2460, 0, 2000, 50, "red")
+    const wallt = new Rectangle(4500, -800, 2800, 50, "red")
+    const jwall1 = new Rectangle(3150, -200, 500, 50, "red")
+    const jelly = new Rectangle(3200, -180, 480, 500, "#00FFFF88")
+    const jwall2 = new Rectangle(3700, -200, 500, 50, "red")
+    const jfloor = new Rectangle(3150, 300, 50, 600, "red")
+    const jfloorsafe = new Rectangle(2900, 300, 20, 259, "red")
+    const jfloorsafe2 = new Rectangle(3691, 270, 20, 809, "red")
+    const lvl1floor1 = new Rectangle(4500, -800, 50, 7000, "red")
+    const lvl1wall1 = new Rectangle(4150, -9530, 8780, 50, "red")
+    for(let t = 0; t< 10; t++){
+    if(t!= 0){
+        const width = (((100*60)-(t*(600+t)))/400)
+        const lvl1floorloop = new Rectangle(4200, -4480+(t*350), 20,400+(Math.round(width)*400), "red")
+        floors.push(lvl1floorloop)
+        const lvl1floorloopsolid = new Rectangle(lvl1floorloop.x+lvl1floorloop.width-10,lvl1floorloop.y, 50, Math.round((t*t*70)*.0025)*400, "red")
+        for(let t =lvl1floorloopsolid.x+750;t<lvl1floorloopsolid.x+lvl1floorloopsolid.width;t+=300){
+            const boy = new Boys(t-50,lvl1floorloopsolid.y-50,50,50,'red')
+            boys.push(boy)
+        }
+        floors.push(lvl1floorloopsolid)
+        roofs.push(lvl1floorloopsolid)
+        walls.push(lvl1floorloopsolid)
+        for(let k = 0; k<floors.length;k++){
+            if(k!=floors.indexOf(lvl1floorloopsolid)){
+                if(lvl1floorloopsolid.x+lvl1floorloopsolid.width == floors[k].x + floors[k].width){
+                    const lvl1wallloopsolid = new Rectangle(lvl1floorloopsolid.x+lvl1floorloopsolid.width,floors[k].y, Math.abs(floors[k].y-lvl1floorloopsolid.y)+50 , 50, "red")
+                    floors.push(lvl1wallloopsolid)
+                    roofs.push(lvl1wallloopsolid)
+                    walls.push(lvl1wallloopsolid)
+                }
+            }
+        }
+    }else{
+    const lvl1floorloop = new Rectangle(4200, -4480+(t*330), 50, 6850-(t*90), "red")
+    floors.push(lvl1floorloop)
+    roofs.push(lvl1floorloop)
+    walls.push(lvl1floorloop)
+    }
+    }
+    floors.push(lvl1floor1)
+    walls.push(lvl1floor1)
+    roofs.push(lvl1floor1)
+    walls.push(lvl1floor1)
+    walls.push(lvl1wall1)
+    floors.push(lvl1wall1)
+    roofs.push(lvl1wall1)
+    const roof = new Rectangle(0, 0, 50, 2500, "red")
+    const roof2 = new Rectangle(-2500, -500, 50, 5500, "red")
+    const buttonfloor = new Rectangle(4100, -530, 20, 420, "red")
+    floors.push(buttonfloor)
+    floors.push(wallt)
+    floors.push(wall)
+    floors.push(jwall1)
+    floors.push(jwall2)
+    floors.push(jfloor)
+    floors.push(jfloorsafe)
+    floors.push(jfloorsafe2)
+    walls.push(jfloor)
+    roofs.push(jfloor)
+    walls.push(jwall1)
+    walls.push(jwall2)
+    floors.push(jelly)
+    jellys.push(jelly)
+    walls.push(wall)
+    walls.push(wallt)
+    floors.push(roof)
+    walls.push(roof)
+    roofs.push(roof)
+    floors.push(roof2)
+    walls.push(roof2)
+    roofs.push(roof2)
+    const wall2 = new Rectangle(-2500, -500, 2000, 50, "red")
+    const wall3 = new Rectangle(2800, -500, 520, 50, "red")
+    const tutfloor = new Rectangle(2500, 0, 20, 350, "red")
+    floors.push(wall2)
+    floors.push(tutfloor)
+    walls.push(wall2)
+    floors.push(wall3)
+    walls.push(wall3)
+    roofs.push(wall3)
+    const block = new Rectangle(-1500, 200, 200,200, "orange")
+    const block2 = new Rectangle(2200, 200, 200,200, "orange")
+    const nail = new Rectangle(-1950, 200, 200,200, "orange")
+    nails.push(nail)
+    const floor2 = new Rectangle(-100, 500, 20, 550, "red")
+    const ramp2 = new Trianglex(1300, 651, "red", 40)
+    ramps.push(ramp2)
+    const ramp = new Triangle(800, 651, "red", 40)
+    ramps.push(ramp)
+    const ramp4 = new Circle(1900,700, 120, "red")
+    ramps.push(ramp4)
+    const ramp3 = new Circle(1900,1200, 600, "red")
+    ramps.push(ramp3)
+    floors.push(floor2)
+    floors.push(block)
+    walls.push(block)
+    blocks.push(block)
+    floors.push(block2)
+    walls.push(block2)
+    floors.push(nail)
+    // walls.push(nail)
+    blocks.push(nail)
+    blocks.push(block2)
+    const buttonswitch = new Switchfloor(4500,-640,  4500-2000, -800,50, 2050)
+    const lvl1buttonswitch = new Switchfloor(6500,-3540,  9800, -3540,50, 1300)
+    const lvl1buttonswitch1 = new Switchfloor(4080,-2540,  4200, -4150,50,380)
+    const lvl1buttonswitchwall2 = new Switchfloor(4080,-2540,  4550, -4450,330, 50)
+    lvl1buttonswitchwall2.button = lvl1buttonswitch1.button
+    const lvl1fooroverhang = new Rectangle(10800, -2800, 50, 250, "red")
+    floors.push(lvl1fooroverhang)
+    walls.push(lvl1fooroverhang)
+    roofs.push(lvl1fooroverhang)
+    const lvl1fooroverhangwall = new Rectangle(11000, -3540, 3900, 50, "red")
+    floors.push(lvl1fooroverhangwall)
+    walls.push(lvl1fooroverhangwall)
+    roofs.push(lvl1fooroverhangwall)
+    const ramp5 = new Triangle90(lvl1fooroverhangwall.x+1300, lvl1fooroverhangwall.y, "red", 100)
+    ramps.push(ramp5)
+    ramps90.push(ramp5)
+    const ramp6 = new Triangle90l(lvl1fooroverhangwall.x, lvl1fooroverhangwall.y-530, "red", 75)
+    ramps.push(ramp6)
+    ramps.push(pin2)
+    for(let t = ramp6.y-1000;t<ramp6.y-150; t+=150){
+        let ladderfloor = new Rectangle(ramp6.x, t, 20, 150)
+        floors.push(ladderfloor)
+    }
+    const trapswitch1 = new Switchfloor(ramp6.x-120,ramp6.y-350, ramp6.x-500, ramp6.y, 50, 550 )
+    const trapswitch2 = new Switchfloor(ramp6.x-120,ramp6.y-350, ramp6.x-500, ramp6.y-400, 450, 50)
+    trapswitch1.button = trapswitch2.button
+    for(let t = 0;t<10000; t++){
+        const fruit = new Fruit(ramp6.x-550+(Math.random()*400),ramp6.y-350+(Math.random()*400), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+    const lvl1fooroverhangwallramp = new Rectangle(ramp6.x-40, ramp6.y, 50, 790, "red")
+    floors.push(lvl1fooroverhangwallramp)
+    walls.push(lvl1fooroverhangwallramp)
+    roofs.push(lvl1fooroverhangwallramp)
+    const lvl1fooroverhangwallfar = new Rectangle(ramp6.x+2000,-8100, 8850, 50, "red")
+    floors.push(lvl1fooroverhangwallfar)
+    walls.push(lvl1fooroverhangwallfar)
+    roofs.push(lvl1fooroverhangwallfar)
+    const lvl1fooroverhangwallfarzig = new Rectangle(ramp6.x+300,-3100, 50, 1750, "red")
+    floors.push(lvl1fooroverhangwallfarzig)
+    walls.push(lvl1fooroverhangwallfarzig)
+    roofs.push(lvl1fooroverhangwallfarzig)
+    const lvl1fooroverhangwallfarzag = new Rectangle(ramp6.x,-2700, 50, 1750, "red")
+    floors.push(lvl1fooroverhangwallfarzag)
+    walls.push(lvl1fooroverhangwallfarzag)
+    roofs.push(lvl1fooroverhangwallfarzag)
+    const lvl1fooroverhangwallfarzug = new Rectangle(ramp6.x,-1400, 50, 1750, "red")
+    floors.push(lvl1fooroverhangwallfarzug)
+    walls.push(lvl1fooroverhangwallfarzug)
+    roofs.push(lvl1fooroverhangwallfarzug)
+    const lvl1fooroverhangwallfarzyg = new Rectangle(ramp6.x+300,-1900, 50, 500, "red")
+    floors.push(lvl1fooroverhangwallfarzyg)
+    walls.push(lvl1fooroverhangwallfarzyg)
+    roofs.push(lvl1fooroverhangwallfarzyg)
+    const lvl1fooroverhangwallfarzag2 = new Rectangle(ramp6.x+300,-2300, 600, 50, "red")
+    floors.push(lvl1fooroverhangwallfarzag2)
+    walls.push(lvl1fooroverhangwallfarzag2)
+    roofs.push(lvl1fooroverhangwallfarzag2)
+    const lvl1fooroverhangwallfarzag4 = new Rectangle(ramp6.x+1700,-2000, 600, 50, "red")
+    floors.push(lvl1fooroverhangwallfarzag4)
+    walls.push(lvl1fooroverhangwallfarzag4)
+    roofs.push(lvl1fooroverhangwallfarzag4)
+    const lvl1fooroverhangwallfarzag4x = new Rectangle(ramp6.x+1350,-1800, 400, 50, "red")
+    floors.push(lvl1fooroverhangwallfarzag4x)
+    walls.push(lvl1fooroverhangwallfarzag4x)
+    roofs.push(lvl1fooroverhangwallfarzag4x)
+    const lvl1fooroverhangwallfarzag4y = new Rectangle(ramp6.x+1000,-1600, 200, 50, "red")
+    floors.push(lvl1fooroverhangwallfarzag4y)
+    walls.push(lvl1fooroverhangwallfarzag4y)
+    roofs.push(lvl1fooroverhangwallfarzag4y)
+    for(let t = 0;t<400; t++){
+        const fruit = new Fruit(ramp6.x+(Math.random()*2000),ramp5.y+(Math.random()*4000), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+    const lvl1fooroverhangwallfarzag3 = new Rectangle(ramp6.x+300,-2300, 50, 1750, "red")
+    floors.push(lvl1fooroverhangwallfarzag3)
+    walls.push(lvl1fooroverhangwallfarzag3)
+    roofs.push(lvl1fooroverhangwallfarzag3)
+    const lvl1fooroverhangwallfarroof = new Rectangle(4200, -8100, 50, 10050, "cyan")
+    floors.push(lvl1fooroverhangwallfarroof)
+    walls.push(lvl1fooroverhangwallfarroof)
+    roofs.push(lvl1fooroverhangwallfarroof)
+    ungrapplable.push(lvl1fooroverhangwallfarroof)
+    const lvl1fooroverhangwallrampxnograp = new Rectangle(ramp5.x-20, ramp5.y-4000, 2050, 50, "cyan")
+    floors.push(lvl1fooroverhangwallrampxnograp)
+    walls.push(lvl1fooroverhangwallrampxnograp)
+    roofs.push(lvl1fooroverhangwallrampxnograp)
+    ungrapplable.push(lvl1fooroverhangwallrampxnograp)
+    const backwall = new Rectangle(-5000,-10000, 12000, 50, "cyan")
+    floors.push(backwall)
+    walls.push(backwall)
+    roofs.push(backwall)
+    ungrapplable.push(backwall)
+    ungrapplable.push(lvl1fooroverhangwallrampxnograp)
+    const topwall = new Rectangle(-5000,-5000, 50, 9150, "cyan")
+    floors.push(topwall)
+    walls.push(topwall)
+    roofs.push(topwall)
+    ungrapplable.push(topwall)
+    const lvl1fooroverhangwallrampx = new Rectangle(ramp5.x-20, ramp5.y-2000, 2050, 50, "red")
+    floors.push(lvl1fooroverhangwallrampx)
+    walls.push(lvl1fooroverhangwallrampx)
+    roofs.push(lvl1fooroverhangwallrampx)
+    const lvl1fooroverhangwallrampy = new Rectangle(ramp6.x, ramp6.y-1000, 1000, 50, "red")
+    floors.push(lvl1fooroverhangwallrampy)
+    walls.push(lvl1fooroverhangwallrampy)
+    roofs.push(lvl1fooroverhangwallrampy)
+    const lvl1fooroverhangwall2z = new Rectangle(lvl1fooroverhangwall.x, lvl1fooroverhangwall.y, 50, 1350,"red")
+    floors.push(lvl1fooroverhangwall2z)
+    walls.push(lvl1fooroverhangwall2z)
+    roofs.push(lvl1fooroverhangwall2z)
+    const lvl1fooroverhangwall2 = new Rectangle(10140, -2440, 790, 50, "red")
+    floors.push(lvl1fooroverhangwall2)
+    walls.push(lvl1fooroverhangwall2)
+    roofs.push(lvl1fooroverhangwall2)
+    const lvl1fooroverhangwal3 = new Rectangle(6240, -2380, 380, 50, "red")
+    floors.push(lvl1fooroverhangwal3)
+    walls.push(lvl1fooroverhangwal3)
+    roofs.push(lvl1fooroverhangwal3)
+    const lvl1fooroverhangthin = new Rectangle( 9800, -2800,20, 1000, "red")
+    floors.push(lvl1fooroverhangthin)
+    for(let t = 0 ; t< 4; t++){
+        const floor3 = new Rectangle(-130+600*t, 500-(t*90), 20, 400, "red")
+        floors.push(floor3)
+        for(let t = 0;t<10; t++){
+            const fruit = new Fruit(floor3.x+(Math.random()*400),floor3.y-(100+Math.random()*400), 60,60, "red")
+            let wet = 0
+            for(let s = 0; s<floors.length; s++){
+               if(squarecircleedges(floors[s],fruit.body)){
+                    wet = 1
+                    break
+                }
+            }
+            for(let k = 0;k<fruits.length; k++){
+                if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
+                    wet = 1
+                    break
+                }
+            }
+            if(wet == 0){
+                fruits.push(fruit)
+            }
+        }
+    }
+    for(let t = 1;t<15; t++){
+        let topfloorlvl1 = new Rectangle(4300+(t*530), -7000+t*140, 20,330, "red")
+    for(let t = 0;t<15; t++){
+        const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+        floors.push(topfloorlvl1)
+    }
+    for(let t = 1;t<10; t++){
+        let topfloorlvl1 = new Rectangle(4300+(t*530), -6300+t*140, 20,330, "red")
+            for(let t = 0;t<15; t++){
+                const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
+                let wet = 0
+                for(let s = 0; s<floors.length; s++){
+                   if(squarecircleedges(floors[s],fruit.body)){
+                        wet = 1
+                        break
+                    }
+                }
+                for(let k = 0;k<fruits.length; k++){
+                    if(fruit.body.repelCheck(fruits[k].body) ){
+                        wet = 1
+                        break
+                    }
+                }
+                if(wet == 0){
+                    fruits.push(fruit)
+                }
+            }
+        if(t!=5){
+            floors.push(topfloorlvl1)
+        }
+    }
+    for(let t = 0;t<10; t++){
+        let topfloorlvl1 = new Rectangle(4300+(t*530), -7840+t*140, 20,330, "red")
+        if(t!=0){
+    for(let t = 0;t<15; t++){
+        const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+}
+        if(t!=5){
+            floors.push(topfloorlvl1)
+        }
+    }
+    for(let t = 0;t<14; t++){
+        const topfloorlvl1 = new Rectangle(4300+(t*530), -4800-t*140, 20,330, "red")
+    for(let t = 0;t<15; t++){
+        const fruit = new Fruit(topfloorlvl1.x+topfloorlvl1.width*Math.random(), (-30)+topfloorlvl1.y-topfloorlvl1.width*Math.random(), 60, 60, "transparent"  )
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+        if(t!=8 && t!= 10){
+            floors.push(topfloorlvl1)
+        }
+    }
+    const topfloorlvl1x = new Rectangle(4300+(14*530), -5100-(14*140), 20,330, "red")
+    floors.push(topfloorlvl1x)
+
+    for(let t = 0;t<101; t++){
+        let swimmertop = new Swimmer(4300+Math.random()*6700, -7000+Math.random()*2200)
+        swimmertop.type = 1
+        swimmers.push(swimmertop)
+    }
+    for(let t = 0 ; t< 4; t++){
+        const floor3 = new Rectangle(-90-300*t, 500-(t*200), 20, 400, "red")
+        floors.push(floor3)
+        for(let t = 0;t<10; t++){
+            const fruit = new Fruit(floor3.x+(Math.random()*400),floor3.y-(100+Math.random()*320), 60,60, "red")
+            let wet = 0
+            for(let s = 0; s<floors.length; s++){
+               if(squarecircleedges(floors[s],fruit.body)){
+                    wet = 1
+                    break
+                }
+            }
+            for(let k = 0;k<fruits.length; k++){
+                if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
+                    wet = 1
+                    break
+                }
+            }
+            if(wet == 0){
+                fruits.push(fruit)
+            }
+        }
+    }
+    for(let t = 0;t<456; t++){
+        const fruit = new Fruit( 4250+(Math.random()*6000), -4300+(Math.random()*3500), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+    for(let t = 0; t<30; t++){
+        const swimmer = new Swimmer( 4250+(Math.random()*6000), -4300+(Math.random()*1350))
+        swimmer.type = 1
+        swimmers.push(swimmer)
+    }
+    for(let t = 0; t<30; t++){
+        const swimmer = new Swimmer( 4250+(Math.random()*6000), -3475+(Math.random()*1350))
+        swimmer.type =0
+        swimmers.push(swimmer)
+    }
+    for(let t = 0; t<30; t++){
+        const swimmer = new Swimmer( 4250+(Math.random()*6000), -2700+(Math.random()*1350))
+        swimmer.type = 2
+        swimmers.push(swimmer)
+    }
+    for(let t = 0;t<100; t++){
+        const fruit = new Fruit(-2450+(Math.random()*4850),225+(Math.random()*315), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+    for(let t = 0;t<30; t++){
+        const fruit = new Fruit(3740+(Math.random()*650),-470+(Math.random()*730), 60,60, "red")
+        let wet = 0
+        for(let s = 0; s<floors.length; s++){
+           if(squarecircleedges(floors[s],fruit.body)){
+                wet = 1
+                break
+            }
+        }
+        for(let k = 0;k<fruits.length; k++){
+            if(fruit.body.repelCheck(fruits[k].body) || (fruit.body.x > 500 && fruit.body.x < 800) ){
+                wet = 1
+                break
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+    
+    for(let t=0;t<floors.length;t++){
+        for(let k = 0;k<fruits.length;k++){
+            if(squarecircleedges(floors[t], fruits[k].body)){
+                fruits.splice(k,1)
+            }
+        }
+    }
+    
+    for(let k = 0;k<fruits.length;k++){
+        if(fruits[k].body.x > 11500 && fruits[k].body.y > -700){
+            fruits.splice(k,1)
+        }
+    }
+    for(let k = 0;k<fruits.length;k++){
+        if(fruits[k].body.x > 11800 && fruits[k].body.y > -900){
+            fruits.splice(k,1)
+        }
+    }
+    
+const fruitx = new Fruit(510,340, 60,60, "red")
+const fruity = new Fruit(-3200,600, 60,60, "red")
+fruity.type = 11
+fruity.type2 = 11
+fruits.push(fruitx)
+fruits.push(fruity)
+
+const cake2 = new Fruit(4458,-7890, 60,60, "red")
+cake2.type = 11
+cake2.type2 = 11
+fruits.push(cake2)
+
+    for(let k = 0;k<fruits.length;k++){
+    swinger1move()
+    }
+}
+
+function loadlvl2(){
+    
+    level = 2
+    tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
+    pomao.body.x = 0
+    pomao.body.y = 0
+     ramps90 = []
+     swimmers = []
+     floors = []
+     ramps = []
+     boys = []
+     deadboys = []
+     fruits = []
+     walls = []
+     ungrapplable = []
+     jellys = []
+     roofs = []
+     switches = []
+     shocks =[]
+     blocks = []
+     nails = []
+
+     let floor = new Rectangle(-100000,33,645,200000)
+     floors.push(floor)
+
 }
 
 })
