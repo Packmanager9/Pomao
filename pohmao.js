@@ -1847,6 +1847,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
                 if(this.type2 == 9){
                     pomao.tripping = 820
                 }
+                if(this.type == 2){
+                    if(this.type2 == 1){
+                        if(pomao.eggs.length < 16){
+                            pomao.eggmake = 161
+                        }
+                    }
+                }
                 if(this.type == 7){
                     if(this.type2 == 7){
                         pomao.blush = 1000
@@ -2268,6 +2275,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     }
     class Pomao{
         constructor(){
+            this.eggmake=0
             this.rooted = {}
             this.rootedframe = 0
             this.dry = 0
@@ -2728,6 +2736,13 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             }
         }
         draw(){
+            this.eggmake--
+            if(this.eggmake>0){
+                if(this.eggmake%10 == 0){
+                        const seepx = new Seed(pomao.eggs[pomao.eggs.length-1])
+                        pomao.eggs.push(seepx)
+                }
+            }
             this.high--
             this.tripping--
             if(this.body.ymom + this.body.symom < 0){
