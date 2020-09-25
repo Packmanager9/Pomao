@@ -157,6 +157,8 @@ window.addEventListener('DOMContentLoaded', (event) =>{
     let dry = 0
     const floorimg = new Image()
     floorimg.src ="floor4.png"
+    const walling = new Image()
+    walling.src ="wall.png"
     const nailimg = new Image()
     nailimg.src ="poundnail.png"
 
@@ -4949,7 +4951,17 @@ window.addEventListener('DOMContentLoaded', (event) =>{
             if(!jellys.includes(floors[t])){
 
             if(!nails.includes(floors[t]) && !ungrapplable.includes(floors[t])){
-                        tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                if(walls.includes(floors[t])){
+
+                    if(floors[t].width<100){
+                        tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                    }else{
+                    tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                    }
+                }else{
+
+                    tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                }
                 }else{
                     
                 if(nails.includes(floors[t]) ){
