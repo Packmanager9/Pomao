@@ -275,8 +275,15 @@ pomaofbh.src = 'pomaofbh.png'
 const boysprites = new Image()
 boysprites.src = 'boisterousboys.png'
 
+const pomomimg = new Image()
+pomomimg.src = 'pomom.png'
+
+const pawmaoimg = new Image()
+pawmaoimg.src = 'pawmao.png'
+
 const pomaoimg = new Image()
 pomaoimg.src = 'pomao.png'
+
 
 const pomaoimgg = new Image()
 pomaoimgg.src = 'pomaog.png'
@@ -4264,6 +4271,16 @@ window.setInterval(function(){
             if(door.isPointInside(pomao.body)){
                 loadlvl2()
             }
+        }
+        if(level == 2){
+
+            
+        let momheight = 70+(Math.sin(((pomao.timeloop*1.3)+3.14))*1.7)
+        tutorial_canvas_context.drawImage(pomomimg, 0,0,pomomimg.width,pomomimg.height, 500,-590-(Math.sin(((pomao.timeloop*1.3)+3.14))*1.9), 70,momheight)
+      
+        let pawheight = 70+(Math.sin(((pomao.timeloop*.75)+3.14))*2)
+            tutorial_canvas_context.drawImage(pawmaoimg, 0,0,pawmaoimg.width,pawmaoimg.height, 2500,-3040-(Math.sin(((pomao.timeloop*.75)+3.14))*1.9), 70,pawheight)
+          
         }
 
        
