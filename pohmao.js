@@ -160,6 +160,7 @@ let boys = []
 let deadboys = []
 let fruits = []
 let walls = []
+let invisblocks = []
 let ungrapplable = []
 let jellys = []
 let roofs = []
@@ -4315,7 +4316,11 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
             if(walls.includes(floors[t])){
 
                 if(floors[t].width<100){
-                    tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                    if(invisblocks.includes(floors[t])){
+
+                    }else{
+                        tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                    }
                 }else{
                 tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                 }
@@ -5440,6 +5445,7 @@ pomao.body.y = 0
  deadboys = []
  fruits = []
  walls = []
+ invisblocks = []
  ungrapplable = []
  jellys = []
  roofs = []
@@ -5489,6 +5495,17 @@ pomao.body.y = 0
  floors.push(lvl2parentfloor)
  const lvl2midwayfloor1 = new Rectangle(1667,-290,20,500)
  floors.push(lvl2midwayfloor1)
+
+ const momblock = new Rectangle(505,-585, 90,60)
+ floors.push(momblock)
+ walls.push(momblock)
+ roofs.push(momblock)
+ invisblocks.push(momblock)
+ const pawblock = new Rectangle(2505,-3035, 90,60)
+ floors.push(pawblock)
+ walls.push(pawblock)
+ roofs.push(pawblock)
+ invisblocks.push(pawblock)
 
  for(let t = 1; t<12;t++){
     const livingfloor = new Rectangle(917, -3000+(t*250), 20, 550, "red")
