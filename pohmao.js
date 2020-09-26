@@ -5389,7 +5389,7 @@ for(let t=0;t<floors.length;t++){
 }
 for(let t=0;t<ramps.length;t++){
     for(let k = 0;k<fruits.length;k++){
-        if(ramps[t].repelCheck(fruits[k].body)){
+        if(ramps[t].isPointInside(fruits[k].body)){
             fruits.splice(k,1)
         }
     }
