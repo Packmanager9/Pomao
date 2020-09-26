@@ -1927,6 +1927,7 @@ class Fruit {
 }
 class Rectangle {
     constructor(x, y, height, width, color) {
+        this.wall = 0
         this.x = x
         this.y = y
         this.height = height
@@ -2455,11 +2456,11 @@ class Pomao{
         dry = 0
         for(let t = 0; t<floors.length; t++){
             
-            if(t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(floors[t])){
+            if(t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !floors[t].wall == 1){
 
             }else{
 
-                if(walls.includes(floors[t]) && squarecirclefacetopbottom(floors[t], this.body)){
+                if(floors[t].wall == 1 && squarecirclefacetopbottom(floors[t], this.body)){
                     dry = 1
 
                     if(blocks.includes(floors[t])){
@@ -2694,8 +2695,8 @@ class Pomao{
                         }
                         if(!roofs.includes(ramps[t])){
 
-                        this.tongueymom*=.5
-                        this.tonguexmom*=.5
+                        this.tongueymom*=.49
+                        this.tonguexmom*=.49
                         }
                     }
                     pomao.body.ymom = 0
@@ -4313,7 +4314,7 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
         if(!jellys.includes(floors[t])){
 
         if(!nails.includes(floors[t]) && !ungrapplable.includes(floors[t])){
-            if(walls.includes(floors[t])){
+            if(floors[t].wall == 1){
 
                 if(floors[t].width<100){
                     if(invisblocks.includes(floors[t])){
@@ -5415,6 +5416,9 @@ for(let t=0;t<ramps.length;t++){
             fruits.splice(k,1)
         }
     }
+}
+for(let t=0;t<walls.length;t++){
+    walls[t].wall = 1
 }
 
 const fruitx = new Fruit(510,340, 60,60, "red")
