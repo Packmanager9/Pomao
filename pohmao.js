@@ -2456,11 +2456,11 @@ class Pomao{
         dry = 0
         for(let t = 0; t<floors.length; t++){
             
-            if(t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !floors[t].wall == 1){
+            if(t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(floors[t])){
 
             }else{
 
-                if(floors[t].wall == 1 && squarecirclefacetopbottom(floors[t], this.body)){
+                if(walls.includes(floors[t]) && squarecirclefacetopbottom(floors[t], this.body)){
                     dry = 1
 
                     if(blocks.includes(floors[t])){
@@ -4314,7 +4314,7 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
         if(!jellys.includes(floors[t])){
 
         if(!nails.includes(floors[t]) && !ungrapplable.includes(floors[t])){
-            if(floors[t].wall == 1){
+            if(walls.includes(floors[t])){
 
                 if(floors[t].width<100){
                     if(invisblocks.includes(floors[t])){
@@ -5416,9 +5416,6 @@ for(let t=0;t<ramps.length;t++){
             fruits.splice(k,1)
         }
     }
-}
-for(let t=0;t<walls.length;t++){
-    walls[t].wall = 1
 }
 
 const fruitx = new Fruit(510,340, 60,60, "red")
