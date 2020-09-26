@@ -5405,13 +5405,53 @@ function loadlvl2(){
      jellys = []
      roofs = []
      switches = []
-     shocks =[]
+    //  shocks =[]
      blocks = []
      nails = []
 
-     let floor = new Rectangle(-100000,33,645,200000)
+     const floor = new Rectangle(-100000,33,645,200000)
      floors.push(floor)
+     walls.push(floor)
+     roofs.push(floor)
 
+     const lvl2wall1 = new Rectangle(-83,-1000,1050,50)
+     floors.push(lvl2wall1)
+     roofs.push(lvl2wall1)
+     walls.push(lvl2wall1)
+     const lvl2roof1 = new Rectangle(-83,-1000,50,1050)
+     floors.push(lvl2roof1)
+     roofs.push(lvl2roof1)
+     walls.push(lvl2roof1)
+     const lvl2roof2 = new Rectangle(917,-3000,50,1550)
+     floors.push(lvl2roof2)
+     roofs.push(lvl2roof2)
+     walls.push(lvl2roof2)
+     const lvl2roofstudy = new Rectangle(2417,-3500,50,550)
+     floors.push(lvl2roofstudy)
+     roofs.push(lvl2roofstudy)
+     walls.push(lvl2roofstudy)
+     const lvl2floorstudy = new Rectangle(2417,-2970,20,550)
+     floors.push(lvl2floorstudy)
+     const lvl2wallstudy1 = new Rectangle(2417,-3500,550,50)
+     floors.push(lvl2wallstudy1)
+     roofs.push(lvl2wallstudy1)
+     walls.push(lvl2wallstudy1)
+     const lvl2wall2 = new Rectangle(917,-3000,2000,50)
+     floors.push(lvl2wall2)
+     roofs.push(lvl2wall2)
+     walls.push(lvl2wall2)
+     const lvl2wall3 = new Rectangle(2917,-3500,3550,50)
+     floors.push(lvl2wall3)
+     roofs.push(lvl2wall3)
+     walls.push(lvl2wall3)
+
+     for(let t = 1; t<12;t++){
+        const livingfloor = new Rectangle(917, -3000+(t*250), 20, 550, "red")
+        if(t%2 == 1){
+            livingfloor.x+=1500
+        }
+        floors.push(livingfloor)
+    }
 }
 
 })
