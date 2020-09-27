@@ -4215,6 +4215,8 @@ class Seed{
     }
 }
 
+
+
 class Dialogue{
     constructor(x,y){
         this.timer = 200
@@ -4226,18 +4228,14 @@ class Dialogue{
 
     }
     draw(){
-
-
         if(!this.body.repelCheck(pomao.body)){
             this.active = -1
         }
-
         if(this.active == -1){
             if(this.body.repelCheck(pomao.body)){
                 this.active = 0
             }
         }
-
         if(this.active > 0){
             this.timer--
             if(this.timer <0){
@@ -4257,8 +4255,7 @@ class Dialogue{
             tutorial_canvas_context.font = "30px Arial";
             tutorial_canvas_context.fillText(`${this.words[this.active]}`,this.box.x+40, this.box.y+40);
         }else if (this.active == 0){
-            
-        this.box = new Rectangle(this.body.x-50,this.body.y-50,40,90, "white")
+            this.box = new Rectangle(this.body.x-50,this.body.y-50,40,90, "white")
             this.box.draw()
             tutorial_canvas_context.fillStyle = "black";
             tutorial_canvas_context.font = "16px Arial";
@@ -4267,9 +4264,11 @@ class Dialogue{
                 this.active = 1
             }
         }
-
     }
 }
+
+
+
 // const seep
 
     // const seep = new Seed(pomao.eggs[pomao.eggs.length-1])
@@ -5677,6 +5676,7 @@ function loadlvl2(){
     //  shocks =[]
      blocks = []
      nails = []
+     chats = []
     
      const floor = new Rectangle(-1000,33,645,20000)
      floors.push(floor)
@@ -5810,6 +5810,7 @@ pomao.body.y = 0
  switches = []
  blocks = []
  nails = []
+ chats = []
 
  const lvl3wall1 = new Rectangle(-183,-1000,1033,50)
  floors.push(lvl3wall1)
