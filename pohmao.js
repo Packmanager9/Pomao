@@ -4287,7 +4287,7 @@ let pin2 = new Circle(9900, -8100+(7*220), 100, "orange")
 const fractal = new Fractal(7)
 const fracta2l = new Fractal2(7)
 const fracta3l = new Fractal3(7)
-const door = new Rectangle(4550, 450, 200, 200, "#090909")
+let door = new Rectangle(4550, 450, 200, 200, "#090909")
 // const door = new Rectangle(0, 0, 200, 200, "#090909")
 // const fracta4l = new Fractal4(7)
 
@@ -4298,6 +4298,7 @@ shocks.push(shockfriendly)
 loadlvl1()
 // loadlvl2()
 // loadlvl3()
+// loadlvl4()
 setTimeout(function(){
     
 
@@ -4411,23 +4412,31 @@ window.setInterval(function(){
         }
         if(level == 3){
             
-        let momheight = 70+(Math.sin(((pomao.timeloop*1.3)+3.14))*1.7)
-        tutorial_canvas_context.drawImage(prisoner1img, 0,0,prisoner1img.width,prisoner1img.height, 200,-35-(Math.sin(((pomao.timeloop*1.3)+3.14))*1.9), 70,momheight)
-      
-        let pawheight = 70+(Math.sin(((pomao.timeloop*.75)+3.14))*2)
-        tutorial_canvas_context.drawImage(prisoner2img, 0,0,prisoner2img.width,prisoner2img.height, 600,-35-(Math.sin(((pomao.timeloop*.75)+3.14))*1.9), 70,pawheight)
-      
-        let prisoner3height = 68+(Math.sin(((pomao.timeloop*.6)+3.14))*.8)
-        tutorial_canvas_context.drawImage(prisoner3img, 0,0,prisoner3img.width,prisoner3img.height, 900,-34-(Math.sin(((pomao.timeloop*.6)+3.14))*.8), 70,prisoner3height)
-
 
         
         tutorial_canvas_context.drawImage(pomarinel, 0,0,pomarine.width,pomarine.height, 4500-pmarinedisp,-35+pmarinedisp, 70,70)
         if(jailswitch == 0){
 
+            let momheight = 70+(Math.sin(((pomao.timeloop*1.3)+3.14))*1.7)
+            tutorial_canvas_context.drawImage(prisoner1img, 0,0,prisoner1img.width,prisoner1img.height, 200,-35-(Math.sin(((pomao.timeloop*1.3)+3.14))*1.9), 70,momheight)
+          
+            let pawheight = 70+(Math.sin(((pomao.timeloop*.75)+3.14))*2)
+            tutorial_canvas_context.drawImage(prisoner2img, 0,0,prisoner2img.width,prisoner2img.height, 600,-35-(Math.sin(((pomao.timeloop*.75)+3.14))*1.9), 70,pawheight)
+          
+            let prisoner3height = 68+(Math.sin(((pomao.timeloop*.6)+3.14))*.8)
+            tutorial_canvas_context.drawImage(prisoner3img, 0,0,prisoner3img.width,prisoner3img.height, 900,-34-(Math.sin(((pomao.timeloop*.6)+3.14))*.8), 70,prisoner3height)
+    
             tutorial_canvas_context.drawImage(jailswitchimgl, 0,0,jailswitchimgl.width,jailswitchimgl.height, 4800,-95, 128,128)
         }else{
-            
+            chats = []
+
+            floors = floors.filter(word => !invisblocks.includes(word));
+            walls = walls.filter(word => !invisblocks.includes(word));
+            roofs = roofs.filter(word => !invisblocks.includes(word));
+
+
+
+
         tutorial_canvas_context.drawImage(jailswitchimg, 0,0,jailswitchimg.width,jailswitchimg.height, 4800,-95, 128,128)
         floors[0].y+=10000
         }
@@ -4453,7 +4462,11 @@ window.setInterval(function(){
         if(floors[floors.length-2].isPointInside(pomao.tongue) || floors[floors.length-2].isPointInside(pomao.tongue)){
             jailswitch = 1
         }
-
+        door.draw()
+        if(door.isPointInside(pomao.body)){
+            loadlvl4()
+            pmarinedisp = 0
+        }
         }
 
        
@@ -4502,7 +4515,10 @@ for(let t = 0; t<ramps.length; t++){
                             }else if(level ==3){
                             
                                 tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                }
+                                }else if(level == 4){
+                    
+                                    tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                 }
                     }
                 }else{
                     if(level == 1){
@@ -4513,6 +4529,9 @@ for(let t = 0; t<ramps.length; t++){
                     }else if(level == 3){
                     
                         tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                     }else if(level == 4){
+                    
+                        tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                      }
                 }
             }else{
@@ -4525,6 +4544,9 @@ for(let t = 0; t<ramps.length; t++){
                 }else if(level == 3){
                     
                     tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                 }else if(level == 4){
+                    
+                    tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                  }
             }
             }else{
@@ -5788,10 +5810,134 @@ function loadlvl2(){
         floors.push(livingfloor)
     }
     }
-function loadlvl3(){
+    function loadlvl3(){
+    
+        pomao.cutscene = 0
+    level = 3
+    tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
+    pomao.body.x = 0
+    pomao.body.y = 0
+     ramps90 = []
+     swimmers = []
+     floors = []
+     ramps = []
+     boys = []
+     deadboys = []
+     fruits = []
+     walls = []
+     invisblocks = []
+     ungrapplable = []
+     jellys = []
+     roofs = []
+     switches = []
+     blocks = []
+     nails = []
+     chats = []
+    
+     const lvl3wall1 = new Rectangle(-183,-1000,1033,50)
+     floors.push(lvl3wall1)
+     roofs.push(lvl3wall1)
+     walls.push(lvl3wall1)
+     const floor = new Rectangle(-1000,33,1030,2840)
+     floors.push(floor)
+     walls.push(floor)
+     roofs.push(floor)
+     
+    
+     const guardfloor = new Rectangle(3100,33,200,2100)
+     floors.push(guardfloor)
+     walls.push(guardfloor)
+     roofs.push(guardfloor)
+     const guardfloorx = new Rectangle(3100,233,830,2100, "cyan")
+     floors.push(guardfloorx)
+     walls.push(guardfloorx)
+     roofs.push(guardfloorx)
+     ungrapplable.push(guardfloorx)
+     const guardfloorroof = new Rectangle(3100,-1233,50,2100, "cyan")
+     floors.push(guardfloorroof)
+     walls.push(guardfloorroof)
+     roofs.push(guardfloorroof)
+     ungrapplable.push(guardfloorroof)
+     const guardfloorwall = new Rectangle(5150,-1233,2063,50, "cyan")
+     floors.push(guardfloorwall)
+     walls.push(guardfloorwall)
+     roofs.push(guardfloorwall)
+     ungrapplable.push(guardfloorwall)
+    
+     const lvl3basefloor = new Rectangle(-1000,1030,645,20000)
+     floors.push(lvl3basefloor)
+     walls.push(lvl3basefloor)
+     roofs.push(lvl3basefloor)
+     
+     const lvl3roof1 = new Rectangle(-183,-1000,50,1050)
+     floors.push(lvl3roof1)
+     roofs.push(lvl3roof1)
+     walls.push(lvl3roof1)
+     ungrapplable.push(lvl3roof1)
+    
+     
+     const prisoner1block = new Rectangle(200,-34, 90,60)
+     floors.push(prisoner1block)
+     walls.push(prisoner1block)
+     roofs.push(prisoner1block)
+     invisblocks.push(prisoner1block)
+     
+     const prisoner2block = new Rectangle(600,-34, 90,60)
+     floors.push(prisoner2block)
+     walls.push(prisoner2block)
+     roofs.push(prisoner2block)
+     invisblocks.push(prisoner2block)
+        
+     
+     const prisoner3block = new Rectangle(900,-34, 90,60)
+     floors.push(prisoner3block)
+     walls.push(prisoner3block)
+     roofs.push(prisoner3block)
+     invisblocks.push(prisoner3block)
+        
+     let prisoner1dialogue = new Dialogue(200,-34)
+     prisoner1dialogue.words.push( "What are ya in fer?")
+     prisoner1dialogue.words.push( "Let me guess...")
+     prisoner1dialogue.words.push( "Over your egg limit?")
+     prisoner1dialogue.words.push( "Doesn't take much these days.")
+     prisoner1dialogue.words.push( "I'm in here since six years ago for playing music in public.")
+     chats.push(prisoner1dialogue)
+        
+     let prisoner2dialogue = new Dialogue(600,-34)
+     prisoner2dialogue.words.push( "Fresh meat...")
+     chats.push(prisoner2dialogue)
+        
+     let prisoner3dialogue = new Dialogue(900,-34)
+     prisoner3dialogue.words.push( "If only I werent so fat...")
+     prisoner3dialogue.words.push( "I would flutter-stutter across the gap...")
+     prisoner3dialogue.words.push( "... knock out the guard...")
+     prisoner3dialogue.words.push( "... and flip the switch...")
+     chats.push(prisoner3dialogue)
+    
+     
+     
+     const switcher = new Rectangle(4800,-95, 128,128)
+     floors.push(switcher)
+     walls.push(switcher)
+     roofs.push(switcher)
+     ungrapplable.push(switcher)
+     invisblocks.push(switcher)
+     
+     
+     const guardblock = new Rectangle(4500,-34, 90,60)
+     floors.push(guardblock)
+     walls.push(guardblock)
+     roofs.push(guardblock)
+     invisblocks.push(guardblock)
+    
+     door = new Rectangle(-10000,-10000, 20000, 9500, "#090909")
+    
+    }
+
+function loadlvl4(){
 
     pomao.cutscene = 0
-level = 3
+level = 4
 tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
 pomao.body.x = 0
 pomao.body.y = 0
@@ -5812,102 +5958,11 @@ pomao.body.y = 0
  nails = []
  chats = []
 
- const lvl3wall1 = new Rectangle(-183,-1000,1033,50)
- floors.push(lvl3wall1)
- roofs.push(lvl3wall1)
- walls.push(lvl3wall1)
- const floor = new Rectangle(-1000,33,1030,2840)
+ const floor = new Rectangle(-10000,33,1030,28400)
  floors.push(floor)
  walls.push(floor)
  roofs.push(floor)
  
-
- const guardfloor = new Rectangle(3100,33,200,2100)
- floors.push(guardfloor)
- walls.push(guardfloor)
- roofs.push(guardfloor)
- const guardfloorx = new Rectangle(3100,233,830,2100, "cyan")
- floors.push(guardfloorx)
- walls.push(guardfloorx)
- roofs.push(guardfloorx)
- ungrapplable.push(guardfloorx)
- const guardfloorroof = new Rectangle(3100,-1233,50,2100, "cyan")
- floors.push(guardfloorroof)
- walls.push(guardfloorroof)
- roofs.push(guardfloorroof)
- ungrapplable.push(guardfloorroof)
- const guardfloorwall = new Rectangle(5150,-1233,2063,50, "cyan")
- floors.push(guardfloorwall)
- walls.push(guardfloorwall)
- roofs.push(guardfloorwall)
- ungrapplable.push(guardfloorwall)
-
- const lvl3basefloor = new Rectangle(-1000,1030,645,20000)
- floors.push(lvl3basefloor)
- walls.push(lvl3basefloor)
- roofs.push(lvl3basefloor)
- 
- const lvl3roof1 = new Rectangle(-183,-1000,50,1050)
- floors.push(lvl3roof1)
- roofs.push(lvl3roof1)
- walls.push(lvl3roof1)
- ungrapplable.push(lvl3roof1)
-
- 
- const prisoner1block = new Rectangle(200,-34, 90,60)
- floors.push(prisoner1block)
- walls.push(prisoner1block)
- roofs.push(prisoner1block)
- invisblocks.push(prisoner1block)
- 
- const prisoner2block = new Rectangle(600,-34, 90,60)
- floors.push(prisoner2block)
- walls.push(prisoner2block)
- roofs.push(prisoner2block)
- invisblocks.push(prisoner2block)
-    
- 
- const prisoner3block = new Rectangle(900,-34, 90,60)
- floors.push(prisoner3block)
- walls.push(prisoner3block)
- roofs.push(prisoner3block)
- invisblocks.push(prisoner3block)
-    
- let prisoner1dialogue = new Dialogue(200,-34)
- prisoner1dialogue.words.push( "What are ya in fer?")
- prisoner1dialogue.words.push( "Let me guess...")
- prisoner1dialogue.words.push( "Over your egg limit?")
- prisoner1dialogue.words.push( "Doesn't take much these days.")
- prisoner1dialogue.words.push( "I'm in here since six years ago for playing music in public.")
- chats.push(prisoner1dialogue)
-    
- let prisoner2dialogue = new Dialogue(600,-34)
- prisoner2dialogue.words.push( "Fresh meat...")
- chats.push(prisoner2dialogue)
-    
- let prisoner3dialogue = new Dialogue(900,-34)
- prisoner3dialogue.words.push( "If only I werent so fat...")
- prisoner3dialogue.words.push( "I would flutter-stutter across the gap...")
- prisoner3dialogue.words.push( "... knock out the guard...")
- prisoner3dialogue.words.push( "... and flip the switch...")
- chats.push(prisoner3dialogue)
-
- 
- 
- const switcher = new Rectangle(4800,-95, 128,128)
- floors.push(switcher)
- walls.push(switcher)
- roofs.push(switcher)
- ungrapplable.push(switcher)
- invisblocks.push(switcher)
- 
- 
- const guardblock = new Rectangle(4500,-34, 90,60)
- floors.push(guardblock)
- walls.push(guardblock)
- roofs.push(guardblock)
- invisblocks.push(guardblock)
-
 }
-
+    
 })
