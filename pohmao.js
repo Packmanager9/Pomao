@@ -4349,6 +4349,8 @@ window.setInterval(function(){
                 if(chats[1].complete == 0){
                     pomao.disabled = 1
                     pomao.cutscene = 1
+                    chats[0].words = ["talk"]
+                    chats[0].words.push("Pomao, would you mind cleaning the fruits out of the back yard?")
                 }else{
                     pomao.cutscene = 0
                     pomao.disabled = 0
