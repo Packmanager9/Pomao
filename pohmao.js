@@ -4201,9 +4201,10 @@ class Dialogue{
     constructor(x,y){
         this.timer = 200
         this.body = new Circle(x,y,100,"transparent")
-        this.words = ["talk", "Hello Pomao!",  "Pa wants to talk to you.", "He is in his study in the tower."]
+        this.words = ["talk"]
         this.active = -1
         this.box = new Rectangle(x-50,y-50,40,90, "white")
+        this.complete = 0
 
     }
     draw(){
@@ -4226,6 +4227,7 @@ class Dialogue{
                 this.active +=1
                 if(this.active >= this.words.length){
                     this.active = this.words.length-1
+                    this.complete = 1
                 }
             }
             this.box.x = pomao.body.x-640
@@ -4343,6 +4345,15 @@ window.setInterval(function(){
             }
         }
         if(level == 2){
+            if(chats[1].active > 0){
+                if(chats[1].complete == 0){
+                    pomao.disabled = 1
+                    pomao.cutscene = 1
+                }else{
+                    pomao.cutscene = 0
+                    pomao.disabled = 0
+                }
+            }
 
             
         let momheight = 70+(Math.sin(((pomao.timeloop*1.3)+3.14))*1.7)
@@ -5607,6 +5618,9 @@ pomao.body.y = 0
  floors.push(lvl2midwayfloor1)
 
  let momdialogue = new Dialogue(505,-585)
+ momdialogue.words.push( "Hello Pomao!")
+ momdialogue.words.push( "Pa wants to talk to you.")
+ momdialogue.words.push("He is in his study in the tower.")
  chats.push(momdialogue)
 
  const momblock = new Rectangle(505,-585, 90,60)
@@ -5614,6 +5628,23 @@ pomao.body.y = 0
  walls.push(momblock)
  roofs.push(momblock)
  invisblocks.push(momblock)
+
+ 
+
+ let padialogue = new Dialogue(2505,-3035)
+ padialogue.words.push( "Pomao!")
+ padialogue.words.push( "I need to talk to you.")
+ padialogue.words.push("You're too old for this buisness...")
+ padialogue.words.push("Constant eating, laying eggs in broad daylight!")
+ padialogue.words.push("A Pomaoranian as red as you should never even lay eggs!")
+ padialogue.words.push("Why, I haven't laid an egg in my life!")
+ padialogue.words.push("And about your narcolepsy...")
+ padialogue.words.push("You just need to get more regular sleep.")
+ padialogue.words.push("I'm pretty sure it is the reason you have trouble counting.")
+ padialogue.words.push("Ok! Great, now that its sorted...")
+ padialogue.words.push("Go ask your mom about what your chores are today.")
+ chats.push(padialogue)
+
  const pawblock = new Rectangle(2505,-3035, 90,60)
  floors.push(pawblock)
  walls.push(pawblock)
