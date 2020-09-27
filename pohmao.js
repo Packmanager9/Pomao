@@ -160,6 +160,7 @@ let boys = []
 let deadboys = []
 let fruits = []
 let walls = []
+let chats = []
 let invisblocks = []
 let ungrapplable = []
 let jellys = []
@@ -4196,6 +4197,59 @@ class Seed{
     }
 }
 
+class Dialogue{
+    constructor(x,y){
+        this.timer = 200
+        this.body = new Circle(x,y,100,"transparent")
+        this.words = ["talk", "Hello Pomao!",  "Pa wants to talk to you.", "He is in his study in the tower."]
+        this.active = -1
+        this.box = new Rectangle(x-50,y-50,40,90, "white")
+
+    }
+    draw(){
+
+
+        if(!this.body.repelCheck(pomao.body)){
+            this.active = -1
+        }
+
+        if(this.active == -1){
+            if(this.body.repelCheck(pomao.body)){
+                this.active = 0
+            }
+        }
+
+        if(this.active > 0){
+            this.timer--
+            if(this.timer <0){
+                this.timer = 120
+                this.active +=1
+                if(this.active >= this.words.length){
+                    this.active = this.words.length-1
+                }
+            }
+            this.box.x = pomao.body.x-640
+            this.box.y = pomao.body.y+60
+            this.box.width = 1280
+            this.box.height = 300
+            this.box.draw()
+            tutorial_canvas_context.fillStyle = "black";
+            tutorial_canvas_context.font = "30px Arial";
+            tutorial_canvas_context.fillText(`${this.words[this.active]}`,this.box.x+40, this.box.y+40);
+        }else if (this.active == 0){
+            
+        this.box = new Rectangle(this.body.x-50,this.body.y-50,40,90, "white")
+            this.box.draw()
+            tutorial_canvas_context.fillStyle = "black";
+            tutorial_canvas_context.font = "16px Arial";
+            tutorial_canvas_context.fillText(`${this.words[this.active]}`,this.box.x+16, this.box.y+16);
+            if(keysPressed['e'] || gamepadAPI.buttonsStatus.includes('Axis-Right')){
+                this.active = 1
+            }
+        }
+
+    }
+}
 // const seep
 
     // const seep = new Seed(pomao.eggs[pomao.eggs.length-1])
@@ -4566,7 +4620,9 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
         //         pomao.eggs.push(seepx)
         //     }
 
-        
+        for(let t = 0;t<chats.length;t++){
+            chats[t].draw()
+        }
     }else{
         pomao.pausetimer++
         gamepadAPI.update()
@@ -5549,6 +5605,9 @@ pomao.body.y = 0
  floors.push(lvl2parentfloor)
  const lvl2midwayfloor1 = new Rectangle(1667,-290,20,500)
  floors.push(lvl2midwayfloor1)
+
+ let momdialogue = new Dialogue(505,-585)
+ chats.push(momdialogue)
 
  const momblock = new Rectangle(505,-585, 90,60)
  floors.push(momblock)
