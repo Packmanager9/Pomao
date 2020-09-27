@@ -3870,7 +3870,30 @@ class Bossbeam {
                       }
             }
         }else{
+            
+            for(let t=0;t<this.beams.length;t++){
+                tutorial_canvas_context.drawImage(rimgs[0], 0, 0, 48, 48, this.beams[t].x-(24*(this.beams[t].radius*.06666666666)), this.beams[t].y-(24*(this.beams[t].radius*.06666666666)), 48*(this.beams[t].radius*.06666666666),  48*(this.beams[t].radius*.06666666666))
+                this.beams[t].move()
+            }
+
             if(this.cleared == 0){
+                
+                for(let t=0;t<this.beams.length;t++){
+                    this.beams[t].xmom = (Math.random()-.5)*9
+                    this.beams[t].ymom = (Math.random()-.5)*9
+                }
+                
+                for(let t=0;t<this.beams.length;t++){
+                    for(let k = 0; Math.abs(this.beams[t].xmom)+Math.abs(this.beams[t].ymom) < 8; k++){
+                        this.beams[t].xmom *=1.1
+                        this.beams[t].ymom *=1.1
+                    }
+                }
+
+            for(let t=0;t<this.beams.length;t++){
+                
+            }
+
                 this.cleared = 1
                 walls.splice(walls.indexOf(this.wall1),1)
                 floors.splice(floors.indexOf(this.wall1),1)
