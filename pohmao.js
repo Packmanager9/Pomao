@@ -3881,6 +3881,11 @@ class Bossbeam {
                 for(let t=0;t<this.beams.length;t++){
                     this.beams[t].xmom = (Math.random()-.5)*9
                     this.beams[t].ymom = (Math.random()-.5)*9
+                    this.beams[t].xmom *= .97
+                    this.beams[t].ymom *= .97
+                    if(this.beams[t].radius > 0){
+                        this.beams[t].radius *= .97
+                    }
                 }
                 
                 for(let t=0;t<this.beams.length;t++){
