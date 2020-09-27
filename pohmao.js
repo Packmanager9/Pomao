@@ -205,7 +205,7 @@ const rampcurveimg1 = new Image()
 rampcurveimg1.src = 'rampcurve1.png'
 
 const fruitsprites = new Image()
-fruitsprites.src = 'fruitsprites10.png'
+fruitsprites.src = 'fruitsprites11.png'
 const cake = new Image()
 cake.src = 'Fruit 92 - Cake.png'
 
