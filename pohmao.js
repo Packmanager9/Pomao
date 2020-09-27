@@ -5817,6 +5817,7 @@ function loadlvl2(){
     }
     function loadlvl3(){
     
+        pomao.eggs = [pomao.body]
         pomao.cutscene = 0
     level = 3
     tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
