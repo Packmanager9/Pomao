@@ -178,6 +178,8 @@ const lvl2floorimg = new Image()
 lvl2floorimg.src ="floor5.png"
 const lvl3floorimg = new Image()
 lvl3floorimg.src ="floor6.png"
+const lvl4floorimg = new Image()
+lvl4floorimg.src ="floor7.png"
 const walling = new Image()
 walling.src ="wall.png"
 const lvl2walling = new Image()
@@ -3874,6 +3876,11 @@ class Bossbeam {
             for(let t=0;t<this.beams.length;t++){
                 tutorial_canvas_context.drawImage(rimgs[0], 0, 0, 48, 48, this.beams[t].x-(24*(this.beams[t].radius*.06666666666)), this.beams[t].y-(24*(this.beams[t].radius*.06666666666)), 48*(this.beams[t].radius*.06666666666),  48*(this.beams[t].radius*.06666666666))
                 this.beams[t].move()
+                this.beams[t].xmom *= .98
+                this.beams[t].ymom *= .98
+                if(this.beams[t].radius > 0){
+                    this.beams[t].radius *= .975
+                }
             }
 
             if(this.cleared == 0){
@@ -3881,11 +3888,7 @@ class Bossbeam {
                 for(let t=0;t<this.beams.length;t++){
                     this.beams[t].xmom = (Math.random()-.5)*9
                     this.beams[t].ymom = (Math.random()-.5)*9
-                    this.beams[t].xmom *= .97
-                    this.beams[t].ymom *= .97
-                    if(this.beams[t].radius > 0){
-                        this.beams[t].radius *= .97
-                    }
+            
                 }
                 
                 for(let t=0;t<this.beams.length;t++){
@@ -4324,8 +4327,8 @@ const shockfriendly = new Shockwave(pomao.body)
 shocks.push(shockfriendly)
 
 loadlvl1()
-// loadlvl2()
-// loadlvl3()
+// // loadlvl2()
+// // loadlvl3()
 // loadlvl4()
 setTimeout(function(){
     
@@ -4550,7 +4553,7 @@ for(let t = 0; t<ramps.length; t++){
                                 tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }else if(level == 4){
                     
-                                    tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    tutorial_canvas_context.drawImage(lvl4floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                  }
                     }
                 }else{
@@ -4564,7 +4567,7 @@ for(let t = 0; t<ramps.length; t++){
                         tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                      }else if(level == 4){
                     
-                        tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                        tutorial_canvas_context.drawImage(lvl4floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                      }
                 }
             }else{
@@ -4579,7 +4582,7 @@ for(let t = 0; t<ramps.length; t++){
                     tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                  }else if(level == 4){
                     
-                    tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                    tutorial_canvas_context.drawImage(lvl4floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                  }
             }
             }else{
@@ -5996,6 +5999,13 @@ pomao.body.y = 0
  floors.push(floor)
  walls.push(floor)
  roofs.push(floor)
+ 
+
+ const platform1 = new Rectangle(-83,-340,20,2000)
+ floors.push(platform1)
+
+ const platform2 = new Rectangle(-1111,-170,20,1000)
+ floors.push(platform2)
  
 }
     
