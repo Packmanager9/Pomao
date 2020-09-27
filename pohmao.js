@@ -171,8 +171,12 @@ let nails = []
 let dry = 0
 const floorimg = new Image()
 floorimg.src ="floor4.png"
+const lvl2floorimg = new Image()
+lvl2floorimg.src ="floor5.png"
 const walling = new Image()
 walling.src ="wall.png"
+const lvl2walling = new Image()
+lvl2walling.src ="wall5.png"
 const nailimg = new Image()
 nailimg.src ="poundnail.png"
 const ballsprite = new Image()
@@ -281,6 +285,13 @@ pomomimg.src = 'pomom.png'
 
 const pawmaoimg = new Image()
 pawmaoimg.src = 'pawmao.png'
+
+const pomarine = new Image()
+pomarine.src = 'pomarine.png'
+
+
+const pomarinel = new Image()
+pomarinel.src = 'pomarinel.png'
 
 const pomaoimg = new Image()
 pomaoimg.src = 'pomao.png'
@@ -2303,6 +2314,7 @@ class Shape{
 }
 class Pomao{
     constructor(){
+        this.cutscene = 0
         this.eggmake=0
         this.rooted = {}
         this.rootedframe = 0
@@ -2817,10 +2829,10 @@ class Pomao{
                 
                 this.bonked = 1
                 if(this.body.ymom < 0){
-                    this.body.ymom *=-.333 //1
+                    this.body.ymom *=-.1 //1 //.333
                 }
                 if(this.body.symom < 0){
-                    this.body.symom *=-.333 //1
+                    this.body.symom *=-.1 //1 //.333
                 }
             }
         }
@@ -2833,7 +2845,9 @@ class Pomao{
         // if(this.rattled == 50.51){
         //     this.rattled *- -1.5
         // }
-        this.control()
+        if(this.cutscene <= 0){
+            this.control()
+        }
         if(this.blocked==0){
 
         this.body.move()
@@ -4281,8 +4295,12 @@ window.setInterval(function(){
         tutorial_canvas_context.drawImage(pomomimg, 0,0,pomomimg.width,pomomimg.height, 500,-590-(Math.sin(((pomao.timeloop*1.3)+3.14))*1.9), 70,momheight)
       
         let pawheight = 70+(Math.sin(((pomao.timeloop*.75)+3.14))*2)
-            tutorial_canvas_context.drawImage(pawmaoimg, 0,0,pawmaoimg.width,pawmaoimg.height, 2500,-3040-(Math.sin(((pomao.timeloop*.75)+3.14))*1.9), 70,pawheight)
-          
+        tutorial_canvas_context.drawImage(pawmaoimg, 0,0,pawmaoimg.width,pawmaoimg.height, 2500,-3040-(Math.sin(((pomao.timeloop*.75)+3.14))*1.9), 70,pawheight)
+
+
+
+        tutorial_canvas_context.drawImage(pomarinel, 0,0,pomarine.width,pomarine.height, 5500,-35, 70,70)
+        
         }
 
        
@@ -4320,14 +4338,29 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
                     if(invisblocks.includes(floors[t])){
 
                     }else{
-                        tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                        if(level == 1){
+                            tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                        }else if(level == 2){
+                            
+                        tutorial_canvas_context.drawImage(lvl2walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                        }
                     }
                 }else{
-                tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                    if(level == 1){
+                        tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                    }else if(level == 2){
+                        
+                tutorial_canvas_context.drawImage(lvl2floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                    }
                 }
             }else{
 
-                tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                if(level == 1){
+                    tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                }else if(level == 2){
+                    
+            tutorial_canvas_context.drawImage(lvl2floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                }
             }
             }else{
                 
@@ -4615,6 +4648,26 @@ const squareendw = square.x + square.width
 if(square.x <= circle.x){
     if(square.y <= circle.y){
         if(squareendw >= circle.x){
+            if(squareendh >= circle.y-circle.radius){
+                return true
+            }
+        }
+    }
+}
+
+//beneath here is expiriment
+if(square.x <= circle.x+(circle.radius*.9)){
+    if(square.y <= circle.y){
+        if(squareendw >= circle.x){
+            if(squareendh >= circle.y-circle.radius){
+                return true
+            }
+        }
+    }
+}
+if(square.x <= circle.x){
+    if(square.y <= circle.y){
+        if(squareendw+(circle.radius*.9) >= circle.x){
             if(squareendh >= circle.y-circle.radius){
                 return true
             }
@@ -5455,12 +5508,12 @@ pomao.body.y = 0
  blocks = []
  nails = []
 
- const floor = new Rectangle(-100000,33,645,200000)
+ const floor = new Rectangle(-1000,33,645,20000)
  floors.push(floor)
  walls.push(floor)
  roofs.push(floor)
 
- const lvl2wall1 = new Rectangle(-83,-1000,1050,50)
+ const lvl2wall1 = new Rectangle(-83,-1000,1033,50)
  floors.push(lvl2wall1)
  roofs.push(lvl2wall1)
  walls.push(lvl2wall1)
@@ -5486,13 +5539,13 @@ pomao.body.y = 0
  floors.push(lvl2wall2)
  roofs.push(lvl2wall2)
  walls.push(lvl2wall2)
- const lvl2wall3 = new Rectangle(2917,-3500,3550,50)
+ const lvl2wall3 = new Rectangle(2917,-3500,3350,50)
  floors.push(lvl2wall3)
  roofs.push(lvl2wall3)
  walls.push(lvl2wall3)
  const lvl2entrywayfloor = new Rectangle(-33,-220,20,250)
  floors.push(lvl2entrywayfloor)
- const lvl2parentfloor = new Rectangle(-33,-520,20,1000)
+ const lvl2parentfloor = new Rectangle(-33,-520,20,950)
  floors.push(lvl2parentfloor)
  const lvl2midwayfloor1 = new Rectangle(1667,-290,20,500)
  floors.push(lvl2midwayfloor1)
@@ -5508,10 +5561,24 @@ pomao.body.y = 0
  roofs.push(pawblock)
  invisblocks.push(pawblock)
 
+ for(let t = 0; t<32;t++){
+     let wet = 0
+     let fruit = new Fruit(3000+Math.random()*1000, -60-(Math.random()*570), 60,60,"transparent")
+     for(let k = 0;k<fruits.length; k++){
+         if(fruit.body.repelCheck(fruits[k].body)){
+             wet = 1
+             break
+         }
+     }
+     if(wet == 0){
+         fruits.push(fruit)
+     }
+ }
+
  for(let t = 1; t<12;t++){
-    const livingfloor = new Rectangle(917, -3000+(t*250), 20, 550, "red")
+    const livingfloor = new Rectangle(967, -3000+(t*250), 20, 500, "red")
     if(t%2 == 1){
-        livingfloor.x+=1500
+        livingfloor.x+=1450
     }
     floors.push(livingfloor)
 }
