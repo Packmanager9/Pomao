@@ -2,6 +2,7 @@
 let level = 1
 let zimgs = []
 let pmarinedisp = 0
+let jailswitch = 0
 
 // const gamepads
 
@@ -175,6 +176,8 @@ const floorimg = new Image()
 floorimg.src ="floor4.png"
 const lvl2floorimg = new Image()
 lvl2floorimg.src ="floor5.png"
+const lvl3floorimg = new Image()
+lvl3floorimg.src ="floor6.png"
 const walling = new Image()
 walling.src ="wall.png"
 const lvl2walling = new Image()
@@ -186,6 +189,11 @@ ballsprite.src ="ballsprite3.png"
 
 const jazz = new Audio('gulpnoise.wav');
 const jazz2 = new Audio('gulpnoise2.wav');
+
+const jailswitchimgl = new Image()
+jailswitchimgl.src = 'switchl.png'
+const jailswitchimg = new Image()
+jailswitchimg.src = 'switch.png'
 
 const rampimg2 = new Image()
 rampimg2.src = 'ramp2.png'
@@ -287,6 +295,15 @@ pomomimg.src = 'pomom.png'
 
 const pawmaoimg = new Image()
 pawmaoimg.src = 'pawmao.png'
+
+const prisoner1img = new Image()
+prisoner1img.src = 'prisoner1.png'
+
+const prisoner2img = new Image()
+prisoner2img.src = 'prisoner2.png'
+
+const prisoner3img = new Image()
+prisoner3img.src = 'prisoner3.png'
 
 const pomarine = new Image()
 pomarine.src = 'pomarine.png'
@@ -4293,24 +4310,24 @@ window.setInterval(function(){
         tutorial_canvas_context.fillStyle =`rgba(85, 85, 128,${15/255})`
         tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
        
-    tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+    //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
     }else if(pomao.high > 1){
         tutorial_canvas_context.fillStyle =`rgba(153, 153, 230,${63/255})`
         tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
        
-    tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+    //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
     }else if (pomao.tripping > 0){
 
 
             tutorial_canvas_context.fillStyle =`rgba(190, 190, 255,${14/255})`
             tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
           
-    tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+    //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
         }else{
             tutorial_canvas_context.fillStyle =`rgba(170, 170, 255,${1})`
             tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
 
-            tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+            //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
            }
     if(pomao.hits > -1){
         // tutorial_canvas_context.drawImage(jumpometer, 0, 0, 10, 1000, -2200, -350, 10, 1000)
@@ -4377,6 +4394,7 @@ window.setInterval(function(){
                 }
             }
             if(chats[2].complete == 1){
+                pmarinedisp = 0
                 loadlvl3()
             }
 
@@ -4391,6 +4409,52 @@ window.setInterval(function(){
 
         tutorial_canvas_context.drawImage(pomarinel, 0,0,pomarine.width,pomarine.height, 5500+pmarinedisp,-35, 70,70)
         
+        }
+        if(level == 3){
+            
+        let momheight = 70+(Math.sin(((pomao.timeloop*1.3)+3.14))*1.7)
+        tutorial_canvas_context.drawImage(prisoner1img, 0,0,prisoner1img.width,prisoner1img.height, 200,-35-(Math.sin(((pomao.timeloop*1.3)+3.14))*1.9), 70,momheight)
+      
+        let pawheight = 70+(Math.sin(((pomao.timeloop*.75)+3.14))*2)
+        tutorial_canvas_context.drawImage(prisoner2img, 0,0,prisoner2img.width,prisoner2img.height, 600,-35-(Math.sin(((pomao.timeloop*.75)+3.14))*1.9), 70,pawheight)
+      
+        let prisoner3height = 68+(Math.sin(((pomao.timeloop*.6)+3.14))*.8)
+        tutorial_canvas_context.drawImage(prisoner3img, 0,0,prisoner3img.width,prisoner3img.height, 900,-34-(Math.sin(((pomao.timeloop*.6)+3.14))*.8), 70,prisoner3height)
+
+
+        
+        tutorial_canvas_context.drawImage(pomarinel, 0,0,pomarine.width,pomarine.height, 4500-pmarinedisp,-35+pmarinedisp, 70,70)
+        if(jailswitch == 0){
+
+            tutorial_canvas_context.drawImage(jailswitchimgl, 0,0,jailswitchimgl.width,jailswitchimgl.height, 4800,-95, 128,128)
+        }else{
+            
+        tutorial_canvas_context.drawImage(jailswitchimg, 0,0,jailswitchimg.width,jailswitchimg.height, 4800,-95, 128,128)
+        floors[0].y+=10000
+        }
+
+        if(pmarinedisp == 0){
+            for(let t = 0;t<shockfriendly.shocksl.length;t++){
+                if(floors[floors.length-1].isPointInside(shockfriendly.shocksl[t]) || floors[floors.length-1].isPointInside(shockfriendly.shocksr[t])){
+                    pmarinedisp-=10
+                    floors[floors.length-1].y+=10000
+                    break
+                }
+            }
+        }else{
+            pmarinedisp -= 9
+        }
+        
+        for(let t = 0;t<shockfriendly.shocksl.length;t++){
+            if(floors[floors.length-2].isPointInside(shockfriendly.shocksl[t]) || floors[floors.length-2].isPointInside(shockfriendly.shocksr[t])){
+                jailswitch = 1
+            }
+        }
+        
+        if(floors[floors.length-2].isPointInside(pomao.tongue) || floors[floors.length-2].isPointInside(pomao.tongue)){
+            jailswitch = 1
+        }
+
         }
 
        
@@ -4416,9 +4480,12 @@ for(let t = 0; t<ramps.length; t++){
 
 }
 
-tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+//tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
       
     for(let t = 0; t<floors.length; t++){
+        if(invisblocks.includes(floors[t])){
+
+        }else{
         if(!jellys.includes(floors[t])){
 
         if(!nails.includes(floors[t]) && !ungrapplable.includes(floors[t])){
@@ -4435,7 +4502,7 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
                             tutorial_canvas_context.drawImage(lvl2walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                             }else if(level ==3){
                             
-                                tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }
                     }
                 }else{
@@ -4446,7 +4513,7 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
                 tutorial_canvas_context.drawImage(lvl2floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                     }else if(level == 3){
                     
-                        tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                        tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                      }
                 }
             }else{
@@ -4458,7 +4525,7 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
                     tutorial_canvas_context.drawImage(lvl2floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                 }else if(level == 3){
                     
-                    tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                    tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                  }
             }
             }else{
@@ -4474,12 +4541,13 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
                     floors[t].draw()
             }
         }
+        }
         // floor.draw()
 
         for(let t = 0;t<switches.length;t++){
             switches[t].draw()
         }
-        tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+        //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
         for(let t = 0; t<pomao.eggs.length; t++){
             pomao.eggs[t].draw()
         }
@@ -4503,7 +4571,7 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
                 shockfriendly.shock()
         }   
 
-tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+//tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
         // block.draw()
 
         for(let t = 0; t<blocks.length; t++){
@@ -4632,7 +4700,7 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
         fractal.draw()
         fracta2l.draw()
         fracta3l.draw()
-        tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+        //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
         if(boss.body1.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body1.radius) && boss.body1.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body1.radius) ){
             if(boss.body1.y > pomao.body.y-((tutorial_canvas.height*3)+boss.body1.radius) && boss.body1.y < pomao.body.y+((tutorial_canvas.height*3)+boss.body1.radius) ){
 
@@ -5743,10 +5811,101 @@ pomao.body.y = 0
  blocks = []
  nails = []
 
- const floor = new Rectangle(-1000,33,645,20000)
+ const lvl3wall1 = new Rectangle(-183,-1000,1033,50)
+ floors.push(lvl3wall1)
+ roofs.push(lvl3wall1)
+ walls.push(lvl3wall1)
+ const floor = new Rectangle(-1000,33,1030,2840)
  floors.push(floor)
  walls.push(floor)
  roofs.push(floor)
+ 
+
+ const guardfloor = new Rectangle(3100,33,200,2100)
+ floors.push(guardfloor)
+ walls.push(guardfloor)
+ roofs.push(guardfloor)
+ const guardfloorx = new Rectangle(3100,233,830,2100, "cyan")
+ floors.push(guardfloorx)
+ walls.push(guardfloorx)
+ roofs.push(guardfloorx)
+ ungrapplable.push(guardfloorx)
+ const guardfloorroof = new Rectangle(3100,-1233,50,2100, "cyan")
+ floors.push(guardfloorroof)
+ walls.push(guardfloorroof)
+ roofs.push(guardfloorroof)
+ ungrapplable.push(guardfloorroof)
+ const guardfloorwall = new Rectangle(5150,-1233,2063,50, "cyan")
+ floors.push(guardfloorwall)
+ walls.push(guardfloorwall)
+ roofs.push(guardfloorwall)
+ ungrapplable.push(guardfloorwall)
+
+ const lvl3basefloor = new Rectangle(-1000,1030,645,20000)
+ floors.push(lvl3basefloor)
+ walls.push(lvl3basefloor)
+ roofs.push(lvl3basefloor)
+ 
+ const lvl3roof1 = new Rectangle(-183,-1000,50,1050)
+ floors.push(lvl3roof1)
+ roofs.push(lvl3roof1)
+ walls.push(lvl3roof1)
+ ungrapplable.push(lvl3roof1)
+
+ 
+ const prisoner1block = new Rectangle(200,-34, 90,60)
+ floors.push(prisoner1block)
+ walls.push(prisoner1block)
+ roofs.push(prisoner1block)
+ invisblocks.push(prisoner1block)
+ 
+ const prisoner2block = new Rectangle(600,-34, 90,60)
+ floors.push(prisoner2block)
+ walls.push(prisoner2block)
+ roofs.push(prisoner2block)
+ invisblocks.push(prisoner2block)
+    
+ 
+ const prisoner3block = new Rectangle(900,-34, 90,60)
+ floors.push(prisoner3block)
+ walls.push(prisoner3block)
+ roofs.push(prisoner3block)
+ invisblocks.push(prisoner3block)
+    
+ let prisoner1dialogue = new Dialogue(200,-34)
+ prisoner1dialogue.words.push( "What are ya in fer?")
+ prisoner1dialogue.words.push( "Let me guess...")
+ prisoner1dialogue.words.push( "Over your egg limit?")
+ prisoner1dialogue.words.push( "Doesn't take much these days.")
+ prisoner1dialogue.words.push( "I'm in here since six years ago for playing music in public.")
+ chats.push(prisoner1dialogue)
+    
+ let prisoner2dialogue = new Dialogue(600,-34)
+ prisoner2dialogue.words.push( "Fresh meat...")
+ chats.push(prisoner2dialogue)
+    
+ let prisoner3dialogue = new Dialogue(900,-34)
+ prisoner3dialogue.words.push( "If only I werent so fat...")
+ prisoner3dialogue.words.push( "I would flutter-stutter across the gap...")
+ prisoner3dialogue.words.push( "... knock out the guard...")
+ prisoner3dialogue.words.push( "... and flip the switch...")
+ chats.push(prisoner3dialogue)
+
+ 
+ 
+ const switcher = new Rectangle(4800,-95, 128,128)
+ floors.push(switcher)
+ walls.push(switcher)
+ roofs.push(switcher)
+ ungrapplable.push(switcher)
+ invisblocks.push(switcher)
+ 
+ 
+ const guardblock = new Rectangle(4500,-34, 90,60)
+ floors.push(guardblock)
+ walls.push(guardblock)
+ roofs.push(guardblock)
+ invisblocks.push(guardblock)
 
 }
 
