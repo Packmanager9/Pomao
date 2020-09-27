@@ -1,6 +1,7 @@
 
 let level = 1
 let zimgs = []
+let pmarinedisp = 0
 
 // const gamepads
 
@@ -4280,7 +4281,7 @@ shocks.push(shockfriendly)
 
 loadlvl1()
 // loadlvl2()
-
+// loadlvl3()
 setTimeout(function(){
     
 
@@ -4342,6 +4343,7 @@ window.setInterval(function(){
             door.draw()
             if(door.isPointInside(pomao.body)){
                 loadlvl2()
+                pmarinedisp = 0
             }
         }
         if(level == 2){
@@ -4356,6 +4358,27 @@ window.setInterval(function(){
                     pomao.disabled = 0
                 }
             }
+            if(fruits.length == 0){
+                
+                chats[2].body.x = pomao.body.x
+                chats[2].body.y = pomao.body.y
+                pomao.cutscene = 1
+                if(pmarinedisp == 0){
+                    chats[2].active = 1
+                    chats[2].body.x = pomao.body.x
+                    chats[2].body.y = pomao.body.y
+                }
+                if(pomao.body.x+50 > pmarinedisp+5500){
+                    chats[2].body.x = pomao.body.x
+                    chats[2].body.y = pomao.body.y
+                    // chats[2].active = 1
+                }else{
+                    pmarinedisp-=9
+                }
+            }
+            if(chats[2].complete == 1){
+                loadlvl3()
+            }
 
             
         let momheight = 70+(Math.sin(((pomao.timeloop*1.3)+3.14))*1.7)
@@ -4366,7 +4389,7 @@ window.setInterval(function(){
 
 
 
-        tutorial_canvas_context.drawImage(pomarinel, 0,0,pomarine.width,pomarine.height, 5500,-35, 70,70)
+        tutorial_canvas_context.drawImage(pomarinel, 0,0,pomarine.width,pomarine.height, 5500+pmarinedisp,-35, 70,70)
         
         }
 
@@ -4409,8 +4432,11 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
                             tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                         }else if(level == 2){
                             
-                        tutorial_canvas_context.drawImage(lvl2walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                        }
+                            tutorial_canvas_context.drawImage(lvl2walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                            }else if(level ==3){
+                            
+                                tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                }
                     }
                 }else{
                     if(level == 1){
@@ -4418,7 +4444,10 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
                     }else if(level == 2){
                         
                 tutorial_canvas_context.drawImage(lvl2floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                    }
+                    }else if(level == 3){
+                    
+                        tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                     }
                 }
             }else{
 
@@ -4426,8 +4455,11 @@ tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tu
                     tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                 }else if(level == 2){
                     
-            tutorial_canvas_context.drawImage(lvl2floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                }
+                    tutorial_canvas_context.drawImage(lvl2floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                }else if(level == 3){
+                    
+                    tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                 }
             }
             }else{
                 
@@ -5556,7 +5588,142 @@ fruits.push(cake2)
 
 function loadlvl2(){
 
-level = 2
+    pomao.cutscene = 0
+    level = 2
+    tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
+    pomao.body.x = 0
+    pomao.body.y = 0
+     ramps90 = []
+     swimmers = []
+     floors = []
+     ramps = []
+     boys = []
+     deadboys = []
+     fruits = []
+     walls = []
+     invisblocks = []
+     ungrapplable = []
+     jellys = []
+     roofs = []
+     switches = []
+    //  shocks =[]
+     blocks = []
+     nails = []
+    
+     const floor = new Rectangle(-1000,33,645,20000)
+     floors.push(floor)
+     walls.push(floor)
+     roofs.push(floor)
+    
+     const lvl2wall1 = new Rectangle(-83,-1000,1033,50)
+     floors.push(lvl2wall1)
+     roofs.push(lvl2wall1)
+     walls.push(lvl2wall1)
+     const lvl2roof1 = new Rectangle(-83,-1000,50,1050)
+     floors.push(lvl2roof1)
+     roofs.push(lvl2roof1)
+     walls.push(lvl2roof1)
+     const lvl2roof2 = new Rectangle(917,-3000,50,1550)
+     floors.push(lvl2roof2)
+     roofs.push(lvl2roof2)
+     walls.push(lvl2roof2)
+     const lvl2roofstudy = new Rectangle(2417,-3500,50,550)
+     floors.push(lvl2roofstudy)
+     roofs.push(lvl2roofstudy)
+     walls.push(lvl2roofstudy)
+     const lvl2floorstudy = new Rectangle(2417,-2970,20,550)
+     floors.push(lvl2floorstudy)
+     const lvl2wallstudy1 = new Rectangle(2417,-3500,550,50)
+     floors.push(lvl2wallstudy1)
+     roofs.push(lvl2wallstudy1)
+     walls.push(lvl2wallstudy1)
+     const lvl2wall2 = new Rectangle(917,-3000,2520,50)
+     floors.push(lvl2wall2)
+     roofs.push(lvl2wall2)
+     walls.push(lvl2wall2)
+     const lvl2wall3 = new Rectangle(2917,-3500,3350,50)
+     floors.push(lvl2wall3)
+     roofs.push(lvl2wall3)
+     walls.push(lvl2wall3)
+     const lvl2entrywayfloor = new Rectangle(-33,-220,20,250)
+     floors.push(lvl2entrywayfloor)
+     const lvl2parentfloor = new Rectangle(-33,-520,20,950)
+     floors.push(lvl2parentfloor)
+     const lvl2midwayfloor1 = new Rectangle(1667,-290,20,500)
+     floors.push(lvl2midwayfloor1)
+    
+     let momdialogue = new Dialogue(505,-585)
+     momdialogue.words.push( "Hello Pomao!")
+     momdialogue.words.push( "Pa wants to talk to you.")
+     momdialogue.words.push("He is in his study in the tower.")
+     chats.push(momdialogue)
+    
+     const momblock = new Rectangle(505,-585, 90,60)
+     floors.push(momblock)
+     walls.push(momblock)
+     roofs.push(momblock)
+     invisblocks.push(momblock)
+    
+     
+    
+     let padialogue = new Dialogue(2505,-3035)
+     padialogue.words.push( "Pomao!")
+     padialogue.words.push( "I need to talk to you.")
+     padialogue.words.push("You're too old for this buisness...")
+     padialogue.words.push("Constant eating, laying eggs in broad daylight!")
+     padialogue.words.push("A Pomaoranian as red as you should never even lay eggs!")
+     padialogue.words.push("Why, I haven't laid an egg in my life!")
+     padialogue.words.push("And about your narcolepsy...")
+     padialogue.words.push("You just need to get more regular sleep.")
+     padialogue.words.push("I'm pretty sure it is the reason you have trouble counting.")
+     padialogue.words.push("Ok! Great, now that its sorted...")
+     padialogue.words.push("Go ask your mom about what your chores are today.")
+     chats.push(padialogue)
+     
+    
+     let pomarinedialogue = new Dialogue(5505,-3035)
+     pomarinedialogue.words.push( "You!!")
+     pomarinedialogue.words.push( "Stop what you are doing!")
+     pomarinedialogue.words.push( "Where is your egg-laying license?")
+     pomarinedialogue.words.push( "What is your permitted eggs-limit?")
+     pomarinedialogue.words.push( "...")
+     pomarinedialogue.words.push( "Can't you count!?")
+     pomarinedialogue.words.push( "You're way over!")
+     pomarinedialogue.words.push( "You're coming with me kid...")
+     chats.push(pomarinedialogue)
+    
+     const pawblock = new Rectangle(2505,-3035, 90,60)
+     floors.push(pawblock)
+     walls.push(pawblock)
+     roofs.push(pawblock)
+     invisblocks.push(pawblock)
+    
+     for(let t = 0; t<32;t++){
+         let wet = 0
+         let fruit = new Fruit(3000+Math.random()*1000, -60-(Math.random()*570), 60,60,"transparent")
+         for(let k = 0;k<fruits.length; k++){
+             if(fruit.body.repelCheck(fruits[k].body)){
+                 wet = 1
+                 break
+             }
+         }
+         if(wet == 0){
+             fruits.push(fruit)
+         }
+     }
+    
+     for(let t = 1; t<12;t++){
+        const livingfloor = new Rectangle(967, -3000+(t*250), 20, 500, "red")
+        if(t%2 == 1){
+            livingfloor.x+=1450
+        }
+        floors.push(livingfloor)
+    }
+    }
+function loadlvl3(){
+
+    pomao.cutscene = 0
+level = 3
 tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
 pomao.body.x = 0
 pomao.body.y = 0
@@ -5573,7 +5740,6 @@ pomao.body.y = 0
  jellys = []
  roofs = []
  switches = []
-//  shocks =[]
  blocks = []
  nails = []
 
@@ -5582,98 +5748,6 @@ pomao.body.y = 0
  walls.push(floor)
  roofs.push(floor)
 
- const lvl2wall1 = new Rectangle(-83,-1000,1033,50)
- floors.push(lvl2wall1)
- roofs.push(lvl2wall1)
- walls.push(lvl2wall1)
- const lvl2roof1 = new Rectangle(-83,-1000,50,1050)
- floors.push(lvl2roof1)
- roofs.push(lvl2roof1)
- walls.push(lvl2roof1)
- const lvl2roof2 = new Rectangle(917,-3000,50,1550)
- floors.push(lvl2roof2)
- roofs.push(lvl2roof2)
- walls.push(lvl2roof2)
- const lvl2roofstudy = new Rectangle(2417,-3500,50,550)
- floors.push(lvl2roofstudy)
- roofs.push(lvl2roofstudy)
- walls.push(lvl2roofstudy)
- const lvl2floorstudy = new Rectangle(2417,-2970,20,550)
- floors.push(lvl2floorstudy)
- const lvl2wallstudy1 = new Rectangle(2417,-3500,550,50)
- floors.push(lvl2wallstudy1)
- roofs.push(lvl2wallstudy1)
- walls.push(lvl2wallstudy1)
- const lvl2wall2 = new Rectangle(917,-3000,2520,50)
- floors.push(lvl2wall2)
- roofs.push(lvl2wall2)
- walls.push(lvl2wall2)
- const lvl2wall3 = new Rectangle(2917,-3500,3350,50)
- floors.push(lvl2wall3)
- roofs.push(lvl2wall3)
- walls.push(lvl2wall3)
- const lvl2entrywayfloor = new Rectangle(-33,-220,20,250)
- floors.push(lvl2entrywayfloor)
- const lvl2parentfloor = new Rectangle(-33,-520,20,950)
- floors.push(lvl2parentfloor)
- const lvl2midwayfloor1 = new Rectangle(1667,-290,20,500)
- floors.push(lvl2midwayfloor1)
-
- let momdialogue = new Dialogue(505,-585)
- momdialogue.words.push( "Hello Pomao!")
- momdialogue.words.push( "Pa wants to talk to you.")
- momdialogue.words.push("He is in his study in the tower.")
- chats.push(momdialogue)
-
- const momblock = new Rectangle(505,-585, 90,60)
- floors.push(momblock)
- walls.push(momblock)
- roofs.push(momblock)
- invisblocks.push(momblock)
-
- 
-
- let padialogue = new Dialogue(2505,-3035)
- padialogue.words.push( "Pomao!")
- padialogue.words.push( "I need to talk to you.")
- padialogue.words.push("You're too old for this buisness...")
- padialogue.words.push("Constant eating, laying eggs in broad daylight!")
- padialogue.words.push("A Pomaoranian as red as you should never even lay eggs!")
- padialogue.words.push("Why, I haven't laid an egg in my life!")
- padialogue.words.push("And about your narcolepsy...")
- padialogue.words.push("You just need to get more regular sleep.")
- padialogue.words.push("I'm pretty sure it is the reason you have trouble counting.")
- padialogue.words.push("Ok! Great, now that its sorted...")
- padialogue.words.push("Go ask your mom about what your chores are today.")
- chats.push(padialogue)
-
- const pawblock = new Rectangle(2505,-3035, 90,60)
- floors.push(pawblock)
- walls.push(pawblock)
- roofs.push(pawblock)
- invisblocks.push(pawblock)
-
- for(let t = 0; t<32;t++){
-     let wet = 0
-     let fruit = new Fruit(3000+Math.random()*1000, -60-(Math.random()*570), 60,60,"transparent")
-     for(let k = 0;k<fruits.length; k++){
-         if(fruit.body.repelCheck(fruits[k].body)){
-             wet = 1
-             break
-         }
-     }
-     if(wet == 0){
-         fruits.push(fruit)
-     }
- }
-
- for(let t = 1; t<12;t++){
-    const livingfloor = new Rectangle(967, -3000+(t*250), 20, 500, "red")
-    if(t%2 == 1){
-        livingfloor.x+=1450
-    }
-    floors.push(livingfloor)
-}
 }
 
 })
