@@ -4455,12 +4455,17 @@ window.setInterval(function(){
         
         for(let t = 0;t<shockfriendly.shocksl.length;t++){
             if(floors[floors.length-2].isPointInside(shockfriendly.shocksl[t]) || floors[floors.length-2].isPointInside(shockfriendly.shocksr[t])){
-                jailswitch = 1
+                if(pmarinedisp!=0){
+
+                    jailswitch = 1
+                }
             }
         }
         
         if(floors[floors.length-2].isPointInside(pomao.tongue) || floors[floors.length-2].isPointInside(pomao.tongue)){
+            if(pmarinedisp!=0){
             jailswitch = 1
+            }
         }
         door.draw()
         if(door.isPointInside(pomao.body)){
