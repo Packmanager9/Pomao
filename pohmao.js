@@ -1898,9 +1898,9 @@ class Fruit {
             }
             if(this.type == 2){
                 if(this.type2 == 1){
-                    if(pomao.eggs.length < 16){
+                    // if(pomao.eggs.length < 16){
                         pomao.eggmake = 161
-                    }
+                    // }
                 }
             }
             if(this.type == 7){
@@ -2968,7 +2968,7 @@ class Pomao{
 
     this.tongue.draw()
 
-    this.link = new Line(this.body.x, 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongue.x, this.tongue.y, "blue", 3)
+    this.link = new Line(this.body.x, 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongue.x, this.tongue.y, "blue",3) // radius 3 // this.tongue.radius*1.1
     this.link.draw()
     for(let t = 0; t<fruits.length; t++){
         if(fruits[t].x > this.body.x-((tutorial_canvas.width/2)+fruits[t].width) && fruits[t].x < this.body.x+((tutorial_canvas.width/2)+fruits[t].width) ){
