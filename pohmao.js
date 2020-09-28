@@ -3,6 +3,7 @@ let level = 1
 let zimgs = []
 let pmarinedisp = 0
 let jailswitch = 0
+let loader = 1
 
 // const gamepads
 
@@ -4765,10 +4766,30 @@ for(let t = 0; t<ramps.length; t++){
             }
          }
         // fracta4l.draw()
+        loader = 1000
     }else{
+        loader--
+        if(loader == 1){
+            loader = 0
+            pomao.hits = 9
+            if(level == 1){
+                loadlvl1()
+            }
+            if(level == 2){
+                loadlvl2()
+            }
+            if(level ==3){
+                loadlvl3()
+            }
+            if(level ==4){
+                loadlvl4()
+            }
+        }
+
         tutorial_canvas_context.fillStyle = "White";
         tutorial_canvas_context.font = "30px Arial";
         tutorial_canvas_context.fillText(`Pomao fell asleep and went home`, pomao.body.x-200, pomao.body.y);
+        tutorial_canvas_context.fillText(`(Loading level)`, pomao.body.x-100, pomao.body.y+50);
           tutorial_canvas.style.background = "#8888CC"
     }
 
@@ -5080,6 +5101,30 @@ pin.draw()
 }
 
 function loadlvl1(){
+    pomao.cutscene = 0
+    pomao.eggs = [pomao.body]
+    
+    tutorial_canvas_context.translate(pomao.body.x-640, pomao.body.y-360)
+    pomao.body.x = 640
+    pomao.body.y = 360
+ ramps90 = []
+ swimmers = []
+ floors = []
+ ramps = []
+ boys = []
+ deadboys = []
+ fruits = []
+ walls = []
+ invisblocks = []
+ ungrapplable = []
+ jellys = []
+ roofs = []
+ switches = []
+ blocks = []
+ nails = []
+ chats = []
+
+
 const floor = new Rectangle(-100000000, 650, 50, 7000000000, "red")
 walls.push(floor)
 roofs.push(floor)
