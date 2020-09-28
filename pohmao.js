@@ -6001,12 +6001,70 @@ pomao.body.y = 0
  roofs.push(floor)
  
 
- const platform1 = new Rectangle(-83,-340,20,2000)
+ const platform1 = new Rectangle(183,-340,20,2000)
  floors.push(platform1)
 
  const platform2 = new Rectangle(-1111,-170,20,1000)
  floors.push(platform2)
  
+ const platform3 = new Rectangle(-1111,-670,20,1000)
+ floors.push(platform3)
+
+ const platform4 = new Rectangle(-83,-940,20,2000)
+ floors.push(platform4)
+
+ const platform5 = new Rectangle(-1511,-1300,20,1000)
+ floors.push(platform5)
+
+ const platform6 = new Rectangle(-1911,-1660,20,1000)
+ floors.push(platform6)
+
+ const platform7 = new Rectangle(1500,-680,20,1000)
+ floors.push(platform7)
+
+ const platform8 = new Rectangle(2500,-980,20,1000)
+ floors.push(platform8)
+
+ const platform9 = new Rectangle(3500,-1380,20,1000)
+ floors.push(platform9)
+
+ const platform10 = new Rectangle(4500,-1700,20,1000)
+ floors.push(platform10)
+
+ const platform11 = new Rectangle(5500,-2100,20,1000)
+ floors.push(platform11)
+
+ const platform12 = new Rectangle(1500,-3450,20,1000)
+ floors.push(platform12)
+
+ const platform13 = new Rectangle(2500,-3100,20,1000)
+ floors.push(platform13)
+
+ const platform14 = new Rectangle(3500,-2800,20,1000)
+ floors.push(platform14)
+
+ const platform15 = new Rectangle(4500,-2400,20,1000)
+ floors.push(platform15)
+ 
+ 
+ const platform16 = new Rectangle(-1511,-1900,20,1000)
+ floors.push(platform16)
+
+ const platform17 = new Rectangle(-1911,-2160,20,1000)
+ floors.push(platform17)
+ 
+ const platform18 = new Rectangle(-1511,-2460,20,1000)
+ floors.push(platform18)
+ 
+ const platform19 = new Rectangle(-1911,-3060,20,1000)
+ floors.push(platform19)
+ 
+ const platform20 = new Rectangle(-1511,-3390,20,1000)
+ floors.push(platform20)
+ 
+ const platform21 = new Rectangle(-111,-3390,20,1000)
+ floors.push(platform21)
+
 }
     
 })
