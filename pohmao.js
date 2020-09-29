@@ -4328,7 +4328,7 @@ shocks.push(shockfriendly)
 
 loadlvl1()
 // // loadlvl2()
-// // loadlvl3()
+// loadlvl3()
 // loadlvl4()
 setTimeout(function(){
     
@@ -6110,11 +6110,61 @@ pomao.body.y = 0
  const platform21 = new Rectangle(-111,-3390,20,1000)
  floors.push(platform21)
 
+ for(let t = 1;t<floors.length;t++){
+     for(let k = 0;k<44;k++){
+         let fruit = new Fruit(floors[t].x+Math.random()*floors[t].width, floors[t].y-Math.random()*340, 60,60,"transparent")
+         fruits.push(fruit)
+     }
+ }
+
  const wall1 = new Rectangle(-2100, -10000, 10033, 50, "cyan")
  walls.push(wall1)
  floors.push(wall1)
  roofs.push(wall1)
  ungrapplable.push(wall1)
+
+ const wall2 = new Rectangle(9100, -10000, 10033, 50, "cyan")
+ walls.push(wall2)
+ floors.push(wall2)
+ roofs.push(wall2)
+ ungrapplable.push(wall2)
+
+ for(let t=0;t<floors.length;t++){
+    for(let k = 0;k<fruits.length;k++){
+        if(squarecircleedges(floors[t], fruits[k].body)){
+            fruits.splice(k,1)
+        }
+    }
+}
+
+for(let t=0;t<floors.length;t++){
+    for(let k = 0;k<fruits.length;k++){
+        if(squarecirclehead(floors[t], fruits[k].body)){
+            fruits.splice(k,1)
+        }
+    }
+}
+for(let t=0;t<floors.length;t++){
+   for(let k = 0;k<fruits.length;k++){
+       if(squarecirclefeet(floors[t], fruits[k].body)){
+           fruits.splice(k,1)
+       }
+   }
+}
+for(let t=0;t<fruits.length;t++){
+   for(let k = 0;k<fruits.length;k++){
+       if(fruits[t].body.repelCheck(fruits[k].body)){
+           fruits.splice(k,1)
+       }
+   }
+}
+for(let t=0;t<ramps.length;t++){
+    for(let k = 0;k<fruits.length;k++){
+        if(ramps[t].isPointInside(fruits[k].body)){
+            fruits.splice(k,1)
+        }
+    }
+}
 
 }
     
