@@ -4312,8 +4312,7 @@ tutorial_canvas_context.fillStyle = "black";
 tutorial_canvas_context.font = `${30}px Arial`;
 tutorial_canvas_context.fillText("loading", 300,350)
 
-
-let boss = new Bossbeam()
+let boss
 let pin = new Circle(9900,-8100, 10, "blue")
 let pin2 = new Circle(9900, -8100+(7*220), 100, "orange")
 const fractal = new Fractal(7)
@@ -5130,6 +5129,7 @@ walls.push(floor)
 roofs.push(floor)
 floors.push(floor)
 
+boss = new Bossbeam()
 
     
 for(let t = 0; t<10; t++){
@@ -6109,6 +6109,12 @@ pomao.body.y = 0
  
  const platform21 = new Rectangle(-111,-3390,20,1000)
  floors.push(platform21)
+
+ const wall1 = new Rectangle(-2100, -10000, 10033, 50, "cyan")
+ walls.push(wall1)
+ floors.push(wall1)
+ roofs.push(wall1)
+ ungrapplable.push(wall1)
 
 }
     
