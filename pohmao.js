@@ -465,8 +465,8 @@ document.addEventListener('keydown', (event) => {
 const tutorial_canvas = document.getElementById("tutorial");
 const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
-// tutorial_canvas_context.scale(.07,.07)
-// tutorial_canvas_context.translate(3300,8750)
+// tutorial_canvas_context.scale(.045,.045)
+// tutorial_canvas_context.translate(3300,13750)
 // tutorial_canvas_context.translate(2500,6000)
 
 tutorial_canvas.style.background = "#664613"
@@ -3471,8 +3471,8 @@ let gamepad
             }
         }
     }
-        // if(keysPressed['f']){
-        //     // tutorial_canvas_context.clearRect(0,0,tutorial_canvas.width, tutorial_canvas.height)
+        // if(keysPressed['p']){
+        //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
         // }
 
         this.bodyxtight = new Circle(this.body.x,this.body.y, 9, "red")
@@ -4313,8 +4313,8 @@ tutorial_canvas_context.font = `${30}px Arial`;
 tutorial_canvas_context.fillText("loading", 300,350)
 
 let boss
-let pin = new Circle(9900,-8100, 10, "blue")
-let pin2 = new Circle(9900, -8100+(7*220), 100, "orange")
+let pin 
+let pin2
 const fractal = new Fractal(7)
 const fracta2l = new Fractal2(7)
 const fracta3l = new Fractal3(7)
@@ -4357,7 +4357,10 @@ window.setInterval(function(){
         }else{
             tutorial_canvas_context.fillStyle =`rgba(170, 170, 255,${1})`
             tutorial_canvas_context.fillRect(-1000000000,-1000000000,tutorial_canvas.width*100000000, tutorial_canvas.height*100000000)
-
+ //pictures
+            // if(keysPressed['p']){
+            //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
+            // }
             //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
            }
     if(pomao.hits > -1){
@@ -4621,6 +4624,7 @@ for(let t = 0; t<ramps.length; t++){
             swinger1move()
         }
         
+        // swinger1move()
         pomao.draw()   
         
 
@@ -4865,6 +4869,25 @@ if(square.x <= circle.x){
         }
     }
 }
+//test
+if(square.x <= circle.x+(circle.radius*.65)){
+    if(square.y <= circle.y+circle.radius){
+        if(squareendw >= circle.x){
+            if(squareendh >= circle.y){
+                return true
+            }
+        }
+    }
+}
+if(square.x <= circle.x){
+    if(square.y <= circle.y+circle.radius){
+        if(squareendw+(circle.radius*.65) >= circle.x){
+            if(squareendh >= circle.y){
+                return true
+            }
+        }
+    }
+}
 return false
 }
 
@@ -5100,6 +5123,12 @@ pin.draw()
 }
 
 function loadlvl1(){
+
+    
+ pin = new Circle(9900,-8100, 10, "blue")
+ pin2 = new Circle(9900, -8100+(7*220), 100, "orange")
+ springs = []
+ objsprings = []
     pomao.cutscene = 0
     pomao.eggs = [pomao.body]
     
@@ -5122,6 +5151,8 @@ function loadlvl1(){
  blocks = []
  nails = []
  chats = []
+ springs = []
+ objsprings = []
 
 
 const floor = new Rectangle(-100000000, 650, 50, 7000000000, "red")
@@ -6018,6 +6049,26 @@ function loadlvl2(){
 
 function loadlvl4(){
 
+    pin = new Circle((-1950+(30*180)),(-9100-(30*57)), 10, "blue")
+    pin2 = new Circle( (-1950+(30*180)),(-9800-(30*57))+(7*220), 100, "orange")
+    springs = []
+    objsprings = []
+    
+objsprings.push(pin2)
+
+let spring = new Spring(pin)
+springs.push(spring)
+for(let k = 0; k<33;k++){
+    spring = new Spring(spring.anchor)
+    if(k < 32){
+        springs.push(spring)
+    }else if(k == 32 ){
+        spring.anchor = pin2
+        springs.push(spring)
+    }
+}
+
+
     pomao.cutscene = 0
 level = 4
 tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
@@ -6039,6 +6090,8 @@ pomao.body.y = 0
  blocks = []
  nails = []
  chats = []
+
+ ramps.push(pin2)
 
  const floor = new Rectangle(-10000,33,1030,28400)
  floors.push(floor)
@@ -6110,24 +6163,187 @@ pomao.body.y = 0
  const platform21 = new Rectangle(-111,-3390,20,1000)
  floors.push(platform21)
 
- for(let t = 1;t<floors.length;t++){
-     for(let k = 0;k<44;k++){
-         let fruit = new Fruit(floors[t].x+Math.random()*floors[t].width, floors[t].y-Math.random()*340, 60,60,"transparent")
-         fruits.push(fruit)
-     }
+
+ 
+ const platformcake = new Rectangle(700,-2040,20,1300)
+ floors.push(platformcake)
+
+
+ const shaft1 = new Rectangle( 0,-7000, 1000, 50, "red")
+ floors.push(shaft1)
+ walls.push(shaft1)
+ roofs.push(shaft1)
+
+ const shaft2 = new Rectangle( 0,-5000, 1000, 50, "red")
+ floors.push(shaft2)
+ walls.push(shaft2)
+ roofs.push(shaft2)
+
+ const shaft3 = new Rectangle( -400,-5850, 500, 50, "red")
+ floors.push(shaft3)
+ walls.push(shaft3)
+ roofs.push(shaft3)
+
+ const shaft4 = new Rectangle( 400,-5650, 500, 50, "red")
+ floors.push(shaft4)
+ walls.push(shaft4)
+ roofs.push(shaft4)
+
+ const shaft5 = new Rectangle( -2050,-6950, 1200, 20, "red")
+ floors.push(shaft5)
+ walls.push(shaft5)
+ roofs.push(shaft5)
+
+
+
+ for(let t = 0; t<7;t++){
+    const shaft7 = new Rectangle( -1900+t*200,-5800-t*10, 20, 40, "red")
+    floors.push(shaft7)
  }
 
- const wall1 = new Rectangle(-2100, -10000, 10033, 50, "cyan")
- walls.push(wall1)
- floors.push(wall1)
- roofs.push(wall1)
- ungrapplable.push(wall1)
+ 
+ for(let t = 0; t<36;t++){
+    const shaft6 = new Rectangle( -1950+t*144,-6800-t*57, 20, 36, "red")
+    floors.push(shaft6)
+ }
 
- const wall2 = new Rectangle(9100, -10000, 10033, 50, "cyan")
- walls.push(wall2)
- floors.push(wall2)
- roofs.push(wall2)
- ungrapplable.push(wall2)
+
+ for(let t = 0; t<30;t++){
+    const shaft6 = new Rectangle( (-1950+(30*180))+t*20,(-6800-(30*57))+t*100, 20, 30, "red")
+    floors.push(shaft6)
+ }
+
+ 
+ const shaft8 = new Rectangle( 300,-7000, 20, 1000, "red")
+ floors.push(shaft8)
+ 
+ const shaft9 = new Rectangle( 1600,-6500, 20, 1000, "red")
+ floors.push(shaft9)
+
+ const shaft10 = new Rectangle( 2800,-5900, 20, 1000, "red")
+ floors.push(shaft10)
+
+
+ const shaft13 = new Rectangle( 3800,-5400, 20, 1000, "red")
+ floors.push(shaft13)
+
+ 
+ const pinblock = new Rectangle((-1950+(30*180))-25,(-9100-(30*57))-25, 50,50, "blue")
+ floors.push(pinblock)
+ walls.push(pinblock)
+ roofs.push(pinblock)
+ 
+
+
+ 
+ const shaft11 = new Rectangle( 4850,-8900, 20, 1000, "red")
+ floors.push(shaft11)
+
+
+ 
+ const shaft12 = new Rectangle( 5850,-9300, 20, 2000, "red")
+ floors.push(shaft12)
+
+
+ 
+ const shaft14 = new Rectangle(4800,-9700, 20, 1000, "red")
+ floors.push(shaft14)
+
+ const shaft18 = new Rectangle(4100,-10100, 20, 500, "red")
+ floors.push(shaft18)
+
+
+ 
+ const shaft15 = new Rectangle( 5500,-5700, 20, 1000, "red")
+ floors.push(shaft15)
+
+ 
+ const shaft16 = new Rectangle( 6500,-5200, 20, 1000, "red")
+ floors.push(shaft16)
+ 
+ const shaft17 = new Rectangle( 7500,-4700, 20, 1000, "red")
+ floors.push(shaft17)
+
+
+ for(let t = 1;t<floors.length;t++){
+    for(let k = 0;k<44;k++){
+        let wet = 0
+        let fruit = new Fruit(floors[t].x+Math.random()*floors[t].width, floors[t].y-Math.random()*340, 60,60,"transparent")
+
+        for(let k=0;k<fruits.length;k++){
+            if(fruits[k].body.repelCheck(fruit.body)){
+                wet = 1
+            }
+        }
+        for(let k=0;k<floors.length;k++){
+            if(squarecircleedges(floors[k], fruit.body)){
+                wet = 1
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+}
+
+const shaft19 = new Rectangle(9050,-5700, 500, 50, "red")
+floors.push(shaft19)
+walls.push(shaft19)
+roofs.push(shaft19)
+
+const shaft20 = new Rectangle(8550,-6300, 500, 50, "red")
+floors.push(shaft20)
+walls.push(shaft20)
+roofs.push(shaft20)
+
+const shaft21 = new Rectangle(9050,-6900, 500, 50, "red")
+floors.push(shaft21)
+walls.push(shaft21)
+roofs.push(shaft21)
+
+const shaft22 = new Rectangle(8550,-7500, 500, 50, "red")
+floors.push(shaft22)
+walls.push(shaft22)
+roofs.push(shaft22)
+
+const shaft23 = new Rectangle(9050,-8100, 500, 50, "red")
+floors.push(shaft23)
+walls.push(shaft23)
+roofs.push(shaft23)
+
+const shaft24 = new Rectangle(8550,-8700, 500, 50, "red")
+floors.push(shaft24)
+walls.push(shaft24)
+roofs.push(shaft24)
+
+const shaft25 = new Rectangle(9050,-9400, 600, 50, "red")
+floors.push(shaft25)
+walls.push(shaft25)
+roofs.push(shaft25)
+
+const shaft26 = new Rectangle(8550,-10300, 600, 50, "red")
+floors.push(shaft26)
+walls.push(shaft26)
+roofs.push(shaft26)
+
+const wall1 = new Rectangle(-2100, -10000, 10033, 50, "cyan")
+walls.push(wall1)
+floors.push(wall1)
+roofs.push(wall1)
+ungrapplable.push(wall1)
+
+const wall2 = new Rectangle(9100, -10000, 10033, 50, "cyan")
+walls.push(wall2)
+floors.push(wall2)
+roofs.push(wall2)
+ungrapplable.push(wall2)
+
+
+for(let k = 0;k<fruits.length;k++){
+    fruits[k].x -=20
+    fruits[k].body.radius*=1.8
+}
+
 
  for(let t=0;t<floors.length;t++){
     for(let k = 0;k<fruits.length;k++){
@@ -6151,13 +6367,6 @@ for(let t=0;t<floors.length;t++){
        }
    }
 }
-for(let t=0;t<fruits.length;t++){
-   for(let k = 0;k<fruits.length;k++){
-       if(fruits[t].body.repelCheck(fruits[k].body)){
-           fruits.splice(k,1)
-       }
-   }
-}
 for(let t=0;t<ramps.length;t++){
     for(let k = 0;k<fruits.length;k++){
         if(ramps[t].isPointInside(fruits[k].body)){
@@ -6166,6 +6375,11 @@ for(let t=0;t<ramps.length;t++){
     }
 }
 
+for(let k = 0;k<fruits.length*5;k++){
+    swinger1move()
+    }
+
+    
 }
     
 })
