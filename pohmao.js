@@ -5160,7 +5160,7 @@ walls.push(floor)
 roofs.push(floor)
 floors.push(floor)
 
-// boss = new Bossbeam()
+boss = new Bossbeam()
 
     
 for(let t = 0; t<10; t++){
