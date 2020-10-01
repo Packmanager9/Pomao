@@ -176,6 +176,8 @@ let nails = []
 let dry = 0
 const floorimg = new Image()
 floorimg.src ="floor4.png"
+const cloudimg = new Image()
+cloudimg.src ="cloudlist.png"
 const batimg = new Image()
 batimg.src ="bat.png"
 const lvl2floorimg = new Image()
@@ -4032,6 +4034,242 @@ class Bat{
 
     }
 }
+class Cloud{
+    constructor(x,y){
+        this.type = 2//Math.floor(Math.random()*3)
+        this.anchor = {}
+        this.anchor.xdif = 0
+        this.anchor.ydif = 0
+        this.marked = 0
+        this.out = 0
+        this.pops = []
+        this.bopped = 0
+        this.xrepelled = 0
+        this.yrepelled = 0
+        this.body = new Circle(x,y, 15,"transparent")
+        this.bodyanchor = new Circle(this.body.x+((Math.random()-.5)*200), this.body.y+((Math.random()-.5)*200), 10,"transparent")
+        this.bodydraw = new Circlec(this.body.x,this.body.y,22,"red")
+        this.bodydrawhuge = new Circlec(this.body.x,this.body.y,this.body.radius+17,"#AA00DD")
+        this.frame = Math.floor(Math.random()*14)
+        this.click = 0
+        this.clean()
+    }
+    draw(){
+
+        this.click++
+        if(this.click == 4){
+            this.frame++
+            this.frame%=14
+            this.click = 0
+        }
+
+         if(this.out<=0 ){
+
+            this.yank() 
+            // this.move()
+            this.bodydraw = new Circlec(this.body.x,this.body.y,this.body.radius+7,"#AA00DD")
+            this.bodydrawhuge = new Circlec(this.body.x,this.body.y,this.body.radius+17,"#AA00DD")
+            tutorial_canvas_context.drawImage(cloudimg, this.frame*48, 0, 48, 48, this.body.x-(24*(this.body.radius*.06666666666)), this.body.y-(24*(this.body.radius*.06666666666)), 48*(this.body.radius*.06666666666),  48*(this.body.radius*.06666666666))
+
+      }
+    
+
+    }
+    
+    pop(){
+        let rotx = 0
+        let roty = 0
+
+        for(let g = 0; g < 7; g++){
+            let color = "yellow"
+  
+            const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius/4, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
+            this.pops.push(dot1)
+            rotx += 2*Math.PI/7
+            roty += 2*Math.PI/7
+        }
+    
+    }
+    popdraw(){
+        for(let t = 0;t<this.pops.length; t++){
+            if(this.pops[t].radius < .1){
+                this.pops.splice(t,1)
+            }
+        }
+        for(let t = 0;t<this.pops.length; t++){
+            this.pops[t].radius*=.8
+            this.pops[t].move()
+            this.pops[t].draw()
+        }
+        for(let t = 0;t<this.pops.length; t++){
+            if(this.pops[t].radius < .1){
+                this.pops.splice(t,1)
+            }
+        }
+    }
+    clean(){
+    
+        this.bodydraw = new Circlec(this.body.x,this.body.y,this.body.radius+7,"#AA00DD")
+        this.bodydrawhuge = new Circlec(this.body.x,this.body.y,this.body.radius+17,"#AA00DD")
+        for(let t = 0; t<shockfriendly.shocksl.length; t++){
+            if(this.bodydrawhuge.repelCheck(shockfriendly.shocksl[t])){
+             if(this.out<=0){
+                this.pop()
+             }
+             this.out =45
+                 break
+             }
+
+         }
+         for(let t = 0; t<shockfriendly.shocksr.length; t++){
+                if(this.bodydrawhuge.repelCheck(shockfriendly.shocksr[t])){
+                 if(this.out<=0){
+                    this.pop()
+                 }
+                 this.out =45
+                     break
+                 }
+ 
+             }
+         for(let t = 0; t<pomao.thrown.length; t++){
+                if(this.bodydraw.repelCheck(pomao.thrown[t])){
+                 //    boys[k].pop()
+                 //    deadboys.push(boys[k])
+                 //     boys.splice(k,1)
+                 if(this.out<=0){
+                    this.pop()
+                 }
+                 this.out =45
+                     break
+                 }
+ 
+             }
+
+        if(this.body.radius <= 1.5){
+            this.out = 1
+            pomao.hits+=1
+            if(pomao.hits>9){
+                pomao.hits = 9
+            }
+        if(pomao.eggs.length < 16){
+
+        const seepx = new Seed(pomao.eggs[pomao.eggs.length-1])
+            pomao.eggs.push(seepx)
+        }
+        }
+
+        if(this.out==1){
+            
+            bats.splice(bats.indexOf(this),1)
+        }else if(this.out>1){
+            this.popdraw()
+        }
+        this.out--
+    }
+    yank(){
+
+        this.body.x+= (this.bodyanchor.x-this.body.x)/(60-(this.frame*2))
+        this.body.y+= (this.bodyanchor.y-this.body.y)/(60-(this.frame*2))
+        this.bodyanchor.x -= (this.bodyanchor.x-pomao.body.x)/(16-this.frame)
+        this.bodyanchor.y -= (this.bodyanchor.y-pomao.body.y)/(16-this.frame)
+        if(Math.random()<.1){
+            this.bodyanchor = new Circle(this.bodyanchor.x+((Math.random()-.5)*1200), this.bodyanchor.y+((Math.random()-.5)*1200), 100,"transparent")
+            }
+
+            
+        this.xrepel = 0
+        this.yrepel = 0
+        
+    
+    if(this.bodydraw.repelCheck(pomao.tongue)  || pomao.tonguebox.isPointInside(this.body)){
+      this.marked = 1  
+      this.body.radius*=.975
+      if(this.anchor.xdif+this.anchor.ydif == 0){
+        this.anchor.xdif = pomao.tongue.x-this.bodydraw.x
+        this.anchor.ydif =pomao.tongue.y- this.bodydraw.y
+        const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red",1)
+        const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x-this.anchor.xdif, pomao.tongue.y-this.anchor.ydif, "red",1)
+        if(link2.hypotenuse() > link1.hypotenuse()-10){
+        this.anchor.xdif = .001
+        this.anchor.ydif = 0
+        }
+    }
+    }
+    if(this.bodydraw.repelCheck(pomao.body) && (this.bodydraw.repelCheck(pomao.tongue)|| (this.marked == 1 ||this.marked == 2))){
+      this.body.radius*=.9
+      this.marked = 2
+      pomao.diry = 1
+    }else if (this.bodydraw.repelCheck(pomao.body) && !this.bodydraw.repelCheck(pomao.tongue )){
+        if(this.body.x > pomao.body.x){
+            this.bump = 1
+        }else{
+            this.bump = -1
+        }
+    //   if(pomao.body.ymom == 0){
+              if(this.body.radius >= 15){
+                  if(pomao.disabled != 1){
+                      if(pomao.pounding!=10){
+                        pomao.body.xmom = -3*(this.bump)
+                        pomao.disabled = 1
+                        pomao.hits--
+                         pomao.body.ymom = -1.8
+                         this.body.xmom = -pomao.body.xmom
+                      }
+                  }else{
+                      if(this.bump*pomao.body.xmom >0){
+                        pomao.body.xmom = -1.8*(this.bump)
+                        pomao.body.ymom = -1.8
+                        this.body.xmom = -pomao.body.xmom
+                      }
+                  }
+              }
+    //   }
+    }
+
+    if(this.marked == 1){
+        this.body.x  -= ((this.body.x-pomao.tongue.x)/1)+(this.anchor.xdif*.9)
+        this.body.y -= ((this.body.y-pomao.tongue.y)/1)+(this.anchor.ydif*.9)
+    }
+    if(this.marked == 2){
+      this.body.x  -= ((this.body.x-pomao.body.x)/1.1)
+      this.body.y -= ((this.body.y-pomao.body.y)/1.1)
+      this.marked = 2
+      pomao.diry = 1
+    }
+
+    if(this.marked == 0){
+            for(let f = 0; f<bats.length; f++){
+                if(this!==bats[f]){
+                    if(this.bodydraw.repelCheck( bats[f].bodydraw)){
+                        const distance = ((new Line(bats[f].body.x, bats[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse())-(bats[f].bodydraw.radius+this.bodydraw.radius)
+                        const angleRadians = Math.atan2(bats[f].body.y - this.body.y, bats[f].body.x - this.body.x);
+                        this.xrepel += (Math.cos(angleRadians)*distance)/2
+                        this.yrepel += (Math.sin(angleRadians)*distance)/2
+                        // bats[f].xrepelled = 1
+                    }
+                }
+            }
+
+            if(this.xrepelled == 0){
+                if(this.type == 0){
+                    this.body.x+=this.xrepel
+                    this.body.y+=this.yrepel
+                }else  if(this.type == 1){
+                    this.body.x+=this.xrepel
+                    this.body.x+=this.yrepel/2
+                }else  if(this.type == 2){
+                    this.body.y+=this.xrepel/2
+                    this.body.y+=this.yrepel
+                }
+            }
+
+            this.xrepelled = 0
+            this.yrepelled = 0
+
+        }
+
+    }
+}
 class Bossbeam {
     constructor(){
         this.wall1 = new Rectangle(4700, -800, 1500, 50, "red")
@@ -4564,10 +4802,10 @@ let door = new Rectangle(4550, 450, 200, 200, "#090909")
 const shockfriendly = new Shockwave(pomao.body)
 shocks.push(shockfriendly)
 
-loadlvl1()
+// loadlvl1()
 // loadlvl2()
 // loadlvl3()
-// loadlvl4()
+loadlvl4()
 setTimeout(function(){
     
 
@@ -5076,7 +5314,7 @@ for(let t = 0; t<ramps.length; t++){
     // swinger1move()
 },  14) 
 
-}, 6969);  //6969
+}, 1);  //6969
 
 function squarecirclefaceblockjump(square, circle){
 const squareendh = square.y + square.height
@@ -6666,6 +6904,15 @@ for(let k = 1; k<floors.length;k++){
     if(floors[k].width > 99){
         for(let t = 0;t<5;t++){
             let bat = new Bat(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
+            bats.push(bat)
+         }
+    }
+}
+
+for(let k = 1; k<floors.length;k++){
+    if(floors[k].width < 99){
+        for(let t = 0;t<2;t++){
+            let bat = new Cloud(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
             bats.push(bat)
          }
     }
