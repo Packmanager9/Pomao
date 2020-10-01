@@ -466,7 +466,7 @@ const tutorial_canvas = document.getElementById("tutorial");
 const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
 // tutorial_canvas_context.scale(.045,.045)
-// tutorial_canvas_context.translate(3300,13750)
+// tutorial_canvas_context.translate(3300,14750)
 // tutorial_canvas_context.translate(2500,6000)
 
 tutorial_canvas.style.background = "#664613"
@@ -4838,7 +4838,7 @@ for(let t = 0; t<ramps.length; t++){
     // swinger1move()
 },  14) 
 
-}, 6969);  //6969
+}, 1);  //6969
 
 function squarecirclefaceblockjump(square, circle){
 const squareendh = square.y + square.height
@@ -6271,6 +6271,33 @@ pomao.body.y = 0
  floors.push(shaft18)
 
 
+ const shaft28 = new Rectangle(3800,-10400, 20, 300, "red")
+ floors.push(shaft28)
+
+
+ const shaft34 = new Rectangle(3950,-10900, 20, 300, "red")
+ floors.push(shaft34)
+
+
+ const shaft35 = new Rectangle(4450,-11300, 20, 300, "red")
+ floors.push(shaft35)
+
+
+ const shaft36 = new Rectangle(4850,-11700, 20, 300, "red")
+ floors.push(shaft36)
+
+ const shaft37  = new Rectangle(4250,-12000, 20, 300, "red")
+ floors.push(shaft37)
+
+ const shaft38 = new Rectangle(4850,-12400, 20, 300, "red")
+ floors.push(shaft38)
+
+ const shaft39 = new Rectangle(5250,-12700, 20, 500, "red")
+ floors.push(shaft39)
+
+ const shaft40 = new Rectangle(5750,-12900, 20, 500, "red")
+ floors.push(shaft40)
+
  
  const shaft15 = new Rectangle( 5500,-5700, 20, 1000, "red")
  floors.push(shaft15)
@@ -6344,13 +6371,43 @@ floors.push(shaft26)
 walls.push(shaft26)
 roofs.push(shaft26)
 
-const wall1 = new Rectangle(-2100, -10000, 10033, 50, "cyan")
+const shaft27 = new Rectangle(8250,-11000, 300, 50, "red")
+floors.push(shaft27)
+walls.push(shaft27)
+roofs.push(shaft27)
+
+const shaft29 = new Rectangle(7950,-11500, 300, 50, "red")
+floors.push(shaft29)
+walls.push(shaft29)
+roofs.push(shaft29)
+
+const shaft30 = new Rectangle(7550,-12000, 300, 50, "red")
+floors.push(shaft30)
+walls.push(shaft30)
+roofs.push(shaft30)
+
+const shaft31 = new Rectangle(7050,-12500, 300, 50, "red")
+floors.push(shaft31)
+walls.push(shaft31)
+roofs.push(shaft31)
+
+const shaft32 = new Rectangle(7550,-13000, 300, 50, "red")
+floors.push(shaft32)
+walls.push(shaft32)
+roofs.push(shaft32)
+
+const shaft33 = new Rectangle(7050,-13500, 300, 50, "red")
+floors.push(shaft33)
+walls.push(shaft33)
+roofs.push(shaft33)
+
+const wall1 = new Rectangle(-2100, -30000, 30033, 50, "cyan")
 walls.push(wall1)
 floors.push(wall1)
 roofs.push(wall1)
 ungrapplable.push(wall1)
 
-const wall2 = new Rectangle(9100, -10000, 10033, 50, "cyan")
+const wall2 = new Rectangle(9100, -30000, 30033, 50, "cyan")
 walls.push(wall2)
 floors.push(wall2)
 roofs.push(wall2)
