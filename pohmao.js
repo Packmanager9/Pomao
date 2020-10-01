@@ -4312,7 +4312,7 @@ tutorial_canvas_context.fillStyle = "black";
 tutorial_canvas_context.font = `${30}px Arial`;
 tutorial_canvas_context.fillText("loading", 300,350)
 
-let boss
+let boss = new Bossbeam()
 let pin 
 let pin2
 const fractal = new Fractal(7)
@@ -4327,7 +4327,7 @@ const shockfriendly = new Shockwave(pomao.body)
 shocks.push(shockfriendly)
 
 loadlvl1()
-// // loadlvl2()
+// loadlvl2()
 // loadlvl3()
 // loadlvl4()
 setTimeout(function(){
@@ -5160,7 +5160,7 @@ walls.push(floor)
 roofs.push(floor)
 floors.push(floor)
 
-boss = new Bossbeam()
+// boss = new Bossbeam()
 
     
 for(let t = 0; t<10; t++){
@@ -5789,6 +5789,11 @@ fruits.push(cake2)
 
 function loadlvl2(){
 
+    
+ pin = new Circle(9900,-8100, 10, "blue")
+ pin2 = new Circle(9900, -8100+(7*220), 100, "orange")
+
+
     pomao.cutscene = 0
     level = 2
     tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
@@ -5811,11 +5816,15 @@ function loadlvl2(){
      blocks = []
      nails = []
      chats = []
+     
     
      const floor = new Rectangle(-1000,33,645,20000)
      floors.push(floor)
      walls.push(floor)
      roofs.push(floor)
+
+     
+// boss = new Bossbeam()
     
      const lvl2wall1 = new Rectangle(-83,-1000,1033,50)
      floors.push(lvl2wall1)
@@ -5923,6 +5932,9 @@ function loadlvl2(){
     }
     }
     function loadlvl3(){
+        
+ pin = new Circle(9900,-8100, 10, "blue")
+ pin2 = new Circle(9900, -8100+(7*220), 100, "orange")
     
         pomao.eggs = [pomao.body]
         pomao.cutscene = 0
@@ -5946,6 +5958,9 @@ function loadlvl2(){
      blocks = []
      nails = []
      chats = []
+
+     
+// boss = new Bossbeam()
     
      const lvl3wall1 = new Rectangle(-183,-1000,1033,50)
      floors.push(lvl3wall1)
@@ -6090,6 +6105,9 @@ pomao.body.y = 0
  blocks = []
  nails = []
  chats = []
+
+ 
+// boss = new Bossbeam()
 
  ramps.push(pin2)
 
