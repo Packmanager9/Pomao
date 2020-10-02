@@ -555,7 +555,7 @@ window.addEventListener('mousedown', e => {
     }
     draw(){
         // this.build()
-        if(this.bigbody.repelCheck(pomao.body)){
+        // if(this.bigbody.repelCheck(pomao.body)){
             this.angle+=.01
             this.build()
             this.body.draw()
@@ -563,7 +563,7 @@ window.addEventListener('mousedown', e => {
             for(let w = 0; w<this.wings.length; w++){
                 this.wings[w].draw()
             }
-        }
+        // }
     }
 }
 
@@ -4879,10 +4879,10 @@ let door = new Rectangle(4550, 450, 200, 200, "#090909")
 const shockfriendly = new Shockwave(pomao.body)
 shocks.push(shockfriendly)
 
-// loadlvl1()
+loadlvl1()
 // loadlvl2()
 // loadlvl3()
-loadlvl4()
+// loadlvl4()
 setTimeout(function(){
     
 
@@ -6781,6 +6781,9 @@ pomao.body.y = 0
  
  const platformcake = new Rectangle(700,-2040,20,1300)
  floors.push(platformcake)
+ 
+ const platformsafe = new Rectangle(7400,-2040,20,1700)
+ floors.push(platformsafe)
 
 
  const shaft1 = new Rectangle( 0,-7000, 1000, 50, "red")
@@ -7008,6 +7011,22 @@ walls.push(wall2)
 floors.push(wall2)
 roofs.push(wall2)
 ungrapplable.push(wall2)
+
+
+for(let t = 0;t<11;t++){
+
+    const rockfloor = new Rectangle(400+t*600, (-10300-4950) + 60*t, 50,50)
+    floors.push(rockfloor)
+    walls.push(rockfloor)
+    roofs.push(rockfloor)
+
+}
+
+
+const rockfloor = new Rectangle(1000+6000, (-10300-4950) + 350, 20,1050)
+floors.push(rockfloor)
+walls.push(rockfloor)
+roofs.push(rockfloor)
 
 for(let k = 1; k<floors.length;k++){
     if(floors[k].width > 99){
