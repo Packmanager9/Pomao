@@ -4,7 +4,10 @@ let zimgs = []
 let pmarinedisp = 0
 let jailswitch = 0
 let loader = 1
+let spinny
+let spinnys = []
 
+let floormpf
 // const gamepads
 
 for(let i = 1; i < 44; i++) {
@@ -500,6 +503,69 @@ window.addEventListener('mousedown', e => {
       console.log(pomao)
 
  });
+
+ 
+ class Spinwheel{
+    constructor(x,y){
+      this.body = new Circle(x,y, 2, "red")
+      this.bigbody = new Circle(x,y, 1900, "red")
+      this.wings = []
+      this.dis = 130
+      this.angle = 0
+      this.build()
+    }
+    build(){
+        for(let f = floors.length;f>0;f--){
+            if(this.wings.includes(floors[f])){
+              if(squarecirclefeetspin(floors[f], pomao.body)){
+                  pomao.wingthing =this.wings.indexOf(floors[f])
+                  pomao.xdisp = floors[f].x
+                  pomao.ydisp = floors[f].y
+                  f = 0
+              }
+              //   floors.splice(f,1)
+            }
+        }
+        this.wings = []
+
+        this.dis = 100
+        let increment = Math.PI/1.5
+        let angle = this.angle
+        for(let w = 0; w<300; w++){
+         
+            let wing = new Rectangle(this.body.x +(1*(Math.cos(angle)*this.dis)), this.body.y +(1*(Math.sin(angle)*this.dis)), 20,20, "green")
+            wing.thing = w
+            if(wing.thing == pomao.wingthing){
+              if(squarecirclefeet(wing, pomao.body)){
+                  pomao.body.x += wing.x - pomao.xdisp
+                  pomao.body.y += wing.y - pomao.ydisp
+
+          tutorial_canvas_context.translate(-(wing.x - pomao.xdisp), -(wing.y - pomao.ydisp))
+
+              }
+            }
+            floors.push(wing)
+            this.wings.push(wing)
+            angle+=increment
+            if(w%3 == 0 ){
+              this.dis+=5
+          }
+        }
+    }
+    draw(){
+        // this.build()
+        if(this.bigbody.repelCheck(pomao.body)){
+            this.angle+=.01
+            this.build()
+            this.body.draw()
+          //   this.bigbody.draw()
+            for(let w = 0; w<this.wings.length; w++){
+                this.wings[w].draw()
+            }
+        }
+    }
+}
+
 
  class CircleF{
     constructor(x, y, radius, color, xmom = 0, ymom = 0){
@@ -2337,6 +2403,16 @@ class Shape{
     
         return false
     }
+    isInsideOf(box){
+
+        for(let t = 0; t<this.shapes.length;t++){
+            if(box.isPointInside(this.shapes[t])){
+                return true
+            }
+        }
+    
+        return false
+    }
 
 }
 class Pomao{
@@ -2601,7 +2677,7 @@ class Pomao{
                         const cloudpuff = new Shockwave(this.body)
                         shocks.push(cloudpuff)
                     }
-                }else if(squarecircleedges(floors[t],pomao.tongue) && !this.body.repelCheck(this.tongue)){
+                }else if((squarecircleedges(floors[t],pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)){
                     if(!ungrapplable.includes(floors[t])){
                     // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                     // this.body.y = floors[t].y-this.body.radius
@@ -4802,10 +4878,10 @@ let door = new Rectangle(4550, 450, 200, 200, "#090909")
 const shockfriendly = new Shockwave(pomao.body)
 shocks.push(shockfriendly)
 
-// loadlvl1()
+loadlvl1()
 // loadlvl2()
 // loadlvl3()
-loadlvl4()
+// loadlvl4()
 setTimeout(function(){
     
 
@@ -4982,6 +5058,12 @@ window.setInterval(function(){
             loadlvl4()
             pmarinedisp = 0
         }
+        }
+        if(level == 4){
+            floors = [...floormpf]
+            for(let t = 0;t<spinnys.length;t++){
+                spinnys[t].draw()
+            }
         }
 
        
@@ -5314,7 +5396,7 @@ for(let t = 0; t<ramps.length; t++){
     // swinger1move()
 },  14) 
 
-}, 1);  //6969
+}, 6969);  //6969
 
 function squarecirclefaceblockjump(square, circle){
 const squareendh = square.y + square.height
@@ -5450,6 +5532,24 @@ if(square.x <= circle.x+circle.radius){
 }
 return false
 }
+
+function squarecirclefeetspin(square, circle){
+
+    let squareendh = square.y + square.height
+    let squareendw = square.x + square.width
+
+    if(square.x <= circle.x){
+        if(square.y <= circle.y+circle.radius+3.5){
+            if(squareendw >= circle.x){
+                if(squareendh >= circle.y+(circle.radius-1)){
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+
 function squarecircleedges(square, circle){
 const squareendh = square.y + square.height
 const squareendw = square.x + square.width
@@ -5636,6 +5736,7 @@ function loadlvl1(){
  chats = []
  springs = []
  objsprings = []
+ spinnys = []
 
 
 const floor = new Rectangle(-100000000, 650, 50, 7000000000, "red")
@@ -6268,6 +6369,7 @@ cake2.type = 11
 cake2.type2 = 11
 fruits.push(cake2)
 
+floormpf = [...floors]
 }
 
 function loadlvl2(){
@@ -6300,6 +6402,7 @@ function loadlvl2(){
      blocks = []
      nails = []
      chats = []
+     spinnys = []
      
     
      const floor = new Rectangle(-1000,33,645,20000)
@@ -6414,6 +6517,8 @@ function loadlvl2(){
         }
         floors.push(livingfloor)
     }
+    
+    floormpf = [...floors]
     }
     function loadlvl3(){
         
@@ -6443,6 +6548,7 @@ function loadlvl2(){
      blocks = []
      nails = []
      chats = []
+     spinnys = []
 
      
 // boss = new Bossbeam()
@@ -6545,6 +6651,7 @@ function loadlvl2(){
     
      door = new Rectangle(-10000,-10000, 20000, 9500, "#090909")
     
+     floormpf = [...floors]
     }
 
 function loadlvl4(){
@@ -6574,6 +6681,7 @@ level = 4
 tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
 pomao.body.x = 0
 pomao.body.y = 0
+ spinnys = []
  ramps90 = []
  swimmers = []
  bats = []
@@ -6904,16 +7012,18 @@ for(let k = 1; k<floors.length;k++){
     if(floors[k].width > 99){
         for(let t = 0;t<5;t++){
             let bat = new Bat(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
-            bats.push(bat)
+            // bats.push(bat)
          }
     }
 }
 
 for(let k = 1; k<floors.length;k++){
     if(floors[k].width < 99){
-        for(let t = 0;t<2;t++){
+        for(let t = 0;t<1;t++){
             let bat = new Cloud(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
-            bats.push(bat)
+            if(Math.random()<.5){
+                bats.push(bat)
+            }
          }
     }
 }
@@ -6960,6 +7070,13 @@ for(let k = 0;k<fruits.length*5;k++){
     swinger1move()
     }
 
+    floormpf = [...floors]
+    for(let t = 0;t<5;t++){
+
+        spinny = new Spinwheel(2600-t*700, -11300-t*990)
+        spinnys.push(spinny)
+
+    }
     
 }
     
