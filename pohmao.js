@@ -541,6 +541,7 @@ window.addEventListener('mousedown', e => {
                   pomao.body.y += wing.y - pomao.ydisp
 
           tutorial_canvas_context.translate(-(wing.x - pomao.xdisp), -(wing.y - pomao.ydisp))
+          dry = 1
 
               }
             }
@@ -4878,10 +4879,10 @@ let door = new Rectangle(4550, 450, 200, 200, "#090909")
 const shockfriendly = new Shockwave(pomao.body)
 shocks.push(shockfriendly)
 
-loadlvl1()
+// loadlvl1()
 // loadlvl2()
 // loadlvl3()
-// loadlvl4()
+loadlvl4()
 setTimeout(function(){
     
 
@@ -7010,7 +7011,7 @@ ungrapplable.push(wall2)
 
 for(let k = 1; k<floors.length;k++){
     if(floors[k].width > 99){
-        for(let t = 0;t<5;t++){
+        for(let t = 0;t<2;t++){
             let bat = new Bat(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
             bats.push(bat)
          }
