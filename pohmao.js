@@ -4879,10 +4879,10 @@ let door = new Rectangle(4550, 450, 200, 200, "#090909")
 const shockfriendly = new Shockwave(pomao.body)
 shocks.push(shockfriendly)
 
-loadlvl1()
+// loadlvl1()
 // loadlvl2()
 // loadlvl3()
-// loadlvl4()
+loadlvl4()
 setTimeout(function(){
     
 
@@ -5061,6 +5061,11 @@ window.setInterval(function(){
         }
         }
         if(level == 4){
+            
+          
+            let prisoner3height = 68+(Math.sin(((pomao.timeloop*.6)+3.14))*.8)
+            
+            tutorial_canvas_context.drawImage(prisoner3img, 0,0,prisoner3img.width,prisoner3img.height, 213,-3456-(Math.sin(((pomao.timeloop*.6)+3.14))*.8), 70,prisoner3height)
             floors = [...floormpf]
             for(let t = 0;t<spinnys.length;t++){
                 spinnys[t].draw()
@@ -6774,7 +6779,7 @@ pomao.body.y = 0
  const platform20 = new Rectangle(-1511,-3390,20,1000)
  floors.push(platform20)
  
- const platform21 = new Rectangle(-111,-3390,20,1000)
+ const platform21 = new Rectangle(-111,-3390,20,1000) // prisoner floor
  floors.push(platform21)
 
 
@@ -6929,6 +6934,23 @@ pomao.body.y = 0
         }
     }
 }
+
+
+     
+//  const platform21 = new Rectangle(-111,-3390,20,1000) // prisoner floor
+const prisoner3block = new Rectangle(213,-3450, 90,60)
+floors.push(prisoner3block)
+walls.push(prisoner3block)
+roofs.push(prisoner3block)
+invisblocks.push(prisoner3block)
+
+
+let prisoner3dialogue = new Dialogue(213,-3450)
+prisoner3dialogue.words.push( "If only I werent so fat...")
+prisoner3dialogue.words.push( "I would pogo flutter up to those walls...")
+prisoner3dialogue.words.push( "... those guys left me behind...")
+prisoner3dialogue.words.push( "... Hey, thanks for flipping the switch.")
+chats.push(prisoner3dialogue)
 
 const shaft19 = new Rectangle(9050,-5700, 500, 50, "red")
 floors.push(shaft19)
