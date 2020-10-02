@@ -531,7 +531,7 @@ window.addEventListener('mousedown', e => {
         this.dis = 100
         let increment = Math.PI/1.5
         let angle = this.angle
-        for(let w = 0; w<300; w++){
+        for(let w = 0; w<99; w++){
          
             let wing = new Rectangle(this.body.x +(1*(Math.cos(angle)*this.dis)), this.body.y +(1*(Math.sin(angle)*this.dis)), 20,20, "green")
             wing.thing = w
@@ -548,7 +548,7 @@ window.addEventListener('mousedown', e => {
             this.wings.push(wing)
             angle+=increment
             if(w%3 == 0 ){
-              this.dis+=5
+              this.dis+=15
           }
         }
     }
@@ -7012,7 +7012,7 @@ for(let k = 1; k<floors.length;k++){
     if(floors[k].width > 99){
         for(let t = 0;t<5;t++){
             let bat = new Bat(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
-            // bats.push(bat)
+            bats.push(bat)
          }
     }
 }
