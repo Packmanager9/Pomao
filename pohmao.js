@@ -306,10 +306,10 @@ const boysprites = new Image()
 boysprites.src = 'boisterousboys.png'
 
 const cactusimg = new Image()
-cactusimg.src = 'cactus.png'
+cactusimg.src = 'cactusdark.png'
 
 const cactusimgtop = new Image()
-cactusimgtop.src = 'cactustop.png'
+cactusimgtop.src = 'cactustopdark.png'
 
 const pomomimg = new Image()
 pomomimg.src = 'pomom.png'
@@ -2040,7 +2040,7 @@ class Cactus {
         this.jumpcounter++
         if(this.jumpcounter%this.jumpcountercap == 0){
             if(this.dry == 1){
-                this.ymom = -7.1
+                this.ymom = -6.7 //7.1
             }
         }
         }else{  
@@ -2051,7 +2051,7 @@ class Cactus {
 
         }
         if(this.parent.marked != 0 && this.parent != 0){
-                this.ymom -=10
+                this.ymom -=5  // 10
         }
         if(!boys.includes(this.parent) || this.parent.marked != 0 ){
      
@@ -2114,10 +2114,11 @@ class Cactus {
     
     this.bodyx = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
     
-    this.body = new Circle(this.x+this.width/2, this.y+this.height/1.5+(this.width/5), this.width/2.4, "blue")
+    this.body = new Circle(this.x+this.width/2, this.y+this.height/1.5+(this.width/5), this.width/1.4, "blue")  //2.4
     // this.body.draw()
     // tutorial_canvas_context.drawImage(boysprites, srcx, srcy, width, height, this.x, (10+this.y)-(Math.sin(this.timeloop)), this.width, this.height+(Math.sin(this.timeloop)))
     // this.bodyx.draw()
+    // this.body.draw()
       if(this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)){
         // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
         // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
