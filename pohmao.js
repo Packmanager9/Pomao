@@ -5348,8 +5348,9 @@ for(let t = 0; t<ramps.length; t++){
         //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
         if(boss.body1.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body1.radius) && boss.body1.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body1.radius) ){
             if(boss.body1.y > pomao.body.y-((tutorial_canvas.height*3)+boss.body1.radius) && boss.body1.y < pomao.body.y+((tutorial_canvas.height*3)+boss.body1.radius) ){
-
-             boss.draw()
+                if(level == 1){
+                    boss.draw()
+                }
             }
          }
         // fracta4l.draw()
@@ -5370,6 +5371,9 @@ for(let t = 0; t<ramps.length; t++){
             }
             if(level ==4){
                 loadlvl4()
+            }
+            if(level ==5){
+                loadlvl5()
             }
         }
 
