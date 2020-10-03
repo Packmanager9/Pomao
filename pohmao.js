@@ -305,6 +305,12 @@ pomaofbh.src = 'pomaofbh.png'
 const boysprites = new Image()
 boysprites.src = 'boisterousboys.png'
 
+const cactusimg = new Image()
+cactusimg.src = 'cactus.png'
+
+const cactusimgtop = new Image()
+cactusimgtop.src = 'cactustop.png'
+
 const pomomimg = new Image()
 pomomimg.src = 'pomom.png'
 
@@ -1830,6 +1836,421 @@ class Boys {
     // }
 }
 
+class Cactus {
+    constructor(x, y, height, width, color) {
+        this.parent = 0
+        this.child = 0
+        this.pops = []
+        this.squish = []
+        this.x = x
+        this.xdisp = 0
+        this.marked = 0
+        this.y = y
+        this.height = height
+        this.width = width
+        this.color = color
+        this.xmom = 0
+        this.ymom = 0
+        this.dry = 0
+        this.anchor = {}
+        this.anchor.xdif = 0
+        this.anchor.ydif = 0
+        this.timeloop = 0
+        this.type =  0 //Math.floor(Math.random()*17)
+        this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
+        this.jumpcountercap = Math.floor(Math.random()*700)+100
+        this.jumpcounter = Math.floor(Math.random()*this.jumpcountercap)
+        this.cactus = 1
+    }
+    pop(){
+        let rotx = 0
+        let roty = 0
+        const color = getRandomLightColor()
+        for(let g = 0; g < 7; g++){
+            const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius/4, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
+            this.pops.push(dot1)
+            rotx += 2*Math.PI/7
+            roty += 2*Math.PI/7
+        }
+    
+    }
+    popdraw(){
+        for(let t = 0;t<this.pops.length; t++){
+            if(this.pops[t].radius < .1){
+                this.pops.splice(t,1)
+            }
+        }
+        for(let t = 0;t<this.pops.length; t++){
+            this.pops[t].radius*=.8
+            this.pops[t].move()
+            this.pops[t].draw()
+        }
+        for(let t = 0;t<this.pops.length; t++){
+            if(this.pops[t].radius < .1){
+                this.pops.splice(t,1)
+            }
+        }
+    }
+
+    gravity(){
+        
+        if(this.dry == 1){
+            if(this.ymom > 0){
+                this.ymom = 0
+            }
+            if(this.jumping == 0){
+                 this.timeloopx = 0
+            }
+            this.jumping = 0
+        }else{
+            this.jumping = 1
+            if(this.parent == 0){
+                this.ymom += .1
+            }
+        }
+        this.dry = 0
+        this.rstorage  = this.body.radius
+        this.body.radius =  this.height*1.15
+        for(let t = 0; t<floors.length; t++){
+            if(squarecirclefeet(floors[t], this.body)){
+                if(Math.abs((this.y+this.body.radius)-floors[t].y) <= this.body.radius){
+                    if(this.ymom > -.3){
+                        this.y = floors[t].y-this.body.radius
+                        this.dry = 1
+                    }
+                    break
+                }
+            }
+        }
+        this.footspot = new Circle(this.body.x, this.body.y+((this.body.radius/2)-.01), 3, "red")
+        for(let t = 0; t<ramps.length; t++){
+        if(ramps[t].isPointInside(this.footspot)){
+        for(let k = 0; k< 10000; k++){
+
+                this.footspot = new Circle(this.body.x, this.body.y+((this.body.radius/2)-1), 3, "red")
+                if(ramps[t].isPointInside(this.footspot)){
+
+                    // if(this.footspot.y - this.body.radius  < this.body.y + this.body.radius ){
+
+                        this.body.y =  this.footspot.y - this.body.radius/2 
+                        this.y = this.body.y - this.height/2.3
+
+                    // }
+                
+                    }
+                }
+
+                this.dry = 1
+                // break
+            }
+        }
+        this.body.radius =  this.body.radius/2
+        for(let t = 0; t<floors.length; t++){
+
+            if(squarecirclefeet(floors[t], this.body)){
+                if(Math.abs((this.y+this.body.radius)-floors[t].y) <= this.body.radius){
+                    if(this.ymom > -.3){
+                        if(floors[t].y-this.body.radius < this.y){
+                            this.y = floors[t].y-this.body.radius
+                            this.dry = 1
+                        }
+                    }
+                    break
+                }
+            }
+        }
+        this.body.radius =  this.rstorage 
+    }
+    move(){
+
+        if(this.parent == 0){
+
+        this.xrepel = 0
+        this.yrepel = 0
+
+        this.rstorage  = this.body.radius
+        this.body.radius = 20
+
+        
+
+            for(let f = 0; f<boys.length; f++){
+                if(this!==boys[f]){
+                    if(this.body.repelCheck( boys[f].body)){
+                        const distance = ((new Line(boys[f].body.x, boys[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse())-(boys[f].body.radius+this.body.radius)
+                        const angleRadians = Math.atan2(boys[f].body.y - this.body.y, boys[f].body.x - this.body.x);
+                        this.xrepel += (Math.cos(angleRadians)*distance)/1.25
+                        this.yrepel += (Math.sin(angleRadians)*distance)/1.25
+                    }
+                }
+            }
+
+
+
+        this.body.radius =  this.rstorage 
+        this.rstorage  = this.body.radius
+        this.body.radius = this.body.radius/2 
+        
+        this.blocked = 0
+        for(let t = 0; t<walls.length;t++){
+            if(squarecircleface(walls[t],this.body)){
+
+                if(this.body.x > walls[t].x){
+                this.blocked = 1
+                }else{
+                    this.blocked = -1
+                }
+            }
+        }
+
+        
+
+
+        if(this.blocked == 0){
+            this.x+=this.xmom
+            this.x+=this.xrepel
+        }else if (this.blocked == 1){
+            if(this.xmom > 0){
+                this.x+=this.xmom
+            }
+            if(this.xrepel > 0){
+                  this.x+=this.xrepel
+            }
+        }else{
+            if(this.xmom < 0){
+                this.x+=this.xmom
+            }
+            
+            if(this.xrepel < 0){
+                  this.x+=this.xrepel
+            }
+        }
+        
+        this.body.radius =  this.rstorage 
+        this.y+=this.ymom
+        this.ymom*=.99
+        this.xmom*=.99
+        if(Math.abs(this.xmom) <.5){  
+         if(this.dry == 1){
+        this.xmom = -1*(this.x-pomao.body.x)
+        for (let t = 0;Math.abs(this.xmom) > 1.5; t++){
+        this.xmom*=.985
+         }
+        }
+        }
+        this.jumpcounter++
+        if(this.jumpcounter%this.jumpcountercap == 0){
+            if(this.dry == 1){
+                this.ymom = -7.1
+            }
+        }
+        }else{  
+            this.xdisp += 3*(Math.random()-.5)
+            this.xdisp *= .9
+            this.x = this.parent.x+this.xdisp
+            this.y = this.parent.y-this.height
+
+        }
+        if(this.parent.marked != 0 && this.parent != 0){
+                this.ymom -=10
+        }
+        if(!boys.includes(this.parent) || this.parent.marked != 0 ){
+     
+            this.parent  = 0
+        }
+        if(!boys.includes(this.child) || this.child.marked != 0 ){
+     
+            this.child  = 0
+        }
+        if(this.parent.child != this.child.parent){
+            if(this.child != 0 ){
+
+            this.parent = 0
+            }
+        }
+    }
+    draw(){
+
+        this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width, "blue")
+        if(this.marked == 0){
+            this.gravity()
+            this.move()
+        }
+        const sheetwidth = boysprites.width
+        const sheetheight = boysprites.height
+        const cols = 17
+        const rows = 1
+    
+
+
+        const width = sheetwidth/cols
+        const height = sheetheight/rows
+
+
+       const  srcx = Math.floor(this.type)*width
+      const   srcy = 0 //Math.floor(this.type2)*height
+
+    //   if(this.type < 17){
+
+
+                // tutorial_canvas_context.drawImage(pomaoimg, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
+ 
+            
+                // this.timeloop+=.1
+
+                if(this.marked == 3){
+
+                }else{
+                    if(this.child != 0){
+                        tutorial_canvas_context.drawImage(cactusimg, 0, 0, 48, 48, this.x, (10+this.y)-(Math.sin(this.timeloop)), this.width, this.height+(Math.sin(this.timeloop)))
+
+                    }else{
+                        tutorial_canvas_context.drawImage(cactusimgtop, 0, 0, 48, 48, this.x, (10+this.y)-(Math.sin(this.timeloop)), this.width, this.height+(Math.sin(this.timeloop)))}
+                }
+
+
+    //   }
+
+
+    
+    this.bodyx = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
+    
+    this.body = new Circle(this.x+this.width/2, this.y+this.height/1.5+(this.width/5), this.width/2.4, "blue")
+    // this.body.draw()
+    // tutorial_canvas_context.drawImage(boysprites, srcx, srcy, width, height, this.x, (10+this.y)-(Math.sin(this.timeloop)), this.width, this.height+(Math.sin(this.timeloop)))
+    // this.bodyx.draw()
+      if(this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)){
+        // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
+        // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
+        // this.move()
+        if(this.anchor.xdif+this.anchor.ydif == 0){
+            this.anchor.xdif = pomao.tongue.x-this.body.x
+            this.anchor.ydif =pomao.tongue.y- this.body.y
+            const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red",1)
+            const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x-this.anchor.xdif, pomao.tongue.y-this.anchor.ydif, "red",1)
+            if(link2.hypotenuse() > link1.hypotenuse()-10){
+            this.anchor.xdif = .001
+            this.anchor.ydif = 0
+            }
+        }
+        // console.log(this.anchor)
+        this.marked = 1  
+        this.width*=.995
+        this.height*=.995
+        // ////console.log(this)
+
+        
+      }
+      
+    this.body = new Circle(this.x+this.width/2, this.y+this.height/2+(this.width/5), this.width/1.8, "blue")
+      if(this.body.repelCheck(pomao.bodytight) && ((this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) || (this.marked == 1 ||this.marked == 2))){
+        // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
+        // this.y -= (((this.body.y-(this.height/2))-pomao.body.y)/100)
+        this.width*=.91
+        this.height*=.91
+        this.marked = 2
+        pomao.diry = 1
+      }else if (this.body.repelCheck(pomao.body) && !this.body.repelCheck(pomao.tongue )){
+        //   ////console.log(pomao.dir)
+
+        if(this.body.x > pomao.body.x){
+            this.bump = 1
+        }else{
+            this.bump = -1
+        }
+    //   if(pomao.body.ymom == 0){  
+          if(this.width >= 40){
+                  if(pomao.disabled != 1){
+                    if(pomao.pounding!=10){
+                      pomao.body.xmom = -(3+Math.abs(this.xmom))*(this.bump)
+                      pomao.disabled = 1
+                      pomao.hits--
+                      pomao.body.sxmom = 0
+                      pomao.body.symom = 0
+                      pomao.body.ymom = -1.8
+                      this.xmom = -pomao.body.xmom*.8
+                    }
+                  }else{
+                    if(this.bump*pomao.body.xmom> 0){
+                        pomao.body.xmom = -1.8*(this.bump)
+                        pomao.body.ymom = -1.8
+                        this.body.xmom = -pomao.body.xmom
+                      }
+                  }
+        }
+    }
+        // ////console.log(pomao.dir, pomao.body.xmom)
+
+
+      if(this.marked == 1){
+        this.x  -= ((this.bodyx.x-pomao.tongue.x)/1)+(this.anchor.xdif*.9)
+        this.y -= (((this.bodyx.y-pomao.tongue.y)/1)+(this.anchor.ydif*.9))+10
+        // pomao.diry = 1
+
+      }
+      if(this.marked == 2){
+        this.x  -= ((this.bodyx.x-pomao.body.x)/1.1)
+        this.y -= ((this.bodyx.y-pomao.body.y)/1.1)
+        this.marked = 2
+        pomao.diry = 1
+
+
+        // ////console.log(pomao)
+      }
+    //   if(this.marked == 3){
+    //     this.x  -= ((this.body.x-pomao.body.x)/3.5)
+    //     this.y -= ((this.body.y-pomao.body.y)/3.5)
+    //     this.marked = 3
+    //     // pomao.diry = 1
+
+
+    //     // ////console.log(pomao)
+    //   }
+
+
+    }
+    clean(){
+      if(this.body.repelCheck(pomao.body)){
+        if(this.width < 30){
+            boys.splice(boys.indexOf(this),1)
+            //sound (obnoxious)
+            // if (jazz.duration > 0 && !jazz.paused) {
+            //     ////console.log("top")
+            //         jazz2.play()
+            // }else{
+            //     ////console.log("bottom")
+            //     jazz.play()
+            // }
+            // jazz2.play()
+            pomao.hits+=1
+            if(pomao.hits>9){
+                pomao.hits = 9
+            }
+        if(pomao.eggs.length < 16){
+
+        const seepx = new Seed(pomao.eggs[pomao.eggs.length-1])
+            pomao.eggs.push(seepx)
+        }
+        }
+      }
+    }
+    isPointInside(point){
+        if(point.x >= this.x){
+            if(point.y >= this.y){
+                if(point.x <= this.x+this.width){
+                    if(point.y <= this.y+this.height){
+                    return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+    // move(){
+    //     this.x+=this.xmom
+    //     this.y+=this.ymom
+    // }
+}
+
 class Fruit {
     constructor(x, y, height, width, color) {
         this.anchor = {}
@@ -3074,14 +3495,20 @@ class Pomao{
     // }
 
     for(let t = 0; t<boys.length; t++){
-        if(boys[t].x > this.body.x-(tutorial_canvas.width/1.6) && boys[t].x < this.body.x+(tutorial_canvas.width/1.6) ){
+        if (boys[t].cactus == 1){
+        if(boys[t].x > this.body.x-(tutorial_canvas.width*1.6) && boys[t].x < this.body.x+(tutorial_canvas.width*1.6) ){
+            if(boys[t].y > this.body.y-(tutorial_canvas.height*3.6) && boys[t].y < this.body.y+(tutorial_canvas.height*3.6) ){
+            boys[t].draw()
+            }
+        }
+    }else{
+        if(boys[t].x > this.body.x-(tutorial_canvas.width/1) && boys[t].x < this.body.x+(tutorial_canvas.width/1.6) ){
             if(boys[t].y > this.body.y-(tutorial_canvas.height/1.6) && boys[t].y < this.body.y+(tutorial_canvas.height/1.6) ){
             boys[t].draw()
             }
-        }else{
-            // boys[t].gravity()
-            // boys[t].move()
         }
+    }
+        
     }
 
     for(let t = 0; t<swimmers.length; t++){
@@ -5082,6 +5509,7 @@ window.setInterval(function(){
                 loadlvl5()
             }
         }
+
 
        
 for(let t = 0; t<ramps.length; t++){
@@ -7210,7 +7638,7 @@ pomao.body.y = 0
  chats = []
 
 
- 
+//  pomao.eggmake = 161
 // boss = new Bossbeam()
 
 
@@ -7268,6 +7696,32 @@ for(let t=0;t<ramps.length;t++){
         }
     }
 }
+
+
+for(let k = 1;k <8;k++){
+
+    let cactus  = new Cactus(500+(k*1280),0,40,40,"red")
+    boys.push(cactus)
+    for(let t = 0; t<25; t++){
+        cactus = new Cactus(500+(k*1280),0,40,40,"red")
+        cactus.parent = boys[boys.length-1]
+        boys[boys.length-1].child = cactus
+        boys.push(cactus)
+    }
+
+}
+
+
+// let cactus2  = new Cactus(500+(80),0,40,40,"red")
+// boys.push(cactus2)
+// for(let t = 0; t<14; t++){
+//     cactus2 = new Cactus(500,0,40,40,"red")
+//     cactus2.parent = boys[boys.length-1]
+//     boys[boys.length-1].child = cactus2
+//     boys.push(cactus2)
+// }
+
+
 
 // for(let k = 0;k<fruits.length*5;k++){
 //     swinger1move()
