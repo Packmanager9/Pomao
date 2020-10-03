@@ -2164,7 +2164,7 @@ class Cactus {
                     if(pomao.pounding!=10){
                       pomao.body.xmom = -(3+Math.abs(this.xmom))*(this.bump)
                       pomao.disabled = 1
-                      pomao.hits--
+                      pomao.hits-=2
                       pomao.body.sxmom = 0
                       pomao.body.symom = 0
                       pomao.body.ymom = -1.8
