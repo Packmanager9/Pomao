@@ -189,10 +189,14 @@ const lvl3floorimg = new Image()
 lvl3floorimg.src ="floor6.png"
 const lvl4floorimg = new Image()
 lvl4floorimg.src ="floor7.png"
+const lvl5floorimg = new Image()
+lvl5floorimg.src ="floor8.png"
 const walling = new Image()
 walling.src ="wall.png"
 const lvl2walling = new Image()
 lvl2walling.src ="wall5.png"
+const lvl5walling = new Image()
+lvl5walling.src ="wall6.png"
 const nailimg = new Image()
 nailimg.src ="poundnail.png"
 const ballsprite = new Image()
@@ -4879,10 +4883,11 @@ let door = new Rectangle(4550, 450, 200, 200, "#090909")
 const shockfriendly = new Shockwave(pomao.body)
 shocks.push(shockfriendly)
 
-loadlvl1()
+// loadlvl1()
 // loadlvl2()
 // loadlvl3()
 // loadlvl4()
+loadlvl5()
 setTimeout(function(){
     
 
@@ -5072,6 +5077,10 @@ window.setInterval(function(){
             }
             
             door.draw()
+            
+            if(door.isPointInside(pomao.body)){
+                loadlvl5()
+            }
         }
 
        
@@ -5123,6 +5132,9 @@ for(let t = 0; t<ramps.length; t++){
                                 }else if(level == 4){
                     
                                     tutorial_canvas_context.drawImage(lvl4floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                 }else if(level == 5){
+                    
+                                    tutorial_canvas_context.drawImage(lvl5walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                  }
                     }
                 }else{
@@ -5134,9 +5146,12 @@ for(let t = 0; t<ramps.length; t++){
                     }else if(level == 3){
                     
                         tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                     }else if(level == 4){
+                    }else if(level == 4){
                     
                         tutorial_canvas_context.drawImage(lvl4floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                     }else if(level == 5){
+                    
+                        tutorial_canvas_context.drawImage(lvl5floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                      }
                 }
             }else{
@@ -5152,6 +5167,9 @@ for(let t = 0; t<ramps.length; t++){
                  }else if(level == 4){
                     
                     tutorial_canvas_context.drawImage(lvl4floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                 }else if(level == 5){
+                    
+                    tutorial_canvas_context.drawImage(lvl5floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                  }
             }
             }else{
@@ -5404,7 +5422,7 @@ for(let t = 0; t<ramps.length; t++){
     // swinger1move()
 },  14) 
 
-}, 6969);  //6969
+}, 1);  //6969
 
 function squarecirclefaceblockjump(square, circle){
 const squareendh = square.y + square.height
@@ -6662,30 +6680,509 @@ function loadlvl2(){
      floormpf = [...floors]
     }
 
-function loadlvl4(){
+    function loadlvl4(){
+    
+        pin = new Circle((-1950+(30*180)),(-9100-(30*57)), 10, "blue")
+        pin2 = new Circle( (-1950+(30*180)),(-9800-(30*57))+(7*220), 100, "orange")
+        springs = []
+        objsprings = []
+        
+    objsprings.push(pin2)
+    
+    let spring = new Spring(pin)
+    springs.push(spring)
+    for(let k = 0; k<33;k++){
+        spring = new Spring(spring.anchor)
+        if(k < 32){
+            springs.push(spring)
+        }else if(k == 32 ){
+            spring.anchor = pin2
+            springs.push(spring)
+        }
+    }
+    
+    
+        pomao.cutscene = 0
+    level = 4
+    tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
+    pomao.body.x = 0
+    pomao.body.y = 0
+     spinnys = []
+     ramps90 = []
+     swimmers = []
+     bats = []
+     floors = []
+     ramps = []
+     boys = []
+     deadboys = []
+     fruits = []
+     walls = []
+     invisblocks = []
+     ungrapplable = []
+     jellys = []
+     roofs = []
+     switches = []
+     blocks = []
+     nails = []
+     chats = []
+    
+    
+     
+    // boss = new Bossbeam()
+    
+     ramps.push(pin2)
+    
+     const floor = new Rectangle(-10000,33,1030,28400)
+     floors.push(floor)
+     walls.push(floor)
+     roofs.push(floor)
+     
+    
+     const platform1 = new Rectangle(183,-340,20,2000)
+     floors.push(platform1)
+    
+     const platform2 = new Rectangle(-1111,-170,20,1000)
+     floors.push(platform2)
+     
+     const platform3 = new Rectangle(-1111,-670,20,1000)
+     floors.push(platform3)
+    
+     const platform4 = new Rectangle(-83,-940,20,2000)
+     floors.push(platform4)
+    
+     const platform5 = new Rectangle(-1511,-1300,20,1000)
+     floors.push(platform5)
+    
+     const platform6 = new Rectangle(-1911,-1660,20,1000)
+     floors.push(platform6)
+    
+     const platform7 = new Rectangle(1500,-680,20,1000)
+     floors.push(platform7)
+    
+     const platform8 = new Rectangle(2500,-980,20,1000)
+     floors.push(platform8)
+    
+     const platform9 = new Rectangle(3500,-1380,20,1000)
+     floors.push(platform9)
+    
+     const platform10 = new Rectangle(4500,-1700,20,1000)
+     floors.push(platform10)
+    
+     const platform11 = new Rectangle(5500,-2100,20,1000)
+     floors.push(platform11)
+    
+     const platform12 = new Rectangle(1500,-3450,20,1000)
+     floors.push(platform12)
+    
+     const platform13 = new Rectangle(2500,-3100,20,1000)
+     floors.push(platform13)
+    
+     const platform14 = new Rectangle(3500,-2800,20,1000)
+     floors.push(platform14)
+    
+     const platform15 = new Rectangle(4500,-2400,20,1000)
+     floors.push(platform15)
+     
+     
+     const platform16 = new Rectangle(-1511,-1900,20,1000)
+     floors.push(platform16)
+    
+     const platform17 = new Rectangle(-1911,-2160,20,1000)
+     floors.push(platform17)
+     
+     const platform18 = new Rectangle(-1511,-2460,20,1000)
+     floors.push(platform18)
+     
+     const platform19 = new Rectangle(-1911,-3060,20,1000)
+     floors.push(platform19)
+     
+     const platform20 = new Rectangle(-1511,-3390,20,1000)
+     floors.push(platform20)
+     
+     const platform21 = new Rectangle(-111,-3390,20,1000) // prisoner floor
+     floors.push(platform21)
+    
+    
+     
+     const platformcake = new Rectangle(700,-2040,20,1300)
+     floors.push(platformcake)
+     
+     const platformsafe = new Rectangle(7400,-2040,20,1700)
+     floors.push(platformsafe)
+    
+    
+     const shaft1 = new Rectangle( 0,-7000, 1000, 50, "red")
+     floors.push(shaft1)
+     walls.push(shaft1)
+     roofs.push(shaft1)
+    
+     const shaft2 = new Rectangle( 0,-5000, 1000, 50, "red")
+     floors.push(shaft2)
+     walls.push(shaft2)
+     roofs.push(shaft2)
+    
+     const shaft3 = new Rectangle( -400,-5850, 500, 50, "red")
+     floors.push(shaft3)
+     walls.push(shaft3)
+     roofs.push(shaft3)
+    
+     const shaft4 = new Rectangle( 400,-5650, 500, 50, "red")
+     floors.push(shaft4)
+     walls.push(shaft4)
+     roofs.push(shaft4)
+    
+     const shaft5 = new Rectangle( -2050,-6950, 1200, 20, "red")
+     floors.push(shaft5)
+     walls.push(shaft5)
+     roofs.push(shaft5)
+    
+    
+    
+     for(let t = 0; t<7;t++){
+        const shaft7 = new Rectangle( -1900+t*200,-5800-t*10, 20, 40, "red")
+        floors.push(shaft7)
+     }
+    
+     
+     for(let t = 0; t<36;t++){
+        const shaft6 = new Rectangle( -1950+t*144,-6800-t*57, 20, 36, "red")
+        floors.push(shaft6)
+     }
+    
+    
+     for(let t = 0; t<30;t++){
+        const shaft6 = new Rectangle( (-1950+(30*180))+t*20,(-6800-(30*57))+t*100, 20, 30, "red")
+        floors.push(shaft6)
+     }
+    
+     
+     const shaft8 = new Rectangle( 300,-7000, 20, 1000, "red")
+     floors.push(shaft8)
+     
+     const shaft9 = new Rectangle( 1600,-6500, 20, 1000, "red")
+     floors.push(shaft9)
+    
+     const shaft10 = new Rectangle( 2800,-5900, 20, 1000, "red")
+     floors.push(shaft10)
+    
+    
+     const shaft13 = new Rectangle( 3800,-5400, 20, 1000, "red")
+     floors.push(shaft13)
+    
+     
+     const pinblock = new Rectangle((-1950+(30*180))-25,(-9100-(30*57))-25, 50,50, "blue")
+     floors.push(pinblock)
+     walls.push(pinblock)
+     roofs.push(pinblock)
+     
+    
+    
+     
+     const shaft11 = new Rectangle( 4850,-8900, 20, 1000, "red")
+     floors.push(shaft11)
+    
+    
+     
+     const shaft12 = new Rectangle( 5850,-9300, 20, 2000, "red")
+     floors.push(shaft12)
+    
+    
+     
+     const shaft14 = new Rectangle(4800,-9700, 20, 1000, "red")
+     floors.push(shaft14)
+    
+     const shaft18 = new Rectangle(4100,-10100, 20, 500, "red")
+     floors.push(shaft18)
+    
+    
+     const shaft28 = new Rectangle(3800,-10400, 20, 300, "red")
+     floors.push(shaft28)
+    
+    
+     const shaft34 = new Rectangle(3950,-10900, 20, 300, "red")
+     floors.push(shaft34)
+    
+    
+     const shaft35 = new Rectangle(4450,-11300, 20, 300, "red")
+     floors.push(shaft35)
+    
+    
+     const shaft36 = new Rectangle(4850,-11700, 20, 300, "red")
+     floors.push(shaft36)
+    
+     const shaft37  = new Rectangle(4250,-12000, 20, 300, "red")
+     floors.push(shaft37)
+    
+     const shaft38 = new Rectangle(4850,-12400, 20, 300, "red")
+     floors.push(shaft38)
+    
+     const shaft39 = new Rectangle(5250,-12700, 20, 500, "red")
+     floors.push(shaft39)
+    
+     const shaft40 = new Rectangle(5750,-12900, 20, 500, "red")
+     floors.push(shaft40)
+    
+     
+     const shaft15 = new Rectangle( 5500,-5700, 20, 1000, "red")
+     floors.push(shaft15)
+    
+     
+     const shaft16 = new Rectangle( 6500,-5200, 20, 1000, "red")
+     floors.push(shaft16)
+     
+     const shaft17 = new Rectangle( 7500,-4700, 20, 1000, "red")
+     floors.push(shaft17)
+    
+    
+     for(let t = 1;t<floors.length;t++){
+        for(let k = 0;k<44;k++){
+            let wet = 0
+            let fruit = new Fruit(floors[t].x+Math.random()*floors[t].width, floors[t].y-Math.random()*340, 60,60,"transparent")
+    
+            for(let k=0;k<fruits.length;k++){
+                if(fruits[k].body.repelCheck(fruit.body)){
+                    wet = 1
+                }
+            }
+            for(let k=0;k<floors.length;k++){
+                if(squarecircleedges(floors[k], fruit.body)){
+                    wet = 1
+                }
+            }
+            if(wet == 0){
+                fruits.push(fruit)
+            }
+        }
+    }
+    
+    
+         
+    //  const platform21 = new Rectangle(-111,-3390,20,1000) // prisoner floor
+    const prisoner3block = new Rectangle(213,-3450, 90,60)
+    floors.push(prisoner3block)
+    walls.push(prisoner3block)
+    roofs.push(prisoner3block)
+    invisblocks.push(prisoner3block)
+    
+    
+    let prisoner3dialogue = new Dialogue(213,-3450)
+    prisoner3dialogue.words.push( "If only I werent so fat...")
+    prisoner3dialogue.words.push( "I would pogo flutter up to those walls...")
+    prisoner3dialogue.words.push( "... those guys left me behind...")
+    prisoner3dialogue.words.push( "... Hey, thanks for flipping the switch.")
+    chats.push(prisoner3dialogue)
+    
+    const shaft19 = new Rectangle(9050,-5700, 500, 50, "red")
+    floors.push(shaft19)
+    walls.push(shaft19)
+    roofs.push(shaft19)
+    
+    const shaft20 = new Rectangle(8550,-6300, 500, 50, "red")
+    floors.push(shaft20)
+    walls.push(shaft20)
+    roofs.push(shaft20)
+    
+    const shaft21 = new Rectangle(9050,-6900, 500, 50, "red")
+    floors.push(shaft21)
+    walls.push(shaft21)
+    roofs.push(shaft21)
+    
+    const shaft22 = new Rectangle(8550,-7500, 500, 50, "red")
+    floors.push(shaft22)
+    walls.push(shaft22)
+    roofs.push(shaft22)
+    
+    const shaft23 = new Rectangle(9050,-8100, 500, 50, "red")
+    floors.push(shaft23)
+    walls.push(shaft23)
+    roofs.push(shaft23)
+    
+    const shaft24 = new Rectangle(8550,-8700, 500, 50, "red")
+    floors.push(shaft24)
+    walls.push(shaft24)
+    roofs.push(shaft24)
+    
+    const shaft25 = new Rectangle(9050,-9400, 600, 50, "red")
+    floors.push(shaft25)
+    walls.push(shaft25)
+    roofs.push(shaft25)
+    
+    const shaft26 = new Rectangle(8550,-10300, 600, 50, "red")
+    floors.push(shaft26)
+    walls.push(shaft26)
+    roofs.push(shaft26)
+    
+    const shaft27 = new Rectangle(8250,-11000, 300, 50, "red")
+    floors.push(shaft27)
+    walls.push(shaft27)
+    roofs.push(shaft27)
+    
+    const shaft29 = new Rectangle(7950,-11500, 300, 50, "red")
+    floors.push(shaft29)
+    walls.push(shaft29)
+    roofs.push(shaft29)
+    
+    const shaft30 = new Rectangle(7550,-12000, 300, 50, "red")
+    floors.push(shaft30)
+    walls.push(shaft30)
+    roofs.push(shaft30)
+    
+    const shaft31 = new Rectangle(7050,-12500, 300, 50, "red")
+    floors.push(shaft31)
+    walls.push(shaft31)
+    roofs.push(shaft31)
+    
+    const shaft32 = new Rectangle(7550,-13000, 300, 50, "red")
+    floors.push(shaft32)
+    walls.push(shaft32)
+    roofs.push(shaft32)
+    
+    const shaft33 = new Rectangle(7050,-13500, 300, 50, "red")
+    floors.push(shaft33)
+    walls.push(shaft33)
+    roofs.push(shaft33)
+    
+    const wall1 = new Rectangle(-2100, -30000, 30033, 50, "cyan")
+    walls.push(wall1)
+    floors.push(wall1)
+    roofs.push(wall1)
+    ungrapplable.push(wall1)
+    
+    const wall2 = new Rectangle(9100, -30000, 30033, 50, "cyan")
+    walls.push(wall2)
+    floors.push(wall2)
+    roofs.push(wall2)
+    ungrapplable.push(wall2)
+    
+    
+    for(let t = 0;t<11;t++){
+    
+        const rockfloor = new Rectangle(400+t*600, (-10300-4950) + 60*t, 50,50)
+        floors.push(rockfloor)
+        walls.push(rockfloor)
+        roofs.push(rockfloor)
+    
+    }
+    
+    
+    const rockfloor = new Rectangle(1000+6000, (-10300-4950) + 350, 20,1050)
+    floors.push(rockfloor)
+    // walls.push(rockfloor)
+    // roofs.push(rockfloor)
+    
+    const bossfloor = new Rectangle(-2100, (-10300-6550) + 350, 50,10100)
+    floors.push(bossfloor)
+    walls.push(bossfloor)
+    roofs.push(bossfloor)
+    
+    const bossgap1 = new Rectangle(8000, (-10300-6050) + 350, 20,1100)
+    floors.push(bossgap1)
+    
+    const bossgap3 = new Rectangle(8000, (-10300-5550) + 350, 20,1100)
+    floors.push(bossgap3)
+    
+    const bossgap2 = new Rectangle(8000, (-10300-6550) + 350, 20,1100)
+    floors.push(bossgap2)
+    
+    
+    door = new Rectangle(-2050,(-10300-6550) + 150, 200, 200, "#090909")
+    
+    for(let k = 1; k<floors.length;k++){
+        if(floors[k].width > 99){
+            for(let t = 0;t<2;t++){
+                let bat = new Bat(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
+                bats.push(bat)
+             }
+        }
+    }
+    
+    for(let k = 1; k<floors.length;k++){
+        if(floors[k].width < 99){
+            for(let t = 0;t<1;t++){
+                let bat = new Cloud(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
+                if(Math.random()<.5){
+                    bats.push(bat)
+                }
+             }
+        }
+    }
+    
+    
+    
+    for(let k = 0;k<fruits.length;k++){
+        fruits[k].x -=20
+        fruits[k].body.radius*=1.8
+    }
+    
+    
+     for(let t=0;t<floors.length;t++){
+        for(let k = 0;k<fruits.length;k++){
+            if(squarecircleedges(floors[t], fruits[k].body)){
+                fruits.splice(k,1)
+            }
+        }
+    }
+    
+    for(let t=0;t<floors.length;t++){
+        for(let k = 0;k<fruits.length;k++){
+            if(squarecirclehead(floors[t], fruits[k].body)){
+                fruits.splice(k,1)
+            }
+        }
+    }
+    for(let t=0;t<floors.length;t++){
+       for(let k = 0;k<fruits.length;k++){
+           if(squarecirclefeet(floors[t], fruits[k].body)){
+               fruits.splice(k,1)
+           }
+       }
+    }
+    for(let t=0;t<ramps.length;t++){
+        for(let k = 0;k<fruits.length;k++){
+            if(ramps[t].isPointInside(fruits[k].body)){
+                fruits.splice(k,1)
+            }
+        }
+    }
+    
+    for(let k = 0;k<fruits.length*5;k++){
+        swinger1move()
+        }
+    
+        floormpf = [...floors]
+        for(let t = 0;t<5;t++){
+    
+            spinny = new Spinwheel(2600-t*700, -11300-t*990)
+            spinnys.push(spinny)
+    
+        }
+        
+    }
+
+function loadlvl5(){
 
     pin = new Circle((-1950+(30*180)),(-9100-(30*57)), 10, "blue")
     pin2 = new Circle( (-1950+(30*180)),(-9800-(30*57))+(7*220), 100, "orange")
     springs = []
     objsprings = []
     
-objsprings.push(pin2)
+// objsprings.push(pin2)
 
-let spring = new Spring(pin)
-springs.push(spring)
-for(let k = 0; k<33;k++){
-    spring = new Spring(spring.anchor)
-    if(k < 32){
-        springs.push(spring)
-    }else if(k == 32 ){
-        spring.anchor = pin2
-        springs.push(spring)
-    }
-}
+// let spring = new Spring(pin)
+// springs.push(spring)
+// for(let k = 0; k<33;k++){
+//     spring = new Spring(spring.anchor)
+//     if(k < 32){
+//         springs.push(spring)
+//     }else if(k == 32 ){
+//         spring.anchor = pin2
+//         springs.push(spring)
+//     }
+// }
 
 
-    pomao.cutscene = 0
-level = 4
+pomao.cutscene = 0
+level = 5
 tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
 pomao.body.x = 0
 pomao.body.y = 0
@@ -6712,323 +7209,12 @@ pomao.body.y = 0
  
 // boss = new Bossbeam()
 
- ramps.push(pin2)
-
- const floor = new Rectangle(-10000,33,1030,28400)
- floors.push(floor)
- walls.push(floor)
- roofs.push(floor)
- 
-
- const platform1 = new Rectangle(183,-340,20,2000)
- floors.push(platform1)
-
- const platform2 = new Rectangle(-1111,-170,20,1000)
- floors.push(platform2)
- 
- const platform3 = new Rectangle(-1111,-670,20,1000)
- floors.push(platform3)
-
- const platform4 = new Rectangle(-83,-940,20,2000)
- floors.push(platform4)
-
- const platform5 = new Rectangle(-1511,-1300,20,1000)
- floors.push(platform5)
-
- const platform6 = new Rectangle(-1911,-1660,20,1000)
- floors.push(platform6)
-
- const platform7 = new Rectangle(1500,-680,20,1000)
- floors.push(platform7)
-
- const platform8 = new Rectangle(2500,-980,20,1000)
- floors.push(platform8)
-
- const platform9 = new Rectangle(3500,-1380,20,1000)
- floors.push(platform9)
-
- const platform10 = new Rectangle(4500,-1700,20,1000)
- floors.push(platform10)
-
- const platform11 = new Rectangle(5500,-2100,20,1000)
- floors.push(platform11)
-
- const platform12 = new Rectangle(1500,-3450,20,1000)
- floors.push(platform12)
-
- const platform13 = new Rectangle(2500,-3100,20,1000)
- floors.push(platform13)
-
- const platform14 = new Rectangle(3500,-2800,20,1000)
- floors.push(platform14)
-
- const platform15 = new Rectangle(4500,-2400,20,1000)
- floors.push(platform15)
- 
- 
- const platform16 = new Rectangle(-1511,-1900,20,1000)
- floors.push(platform16)
-
- const platform17 = new Rectangle(-1911,-2160,20,1000)
- floors.push(platform17)
- 
- const platform18 = new Rectangle(-1511,-2460,20,1000)
- floors.push(platform18)
- 
- const platform19 = new Rectangle(-1911,-3060,20,1000)
- floors.push(platform19)
- 
- const platform20 = new Rectangle(-1511,-3390,20,1000)
- floors.push(platform20)
- 
- const platform21 = new Rectangle(-111,-3390,20,1000) // prisoner floor
- floors.push(platform21)
-
-
- 
- const platformcake = new Rectangle(700,-2040,20,1300)
- floors.push(platformcake)
- 
- const platformsafe = new Rectangle(7400,-2040,20,1700)
- floors.push(platformsafe)
-
-
- const shaft1 = new Rectangle( 0,-7000, 1000, 50, "red")
- floors.push(shaft1)
- walls.push(shaft1)
- roofs.push(shaft1)
-
- const shaft2 = new Rectangle( 0,-5000, 1000, 50, "red")
- floors.push(shaft2)
- walls.push(shaft2)
- roofs.push(shaft2)
-
- const shaft3 = new Rectangle( -400,-5850, 500, 50, "red")
- floors.push(shaft3)
- walls.push(shaft3)
- roofs.push(shaft3)
-
- const shaft4 = new Rectangle( 400,-5650, 500, 50, "red")
- floors.push(shaft4)
- walls.push(shaft4)
- roofs.push(shaft4)
-
- const shaft5 = new Rectangle( -2050,-6950, 1200, 20, "red")
- floors.push(shaft5)
- walls.push(shaft5)
- roofs.push(shaft5)
-
-
-
- for(let t = 0; t<7;t++){
-    const shaft7 = new Rectangle( -1900+t*200,-5800-t*10, 20, 40, "red")
-    floors.push(shaft7)
- }
-
- 
- for(let t = 0; t<36;t++){
-    const shaft6 = new Rectangle( -1950+t*144,-6800-t*57, 20, 36, "red")
-    floors.push(shaft6)
- }
-
-
- for(let t = 0; t<30;t++){
-    const shaft6 = new Rectangle( (-1950+(30*180))+t*20,(-6800-(30*57))+t*100, 20, 30, "red")
-    floors.push(shaft6)
- }
-
- 
- const shaft8 = new Rectangle( 300,-7000, 20, 1000, "red")
- floors.push(shaft8)
- 
- const shaft9 = new Rectangle( 1600,-6500, 20, 1000, "red")
- floors.push(shaft9)
-
- const shaft10 = new Rectangle( 2800,-5900, 20, 1000, "red")
- floors.push(shaft10)
-
-
- const shaft13 = new Rectangle( 3800,-5400, 20, 1000, "red")
- floors.push(shaft13)
-
- 
- const pinblock = new Rectangle((-1950+(30*180))-25,(-9100-(30*57))-25, 50,50, "blue")
- floors.push(pinblock)
- walls.push(pinblock)
- roofs.push(pinblock)
- 
-
-
- 
- const shaft11 = new Rectangle( 4850,-8900, 20, 1000, "red")
- floors.push(shaft11)
-
-
- 
- const shaft12 = new Rectangle( 5850,-9300, 20, 2000, "red")
- floors.push(shaft12)
-
-
- 
- const shaft14 = new Rectangle(4800,-9700, 20, 1000, "red")
- floors.push(shaft14)
-
- const shaft18 = new Rectangle(4100,-10100, 20, 500, "red")
- floors.push(shaft18)
-
-
- const shaft28 = new Rectangle(3800,-10400, 20, 300, "red")
- floors.push(shaft28)
-
-
- const shaft34 = new Rectangle(3950,-10900, 20, 300, "red")
- floors.push(shaft34)
-
-
- const shaft35 = new Rectangle(4450,-11300, 20, 300, "red")
- floors.push(shaft35)
-
-
- const shaft36 = new Rectangle(4850,-11700, 20, 300, "red")
- floors.push(shaft36)
-
- const shaft37  = new Rectangle(4250,-12000, 20, 300, "red")
- floors.push(shaft37)
-
- const shaft38 = new Rectangle(4850,-12400, 20, 300, "red")
- floors.push(shaft38)
-
- const shaft39 = new Rectangle(5250,-12700, 20, 500, "red")
- floors.push(shaft39)
-
- const shaft40 = new Rectangle(5750,-12900, 20, 500, "red")
- floors.push(shaft40)
-
- 
- const shaft15 = new Rectangle( 5500,-5700, 20, 1000, "red")
- floors.push(shaft15)
-
- 
- const shaft16 = new Rectangle( 6500,-5200, 20, 1000, "red")
- floors.push(shaft16)
- 
- const shaft17 = new Rectangle( 7500,-4700, 20, 1000, "red")
- floors.push(shaft17)
-
-
- for(let t = 1;t<floors.length;t++){
-    for(let k = 0;k<44;k++){
-        let wet = 0
-        let fruit = new Fruit(floors[t].x+Math.random()*floors[t].width, floors[t].y-Math.random()*340, 60,60,"transparent")
-
-        for(let k=0;k<fruits.length;k++){
-            if(fruits[k].body.repelCheck(fruit.body)){
-                wet = 1
-            }
-        }
-        for(let k=0;k<floors.length;k++){
-            if(squarecircleedges(floors[k], fruit.body)){
-                wet = 1
-            }
-        }
-        if(wet == 0){
-            fruits.push(fruit)
-        }
-    }
-}
-
-
-     
-//  const platform21 = new Rectangle(-111,-3390,20,1000) // prisoner floor
-const prisoner3block = new Rectangle(213,-3450, 90,60)
-floors.push(prisoner3block)
-walls.push(prisoner3block)
-roofs.push(prisoner3block)
-invisblocks.push(prisoner3block)
-
-
-let prisoner3dialogue = new Dialogue(213,-3450)
-prisoner3dialogue.words.push( "If only I werent so fat...")
-prisoner3dialogue.words.push( "I would pogo flutter up to those walls...")
-prisoner3dialogue.words.push( "... those guys left me behind...")
-prisoner3dialogue.words.push( "... Hey, thanks for flipping the switch.")
-chats.push(prisoner3dialogue)
-
-const shaft19 = new Rectangle(9050,-5700, 500, 50, "red")
-floors.push(shaft19)
-walls.push(shaft19)
-roofs.push(shaft19)
-
-const shaft20 = new Rectangle(8550,-6300, 500, 50, "red")
-floors.push(shaft20)
-walls.push(shaft20)
-roofs.push(shaft20)
-
-const shaft21 = new Rectangle(9050,-6900, 500, 50, "red")
-floors.push(shaft21)
-walls.push(shaft21)
-roofs.push(shaft21)
-
-const shaft22 = new Rectangle(8550,-7500, 500, 50, "red")
-floors.push(shaft22)
-walls.push(shaft22)
-roofs.push(shaft22)
-
-const shaft23 = new Rectangle(9050,-8100, 500, 50, "red")
-floors.push(shaft23)
-walls.push(shaft23)
-roofs.push(shaft23)
-
-const shaft24 = new Rectangle(8550,-8700, 500, 50, "red")
-floors.push(shaft24)
-walls.push(shaft24)
-roofs.push(shaft24)
-
-const shaft25 = new Rectangle(9050,-9400, 600, 50, "red")
-floors.push(shaft25)
-walls.push(shaft25)
-roofs.push(shaft25)
-
-const shaft26 = new Rectangle(8550,-10300, 600, 50, "red")
-floors.push(shaft26)
-walls.push(shaft26)
-roofs.push(shaft26)
-
-const shaft27 = new Rectangle(8250,-11000, 300, 50, "red")
-floors.push(shaft27)
-walls.push(shaft27)
-roofs.push(shaft27)
-
-const shaft29 = new Rectangle(7950,-11500, 300, 50, "red")
-floors.push(shaft29)
-walls.push(shaft29)
-roofs.push(shaft29)
-
-const shaft30 = new Rectangle(7550,-12000, 300, 50, "red")
-floors.push(shaft30)
-walls.push(shaft30)
-roofs.push(shaft30)
-
-const shaft31 = new Rectangle(7050,-12500, 300, 50, "red")
-floors.push(shaft31)
-walls.push(shaft31)
-roofs.push(shaft31)
-
-const shaft32 = new Rectangle(7550,-13000, 300, 50, "red")
-floors.push(shaft32)
-walls.push(shaft32)
-roofs.push(shaft32)
-
-const shaft33 = new Rectangle(7050,-13500, 300, 50, "red")
-floors.push(shaft33)
-walls.push(shaft33)
-roofs.push(shaft33)
 
 const wall1 = new Rectangle(-2100, -30000, 30033, 50, "cyan")
 walls.push(wall1)
 floors.push(wall1)
 roofs.push(wall1)
-ungrapplable.push(wall1)
+// ungrapplable.push(wall1)
 
 const wall2 = new Rectangle(9100, -30000, 30033, 50, "cyan")
 walls.push(wall2)
@@ -7037,59 +7223,11 @@ roofs.push(wall2)
 ungrapplable.push(wall2)
 
 
-for(let t = 0;t<11;t++){
 
-    const rockfloor = new Rectangle(400+t*600, (-10300-4950) + 60*t, 50,50)
-    floors.push(rockfloor)
-    walls.push(rockfloor)
-    roofs.push(rockfloor)
-
-}
-
-
-const rockfloor = new Rectangle(1000+6000, (-10300-4950) + 350, 20,1050)
-floors.push(rockfloor)
-// walls.push(rockfloor)
-// roofs.push(rockfloor)
-
-const bossfloor = new Rectangle(-2100, (-10300-6550) + 350, 50,10100)
-floors.push(bossfloor)
-walls.push(bossfloor)
-roofs.push(bossfloor)
-
-const bossgap1 = new Rectangle(8000, (-10300-6050) + 350, 20,1100)
-floors.push(bossgap1)
-
-const bossgap3 = new Rectangle(8000, (-10300-5550) + 350, 20,1100)
-floors.push(bossgap3)
-
-const bossgap2 = new Rectangle(8000, (-10300-6550) + 350, 20,1100)
-floors.push(bossgap2)
-
-
-door = new Rectangle(-2050,(-10300-6550) + 150, 200, 200, "#090909")
-
-for(let k = 1; k<floors.length;k++){
-    if(floors[k].width > 99){
-        for(let t = 0;t<2;t++){
-            let bat = new Bat(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
-            bats.push(bat)
-         }
-    }
-}
-
-for(let k = 1; k<floors.length;k++){
-    if(floors[k].width < 99){
-        for(let t = 0;t<1;t++){
-            let bat = new Cloud(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
-            if(Math.random()<.5){
-                bats.push(bat)
-            }
-         }
-    }
-}
-
-
+const floor = new Rectangle(-10000,33,1030,28400)
+floors.push(floor)
+walls.push(floor)
+roofs.push(floor)
 
 for(let k = 0;k<fruits.length;k++){
     fruits[k].x -=20
@@ -7127,17 +7265,17 @@ for(let t=0;t<ramps.length;t++){
     }
 }
 
-for(let k = 0;k<fruits.length*5;k++){
-    swinger1move()
-    }
+// for(let k = 0;k<fruits.length*5;k++){
+//     swinger1move()
+//     }
 
-    floormpf = [...floors]
-    for(let t = 0;t<5;t++){
+    // floormpf = [...floors]
+    // for(let t = 0;t<5;t++){
 
-        spinny = new Spinwheel(2600-t*700, -11300-t*990)
-        spinnys.push(spinny)
+    //     spinny = new Spinwheel(2600-t*700, -11300-t*990)
+    //     spinnys.push(spinny)
 
-    }
+    // }
     
 }
     
