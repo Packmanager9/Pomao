@@ -4883,11 +4883,11 @@ let door = new Rectangle(4550, 450, 200, 200, "#090909")
 const shockfriendly = new Shockwave(pomao.body)
 shocks.push(shockfriendly)
 
-// loadlvl1()
+loadlvl1()
 // loadlvl2()
 // loadlvl3()
 // loadlvl4()
-loadlvl5()
+// loadlvl5()
 setTimeout(function(){
     
 
@@ -5422,7 +5422,7 @@ for(let t = 0; t<ramps.length; t++){
     // swinger1move()
 },  14) 
 
-}, 1);  //6969
+}, 6969);  //6969
 
 function squarecirclefaceblockjump(square, circle){
 const squareendh = square.y + square.height
