@@ -473,8 +473,8 @@ document.addEventListener('keydown', (event) => {
 const tutorial_canvas = document.getElementById("tutorial");
 const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
-// tutorial_canvas_context.scale(.04,.04)
-// tutorial_canvas_context.translate(3300,16750)
+// tutorial_canvas_context.scale(.035,.035)
+// tutorial_canvas_context.translate(3300,19750)
 // tutorial_canvas_context.translate(2500,6000)
 
 tutorial_canvas.style.background = "#664613"
@@ -5070,6 +5070,8 @@ window.setInterval(function(){
             for(let t = 0;t<spinnys.length;t++){
                 spinnys[t].draw()
             }
+            
+            door.draw()
         }
 
        
@@ -7047,8 +7049,25 @@ for(let t = 0;t<11;t++){
 
 const rockfloor = new Rectangle(1000+6000, (-10300-4950) + 350, 20,1050)
 floors.push(rockfloor)
-walls.push(rockfloor)
-roofs.push(rockfloor)
+// walls.push(rockfloor)
+// roofs.push(rockfloor)
+
+const bossfloor = new Rectangle(-2100, (-10300-6550) + 350, 50,10100)
+floors.push(bossfloor)
+walls.push(bossfloor)
+roofs.push(bossfloor)
+
+const bossgap1 = new Rectangle(8000, (-10300-6050) + 350, 20,1100)
+floors.push(bossgap1)
+
+const bossgap3 = new Rectangle(8000, (-10300-5550) + 350, 20,1100)
+floors.push(bossgap3)
+
+const bossgap2 = new Rectangle(8000, (-10300-6550) + 350, 20,1100)
+floors.push(bossgap2)
+
+
+door = new Rectangle(-2050,(-10300-6550) + 150, 200, 200, "#090909")
 
 for(let k = 1; k<floors.length;k++){
     if(floors[k].width > 99){
