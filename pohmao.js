@@ -4885,9 +4885,9 @@ class Bossbeam {
                     }
                 }
 
-            for(let t=0;t<this.beams.length;t++){
+            // for(let t=0;t<this.beams.length;t++){
                 
-            }
+            // }
 
                 this.cleared = 1
                 walls.splice(walls.indexOf(this.wall1),1)
@@ -5251,6 +5251,61 @@ class Observer{
             this.dir = 1
             this.beamcut = 10
             this.beamdisp = 0
+            this.pops = []
+            this.bopped = 0
+            
+            this.wall1 = new Rectangle(-1800, ((-10300-6550) + 350)-5000, 5000, 50, "cyan")
+            this.cleared = 0
+            floors.push(this.wall1)
+            walls.push(this.wall1)
+            roofs.push(this.wall1)
+            ungrapplable.push(this.wall1)
+            beamrocks.push(this.wall1)
+            floormpf.push(this.wall1)
+            
+        }
+    }
+    pop(){
+        this.bopped = 1
+        let rotx = 0
+        let roty = 0
+
+        for(let g = 0; g < 17; g++){
+            let color = "red"
+            const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius/2, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
+            this.pops.push(dot1)
+            rotx += 2*Math.PI/17
+            roty += 2*Math.PI/17
+        }
+
+        
+        if(this.cleared == 0){
+      
+            this.cleared = 1
+            walls.splice(walls.indexOf(this.wall1),1)
+            floors.splice(floors.indexOf(this.wall1),1)
+            roofs.splice(roofs.indexOf(this.wall1),1)
+            ungrapplable.splice(ungrapplable.indexOf(this.wall1),1)
+            beamrocks.splice(beamrocks.indexOf(this.wall1),1)
+            floormpf.splice(floormpf.indexOf(this.wall1),1)
+        }
+    
+    }
+    popdraw(){
+        for(let t = 0;t<this.pops.length; t++){
+            if(this.pops[t].radius < .1){
+                this.pops.splice(t,1)
+            }
+        }
+        for(let t = 0;t<this.pops.length; t++){
+            this.pops[t].radius*=.8
+            this.pops[t].move()
+            this.pops[t].draw()
+        }
+        for(let t = 0;t<this.pops.length; t++){
+            if(this.pops[t].radius < .1){
+                this.pops.splice(t,1)
+            }
         }
     }
 
@@ -5402,6 +5457,11 @@ class Observer{
             tutorial_canvas_context.stroke()
             tutorial_canvas_context.fill()
             this.ray =[]
+        }else{
+            if(this.bopped  == 0){
+                this.pop()
+            }
+            this.popdraw()
         }
         
         this.ray =[]
@@ -7777,7 +7837,7 @@ beamrocks = []
 
         
     for(let t = 0;t<300; t++){
-        const bossrock = new Rectangle(-1750+Math.random()*10000, (-10300-8950)+Math.random()*2500, 60+((Math.random()-.5)*10),60+((Math.random()-.5)*10), "red" )
+        const bossrock = new Rectangle(-1750+Math.random()*10000, (-10300-8950)+Math.random()*2500, 60+((Math.random()-.5)*30),60+((Math.random()-.5)*30), "red" )
         let bang = 0
         for(let k = 0;k<beamrocks.length;k++){
             let link = new Line(bossrock.x, bossrock.y, beamrocks[k].x, beamrocks[k].y, "red", 2)
