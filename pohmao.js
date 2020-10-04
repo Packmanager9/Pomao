@@ -6,6 +6,7 @@ let jailswitch = 0
 let loader = 1
 let spinny
 let spinnys = []
+let beamrocks = []
 
 let floormpf
 // const gamepads
@@ -5233,6 +5234,182 @@ class Seed{
 }
 
 
+class Observer{
+    constructor(x,y , z = 0){
+        if(z == 0){
+            this.body = new Circlec( x, y, 33, "cyan")
+            this.ray = []
+            this.rayrange = 190
+            this.globalangle = Math.PI
+            this.gapangle = Math.PI/8
+            this.currentangle = 0
+            this.obstacles = []
+            this.raymake = 19
+            this.health = 100
+            this.shook = 0
+            this.smack = 0
+            this.dir = 1
+            this.beamcut = 10
+            this.beamdisp = 0
+        }
+    }
+
+    beam(){
+        this.smack--
+        if(this.smack <= 0){
+            this.shook = 0
+            this.body.color = "cyan"
+        }
+        if(this.shook == 1){
+            let angleRadians = Math.atan2(pomao.body.y - this.body.y, pomao.body.x - this.body.x);
+            angleRadians+= (this.globalangle)/19
+
+            this.globalangle = ((angleRadians-(this.gapangle*1.5)))
+            this.globalangle+=this.beamdisp
+            if(this.raymake == 1){
+
+                if(Math.random()<.1){
+
+                    this.beamdisp += (Math.random()-.5)*.06
+                }
+            }
+            this.beamcut--
+            if(this.beamcut<=0){
+                if(this.raymake > 1){
+                    this.raymake -= 1
+                    this.beamcut = 5
+                    this.gapangle -=  (Math.PI/8)/19
+                }
+            }
+            
+        }else{
+            this.raymake = 19
+            this.gapangle = Math.PI/8
+            this.beamdisp = 0
+        }
+
+        this.currentangle  = this.gapangle/2
+        for(let k = 0; k<this.raymake; k++){
+            this.currentangle+=(this.gapangle/Math.ceil(this.raymake/2))
+            let ray = new Circle(this.body.x, this.body.y, 1, "white",((this.rayrange * (Math.cos(this.globalangle+this.currentangle))))/this.rayrange*10, ((this.rayrange * (Math.sin(this.globalangle+this.currentangle))))/this.rayrange*10 )
+            ray.collided = 0
+            ray.lifespan = this.rayrange-1
+            this.ray.push(ray)
+        }
+        for(let f = 3; f<this.rayrange/2; f++){
+            for(let t = 0; t<this.ray.length; t++){
+                if(this.ray[t].collided < 1){
+                    this.ray[t].move()
+                for(let q = 0; q<this.obstacles.length; q++){
+                    if(this.obstacles[q].isPointInside(this.ray[t])){
+                        this.ray[t].collided = 1
+                        if(this.obstacles[q] == pomao.body){
+                            this.shook = 1
+                            this.body.color = "red"
+                            this.smack = 5
+                            if(this.raymake == 1){
+                                if(this.body.x > pomao.body.x){
+                                    this.bump = 1
+                                }else{
+                                    this.bump = -1
+                                }
+                                      if(this.body.radius >= 1){
+                                          if(pomao.disabled != 1){
+                                              if(pomao.pounding!=10){
+                                                pomao.body.xmom = -3*(this.bump)
+                                                pomao.disabled = 1
+                                                pomao.hits--
+                                                 pomao.body.ymom = -1.8
+                                                 this.body.xmom = -pomao.body.xmom*2
+                                          
+                                              }
+                                          }
+                                        }
+                            }
+                        }
+                    }
+                  }
+                }
+            }
+        }
+    }
+
+    draw(){
+        if(this.health > 0){
+            if(this.shook == 1){
+            this.body.xmom -= (this.body.x-pomao.body.x)/1700
+            this.body.ymom -= (this.body.y-pomao.body.y)/1700
+            this.body.xmom*= .979
+            this.body.ymom*= .979
+            }else{
+                
+            this.body.xmom -= (this.body.x-pomao.body.x)/20000
+            this.body.ymom -= (this.body.y-pomao.body.y)/20000
+            this.body.xmom += Math.random()-.5
+            this.body.ymom += Math.random()-.5
+            this.body.xmom*= .98
+            this.body.ymom*= .98
+            this.globalangle += this.dir*.05
+            if(Math.random()< .09){
+                this.dir *= -1
+            }
+            }
+            if(this.body.y+this.body.radius >  (-10300-6550) + 350){
+                if(this.body.ymom > 0){
+                    this.body.ymom *=-1
+                }
+            }
+    
+            for(let t = 0;t<pomao.thrown.length;t++){
+                if(this.body.repelCheck(pomao.thrown[t])){
+                    this.health -= 2
+                    this.rayrange -=2.5
+                }
+            }
+            for(let t = 0;t<shockfriendly.shocksl.length;t++){
+                if(this.body.repelCheck(shockfriendly.shocksl[t])){
+                    this.health -= .5
+                    this.rayrange -=.625
+                }
+                if(this.body.repelCheck(shockfriendly.shocksr[t])){
+                    this.health -= .5
+                    this.rayrange -=.625
+                }
+            }
+            this.body.move()
+            this.beam()
+            this.body.draw()
+    
+            if(this.ray.length> 1){
+                tutorial_canvas_context.lineWidth = 1
+                if(this.ray.length == 2){
+                    tutorial_canvas_context.lineWidth = 5
+                }
+                if(this.ray.length == 3){
+                    tutorial_canvas_context.lineWidth = 3
+                }
+            }else{
+                tutorial_canvas_context.lineWidth = 10
+            }
+            tutorial_canvas_context.fillStyle = "red"
+            tutorial_canvas_context.strokeStyle = "red"
+            tutorial_canvas_context.beginPath()
+            tutorial_canvas_context.moveTo(this.body.x, this.body.y)
+            for(let y = 0; y<this.ray.length; y++){
+                    tutorial_canvas_context.lineTo(this.ray[y].x, this.ray[y].y)
+                        tutorial_canvas_context.lineTo(this.body.x, this.body.y)
+                }
+            tutorial_canvas_context.stroke()
+            tutorial_canvas_context.fill()
+            this.ray =[]
+        }
+        
+        this.ray =[]
+    }
+}
+
+
+
 
 class Dialogue{
     constructor(x,y){
@@ -5773,13 +5950,20 @@ for(let t = 0; t<ramps.length; t++){
 
         fractal.draw()
         fracta2l.draw()
-        fracta3l.draw()
+        fracta3l.draw()      
         //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
-        if(boss.body1.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body1.radius) && boss.body1.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body1.radius) ){
-            if(boss.body1.y > pomao.body.y-((tutorial_canvas.height*3)+boss.body1.radius) && boss.body1.y < pomao.body.y+((tutorial_canvas.height*3)+boss.body1.radius) ){
-                if(level == 1){
+         if(level == 1){
+            if(boss.body1.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body1.radius) && boss.body1.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body1.radius) ){
+                if(boss.body1.y > pomao.body.y-((tutorial_canvas.height*3)+boss.body1.radius) && boss.body1.y < pomao.body.y+((tutorial_canvas.height*3)+boss.body1.radius) ){
                     boss.draw()
-                }
+                }  
+            }
+         }
+         if(level == 4){
+            if(boss.body.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body.radius) && boss.body.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body.radius) ){
+                if(boss.body.y > pomao.body.y-((tutorial_canvas.height*6)+boss.body.radius) && boss.body.y < pomao.body.y+((tutorial_canvas.height*6)+boss.body.radius) ){
+                    boss.draw()
+                }  
             }
          }
         // fracta4l.draw()
@@ -6172,7 +6356,8 @@ function loadlvl1(){
  objsprings = []
     pomao.cutscene = 0
     pomao.eggs = [pomao.body]
-    
+
+    beamrocks = []    
     tutorial_canvas_context.translate(pomao.body.x-640, pomao.body.y-360)
     pomao.body.x = 640
     pomao.body.y = 360
@@ -6838,6 +7023,7 @@ function loadlvl2(){
  pin2 = new Circle(9900, -8100+(7*220), 100, "orange")
 
 
+ beamrocks = []
     pomao.cutscene = 0
     level = 2
     tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
@@ -6984,6 +7170,7 @@ function loadlvl2(){
  pin = new Circle(9900,-8100, 10, "blue")
  pin2 = new Circle(9900, -8100+(7*220), 100, "orange")
     
+beamrocks = []
         pomao.eggs = [pomao.body]
         pomao.cutscene = 0
     level = 3
@@ -7134,9 +7321,14 @@ function loadlvl2(){
         }
     }
     
+beamrocks = []
     
         pomao.cutscene = 0
     level = 4
+    
+// tutorial_canvas_context.translate(pomao.body.x-640, pomao.body.y+17360)
+// pomao.body.x = 640
+// pomao.body.y = -17360
     tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
     pomao.body.x = 0
     pomao.body.y = 0
@@ -7159,9 +7351,9 @@ function loadlvl2(){
      nails = []
      chats = []
     
+     pomao.eggmake = 161
     
      
-    // boss = new Bossbeam()
     
      ramps.push(pin2)
     
@@ -7507,6 +7699,7 @@ function loadlvl2(){
     floors.push(bossfloor)
     walls.push(bossfloor)
     roofs.push(bossfloor)
+    beamrocks.push(bossfloor)
     
     const bossgap1 = new Rectangle(8000, (-10300-6050) + 350, 20,1100)
     floors.push(bossgap1)
@@ -7516,7 +7709,7 @@ function loadlvl2(){
     
     const bossgap2 = new Rectangle(8000, (-10300-6550) + 350, 20,1100)
     floors.push(bossgap2)
-    
+    beamrocks.push(bossgap2)
     
     door = new Rectangle(-2050,(-10300-6550) + 150, 200, 200, "#090909")
     
@@ -7581,6 +7774,45 @@ function loadlvl2(){
     for(let k = 0;k<fruits.length*5;k++){
         swinger1move()
         }
+
+        
+    for(let t = 0;t<300; t++){
+        const bossrock = new Rectangle(-1750+Math.random()*10000, (-10300-8950)+Math.random()*2500, 60+((Math.random()-.5)*10),60+((Math.random()-.5)*10), "red" )
+        let bang = 0
+        for(let k = 0;k<beamrocks.length;k++){
+            let link = new Line(bossrock.x, bossrock.y, beamrocks[k].x, beamrocks[k].y, "red", 2)
+            if(link.hypotenuse() < 270){
+                bang = 1
+            }
+        }
+        if(bang == 0){
+            floors.push(bossrock)
+            roofs.push(bossrock)
+            walls.push(bossrock)
+            beamrocks.push(bossrock)
+        }
+    }
+
+        
+        for(let k = 0;k<600;k++){
+            let wet = 0
+            let fruit = new Fruit(-1750+Math.random()*10000, (-10300-8950)+Math.random()*2500, 60+((Math.random()-.5)*10), 60,60,"transparent")
+    
+            for(let k=0;k<fruits.length;k++){
+                if(fruits[k].body.repelCheck(fruit.body)){
+                    wet = 1
+                }
+            }
+            for(let k=0;k<floors.length;k++){
+                if(squarecircleedges(floors[k], fruit.body)){
+                    wet = 1
+                }
+            }
+            if(wet == 0){
+                fruits.push(fruit)
+            }
+        }
+    
     
         floormpf = [...floors]
         for(let t = 0;t<5;t++){
@@ -7589,7 +7821,13 @@ function loadlvl2(){
             spinnys.push(spinny)
     
         }
+
         
+    boss = new Observer(3000, (-10300-6950) )
+
+        
+    boss.obstacles = [...beamrocks]
+    boss.obstacles.push(pomao.body)
     }
 
 function loadlvl5(){
@@ -7613,9 +7851,11 @@ function loadlvl5(){
 //     }
 // }
 
-
+beamrocks = []
 pomao.cutscene = 0
 level = 5
+
+
 tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
 pomao.body.x = 0
 pomao.body.y = 0
