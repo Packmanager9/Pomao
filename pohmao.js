@@ -202,6 +202,10 @@ const nailimg = new Image()
 nailimg.src ="poundnail.png"
 const ballsprite = new Image()
 ballsprite.src ="ballsprite3.png"
+const eyeimg = new Image()
+eyeimg.src ="eyeboss.png"
+const eyeimgred = new Image()
+eyeimgred.src ="eyebossred.png"
 
 const jazz = new Audio('gulpnoise.wav');
 const jazz2 = new Audio('gulpnoise2.wav');
@@ -5433,7 +5437,9 @@ class Observer{
             }
             this.body.move()
             this.beam()
-            this.body.draw()
+            //678
+            
+            // this.body.draw()
     
             if(this.ray.length> 1){
                 tutorial_canvas_context.lineWidth = 1
@@ -5457,6 +5463,13 @@ class Observer{
             tutorial_canvas_context.stroke()
             tutorial_canvas_context.fill()
             this.ray =[]
+            
+            if(this.body.color == "red"){
+                tutorial_canvas_context.drawImage(eyeimgred, 0,0,eyeimgred.width,eyeimgred.height, this.body.x-this.body.radius,this.body.y-this.body.radius, this.body.radius*2,this.body.radius*2)
+            }else{
+                tutorial_canvas_context.drawImage(eyeimg, 0,0,eyeimg.width,eyeimg.height, this.body.x-this.body.radius,this.body.y-this.body.radius, this.body.radius*2,this.body.radius*2)
+
+            }
         }else{
             if(this.bopped  == 0){
                 this.pop()
