@@ -7,6 +7,7 @@ let loader = 1
 let spinny
 let spinnys = []
 let beamrocks = []
+let links = []
 
 let floormpf
 // const gamepads
@@ -489,6 +490,7 @@ const tutorial_canvas = document.getElementById("tutorial");
 const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
 // tutorial_canvas_context.scale(.035,.035)
+// tutorial_canvas_context.scale(.5,.5)
 // tutorial_canvas_context.translate(3300,19750)
 // tutorial_canvas_context.translate(2500,6000)
 
@@ -2502,6 +2504,11 @@ class Rectangle {
 class Circle{
     constructor(x, y, radius, color, xmom = 0, ymom = 0){
 
+        this.mark = []
+        this.sxmom = 0
+        this.symom = 0
+
+
         this.height = 0
         this.width = 0
         this.x = x
@@ -2513,7 +2520,28 @@ class Circle{
         this.xrepel = 0
         this.yrepel = 0
         this.lens = 0
-    }       
+    }     
+    chmove(){
+        this.x += this.xmom
+        this.y += this.ymom
+        if(this!= chafer.body){
+
+            this.xmom*=.8
+            this.ymom*=.8
+        }else{
+
+        this.xmom*=.999
+        this.ymom*=.999
+        }
+    }
+    drive(){
+        this.x+=this.sxmom
+        this.y+=this.symom 
+
+        this.sxmom*=.9
+        this.symom*=.9
+    }
+
      draw(){
 
         if(!ramps.includes(this)){
@@ -5481,6 +5509,378 @@ class Observer{
     }
 }
 
+class Buggle{
+    constructor(){
+        this.counter = 0
+        this.body = new Circle(350,350, 35, "red")
+        this.legs = []
+        this.tips = []
+        this.joints = []
+        this.limbs = 5
+        this.xforce = 450*(this.limbs/10)
+        this.yforce = 450*(this.limbs/10)
+        this.leg = 0
+        this.smack = 0
+        this.tipsOn = []
+        this.legshotclock = 0
+
+        for(let t = 0; t<this.limbs;t++){
+
+            let rigradius = 20
+            let spring = new ChSpring(this.body)
+            spring.anchor.radius = rigradius
+            this.joints.push(spring.anchor)
+                this.legs.push(spring)
+                spring.length = .1
+
+
+
+                for(let k = 0; k<8;k++){
+                    spring = new ChSpring(spring.anchor)
+                    spring.anchor.radius = rigradius
+                    rigradius--
+                    this.legs.push(spring)
+                    this.joints.push(spring.anchor)
+                }
+                this.tips.push(spring.anchor)
+        }
+        for(let t = 0;t<this.tips.length;t++){
+            this.tips[t].radius = 14
+            this.tips[t].color = "green"
+        }
+
+    }
+    walk(){
+
+
+        for(let g = 0; g<orbs.length; g++){
+            orbs[g].companion = []
+
+            }
+
+        let minimum = 100000
+        let minreset = 0
+
+        let mark = {}
+        if(Math.random()<.001){
+
+            for(let t = 0; t<orbs.length; t++){
+                orbs[t].body.mark = []
+            }
+
+        }
+        if(Math.random()<.001){
+
+        }
+        this.legshotclock++
+        for(let t = 0; t<orbs.length; t++){
+           
+            let link
+            if(this.legshotclock < 55){
+                link = new Line(this.body.x, this.body.y, orbs[t].body.x, orbs[t].body.y, "red", 2)// let link = new Line(this.tips[this.leg].x, this.tips[this.leg].y, orbs[t].body.x, orbs[t].body.y, "red", 2)
+            } else{
+                if(minreset == 0){
+                    minreset = 1
+                    minimum = 1000
+                }
+                link = new Line(this.tips[this.leg].x, this.tips[this.leg].y, orbs[t].body.x, orbs[t].body.y, "red", 2)
+            }
+             this.tipsOn = []
+
+            for(let g = 0; g<this.tips.length; g++){
+                   for(let h = 0; h<orbs.length; h++){
+                    if(g!=this.leg){
+                        if(orbs[h].body.repelCheck(this.tips[g])){
+                                this.tipsOn.push(orbs[h].body)
+                                if(!orbs[h].companion.includes(this.tips[g])){
+
+                                    orbs[h].companion.push(this.tips[g])
+                                }
+                        }
+                    }
+                   }
+            }
+            for(let t = 0; t<orbs.length; t++){
+                orbs[t].body.gravity = .0
+            }
+            for(let t = 0; t<this.tipsOn.length; t++){
+                this.tipsOn[t].gravity = .1
+            }
+
+            if(!this.tipsOn.includes(orbs[t].body)){
+            if(!orbs[t].body.mark.includes(this.leg)){
+            if(link.hypotenuse()<minimum){
+                    dummypin = orbs[t].body
+                    minimum = link.hypotenuse()     
+              
+                    // mark = orbs[t].body
+                }   
+                }
+            }
+        }
+
+        this.tipsOn.push(dummypin)
+        // console.log(this.tipsOn)
+        let link = new Line(this.tips[this.leg].x, this.tips[this.leg].y, dummypin.x,dummypin.y, "red", 2)
+        // link.draw()
+        this.tips[this.leg].symom -= (this.tips[this.leg].y-dummypin.y)/450
+        this.tips[this.leg].sxmom -= (this.tips[this.leg].x-dummypin.x)/450
+
+        for(let t = 0;(Math.abs(this.tips[this.leg].sxmom)+Math.abs(this.tips[this.leg].symom)) < ((Math.abs(this.tips[this.leg].xmom)+Math.abs(this.tips[this.leg].ymom))+.55) ; t++ ){
+            this.tips[this.leg].symom *=1.01
+            this.tips[this.leg].sxmom *=1.01
+            if(t>1000){
+                break
+            }
+        }
+        // this.tips[this.leg].xmom = 0
+        // this.tips[this.leg].ymom = 0
+        this.tips[this.leg].drive()
+        this.tips[this.leg].chmove()
+        
+        if(this.tips[this.leg].isPointInside(dummypin)){
+            this.smack = 1
+            dummypin.mark.push(this.leg)
+        }else  if(dummypin.isPointInside(this.tips[this.leg])){
+            this.smack = 1
+            dummypin.mark.push(this.leg)
+        }
+
+        for(let t = 0; t<this.tips.length; t++){
+            if(this.leg!==t){
+                this.tips[t].xmom = 0
+                this.tips[t].ymom = 0
+                this.tips[t].chmove()
+            }
+        }
+        
+        for(let  t= 0; t<this.tips.length;t++){
+            for(let  k= 0; k<this.tips.length;k++){
+                if(t!=k){
+                    if(this.tips[t].repelCheck(this.tips[k])){
+                        let distance = ((new Line(this.tips[k].x, this.tips[k].y, this.tips[t].x, this.tips[t].y, 1, "red")).hypotenuse())-(2*this.tips[k].radius+this.tips[t].radius)
+                        let angleRadians = Math.atan2(this.tips[k].y - this.tips[t].y, this.tips[k].x - this.tips[t].x);
+                        if(t == this.leg){
+
+                            // this.tips[t].xrepel += (Math.cos(angleRadians)*distance)/10
+                            // this.tips[t].yrepel += (Math.sin(angleRadians)*distance)/10
+
+                        }
+                        // this.tips[k].xrepel += -(Math.cos(angleRadians)*distance)/10
+                        // this.tips[k].yrepel += -(Math.sin(angleRadians)*distance)/10
+                    }
+                }
+            }
+        }
+    for(let t = 0; t<this.tips.length; t++){
+        this.tips[t].x +=  this.tips[t].xrepel
+        this.tips[t].y +=  this.tips[t].yrepel
+        this.tips[t].xrepel = 0
+        this.tips[t].yrepel = 0
+    }
+    }
+    draw(){
+        // this.counter++
+        // if(this.counter%12 == 0){
+
+        // }
+        if(this.smack == 1){
+            this.leg +=1
+            this.leg %= this.tips.length
+            this.smack = 0
+            // console.log(this.legshotclock)
+            this.legshotclock = 0
+        }
+        this.control()
+        this.walk()
+        // this.body.draw()
+        for(let t = 0; t<this.legs.length;t++){
+            this.legs[t].balance()
+        }
+        for(let t = 0; t<this.legs.length;t++){
+            if(!this.tips.includes(this.joints[t])){
+            this.legs[t].move()
+            }
+        }
+        for(let t = 0; t<this.legs.length;t++){
+            this.legs[t].draw()
+        }
+        
+
+
+        for(let t = 0; t<this.joints.length;t++){
+            for(let k = 0; k<this.joints.length;k++){
+                if(t!=k){
+                    let guide = new Line(this.joints[t].x,this.joints[t].y, this.joints[k].x, this.joints[k].y, "red", .1)
+                    // guide.draw()
+                    if(guide.hypotenuse() == 0){
+
+                    }else{
+
+                    this.joints[k].xmom-=((this.joints[t].x-this.joints[k].x)/guide.hypotenuse())/this.xforce
+                    this.joints[k].ymom-=((this.joints[t].y-this.joints[k].y)/guide.hypotenuse())/this.yforce
+                    this.joints[t].xmom+=((this.joints[t].x-this.joints[k].x)/guide.hypotenuse())/this.xforce
+                    this.joints[t].ymom+=((this.joints[t].y-this.joints[k].y)/guide.hypotenuse())/this.yforce
+                    }
+                }
+            }
+            for(let t = 0; t<this.tips.length; t++){
+                if(this.leg!==t){
+                    this.tips[t].xmom = 0
+                    this.tips[t].ymom = 0
+                }
+            }
+            if(!this.tips.includes(this.joints[t])){
+                this.joints[t].chmove()
+
+            }
+        }
+
+
+    }
+    control(){
+        this.body.xmom -= (this.body.x-pomao.body.x)/50
+        this.body.ymom -= (this.body.y-pomao.body.y)/50
+    }
+}
+
+class ChSpring{
+    constructor(body = 0){
+        if(body == 0){
+            this.body = new Circle(350, 350, 8, "red",10,10)
+            this.anchor = new Circle(this.body.x, this.body.y+5, 3, "red")
+            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+            this.length = .01
+        }else{
+            this.body = body
+            this.length = .1
+            this.anchor = new Circle(this.body.x-((Math.random()-.5)*10), this.body.y-((Math.random()-.5)*10), 8, "red")
+            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+        }
+
+    }
+    balance(){
+        this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+
+            if(this.beam.hypotenuse() !=0){
+        if(this.beam.hypotenuse() < this.length){
+            if(this.body != chafer.body){
+                this.body.xmom += (this.body.x-this.anchor.x)/(this.length)/300
+                this.body.ymom += (this.body.y-this.anchor.y)/(this.length)/300
+                this.anchor.xmom -= (this.body.x-this.anchor.x)/(this.length)/300
+                this.anchor.ymom -= (this.body.y-this.anchor.y)/(this.length)/300
+            }else{
+
+                this.body.xmom += (this.body.x-this.anchor.x)/(this.length)/300
+                this.body.ymom += (this.body.y-this.anchor.y)/(this.length)/300
+                this.anchor.xmom -= (this.body.x-this.anchor.x)/(this.length)/300
+                this.anchor.ymom -= (this.body.y-this.anchor.y)/(this.length)/300
+            }
+        }else if(this.beam.hypotenuse() > this.length){
+
+            if(this.body != chafer.body){
+                this.body.xmom -= (this.body.x-this.anchor.x)/(this.length)/300
+                this.body.ymom -= (this.body.y-this.anchor.y)/(this.length)/300
+                this.anchor.xmom += (this.body.x-this.anchor.x)/(this.length)/300
+                this.anchor.ymom += (this.body.y-this.anchor.y)/(this.length)/300    
+                }else{
+
+                this.body.xmom -= (this.body.x-this.anchor.x)/(this.length)/300
+                this.body.ymom -= (this.body.y-this.anchor.y)/(this.length)/300
+                    this.anchor.xmom += (this.body.x-this.anchor.x)/(this.length)/300
+                    this.anchor.ymom += (this.body.y-this.anchor.y)/(this.length)/300
+                }
+        }
+
+    }
+
+    let xmomentumaverage 
+    let ymomentumaverage
+    xmomentumaverage = ((this.body.xmom*1)+this.anchor.xmom)/2
+    ymomentumaverage = ((this.body.ymom*1)+this.anchor.ymom)/2
+
+            this.body.xmom = ((this.body.xmom)+xmomentumaverage)/2
+            this.body.ymom = ((this.body.ymom)+ymomentumaverage)/2
+            this.anchor.xmom = ((this.anchor.xmom)+xmomentumaverage)/2
+            this.anchor.ymom = ((this.anchor.ymom)+ymomentumaverage)/2
+    }
+    draw(){
+        this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+        this.beam.draw()
+        this.body.draw()
+        this.anchor.draw()
+    }
+    move(){
+            // if(this.body != chafer.body){
+                this.body.chmove()
+            // }
+                this.anchor.chmove()
+    }
+
+}
+
+
+class Orb{
+    constructor(){
+        this.body = new Circle(-11000+(Math.random()*tutorial_canvas.width*10), -6500+(Math.random()*tutorial_canvas.height*10), 40, "orange")
+        this.origin =  new Circle(this.body.x, this.body.y, 16, "blue")
+        this.body.gravity = .05
+        this.companion = []
+        // this.companion.x = -12345
+        this.fly = false
+        ramps.push(this.body)
+    }
+    draw(){
+        if(!ramps.includes(this.body)){
+        ramps.push(this.body)
+        }
+        this.body.xmom -= (this.body.x-this.origin.x)/100
+        this.body.ymom -= (this.body.y-this.origin.y)/100
+        this.body.ymom+=this.body.gravity
+
+        for(let t = 0;t<this.companion.length;t++){
+            // if(Math.random()<.001){
+
+                // console.log(this.companion[t])
+                this.companion[t].y+=this.body.ymom
+                this.companion[t].x+=this.body.xmom
+            //     console.log(this.companion[t])
+            // }
+        }
+            // 
+        
+
+        this.body.chmove()
+
+        if(this.fly == true){
+            this.body.color ="orange"
+            this.body.radius =40
+        }else{
+
+            this.body.color ="orange"
+            this.body.radius =40
+        }
+        this.body.draw()
+    }
+}
+let dummypin = new Circle(100,100, 10, "blue")
+
+
+let orbs = []
+
+for(let t = 0; t<200; t++){
+    let orb = new Orb()
+    let click = 0
+    for(let k = 0; k<orbs.length; k++){
+        let link = new Line(orb.body.x, orb.body.y, orbs[k].body.x, orbs[k].body.y, "green", 3)
+        if(link.hypotenuse()< 49){
+            click = 1
+        }
+    }
+    if(click == 0){
+    orbs.push(orb)
+    }
+}
 
 
 
@@ -5566,6 +5966,12 @@ loadlvl1()
 // loadlvl3()
 // loadlvl4()
 // loadlvl5()
+
+
+let chafer = new Buggle()
+// for(let t=0;t<10;t++){
+//     chafer.draw()
+// }
 setTimeout(function(){
     
 
@@ -6039,6 +6445,19 @@ for(let t = 0; t<ramps.length; t++){
                 }  
             }
          }
+
+        //  if(level == 5){
+        //     // chafer.draw()
+        //     for(let t = 0; t<orbs.length; t++){
+        //        orbs[t].draw()
+        //    }
+        //    for(let t = 0; t<links.length; t++){
+        //        let link = new Line(orbs[links[t][0]].body.x, orbs[links[t][0]].body.y, orbs[links[t][1]].body.x, orbs[links[t][1]].body.y, "white", .3)
+        //        link.draw()
+        //    }
+        //    chafer.draw()
+
+        //  }
         // fracta4l.draw()
         loader = 1000
     }else{
