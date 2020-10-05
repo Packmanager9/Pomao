@@ -2593,12 +2593,33 @@ class Circle{
         this.lens = 0
     }     
     chmove(){
+
+        if(this.y > 33-this.radius){
+            if(this.ymom > 0){
+                this.ymom *=-1
+            }
+        }
+        if(this.y < (-(tutorial_canvas.height*3.1))+50){
+            if(this.ymom < 0){
+                this.ymom *=-1
+            }
+        }
+        if(this.x < 7925){
+            if(this.xmom < 0){
+                this.xmom *=-1
+            }
+        }
+        if(this.x > 11500){
+            if(this.xmom > 0){
+                this.xmom *=-1
+            }
+        }
         this.x += this.xmom
         this.y += this.ymom
         if(this!= chafer.body){
-
-            this.xmom*=.8
-            this.ymom*=.8
+ 
+            this.xmom*=.92  //.8  //.89
+            this.ymom*=.92  //.8
         }else{
 
         this.xmom*=.999
@@ -2613,7 +2634,7 @@ class Circle{
         this.symom*=.95  //.9
     }
 
-     draw(){
+    draw(){
 
         if(!ramps.includes(this)){
             tutorial_canvas_context.fillStyle = "cyan" //this.color
@@ -2622,6 +2643,23 @@ class Circle{
             }
         tutorial_canvas_context.lineWidth = 4
         tutorial_canvas_context.strokeStyle = this.color
+        tutorial_canvas_context.beginPath();
+        tutorial_canvas_context.arc(this.x, this.y, this.radius-1, 0, (Math.PI*2), true)
+   
+       tutorial_canvas_context.fill()
+        tutorial_canvas_context.stroke(); 
+    }
+     chdraw(){
+
+            tutorial_canvas_context.fillStyle = this.color
+ 
+        tutorial_canvas_context.lineWidth = 0
+        tutorial_canvas_context.strokeStyle = this.color
+        if(this == chafer.body){
+            tutorial_canvas_context.lineWidth = 3
+            tutorial_canvas_context.strokeStyle = "#090909"
+            
+        }
         tutorial_canvas_context.beginPath();
         tutorial_canvas_context.arc(this.x, this.y, this.radius-1, 0, (Math.PI*2), true)
    
@@ -5585,11 +5623,12 @@ class Observer{
 class Buggle{
     constructor(){
         this.counter = 0
-        this.body = new Circle(9280,-1650, 38, "red")
+        this.hashit = 10
+        this.body = new Circle(9280,-1650, 38, "white")
         this.legs = []
         this.tips = []
         this.joints = []
-        this.limbs = 5
+        this.limbs = 8
         this.xforce = 450*(this.limbs/10)
         this.yforce = 450*(this.limbs/10)
         this.leg = 0
@@ -5597,36 +5636,155 @@ class Buggle{
         this.tipsOn = []
         this.legshotclock = 0
         this.dead = 0
+        this.arms = []
+        this.pops = []
 
         for(let t = 0; t<this.limbs;t++){
 
-            let rigradius = 20
-            let spring = new ChSpring(this.body)
-            spring.health = 888
-            spring.anchor.radius = rigradius
-            this.joints.push(spring.anchor)
-                this.legs.push(spring)
-                spring.length = .1
-
-
-
-                for(let k = 0; k<8;k++){
-                    spring = new ChSpring(spring.anchor)
+     
+                if(t%3 !==0){      
+                    
+                    let rigradius = 20
+                    let spring = new ChSpring(this.body)
+                    spring.health = 880
                     spring.anchor.radius = rigradius
-                    rigradius--
-                    this.legs.push(spring)
                     this.joints.push(spring.anchor)
+                        this.legs.push(spring)
+                        spring.length = .1
+        
+        
+        
+                        for(let k = 0; k<8;k++){
+                            spring = new ChSpring(spring.anchor)
+                            spring.anchor.radius = rigradius
+                            spring.health = rigradius*8
+                            rigradius-=2.5    
+                             if(k%2 == 0){
+                                spring.anchor.color = "red"
+                            }else{ 
+                                spring.anchor.color = "purple"
+                            }
+                            this.legs.push(spring)
+                            this.joints.push(spring.anchor)
+                        }
+                    this.tips.push(spring.anchor)
+                }else{
+
+                    let rigradius = 20
+                    let spring = new ChSpring(this.body)
+                    spring.health = 880
+                    spring.anchor.radius = rigradius
+                    this.joints.push(spring.anchor)
+                        this.legs.push(spring)
+                        spring.length = .1
+        
+        
+        
+                        for(let k = 0; k<6;k++){
+                            spring = new ChSpring(spring.anchor)
+                            spring.anchor.radius = rigradius
+                            if(k%2 == 0){
+                                spring.anchor.color = "red"
+                            }else{ 
+                                spring.anchor.color = "#090909"
+                            }
+                            spring.health = rigradius*8
+                            rigradius-=3.33
+                            this.legs.push(spring)
+                            this.joints.push(spring.anchor)
+                        }
+                    this.arms.push(spring.anchor)
                 }
-                this.tips.push(spring.anchor)
         }
         for(let t = 0;t<this.tips.length;t++){
             this.tips[t].radius = 14
             this.tips[t].color = "green"
         }
+        for(let t = 0;t<this.arms.length;t++){
+            this.arms[t].radius = 18
+            this.arms[t].color = "black"
+        }
+        for(let t = 0;t<this.joints.length;t++){
+            if(this.joints[t].radius <= 13){
+                this.joints[t].radius = 13
 
+            }
+        }
+
+    }
+    
+    pop(){
+        this.bopped = 1
+        let rotx = 0
+        let roty = 0
+
+        for(let g = 0; g < 17; g++){
+            let color = "red"
+            const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius/2, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
+            this.pops.push(dot1)
+            rotx += 2*Math.PI/17
+            roty += 2*Math.PI/17
+        }
+
+        
+        if(this.cleared == 0){
+      
+            this.cleared = 1
+            walls.splice(walls.indexOf(this.wall1),1)
+            floors.splice(floors.indexOf(this.wall1),1)
+            roofs.splice(roofs.indexOf(this.wall1),1)
+            ungrapplable.splice(ungrapplable.indexOf(this.wall1),1)
+            beamrocks.splice(beamrocks.indexOf(this.wall1),1)
+            floormpf.splice(floormpf.indexOf(this.wall1),1)
+        }
+    
+    }
+    popseg(seg){
+        this.bopped = 1
+        let rotx = 0
+        let roty = 0
+
+        for(let g = 0; g < 17; g++){
+            let color = "red"
+            const dot1 = new Circlec(seg.x, seg.y, seg.radius, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
+            this.pops.push(dot1)
+            rotx += 2*Math.PI/17
+            roty += 2*Math.PI/17
+        }
+
+        
+        if(this.cleared == 0){
+      
+            this.cleared = 1
+            walls.splice(walls.indexOf(this.wall1),1)
+            floors.splice(floors.indexOf(this.wall1),1)
+            roofs.splice(roofs.indexOf(this.wall1),1)
+            ungrapplable.splice(ungrapplable.indexOf(this.wall1),1)
+            beamrocks.splice(beamrocks.indexOf(this.wall1),1)
+            floormpf.splice(floormpf.indexOf(this.wall1),1)
+        }
+    
+    }
+    popdraw(){
+        for(let t = 0;t<this.pops.length; t++){
+            if(this.pops[t].radius < .1){
+                this.pops.splice(t,1)
+            }
+        }
+        for(let t = 0;t<this.pops.length; t++){
+            this.pops[t].radius*=.8
+            this.pops[t].move()
+            this.pops[t].draw()
+        }
+        for(let t = 0;t<this.pops.length; t++){
+            if(this.pops[t].radius < .1){
+                this.pops.splice(t,1)
+            }
+        }
     }
     walk(){
 
+        this.hashit--
 
         for(let g = 0; g<orbs.length; g++){
             orbs[g].companion = []
@@ -5702,8 +5860,8 @@ class Buggle{
         // console.log(this.tipsOn)
         let link = new Line(this.tips[this.leg].x, this.tips[this.leg].y, dummypin.x,dummypin.y, "red", 2)
         // link.draw()
-        this.tips[this.leg].symom -= (this.tips[this.leg].y-dummypin.y)/350
-        this.tips[this.leg].sxmom -= (this.tips[this.leg].x-dummypin.x)/350
+        this.tips[this.leg].symom -= (this.tips[this.leg].y-dummypin.y)/250  //350
+        this.tips[this.leg].sxmom -= (this.tips[this.leg].x-dummypin.x)/250
         
         // for(let t = 0;(Math.abs(this.tips[this.leg].symom) + Math.abs(this.tips[this.leg].sxmom)) < 15; t++){
         //     this.tips[this.leg].symom *=1.101
@@ -5807,10 +5965,15 @@ class Buggle{
                     }else{
 
                         if(this.legs[0].health > 0){
-                            this.joints[k].xmom-=((this.joints[t].x-this.joints[k].x)/guide.hypotenuse())/this.xforce
-                            this.joints[k].ymom-=((this.joints[t].y-this.joints[k].y)/guide.hypotenuse())/this.yforce
-                            this.joints[t].xmom+=((this.joints[t].x-this.joints[k].x)/guide.hypotenuse())/this.xforce
-                            this.joints[t].ymom+=((this.joints[t].y-this.joints[k].y)/guide.hypotenuse())/this.yforce
+                            if(!this.arms.includes(this.joints[k]) && !this.arms.includes(this.joints[t]) ){
+                            //     if(!this.tips.includes(this.joints[k]) && !this.tips.includes(this.joints[t]) ){
+                                this.joints[k].xmom-=((this.joints[t].x-this.joints[k].x)/guide.hypotenuse())/this.xforce
+                                this.joints[k].ymom-=((this.joints[t].y-this.joints[k].y)/guide.hypotenuse())/this.yforce
+                                this.joints[t].xmom+=((this.joints[t].x-this.joints[k].x)/guide.hypotenuse())/this.xforce
+                                this.joints[t].ymom+=((this.joints[t].y-this.joints[k].y)/guide.hypotenuse())/this.yforce
+                            //     }
+
+                            }
                         }
                     }
                 }
@@ -5832,8 +5995,8 @@ class Buggle{
                 if(this.legs[f].anchor.repelCheck(pomao.thrown[r])){
                     this.legs[f].health -= .5
                     this.legs[f].anchor.radius*= .985
-                    if(this.legs[f].anchor.radius <= 9){
-                        this.legs[f].anchor.radius = 9
+                    if(this.legs[f].anchor.radius <= 13){
+                        this.legs[f].anchor.radius = 13
                     }
                 }
                 if(this.legs[f].body.repelCheck(pomao.thrown[r])){
@@ -5841,30 +6004,76 @@ class Buggle{
                 }
                 
                 if(this.legs[f].health <= 0){
-                    this.legs.splice(f,1)
+                    for(let n = 0; n<20;n++){
+
+                        if(!this.tips.includes(this.legs[f].anchor) && !this.arms.includes(this.legs[f].anchor) ){
+                            this.popseg(this.legs[f].anchor)
+                            this.legs.splice(f,1)
+                        }else{
+
+                            if(this.tips.includes(this.legs[f].anchor)) {
+                                if(this.legs[f-1].anchor != this.body){
+                                    this.legs[f-1].anchor.color = "green"
+                                    this.legs[f-1].anchor.radius *= 1.3
+                                this.tips.push(this.legs[f-1].anchor)
+                              }
+                              this.popseg(this.legs[f].anchor)
+                            //   this.tips.splice(this.tips.indexOf(this.legs[f].anchor))
+                          this.legs.splice(f,1)
+                          break
+                            }
+                            if(this.arms.includes(this.legs[f].anchor) ){
+                                if(this.legs[f-1].anchor != this.body){
+                                    this.legs[f-1].anchor.color = "black"
+                                    this.legs[f-1].anchor.radius *= 1.3
+                                    this.arms.push(this.legs[f-1].anchor)
+                                  }
+                                  this.popseg(this.legs[f].anchor)
+                                //   this.arms.splice(this.arms.indexOf(this.legs[f].anchor))
+                              this.legs.splice(f,1)
+                              break
+                                }
+                            
+                        
+                        }
+                    }
+                    if(this.legs.length < 10){
+                        this.dead = 1
+                        this.pop()
+                    }
                     if(f == 0){
                         this.dead = 1
+                        this.pop()
+                    }else{
+                        this.legs[0].health -= 25
                     }
+                    break
+                }
+                if(f>this.legs.length){
                     break
                 }
             }
             for(let g = 0;g<shockfriendly.shocksl.length;g++){
                 if(this.legs[f].anchor.repelCheck(shockfriendly.shocksl[g])){
-                    this.legs[f].health -= .05
-                    this.legs[f].anchor.radius*= .9985
-                    if(this.legs[f].anchor.radius <= 9){
-                        this.legs[f].anchor.radius = 9
+                    this.legs[f].health -= .4  //05
+                    this.legs[f].anchor.radius*= .991  //9985
+                    if(this.legs[f].anchor.radius <= 13){
+                        this.legs[f].anchor.radius = 13
                     }
                 }
 
                 if(this.legs[f].anchor.repelCheck(shockfriendly.shocksr[g])){
-                    this.legs[f].health -= .05
-                    this.legs[f].anchor.radius*= .9985
-                    if(this.legs[f].anchor.radius <= 9){
-                        this.legs[f].anchor.radius = 9
+                    this.legs[f].health -= .4
+                    this.legs[f].anchor.radius*= .991
+                    if(this.legs[f].anchor.radius <= 13){
+                        this.legs[f].anchor.radius = 13
                     }
                 }
 
+            }
+            
+            if(f>this.legs.length){
+                break
             }
             if(this.legs[f].anchor.repelCheck(pomao.body)){
             if(this.legs[f].anchor.x > pomao.body.x){
@@ -5877,13 +6086,18 @@ class Buggle{
                           if(pomao.pounding!=10){
                             pomao.body.xmom = -3*(this.bump)
                             pomao.disabled = 1
-                            pomao.hits-=3
+                            if(this.hashit <= 0){
+                                pomao.hits-=2
+                                this.hashit = 10
+                            }
                              pomao.body.ymom = -1.8
+                             this.legs[f].anchor.xmom = pomao.body.xmom *-5
                           }
                       }else{
                           if(this.bump*pomao.body.xmom >0){
                             pomao.body.xmom = -1.8*(this.bump)
                             pomao.body.ymom = -1.8
+                            this.legs[f].anchor.xmom = pomao.body.xmom *-5
                           }
                       }
                   }
@@ -5898,14 +6112,19 @@ class Buggle{
                       if(pomao.disabled != 1){
                           if(pomao.pounding!=10){
                             pomao.body.xmom = -3*(this.bump)
-                            pomao.disabled = 1
-                            pomao.hits-=2
+                            pomao.disabled = 1    
+                             if(this.hashit <= 0){
+                                pomao.hits-=2
+                                this.hashit = 10
+                            }
                              pomao.body.ymom = -1.8
+                             this.legs[f].body.xmom = pomao.body.xmom *-5
                           }
                       }else{
                           if(this.bump*pomao.body.xmom >0){
                             pomao.body.xmom = -1.8*(this.bump)
                             pomao.body.ymom = -1.8
+                            this.legs[f].body.xmom = pomao.body.xmom *-5
                           }
                       }
                   }
@@ -5915,14 +6134,27 @@ class Buggle{
 
 
 
+              this.popdraw()
+    }else{
+        this.popdraw()
     }
 }
     control(){
 
         let linker = new Line(pomao.body.x, pomao.body.y, this.body.x, this.body.y, "red", 10)
         if(linker.hypotenuse() < 1500){
-            this.body.xmom -= (this.body.x-pomao.body.x)/50
-            this.body.ymom -= (this.body.y-pomao.body.y)/50
+            if(pomao.body.x > 7925){
+                if(this.joints.length > 10){
+                    this.body.xmom -= (this.body.x-pomao.body.x)/50
+                    this.body.ymom -= (this.body.y-pomao.body.y)/50
+                }
+                for(let t = 0;t<this.arms.length;t++){
+                    this.arms[t].xmom  -= (this.body.x-pomao.body.x)/689  //700  //959
+                    this.arms[t].ymom  -= (this.body.y-pomao.body.y)/689
+                    this.arms[t].xmom += 10*(Math.random()-.5)
+                    this.arms[t].ymom +=  10*(Math.random()-.5)
+                }
+            }
         }
     }
 }
@@ -5940,7 +6172,7 @@ class ChSpring{
             this.anchor = new Circle(this.body.x-((Math.random()-.5)*10), this.body.y-((Math.random()-.5)*10), 8, "red")
             this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
         }
-        this.health = 180
+        this.health = 160
 
     }
     balance(){
@@ -5980,8 +6212,8 @@ class ChSpring{
 
     let xmomentumaverage 
     let ymomentumaverage
-    xmomentumaverage = ((this.body.xmom*1)+this.anchor.xmom)/2
-    ymomentumaverage = ((this.body.ymom*1)+this.anchor.ymom)/2
+    xmomentumaverage = ((this.body.xmom*1.1)+this.anchor.xmom)/2.1
+    ymomentumaverage = ((this.body.ymom*1.1)+this.anchor.ymom)/2.1
 
             this.body.xmom = ((this.body.xmom)+xmomentumaverage)/2
             this.body.ymom = ((this.body.ymom)+ymomentumaverage)/2
@@ -5989,10 +6221,10 @@ class ChSpring{
             this.anchor.ymom = ((this.anchor.ymom)+ymomentumaverage)/2
     }
     draw(){
-        this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+        this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", this.anchor.radius)
         this.beam.draw()
-        this.body.draw()
-        this.anchor.draw()
+        this.body.chdraw()
+        this.anchor.chdraw()
     }
     move(){
             // if(this.body != chafer.body){
@@ -6006,7 +6238,7 @@ class ChSpring{
 
 class Orb{
     constructor(){
-        this.body = new Circle(8000+(Math.random()*tutorial_canvas.width*2.5), -(tutorial_canvas.height*3)+(Math.random()*tutorial_canvas.height*3), 40, "orange")
+        this.body = new Circle(8000+(Math.random()*tutorial_canvas.width*2.5), -(tutorial_canvas.height*3)+(Math.random()*tutorial_canvas.height*2.9), 40, "orange")
         this.origin =  new Circle(this.body.x, this.body.y, 16, "blue")
         this.body.gravity = .05
         this.companion = []
@@ -8600,7 +8832,7 @@ const wall2 = new Rectangle(11600, -30000, 30033, 50, "cyan")
 walls.push(wall2)
 floors.push(wall2)
 roofs.push(wall2)
-ungrapplable.push(wall2)
+// ungrapplable.push(wall2)
 
 
 
