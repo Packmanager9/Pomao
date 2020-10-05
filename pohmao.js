@@ -6424,6 +6424,7 @@ tutorial_canvas_context.fillStyle = "black";
 tutorial_canvas_context.font = `${30}px Arial`;
 tutorial_canvas_context.fillText("loading", 300,350)
 
+let chafer
 let boss = new Bossbeam()
 let pin 
 let pin2
@@ -6445,7 +6446,6 @@ loadlvl1()
 // loadlvl5()
 
 
-let chafer = new Buggle()
 // for(let t=0;t<10;t++){
 //     chafer.draw()
 // }
@@ -7426,11 +7426,11 @@ for(let t = 0;t<50; t++){
 }
 
 for(let t = 0;t<30; t++){
-    let bossfloors = new Rectangle(4800+(t*200), 300+Math.random()*200, 20, 120, "red")
+    let bossfloors = new Rectangle(4800+(t*200), Math.round(300+Math.random()*200), 20, 120, "red")
     floors.push(bossfloors)
-    let bossfloors2 = new Rectangle(4800+(t*200), -500+Math.random()*200, 20, 120, "red")
+    let bossfloors2 = new Rectangle(4800+(t*200), Math.round(-500+Math.random()*200), 20, 120, "red")
     floors.push(bossfloors2)
-    let bossfloors3 = new Rectangle(4800+(t*200), -100+Math.random()*200, 20, 120, "red")
+    let bossfloors3 = new Rectangle(4800+(t*200), Math.round(-100+Math.random()*200), 20, 120, "red")
     floors.push(bossfloors3)
 }
 
@@ -8868,7 +8868,7 @@ pomao.body.y = 0
  orbs = []
  links = []
 
-
+ chafer = new Buggle()
 //  pomao.eggmake = 161
 // boss = new Bossbeam()
 
