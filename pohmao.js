@@ -1603,12 +1603,13 @@ class Boys {
         this.rstorage  = this.body.radius
         this.body.radius = this.body.radius/2 
         
+        
         this.blocked = 0
         for(let t = 0; t<walls.length;t++){
             if(squarecircleface(walls[t],this.body)){
 
                 if(this.body.x > walls[t].x){
-                this.blocked = 1
+                    this.blocked = 1
                 }else{
                     this.blocked = -1
                 }
@@ -1868,6 +1869,7 @@ class Cactus {
         this.jumpcountercap = Math.floor(Math.random()*700)+100
         this.jumpcounter = Math.floor(Math.random()*this.jumpcountercap)
         this.cactus = 1
+        this.blocked = 0
     }
     pop(){
         let rotx = 0
@@ -1997,10 +1999,12 @@ class Cactus {
         this.rstorage  = this.body.radius
         this.body.radius = this.body.radius/2 
         
-        this.blocked = 0
+        
+        if( this.child == 0 || this.child.blocked == 0){
+            this.blocked = 0
+        }
         for(let t = 0; t<walls.length;t++){
             if(squarecircleface(walls[t],this.body)){
-
                 if(this.body.x > walls[t].x){
                 this.blocked = 1
                 }else{
@@ -2008,7 +2012,19 @@ class Cactus {
                 }
             }
         }
+        
+            if(this.blocked ==1){
+                if(this.parent != 0){
+                    this.parent.blocked = 1
+                }
+            }
+            if(this.blocked == -1){
+                if(this.parent != 0){
+                    this.parent.blocked = -1
+                }
+            }
 
+            
         
 
 
@@ -2047,7 +2063,7 @@ class Cactus {
         this.jumpcounter++
         if(this.jumpcounter%this.jumpcountercap == 0){
             if(this.dry == 1){
-                this.ymom = -6.7 //7.1
+                this.ymom = -6.2+Math.random() //7.1  //6.7
             }
         }
         }else{  
@@ -2056,9 +2072,64 @@ class Cactus {
             this.x = this.parent.x+this.xdisp
             this.y = this.parent.y-this.height
 
+            this.body.radius =  this.rstorage 
+            this.rstorage  = this.body.radius
+            this.body.radius = this.body.radius/2 
+            
+            
+            if( this.child == 0 || this.child.blocked == 0){ //
+                this.blocked = 0
+            }
+            for(let t = 0; t<walls.length;t++){
+                if(squarecircleface(walls[t],this.body)){
+    
+                    if(this.body.x > walls[t].x){
+                    this.blocked = 1
+                    if(this.parent != 0){
+                        this.parent.blocked = 1
+                    }
+                    }else{
+                        this.blocked = -1
+                        if(this.parent != 0){
+                            this.parent.blocked = -1
+                        }
+                    }
+                }
+            }
+            
+                if(this.blocked ==1){
+                    if(this.parent != 0){
+                        this.parent.blocked = 1
+                    }
+                }
+                if(this.blocked == -1){
+                    if(this.parent != 0){
+                        this.parent.blocked = -1
+                    }
+                }
+
+                for(let f = 0; f<boys.length; f++){
+                    if(this!==boys[f]){
+                        if(this.body.repelCheck( boys[f].body)){
+                            const distance = ((new Line(boys[f].body.x, boys[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse())-(boys[f].body.radius+this.body.radius)
+                            const angleRadians = Math.atan2(boys[f].body.y - this.body.y, boys[f].body.x - this.body.x);
+                            this.xrepel += (Math.cos(angleRadians)*distance)/1.25
+                            this.yrepel += (Math.sin(angleRadians)*distance)/1.25
+                        }
+                    }
+                }
+    
+                if(this.xrepel!=0){
+                    this.parent.xrepel +=this.xrepel
+                    this.parent.yrepel +=this.yrepel
+                    this.xrepel = 0
+                    this.yrepel = 0
+                }
+    
+
         }
         if(this.parent.marked != 0 && this.parent != 0){
-                this.ymom -=5  // 10
+                this.ymom -=5+Math.random()  // 10 //5
         }
         if(!boys.includes(this.parent) || this.parent.marked != 0 ){
      
@@ -3173,6 +3244,7 @@ class Pomao{
                     }
                     pomao.body.ymom = 0
                     pomao.body.xmom *= .975
+                    // this.hng = 0  // infiinite flutter?
                     this.dry = 1
                     break
                 }
@@ -5755,8 +5827,6 @@ class Buggle{
             }
         }
 
-        // console.log(this.joints)
-
         for(let f = 0;f<this.legs.length;f++){
             for(let r = 0;r<pomao.thrown.length; r++){
                 if(this.legs[f].anchor.repelCheck(pomao.thrown[r])){
@@ -5768,10 +5838,6 @@ class Buggle{
                 }
                 if(this.legs[f].body.repelCheck(pomao.thrown[r])){
                     this.legs[f].health -= 3
-                    // this.legs[f].body.radius*= .9
-                    // if(this.legs[f].body.radius <= 9){
-                    //     this.legs[f].body.radius = 9
-                    // }
                 }
                 
                 if(this.legs[f].health <= 0){
@@ -5806,7 +5872,6 @@ class Buggle{
             }else{
                 this.bump = -1
             }
-        //   if(pomao.body.ymom == 0){
                   if(this.legs[f].anchor.radius >= 9){
                       if(pomao.disabled != 1){
                           if(pomao.pounding!=10){
@@ -5814,13 +5879,11 @@ class Buggle{
                             pomao.disabled = 1
                             pomao.hits-=3
                              pomao.body.ymom = -1.8
-                            //  this.body.xmom = -pomao.body.xmom
                           }
                       }else{
                           if(this.bump*pomao.body.xmom >0){
                             pomao.body.xmom = -1.8*(this.bump)
                             pomao.body.ymom = -1.8
-                            // this.body.xmom = -pomao.body.xmom
                           }
                       }
                   }
@@ -5831,7 +5894,6 @@ class Buggle{
             }else{
                 this.bump = -1
             }
-        //   if(pomao.body.ymom == 0){
                   if(this.legs[f].body.radius >= 9){
                       if(pomao.disabled != 1){
                           if(pomao.pounding!=10){
@@ -5839,18 +5901,20 @@ class Buggle{
                             pomao.disabled = 1
                             pomao.hits-=2
                              pomao.body.ymom = -1.8
-                            //  this.body.xmom = -pomao.body.xmom
                           }
                       }else{
                           if(this.bump*pomao.body.xmom >0){
                             pomao.body.xmom = -1.8*(this.bump)
                             pomao.body.ymom = -1.8
-                            // this.body.xmom = -pomao.body.xmom
                           }
                       }
                   }
                 }
-        }
+              }
+
+
+
+
     }
 }
     control(){
@@ -6559,8 +6623,8 @@ for(let t = 0; t<ramps.length; t++){
                             boys[k].body.radius*=.75
                         }
         
-                    }
-        for(let t = 0; t<shockfriendly.shocksr.length; t++){
+        //             }
+        // for(let t = 0; t<shockfriendly.shocksr.length; t++){
             // ////console.log(boys[k])
             // ////console.log(pomao.thrown[t])
             boys[k].body.radius*=1.333333
@@ -8532,7 +8596,7 @@ floors.push(wall1)
 roofs.push(wall1)
 // ungrapplable.push(wall1)
 
-const wall2 = new Rectangle(15100, -30000, 30033, 50, "cyan")
+const wall2 = new Rectangle(11600, -30000, 30033, 50, "cyan")
 walls.push(wall2)
 floors.push(wall2)
 roofs.push(wall2)
@@ -8584,15 +8648,44 @@ for(let t=0;t<ramps.length;t++){
 // pomao.eggmake = 161000
 for(let k = 1;k <7;k++){
 
-    let cactus  = new Cactus(500+(k*1280),0,40,40,"red")
-    boys.push(cactus)
-    for(let t = 0; t<25; t++){
-        cactus = new Cactus(500+(k*1280),0,40,40,"red")
+        let cactus  = new Cactus(500+(k*1280),0,40,40,"orange")
+        boys.push(cactus)
+        for(let t = 0; t<25; t++){
+            cactus = new Cactus(500+(k*1280),0,40,40,"red")
+            cactus.parent = boys[boys.length-1]
+            boys[boys.length-1].child = cactus
+            boys.push(cactus)
+        }
+    
+
+}
+for(let k = 1;k <28;k++){
+
+   
+        let cactus  = new Cactus(500+(k*300),0,40,40,"red")
+        boys.push(cactus)
+    for(let t = 0; t<5+Math.floor(Math.random()*5); t++){
+        cactus = new Cactus(500+(k*300),0,40,40,"red")
         cactus.parent = boys[boys.length-1]
         boys[boys.length-1].child = cactus
         boys.push(cactus)
     }
 
+
+}
+
+const lvl5roof = new Rectangle(-2100,  -(tutorial_canvas.height*3.1), 50, 17200, "red")
+floors.push(lvl5roof)
+walls.push(lvl5roof)
+roofs.push(lvl5roof)
+
+for(let t = 1; t<14; t++){
+const lvl5struts = new Rectangle(-500+t*642,  (-(tutorial_canvas.height*3.1))+((t%2)*300), (tutorial_canvas.height*3.1)-267, 50, "red")
+if(t!==1){
+    walls.push(lvl5struts)
+    floors.push(lvl5struts)
+    roofs.push(lvl5struts)
+}
 }
 
 
