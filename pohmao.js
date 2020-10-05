@@ -492,7 +492,7 @@ const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 // tutorial_canvas_context.scale(.035,.035)
 // tutorial_canvas_context.scale(.5,.5)
 // tutorial_canvas_context.translate(3300,19750)
-// tutorial_canvas_context.translate(2500,6000)
+// tutorial_canvas_context.translate(640,360)
 
 tutorial_canvas.style.background = "#664613"
 
@@ -2538,8 +2538,8 @@ class Circle{
         this.x+=this.sxmom
         this.y+=this.symom 
 
-        this.sxmom*=.9
-        this.symom*=.9
+        this.sxmom*=.95 //.9
+        this.symom*=.95  //.9
     }
 
      draw(){
@@ -3236,7 +3236,8 @@ class Pomao{
                     }
                     }
                     }
-                }else if(ramps[t].isPointInside(pomao.tongue)){
+                }else if(ramps[t].isPointInside(pomao.tongue) || ((typeof ramps[t].radius == "number") && (pomao.tonguebox.isInsideOf(ramps[t]) || ramps[t].repelCheck(pomao.tongue)))){
+                    
                     // tutorial_canvas_context.translate(0,  this.body.y-(ramps[t].y-this.body.radius))
                     // this.body.y = ramps[t].y-this.body.radius
                     if(this.tongueymom <0){
@@ -5512,7 +5513,7 @@ class Observer{
 class Buggle{
     constructor(){
         this.counter = 0
-        this.body = new Circle(350,350, 35, "red")
+        this.body = new Circle(9280,-1650, 38, "red")
         this.legs = []
         this.tips = []
         this.joints = []
@@ -5523,11 +5524,13 @@ class Buggle{
         this.smack = 0
         this.tipsOn = []
         this.legshotclock = 0
+        this.dead = 0
 
         for(let t = 0; t<this.limbs;t++){
 
             let rigradius = 20
             let spring = new ChSpring(this.body)
+            spring.health = 888
             spring.anchor.radius = rigradius
             this.joints.push(spring.anchor)
                 this.legs.push(spring)
@@ -5575,8 +5578,8 @@ class Buggle{
         this.legshotclock++
         for(let t = 0; t<orbs.length; t++){
            
-            let link
-            if(this.legshotclock < 55){
+            let link 
+            if(this.legshotclock < 255){  //55
                 link = new Line(this.body.x, this.body.y, orbs[t].body.x, orbs[t].body.y, "red", 2)// let link = new Line(this.tips[this.leg].x, this.tips[this.leg].y, orbs[t].body.x, orbs[t].body.y, "red", 2)
             } else{
                 if(minreset == 0){
@@ -5590,6 +5593,9 @@ class Buggle{
             for(let g = 0; g<this.tips.length; g++){
                    for(let h = 0; h<orbs.length; h++){
                     if(g!=this.leg){
+                        let linker = new Line(this.tips[this.leg].x, this.tips[this.leg].y,orbs[h].body.x ,orbs[h].body.y, "red", 2)
+                        if(linker.hypotenuse() < 500){
+                            // linker.draw()
                         if(orbs[h].body.repelCheck(this.tips[g])){
                                 this.tipsOn.push(orbs[h].body)
                                 if(!orbs[h].companion.includes(this.tips[g])){
@@ -5599,6 +5605,7 @@ class Buggle{
                         }
                     }
                    }
+                }
             }
             for(let t = 0; t<orbs.length; t++){
                 orbs[t].body.gravity = .0
@@ -5623,10 +5630,18 @@ class Buggle{
         // console.log(this.tipsOn)
         let link = new Line(this.tips[this.leg].x, this.tips[this.leg].y, dummypin.x,dummypin.y, "red", 2)
         // link.draw()
-        this.tips[this.leg].symom -= (this.tips[this.leg].y-dummypin.y)/450
-        this.tips[this.leg].sxmom -= (this.tips[this.leg].x-dummypin.x)/450
+        this.tips[this.leg].symom -= (this.tips[this.leg].y-dummypin.y)/350
+        this.tips[this.leg].sxmom -= (this.tips[this.leg].x-dummypin.x)/350
+        
+        // for(let t = 0;(Math.abs(this.tips[this.leg].symom) + Math.abs(this.tips[this.leg].sxmom)) < 15; t++){
+        //     this.tips[this.leg].symom *=1.101
+        //     this.tips[this.leg].sxmom *=1.101
+        //     if(t>1000){
+        //         break
+        //     }
+        // }
 
-        for(let t = 0;(Math.abs(this.tips[this.leg].sxmom)+Math.abs(this.tips[this.leg].symom)) < ((Math.abs(this.tips[this.leg].xmom)+Math.abs(this.tips[this.leg].ymom))+.55) ; t++ ){
+        for(let t = 0;(Math.abs(this.tips[this.leg].sxmom)+Math.abs(this.tips[this.leg].symom)) < ((Math.abs(this.tips[this.leg].xmom)+Math.abs(this.tips[this.leg].ymom))+3.55) ; t++ ){  //.55
             this.tips[this.leg].symom *=1.01
             this.tips[this.leg].sxmom *=1.01
             if(t>1000){
@@ -5680,6 +5695,8 @@ class Buggle{
     }
     }
     draw(){
+        
+        if(this.dead == 0){
         // this.counter++
         // if(this.counter%12 == 0){
 
@@ -5717,10 +5734,12 @@ class Buggle{
 
                     }else{
 
-                    this.joints[k].xmom-=((this.joints[t].x-this.joints[k].x)/guide.hypotenuse())/this.xforce
-                    this.joints[k].ymom-=((this.joints[t].y-this.joints[k].y)/guide.hypotenuse())/this.yforce
-                    this.joints[t].xmom+=((this.joints[t].x-this.joints[k].x)/guide.hypotenuse())/this.xforce
-                    this.joints[t].ymom+=((this.joints[t].y-this.joints[k].y)/guide.hypotenuse())/this.yforce
+                        if(this.legs[0].health > 0){
+                            this.joints[k].xmom-=((this.joints[t].x-this.joints[k].x)/guide.hypotenuse())/this.xforce
+                            this.joints[k].ymom-=((this.joints[t].y-this.joints[k].y)/guide.hypotenuse())/this.yforce
+                            this.joints[t].xmom+=((this.joints[t].x-this.joints[k].x)/guide.hypotenuse())/this.xforce
+                            this.joints[t].ymom+=((this.joints[t].y-this.joints[k].y)/guide.hypotenuse())/this.yforce
+                        }
                     }
                 }
             }
@@ -5736,11 +5755,111 @@ class Buggle{
             }
         }
 
+        // console.log(this.joints)
 
+        for(let f = 0;f<this.legs.length;f++){
+            for(let r = 0;r<pomao.thrown.length; r++){
+                if(this.legs[f].anchor.repelCheck(pomao.thrown[r])){
+                    this.legs[f].health -= .5
+                    this.legs[f].anchor.radius*= .985
+                    if(this.legs[f].anchor.radius <= 9){
+                        this.legs[f].anchor.radius = 9
+                    }
+                }
+                if(this.legs[f].body.repelCheck(pomao.thrown[r])){
+                    this.legs[f].health -= 3
+                    // this.legs[f].body.radius*= .9
+                    // if(this.legs[f].body.radius <= 9){
+                    //     this.legs[f].body.radius = 9
+                    // }
+                }
+                
+                if(this.legs[f].health <= 0){
+                    this.legs.splice(f,1)
+                    if(f == 0){
+                        this.dead = 1
+                    }
+                    break
+                }
+            }
+            for(let g = 0;g<shockfriendly.shocksl.length;g++){
+                if(this.legs[f].anchor.repelCheck(shockfriendly.shocksl[g])){
+                    this.legs[f].health -= .05
+                    this.legs[f].anchor.radius*= .9985
+                    if(this.legs[f].anchor.radius <= 9){
+                        this.legs[f].anchor.radius = 9
+                    }
+                }
+
+                if(this.legs[f].anchor.repelCheck(shockfriendly.shocksr[g])){
+                    this.legs[f].health -= .05
+                    this.legs[f].anchor.radius*= .9985
+                    if(this.legs[f].anchor.radius <= 9){
+                        this.legs[f].anchor.radius = 9
+                    }
+                }
+
+            }
+            if(this.legs[f].anchor.repelCheck(pomao.body)){
+            if(this.legs[f].anchor.x > pomao.body.x){
+                this.bump = 1
+            }else{
+                this.bump = -1
+            }
+        //   if(pomao.body.ymom == 0){
+                  if(this.legs[f].anchor.radius >= 9){
+                      if(pomao.disabled != 1){
+                          if(pomao.pounding!=10){
+                            pomao.body.xmom = -3*(this.bump)
+                            pomao.disabled = 1
+                            pomao.hits-=3
+                             pomao.body.ymom = -1.8
+                            //  this.body.xmom = -pomao.body.xmom
+                          }
+                      }else{
+                          if(this.bump*pomao.body.xmom >0){
+                            pomao.body.xmom = -1.8*(this.bump)
+                            pomao.body.ymom = -1.8
+                            // this.body.xmom = -pomao.body.xmom
+                          }
+                      }
+                  }
+                }
+            if(this.legs[f].body.repelCheck(pomao.bodytight)){
+            if(this.legs[f].body.x > pomao.body.x){
+                this.bump = 1
+            }else{
+                this.bump = -1
+            }
+        //   if(pomao.body.ymom == 0){
+                  if(this.legs[f].body.radius >= 9){
+                      if(pomao.disabled != 1){
+                          if(pomao.pounding!=10){
+                            pomao.body.xmom = -3*(this.bump)
+                            pomao.disabled = 1
+                            pomao.hits-=2
+                             pomao.body.ymom = -1.8
+                            //  this.body.xmom = -pomao.body.xmom
+                          }
+                      }else{
+                          if(this.bump*pomao.body.xmom >0){
+                            pomao.body.xmom = -1.8*(this.bump)
+                            pomao.body.ymom = -1.8
+                            // this.body.xmom = -pomao.body.xmom
+                          }
+                      }
+                  }
+                }
+        }
     }
+}
     control(){
-        this.body.xmom -= (this.body.x-pomao.body.x)/50
-        this.body.ymom -= (this.body.y-pomao.body.y)/50
+
+        let linker = new Line(pomao.body.x, pomao.body.y, this.body.x, this.body.y, "red", 10)
+        if(linker.hypotenuse() < 1500){
+            this.body.xmom -= (this.body.x-pomao.body.x)/50
+            this.body.ymom -= (this.body.y-pomao.body.y)/50
+        }
     }
 }
 
@@ -5757,6 +5876,7 @@ class ChSpring{
             this.anchor = new Circle(this.body.x-((Math.random()-.5)*10), this.body.y-((Math.random()-.5)*10), 8, "red")
             this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
         }
+        this.health = 180
 
     }
     balance(){
@@ -5822,7 +5942,7 @@ class ChSpring{
 
 class Orb{
     constructor(){
-        this.body = new Circle(-11000+(Math.random()*tutorial_canvas.width*10), -6500+(Math.random()*tutorial_canvas.height*10), 40, "orange")
+        this.body = new Circle(8000+(Math.random()*tutorial_canvas.width*2.5), -(tutorial_canvas.height*3)+(Math.random()*tutorial_canvas.height*3), 40, "orange")
         this.origin =  new Circle(this.body.x, this.body.y, 16, "blue")
         this.body.gravity = .05
         this.companion = []
@@ -5868,19 +5988,29 @@ let dummypin = new Circle(100,100, 10, "blue")
 
 let orbs = []
 
-for(let t = 0; t<200; t++){
-    let orb = new Orb()
-    let click = 0
-    for(let k = 0; k<orbs.length; k++){
-        let link = new Line(orb.body.x, orb.body.y, orbs[k].body.x, orbs[k].body.y, "green", 3)
-        if(link.hypotenuse()< 49){
-            click = 1
-        }
-    }
-    if(click == 0){
-    orbs.push(orb)
-    }
-}
+
+// for(let k = 0;k<6000;k++){
+//     let wet = 0
+
+//     for(let k=0;k<fruits.length;k++){
+//         if(fruits[k].body.repelCheck(fruit.body)){
+//             wet = 1
+//         }
+//     }
+//     for(let k=0;k<floors.length;k++){
+//         if(squarecircleedges(floors[k], fruit.body)){
+//             wet = 1
+//         }
+//         for(let k=0;k<ramps.length;k++){
+//             if(squarecircleedges(ramps[k], fruit.body)){
+//                 wet = 1
+//             }
+//     }
+//     if(wet == 0){
+//         fruits.push(fruit)
+//     }
+// }
+
 
 
 
@@ -6175,7 +6305,9 @@ for(let t = 0; t<ramps.length; t++){
         if(typeof ramps[t].radius == "number"){
 
         }else{
-            ramps[t].draw()
+            if(level != 5){
+                ramps[t].draw()
+            }
         }
            
         tutorial_canvas_context.drawImage(rampcurveimg1, 1656, 578, 488, 73 )
@@ -6293,6 +6425,23 @@ for(let t = 0; t<ramps.length; t++){
             swinger1move()
         }
         
+        if(level == 5){
+            // chafer.draw()
+            for(let t = 0; t<orbs.length; t++){     
+                
+            if(orbs[t].body.x > pomao.body.x-((tutorial_canvas.width*2)+orbs[t].body.radius) && orbs[t].body.x < pomao.body.x+((tutorial_canvas.width*2)+orbs[t].body.radius) ){
+                if(orbs[t].body.y > pomao.body.y-((tutorial_canvas.height*2)+orbs[t].body.radius) && orbs[t].body.y < pomao.body.y+((tutorial_canvas.height*2)+orbs[t].body.radius) ){
+                     orbs[t].draw()
+                }  
+            }
+           }
+           for(let t = 0; t<links.length; t++){
+               let link = new Line(orbs[links[t][0]].body.x, orbs[links[t][0]].body.y, orbs[links[t][1]].body.x, orbs[links[t][1]].body.y, "white", 2)
+               link.draw()
+           }
+
+         }
+
         // swinger1move()
         pomao.draw()   
         
@@ -6445,19 +6594,11 @@ for(let t = 0; t<ramps.length; t++){
                 }  
             }
          }
+         if(level == 5){
+            chafer.draw()
+         }
 
-        //  if(level == 5){
-        //     // chafer.draw()
-        //     for(let t = 0; t<orbs.length; t++){
-        //        orbs[t].draw()
-        //    }
-        //    for(let t = 0; t<links.length; t++){
-        //        let link = new Line(orbs[links[t][0]].body.x, orbs[links[t][0]].body.y, orbs[links[t][1]].body.x, orbs[links[t][1]].body.y, "white", .3)
-        //        link.draw()
-        //    }
-        //    chafer.draw()
 
-        //  }
         // fracta4l.draw()
         loader = 1000
     }else{
@@ -6870,6 +7011,8 @@ function loadlvl1(){
  blocks = []
  nails = []
  chats = []
+ orbs = []
+ links = []
  springs = []
  objsprings = []
  spinnys = []
@@ -7539,6 +7682,8 @@ function loadlvl2(){
      blocks = []
      nails = []
      chats = []
+     orbs = []
+     links = []
      spinnys = []
      
     
@@ -7686,6 +7831,8 @@ beamrocks = []
      blocks = []
      nails = []
      chats = []
+     orbs = []
+     links = []
      spinnys = []
 
      
@@ -7842,6 +7989,8 @@ beamrocks = []
      blocks = []
      nails = []
      chats = []
+     orbs = []
+     links = []
     
     //  pomao.eggmake = 161
     
@@ -8369,6 +8518,8 @@ pomao.body.y = 0
  blocks = []
  nails = []
  chats = []
+ orbs = []
+ links = []
 
 
 //  pomao.eggmake = 161
@@ -8381,7 +8532,7 @@ floors.push(wall1)
 roofs.push(wall1)
 // ungrapplable.push(wall1)
 
-const wall2 = new Rectangle(9100, -30000, 30033, 50, "cyan")
+const wall2 = new Rectangle(15100, -30000, 30033, 50, "cyan")
 walls.push(wall2)
 floors.push(wall2)
 roofs.push(wall2)
@@ -8430,8 +8581,8 @@ for(let t=0;t<ramps.length;t++){
     }
 }
 
-
-for(let k = 1;k <8;k++){
+// pomao.eggmake = 161000
+for(let k = 1;k <7;k++){
 
     let cactus  = new Cactus(500+(k*1280),0,40,40,"red")
     boys.push(cactus)
@@ -8467,7 +8618,78 @@ for(let k = 1;k <8;k++){
     //     spinnys.push(spinny)
 
     // }
+
+
+
+    for(let t = 0; t<2000; t++){
+        let orb = new Orb()
+        let click = 0
+        for(let k = 0; k<orbs.length; k++){
+            let link = new Line(orb.body.x, orb.body.y, orbs[k].body.x, orbs[k].body.y, "green", 3)
+            if(link.hypotenuse()< 350){
+                click = 1
+            }
+        }
+        if(click == 0){
+        orbs.push(orb)
+        }else{
+            ramps.splice(ramps.indexOf(orb.body), 1)
+        }
+    }
+
     
+for(let t = 0; t<orbs.length; t++){
+    for(let k = 0; k<orbs.length; k++){
+
+        if(k!==t){
+            let link = new Line(orbs[t].body.x, orbs[t].body.y, orbs[k].body.x, orbs[k].body.y, "white", .3)
+
+            // console.log(link)
+            if(link.hypotenuse() <685){
+                links.push([t,k])
+            }
+        }
+    }
+}
+
+    
+    for(let k = 0;k<400;k++){
+        let wet = 0
+        let fruit = new Fruit(8000+(Math.random()*tutorial_canvas.width*2.5), -(tutorial_canvas.height*3)+(Math.random()*tutorial_canvas.height*3), 60,60,"transparent")
+
+        for(let k=0;k<fruits.length;k++){
+            if(fruits[k].body.repelCheck(fruit.body)){
+                wet = 1
+            }
+        }
+        for(let k=0;k<floors.length;k++){
+            if(squarecircleedges(floors[k], fruit.body)){
+                wet = 1
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+    for(let k = 0;k<100;k++){
+        let wet = 0
+        let fruit = new Fruit(-1200+(Math.random()*tutorial_canvas.width*8), -(tutorial_canvas.height*.71)+(Math.random()*tutorial_canvas.height*.71), 60,60,"transparent")
+
+        for(let k=0;k<fruits.length;k++){
+            if(fruits[k].body.repelCheck(fruit.body)){
+                wet = 1
+            }
+        }
+        for(let k=0;k<floors.length;k++){
+            if(squarecircleedges(floors[k], fruit.body)){
+                wet = 1
+            }
+        }
+        if(wet == 0){
+            fruits.push(fruit)
+        }
+    }
+
 }
     
 })
