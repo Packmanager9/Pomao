@@ -6021,8 +6021,7 @@ class Buggle{
                             //   this.tips.splice(this.tips.indexOf(this.legs[f].anchor))
                           this.legs.splice(f,1)
                           break
-                            }
-                            if(this.arms.includes(this.legs[f].anchor) ){
+                            }else if(this.arms.includes(this.legs[f].anchor) ){
                                 if(this.legs[f-1].anchor != this.body){
                                     this.legs[f-1].anchor.color = "black"
                                     this.legs[f-1].anchor.radius *= 1.3
