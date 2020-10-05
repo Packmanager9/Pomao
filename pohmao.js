@@ -6289,7 +6289,7 @@ class ChSpring{
 
 class Orb{
     constructor(){
-        this.body = new Circle(8000+(Math.random()*tutorial_canvas.width*2.5), -(tutorial_canvas.height*3)+(Math.random()*tutorial_canvas.height*2.9), 40, "orange")
+        this.body = new Circle(8000+(Math.random()*tutorial_canvas.width*2.5), -(tutorial_canvas.height*2.9)+(Math.random()*tutorial_canvas.height*2.8), 40, "orange")
         this.origin =  new Circle(this.body.x, this.body.y, 16, "blue")
         this.body.gravity = .05
         this.companion = []
