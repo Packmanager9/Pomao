@@ -18,7 +18,7 @@ for(let i = 1; i < 44; i++) {
 for(let t = 42; t>0; t--){
     zimgs.push(zimgs[t])
 }
-// console.log(zimgs)
+// //console.log(zimgs)
 
 let rimgs = []
 for(let i = 9; i < 12; i++) {
@@ -48,36 +48,36 @@ const gamepadAPI = {
                 gamepadAPI.controller = navigator.getGamepads()[0]
                 gamepadAPI.turbo = true;
             }
-            ////console.log('Gamepad connected.');
-            ////console.log(navigator.getGamepads()[0]);
+            //////console.log('Gamepad connected.');
+            //////console.log(navigator.getGamepads()[0]);
 
         // }
 
 for (let i = 0; i < gamepads.length; i++) {
-    ////console.log("Gamepad " + i + ":");
+    //////console.log("Gamepad " + i + ":");
 
     if (gamepads[i] === null) {
-        ////console.log("[null]");
+        //////console.log("[null]");
         continue;
     }
 
     if (!gamepads[i].connected) {
-        ////console.log("[disconnected]");
+        //////console.log("[disconnected]");
         continue;
     }
 
-    ////console.log("    Index: " + gamepads[i].index);
-    ////console.log("    ID: " + gamepads[i].id);
-    ////console.log("    Axes: " + gamepads[i].axes.length);
-    ////console.log("    Buttons: " + gamepads[i].buttons.length);
-    ////console.log("    Mapping: " + gamepads[i].mapping);
+    //////console.log("    Index: " + gamepads[i].index);
+    //////console.log("    ID: " + gamepads[i].id);
+    //////console.log("    Axes: " + gamepads[i].axes.length);
+    //////console.log("    Buttons: " + gamepads[i].buttons.length);
+    //////console.log("    Mapping: " + gamepads[i].mapping);
 }
 
       },
       disconnect: function(evt) {
         gamepadAPI.turbo = false;
         delete gamepadAPI.controller;
-        ////console.log('Gamepad disconnected.');
+        //////console.log('Gamepad disconnected.');
       },
       update: function() {
         // clear the buttons cache
@@ -98,7 +98,7 @@ for (let i = 0; i < gamepads.length; i++) {
           for(var b=0,t=c.buttons.length; b<t; b++) {
             if(c.buttons[b].pressed) {
               pressed.push(gamepadAPI.buttons[b]);
-              ////console.log(gamepadAPI.buttons[b])
+              //////console.log(gamepadAPI.buttons[b])
             }
           }
         }
@@ -113,7 +113,7 @@ for (let i = 0; i < gamepads.length; i++) {
         gamepadAPI.axesStatus = axes;
         gamepadAPI.buttonsStatus = pressed;
         // return buttons for debugging purposes
-        // console.log(pressed)
+        // //console.log(pressed)
         return pressed;
       },
       buttonPressed: function(button, hold) {
@@ -1725,11 +1725,11 @@ class Boys {
             this.anchor.ydif = 0
             }
         }
-        // console.log(this.anchor)
+        // //console.log(this.anchor)
         this.marked = 1  
         this.width*=.995
         this.height*=.995
-        // ////console.log(this)
+        // //////console.log(this)
 
         
       }
@@ -1743,7 +1743,7 @@ class Boys {
         this.marked = 2
         pomao.diry = 1
       }else if (this.body.repelCheck(pomao.body) && !this.body.repelCheck(pomao.tongue )){
-        //   ////console.log(pomao.dir)
+        //   //////console.log(pomao.dir)
 
         if(this.body.x > pomao.body.x){
             this.bump = 1
@@ -1771,7 +1771,7 @@ class Boys {
                   }
         }
     }
-        // ////console.log(pomao.dir, pomao.body.xmom)
+        // //////console.log(pomao.dir, pomao.body.xmom)
 
 
       if(this.marked == 1){
@@ -1787,7 +1787,7 @@ class Boys {
         pomao.diry = 1
 
 
-        // ////console.log(pomao)
+        // //////console.log(pomao)
       }
     //   if(this.marked == 3){
     //     this.x  -= ((this.body.x-pomao.body.x)/3.5)
@@ -1796,7 +1796,7 @@ class Boys {
     //     // pomao.diry = 1
 
 
-    //     // ////console.log(pomao)
+    //     // //////console.log(pomao)
     //   }
 
 
@@ -1807,10 +1807,10 @@ class Boys {
             boys.splice(boys.indexOf(this),1)
             //sound (obnoxious)
             // if (jazz.duration > 0 && !jazz.paused) {
-            //     ////console.log("top")
+            //     //////console.log("top")
             //         jazz2.play()
             // }else{
-            //     ////console.log("bottom")
+            //     //////console.log("bottom")
             //     jazz.play()
             // }
             // jazz2.play()
@@ -2211,11 +2211,11 @@ class Cactus {
             this.anchor.ydif = 0
             }
         }
-        // console.log(this.anchor)
+        // //console.log(this.anchor)
         this.marked = 1  
         this.width*=.995
         this.height*=.995
-        // ////console.log(this)
+        // //////console.log(this)
 
         
       }
@@ -2229,7 +2229,7 @@ class Cactus {
         this.marked = 2
         pomao.diry = 1
       }else if (this.body.repelCheck(pomao.body) && !this.body.repelCheck(pomao.tongue )){
-        //   ////console.log(pomao.dir)
+        //   //////console.log(pomao.dir)
 
         if(this.body.x > pomao.body.x){
             this.bump = 1
@@ -2257,7 +2257,7 @@ class Cactus {
                   }
         }
     }
-        // ////console.log(pomao.dir, pomao.body.xmom)
+        // //////console.log(pomao.dir, pomao.body.xmom)
 
 
       if(this.marked == 1){
@@ -2273,7 +2273,7 @@ class Cactus {
         pomao.diry = 1
 
 
-        // ////console.log(pomao)
+        // //////console.log(pomao)
       }
     //   if(this.marked == 3){
     //     this.x  -= ((this.body.x-pomao.body.x)/3.5)
@@ -2282,7 +2282,7 @@ class Cactus {
     //     // pomao.diry = 1
 
 
-    //     // ////console.log(pomao)
+    //     // //////console.log(pomao)
     //   }
 
 
@@ -2293,10 +2293,10 @@ class Cactus {
             boys.splice(boys.indexOf(this),1)
             //sound (obnoxious)
             // if (jazz.duration > 0 && !jazz.paused) {
-            //     ////console.log("top")
+            //     //////console.log("top")
             //         jazz2.play()
             // }else{
-            //     ////console.log("bottom")
+            //     //////console.log("bottom")
             //     jazz.play()
             // }
             // jazz2.play()
@@ -2426,7 +2426,7 @@ class Fruit {
             this.anchor.ydif = 0
             }
         }
-        // ////console.log(this)
+        // //////console.log(this)
     }
       this.body = new Circle(this.x+this.width/2, this.y+this.height/2, this.width/2.5, "blue")
       if(this.body.repelCheck(pomao.body)){
@@ -2440,11 +2440,11 @@ class Fruit {
         }
         this.marked = 2
         pomao.diry = 1
-        // ////console.log(pomao)
+        // //////console.log(pomao)
       }
 
       if(this.marked == 1){
-      //console.log(this.anchor)
+      ////console.log(this.anchor)
             this.x  -= ((this.body.x-pomao.tongue.x)/1)+(this.anchor.xdif*.9)
             this.y -= ((this.body.y-pomao.tongue.y)/1)+(this.anchor.ydif*.9)
 
@@ -2456,7 +2456,7 @@ class Fruit {
         pomao.diry = 1
 
 
-        // ////console.log(pomao)
+        // //////console.log(pomao)
       }
 
 
@@ -2489,10 +2489,10 @@ class Fruit {
 
             //sound (obnoxious)
             // if (jazz.duration > 0 && !jazz.paused) {
-            //     ////console.log("top")
+            //     //////console.log("top")
             //         jazz2.play()
             // }else{
-            //     ////console.log("bottom")
+            //     //////console.log("bottom")
             //     jazz.play()
             // }
             // jazz2.play()
@@ -2614,12 +2614,12 @@ class Circle{
                 this.xmom *=-1
             }
         }
-        this.x += this.xmom
-        this.y += this.ymom
+        this.x += this.xmom*1.1
+        this.y += this.ymom*1.1
         if(this!= chafer.body){
  
-            this.xmom*=.92  //.8  //.89
-            this.ymom*=.92  //.8
+            this.xmom*=.935  //.8  //.89 //92
+            this.ymom*=.935  //.8
         }else{
 
         this.xmom*=.999
@@ -2670,7 +2670,7 @@ class Circle{
         this.x += this.xmom
         this.y += this.ymom
         if(pomao.rooted == this){
-            console.log(pomao)
+            //console.log(pomao)
             pomao.body.x += this.xmom
             pomao.body.y += this.ymom
             tutorial_canvas_context.translate(-this.xmom, -this.ymom)
@@ -2793,7 +2793,7 @@ class Circlex{
                     pomao.eggs[t].steer()
                 }
             //          break
-            //         // ////console.log(pomao.eggs[t].pos)
+            //         // //////console.log(pomao.eggs[t].pos)
             //     }
             }
             tutorial_canvas_context.translate(-this.xmom, -this.ymom)
@@ -2898,7 +2898,7 @@ class Switchbutton{
     }
     draw(){
         this.detect()
-        // ////console.log(this)      
+        // //////console.log(this)      
         // this.body.draw()
          tutorial_canvas_context.drawImage(this.img,   (this.img.width/2)*this.state, 0, (this.img.width/2), (this.img.height), this.body.x, this.body.y, this.body.width, this.body.height)
      
@@ -2925,7 +2925,7 @@ class Switchfloor{
         this.button.draw()
     }
     clear(){
-        // console.log("hit")
+        // //console.log("hit")
         if(this.cleared == 0){
             if(this.button.state == 1){
                 floors.splice( floors.indexOf(this.floor),1)
@@ -3106,7 +3106,7 @@ class Pomao{
 
 
         }
-        // ////console.log(this.electron, this.positron)
+        // //////console.log(this.electron, this.positron)
 
         if(dry == 1){
             if(this.body.ymom > 0){
@@ -3863,7 +3863,7 @@ for(let t = 0; t<bats.length; t++){
 
         gamepadAPI.update()
 
-        // ////console.log(gamepadAPI)
+        // //////console.log(gamepadAPI)
 //   if(gamepadAPI.buttonsStatus.includes('A')){
     if(gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A')){
         // this.rooted = {}
@@ -3884,7 +3884,7 @@ for(let t = 0; t<bats.length; t++){
             }
             if(pomao.hng < .216){
             pomao.body.ymom += -pomao.hng
-            ////console.log(pomao.hng)
+            //////console.log(pomao.hng)
             }else{
                 // pomao.hng = -.05
                 // pomao.runner = 0
@@ -3933,7 +3933,7 @@ if(this.hng != 0){
 
 
 let gamepad
-        // ////console.log(pomao)
+        // //////console.log(pomao)
    
 
 
@@ -4073,7 +4073,7 @@ let gamepad
     
                 if(this.blocked == 0){
                     if(gamepadAPI.axesStatus[0]*3 > 0 ){
-                        // //console.log("top")
+                        // ////console.log("top")
                         pomao.body.x+= gamepadAPI.axesStatus[0]*3
                         tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
     
@@ -4086,7 +4086,7 @@ let gamepad
                             }
                         }
                     }else{
-                        // //console.log("bottom")
+                        // ////console.log("bottom")
                         pomao.body.x+= gamepadAPI.axesStatus[0]*3
                         tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
                         
@@ -4153,7 +4153,7 @@ let gamepad
                     // this.tongueymom = 33
                     } if(keysPressed['ArrowUp'] || keysPressed['i'] ){
                         this.ydir = -1
-                        // ////console.log('hit')
+                        // //////console.log('hit')
                         // this.tongueymom = -33
                         } if(keysPressed['ArrowLeft'] || keysPressed['j'] ){
                             this.xdir = -1
@@ -4306,7 +4306,7 @@ let gamepad
                             // this.tongueymom = 33
                             } if(keysPressed['ArrowUp'] || keysPressed['i'] ){
                                 this.ydir = -1
-                                // ////console.log('hit')
+                                // //////console.log('hit')
                                 // this.tongueymom = -33
                                 } if(keysPressed['ArrowLeft'] || keysPressed['j'] ){
                                     this.xdir = -1
@@ -4410,9 +4410,9 @@ let gamepad
 
 
 
-                    // ////console.log(this.eggs)
+                    // //////console.log(this.eggs)
                     // this.eggs.splice(this.eggs.length-1, 1)
-                    // ////console.log(this.eggs)
+                    // //////console.log(this.eggs)
                         }
     
         
@@ -5166,7 +5166,7 @@ class Shockwave{
             this.shocksl = []
             this.shocksr = []
             this.shock()
-            // console.log(this)
+            // //console.log(this)
 
     }
     draw(){
@@ -5237,7 +5237,7 @@ const pomao = new Pomao()
 
 class Seed{
     constructor(target){
-        // ////console.log(pomao)
+        // //////console.log(pomao)
         this.markedx = 0
         this.marked = 0
         this.target = target
@@ -5321,7 +5321,7 @@ class Seed{
         if(pomao.thrown.includes(this)){
             this.marked = 1
         }
-        // ////console.log(pomao.eggs, pomao.thrown)
+        // //////console.log(pomao.eggs, pomao.thrown)
 
         if(this.marked == 0){
 
@@ -5646,7 +5646,7 @@ class Buggle{
                     
                     let rigradius = 20
                     let spring = new ChSpring(this.body)
-                    spring.health = 880
+                    spring.health = 1150
                     spring.anchor.radius = rigradius
                     this.joints.push(spring.anchor)
                         this.legs.push(spring)
@@ -5658,7 +5658,7 @@ class Buggle{
                             spring = new ChSpring(spring.anchor)
                             spring.anchor.radius = rigradius
                             spring.health = rigradius*8
-                            rigradius-=2.5    
+                            rigradius-=2.4    
                              if(k%2 == 0){
                                 spring.anchor.color = "red"
                             }else{ 
@@ -5672,7 +5672,7 @@ class Buggle{
 
                     let rigradius = 20
                     let spring = new ChSpring(this.body)
-                    spring.health = 880
+                    spring.health = 1150
                     spring.anchor.radius = rigradius
                     this.joints.push(spring.anchor)
                         this.legs.push(spring)
@@ -5680,7 +5680,7 @@ class Buggle{
         
         
         
-                        for(let k = 0; k<6;k++){
+                        for(let k = 0; k<8;k++){
                             spring = new ChSpring(spring.anchor)
                             spring.anchor.radius = rigradius
                             if(k%2 == 0){
@@ -5689,7 +5689,7 @@ class Buggle{
                                 spring.anchor.color = "#090909"
                             }
                             spring.health = rigradius*8
-                            rigradius-=3.33
+                            rigradius-=2.4
                             this.legs.push(spring)
                             this.joints.push(spring.anchor)
                         }
@@ -5697,7 +5697,7 @@ class Buggle{
                 }
         }
         for(let t = 0;t<this.tips.length;t++){
-            this.tips[t].radius = 14
+            this.tips[t].radius = 24
             this.tips[t].color = "green"
         }
         for(let t = 0;t<this.arms.length;t++){
@@ -5719,8 +5719,8 @@ class Buggle{
         let roty = 0
 
         for(let g = 0; g < 17; g++){
-            let color = "red"
-            const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius/2, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
+            let color = "white"
+            const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
             this.pops.push(dot1)
             rotx += 2*Math.PI/17
             roty += 2*Math.PI/17
@@ -5740,30 +5740,60 @@ class Buggle{
     
     }
     popseg(seg){
-        this.bopped = 1
+        // this.bopped = 1
         let rotx = 0
         let roty = 0
 
-        for(let g = 0; g < 17; g++){
+        for(let g = 0; g < 13; g++){
             let color = "red"
-            const dot1 = new Circlec(seg.x, seg.y, seg.radius, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
+            const dot1 = new Circlec(seg.x, seg.y, seg.radius, seg.color, Math.cos(rotx)*4, Math.sin(roty)*4 )
             this.pops.push(dot1)
-            rotx += 2*Math.PI/17
-            roty += 2*Math.PI/17
+            rotx += 2*Math.PI/13
+            roty += 2*Math.PI/13
         }
 
         
-        if(this.cleared == 0){
+        // if(this.cleared == 0){
       
-            this.cleared = 1
-            walls.splice(walls.indexOf(this.wall1),1)
-            floors.splice(floors.indexOf(this.wall1),1)
-            roofs.splice(roofs.indexOf(this.wall1),1)
-            ungrapplable.splice(ungrapplable.indexOf(this.wall1),1)
-            beamrocks.splice(beamrocks.indexOf(this.wall1),1)
-            floormpf.splice(floormpf.indexOf(this.wall1),1)
-        }
+        //     this.cleared = 1
+        //     walls.splice(walls.indexOf(this.wall1),1)
+        //     floors.splice(floors.indexOf(this.wall1),1)
+        //     roofs.splice(roofs.indexOf(this.wall1),1)
+        //     ungrapplable.splice(ungrapplable.indexOf(this.wall1),1)
+        //     beamrocks.splice(beamrocks.indexOf(this.wall1),1)
+        //     floormpf.splice(floormpf.indexOf(this.wall1),1)
+        // }
     
+    }
+    micropopseg(seg){
+
+        if(Math.random()<.3){
+        // this.bopped = 1
+        let start =Math.random()*6.28
+        let rotx = start
+        let roty = start
+
+        // for(let g = 0; g < 5; g++){
+            let color = "yellow"
+            const dot1 = new Circlec(seg.x, seg.y, seg.radius/3, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
+            this.pops.push(dot1)
+            // rotx += 2*Math.PI/5
+            // roty += 2*Math.PI/5
+        // }
+
+        
+        // if(this.cleared == 0){
+      
+        //     this.cleared = 1
+        //     walls.splice(walls.indexOf(this.wall1),1)
+        //     floors.splice(floors.indexOf(this.wall1),1)
+        //     roofs.splice(roofs.indexOf(this.wall1),1)
+        //     ungrapplable.splice(ungrapplable.indexOf(this.wall1),1)
+        //     beamrocks.splice(beamrocks.indexOf(this.wall1),1)
+        //     floormpf.splice(floormpf.indexOf(this.wall1),1)
+        // }
+    
+        }
     }
     popdraw(){
         for(let t = 0;t<this.pops.length; t++){
@@ -5809,7 +5839,7 @@ class Buggle{
         for(let t = 0; t<orbs.length; t++){
            
             let link 
-            if(this.legshotclock < 255){  //55
+            if(this.legshotclock < 255){  //55 //255
                 link = new Line(this.body.x, this.body.y, orbs[t].body.x, orbs[t].body.y, "red", 2)// let link = new Line(this.tips[this.leg].x, this.tips[this.leg].y, orbs[t].body.x, orbs[t].body.y, "red", 2)
             } else{
                 if(minreset == 0){
@@ -5857,11 +5887,11 @@ class Buggle{
         }
 
         this.tipsOn.push(dummypin)
-        // console.log(this.tipsOn)
+        // //console.log(this.tipsOn)
         let link = new Line(this.tips[this.leg].x, this.tips[this.leg].y, dummypin.x,dummypin.y, "red", 2)
         // link.draw()
-        this.tips[this.leg].symom -= (this.tips[this.leg].y-dummypin.y)/250  //350
-        this.tips[this.leg].sxmom -= (this.tips[this.leg].x-dummypin.x)/250
+        this.tips[this.leg].symom -= (this.tips[this.leg].y-dummypin.y)/150  //350  //250
+        this.tips[this.leg].sxmom -= (this.tips[this.leg].x-dummypin.x)/150
         
         // for(let t = 0;(Math.abs(this.tips[this.leg].symom) + Math.abs(this.tips[this.leg].sxmom)) < 15; t++){
         //     this.tips[this.leg].symom *=1.101
@@ -5871,7 +5901,7 @@ class Buggle{
         //     }
         // }
 
-        for(let t = 0;(Math.abs(this.tips[this.leg].sxmom)+Math.abs(this.tips[this.leg].symom)) < ((Math.abs(this.tips[this.leg].xmom)+Math.abs(this.tips[this.leg].ymom))+3.55) ; t++ ){  //.55
+        for(let t = 0;(Math.abs(this.tips[this.leg].sxmom)+Math.abs(this.tips[this.leg].symom)) < ((Math.abs(this.tips[this.leg].xmom)+Math.abs(this.tips[this.leg].ymom))-3.55) ; t++ ){  //.55  //+3.55
             this.tips[this.leg].symom *=1.01
             this.tips[this.leg].sxmom *=1.01
             if(t>1000){
@@ -5883,10 +5913,10 @@ class Buggle{
         this.tips[this.leg].drive()
         this.tips[this.leg].chmove()
         
-        if(this.tips[this.leg].isPointInside(dummypin)){
+        if(this.tips[this.leg].repelCheck(dummypin)){
             this.smack = 1
             dummypin.mark.push(this.leg)
-        }else  if(dummypin.isPointInside(this.tips[this.leg])){
+        }else  if(dummypin.repelCheck(this.tips[this.leg])){
             this.smack = 1
             dummypin.mark.push(this.leg)
         }
@@ -5923,6 +5953,11 @@ class Buggle{
         this.tips[t].xrepel = 0
         this.tips[t].yrepel = 0
     }
+    // for(let t = 0;t<this.tips.length;t++){
+    //     if(this.tips[t].sxmom == 0 && this.tips[t].symom == 0){
+    //         this.tips.splice(t,1)
+    //     }
+    // }
     }
     draw(){
         
@@ -5935,7 +5970,7 @@ class Buggle{
             this.leg +=1
             this.leg %= this.tips.length
             this.smack = 0
-            // console.log(this.legshotclock)
+            // //console.log(this.legshotclock)
             this.legshotclock = 0
         }
         this.control()
@@ -5993,10 +6028,11 @@ class Buggle{
         for(let f = 0;f<this.legs.length;f++){
             for(let r = 0;r<pomao.thrown.length; r++){
                 if(this.legs[f].anchor.repelCheck(pomao.thrown[r])){
-                    this.legs[f].health -= .5
-                    this.legs[f].anchor.radius*= .985
-                    if(this.legs[f].anchor.radius <= 13){
-                        this.legs[f].anchor.radius = 13
+                    this.legs[f].health -= .75
+                    this.legs[f].anchor.radius*= 1.015
+                    this.micropopseg(this.legs[f].anchor)
+                    if(this.legs[f].anchor.radius >= 25){
+                        this.legs[f].anchor.radius = 25
                     }
                 }
                 if(this.legs[f].body.repelCheck(pomao.thrown[r])){
@@ -6011,27 +6047,34 @@ class Buggle{
                             this.legs.splice(f,1)
                         }else{
 
-                            if(this.tips.includes(this.legs[f].anchor)) {
-                                if(this.legs[f-1].anchor != this.body){
-                                    this.legs[f-1].anchor.color = "green"
-                                    this.legs[f-1].anchor.radius *= 1.3
-                                this.tips.push(this.legs[f-1].anchor)
-                              }
-                              this.popseg(this.legs[f].anchor)
-                            //   this.tips.splice(this.tips.indexOf(this.legs[f].anchor))
-                          this.legs.splice(f,1)
-                          break
-                            }else if(this.arms.includes(this.legs[f].anchor) ){
-                                if(this.legs[f-1].anchor != this.body){
-                                    this.legs[f-1].anchor.color = "black"
-                                    this.legs[f-1].anchor.radius *= 1.3
-                                    this.arms.push(this.legs[f-1].anchor)
+                            if(f!=0){
+                                if(this.tips.includes(this.legs[f].anchor)) {
+                                    if(this.legs[f-1].anchor != this.body){
+                                        this.legs[f-1].anchor.color = "green"
+                                        this.legs[f-1].anchor.radius *= 1.3
+                                    // this.tips.push(this.legs[f-1].anchor)
+                                    // //console.log( this.tips[this.tips.indexOf(this.legs[f].anchor)] )
+                                    this.tips[this.tips.indexOf(this.legs[f].anchor)] = this.legs[f-1].anchor
+                                    
                                   }
                                   this.popseg(this.legs[f].anchor)
-                                //   this.arms.splice(this.arms.indexOf(this.legs[f].anchor))
+                                //   this.tips.splice(this.tips.indexOf(this.legs[f].anchor))
                               this.legs.splice(f,1)
+                            //   //console.log(this)
                               break
-                                }
+                                }else if(this.arms.includes(this.legs[f].anchor) ){
+                                    if(this.legs[f-1].anchor != this.body){
+                                        this.legs[f-1].anchor.color = "black"
+                                        this.legs[f-1].anchor.radius *= 1.3
+                                        this.arms.push(this.legs[f-1].anchor)
+                                      }
+                                      this.popseg(this.legs[f].anchor)
+                                    //   this.arms.splice(this.arms.indexOf(this.legs[f].anchor))
+                                  this.legs.splice(f,1)
+                                //   //console.log(this)
+                                  break
+                                    }
+                            }
                             
                         
                         }
@@ -6052,29 +6095,38 @@ class Buggle{
                     break
                 }
             }
-            for(let g = 0;g<shockfriendly.shocksl.length;g++){
-                if(this.legs[f].anchor.repelCheck(shockfriendly.shocksl[g])){
-                    this.legs[f].health -= .4  //05
-                    this.legs[f].anchor.radius*= .991  //9985
-                    if(this.legs[f].anchor.radius <= 13){
-                        this.legs[f].anchor.radius = 13
-                    }
-                }
-
-                if(this.legs[f].anchor.repelCheck(shockfriendly.shocksr[g])){
-                    this.legs[f].health -= .4
-                    this.legs[f].anchor.radius*= .991
-                    if(this.legs[f].anchor.radius <= 13){
-                        this.legs[f].anchor.radius = 13
-                    }
-                }
-
-            }
-            
             if(f>this.legs.length){
                 break
             }
-            if(this.legs[f].anchor.repelCheck(pomao.body)){
+        }
+
+
+        
+        for(let f = 0;f<this.legs.length;f++){
+        for(let g = 0;g<shockfriendly.shocksl.length;g++){
+            if(this.legs[f].anchor.repelCheck(shockfriendly.shocksl[g])){
+                this.legs[f].health -= .4  //05
+                this.legs[f].anchor.radius*= 1.015  //9985
+                this.micropopseg(this.legs[f].anchor)
+                if(this.legs[f].anchor.radius >= 25){
+                    this.legs[f].anchor.radius = 25
+                }
+            }
+
+            if(this.legs[f].anchor.repelCheck(shockfriendly.shocksr[g])){
+                this.legs[f].health -= .4
+                this.legs[f].anchor.radius*= 1.015
+                this.micropopseg(this.legs[f].anchor)
+                if(this.legs[f].anchor.radius >= 25){
+                    this.legs[f].anchor.radius = 25
+                }
+            }
+
+        }
+    }
+        
+        for(let f = 0;f<this.legs.length;f++){
+        if(this.legs[f].anchor.repelCheck(pomao.body)){
             if(this.legs[f].anchor.x > pomao.body.x){
                 this.bump = 1
             }else{
@@ -6086,15 +6138,15 @@ class Buggle{
                             pomao.body.xmom = -3*(this.bump)
                             pomao.disabled = 1
                             if(this.hashit <= 0){
-                                pomao.hits-=2
-                                this.hashit = 10
+                                pomao.hits-=3
+                                this.hashit = 4
                             }
                              pomao.body.ymom = -1.8
                              this.legs[f].anchor.xmom = pomao.body.xmom *-5
                           }
                       }else{
                           if(this.bump*pomao.body.xmom >0){
-                            pomao.body.xmom = -1.8*(this.bump)
+                            pomao.body.xmom = -.8*(this.bump)
                             pomao.body.ymom = -1.8
                             this.legs[f].anchor.xmom = pomao.body.xmom *-5
                           }
@@ -6113,24 +6165,22 @@ class Buggle{
                             pomao.body.xmom = -3*(this.bump)
                             pomao.disabled = 1    
                              if(this.hashit <= 0){
-                                pomao.hits-=2
-                                this.hashit = 10
+                                pomao.hits-=3
+                                this.hashit = 4
                             }
                              pomao.body.ymom = -1.8
                              this.legs[f].body.xmom = pomao.body.xmom *-5
                           }
                       }else{
                           if(this.bump*pomao.body.xmom >0){
-                            pomao.body.xmom = -1.8*(this.bump)
+                            pomao.body.xmom = -.8*(this.bump)
                             pomao.body.ymom = -1.8
                             this.legs[f].body.xmom = pomao.body.xmom *-5
                           }
                       }
                   }
                 }
-              }
-
-
+            }
 
 
               this.popdraw()
@@ -6144,14 +6194,16 @@ class Buggle{
         if(linker.hypotenuse() < 1500){
             if(pomao.body.x > 7925){
                 if(this.joints.length > 10){
-                    this.body.xmom -= (this.body.x-pomao.body.x)/50
-                    this.body.ymom -= (this.body.y-pomao.body.y)/50
+                    this.body.xmom -= (this.body.x-pomao.body.x)/45
+                    this.body.ymom -= (this.body.y-pomao.body.y)/45
                 }
                 for(let t = 0;t<this.arms.length;t++){
-                    this.arms[t].xmom  -= (this.body.x-pomao.body.x)/689  //700  //959
-                    this.arms[t].ymom  -= (this.body.y-pomao.body.y)/689
-                    this.arms[t].xmom += 10*(Math.random()-.5)
-                    this.arms[t].ymom +=  10*(Math.random()-.5)
+                    if(this.arms[t] != this.body){
+                        this.arms[t].xmom  -= (this.body.x-pomao.body.x)/600  //700  //959
+                        this.arms[t].ymom  -= (this.body.y-pomao.body.y)/600
+                        this.arms[t].xmom += 11*(Math.random()-.5)
+                        this.arms[t].ymom +=  11*(Math.random()-.5)
+                    }
                 }
             }
         }
@@ -6256,10 +6308,10 @@ class Orb{
         for(let t = 0;t<this.companion.length;t++){
             // if(Math.random()<.001){
 
-                // console.log(this.companion[t])
+                // //console.log(this.companion[t])
                 this.companion[t].y+=this.body.ymom
                 this.companion[t].x+=this.body.xmom
-            //     console.log(this.companion[t])
+            //     //console.log(this.companion[t])
             // }
         }
             // 
@@ -6828,8 +6880,8 @@ for(let t = 0; t<ramps.length; t++){
 
         for(let k = 0; k<boys.length; k++){
             for(let t = 0; t<pomao.thrown.length; t++){
-                // ////console.log(boys[k])
-                // ////console.log(pomao.thrown[t])
+                // //////console.log(boys[k])
+                // //////console.log(pomao.thrown[t])
                 boys[k].body.radius*=1.333333
                    if(boys[k].body.repelCheck(pomao.thrown[t])){
                        boys[k].pop()
@@ -6842,8 +6894,8 @@ for(let t = 0; t<ramps.length; t++){
     
                 }
                 for(let t = 0; t<shockfriendly.shocksl.length; t++){
-                    // ////console.log(boys[k])
-                    // ////console.log(pomao.thrown[t])
+                    // //////console.log(boys[k])
+                    // //////console.log(pomao.thrown[t])
                     boys[k].body.radius*=1.333333
                        if(boys[k].body.repelCheck(shockfriendly.shocksl[t])){
                            boys[k].pop()
@@ -6856,8 +6908,8 @@ for(let t = 0; t<ramps.length; t++){
         
         //             }
         // for(let t = 0; t<shockfriendly.shocksr.length; t++){
-            // ////console.log(boys[k])
-            // ////console.log(pomao.thrown[t])
+            // //////console.log(boys[k])
+            // //////console.log(pomao.thrown[t])
             boys[k].body.radius*=1.333333
                if(boys[k].body.repelCheck(shockfriendly.shocksr[t])){
                    boys[k].pop()
@@ -7158,7 +7210,7 @@ function drawFractal(){
 
 if(pomao.tripping > 0){
 // if(Math.random()<.5){
-    // ////console.time("frac")
+    // //////console.time("frac")
     const sheetwidtht = zimgs[0].width
     const sheetheightt = zimgs[0].height
     const colst = 3
@@ -7171,11 +7223,11 @@ if(pomao.tripping > 0){
     if(fractal.sheet < 0){
         fractal.sheet=0
     }
-    // console.log(fractal.sheet, zimgs[fractal.sheet%zimgs.length])
+    // //console.log(fractal.sheet, zimgs[fractal.sheet%zimgs.length])
      tutorial_canvas_context.drawImage(zimgs[fractal.sheet%zimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x-640, pomao.body.y-360, 1280, 720)
     //tutorial_canvas_context.drawImage(zimgs[fractal.sheet], 0, 0, widtht*3, heightt*3, pomao.body.x-640, pomao.body.y-360, 1280, 720)
 
-    //  ////console.timeEnd("frac")
+    //  //////console.timeEnd("frac")
 // }
 }
 }
@@ -7209,7 +7261,7 @@ for(let i = 0;out<0;i++){
     out+=360
 }
 out = out%360
-// //console.log(out)
+// ////console.log(out)
 return out
 }
 
@@ -8968,7 +9020,7 @@ for(let t = 0; t<orbs.length; t++){
         if(k!==t){
             let link = new Line(orbs[t].body.x, orbs[t].body.y, orbs[k].body.x, orbs[k].body.y, "white", .3)
 
-            // console.log(link)
+            // //console.log(link)
             if(link.hypotenuse() <685){
                 links.push([t,k])
             }
