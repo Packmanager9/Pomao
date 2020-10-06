@@ -8,7 +8,7 @@ let spinny
 let spinnys = []
 let beamrocks = []
 let links = []
-
+let worms = []
 let floormpf
 // const gamepads
 
@@ -787,6 +787,64 @@ class Spring{
         }else{
             this.anchor.move()
         }
+    }
+    wbalance(){
+        this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "green", 5)
+        let xmomentumaverage 
+        let ymomentumaverage
+         xmomentumaverage = (this.body.xmom+this.anchor.xmom)/2
+         ymomentumaverage = (this.body.ymom+this.anchor.ymom)/2
+        // if(this.body != pin){
+            this.body.xmom = ((this.body.xmom*3)+xmomentumaverage)/4
+            this.body.ymom = ((this.body.ymom*3)+ymomentumaverage)/4
+        // }
+
+        if(this.anchor != pin2){
+        this.anchor.xmom = ((this.anchor.xmom)+xmomentumaverage)/2
+        this.anchor.ymom = ((this.anchor.ymom)+ymomentumaverage)/2
+        }else{
+        this.anchor.xmom = ((this.anchor.xmom)+xmomentumaverage)/2
+        this.anchor.ymom = ((this.anchor.ymom)+ymomentumaverage)/2
+        }
+            if(this.beam.hypotenuse() !=0){
+        if(this.beam.hypotenuse() < this.length){
+            if(this.body != pin){
+            this.body.xmom += (this.body.x-this.anchor.x)/(this.length)/30
+            this.body.ymom += (this.body.y-this.anchor.y)/(this.length)/30
+            }
+                this.anchor.xmom -= (this.body.x-this.anchor.x)/(this.length)/30
+                this.anchor.ymom -= (this.body.y-this.anchor.y)/(this.length)/30
+        }else if(this.beam.hypotenuse() > this.length){
+
+            if(this.body != pin){
+            this.body.xmom -= (this.body.x-this.anchor.x)/(this.length)/30
+            this.body.ymom -= (this.body.y-this.anchor.y)/(this.length)/30
+            }
+                this.anchor.xmom += (this.body.x-this.anchor.x)/(this.length)/30
+                this.anchor.ymom += (this.body.y-this.anchor.y)/(this.length)/30
+        }
+
+    }
+    }
+    wdraw(){
+        this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "green", this.anchor.radius*1.8)
+        this.beam.draw()
+        this.body.draw()
+        if(ramps.includes(this.anchor)){
+            tutorial_canvas_context.drawImage(ballsprite, 0,0,ballsprite.width,ballsprite.height,pin2.x-pin2.radius,pin2.y-pin2.radius,pin2.radius*2,pin2.radius*2)
+        }
+        this.anchor.draw()
+    }
+    wmove(){
+        this.body.ymom*=.99
+        this.body.xmom*=.99
+        this.anchor.ymom*=.99
+        this.anchor.xmom*=.99
+    
+            this.body.move()
+    
+            this.anchor.move()
+        
     }
 
 }
@@ -3699,6 +3757,14 @@ class Pomao{
             }
         }
     }
+
+    for(let t = 0; t<worms.length; t++){
+        if(worms[t].body.x > this.body.x-(tutorial_canvas.width/1.6) && worms[t].body.x < this.body.x+(tutorial_canvas.width/1.6) ){
+            if(worms[t].body.y > this.body.y-(tutorial_canvas.height/1.6) && worms[t].body.y < this.body.y+(tutorial_canvas.height/1.6) ){
+            worms[t].draw()
+            }
+        }
+    }
     for(let t = 0; t<bats.length; t++){
         if(bats[t].body.x > this.body.x-(tutorial_canvas.width/1.6) && bats[t].body.x < this.body.x+(tutorial_canvas.width/1.6) ){
             if(bats[t].body.y > this.body.y-(tutorial_canvas.height/1.6) && bats[t].body.y < this.body.y+(tutorial_canvas.height/1.6) ){
@@ -6404,7 +6470,102 @@ let orbs = []
 // }
 
 
+class Worm{
+    constructor(x=0,y=0){
+        this.body = new Circle(x,y, 15, "yellow")
+        this.segments = []
+        this.length = 10
+        this.joints = []
+        this.dis = 22
+        this.guide = new Circle(this.body.x+Math.sin(this.angle), this.body.y+Math.cos(this.angle), 5, "orange")
+        this.box = new Shape()
+        this.marked = 0
+        this.yeet = 0
+         this.rigradius = this.body.radius
+                let spring = new Spring(this.body)
+                spring.anchor.radius = this.rigradius
+                this.joints.push(spring.anchor)
+                    this.segments.push(spring)
+                    spring.length = 3
+    
+    
+    
+                    for(let k = 0; k<this.length;k++){
+                        spring = new Spring(spring.anchor)
+                        spring.anchor.radius = this.rigradius
+                        spring.length = 2.5    
+                        this.rigradius-=this.body.radius/(this.length+1)  
+                        this.segments.push(spring)
+                        if(k > 0){
+                            if(k < this.length-1){
+                        this.joints.push(spring.anchor)
+                            }
+                        }
+                    }
+     
+                    this.box = new Shape(this.joints)
+                    this.angle =Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
+                    console.log(this)
+            }
+            draw(){
 
+                this.box = new Shape(this.joints)
+                this.yeet = 0
+                for(let f =0; f<floors.length;f++){
+                    if(floors[f].isPointInside(this.joints[0])){
+                        // if(this.box.isInsideOf(floors[f])){
+
+                            this.yeet = 1
+                        }
+                    }
+                
+                for(let t = 0;t<this.segments.length; t++){
+                    this.segments[t].anchor.xmom *= .99
+                    this.segments[t].anchor.ymom *= .995
+                    this.segments[t].body.xmom *= .99
+                    this.segments[t].body.ymom *= .995
+                    this.segments[t].wbalance()
+         
+                    if(this.yeet == 0){
+                        this.segments[t].anchor.ymom += .0012*(this.length-t)
+                        this.segments[t].body.ymom +=  .0012*(this.length-t)
+                    }
+                    this.segments[t].wmove()
+                    if(t > 0){
+                        if(t < this.segments.length-1){
+                            this.segments[t].wdraw()
+                        }
+                    }
+
+                }
+                
+            // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
+            this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x );
+
+            // if(this.angleRadians - this.angle  > .17){
+            //     this.angle +=.07
+            // }else  if(this.angleRadians - this.angle  < -.17){
+            //     this.angle -=.07
+            // }else{
+            //     this.angle = this.angleRadians
+            // }
+
+            this.angle = (this.angleRadians+this.angle*2)/3
+                this.guide = new Circle(this.joints[0].x+(Math.cos(this.angle)*this.dis), this.joints[0].y+(Math.sin(this.angle)*this.dis), 5, "orange")
+                if(this.yeet == 1){
+                    console.log(this.yeet)
+                    this.body.xmom -=  (this.body.x-this.guide.x)/70
+                    this.body.ymom -=  (this.body.y-this.guide.y)/70
+
+                    for(let t = 0; (Math.abs(this.body.xmom) +Math.abs(this.body.ymom)) > 115; t++){
+                        this.body.xmom *=.98
+                        this.body.ymom *=.98
+                    }
+                }
+                this.guide.draw()
+            }
+        }
+    
 
 class Dialogue{
     constructor(x,y){
@@ -6489,7 +6650,7 @@ loadlvl1()
 // loadlvl3()
 // loadlvl4()
 // loadlvl5()
-
+// loadlvl6()
 
 // for(let t=0;t<10;t++){
 //     chafer.draw()
@@ -7072,6 +7233,8 @@ for(let t = 0; t<ramps.length; t++){
     
         tutorial_canvas_context.fillStyle = "magenta";
         tutorial_canvas_context.fillText("paused", pomao.body.x-50,pomao.body.y-70)
+        tutorial_canvas_context.fillStyle = "black";
+        tutorial_canvas_context.fillText("Level Select", pomao.body.x-500,pomao.body.y-70)
 
         
         loadlvl1button  = new Rectangle(pomao.body.x-500, pomao.body.y, 50,50, "brown")
@@ -7439,6 +7602,7 @@ function loadlvl1(){
  springs = []
  objsprings = []
  spinnys = []
+ worms = []
  level = 1
 
 
@@ -8109,6 +8273,7 @@ function loadlvl2(){
      orbs = []
      links = []
      spinnys = []
+     worms = []
      
     
      const floor = new Rectangle(-1000,33,645,20000)
@@ -8258,6 +8423,7 @@ beamrocks = []
      orbs = []
      links = []
      spinnys = []
+     worms = []
 
      
 // boss = new Bossbeam()
@@ -8415,6 +8581,7 @@ beamrocks = []
      chats = []
      orbs = []
      links = []
+     worms = []
     
     //  pomao.eggmake = 161
     
@@ -8944,6 +9111,7 @@ pomao.body.y = 0
  chats = []
  orbs = []
  links = []
+ worms = []
 
 //  pomao.eggmake = 161
 // boss = new Bossbeam()
@@ -9203,12 +9371,16 @@ pomao.body.y = 0
  chats = []
  orbs = []
  links = []
+ worms = []
 
 //  pomao.eggmake = 161
 // boss = new Bossbeam()
 
+let worm = new Worm()
+worms.push(worm)
 
-const floor = new Rectangle(-10000,33,1030,28400)
+
+const floor = new Rectangle(-10000,33,10300,28400)
 floors.push(floor)
 walls.push(floor)
 roofs.push(floor)
