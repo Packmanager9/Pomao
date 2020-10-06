@@ -529,6 +529,7 @@ window.addEventListener('mousedown', e => {
         loadlvl3button = new Rectangle(640-300, 360, 50,50, "gray")
         loadlvl4button = new Rectangle(640-200, 360, 50,50, "purple")
         loadlvl5button = new Rectangle(640-100, 360, 50,50, "orange")
+        loadlvl6button = new Rectangle(640, 360, 50,50, "green")
   
         if(loadlvl1button.isPointInside(tip)){
           loadlvl1()
@@ -547,8 +548,11 @@ window.addEventListener('mousedown', e => {
         }
   
         if(loadlvl5button.isPointInside(tip)){
-          loadlvl5()
-        }
+            loadlvl5()
+          }
+          if(loadlvl6button.isPointInside(tip)){
+            loadlvl6()
+          }
       }
 
  });
@@ -5272,6 +5276,7 @@ let loadlvl2button
 let loadlvl3button 
 let loadlvl4button 
 let loadlvl5button 
+let loadlvl6button 
 
 class Seed{
     constructor(target){
@@ -5659,7 +5664,8 @@ class Observer{
 }
 
 class Buggle{
-    constructor(){
+    constructor(wall = 0){
+        this.wall1 = wall
         this.counter = 0
         this.hashit = 10
         this.body = new Circle(9280,-1650, 38, "white")
@@ -5676,6 +5682,7 @@ class Buggle{
         this.dead = 0
         this.arms = []
         this.pops = []
+        this.cleared = 0
 
         for(let t = 0; t<this.limbs;t++){
 
@@ -6682,6 +6689,13 @@ window.setInterval(function(){
             }
         }
 
+        if(level == 5){
+            
+            door.draw()
+            if(door.isPointInside(pomao.body)){
+                loadlvl6()
+            }
+        }
 
        
 for(let t = 0; t<ramps.length; t++){
@@ -6737,6 +6751,9 @@ for(let t = 0; t<ramps.length; t++){
                                  }else if(level == 5){
                     
                                     tutorial_canvas_context.drawImage(lvl5walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                 }else if(level == 6){
+                    
+                                    tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                  }
                     }
                 }else{
@@ -6754,6 +6771,9 @@ for(let t = 0; t<ramps.length; t++){
                      }else if(level == 5){
                     
                         tutorial_canvas_context.drawImage(lvl5floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                     }else if(level == 6){
+                    
+                        tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                      }
                 }
             }else{
@@ -6772,6 +6792,9 @@ for(let t = 0; t<ramps.length; t++){
                  }else if(level == 5){
                     
                     tutorial_canvas_context.drawImage(lvl5floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                 }else if(level == 6){
+                    
+                    tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                  }
             }
             }else{
@@ -7056,12 +7079,14 @@ for(let t = 0; t<ramps.length; t++){
         loadlvl3button = new Rectangle(pomao.body.x-300, pomao.body.y, 50,50, "gray")
         loadlvl4button = new Rectangle(pomao.body.x-200, pomao.body.y, 50,50, "purple")
         loadlvl5button = new Rectangle(pomao.body.x-100, pomao.body.y, 50,50, "orange")
+        loadlvl6button = new Rectangle(pomao.body.x, pomao.body.y, 50,50, "green")
         
         loadlvl1button.draw()
         loadlvl2button.draw()
         loadlvl3button.draw()
         loadlvl4button.draw()
         loadlvl5button.draw()
+        loadlvl6button.draw()
     }
 
     // for(let t =0;t<ungrapplable.length;t++){
@@ -8920,7 +8945,6 @@ pomao.body.y = 0
  orbs = []
  links = []
 
- chafer = new Buggle()
 //  pomao.eggmake = 161
 // boss = new Bossbeam()
 
@@ -8937,6 +8961,15 @@ floors.push(wall2)
 roofs.push(wall2)
 // ungrapplable.push(wall2)
 
+chafer = new Buggle(wall2)
+
+
+const wall3 = new Rectangle(11900, -30000, 30033, 50, "cyan")
+walls.push(wall3)
+floors.push(wall3)
+roofs.push(wall3)
+
+door = new Rectangle(11650, 33-200, 200, 200, "#090909")
 
 
 const floor = new Rectangle(-10000,33,1030,28400)
@@ -9009,7 +9042,7 @@ for(let k = 1;k <28;k++){
 
 }
 
-const lvl5roof = new Rectangle(-2100,  -(tutorial_canvas.height*3.1), 50, 17200, "red")
+const lvl5roof = new Rectangle(-2100,  -(tutorial_canvas.height*3.1), 50, 17550, "red")
 floors.push(lvl5roof)
 walls.push(lvl5roof)
 roofs.push(lvl5roof)
@@ -9117,6 +9150,79 @@ for(let t = 0; t<orbs.length; t++){
             fruits.push(fruit)
         }
     }
+
+}
+
+
+function loadlvl6(){
+
+    pin = new Circle((-1950+(30*180)),(-9100-(30*57)), 10, "blue")
+    pin2 = new Circle( (-1950+(30*180)),(-9800-(30*57))+(7*220), 100, "orange")
+    springs = []
+    objsprings = []
+    
+// objsprings.push(pin2)
+
+// let spring = new Spring(pin)
+// springs.push(spring)
+// for(let k = 0; k<33;k++){
+//     spring = new Spring(spring.anchor)
+//     if(k < 32){
+//         springs.push(spring)
+//     }else if(k == 32 ){
+//         spring.anchor = pin2
+//         springs.push(spring)
+//     }
+// }
+
+beamrocks = []
+pomao.cutscene = 0
+level = 6
+
+
+tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
+pomao.body.x = 0
+pomao.body.y = 0
+ spinnys = []
+ ramps90 = []
+ swimmers = []
+ bats = []
+ floors = []
+ ramps = []
+ boys = []
+ deadboys = []
+ fruits = []
+ walls = []
+ invisblocks = []
+ ungrapplable = []
+ jellys = []
+ roofs = []
+ switches = []
+ blocks = []
+ nails = []
+ chats = []
+ orbs = []
+ links = []
+
+//  pomao.eggmake = 161
+// boss = new Bossbeam()
+
+
+const floor = new Rectangle(-10000,33,1030,28400)
+floors.push(floor)
+walls.push(floor)
+roofs.push(floor)
+
+const wall1 = new Rectangle(-2100, -30000, 30033, 50, "cyan")
+walls.push(wall1)
+floors.push(wall1)
+roofs.push(wall1)
+// ungrapplable.push(wall1)
+
+const wall2 = new Rectangle(11600, -30000, 30033, 50, "cyan")
+walls.push(wall2)
+floors.push(wall2)
+roofs.push(wall2)
 
 }
     
