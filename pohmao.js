@@ -519,6 +519,38 @@ window.addEventListener('mousedown', e => {
 
       console.log(pomao)
 
+      
+      if(pomao.paused == 10){
+
+      }else{
+
+        loadlvl1button  = new Rectangle(640-500, 360, 50,50, "brown")
+        loadlvl2button = new Rectangle(640-400, 360, 50,50, "red")
+        loadlvl3button = new Rectangle(640-300, 360, 50,50, "gray")
+        loadlvl4button = new Rectangle(640-200, 360, 50,50, "purple")
+        loadlvl5button = new Rectangle(640-100, 360, 50,50, "orange")
+  
+        if(loadlvl1button.isPointInside(tip)){
+          loadlvl1()
+        }
+  
+        if(loadlvl2button.isPointInside(tip)){
+          loadlvl2()
+        }
+  
+        if(loadlvl3button.isPointInside(tip)){
+          loadlvl3()
+        }
+  
+        if(loadlvl4button.isPointInside(tip)){
+          loadlvl4()
+        }
+  
+        if(loadlvl5button.isPointInside(tip)){
+          loadlvl5()
+        }
+      }
+
  });
 
  
@@ -5235,6 +5267,12 @@ class Shockwave{
 
 const pomao = new Pomao()
 
+let loadlvl1button 
+let loadlvl2button 
+let loadlvl3button 
+let loadlvl4button 
+let loadlvl5button 
+
 class Seed{
     constructor(target){
         // //////console.log(pomao)
@@ -5380,7 +5418,7 @@ class Seed{
 class Observer{
     constructor(x,y , z = 0){
         if(z == 0){
-            this.body = new Circlec( x, y, 33, "cyan")
+            this.body = new Circlec( x, y, 40, "cyan")
             this.ray = []
             this.rayrange = 190
             this.globalangle = Math.PI
@@ -5388,7 +5426,7 @@ class Observer{
             this.currentangle = 0
             this.obstacles = []
             this.raymake = 19
-            this.health = 100
+            this.health = 300
             this.shook = 0
             this.smack = 0
             this.dir = 1
@@ -5561,17 +5599,17 @@ class Observer{
             for(let t = 0;t<pomao.thrown.length;t++){
                 if(this.body.repelCheck(pomao.thrown[t])){
                     this.health -= 2
-                    this.rayrange -=2.5
+                    this.rayrange -=1.25
                 }
             }
             for(let t = 0;t<shockfriendly.shocksl.length;t++){
                 if(this.body.repelCheck(shockfriendly.shocksl[t])){
                     this.health -= .5
-                    this.rayrange -=.625
+                    this.rayrange -=.25
                 }
                 if(this.body.repelCheck(shockfriendly.shocksr[t])){
                     this.health -= .5
-                    this.rayrange -=.625
+                    this.rayrange -=.25
                 }
             }
             this.body.move()
@@ -7011,6 +7049,19 @@ for(let t = 0; t<ramps.length; t++){
     
         tutorial_canvas_context.fillStyle = "magenta";
         tutorial_canvas_context.fillText("paused", pomao.body.x-50,pomao.body.y-70)
+
+        
+        loadlvl1button  = new Rectangle(pomao.body.x-500, pomao.body.y, 50,50, "brown")
+        loadlvl2button = new Rectangle(pomao.body.x-400, pomao.body.y, 50,50, "red")
+        loadlvl3button = new Rectangle(pomao.body.x-300, pomao.body.y, 50,50, "gray")
+        loadlvl4button = new Rectangle(pomao.body.x-200, pomao.body.y, 50,50, "purple")
+        loadlvl5button = new Rectangle(pomao.body.x-100, pomao.body.y, 50,50, "orange")
+        
+        loadlvl1button.draw()
+        loadlvl2button.draw()
+        loadlvl3button.draw()
+        loadlvl4button.draw()
+        loadlvl5button.draw()
     }
 
     // for(let t =0;t<ungrapplable.length;t++){
@@ -7363,6 +7414,7 @@ function loadlvl1(){
  springs = []
  objsprings = []
  spinnys = []
+ level = 1
 
 
 const floor = new Rectangle(-100000000, 650, 50, 7000000000, "red")
@@ -8811,7 +8863,7 @@ beamrocks = []
         }
 
         
-    boss = new Observer(3000, (-10300-6950) )
+    boss = new f(3000, (-10300-6950) )
 
         
     boss.obstacles = [...beamrocks]
