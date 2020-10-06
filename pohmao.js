@@ -6400,7 +6400,7 @@ class ChSpring{
 
 class Orb{
     constructor(){
-        this.body = new Circle(8000+(Math.random()*tutorial_canvas.width*2.5), -(tutorial_canvas.height*2.9)+(Math.random()*tutorial_canvas.height*2.7), 40, "orange")
+        this.body = new Circle(8000+(Math.random()*tutorial_canvas.width*2.5), -(tutorial_canvas.height*2.8)+(Math.random()*tutorial_canvas.height*2.6), 40, "orange")
         this.origin =  new Circle(this.body.x, this.body.y, 16, "blue")
         this.body.gravity = .05
         this.companion = []
@@ -9055,7 +9055,7 @@ beamrocks = []
         }
 
         
-    boss = new f(3000, (-10300-6950) )
+    boss = new Observer(3000, (-10300-6950) )
 
         
     boss.obstacles = [...beamrocks]
