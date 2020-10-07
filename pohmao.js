@@ -2864,7 +2864,7 @@ class Circle{
                 this.xmom *=-1
             }
         }
-        if(this.x > 11500){
+        if(this.x > chafer.wall1.x){
             if(this.xmom > 0){
                 this.xmom *=-1
             }
@@ -3945,6 +3945,10 @@ class Pomao{
     for(let t = 0; t<worms.length; t++){
         if(worms[t].marked == 1){
             worms.splice(t,1)
+            pomao.hits+=1
+            if(pomao.hits > 9){
+                pomao.hits = 9
+            }
 
         }
     }
@@ -9675,7 +9679,7 @@ pomao.body.y = 0
 // boss = new Bossbeam()
 
 for(let t = 0;t<10;t++){
-    let worm = new Worm(300+t*1000,200+Math.random()*300)
+    let worm = new Worm(300+t*15,200+Math.random()*300)
     worms.push(worm)
 }
 
