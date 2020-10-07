@@ -2227,6 +2227,23 @@ class Cactus {
     }
     move(){
 
+        if(this.parent.marked != 0 && this.parent != 0){
+            this.ymom -=5+Math.random()  // 10 //5
+    }
+    if(!boys.includes(this.parent) || this.parent.marked != 0 ){
+ 
+        this.parent  = 0
+    }
+    if(!boys.includes(this.child) || this.child.marked != 0 ){
+ 
+        this.child  = 0
+    }
+    if(this.parent.child != this.child.parent){
+        if(this.child != 0 ){
+
+        this.parent = 0
+        }
+    }
         if(this.parent == 0){
 
         this.xrepel = 0
@@ -2382,23 +2399,6 @@ class Cactus {
                 }
     
 
-        }
-        if(this.parent.marked != 0 && this.parent != 0){
-                this.ymom -=5+Math.random()  // 10 //5
-        }
-        if(!boys.includes(this.parent) || this.parent.marked != 0 ){
-     
-            this.parent  = 0
-        }
-        if(!boys.includes(this.child) || this.child.marked != 0 ){
-     
-            this.child  = 0
-        }
-        if(this.parent.child != this.child.parent){
-            if(this.child != 0 ){
-
-            this.parent = 0
-            }
         }
     }
     draw(){
@@ -5675,7 +5675,7 @@ class Observer{
             this.getdrawn = 0
             this.body = new Circlec( x, y, 40, "cyan")
             this.ray = []
-            this.rayrange = 210
+            this.rayrange = 420
             this.globalangle = Math.PI
             this.gapangle = Math.PI/8
             this.currentangle = 0
@@ -5754,7 +5754,7 @@ class Observer{
         }
         if(this.shook == 1){
             let angleRadians = Math.atan2(pomao.body.y - this.body.y, pomao.body.x - this.body.x);
-            angleRadians+= (this.globalangle)/19
+            // angleRadians+= (this.globalangle)/19
 
             this.globalangle = ((angleRadians-(this.gapangle*1.5)))
             this.globalangle+=this.beamdisp
@@ -5783,7 +5783,7 @@ class Observer{
         this.currentangle  = this.gapangle/2
         for(let k = 0; k<this.raymake; k++){
             this.currentangle+=(this.gapangle/Math.ceil(this.raymake/2))
-            let ray = new Circle(this.body.x, this.body.y, 1, "white",((this.rayrange * (Math.cos(this.globalangle+this.currentangle))))/this.rayrange*11, ((this.rayrange * (Math.sin(this.globalangle+this.currentangle))))/this.rayrange*11 )
+            let ray = new Circle(this.body.x, this.body.y, 1, "white",((this.rayrange * (Math.cos(this.globalangle+this.currentangle))))/this.rayrange*5.5, ((this.rayrange * (Math.sin(this.globalangle+this.currentangle))))/this.rayrange*5.5 )
             ray.collided = 0
             ray.lifespan = this.rayrange-1
             this.ray.push(ray)
@@ -5824,13 +5824,43 @@ class Observer{
                 }
             }
         }
+
+        if(this.body.x > pomao.body.x){
+            this.bump = 1
+        }else{
+            this.bump = -1
+        }
+        if(this.body.repelCheck(pomao.body)){
+            if(this.body.radius >= 1){
+                if(pomao.disabled != 1){
+                    if(pomao.pounding!=10){
+                      pomao.body.xmom = -4*(this.bump)
+                      pomao.disabled = 1
+                      pomao.hits-=2
+                       pomao.body.ymom = -1.8
+                       this.health -= 10
+                       this.rayrange -=4
+                       this.body.xmom = -pomao.body.xmom*2.5
+                
+                    }
+                }
+              }
+        }
     }
 
     draw(){
         if(this.health > 0){
             if(this.shook == 1){
-            this.body.xmom -= (this.body.x-pomao.body.x)/1700
-            this.body.ymom -= (this.body.y-pomao.body.y)/1700
+                let dist = new Line(this.body.x, this.body.y, pomao.body.x, pomao.body.y, "red", 1)
+                if(dist.hypotenuse() > 340){
+                    this.body.xmom -= (this.body.x-pomao.body.x)/1700
+                    this.body.ymom -= (this.body.y-pomao.body.y)/1700
+
+                }else{
+                    
+            this.body.xmom*= .9
+            this.body.ymom*= .9
+                }
             this.body.xmom*= .979
             this.body.ymom*= .979
             }else{
@@ -8825,7 +8855,7 @@ beamrocks = []
 // tutorial_canvas_context.translate(pomao.body.x-640, pomao.body.y+17360)
 // pomao.body.x = 640
 // pomao.body.y = -17360
-    tutorial_canvas_context.translate(pomao.body.x, pomao.body.y) //-18000)
+    tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)//+18000)
     pomao.body.x = 0
     pomao.body.y = 0//-18000
      spinnys = []
