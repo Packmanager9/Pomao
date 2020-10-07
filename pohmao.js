@@ -849,10 +849,25 @@ class Spring{
         // this.anchor.ymom*=.99
         // this.anchor.xmom*=.99
         let blockedlick = 0
+        let blockedlick2 = 0
+        for(let t = 0;t<this.worm.joints.length;t++){
+            // if(t!=this.worm.joints.indexOf(this)){
+                if(this.worm.joints[t].marked > 1){
+                    blockedlick2 = 2
+                }
+            // }
+        }
         for(let t = 0;t<this.worm.joints.length;t++){
             if(t!=this.worm.joints.indexOf(this)){
                 if(this.worm.joints[t].marked > 0){
-                    blockedlick = 1
+                    if(blockedlick2 == 2){
+                        if(this.worm.joints[t].marked == 1){
+                            this.worm.joints[t].marked = 2
+                        }
+                        blockedlick = 1
+                    }else{
+                        blockedlick = 1
+                    }
                 }
             }
         }
@@ -877,7 +892,7 @@ class Spring{
                 this.anchor.marked = 2
                 pomao.diry = 1
                 if(typeof this.anchor.timer != "number"){
-                    this.anchor.timer = 20
+                    this.anchor.timer = 24
                 }
               }
           }else if (this.anchor.repelCheck(pomao.body) && !this.anchor.repelCheck(pomao.tongue )){
@@ -929,14 +944,18 @@ class Spring{
                 }
 
                 
-            if(Math.random()<.2){
+            if(Math.random()<.25){
                 
             if(this.worm.segments[t].anchor == this.anchor){
                 if(t<this.worm.segments.length-1){
                     this.worm.segments[t+1].anchor.marked = 1
+                    this.worm.segments[t+1].anchor.xdif =  this.anchor.xdif
+                    this.worm.segments[t+1].anchor.ydif = this.anchor.ydif
                 }
                 if(t> 0){
                     this.worm.segments[t-1].anchor.marked = 1
+                    this.worm.segments[t-1].anchor.xdif =  this.anchor.xdif
+                    this.worm.segments[t-1].anchor.ydif = this.anchor.ydif
                 }
             }
 
@@ -959,7 +978,7 @@ class Spring{
               if( this.worm.segments[t].length <=6){
                 this.worm.segments[t].length = 6
               }
-              this.worm.segments[t].anchor.radius -=.04
+              this.worm.segments[t].anchor.radius -=.004
               if(this.worm.segments[t].body.radius<=2){
                   this.worm.segments[t].body.radius=2
   
@@ -968,14 +987,18 @@ class Spring{
                   this.worm.segments[t].anchor.radius=2
   
               }
-              if(Math.random()<.2){
+              if(Math.random()<.25){
                 
                 if(this.worm.segments[t].anchor == this.anchor){
                     if(t<this.worm.segments.length-1){
-                        this.worm.segments[t+1].anchor.marked = 1
+                        this.worm.segments[t+1].anchor.marked = 2
+                        this.worm.segments[t+1].anchor.xdif = 0
+                        this.worm.segments[t+1].anchor.ydif = 0
                     }
                     if(t> 0){
-                        this.worm.segments[t-1].anchor.marked = 1
+                        this.worm.segments[t-1].anchor.marked = 2
+                        this.worm.segments[t-1].anchor.xdif = 0
+                        this.worm.segments[t-1].anchor.ydif = 0
                     }
                 }
     
@@ -6739,7 +6762,7 @@ let orbs = []
 class Worm{
     constructor(x=0,y=0){
         this.layer = Math.floor(Math.random()*2)
-        if(Math.random()<.8){
+        if(Math.random()<.9){
             this.layer = 0
         }
         this.body = new Circle(x,y, 15, "yellow")
@@ -6787,7 +6810,7 @@ class Worm{
                 this.yeet = 0
                 
                 for(let f =0; f<floors.length;f++){
-                    if(floors[f].isPointInside(this.joints[0])){
+                    if(squarecirclefeet(floors[f],(this.joints[0]))){
                         // if(this.box.isInsideOf(floors[f])){
 
                             this.yeet = 1
@@ -6831,9 +6854,9 @@ class Worm{
                 
 
                 if(this.yeet == 0 || this.dip > 0){
-                    this.joints[0].ymom+=1.1
+                    this.joints[0].ymom+=.3
                     for(let t = 1;t<this.joints.length;t++){
-                        this.joints.ymom+=.6
+                        this.joints[t].ymom+=.03
                     }
                 }
                 for(let t = 0;t<this.segments.length; t++){
@@ -6863,33 +6886,39 @@ class Worm{
                 if(this.yeet == 1){
                     // console.log(this.yeet)
                     if(this.dip <= 0){
-                        this.body.xmom -=  (this.body.x-this.guide.x)/6
-                        this.body.ymom -=  (this.body.y-this.guide.y)/6
+                        this.body.xmom -=  (this.body.x-this.guide.x)/4
+                        this.body.ymom -=  (this.body.y-this.guide.y)/4
           
-                    
+                        for(let t =0;t<this.joints.length;t++){
+                            if((Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) != 0){
+                                for(let  k = 0; (Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) < 3;k++){
+                                    this.joints[t].xmom *=1.1
+                                    this.joints[t].ymom *=1.1
+                                    if(k> 500){
+                                        break
+                                    }
+                                }
+                            }
+                        }
                     }else{
                         this.dip--
+                        for(let t = 0;t<this.segments.length;t++){
+                            this.segments[t].body.ymom *= .5
+                            this.segments[t].body.xmom *= .5
+                            this.segments[t].anchor.ymom *= .5
+                            this.segments[t].anchor.xmom *= .5
+                        }
                     }
                     // this.body.xmom *=.98
                     // this.body.ymom *=.98
 
-                    for(let t =0;t<this.joints.length;t++){
-                        if((Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) != 0){
-                            for(let  k = 0; (Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) < 5;k++){
-                                this.joints[t].xmom *=1.1
-                                this.joints[t].ymom *=1.1
-                                if(k> 500){
-                                    break
-                                }
-                            }
-                        }
-                    }
+               
                     
                     for(let t = 0; (Math.abs(this.body.xmom) +Math.abs(this.body.ymom)) > 115; t++){
                         this.body.xmom *=.98
                         this.body.ymom *=.98
                     }
-                }else{this.dip = 50}
+                }else{this.dip = 15}
                 // this.guide.radius = (this.joints[0].radius/3)+1
                 // this.guide.draw()
             }
@@ -9745,7 +9774,7 @@ ramps.push(ramp6)
 
 
 
-for(let t = 0;t<24;t++){
+for(let t = 0;t<54;t++){
     let worm = new Worm(300+Math.random()*5000,-1250+Math.random()*2000)
     let dirty = 0
     for(let t=0;t<floors.length;t++){
