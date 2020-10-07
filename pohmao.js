@@ -6762,7 +6762,7 @@ let orbs = []
 class Worm{
     constructor(x=0,y=0){
         this.layer = Math.floor(Math.random()*2)
-        if(Math.random()<.9){
+        if(Math.random()<.999){
             this.layer = 0
         }
         this.body = new Circle(x,y, 15, "yellow")
@@ -6803,7 +6803,46 @@ class Worm{
                     this.angle =Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
                     console.log(this)
             }
-          
+          eggrepel(){
+              for(let t=0;t<pomao.thrown.length;t++){
+                  for(let k = 0;k<this.joints.length;k++){
+                      if(this.joints[k].isPointInside(pomao.thrown[t])){
+                          this.joints[k].xmom += pomao.thrown[t].xmom*.3
+                          pomao.thrown[t].xmom*=.945
+                          if(pomao.thrown[t].ymom <0){
+                              
+                          this.joints[k].ymom += pomao.thrown[t].ymom*.3
+                          pomao.thrown[t].ymom*=.945
+                          }else{
+                          this.joints[k].ymom += pomao.thrown[t].ymom*.3
+                          }
+
+                          if(k > 0){
+                            this.joints[k-1].xmom += pomao.thrown[t].xmom*.3
+                            pomao.thrown[t].xmom*=.945
+                            if(pomao.thrown[t].ymom <0){
+                                
+                            this.joints[k-1].ymom += pomao.thrown[t].ymom*.3
+                            pomao.thrown[t].ymom*=.945
+                            }else{
+                            this.joints[k-1].ymom += pomao.thrown[t].ymom*.3
+                            }
+                          }
+                          if(k < this.joints.length-1){
+                            this.joints[k+1].xmom += pomao.thrown[t].xmom*.3
+                            pomao.thrown[t].xmom*=.945
+                            if(pomao.thrown[t].ymom <0){
+                                
+                            this.joints[k+1].ymom += pomao.thrown[t].ymom*.3
+                            pomao.thrown[t].ymom*=.945
+                            }else{
+                            this.joints[k+1].ymom += pomao.thrown[t].ymom*.3
+                            }
+                          }
+                      }
+                  }
+              }
+          }
             draw(){
 
                 this.box = new Shape(this.joints)
@@ -6914,13 +6953,14 @@ class Worm{
 
                
                     
-                    for(let t = 0; (Math.abs(this.body.xmom) +Math.abs(this.body.ymom)) > 115; t++){
+                    for(let t = 0; (Math.abs(this.body.xmom) +Math.abs(this.body.ymom)) > 10; t++){
                         this.body.xmom *=.98
                         this.body.ymom *=.98
                     }
                 }else{this.dip = 15}
                 // this.guide.radius = (this.joints[0].radius/3)+1
                 // this.guide.draw()
+                this.eggrepel()
             }
         }
     
@@ -9772,7 +9812,7 @@ ramps90.push(ramp5)
 const ramp6 = new Triangle90l(5300,33, "red", 500)
 ramps.push(ramp6)
 
-
+// pomao.eggmake = 161000000000
 
 for(let t = 0;t<54;t++){
     let worm = new Worm(300+Math.random()*5000,-1250+Math.random()*2000)
