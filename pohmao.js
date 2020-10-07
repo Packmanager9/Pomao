@@ -491,7 +491,8 @@ const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
 // tutorial_canvas_context.scale(.035,.035)
 // tutorial_canvas_context.scale(.5,.5)
-// tutorial_canvas_context.translate(3300,19750)
+// tutorial_canvas_context.translate(3300,19750) //lvl4
+// tutorial_canvas_context.translate(3300,10000)//lvl6
 // tutorial_canvas_context.translate(640,360)
 
 tutorial_canvas.style.background = "#664613"
@@ -613,9 +614,9 @@ window.addEventListener('mousedown', e => {
             this.build()
             this.body.draw()
           //   this.bigbody.draw()
-            for(let w = 0; w<this.wings.length; w++){
-                this.wings[w].draw()
-            }
+            // for(let w = 0; w<this.wings.length; w++){
+            //     this.wings[w].draw()
+            // }
         // }
     }
 }
@@ -687,6 +688,11 @@ class Spring{
             }
             this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "green", 5)
         }
+        this.anchor.marked = 0
+        this.anchor.xdif = 0
+        this.anchor.ydif = 0
+        this.worm = 0
+        // this.anchor.timer = 9999999999999999
 
     }
     balance(){
@@ -789,62 +795,217 @@ class Spring{
         }
     }
     wbalance(){
-        this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "green", 5)
+        this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "red", 5)
         let xmomentumaverage 
         let ymomentumaverage
+        //  xmomentumaverage = (this.body.xmom+(this.anchor.xmom+(this.anchor.xmom*this.anchor.marked)))/(2+this.anchor.marked)
+        //  ymomentumaverage = (this.body.ymom+(this.anchor.ymom+(this.anchor.ymom*this.anchor.marked)))/(2+this.anchor.marked)
+        // if(this.body != pin){
+            
          xmomentumaverage = (this.body.xmom+this.anchor.xmom)/2
          ymomentumaverage = (this.body.ymom+this.anchor.ymom)/2
-        // if(this.body != pin){
-            this.body.xmom = ((this.body.xmom*3)+xmomentumaverage)/4
-            this.body.ymom = ((this.body.ymom*3)+ymomentumaverage)/4
+        //  this.body.xmom = ((this.body.xmom*3)+xmomentumaverage)/4
+        //  this.body.ymom = ((this.body.ymom*3)+ymomentumaverage)/4
+         this.body.xmom = ((this.body.xmom*1)+xmomentumaverage)/2
+         this.body.ymom = ((this.body.ymom*1)+ymomentumaverage)/2
         // }
 
-        if(this.anchor != pin2){
         this.anchor.xmom = ((this.anchor.xmom)+xmomentumaverage)/2
         this.anchor.ymom = ((this.anchor.ymom)+ymomentumaverage)/2
-        }else{
-        this.anchor.xmom = ((this.anchor.xmom)+xmomentumaverage)/2
-        this.anchor.ymom = ((this.anchor.ymom)+ymomentumaverage)/2
-        }
-            if(this.beam.hypotenuse() !=0){
-        if(this.beam.hypotenuse() < this.length){
-            if(this.body != pin){
-            this.body.xmom += (this.body.x-this.anchor.x)/(this.length)/30
-            this.body.ymom += (this.body.y-this.anchor.y)/(this.length)/30
-            }
-                this.anchor.xmom -= (this.body.x-this.anchor.x)/(this.length)/30
-                this.anchor.ymom -= (this.body.y-this.anchor.y)/(this.length)/30
-        }else if(this.beam.hypotenuse() > this.length){
 
+            if(this.beam.hypotenuse() !=0){
+        if(this.beam.hypotenuse() < this.length-2){
             if(this.body != pin){
-            this.body.xmom -= (this.body.x-this.anchor.x)/(this.length)/30
-            this.body.ymom -= (this.body.y-this.anchor.y)/(this.length)/30
+            this.body.xmom += (this.body.x-this.anchor.x)/(this.length)/10
+            this.body.ymom += (this.body.y-this.anchor.y)/(this.length)/10
             }
-                this.anchor.xmom += (this.body.x-this.anchor.x)/(this.length)/30
-                this.anchor.ymom += (this.body.y-this.anchor.y)/(this.length)/30
+                this.anchor.xmom -= (this.body.x-this.anchor.x)/(this.length)/10
+                this.anchor.ymom -= (this.body.y-this.anchor.y)/(this.length)/10
+        }else if(this.beam.hypotenuse() > this.length+2){
+
+            this.body.xmom -= (this.body.x-this.anchor.x)/(this.length)/.9
+            this.body.ymom -= (this.body.y-this.anchor.y)/(this.length)/.9
+                this.anchor.xmom += (this.body.x-this.anchor.x)/(this.length)/.9
+                this.anchor.ymom += (this.body.y-this.anchor.y)/(this.length)/.9
+        }else{
+            
+            // if(this.worm.yeet == 0){
+            //     this.anchor.xmom *= .99
+            //     this.anchor.ymom  *= .99
+            // }
         }
 
     }
     }
     wdraw(){
-        this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "green", this.anchor.radius*1.8)
+        this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, this.anchor.color, this.body.radius*2)
         this.beam.draw()
-        this.body.draw()
-        if(ramps.includes(this.anchor)){
-            tutorial_canvas_context.drawImage(ballsprite, 0,0,ballsprite.width,ballsprite.height,pin2.x-pin2.radius,pin2.y-pin2.radius,pin2.radius*2,pin2.radius*2)
-        }
-        this.anchor.draw()
+        this.body.wdraw()
+        this.anchor.wdraw()
     }
     wmove(){
-        this.body.ymom*=.99
-        this.body.xmom*=.99
-        this.anchor.ymom*=.99
-        this.anchor.xmom*=.99
+        // this.body.ymom*=.99
+        // this.body.xmom*=.99
+        // this.anchor.ymom*=.99
+        // this.anchor.xmom*=.99
+        let blockedlick = 0
+        for(let t = 0;t<this.worm.joints.length;t++){
+            if(t!=this.worm.joints.indexOf(this)){
+                if(this.worm.joints[t].marked > 0){
+                    blockedlick = 1
+                }
+            }
+        }
+        if(this.anchor.repelCheck(pomao.tongue)  || pomao.tonguebox.isPointInside(this.anchor)){
+            if(blockedlick == 0){
+
+                this.anchor.marked = 1  
+                if(this.anchor.xdif+this.anchor.ydif == 0){
+                  this.anchor.xdif = pomao.tongue.x-this.anchor.x
+                  this.anchor.ydif =pomao.tongue.y- this.anchor.y
+                  const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red",1)
+                  const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x-this.anchor.xdif, pomao.tongue.y-this.anchor.ydif, "red",1)
+                  if(link2.hypotenuse() > link1.hypotenuse()-10){
+                  this.anchor.xdif = .001
+                  this.anchor.ydif = 0
+                  }
+              }
+            }
+          }
+          if(this.anchor.repelCheck(pomao.body) && (this.anchor.repelCheck(pomao.tongue)|| (this.anchor.marked == 1 ||this.anchor.marked == 2))){
+              if(Math.abs(pomao.tonguex)+Math.abs(pomao.tonguey) < 14){
+                this.anchor.marked = 2
+                pomao.diry = 1
+                if(typeof this.anchor.timer != "number"){
+                    this.anchor.timer = 20
+                }
+              }
+          }else if (this.anchor.repelCheck(pomao.body) && !this.anchor.repelCheck(pomao.tongue )){
+              if(this.body.x > pomao.body.x){
+                  this.bump = 1
+              }else{
+                  this.bump = -1
+              }
+          //   if(pomao.body.ymom == 0){
+              if(blockedlick == 0){
+
+                if(this.body.radius >= 15){
+                    if(pomao.disabled != 1){
+                        if(pomao.pounding!=10){
+                          pomao.body.xmom = -3*(this.bump)
+                          pomao.disabled = 1
+                          pomao.hits--
+                           pomao.body.ymom = -1.8
+                           this.body.xmom = -pomao.body.xmom
+                        }
+                    }else{
+                        if(this.bump*pomao.body.xmom >0){
+                          pomao.body.xmom = -1.8*(this.bump)
+                          pomao.body.ymom = -1.8
+                          this.body.xmom = -pomao.body.xmom
+                        }
+                    }
+                }
+              }
+          //   }
+          }
+      
+        if(this.anchor.marked == 1){
+            this.anchor.x  -= ((this.anchor.x-pomao.tongue.x)/1)+(this.anchor.xdif*.9)
+            this.anchor.y -= ((this.anchor.y-pomao.tongue.y)/1)+(this.anchor.ydif*.9)
+            for(let t = 0;t<this.worm.segments.length; t++){
+                this.worm.segments[t].length*=.8
+                if( this.worm.segments[t].length <= 6){
+                  this.worm.segments[t].length = 6
+                }
+                this.worm.segments[t].anchor.radius -=.01
+                if(this.worm.segments[t].body.radius<=2){
+                    this.worm.segments[t].body.radius=2
     
-            this.body.move()
+                }
+                if(this.worm.segments[t].anchor.radius<=2){
+                    this.worm.segments[t].anchor.radius=2
     
-            this.anchor.move()
+                }
+
+                
+            if(Math.random()<.2){
+                
+            if(this.worm.segments[t].anchor == this.anchor){
+                if(t<this.worm.segments.length-1){
+                    this.worm.segments[t+1].anchor.marked = 1
+                }
+                if(t> 0){
+                    this.worm.segments[t-1].anchor.marked = 1
+                }
+            }
+
+            }
+            }
+        }
         
+        this.anchor.xdif*=.95
+        this.anchor.ydif*=.95
+        if(this.anchor.marked == 2){
+            this.anchor.xdif*=.9
+            this.anchor.ydif*=.9
+          this.anchor.x  -= ((this.anchor.x-pomao.body.x)/1.1)
+          this.anchor.y -= ((this.anchor.y-pomao.body.y)/1.1)
+          this.marked = 2
+          pomao.diry = 1
+          this.anchor.timer--
+          for(let t = 0;t<this.worm.segments.length; t++){
+              this.worm.segments[t].length*=.8
+              if( this.worm.segments[t].length <=6){
+                this.worm.segments[t].length = 6
+              }
+              this.worm.segments[t].anchor.radius -=.04
+              if(this.worm.segments[t].body.radius<=2){
+                  this.worm.segments[t].body.radius=2
+  
+              }
+              if(this.worm.segments[t].anchor.radius<=2){
+                  this.worm.segments[t].anchor.radius=2
+  
+              }
+              if(Math.random()<.2){
+                
+                if(this.worm.segments[t].anchor == this.anchor){
+                    if(t<this.worm.segments.length-1){
+                        this.worm.segments[t+1].anchor.marked = 1
+                    }
+                    if(t> 0){
+                        this.worm.segments[t-1].anchor.marked = 1
+                    }
+                }
+    
+                }
+          }
+          
+          for(let t = 0;t<this.worm.segments.length; t++){
+            if(this.worm.segments[t].anchor.radius < 2.01){
+                this.worm.segments[t].anchor.color = "transparent" 
+            }
+            if(this.worm.segments[t].body.radius < 2.01){
+                this.worm.segments[t].body.color = "transparent" 
+            }
+          }
+          if(this.anchor.timer <= 0){
+              this.worm.marked = 1
+          }
+        }
+        
+    
+        if(typeof this.body.marked != "number" || this.body.marked == 0){
+            this.body.move()
+        }
+    
+            if(this.anchor.marked == 0){
+                this.anchor.move()
+            }
+        
+
+    
     }
 
 }
@@ -2743,6 +2904,22 @@ class Circle{
        tutorial_canvas_context.fill()
         tutorial_canvas_context.stroke(); 
     }
+    wdraw(){
+
+        if(this.color == "transparent"){
+            tutorial_canvas_context.fillStyle = this.color
+         //this.color
+            }else{    
+                tutorial_canvas_context.fillStyle = "cyan" //cyan
+            }
+        tutorial_canvas_context.lineWidth = 4
+        tutorial_canvas_context.strokeStyle = this.color
+        tutorial_canvas_context.beginPath();
+        tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI*2), true)
+   
+       tutorial_canvas_context.fill()
+        tutorial_canvas_context.stroke(); 
+    }
      chdraw(){
 
             tutorial_canvas_context.fillStyle = this.color
@@ -3759,10 +3936,16 @@ class Pomao{
     }
 
     for(let t = 0; t<worms.length; t++){
-        if(worms[t].body.x > this.body.x-(tutorial_canvas.width/1.6) && worms[t].body.x < this.body.x+(tutorial_canvas.width/1.6) ){
-            if(worms[t].body.y > this.body.y-(tutorial_canvas.height/1.6) && worms[t].body.y < this.body.y+(tutorial_canvas.height/1.6) ){
+        if(worms[t].body.x > this.body.x-(tutorial_canvas.width/.16) && worms[t].body.x < this.body.x+(tutorial_canvas.width/.16) ){
+            if(worms[t].body.y > this.body.y-(tutorial_canvas.height/.016) && worms[t].body.y < this.body.y+(tutorial_canvas.height/.016) ){
             worms[t].draw()
             }
+        }
+    }
+    for(let t = 0; t<worms.length; t++){
+        if(worms[t].marked == 1){
+            worms.splice(t,1)
+
         }
     }
     for(let t = 0; t<bats.length; t++){
@@ -6054,24 +6237,24 @@ class Buggle{
             }
         }
         
-        for(let  t= 0; t<this.tips.length;t++){
-            for(let  k= 0; k<this.tips.length;k++){
-                if(t!=k){
-                    if(this.tips[t].repelCheck(this.tips[k])){
-                        let distance = ((new Line(this.tips[k].x, this.tips[k].y, this.tips[t].x, this.tips[t].y, 1, "red")).hypotenuse())-(2*this.tips[k].radius+this.tips[t].radius)
-                        let angleRadians = Math.atan2(this.tips[k].y - this.tips[t].y, this.tips[k].x - this.tips[t].x);
-                        if(t == this.leg){
+        // for(let  t= 0; t<this.tips.length;t++){
+        //     for(let  k= 0; k<this.tips.length;k++){
+        //         if(t!=k){
+        //             if(this.tips[t].repelCheck(this.tips[k])){
+        //                 let distance = ((new Line(this.tips[k].x, this.tips[k].y, this.tips[t].x, this.tips[t].y, 1, "red")).hypotenuse())-(2*this.tips[k].radius+this.tips[t].radius)
+        //                 let angleRadians = Math.atan2(this.tips[k].y - this.tips[t].y, this.tips[k].x - this.tips[t].x);
+        //                 if(t == this.leg){
 
-                            // this.tips[t].xrepel += (Math.cos(angleRadians)*distance)/10
-                            // this.tips[t].yrepel += (Math.sin(angleRadians)*distance)/10
+        //                     // this.tips[t].xrepel += (Math.cos(angleRadians)*distance)/10
+        //                     // this.tips[t].yrepel += (Math.sin(angleRadians)*distance)/10
 
-                        }
-                        // this.tips[k].xrepel += -(Math.cos(angleRadians)*distance)/10
-                        // this.tips[k].yrepel += -(Math.sin(angleRadians)*distance)/10
-                    }
-                }
-            }
-        }
+        //                 }
+        //                 // this.tips[k].xrepel += -(Math.cos(angleRadians)*distance)/10
+        //                 // this.tips[k].yrepel += -(Math.sin(angleRadians)*distance)/10
+        //             }
+        //         }
+        //     }
+        // } //check later
     for(let t = 0; t<this.tips.length; t++){
         this.tips[t].x +=  this.tips[t].xrepel
         this.tips[t].y +=  this.tips[t].yrepel
@@ -6488,27 +6671,30 @@ class Worm{
     constructor(x=0,y=0){
         this.body = new Circle(x,y, 15, "yellow")
         this.segments = []
-        this.length = 10
+        this.length = 19
         this.joints = []
         this.dis = 22
         this.guide = new Circle(this.body.x+Math.sin(this.angle), this.body.y+Math.cos(this.angle), 5, "orange")
         this.box = new Shape()
         this.marked = 0
         this.yeet = 0
-         this.rigradius = this.body.radius
+        this.dip = 0
+         this.rigradius = this.body.radius+1
                 let spring = new Spring(this.body)
                 spring.anchor.radius = this.rigradius
+                spring.length = 12
+
+                spring.worm = this
+
                 this.joints.push(spring.anchor)
                     this.segments.push(spring)
-                    spring.length = 3
-    
-    
     
                     for(let k = 0; k<this.length;k++){
                         spring = new Spring(spring.anchor)
                         spring.anchor.radius = this.rigradius
-                        spring.length = 2.5    
-                        this.rigradius-=this.body.radius/(this.length+1)  
+                        spring.length = 11.5    
+                        this.rigradius-=this.body.radius/(this.length+10)  
+                        spring.worm = this
                         this.segments.push(spring)
                         if(k > 0){
                             if(k < this.length-1){
@@ -6521,10 +6707,12 @@ class Worm{
                     this.angle =Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
                     console.log(this)
             }
+          
             draw(){
 
                 this.box = new Shape(this.joints)
                 this.yeet = 0
+                
                 for(let f =0; f<floors.length;f++){
                     if(floors[f].isPointInside(this.joints[0])){
                         // if(this.box.isInsideOf(floors[f])){
@@ -6532,27 +6720,60 @@ class Worm{
                             this.yeet = 1
                         }
                     }
-                
-                for(let t = 0;t<this.segments.length; t++){
-                    this.segments[t].anchor.xmom *= .99
-                    this.segments[t].anchor.ymom *= .995
-                    this.segments[t].body.xmom *= .99
-                    this.segments[t].body.ymom *= .995
-                    this.segments[t].wbalance()
-         
-                    if(this.yeet == 0){
-                        this.segments[t].anchor.ymom += .0012*(this.length-t)
-                        this.segments[t].body.ymom +=  .0012*(this.length-t)
-                    }
-                    this.segments[t].wmove()
-                    if(t > 0){
-                        if(t < this.segments.length-1){
-                            this.segments[t].wdraw()
+                for(let f =0; f<ramps.length;f++){
+                    if(ramps[f].isPointInside(this.joints[0])){
+                        // if(this.box.isInsideOf(floors[f])){
+
+                            this.yeet = 1
                         }
                     }
+                
+                for(let t = 0;t<this.segments.length; t++){
+                    if(this.yeet == 0){
+                        this.segments[t].anchor.xmom *= .99
+                        this.segments[t].anchor.ymom *= .995
+                        this.segments[t].body.xmom *= .99
+                        this.segments[t].body.ymom *= .995
+                    }else{
+                        
+                        this.segments[t].anchor.xmom *= .99
+                        this.segments[t].anchor.ymom *= .99
+                        this.segments[t].body.xmom *= .99
+                        this.segments[t].body.ymom *= .99
+                    }
+                    // if(this.yeet == 1){
+
+                        this.segments[t].wbalance()
+                        this.segments[t].wbalance()
+                    // }
+         
+                    // if(this.yeet == 0){
+                    //     this.joints[0].ymom+=.1
+                        // this.segments[t].anchor.ymom += .0002*(this.length-t)
+                        // this.segments[t].body.ymom +=  .0002*(this.length-t)
+                    // }
+                   
 
                 }
                 
+
+                if(this.yeet == 0 || this.dip > 0){
+                    this.joints[0].ymom+=1.1
+                    for(let t = 1;t<this.joints.length;t++){
+                        this.joints.ymom+=.6
+                    }
+                }
+                for(let t = 0;t<this.segments.length; t++){
+                    this.segments[t].wmove()
+                }
+                for(let t = 0;t<this.segments.length; t++){
+                if(t > 0){
+                    if(t < this.segments.length-1){
+                        this.segments[t].wdraw()
+                    }
+                }
+            }
+
             // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
             this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x );
 
@@ -6567,15 +6788,36 @@ class Worm{
             this.angle = (this.angleRadians+this.angle*2)/3
                 this.guide = new Circle(this.joints[0].x+(Math.cos(this.angle)*this.dis), this.joints[0].y+(Math.sin(this.angle)*this.dis), 5, "orange")
                 if(this.yeet == 1){
-                    console.log(this.yeet)
-                    this.body.xmom -=  (this.body.x-this.guide.x)/70
-                    this.body.ymom -=  (this.body.y-this.guide.y)/70
+                    // console.log(this.yeet)
+                    if(this.dip <= 0){
+                        this.body.xmom -=  (this.body.x-this.guide.x)/6
+                        this.body.ymom -=  (this.body.y-this.guide.y)/6
+          
+                    
+                    }else{
+                        this.dip--
+                    }
+                    // this.body.xmom *=.98
+                    // this.body.ymom *=.98
 
+                    for(let t =0;t<this.joints.length;t++){
+                        if((Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) != 0){
+                            for(let  k = 0; (Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) < 5;k++){
+                                this.joints[t].xmom *=1.1
+                                this.joints[t].ymom *=1.1
+                                if(k> 500){
+                                    break
+                                }
+                            }
+                        }
+                    }
+                    
                     for(let t = 0; (Math.abs(this.body.xmom) +Math.abs(this.body.ymom)) > 115; t++){
                         this.body.xmom *=.98
                         this.body.ymom *=.98
                     }
-                }
+                }else{this.dip = 50}
+                this.guide.radius = (this.joints[0].radius/3)+1
                 this.guide.draw()
             }
         }
@@ -6873,29 +7115,35 @@ window.setInterval(function(){
         }
 
        
-for(let t = 0; t<ramps.length; t++){
-    if(t > 1){
-
-        if(typeof ramps[t].radius == "number"){
-
+        if(level == 1  || level == 5){
+            for(let t = 0; t<ramps.length; t++){
+                if(t > 1){
+            
+                    if(typeof ramps[t].radius == "number"){
+            
+                    }else{
+                        if(level != 5){
+                            ramps[t].draw()
+                        }
+                    }
+                       
+                    tutorial_canvas_context.drawImage(rampcurveimg1, 1656, 578, 488, 73 )
+                
+                }else{
+                    if(t==1){    
+                    tutorial_canvas_context.drawImage(rampimg1, ramps[t].x2, ramps[t].tip, ramps[t].x1-ramps[t].x2, ramps[t].y-ramps[t].tip )
+                    }    
+                    if(t==0){
+                    tutorial_canvas_context.drawImage(rampimg2, ramps[t].x2, ramps[t].tip, ramps[t].x1-ramps[t].x2, ramps[t].y-ramps[t].tip )
+                    }    
+                }
+            
+            }
         }else{
-            if(level != 5){
-                ramps[t].draw()
+            for(let t = 0; t<ramps.length; t++){
+                 ramps[t].draw()
             }
         }
-           
-        tutorial_canvas_context.drawImage(rampcurveimg1, 1656, 578, 488, 73 )
-    
-    }else{
-        if(t==1){    
-        tutorial_canvas_context.drawImage(rampimg1, ramps[t].x2, ramps[t].tip, ramps[t].x1-ramps[t].x2, ramps[t].y-ramps[t].tip )
-        }    
-        if(t==0){
-        tutorial_canvas_context.drawImage(rampimg2, ramps[t].x2, ramps[t].tip, ramps[t].x1-ramps[t].x2, ramps[t].y-ramps[t].tip )
-        }    
-    }
-
-}
 
 //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
       
@@ -9396,11 +9644,13 @@ pomao.body.y = 0
 //  pomao.eggmake = 161
 // boss = new Bossbeam()
 
-let worm = new Worm()
-worms.push(worm)
+for(let t = 0;t<10;t++){
+    let worm = new Worm(300+t*1000,200+Math.random()*300)
+    worms.push(worm)
+}
 
 
-const floor = new Rectangle(-10000,33,10300,28400)
+const floor = new Rectangle(-10000,33,103000,28400)
 floors.push(floor)
 walls.push(floor)
 roofs.push(floor)
@@ -9415,6 +9665,13 @@ const wall2 = new Rectangle(11600, -30000, 30033, 50, "cyan")
 walls.push(wall2)
 floors.push(wall2)
 roofs.push(wall2)
+
+
+const ramp5 = new Triangle90(5300,33, "red", 500)
+ramps.push(ramp5)
+ramps90.push(ramp5)
+const ramp6 = new Triangle90l(5300,33, "red", 500)
+ramps.push(ramp6)
 
 }
     
