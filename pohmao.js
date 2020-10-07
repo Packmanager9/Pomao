@@ -823,10 +823,10 @@ class Spring{
                 this.anchor.ymom -= (this.body.y-this.anchor.y)/(this.length)/10
         }else if(this.beam.hypotenuse() > this.length+2){
 
-            this.body.xmom -= (this.body.x-this.anchor.x)/(this.length)/.9
-            this.body.ymom -= (this.body.y-this.anchor.y)/(this.length)/.9
-                this.anchor.xmom += (this.body.x-this.anchor.x)/(this.length)/.9
-                this.anchor.ymom += (this.body.y-this.anchor.y)/(this.length)/.9
+            this.body.xmom -= (this.body.x-this.anchor.x)/(this.length)/1.6
+            this.body.ymom -= (this.body.y-this.anchor.y)/(this.length)/1.6
+                this.anchor.xmom += (this.body.x-this.anchor.x)/(this.length)/1.6
+                this.anchor.ymom += (this.body.y-this.anchor.y)/(this.length)/1.6
         }else{
             
             // if(this.worm.yeet == 0){
@@ -3936,9 +3936,11 @@ class Pomao{
     }
 
     for(let t = 0; t<worms.length; t++){
-        if(worms[t].body.x > this.body.x-(tutorial_canvas.width/.16) && worms[t].body.x < this.body.x+(tutorial_canvas.width/.16) ){
+        if(worms[t].body.x > this.body.x-(tutorial_canvas.width/.66) && worms[t].body.x < this.body.x+(tutorial_canvas.width/.66) ){
             if(worms[t].body.y > this.body.y-(tutorial_canvas.height/.016) && worms[t].body.y < this.body.y+(tutorial_canvas.height/.016) ){
-            worms[t].draw()
+                if(worms[t].layer == 0){
+                   worms[t].draw()
+                }
             }
         }
     }
@@ -3948,6 +3950,10 @@ class Pomao{
             pomao.hits+=1
             if(pomao.hits > 9){
                 pomao.hits = 9
+            }
+            if(pomao.eggs.length < 16){
+                const seepx = new Seed(pomao.eggs[pomao.eggs.length-1])
+                pomao.eggs.push(seepx)
             }
 
         }
@@ -4115,6 +4121,35 @@ for(let t = 0; t<bats.length; t++){
         }
         }
     }
+
+
+
+    
+    for(let t = 0; t<worms.length; t++){
+        if(worms[t].body.x > this.body.x-(tutorial_canvas.width/.66) && worms[t].body.x < this.body.x+(tutorial_canvas.width/.66) ){
+            if(worms[t].body.y > this.body.y-(tutorial_canvas.height/.016) && worms[t].body.y < this.body.y+(tutorial_canvas.height/.016) ){
+                if(worms[t].layer == 1){
+                   worms[t].draw()
+                }
+            }
+        }
+    }
+    for(let t = 0; t<worms.length; t++){
+        if(worms[t].marked == 1){
+            worms.splice(t,1)
+            pomao.hits+=1
+            if(pomao.hits > 9){
+                pomao.hits = 9
+            }
+            if(pomao.eggs.length < 16){
+                const seepx = new Seed(pomao.eggs[pomao.eggs.length-1])
+                pomao.eggs.push(seepx)
+            }
+
+        }
+    }
+
+
     // this.diry = 1
     // this.body.draw()
     // this.footspot.draw()
@@ -6703,6 +6738,10 @@ let orbs = []
 
 class Worm{
     constructor(x=0,y=0){
+        this.layer = Math.floor(Math.random()*2)
+        if(Math.random()<.8){
+            this.layer = 0
+        }
         this.body = new Circle(x,y, 15, "yellow")
         this.segments = []
         this.length = 19
@@ -6851,8 +6890,8 @@ class Worm{
                         this.body.ymom *=.98
                     }
                 }else{this.dip = 50}
-                this.guide.radius = (this.joints[0].radius/3)+1
-                this.guide.draw()
+                // this.guide.radius = (this.joints[0].radius/3)+1
+                // this.guide.draw()
             }
         }
     
@@ -6934,7 +6973,9 @@ let door = new Rectangle(4550, 450, 200, 200, "#090909")
 
 const shockfriendly = new Shockwave(pomao.body)
 shocks.push(shockfriendly)
+ 
 
+//abracadabra
 loadlvl1()
 // loadlvl2()
 // loadlvl3()
@@ -9678,11 +9719,6 @@ pomao.body.y = 0
 //  pomao.eggmake = 161
 // boss = new Bossbeam()
 
-for(let t = 0;t<10;t++){
-    let worm = new Worm(300+t*15,200+Math.random()*300)
-    worms.push(worm)
-}
-
 
 const floor = new Rectangle(-10000,33,103000,28400)
 floors.push(floor)
@@ -9706,6 +9742,26 @@ ramps.push(ramp5)
 ramps90.push(ramp5)
 const ramp6 = new Triangle90l(5300,33, "red", 500)
 ramps.push(ramp6)
+
+
+
+for(let t = 0;t<24;t++){
+    let worm = new Worm(300+Math.random()*5000,-1250+Math.random()*2000)
+    let dirty = 0
+    for(let t=0;t<floors.length;t++){
+        if(floors[t].isPointInside(worm.joints[0])){
+            dirty = 1
+        }
+    }
+    for(let t=0;t<ramps.length;t++){
+        if(ramps[t].isPointInside(worm.joints[0])){
+            dirty = 1
+        }
+    }
+    if(dirty == 1){
+        worms.push(worm)
+    }
+}
 
 }
     
