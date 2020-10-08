@@ -212,6 +212,7 @@ eyeimgred.src ="eyebossred.png"
 
 const jazz = new Audio('gulpnoise.wav');
 const jazz2 = new Audio('gulpnoise2.wav');
+const spidermusic = new Audio('Mopao.mp3');
 
 const jailswitchimgl = new Image()
 jailswitchimgl.src = 'switchl.png'
@@ -6612,6 +6613,7 @@ class Buggle{
 
               this.popdraw()
     }else{
+        spidermusic.pause()
         this.popdraw()
     }
 }
@@ -6620,6 +6622,7 @@ class Buggle{
         let linker = new Line(pomao.body.x, pomao.body.y, this.body.x, this.body.y, "red", 10)
         if(linker.hypotenuse() < 1500){
             if(pomao.body.x > 7925){
+                spidermusic.play()
                 if(this.joints.length > 10){
                     this.body.xmom -= (this.body.x-pomao.body.x)/45
                     this.body.ymom -= (this.body.y-pomao.body.y)/45
