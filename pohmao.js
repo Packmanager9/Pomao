@@ -1,14 +1,14 @@
 
 let level = 1
-let zimgs = []
+const zimgs = []
 let pmarinedisp = 0
 let jailswitch = 0
 let loader = 1
 let spinny
-let spinnys = []
+const spinnys = []
 let beamrocks = []
 let links = []
-let worms = []
+const worms = []
 let floormpf
 // const gamepads
 
@@ -20,7 +20,7 @@ for(let t = 42; t>0; t--){
 }
 // //console.log(zimgs)
 
-let rimgs = []
+const rimgs = []
 for(let i = 9; i < 12; i++) {
     rimgs.push(Object.assign(new Image(), { 'src': `r${i}.png` }));
     }
@@ -163,22 +163,24 @@ let objsprings = []
 let ramps90 = []
 let swimmers = []
 let bats = []
-let floors = []
+const floors = []
 let ramps = []
-let boys = []
-let deadboys = []
-let fruits = []
-let walls = []
+const boys = []
+const deadboys = []
+const fruits = []
+const walls  = []
 let chats = []
 let invisblocks = []
 let ungrapplable = []
 let jellys = []
-let roofs = []
+const roofs = []
 let switches = []
-let shocks =[]
+const shocks =[]
 let blocks = []
 let nails = []
 let dry = 0
+const transfloor = new Image()
+transfloor.src ="hsemitrans.png"
 const floorimg = new Image()
 floorimg.src ="floor4.png"
 const cloudimg = new Image()
@@ -840,8 +842,8 @@ class Spring{
     wdraw(){
         this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, this.anchor.color, this.body.radius*2)
         this.beam.draw()
-        this.body.wdraw()
-        this.anchor.wdraw()
+        // this.body.wdraw()
+        // this.anchor.wdraw()
     }
     wmove(){
         // this.body.ymom*=.99
@@ -6385,7 +6387,14 @@ class Buggle{
             }
         }
         for(let t = 0; t<this.legs.length;t++){
-            this.legs[t].draw()
+            this.legs[t].xdraw()
+        }
+        for(let t = 0;t<this.tips.length;t++){
+            this.tips[t].chdraw()  
+        }
+        
+        for(let t = 0;t<this.arms.length;t++){
+            this.arms[t].chdraw()         
         }
         
 
@@ -6466,7 +6475,9 @@ class Buggle{
                                     if(this.legs[f-1].anchor != this.body){
                                         this.legs[f-1].anchor.color = "black"
                                         this.legs[f-1].anchor.radius *= 1.3
-                                        this.arms.push(this.legs[f-1].anchor)
+                                        
+                                    this.arms[this.arms.indexOf(this.legs[f].anchor)] = this.legs[f-1].anchor
+                                        // this.arms.push(this.legs[f-1].anchor)
                                       }
                                       this.popseg(this.legs[f].anchor)
                                     //   this.arms.splice(this.arms.indexOf(this.legs[f].anchor))
@@ -6676,6 +6687,12 @@ class ChSpring{
         this.beam.draw()
         this.body.chdraw()
         this.anchor.chdraw()
+    }
+    xdraw(){
+        this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", this.anchor.radius)
+        this.beam.draw()
+        this.body.chdraw()
+        // this.anchor.chdraw()
     }
     move(){
             // if(this.body != chafer.body){
@@ -6901,14 +6918,7 @@ class Worm{
                 for(let t = 0;t<this.segments.length; t++){
                     this.segments[t].wmove()
                 }
-                for(let t = 0;t<this.segments.length; t++){
-                if(t > 0){
-                    if(t < this.segments.length-1){
-                        this.segments[t].wdraw()
-                    }
-                }
-            }
-
+       
             // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
             this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x );
 
@@ -6961,6 +6971,18 @@ class Worm{
                 // this.guide.radius = (this.joints[0].radius/3)+1
                 // this.guide.draw()
                 this.eggrepel()
+                for(let t = 0;t<this.segments.length; t++){
+                    if(t > 0){
+                        if(t < this.segments.length-1){
+                            this.segments[t].wdraw()
+                            this.segments[t].body.wdraw()
+                        }
+                    }
+                }
+    
+                // for(let t = 0;t<this.joints.length;t++){
+                //     this.joints[t].wdraw()
+                // }
             }
         }
     
@@ -7238,7 +7260,10 @@ window.setInterval(function(){
             let prisoner3height = 68+(Math.sin(((pomao.timeloop*.6)+3.14))*.8)
             
             tutorial_canvas_context.drawImage(prisoner3img, 0,0,prisoner3img.width,prisoner3img.height, 213,-3456-(Math.sin(((pomao.timeloop*.6)+3.14))*.8), 70,prisoner3height)
-            floors = [...floormpf]
+            floors.splice(0,floors.length)
+            for(let t = 0;t<floormpf.length;t++){
+                    floors.push(floormpf[t])
+            }
             for(let t = 0;t<spinnys.length;t++){
                 spinnys[t].draw()
             }
@@ -7628,6 +7653,10 @@ window.setInterval(function(){
         //         pomao.eggs.push(seepx)
         //     }
 
+        if(level == 6){
+            tutorial_canvas_context.drawImage(transfloor, 0,0,500,500, -12100, 33, 22000, 1000)
+            tutorial_canvas_context.drawImage(transfloor, 0,0,500,500, -12100, 35, 22000, 1000)
+        }
         for(let t = 0;t<chats.length;t++){
             chats[t].draw()
         }
@@ -7994,16 +8023,16 @@ function loadlvl1(){
  ramps90 = []
  swimmers = []
  bats = []
- floors = []
+floors.splice(0,floors.length)
  ramps = []
- boys = []
- deadboys = []
- fruits = []
- walls = []
+ boys.splice(0,boys.length)
+ deadboys.splice(0,deadboys.length)
+ fruits.splice(0,fruits.length)
+ walls.splice(0,walls.length)
  invisblocks = []
  ungrapplable = []
  jellys = []
- roofs = []
+ roofs.splice(0,roofs.length)
  switches = []
  blocks = []
  nails = []
@@ -8012,8 +8041,8 @@ function loadlvl1(){
  links = []
  springs = []
  objsprings = []
- spinnys = []
- worms = []
+ spinnys.splice(0,spinnys.length)
+worms.splice(0,worms.length)
  level = 1
 
 
@@ -8666,16 +8695,16 @@ function loadlvl2(){
      ramps90 = []
      swimmers = []
      bats = []
-     floors = []
+    floors.splice(0,floors.length)
      ramps = []
-     boys = []
-     deadboys = []
-     fruits = []
-     walls = []
+     boys.splice(0,boys.length)
+     deadboys.splice(0,deadboys.length)
+     fruits.splice(0,fruits.length)
+     walls.splice(0,walls.length)
      invisblocks = []
      ungrapplable = []
      jellys = []
-     roofs = []
+     roofs.splice(0,roofs.length)
      switches = []
     //  shocks =[]
      blocks = []
@@ -8683,8 +8712,8 @@ function loadlvl2(){
      chats = []
      orbs = []
      links = []
-     spinnys = []
-     worms = []
+     spinnys.splice(0,spinnys.length)
+    worms.splice(0,worms.length)
      
     
      const floor = new Rectangle(-1000,33,645,20000)
@@ -8780,7 +8809,7 @@ function loadlvl2(){
     
      for(let t = 0; t<32;t++){
          let wet = 0
-         let fruit = new Fruit(3000+Math.random()*1000, -60-(Math.random()*570), 60,60,"transparent")
+         const fruit = new Fruit(3000+Math.random()*1000, -60-(Math.random()*570), 60,60,"transparent")
          for(let k = 0;k<fruits.length; k++){
              if(fruit.body.repelCheck(fruits[k].body)){
                  wet = 1
@@ -8817,24 +8846,24 @@ beamrocks = []
      ramps90 = []
      swimmers = []
      bats = []
-     floors = []
+    floors.splice(0,floors.length)
      ramps = []
-     boys = []
-     deadboys = []
-     fruits = []
-     walls = []
+     boys.splice(0,boys.length)
+     deadboys.splice(0,deadboys.length)
+     fruits.splice(0,fruits.length)
+     walls.splice(0,walls.length)
      invisblocks = []
      ungrapplable = []
      jellys = []
-     roofs = []
+     roofs.splice(0,roofs.length)
      switches = []
      blocks = []
      nails = []
      chats = []
      orbs = []
      links = []
-     spinnys = []
-     worms = []
+     spinnys.splice(0,spinnys.length)
+    worms.splice(0,worms.length)
 
      
 // boss = new Bossbeam()
@@ -8972,27 +9001,27 @@ beamrocks = []
     tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)//+18000)
     pomao.body.x = 0
     pomao.body.y = 0//-18000
-     spinnys = []
+     spinnys.splice(0,spinnys.length)
      ramps90 = []
      swimmers = []
      bats = []
-     floors = []
+    floors.splice(0,floors.length)
      ramps = []
-     boys = []
-     deadboys = []
-     fruits = []
-     walls = []
+     boys.splice(0,boys.length)
+     deadboys.splice(0,deadboys.length)
+     fruits.splice(0,fruits.length)
+     walls.splice(0,walls.length)
      invisblocks = []
      ungrapplable = []
      jellys = []
-     roofs = []
+     roofs.splice(0,roofs.length)
      switches = []
      blocks = []
      nails = []
      chats = []
      orbs = []
      links = []
-     worms = []
+    worms.splice(0,worms.length)
     
     //  pomao.eggmake = 161
     
@@ -9205,7 +9234,7 @@ beamrocks = []
      for(let t = 1;t<floors.length;t++){
         for(let k = 0;k<44;k++){
             let wet = 0
-            let fruit = new Fruit(floors[t].x+Math.random()*floors[t].width, floors[t].y-Math.random()*340, 60,60,"transparent")
+            const fruit = new Fruit(floors[t].x+Math.random()*floors[t].width, floors[t].y-Math.random()*340, 60,60,"transparent")
     
             for(let k=0;k<fruits.length;k++){
                 if(fruits[k].body.repelCheck(fruit.body)){
@@ -9359,7 +9388,7 @@ beamrocks = []
     for(let k = 1; k<floors.length;k++){
         if(floors[k].width > 99){
             for(let t = 0;t<2;t++){
-                let bat = new Bat(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
+                const bat = new Bat(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
                 bats.push(bat)
              }
         }
@@ -9368,7 +9397,7 @@ beamrocks = []
     for(let k = 1; k<floors.length;k++){
         if(floors[k].width < 99){
             for(let t = 0;t<1;t++){
-                let bat = new Cloud(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
+                const bat = new Cloud(floors[k].x+(Math.random()*floors[k].width), floors[k].y-(Math.random()*400))
                 if(Math.random()<.5){
                     bats.push(bat)
                 }
@@ -9439,7 +9468,7 @@ beamrocks = []
         
         for(let k = 0;k<600;k++){
             let wet = 0
-            let fruit = new Fruit(-1750+Math.random()*10000, (-10300-8950)+Math.random()*2500, 60+((Math.random()-.5)*10), 60,60,"transparent")
+            const fruit = new Fruit(-1750+Math.random()*10000, (-10300-8950)+Math.random()*2500, 60+((Math.random()-.5)*10), 60,60,"transparent")
     
             for(let k=0;k<fruits.length;k++){
                 if(fruits[k].body.repelCheck(fruit.body)){
@@ -9501,29 +9530,29 @@ level = 5
 
 
 tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
-pomao.body.x = 0
+pomao.body.x = 0 //0
 pomao.body.y = 0
- spinnys = []
+ spinnys.splice(0,spinnys.length)
  ramps90 = []
  swimmers = []
  bats = []
- floors = []
+floors.splice(0,floors.length)
  ramps = []
- boys = []
- deadboys = []
- fruits = []
- walls = []
+ boys.splice(0,boys.length)
+ deadboys.splice(0,deadboys.length)
+ fruits.splice(0,fruits.length)
+ walls.splice(0,walls.length)
  invisblocks = []
  ungrapplable = []
  jellys = []
- roofs = []
+ roofs.splice(0,roofs.length)
  switches = []
  blocks = []
  nails = []
  chats = []
  orbs = []
  links = []
- worms = []
+worms.splice(0,worms.length)
 
 //  pomao.eggmake = 161
 // boss = new Bossbeam()
@@ -9696,7 +9725,7 @@ for(let t = 0; t<orbs.length; t++){
     
     for(let k = 0;k<400;k++){
         let wet = 0
-        let fruit = new Fruit(8000+(Math.random()*tutorial_canvas.width*2.5), -(tutorial_canvas.height*3)+(Math.random()*tutorial_canvas.height*3), 60,60,"transparent")
+        const fruit = new Fruit(8000+(Math.random()*tutorial_canvas.width*2.5), -(tutorial_canvas.height*3)+(Math.random()*tutorial_canvas.height*3), 60,60,"transparent")
 
         for(let k=0;k<fruits.length;k++){
             if(fruits[k].body.repelCheck(fruit.body)){
@@ -9714,7 +9743,7 @@ for(let t = 0; t<orbs.length; t++){
     }
     for(let k = 0;k<100;k++){
         let wet = 0
-        let fruit = new Fruit(-1200+(Math.random()*tutorial_canvas.width*8), -(tutorial_canvas.height*.71)+(Math.random()*tutorial_canvas.height*.71), 60,60,"transparent")
+        const fruit = new Fruit(-1200+(Math.random()*tutorial_canvas.width*8), -(tutorial_canvas.height*.71)+(Math.random()*tutorial_canvas.height*.71), 60,60,"transparent")
 
         for(let k=0;k<fruits.length;k++){
             if(fruits[k].body.repelCheck(fruit.body)){
@@ -9763,27 +9792,27 @@ level = 6
 tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
 pomao.body.x = 0
 pomao.body.y = 0
- spinnys = []
+ spinnys.splice(0,spinnys.length)
  ramps90 = []
  swimmers = []
  bats = []
- floors = []
+floors.splice(0,floors.length)
  ramps = []
- boys = []
- deadboys = []
- fruits = []
- walls = []
+ boys.splice(0,boys.length)
+ deadboys.splice(0,deadboys.length)
+ fruits.splice(0,fruits.length)
+ walls.splice(0,walls.length)
  invisblocks = []
  ungrapplable = []
  jellys = []
- roofs = []
+ roofs.splice(0,roofs.length)
  switches = []
  blocks = []
  nails = []
  chats = []
  orbs = []
  links = []
- worms = []
+worms.splice(0,worms.length)
 
 //  pomao.eggmake = 161
 // boss = new Bossbeam()
@@ -9815,7 +9844,7 @@ ramps.push(ramp6)
 // pomao.eggmake = 161000000000
 
 for(let t = 0;t<54;t++){
-    let worm = new Worm(300+Math.random()*5000,-1250+Math.random()*2000)
+    const worm = new Worm(300+Math.random()*5000,-1250+Math.random()*2000)
     let dirty = 0
     for(let t=0;t<floors.length;t++){
         if(floors[t].isPointInside(worm.joints[0])){
