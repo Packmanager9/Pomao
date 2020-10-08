@@ -7639,6 +7639,8 @@ window.setInterval(function(){
         // fracta4l.draw()
         loader = 1000
     }else{
+        
+        spidermusic.pause()
         loader--
         if(loader == 1){
             loader = 0
