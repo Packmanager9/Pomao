@@ -5863,7 +5863,7 @@ class Observer{
         this.currentangle  = this.gapangle/2
         for(let k = 0; k<this.raymake; k++){
             this.currentangle+=(this.gapangle/Math.ceil(this.raymake/2))
-            let ray = new Circle(this.body.x, this.body.y, 1, "white",((this.rayrange * (Math.cos(this.globalangle+this.currentangle))))/this.rayrange*5.5, ((this.rayrange * (Math.sin(this.globalangle+this.currentangle))))/this.rayrange*5.5 )
+            const ray = new Circle(this.body.x, this.body.y, 1, "white",((this.rayrange * (Math.cos(this.globalangle+this.currentangle))))/this.rayrange*5.5, ((this.rayrange * (Math.sin(this.globalangle+this.currentangle))))/this.rayrange*5.5 )
             ray.collided = 0
             ray.lifespan = this.rayrange-1
             this.ray.push(ray)
@@ -7228,10 +7228,22 @@ window.setInterval(function(){
         }else{
             chats = []
 
-            floors = floors.filter(word => !invisblocks.includes(word));
-            walls = walls.filter(word => !invisblocks.includes(word));
-            roofs = roofs.filter(word => !invisblocks.includes(word));
 
+            for(let t = 0;t<floors.length;t++){
+                if(invisblocks.includes(floors[t])){
+                    floors.splice(t,1)
+                }
+            }
+            for(let t = 0;t<walls.length;t++){
+                if(invisblocks.includes(walls[t])){
+                    walls.splice(t,1)
+                }
+            }
+            for(let t = 0;t<roofs.length;t++){
+                if(invisblocks.includes(roofs[t])){
+                    roofs.splice(t,1)
+                }
+            }
 
 
 
