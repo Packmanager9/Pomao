@@ -693,7 +693,7 @@ class Spring{
         this.anchor.marked = 0
         this.anchor.xdif = 0
         this.anchor.ydif = 0
-        this.worm = 0
+        this.worm = {} 
         // this.anchor.timer = 9999999999999999
 
     }
@@ -875,7 +875,7 @@ class Spring{
         }
         if(this.anchor.repelCheck(pomao.tongue)  || pomao.tonguebox.isPointInside(this.anchor)){
             if(blockedlick == 0){
-
+                if(Math.abs(pomao.tonguex)+Math.abs(pomao.tonguey) > 7){
                 this.anchor.marked = 1  
                 if(this.anchor.xdif+this.anchor.ydif == 0){
                   this.anchor.xdif = pomao.tongue.x-this.anchor.x
@@ -888,17 +888,31 @@ class Spring{
                   }
               }
             }
+            }
           }
           if(this.anchor.repelCheck(pomao.body) && (this.anchor.repelCheck(pomao.tongue)|| (this.anchor.marked == 1 ||this.anchor.marked == 2))){
               if(Math.abs(pomao.tonguex)+Math.abs(pomao.tonguey) < 14){
-                this.anchor.marked = 2
-                pomao.diry = 1
-                if(typeof this.anchor.timer != "number"){
-                    this.anchor.timer = 24
+               if(  this.worm.licked == 0){
+
+                for(let t =0;t<this.worm.segments.length;t++){
+                    console.log(this.worm.segments[t].anchor.marked )
+                    if(this.worm.segments[t].anchor.marked == 1){
+                        this.worm.licked = 1
+                    }
                 }
-              }
+
+               }
+                if(  this.worm.licked  == 1){
+
+                    this.anchor.marked = 2
+                    pomao.diry = 1
+                    if(typeof this.anchor.timer != "number"){
+                        this.anchor.timer = 24
+                    }
+                  }
+                }
           }else if (this.anchor.repelCheck(pomao.body) && !this.anchor.repelCheck(pomao.tongue )){
-              if(this.body.x > pomao.body.x){
+              if(this.anchor.x > pomao.body.x){
                   this.bump = 1
               }else{
                   this.bump = -1
@@ -913,13 +927,15 @@ class Spring{
                           pomao.disabled = 1
                           pomao.hits--
                            pomao.body.ymom = -1.8
-                           this.body.xmom = -pomao.body.xmom
+                           this.anchor.xmom += -pomao.body.xmom*5
+                           this.body.xmom += -pomao.body.xmom*5
                         }
                     }else{
                         if(this.bump*pomao.body.xmom >0){
                           pomao.body.xmom = -1.8*(this.bump)
                           pomao.body.ymom = -1.8
-                          this.body.xmom = -pomao.body.xmom
+                          this.anchor.xmom += -pomao.body.xmom*5
+                          this.body.xmom += -pomao.body.xmom*5
                         }
                     }
                 }
@@ -6778,6 +6794,7 @@ let orbs = []
 
 class Worm{
     constructor(x=0,y=0){
+        this.licked = 0
         this.layer = Math.floor(Math.random()*2)
         if(Math.random()<.999){
             this.layer = 0
@@ -6935,8 +6952,8 @@ class Worm{
                 if(this.yeet == 1){
                     // console.log(this.yeet)
                     if(this.dip <= 0){
-                        this.body.xmom -=  (this.body.x-this.guide.x)/4
-                        this.body.ymom -=  (this.body.y-this.guide.y)/4
+                        this.body.xmom -=  (this.body.x-this.guide.x)/3
+                        this.body.ymom -=  (this.body.y-this.guide.y)/3
           
                         for(let t =0;t<this.joints.length;t++){
                             if((Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) != 0){
@@ -7654,8 +7671,8 @@ window.setInterval(function(){
         //     }
 
         if(level == 6){
-            tutorial_canvas_context.drawImage(transfloor, 0,0,500,500, -12100, 33, 22000, 1000)
-            tutorial_canvas_context.drawImage(transfloor, 0,0,500,500, -12100, 35, 22000, 1000)
+            tutorial_canvas_context.drawImage(transfloor, 0,0,500,500, -12100, 33, 42000, 1000)
+            tutorial_canvas_context.drawImage(transfloor, 0,0,500,500, -12100, 35, 42000, 1000)
         }
         for(let t = 0;t<chats.length;t++){
             chats[t].draw()
