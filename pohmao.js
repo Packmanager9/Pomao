@@ -432,6 +432,12 @@ ramp90.src = 'ramp90.png'
 const ramp90l = new Image()
 ramp90l.src = 'ramp90l.png'
 
+const jomaoholoimg = new Image()
+jomaoholoimg.src = 'jomaostripholo.png'
+
+const jomaoholoimgl = new Image()
+jomaoholoimgl.src = 'jomaostripholol.png'
+
 const keysPressed = {}
 
 document.addEventListener('keydown', (event) => {
@@ -526,6 +532,31 @@ window.addEventListener('mousedown', e => {
       
       if(pomao.paused == 10){
 
+          
+      this.box1 = new Rectangle(350, 410, 100,130, "red")
+      this.box2 = new Rectangle(570, 410, 100,130, "blue")
+
+      if(tutorialholo.box1.isPointInside(tip)){
+          
+tutorialholo.controller = 1
+tutorialholo.picked = 1
+// tutorialholo.chat.words.splice(0, tutorialholo.chat.words.length)
+
+tutorialholo.chat.active++
+tutorialholo.chat.words.push("Ok, great, use the left stick to move, tap upwards to jump, and hold upwards to hover")
+    }
+    if(tutorialholo.box2.isPointInside(tip)){
+tutorialholo.controller = 0
+tutorialholo.picked = 1
+
+// tutorialholo.chat.words.splice(0, tutorialholo.chat.words.length)
+
+tutorialholo.chat.active++
+tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it to hover")
+    }
+
+
+
       }else{
 
         loadlvl1button  = new Rectangle(640-500, 360, 50,50, "brown")
@@ -558,6 +589,8 @@ window.addEventListener('mousedown', e => {
             loadlvl6()
           }
       }
+
+      
 
  });
 
@@ -7006,9 +7039,163 @@ class Worm{
             }
         }
     
+        class Tutorial{
+            constructor(){
+                this.body = new Circle(100, -20, 0, "transparent")
+                this.frame = 0
+                this.triggers = []
+                let trigger1 = new Circle(800, 360, 1, "red")
+                this.triggers.push(trigger1)
+                this.chat = new Dialogue(this.body.x, this.body.y)
+                this.box1 = new Rectangle(this.chat.box.x+50, this.chat.box.y+50, 50,50, "red")
+                this.box2 = new Rectangle(this.chat.box.x+150, this.chat.box.y+50, 50,50, "blue")
+                this.controller = 0
+                this.picked = 0
+
+
+            }
+            draw(){
+
+                let triggerfinder = {}
+                let link = new Line(pomao.body.x, pomao.body.y, this.body.x, this.body.y, "red", 1)
+                // link.draw()
+                triggerfinder.length = link.hypotenuse()
+                for(let t =0;t<this.triggers.length;t++){
+                    let blink = new Line(pomao.body.x, pomao.body.y, this.triggers[t].x, this.triggers[t].y, "red", 1)
+                    if(blink.hypotenuse() <= triggerfinder.length){
+                        triggerfinder.length = blink.hypotenuse()
+                        triggerfinder.index = t
+                    }
+                }
+                
+                this.body.x = this.triggers[triggerfinder.index].x
+                this.body.y = this.triggers[triggerfinder.index].y
+                switch (triggerfinder.index){
+                    case 0:
+                        
+                        if(this.picked < 1){
+                        if(!this.chat.words.includes("Jomao: ...ait.")){
+                            this.chat = new Dialogue(this.body.x, this.body.y-50)
+                            this.chat.words.push("Jomao: P..ma.. can ..u. .ear me?")
+                            this.chat.words.push("Pomao: Jomao? What are you doing here?")
+                            this.chat.words.push("Jomao: Pom.o ..u dopey f..., ... not ...ealy here")
+                            this.chat.words.push("Pomao: I can't really hear you.")
+                            this.chat.words.push("Jomao: ...ait.")
+                            this.chat.words.push("Jomao: wait.")
+                            this.chat.words.push("Jomao: Ok yeah, that should fix the sound.")
+                            this.chat.words.push("Jomao: Pomao! Listen, there isn't much time")
+                            this.chat.words.push("Jomao: The pomarines are enforcing a curfew tonight!")
+                            this.chat.words.push("Jomao: You need to get home!")
+                            this.chat.words.push("Jomao: Are you feeling controllery? or keyboardy?")
+                            this.chat.body.radius = 160
+                            this.chat.timerbase = 200
+                        }
+                    }
+                  
+                    break
+                    case 1:
+
+                    break
+                    case 2:
+
+                    break
+
+                }
+
+                if(pomao.body.x > this.body.x){
+                    this.left = 0
+                }else{
+                    this.left = 1
+                }
+
+                if(this.left == 0){
+
+                    if(Math.random() <.4){
+                        this.height = 64
+                        this.width = 64
+                        tutorial_canvas_context.drawImage(jomaoholoimg,  this.frame*103,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+                        tutorial_canvas_context.drawImage(jomaoholoimg,  this.frame*103,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+    
+                    }else{
+                        if(Math.random() <.1){
+                        tutorial_canvas_context.drawImage(jomaoholoimg, 0,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+    
+                        if(Math.random() <.5){
+                            tutorial_canvas_context.drawImage(jomaoholoimg, 0,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+                        }    
+                    }else{
+    
+                        if(Math.random()<.1){
+                            this.frame = (Math.floor(Math.random()*19))
+                        }
+                        this.height = 64+(.4*Math.cos(Math.sin(pomao.timeloop+Math.PI)))+(Math.random()-.5)*12
+                        this.width = 64+(Math.random()-.5)*12
+                        tutorial_canvas_context.drawImage(jomaoholoimg, this.frame*103,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+                        if(Math.random() > .7){
+                            tutorial_canvas_context.drawImage(jomaoholoimg, (this.frame+(Math.random()*.1))*103,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+                        }      if(Math.random() > .7){
+                            tutorial_canvas_context.drawImage(jomaoholoimg, (2+this.frame+(Math.random()*.2))*103,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+                        }      if(Math.random() > .7){
+                            tutorial_canvas_context.drawImage(jomaoholoimg, (3+this.frame+(Math.random()*.3))*103,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+                        }
+                    }
+    
+                }
+
+                }else{
+
+                    if(Math.random() <.4){
+                        this.height = 64
+                        this.width = 64
+                        tutorial_canvas_context.drawImage(jomaoholoimgl,  this.frame*103,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+                        tutorial_canvas_context.drawImage(jomaoholoimgl,  this.frame*103,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+    
+                    }else{
+                        if(Math.random() <.1){
+                        tutorial_canvas_context.drawImage(jomaoholoimgl, 0,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+    
+                        if(Math.random() <.5){
+                            tutorial_canvas_context.drawImage(jomaoholoimgl, 0,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+                        }    
+                    }else{
+    
+                        if(Math.random()<.1){
+                            this.frame = (Math.floor(Math.random()*19))
+                        }
+                        this.height = 64+(.4*Math.cos(Math.sin(pomao.timeloop+Math.PI)))+(Math.random()-.5)*12
+                        this.width = 64+(Math.random()-.5)*12
+                        tutorial_canvas_context.drawImage(jomaoholoimgl, this.frame*103,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+                        if(Math.random() > .7){
+                            tutorial_canvas_context.drawImage(jomaoholoimgl, (this.frame+(Math.random()*.1))*103,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+                        }      if(Math.random() > .7){
+                            tutorial_canvas_context.drawImage(jomaoholoimgl, (2+this.frame+(Math.random()*.2))*103,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+                        }      if(Math.random() > .7){
+                            tutorial_canvas_context.drawImage(jomaoholoimgl, (3+this.frame+(Math.random()*.3))*103,0,103,121, this.body.x-(103/2),this.body.y-(121/2), this.width,this.height)
+                        }
+                    }
+    
+                }
+
+                }
+
+                this.chat.draw()
+                if(this.chat.complete == 1){
+                    if(this.picked < 1){
+
+                    this.box1 = new Rectangle(this.chat.box.x+350, this.chat.box.y+50, 100,130, "red")
+                    this.box2 = new Rectangle(this.chat.box.x+570, this.chat.box.y+50, 100,130, "blue")
+                    this.box1.draw()
+                    this.box2.draw()
+                    }else{
+
+                    }
+                }
+        }
+        }
 
 class Dialogue{
     constructor(x,y){
+        this.timerbase = 120
         this.timer = 200
         this.body = new Circle(x,y,100,"transparent")
         this.words = ["talk"]
@@ -7029,7 +7216,7 @@ class Dialogue{
         if(this.active > 0){
             this.timer--
             if(this.timer <0){
-                this.timer = 120
+                this.timer = this.timerbase
                 this.active +=1
                 if(this.active >= this.words.length){
                     this.active = this.words.length-1
@@ -7058,7 +7245,7 @@ class Dialogue{
 }
 
 
-
+const tutorialholo = new Tutorial()
 // const seep
 
     // const seep = new Seed(pomao.eggs[pomao.eggs.length-1])
@@ -7694,6 +7881,11 @@ window.setInterval(function(){
         for(let t = 0;t<chats.length;t++){
             chats[t].draw()
         }
+        
+        if(level == 1){
+
+            tutorialholo.draw()
+        }
     }else{
         pomao.pausetimer++
         gamepadAPI.update()
@@ -7732,7 +7924,7 @@ window.setInterval(function(){
     // swinger1move()
 },  14) 
 
-}, 6969);  //6969
+}, 1);  //6969
 
 function squarecirclefaceblockjump(square, circle){
 const squareendh = square.y + square.height
