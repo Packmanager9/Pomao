@@ -232,6 +232,9 @@ const fruitsprites = new Image()
 fruitsprites.src = 'fruitsprites11.png'
 const cake = new Image()
 cake.src = 'Fruit 92 - Cake.png'
+const orbspritel = new Image()
+orbspritel.src = 'orbspritel.png'
+
 const orbsprite = new Image()
 orbsprite.src = 'orbsprite.png'
 
@@ -6815,6 +6818,7 @@ class Orb{
         this.companion = []
         // this.companion.x = -12345
         this.fly = false
+        this.left  = Math.floor(Math.random()*2)
         ramps.push(this.body)
     }
     draw(){
@@ -6848,7 +6852,13 @@ class Orb{
             this.body.radius =40
         }
         
-        tutorial_canvas_context.drawImage(orbsprite, 0,0,orbsprite.width,orbsprite.height, this.body.x-this.body.radius,this.body.y-this.body.radius, this.body.radius*2,this.body.radius*2.25)
+        if(this.left == 0){
+
+            tutorial_canvas_context.drawImage(orbsprite, 0,0,orbsprite.width,orbsprite.height, this.body.x-this.body.radius,this.body.y-this.body.radius, this.body.radius*2,this.body.radius*2.25)
+        }else{
+            
+        tutorial_canvas_context.drawImage(orbspritel, 0,0,orbsprite.width,orbsprite.height, this.body.x-this.body.radius,this.body.y-this.body.radius, this.body.radius*2,this.body.radius*2.25)
+        }
         // tutorial_canvas_context.drawImage(orbsprite, 0,0,orbsprite.width,orbsprite.height, this  =)
         // this.body.draw()
     }
