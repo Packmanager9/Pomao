@@ -7118,6 +7118,12 @@ class Worm{
                 this.triggers.push(trigger4)
                 let trigger5 = new Circle(2915, 600, 1, "red")
                 this.triggers.push(trigger5)
+                let trigger6 = new Circle(4400,-600, 1, "red")
+                this.triggers.push(trigger6)
+                let trigger7 = new Circle(12000,-7100, 1, "red")
+                this.triggers.push(trigger7)
+                let trigger8= new Circle( 11000, 500, 1, "red")
+                this.triggers.push(trigger8)
                 this.chat = new Dialogue(this.body.x, this.body.y)
                 this.box1 = new Rectangle(this.chat.box.x+50, this.chat.box.y+50, 50,50, "red")
                 this.box2 = new Rectangle(this.chat.box.x+150, this.chat.box.y+50, 50,50, "blue")
@@ -7150,7 +7156,7 @@ class Worm{
                             this.chat = new Dialogue(this.body.x, this.body.y-50)
                             this.chat.words.push("Jomao: P..ma.. can ..u. .ear me?")
                             this.chat.words.push("Pomao: Jomao? What are you doing here?")
-                            this.chat.words.push("Jomao: Pom.o ..u dopey f..., ... not ...ealy here")
+                            this.chat.words.push("Jomao: Pom.o ..u dopey f..., ... not ...eally here")
                             this.chat.words.push("Pomao: I can't really hear you.")
                             this.chat.words.push("Jomao: ...ait.")
                             this.chat.words.push("Jomao: wait.")
@@ -7245,6 +7251,49 @@ class Worm{
                                 this.chat.timerbase = 200
                             }
                         }
+                    break
+                    case 5:
+                       if(switches[0].button.state == 1){
+
+                            if(!this.chat.words.includes("Jomao: Nice, but keep moving, you gotta go up!")){
+                                this.chat = new Dialogue(this.body.x, this.body.y-50)
+                                this.chat.words.push("Jomao: Nice, but keep moving, you gotta go up!")
+                                this.chat.body.radius = 160
+                                this.chat.timerbase = 200
+                            }
+
+                       }else{
+                           
+                            if(!this.chat.words.includes("Jomao: Put an egg in the switch!")){
+                                this.chat = new Dialogue(this.body.x, this.body.y-50)
+                                this.chat.words.push("Jomao: Put an egg in the switch!")
+                                this.chat.body.radius = 160
+                                this.chat.timerbase = 200
+                            }
+                       }
+
+                    break
+                    case 6:
+
+                            if(!this.chat.words.includes("Jomao: You can't grapple ice! gotta pogo on your tongue and flutter up, be careful.")){
+                                this.chat = new Dialogue(this.body.x, this.body.y-50)
+                                this.chat.words.push("Jomao: You can't grapple ice! gotta pogo on your tongue and flutter up, be careful.")
+                                this.chat.body.radius = 160
+                                this.chat.timerbase = 200
+                            }
+
+
+                    break
+                    case 7:
+
+                            if(!this.chat.words.includes("Jomao: The king of the targoys lair... Be brave Pomao! You need to defeat him to get through!")){
+                                this.chat = new Dialogue(this.body.x, this.body.y-50)
+                                this.chat.words.push("Jomao: The king of the targoys lair... Be brave Pomao! You need to defeat him to get through!")
+                                this.chat.body.radius = 160
+                                this.chat.timerbase = 200
+                            }
+
+
                     break
 
                 }
