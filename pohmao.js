@@ -599,6 +599,25 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
 
  });
 
+ class FloatingIsland{
+     constructor(x,y, radius = 200, small = 1, scale = 1){
+
+        this.orb = new Circle(x,y,radius, "green")
+
+        this.block = new Rectangle(x-radius, y, radius, radius*2, "red")
+
+        if(small < 1){
+            this.orb.radius*=small
+        }
+        if(scale != 1){
+            this.block.height*= scale
+        }
+        walls.push(this.block)
+        roofs.push(this.block)
+        floors.push(this.block)
+        ramps.push(this.orb)
+     }
+ }
  
  class Spinwheel{
     constructor(x,y){
@@ -934,7 +953,7 @@ class Spring{
                if(  this.worm.licked == 0){
 
                 for(let t =0;t<this.worm.segments.length;t++){
-                    console.log(this.worm.segments[t].anchor.marked )
+                    // console.log(this.worm.segments[t].anchor.marked )
                     if(this.worm.segments[t].anchor.marked == 1){
                         this.worm.licked = 1
                     }
@@ -4045,7 +4064,7 @@ class Pomao{
 
     for(let t = 0; t<worms.length; t++){
         if(worms[t].body.x > this.body.x-(tutorial_canvas.width/.66) && worms[t].body.x < this.body.x+(tutorial_canvas.width/.66) ){
-            if(worms[t].body.y > this.body.y-(tutorial_canvas.height/.016) && worms[t].body.y < this.body.y+(tutorial_canvas.height/.016) ){
+            if(worms[t].body.y > this.body.y-(tutorial_canvas.height/.7) && worms[t].body.y < this.body.y+(tutorial_canvas.height/.016) ){
                 if(worms[t].layer == 0){
                    worms[t].draw()
                 }
@@ -4235,7 +4254,7 @@ for(let t = 0; t<bats.length; t++){
     
     for(let t = 0; t<worms.length; t++){
         if(worms[t].body.x > this.body.x-(tutorial_canvas.width/.66) && worms[t].body.x < this.body.x+(tutorial_canvas.width/.66) ){
-            if(worms[t].body.y > this.body.y-(tutorial_canvas.height/.016) && worms[t].body.y < this.body.y+(tutorial_canvas.height/.016) ){
+            if(worms[t].body.y > this.body.y-(tutorial_canvas.height/.7) && worms[t].body.y < this.body.y+(tutorial_canvas.height/.016) ){
                 if(worms[t].layer == 1){
                    worms[t].draw()
                 }
@@ -6935,7 +6954,7 @@ class Worm{
      
                     this.box = new Shape(this.joints)
                     this.angle =Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
-                    console.log(this)
+                    // console.log(this)
             }
           eggrepel(){
               for(let t=0;t<pomao.thrown.length;t++){
@@ -6982,33 +7001,35 @@ class Worm{
                 this.box = new Shape(this.joints)
                 this.yeet = 0
                 
+                for(let t =0;t<this.joints.length;t++){
                 for(let f =0; f<floors.length;f++){
-                    if(squarecirclefeet(floors[f],(this.joints[0]))){
+                    if(squarecirclefeet(floors[f],(this.joints[t]))){
                         // if(this.box.isInsideOf(floors[f])){
 
                             this.yeet = 1
                         }
                     }
                 for(let f =0; f<ramps.length;f++){
-                    if(ramps[f].isPointInside(this.joints[0])){
+                    if(ramps[f].isPointInside(this.joints[t])){
                         // if(this.box.isInsideOf(floors[f])){
 
                             this.yeet = 1
                         }
                     }
+                    }
                 
                 for(let t = 0;t<this.segments.length; t++){
                     if(this.yeet == 0){
-                        this.segments[t].anchor.xmom *= .99
-                        this.segments[t].anchor.ymom *= .995
-                        this.segments[t].body.xmom *= .99
-                        this.segments[t].body.ymom *= .995
+                        this.segments[t].anchor.xmom *= .995
+                        this.segments[t].anchor.ymom *= .998
+                        this.segments[t].body.xmom *= .995
+                        this.segments[t].body.ymom *= .998
                     }else{
                         
-                        this.segments[t].anchor.xmom *= .99
-                        this.segments[t].anchor.ymom *= .99
-                        this.segments[t].body.xmom *= .99
-                        this.segments[t].body.ymom *= .99
+                        this.segments[t].anchor.xmom *= .995
+                        this.segments[t].anchor.ymom *= .995
+                        this.segments[t].body.xmom *= .995
+                        this.segments[t].body.ymom *= .995 //99
                     }
                     // if(this.yeet == 1){
 
@@ -7027,7 +7048,7 @@ class Worm{
                 
 
                 if(this.yeet == 0 || this.dip > 0){
-                    this.joints[0].ymom+=.3
+                    this.joints[0].ymom+=.13
                     for(let t = 1;t<this.joints.length;t++){
                         this.joints[t].ymom+=.03
                     }
@@ -7048,16 +7069,20 @@ class Worm{
             // }
 
             this.angle = (this.angleRadians+this.angle*2)/3
+
+            this.angle += (Math.random()-.5)
                 this.guide = new Circle(this.joints[0].x+(Math.cos(this.angle)*this.dis), this.joints[0].y+(Math.sin(this.angle)*this.dis), 5, "orange")
                 if(this.yeet == 1){
                     // console.log(this.yeet)
                     if(this.dip <= 0){
                         this.body.xmom -=  (this.body.x-this.guide.x)/3
                         this.body.ymom -=  (this.body.y-this.guide.y)/3
+                        this.body.xmom -=  (Math.random()-.5)*.1
+                        this.body.ymom -=  (Math.random()-.5)*.1
           
                         for(let t =0;t<this.joints.length;t++){
                             if((Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) != 0){
-                                for(let  k = 0; (Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) < 3;k++){
+                                for(let  k = 0; (Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) < 3;k++){ //3
                                     this.joints[t].xmom *=1.1
                                     this.joints[t].ymom *=1.1
                                     if(k> 500){
@@ -7066,13 +7091,28 @@ class Worm{
                                 }
                             }
                         }
+                        for(let t =0;t<1;t++){
+                            if(t == 0){
+                                if((Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) != 0){
+                                    for(let  k = 0; (Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) < 8;k++){ //3
+                                        this.joints[t].xmom *=1.1
+                                        this.joints[t].ymom *=1.1
+                                        if(k> 500){
+                                            break
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }else{
                         this.dip--
                         for(let t = 0;t<this.segments.length;t++){
-                            this.segments[t].body.ymom *= .5
-                            this.segments[t].body.xmom *= .5
-                            this.segments[t].anchor.ymom *= .5
-                            this.segments[t].anchor.xmom *= .5
+                            this.segments[t].body.ymom *= .95
+                            this.segments[t].body.xmom *= .95
+                            this.segments[t].anchor.ymom *= .95
+                            this.segments[t].anchor.xmom *= .95
+
+                            //.5
                         }
                     }
                     // this.body.xmom *=.98
@@ -7080,11 +7120,11 @@ class Worm{
 
                
                     
-                    for(let t = 0; (Math.abs(this.body.xmom) +Math.abs(this.body.ymom)) > 10; t++){
+                    for(let t = 0; (Math.abs(this.body.xmom) +Math.abs(this.body.ymom)) > 15; t++){
                         this.body.xmom *=.98
                         this.body.ymom *=.98
                     }
-                }else{this.dip = 15}
+                }else{this.dip = 35}  //15
                 // this.guide.radius = (this.joints[0].radius/3)+1
                 // this.guide.draw()
                 this.eggrepel()
@@ -10264,16 +10304,73 @@ floors.push(wall2)
 roofs.push(wall2)
 
 
-const ramp5 = new Triangle90(5300,33, "red", 500)
+
+const ramp5 = new Triangle90(5300,53, "red", 500)
 ramps.push(ramp5)
 ramps90.push(ramp5)
-const ramp6 = new Triangle90l(5300,33, "red", 500)
+const ramp6 = new Triangle90l(5300,53, "red", 500)
 ramps.push(ramp6)
+ramps90.push(ramp6)
+
+
+const layer1soft = new Rectangle(9900, -2600, 20, 1700, "red" )
+floors.push(layer1soft)
+
+const layer1 = new Rectangle(-2100, -2600, 600, 12000, "red" )
+walls.push(layer1)
+floors.push(layer1)
+roofs.push(layer1)
+const layer1mountain1 = new Triangle90(4100,-2580, "red", 600)
+ramps.push(layer1mountain1)
+ramps90.push(layer1mountain1)
+const layer1mountain2 = new Triangle90l(4100,-2580, "red", 600)
+ramps.push(layer1mountain2)
+ramps90.push(layer1mountain2)
+floors.push(layer1soft)
+
+const layer2 = new Rectangle(0, -5200, 600, 11700, "red" )
+walls.push(layer2)
+floors.push(layer2)
+roofs.push(layer2)
+const layer2mountain1 = new Triangle90(4100,-5200, "red", 100)
+ramps.push(layer2mountain1)
+ramps90.push(layer2mountain1)
+const layer2mountain2 = new Triangle90l(4100,-5200, "red", 100)
+ramps.push(layer2mountain2)
+ramps90.push(layer2mountain2)
+
+let island1 = new FloatingIsland(-1000,-1000, 300, .8)
+
+let island2 = new FloatingIsland(-300,-400, 100, .8)
+
+
+let island3 = new FloatingIsland(-20,-1200, 400, .6, .65)
+let island4 = new FloatingIsland(500,-600, 50, .6)
+let island5 = new FloatingIsland(600,-400, 70, .9)
+let island6 = new FloatingIsland(1000,-700, 170, .9)
+let island7 = new FloatingIsland(1600,-1300, 200, .5, 2.55)
 
 // pomao.eggmake = 161000000000
 
 for(let t = 0;t<54;t++){
     const worm = new Worm(300+Math.random()*5000,-1250+Math.random()*2000)
+    let dirty = 0
+    for(let t=0;t<floors.length;t++){
+        if(floors[t].isPointInside(worm.joints[0])){
+            dirty = 1
+        }
+    }
+    for(let t=0;t<ramps.length;t++){
+        if(ramps[t].isPointInside(worm.joints[0])){
+            dirty = 1
+        }
+    }
+    if(dirty == 1){
+        worms.push(worm)
+    }
+}
+for(let t = 0;t<54;t++){
+    const worm = new Worm(-2100+Math.random()*5000,-4100+Math.random()*1500)
     let dirty = 0
     for(let t=0;t<floors.length;t++){
         if(floors[t].isPointInside(worm.joints[0])){
