@@ -7100,6 +7100,14 @@ class Worm{
                 this.triggers = []
                 let trigger1 = new Circle(800, 360, 1, "red")
                 this.triggers.push(trigger1)
+                let trigger2 = new Circle(0, 470, 1, "red")
+                this.triggers.push(trigger2)
+                let trigger3 = new Circle(-300, 250, 1, "red")
+                this.triggers.push(trigger3)
+                let trigger4 = new Circle(2715, -40, 1, "red")
+                this.triggers.push(trigger4)
+                let trigger5 = new Circle(2915, 600, 1, "red")
+                this.triggers.push(trigger5)
                 this.chat = new Dialogue(this.body.x, this.body.y)
                 this.box1 = new Rectangle(this.chat.box.x+50, this.chat.box.y+50, 50,50, "red")
                 this.box2 = new Rectangle(this.chat.box.x+150, this.chat.box.y+50, 50,50, "blue")
@@ -7149,9 +7157,84 @@ class Worm{
                     break
                     case 1:
 
+                    if(this.controller == 1){
+                        if(!this.chat.words.includes("Jomao: You can use the right stick to direct your tongue.")){
+                            this.chat = new Dialogue(this.body.x, this.body.y-50)
+                            this.chat.words.push("Jomao: You can use the right stick to direct your tongue.")
+                            this.chat.words.push("Jomao: Your tongue can get you moving fast, or jumping high ")
+                            this.chat.words.push("Jomao: A loose tongue can get you into tight places")
+                            this.chat.body.radius = 160
+                            this.chat.timerbase = 200
+                        }
+                    }else{
+                        if(!this.chat.words.includes("Jomao: You can use the space bar and IJKL to direct your tongue.")){
+                            this.chat = new Dialogue(this.body.x, this.body.y-50)
+                            this.chat.words.push("Jomao: You can use the space bar and IJKL to direct your tongue.")
+                            this.chat.words.push("Jomao: Your tongue can get you moving fast, or jumping high ")
+                            this.chat.words.push("Jomao: A loose tongue can get you into tight places")
+                            this.chat.body.radius = 160
+                            this.chat.timerbase = 200
+                        }
+                    }
                     break
                     case 2:
 
+
+                        if(this.controller == 1){
+                            if(!this.chat.words.includes("Jomao: You can hold the right-trigger to spit eggs with the right stick")){
+                                this.chat = new Dialogue(this.body.x, this.body.y-50)
+                                this.chat.words.push("Jomao: You can hold the right-trigger to spit eggs with the right stick")
+                                this.chat.body.radius = 160
+                                this.chat.timerbase = 200
+                            }
+                        }else{
+                            if(!this.chat.words.includes("Jomao: You can press M to spit eggs, and aim with IJKL")){
+                                this.chat = new Dialogue(this.body.x, this.body.y-50)
+                                this.chat.words.push("Jomao: You can press M to spit eggs, and aim with IJKL")
+                                this.chat.body.radius = 160
+                                this.chat.timerbase = 200
+                            }
+                        }
+                    break
+                    case 3:
+
+
+                        if(this.controller == 1){
+                            if(!this.chat.words.includes("Jomao: You can hold down on the left stick to pass through floors,")){
+                                this.chat = new Dialogue(this.body.x, this.body.y-50)
+                                this.chat.words.push("Jomao: You can hold down on the left stick to pass through floors,")
+                                this.chat.words.push("and you can press X to slam toward the ground")
+                                this.chat.body.radius = 160
+                                this.chat.timerbase = 200
+                            }
+                        }else{
+                            if(!this.chat.words.includes("Jomao: You can hold S to pass through floors,")){
+                                this.chat = new Dialogue(this.body.x, this.body.y-50)
+                                this.chat.words.push("Jomao: You can hold S to pass through floors,")
+                                this.chat.words.push("Jomao: and you can press N to slam toward the ground")
+                                this.chat.body.radius = 160
+                                this.chat.timerbase = 200
+                            }
+                        }
+                    break
+                    case 4:
+
+
+                        if(this.controller == 1){
+                            if(!this.chat.words.includes("Jomao: You climb walls with your tongue, try tapping away from the wall with the left stick")){
+                                this.chat = new Dialogue(this.body.x, this.body.y-50)
+                                this.chat.words.push("Jomao: You climb walls with your tongue, try tapping away from the wall with the left stick")
+                                this.chat.body.radius = 160
+                                this.chat.timerbase = 200
+                            }
+                        }else{
+                                if(!this.chat.words.includes("Jomao: You climb walls with your tongue, try tapping away from the wall with A and D")){
+                                    this.chat = new Dialogue(this.body.x, this.body.y-50)
+                                    this.chat.words.push("Jomao: You climb walls with your tongue, try tapping away from the wall with A and D")
+                                this.chat.body.radius = 160
+                                this.chat.timerbase = 200
+                            }
+                        }
                     break
 
                 }
@@ -7234,14 +7317,16 @@ class Worm{
 
                 this.chat.draw()
                 if(this.chat.complete == 1){
-                    if(this.picked < 1){
+                    if(triggerfinder.index == 0){
+                        if(this.picked < 1){
 
-                    this.box1 = new Rectangle(this.chat.box.x+350, this.chat.box.y+50, 100,130, "red")
-                    this.box2 = new Rectangle(this.chat.box.x+570, this.chat.box.y+50, 100,130, "blue")
-                    this.box1.draw()
-                    this.box2.draw()
-                    }else{
-
+                            this.box1 = new Rectangle(this.chat.box.x+350, this.chat.box.y+50, 100,130, "red")
+                            this.box2 = new Rectangle(this.chat.box.x+570, this.chat.box.y+50, 100,130, "blue")
+                            this.box1.draw()
+                            this.box2.draw()
+                            }else{
+        
+                            }
                     }
                 }
         }
@@ -7280,7 +7365,7 @@ class Dialogue{
             this.box.x = pomao.body.x-640
             this.box.y = pomao.body.y+60
             this.box.width = 1280
-            this.box.height = 300
+            this.box.height = 50
             this.box.draw()
             tutorial_canvas_context.fillStyle = "black";
             tutorial_canvas_context.font = "30px Arial";
