@@ -6959,7 +6959,7 @@ class Worm{
           eggrepel(){
               for(let t=0;t<pomao.thrown.length;t++){
                   for(let k = 0;k<this.joints.length;k++){
-                      if(this.joints[k].isPointInside(pomao.thrown[t])){
+                      if(this.joints[k].repelCheck(pomao.thrown[t])){
                           this.joints[k].xmom += pomao.thrown[t].xmom*.3
                           pomao.thrown[t].xmom*=.945
                           if(pomao.thrown[t].ymom <0){
@@ -6997,7 +6997,7 @@ class Worm{
               }
               for(let t=0;t<shockfriendly.shocksl.length;t++){
                 for(let k = 0;k<this.joints.length;k++){
-                    if(this.joints[k].isPointInside(shockfriendly.shocksl[t])){
+                    if(this.joints[k].repelCheck(shockfriendly.shocksl[t])){
                         this.joints[k].xmom += shockfriendly.shocksl[t].xmom*.2              
                         this.joints[k].ymom += shockfriendly.shocksl[t].ymom*.2
                         if(k > 0){
@@ -7009,7 +7009,7 @@ class Worm{
                           this.joints[k+1].ymom += shockfriendly.shocksl[t].ymom*.2
                           }
                         }
-                    if(this.joints[k].isPointInside(shockfriendly.shocksr[t])){
+                    if(this.joints[k].repelCheck(shockfriendly.shocksr[t])){
                         this.joints[k].xmom += shockfriendly.shocksr[t].xmom*.2              
                         this.joints[k].ymom += shockfriendly.shocksr[t].ymom*.2
                         if(k > 0){
