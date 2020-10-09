@@ -7924,7 +7924,7 @@ window.setInterval(function(){
     // swinger1move()
 },  14) 
 
-}, 1);  //6969
+}, 6969);  //6969
 
 function squarecirclefaceblockjump(square, circle){
 const squareendh = square.y + square.height
