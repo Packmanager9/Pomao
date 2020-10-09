@@ -533,8 +533,8 @@ window.addEventListener('mousedown', e => {
       if(pomao.paused == 10){
 
           
-      this.box1 = new Rectangle(350, 410, 100,130, "red")
-      this.box2 = new Rectangle(570, 410, 100,130, "blue")
+      tutorialholo.box1 = new Rectangle(350, 410, 100,130, "red")
+      tutorialholo.box2 = new Rectangle(570, 410, 100,130, "blue")
 
       if(tutorialholo.box1.isPointInside(tip)){
           
@@ -8975,6 +8975,7 @@ function loadlvl2(){
      walls.push(floor)
      roofs.push(floor)
 
+     boss = new Circle(0,0,0,"transparent")
      
 // boss = new Bossbeam()
     
@@ -9120,6 +9121,7 @@ beamrocks = []
     worms.splice(0,worms.length)
 
      
+boss = new Circle(0,0,0,"transparent")
 // boss = new Bossbeam()
     
      const lvl3wall1 = new Rectangle(-183,-1000,1033,50)
@@ -10068,6 +10070,7 @@ floors.splice(0,floors.length)
  links = []
 worms.splice(0,worms.length)
 
+boss = new Circle(0,0,0,"transparent")
 //  pomao.eggmake = 161
 // boss = new Bossbeam()
 
