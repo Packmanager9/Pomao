@@ -6920,7 +6920,7 @@ class Worm{
         }
         this.body = new Circle(x,y, 15, "yellow")
         this.segments = []
-        this.length = 19
+        this.length = 17
         this.joints = []
         this.dis = 22
         this.guide = new Circle(this.body.x+Math.sin(this.angle), this.body.y+Math.cos(this.angle), 5, "orange")
@@ -10316,7 +10316,7 @@ ramps90.push(ramp6)
 const layer1soft = new Rectangle(9900, -2600, 20, 1700, "red" )
 floors.push(layer1soft)
 
-const layer1 = new Rectangle(-2100, -2600, 600, 12000, "red" )
+const layer1 = new Rectangle(-2100, -2600, 600, 12300, "red" )
 walls.push(layer1)
 floors.push(layer1)
 roofs.push(layer1)
