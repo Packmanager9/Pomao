@@ -5815,15 +5815,15 @@ class Observer{
     constructor(x,y , z = 0){
         if(z == 0){
             this.getdrawn = 0
-            this.body = new Circlec( x, y, 40, "cyan")
+            this.body = new Circlec( x, y,80, "cyan")
             this.ray = []
             this.rayrange = 420
             this.globalangle = Math.PI
             this.gapangle = Math.PI/8
             this.currentangle = 0
             this.obstacles = []
-            this.raymake = 19
-            this.health = 300
+            this.raymake = 37 // 19
+            this.health = 1200
             this.shook = 0
             this.smack = 0
             this.dir = 1
@@ -5840,6 +5840,7 @@ class Observer{
             beamrocks.push(this.wall1)
             floormpf.push(this.wall1)
             this.obstacles.push(this.wall1)
+            this.obstaclesstorage = []
             
         }
     }
@@ -5911,13 +5912,13 @@ class Observer{
             if(this.beamcut<=0){
                 if(this.raymake > 1){
                     this.raymake -= 1
-                    this.beamcut = 4 // 5
-                    this.gapangle -=  (Math.PI/8)/19
+                    this.beamcut = 2 // 5
+                    this.gapangle -=  (Math.PI/8)/37
                 }
             }
             
         }else{
-            this.raymake = 19
+            this.raymake = 37
             this.gapangle = Math.PI/8
             this.beamdisp = 0
         }
@@ -5930,14 +5931,28 @@ class Observer{
             ray.lifespan = this.rayrange-1
             this.ray.push(ray)
         }
+
+        
+        if(Math.random()< .1){
+            this.obstaclesstorage = []
+
+        
+            for(let q = 0; q<this.obstacles.length; q++){
+                let linker = new Line(this.body.x, this.body.y, this.obstacles[q].x, this.obstacles[q].y, "black", 2 )
+                if(linker.hypotenuse() < (this.obstacles[q].width+this.obstacles[q].height) + (this.rayrange*5.5) ){
+                    this.obstaclesstorage.push(this.obstacles[q])
+                }
+            }
+        }
+
         for(let f = 3; f<this.rayrange/2; f++){
             for(let t = 0; t<this.ray.length; t++){
                 if(this.ray[t].collided < 1){
                     this.ray[t].move()
-                for(let q = 0; q<this.obstacles.length; q++){
-                    if(this.obstacles[q].isPointInside(this.ray[t])){
+                for(let q = 0; q<this.obstaclesstorage.length; q++){
+                    if(this.obstaclesstorage[q].isPointInside(this.ray[t])){
                         this.ray[t].collided = 1
-                        if(this.obstacles[q] == pomao.body){
+                        if(this.obstaclesstorage[q] == pomao.body){
                             this.shook = 1
                             this.body.color = "red"
                             this.smack = 5
@@ -5957,6 +5972,9 @@ class Observer{
                                                  this.body.xmom = -pomao.body.xmom*2.5
                                           
                                               }
+
+                                              
+                                           this.beamdisp += (Math.random())*.02
                                           }
                                         }
                             }
@@ -5981,7 +5999,7 @@ class Observer{
                       pomao.hits-=2
                        pomao.body.ymom = -1.8
                        this.health -= 10
-                       this.rayrange -=4
+                       this.rayrange -=1
                        this.body.xmom = -pomao.body.xmom*2.5
                 
                     }
@@ -6027,7 +6045,7 @@ class Observer{
             for(let t = 0;t<pomao.thrown.length;t++){
                 if(this.body.repelCheck(pomao.thrown[t])){
                     this.health -= 1.9
-                    this.rayrange -=1
+                    this.rayrange -=.4
                     let angleRadians = Math.atan2(pomao.body.y - this.body.y, pomao.body.x - this.body.x);
                     this.globalangle = ((angleRadians-(this.gapangle*1.5)))
                 }
@@ -6035,11 +6053,11 @@ class Observer{
             for(let t = 0;t<shockfriendly.shocksl.length;t++){
                 if(this.body.repelCheck(shockfriendly.shocksl[t])){
                     this.health -= .5
-                    this.rayrange -=.2
+                    this.rayrange -=.08
                 }
                 if(this.body.repelCheck(shockfriendly.shocksr[t])){
                     this.health -= .5
-                    this.rayrange -=.2
+                    this.rayrange -=.08
                 }
             }
             if(this.body.x+this.body.radius > 9100){
@@ -6058,17 +6076,20 @@ class Observer{
             
             // this.body.draw()
     
-            if(this.ray.length> 1){
-                tutorial_canvas_context.lineWidth = 1
-                if(this.ray.length == 2){
-                    tutorial_canvas_context.lineWidth = 5
-                }
-                if(this.ray.length == 3){
-                    tutorial_canvas_context.lineWidth = 3
-                }
-            }else{
-                tutorial_canvas_context.lineWidth = 10
-            }
+            // if(this.ray.length> 1){
+            //     tutorial_canvas_context.lineWidth = 1
+            //     if(this.ray.length == 2){
+            //         tutorial_canvas_context.lineWidth = 5
+            //     }
+            //     if(this.ray.length == 3){
+            //         tutorial_canvas_context.lineWidth = 3
+            //     }
+            // }else{
+            //     tutorial_canvas_context.lineWidth = 10
+            // }
+
+
+            tutorial_canvas_context.lineWidth = 12/this.raymake
             tutorial_canvas_context.fillStyle = "red"
             tutorial_canvas_context.strokeStyle = "red"
             tutorial_canvas_context.beginPath()
