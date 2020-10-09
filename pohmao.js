@@ -6995,6 +6995,34 @@ class Worm{
                       }
                   }
               }
+              for(let t=0;t<shockfriendly.shocksl.length;t++){
+                for(let k = 0;k<this.joints.length;k++){
+                    if(this.joints[k].isPointInside(shockfriendly.shocksl[t])){
+                        this.joints[k].xmom += shockfriendly.shocksl[t].xmom*.2              
+                        this.joints[k].ymom += shockfriendly.shocksl[t].ymom*.2
+                        if(k > 0){
+                          this.joints[k-1].xmom += shockfriendly.shocksl[t].xmom*.2
+                          this.joints[k-1].ymom += shockfriendly.shocksl[t].ymom*.2
+                        }
+                        if(k < this.joints.length-1){
+                          this.joints[k+1].xmom += shockfriendly.shocksl[t].xmom*.2
+                          this.joints[k+1].ymom += shockfriendly.shocksl[t].ymom*.2
+                          }
+                        }
+                    if(this.joints[k].isPointInside(shockfriendly.shocksr[t])){
+                        this.joints[k].xmom += shockfriendly.shocksr[t].xmom*.2              
+                        this.joints[k].ymom += shockfriendly.shocksr[t].ymom*.2
+                        if(k > 0){
+                          this.joints[k-1].xmom += shockfriendly.shocksr[t].xmom*.2
+                          this.joints[k-1].ymom += shockfriendly.shocksr[t].ymom*.2
+                        }
+                        if(k < this.joints.length-1){
+                          this.joints[k+1].xmom += shockfriendly.shocksr[t].xmom*.2
+                          this.joints[k+1].ymom += shockfriendly.shocksr[t].ymom*.2
+                          }
+                        }
+                    }
+                }
           }
             draw(){
 
@@ -10303,6 +10331,11 @@ walls.push(wall2)
 floors.push(wall2)
 roofs.push(wall2)
 
+for(let t = 0;t<20; t++){
+    const ladder = new Rectangle(11300, -130+(t*-130), 20, 300, "red")
+    floors.push(ladder)
+}
+
 
 
 const ramp5 = new Triangle90(5300,53, "red", 500)
@@ -10349,6 +10382,7 @@ let island4 = new FloatingIsland(500,-600, 50, .6)
 let island5 = new FloatingIsland(600,-400, 70, .9)
 let island6 = new FloatingIsland(1000,-700, 170, .9)
 let island7 = new FloatingIsland(1600,-1300, 200, .5, 2.55)
+let island8 = new FloatingIsland(2800,-1400, 600, .5, .5)
 
 // pomao.eggmake = 161000000000
 
