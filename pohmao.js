@@ -2204,12 +2204,15 @@ class Cactus {
     pop(){
         let rotx = 0
         let roty = 0
-        const color = getRandomLightColor()
-        for(let g = 0; g < 7; g++){
+        let color = getRandomLightColor()
+        if(Math.random()<.2){
+            color = "green"
+        }
+        for(let g = 0; g < 5; g++){
             const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius/4, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
             this.pops.push(dot1)
-            rotx += 2*Math.PI/7
-            roty += 2*Math.PI/7
+            rotx += 2*Math.PI/5
+            roty += 2*Math.PI/5
         }
     
     }
@@ -2302,10 +2305,10 @@ class Cactus {
     }
     move(){
 
-        if(this.parent.marked != 0 && this.parent != 0){
+        if(this.parent.marked == 1 && this.parent != 0){  // !=0
             this.ymom -=5+Math.random()  // 10 //5
     }
-    if(!boys.includes(this.parent) || this.parent.marked != 0 ){
+    if(!boys.includes(this.parent) || this.parent.marked == 1 ){  // != 0
  
         this.parent  = 0
     }
@@ -2428,6 +2431,7 @@ class Cactus {
                 this.blocked = 0
             }
             for(let t = 0; t<walls.length;t++){
+                if(Math.abs(walls[t].x-this.body.x) < 100){
                 if(squarecircleface(walls[t],this.body)){
     
                     if(this.body.x > walls[t].x){
@@ -2441,6 +2445,7 @@ class Cactus {
                             this.parent.blocked = -1
                         }
                     }
+                }
                 }
             }
             
@@ -2475,6 +2480,25 @@ class Cactus {
     
 
         }
+
+        
+        if(this.parent.marked == 2 && this.parent != 0){  // !=0
+            this.ymom -=5+Math.random()  // 10 //5
+    }
+    if(!boys.includes(this.parent) || this.parent.marked == 2 ){  // != 0
+ 
+        this.parent  = 0
+    }
+    if(!boys.includes(this.child) || this.child.marked != 0 ){
+ 
+        this.child  = 0
+    }
+    if(this.parent.child != this.child.parent){
+        if(this.child != 0 ){
+
+        this.parent = 0
+        }
+    }
     }
     draw(){
 
@@ -2551,7 +2575,9 @@ class Cactus {
       }
       
     this.body = new Circle(this.x+this.width/2, this.y+this.height/2+(this.width/5), this.width/1.8, "blue")
-      if(this.body.repelCheck(pomao.bodytight) && ((this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) || (this.marked == 1 ||this.marked == 2))){
+    // this.body.draw()
+    // pomao.body.draw()
+      if(this.body.repelCheck(pomao.body) && ((this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) || (this.marked == 1 ||this.marked == 2))){  //bodytight
         // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
         // this.y -= (((this.body.y-(this.height/2))-pomao.body.y)/100)
         this.width*=.91
@@ -2593,6 +2619,8 @@ class Cactus {
       if(this.marked == 1){
         this.x  -= ((this.bodyx.x-pomao.tongue.x)/1)+(this.anchor.xdif*.9)
         this.y -= (((this.bodyx.y-pomao.tongue.y)/1)+(this.anchor.ydif*.9))+10
+        this.anchor.xdif *=.95
+        this.anchor.ydif *=.95
         // pomao.diry = 1
 
       }
@@ -9781,7 +9809,7 @@ floors.splice(0,floors.length)
 worms.splice(0,worms.length)
 
 //  pomao.eggmake = 161
-// boss = new Bossbeam()
+boss = new Circle(0,0,0,"transparent")
 
 
 const wall1 = new Rectangle(-2100, -30000, 30033, 50, "cyan")
