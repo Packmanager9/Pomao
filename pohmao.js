@@ -232,6 +232,8 @@ const fruitsprites = new Image()
 fruitsprites.src = 'fruitsprites11.png'
 const cake = new Image()
 cake.src = 'Fruit 92 - Cake.png'
+const orbsprite = new Image()
+orbsprite.src = 'orbsprite.png'
 
 // const fractalsheet = new Image()
 // fractalsheet.src = 'fractalsheet - 01.png'
@@ -6845,7 +6847,10 @@ class Orb{
             this.body.color ="orange"
             this.body.radius =40
         }
-        this.body.draw()
+        
+        tutorial_canvas_context.drawImage(orbsprite, 0,0,orbsprite.width,orbsprite.height, this.body.x-this.body.radius,this.body.y-this.body.radius, this.body.radius*2,this.body.radius*2.25)
+        // tutorial_canvas_context.drawImage(orbsprite, 0,0,orbsprite.width,orbsprite.height, this  =)
+        // this.body.draw()
     }
 }
 let dummypin = new Circle(100,100, 10, "blue")
@@ -9807,7 +9812,9 @@ level = 5
 
 
 tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
+// tutorial_canvas_context.translate(pomao.body.x-8000, pomao.body.y)
 pomao.body.x = 0 //0
+// pomao.body.x = 8000
 pomao.body.y = 0
  spinnys.splice(0,spinnys.length)
  ramps90 = []
