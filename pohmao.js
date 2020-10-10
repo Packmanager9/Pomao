@@ -9129,6 +9129,7 @@ floors.splice(0,floors.length)
  spinnys.splice(0,spinnys.length)
 worms.splice(0,worms.length)
  level = 1
+ pomao.thrown = []
 
 
 const floor = new Rectangle(-100000000, 650, 50, 7000000000, "red")
@@ -9800,6 +9801,7 @@ function loadlvl2(){
      spinnys.splice(0,spinnys.length)
     worms.splice(0,worms.length)
      
+ pomao.thrown = []
     
      const floor = new Rectangle(-1000,33,645,20000)
      floors.push(floor)
@@ -9950,6 +9952,7 @@ beamrocks = []
      links = []
      spinnys.splice(0,spinnys.length)
     worms.splice(0,worms.length)
+    pomao.thrown = []
 
      
 boss = new Circle(0,0,0,"transparent")
@@ -10109,6 +10112,7 @@ beamrocks = []
      orbs = []
      links = []
     worms.splice(0,worms.length)
+    pomao.thrown = []
     
     //  pomao.eggmake = 161
     
@@ -10642,6 +10646,7 @@ floors.splice(0,floors.length)
  orbs = []
  links = []
 worms.splice(0,worms.length)
+pomao.thrown = []
 
 //  pomao.eggmake = 161
 boss = new Circle(0,0,0,"transparent")
@@ -10902,6 +10907,7 @@ floors.splice(0,floors.length)
  orbs = []
  links = []
 worms.splice(0,worms.length)
+pomao.thrown = []
 
 boss = new Circle(0,0,0,"transparent")
 //  pomao.eggmake = 161
