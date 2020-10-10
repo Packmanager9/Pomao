@@ -984,7 +984,7 @@ class Spring{
                     this.anchor.marked = 2
                     pomao.diry = 1
                     if(typeof this.anchor.timer != "number"){
-                        this.anchor.timer = 24
+                        this.anchor.timer = 30
                     }
                   }
                 }
@@ -1037,9 +1037,8 @@ class Spring{
                     this.worm.segments[t].anchor.radius=2
     
                 }
-
-                
-            if(Math.random()<.25){
+            // if(Math.random()<.125){
+                if(this.anchor.timer%2 ==0){
                 
             if(this.worm.segments[t].anchor == this.anchor){
                 if(t<this.worm.segments.length-1){
@@ -1190,7 +1189,7 @@ class Spring{
                     this.anchor.marked = 2
                     pomao.diry = 1
                     if(typeof this.anchor.timer != "number"){
-                        this.anchor.timer = 24
+                        this.anchor.timer = this.worm.joints.length*3
                         this.anchor.index = 0
                     }
                   }
@@ -1246,8 +1245,11 @@ class Spring{
           this.marked = 2
           pomao.diry = 1
           this.anchor.timer--
-              this.anchor.index++
-              this.anchor.index%=this.worm.segments.length
+          if(this.anchor.timer%3 ==0){
+
+            this.anchor.index++
+            this.anchor.index%=this.worm.segments.length
+          }
     
           this.anchor.radius *= .975
                 this.worm.segments[this.anchor.index].body.color = "transparent" 
