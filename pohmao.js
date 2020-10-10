@@ -1191,6 +1191,7 @@ class Spring{
                     pomao.diry = 1
                     if(typeof this.anchor.timer != "number"){
                         this.anchor.timer = 24
+                        this.anchor.index = 0
                     }
                   }
                 }
@@ -1245,16 +1246,13 @@ class Spring{
           this.marked = 2
           pomao.diry = 1
           this.anchor.timer--
+              this.anchor.index++
+              this.anchor.index%=this.worm.segments.length
     
           this.anchor.radius *= .975
-          for(let t = 0;t<this.worm.segments.length; t++){
-            if(this.worm.segments[t].anchor.radius < 2.01){
-                this.worm.segments[t].anchor.radius = 2
-            }
-            if(this.worm.segments[t].body.radius < 2.01){
-                this.worm.segments[t].body.color = "transparent" 
-            }
-          }
+                this.worm.segments[this.anchor.index].body.color = "transparent" 
+            
+          
           if(this.anchor.timer <= 0){
               this.worm.marked = 1
           }
@@ -4247,12 +4245,22 @@ class Pomao{
     }
 
     for(let t = 0; t<worms.length; t++){
+        if(worms[t].dangler == 0){
         if(worms[t].body.x > this.body.x-(tutorial_canvas.width/.66) && worms[t].body.x < this.body.x+(tutorial_canvas.width/.66) ){
             if(worms[t].body.y > this.body.y-(tutorial_canvas.height/.7) && worms[t].body.y < this.body.y+(tutorial_canvas.height/.016) ){
+                if(worms[t].layer == 0){
+                    worms[t].draw()
+                 }
+            }
+        }
+        }else{
+        if(worms[t].body.x > this.body.x-(tutorial_canvas.width/.66) && worms[t].body.x < this.body.x+(tutorial_canvas.width/.66) ){
+            if(worms[t].body.y > this.body.y-(tutorial_canvas.height/.2) && worms[t].body.y < this.body.y+(tutorial_canvas.height/.2) ){
                 if(worms[t].layer == 0){
                    worms[t].draw()
                 }
             }
+        }
         }
     }
     for(let t = 0; t<worms.length; t++){
@@ -7097,13 +7105,11 @@ let orbs = []
 class Dangler{
     constructor(x,y){
      this.licked = 0
-    this.layer = Math.floor(Math.random()*2)
-    if(Math.random()<.999){
-        this.layer = 0
-    }
-    this.body = new Circle(x,y, 8, "yellow")
+     this.dangler = 1
+    this.layer = 0
+    this.body = new Circle(x,y, 10, "yellow")
     this.segments = []
-    this.length = 8
+    this.length = 16
     this.joints = []
     this.dis = 30
     this.guide = new Circle(this.body.x+Math.sin(this.angle), this.body.y+Math.cos(this.angle), 5, "orange")
@@ -7115,9 +7121,9 @@ class Dangler{
      this.rigradius = this.body.radius+1
             let spring = new Spring(this.body)
             spring.anchor.radius = this.rigradius
-            spring.length = 20
-            spring.anchor.color= "yellow"
-            spring.body.color= "yellow"
+            spring.length = 10
+            spring.anchor.color= "#FFFF0044"
+            spring.body.color= "#FFFF0044"
 
             spring.worm = this
 
@@ -7127,10 +7133,10 @@ class Dangler{
                 for(let k = 0; k<this.length;k++){
                     spring = new Spring(spring.anchor)
                     spring.anchor.radius = this.rigradius
-                    spring.length = 31.5    
-                    this.rigradius-=this.body.radius/(this.length+10)  
+                    spring.length = 10.5    
+                    this.rigradius-=this.body.radius/(this.length+3)  
                     spring.worm = this
-                            spring.anchor.color= "yellow"
+                            spring.anchor.color= "#FFFF0044"
                     this.segments.push(spring)
                     if(k > 0){
                         if(k < this.length-1){
@@ -7154,21 +7160,21 @@ class Dangler{
         let rotx = 0
         let roty = 0
 
-        for(let g = 0; g < 8; g++){
-            let color = "orange"
+        for(let g = 0; g < 10; g++){
+            let color = this.joints[this.joints.length-2].color
             const dot1 = new Circlec(this.joints[this.joints.length-2].x, this.joints[this.joints.length-2].y,this.joints[this.joints.length-2].radius*.33, color, Math.cos(rotx)*4, Math.sin(roty)*4 )
             this.pops.push(dot1)
-            rotx += 2*Math.PI/7
-            roty += 2*Math.PI/7
+            rotx += 2*Math.PI/10
+            roty += 2*Math.PI/10
         }
-        for(let t = 0;t<this.joints.length;t++){
+        for(let t = 0;t<this.joints.length-2;t++){
             
-        for(let g = 0; g < 8; g++){
-            let color = "yellow"
+        for(let g = 0; g < 5; g++){
+            let color = this.joints[t].color
             const dot1 = new Circlec(this.joints[t].x, this.joints[t].y,this.joints[t].radius, color, Math.cos(rotx)*2, Math.sin(roty)*2 )
             this.pops.push(dot1)
-            rotx += 2*Math.PI/7
-            roty += 2*Math.PI/7
+            rotx += 2*Math.PI/5
+            roty += 2*Math.PI/5
         }
         }
     
@@ -7435,6 +7441,7 @@ class Worm{
         if(Math.random()<.999){
             this.layer = 0
         }
+        this.dangler = 0
         this.body = new Circle(x,y, 15, "yellow")
         this.segments = []
         this.length = 17
@@ -7673,10 +7680,13 @@ class Worm{
                 // this.guide.radius = (this.joints[0].radius/3)+1
                 // this.guide.draw()
                 this.eggrepel()
-                for(let t = 0;t<this.segments.length; t++){
+                for(let t = 0;t<this.segments.length-1; t++){
                     if(t > 0){
-                        if(t < this.segments.length-1){
+                        if(t < this.segments.length-2){
                             this.segments[t].wdraw()
+                            this.segments[t].body.wdraw()
+                        }else  if(t < this.segments.length-1){
+                            // this.segments[t].wdraw()
                             this.segments[t].body.wdraw()
                         }
                     }
@@ -10802,8 +10812,8 @@ pomao.cutscene = 0
 level = 6
 
 
-tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
-pomao.body.x = 0
+tutorial_canvas_context.translate(pomao.body.x+1000, pomao.body.y)
+pomao.body.x = -1000
 pomao.body.y = 0
  spinnys.splice(0,spinnys.length)
  ramps90 = []
