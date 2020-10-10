@@ -181,6 +181,10 @@ let nails = []
 let dry = 0
 const transfloor = new Image()
 transfloor.src ="hsemitrans.png"
+const hillshadowbad = new Image()
+hillshadowbad.src ="hillshadow.png"
+const hillshadow = new Image()
+hillshadow.src ="hillshadow2.png"
 const floorimg = new Image()
 floorimg.src ="floor4.png"
 const cloudimg = new Image()
@@ -8729,6 +8733,9 @@ window.setInterval(function(){
         if(level == 6){
             tutorial_canvas_context.drawImage(transfloor, 0,0,500,500, -12100, 33, 42000, 1000)
             tutorial_canvas_context.drawImage(transfloor, 0,0,500,500, -12100, 35, 42000, 1000)
+            tutorial_canvas_context.drawImage(hillshadowbad, 0,0,hillshadowbad.width,hillshadowbad.height, ramps[0].x-ramps[0].length*10.9, -1250, ramps[0].length*21.8, 1550)
+            tutorial_canvas_context.drawImage(hillshadowbad, 0,0,hillshadowbad.width,hillshadowbad.height, ramps[0].x-ramps[0].length*10.9, -1250, ramps[0].length*21.8, 1550)
+            
         }
         for(let t = 0;t<chats.length;t++){
             chats[t].draw()
