@@ -984,7 +984,7 @@ class Spring{
                     this.anchor.marked = 2
                     pomao.diry = 1
                     if(typeof this.anchor.timer != "number"){
-                        this.anchor.timer = 30
+                        this.anchor.timer = 36
                     }
                   }
                 }
@@ -1037,8 +1037,9 @@ class Spring{
                     this.worm.segments[t].anchor.radius=2
     
                 }
-            // if(Math.random()<.125){
-                if(this.anchor.timer%2 ==0){
+            if(Math.random()<.0125){
+                
+                // if(this.anchor.timer%2 ==0){
                 
             if(this.worm.segments[t].anchor == this.anchor){
                 if(t<this.worm.segments.length-1){
@@ -1081,16 +1082,21 @@ class Spring{
                   this.worm.segments[t].anchor.radius=2
   
               }
-              if(Math.random()<.25){
+            //   if(Math.random()<.25){
+                if(this.anchor.timer%3 == 0){
                 
                 if(this.worm.segments[t].anchor == this.anchor){
                     if(t<this.worm.segments.length-1){
+                        // console.log("before",  this.worm.segments[t+1].anchor.marked)
                         this.worm.segments[t+1].anchor.marked = 2
+                        this.worm.segments[t+1].anchor.timer = this.anchor.timer
                         this.worm.segments[t+1].anchor.xdif = 0
                         this.worm.segments[t+1].anchor.ydif = 0
+                        // console.log("after",  this.worm.segments[t+1].anchor.marked)
                     }
                     if(t> 0){
                         this.worm.segments[t-1].anchor.marked = 2
+                        this.worm.segments[t-1].anchor.timer = this.anchor.timer
                         this.worm.segments[t-1].anchor.xdif = 0
                         this.worm.segments[t-1].anchor.ydif = 0
                     }
