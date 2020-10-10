@@ -507,10 +507,10 @@ document.addEventListener('keydown', (event) => {
 const tutorial_canvas = document.getElementById("tutorial");
 const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
-// tutorial_canvas_context.scale(.035,.035)
+// tutorial_canvas_context.scale(.075,.075)
 // tutorial_canvas_context.scale(.5,.5)
 // tutorial_canvas_context.translate(3300,19750) //lvl4
-// tutorial_canvas_context.translate(3300,10000)//lvl6
+// tutorial_canvas_context.translate(3300,9000)//lvl6
 // tutorial_canvas_context.translate(640,360)
 
 tutorial_canvas.style.background = "#664613"
@@ -10924,8 +10924,14 @@ walls.push(wall2)
 floors.push(wall2)
 roofs.push(wall2)
 
-for(let t = 0;t<20; t++){
-    const ladder = new Rectangle(11300, -130+(t*-130), 20, 300, "red")
+for(let t = 2;t<22; t++){
+    const ladder = new Rectangle(11300,130+(t*-130), 20, 300, "red")
+    if(t%3 == 0){
+        ladder.x -=300
+    }
+    if(t%5 == 0){
+        ladder.x -=600
+    }
     floors.push(ladder)
 }
 
@@ -10976,6 +10982,12 @@ let island5 = new FloatingIsland(600,-400, 70, .9)
 let island6 = new FloatingIsland(1000,-700, 170, .9)
 let island7 = new FloatingIsland(1600,-1300, 200, .5, 2.55)
 let island8 = new FloatingIsland(2800,-1400, 600, .5, .5)
+let island9 = new FloatingIsland(7800,-1200, 600, .5, .5)
+let island10 = new FloatingIsland(9300,-1500, 400, .5, .5)
+let island11 = new FloatingIsland(9800,-700, 290, .4, .9)
+let island12 = new FloatingIsland(10250,-1270, 160, .5, .5)
+let island13 = new FloatingIsland(10250,-1270, 160, .5, .5)
+let island14 = new FloatingIsland(10250,-3070, 160, .5, .5)
 
 // pomao.eggmake = 161000000000
 
