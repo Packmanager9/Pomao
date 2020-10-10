@@ -922,7 +922,7 @@ class Spring{
         // this.body.wdraw()
         // this.anchor.wdraw()
     }
-    wmove(){
+    wmove(t = -1){
         // this.body.ymom*=.99
         // this.body.xmom*=.99
         // this.anchor.ymom*=.99
@@ -950,7 +950,10 @@ class Spring{
                 }
             }
         }
-        if(this.anchor.repelCheck(pomao.tongue)  || pomao.tonguebox.isPointInside(this.anchor)){
+
+
+    if(this.anchor.repelCheck(pomao.tongue)  || pomao.tonguebox.isPointInside(this.anchor)){   
+        if(t < this.worm.segments.length-2){
             if(blockedlick == 0){
                 if(Math.abs(pomao.tonguex)+Math.abs(pomao.tonguey) > 7){
                 this.anchor.marked = 1  
@@ -966,7 +969,11 @@ class Spring{
               }
             }
             }
-          }
+          }else{
+        }
+
+        }
+
           if(this.anchor.repelCheck(pomao.body) && (this.anchor.repelCheck(pomao.tongue)|| (this.anchor.marked == 1 ||this.anchor.marked == 2))){
               if(Math.abs(pomao.tonguex)+Math.abs(pomao.tonguey) < 14){
                if(  this.worm.licked == 0){
@@ -984,7 +991,7 @@ class Spring{
                     this.anchor.marked = 2
                     pomao.diry = 1
                     if(typeof this.anchor.timer != "number"){
-                        this.anchor.timer = 36
+                        this.anchor.timer = this.worm.joints.length*3
                     }
                   }
                 }
@@ -7126,6 +7133,8 @@ class Dangler{
     this.yeet = 0
     this.dip = 0
     this.pops = []
+    this.puncher =  Math.floor(Math.random()*100)+100
+    this.punchcap = Math.floor(Math.random()*100)+130
      this.rigradius = this.body.radius+1
             let spring = new Spring(this.body)
             spring.anchor.radius = this.rigradius
@@ -7287,6 +7296,8 @@ class Dangler{
   
                         this.segments[t].wbalance()
                         this.segments[t].wbalance()
+                        this.segments[t].wbalance()
+                        // this.segments[t].wbalance()
                     // }
          
                     if(this.yeet == 0){
@@ -7309,6 +7320,9 @@ class Dangler{
                 if(this.joints[this.joints.length-2].marked == 0){
                   this.joints[0].xmom = 0
                   this.joints[0].ymom = 0
+                }else{
+                    this.joints[0].xmom *= .3
+                    this.joints[0].ymom *= .3
                 }
                 for(let t = 0;t<this.segments.length; t++){
                     this.segments[t].dmove()
@@ -7317,9 +7331,12 @@ class Dangler{
                 if(this.joints[this.joints.length-2].marked == 0){
                   this.joints[0].xmom = 0
                   this.joints[0].ymom = 0
+                }else{
+                    this.joints[0].xmom *= .3
+                    this.joints[0].ymom *= .3
                 }
-            // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
-            this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x );
+            // // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
+            // this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x );
   
             // if(this.angleRadians - this.angle  > .17){
             //     this.angle +=.07
@@ -7329,20 +7346,54 @@ class Dangler{
             //     this.angle = this.angleRadians
             // }
   
+            
+            // this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x ); //look at this seriously, why did I let this last this long? been working on this dangler for like... wait let me check, 8 hours and 20 minutes and I just figured this ou
+            
+            this.angleRadians = Math.atan2(pomao.body.y-this.joints[this.joints.length-2].y ,  pomao.body.x-this.joints[this.joints.length-2].x );
             this.angle = (this.angleRadians+this.angle*2)/3
-  
+            this.puncher++
             this.yeet = 0
-            this.angle += (Math.random()-.5) 
-            this.angle = (this.angleRadians)
-                this.guide = new Circle(this.joints[this.joints.length-2].x+(Math.cos(this.angle)*this.dis), this.joints[this.joints.length-2].y+(Math.sin(this.angle)*this.dis), 5, "orange")
+            this.angle += (Math.random()-.5)*.2  // *1
+            // this.angle = (this.angleRadians)
+                this.guide = new Circle(this.joints[this.joints.length-2].x+(Math.cos(this.angle)*this.dis), this.joints[this.joints.length-2].y+(Math.sin(this.angle)*this.dis), 5, "black")
+                // this.guide.draw()
                 if(this.yeet == 0){
                     // console.log(this.yeet)
                     if(this.dip <= 0){
-                        if(Math.random()<.005){
-                          this.joints[this.joints.length-2].xmom -=  (this.joints[this.joints.length-2].x-this.guide.x)/(.2+((Math.random()-.5)*.1))
-                          this.joints[this.joints.length-2].ymom -=  (this.joints[this.joints.length-2].y-this.guide.y)/(.2+((Math.random()-.5)*.1))
-                          this.joints[this.joints.length-2].xmom -=  (Math.random()-.5)*.1
-                          this.joints[this.joints.length-2].ymom -=  (Math.random()-.5)*.1
+                        // if(Math.random()<.005){
+                            if(this.puncher%this.punchcap < 5){
+                                if(this.joints[this.joints.length-2].marked == 0){
+                                    this.joints[this.joints.length-2].xmom -=  (this.joints[this.joints.length-2].x-this.guide.x)/(.7+((Math.random()-.5)*.4))
+                                    this.joints[this.joints.length-2].ymom -=  (this.joints[this.joints.length-2].y-this.guide.y)/(.7+((Math.random()-.5)*.4))
+                                    this.joints[this.joints.length-2].xmom -=  (Math.random()-.5)*.1
+                                    this.joints[this.joints.length-2].ymom -=  (Math.random()-.5)*.1
+                                }
+                            
+                          
+                if(this.joints[this.joints.length-2].marked == 0){
+                  this.joints[0].xmom = 0
+                  this.joints[0].ymom = 0
+                }
+                          for(let t =1;t<this.joints.length;t++){
+                              if((Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) != 0){
+                                  for(let  k = 0; (Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) < 5;k++){ //3
+                                      this.joints[t].xmom *=1.1
+                                      this.joints[t].ymom *=1.1
+                                      if(k> 500){
+                                          break
+                                      }
+                                  }
+                              }
+                          }
+            
+                        }else if(Math.random()<.0005){
+                                if(this.joints[this.joints.length-2].marked == 0){
+                                    this.joints[this.joints.length-2].xmom -=  (this.joints[this.joints.length-2].x-this.guide.x)/(.5+((Math.random()-.5)*.1))
+                                    this.joints[this.joints.length-2].ymom -=  (this.joints[this.joints.length-2].y-this.guide.y)/(.5+((Math.random()-.5)*.1))
+                                    this.joints[this.joints.length-2].xmom -=  (Math.random()-.5)*.1
+                                    this.joints[this.joints.length-2].ymom -=  (Math.random()-.5)*.1
+                                }
+                            
                           
                 if(this.joints[this.joints.length-2].marked == 0){
                   this.joints[0].xmom = 0
@@ -7614,7 +7665,7 @@ class Worm{
                     }
                 }
                 for(let t = 0;t<this.segments.length; t++){
-                    this.segments[t].wmove()
+                    this.segments[t].wmove(t)
                 }
        
             // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
