@@ -897,6 +897,13 @@ class Spring{
 
     }
     }
+    ddraw(){
+        
+        this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, this.anchor.color, this.body.radius*2)
+        if(this.beam.width!=this.worm.joints[this.worm.joints.length-2].radius*2){
+            this.beam.draw()
+        }
+    }
     wdraw(){
         this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, this.anchor.color, this.body.radius*2)
         this.beam.draw()
@@ -3041,6 +3048,18 @@ class Circle{
             }
         tutorial_canvas_context.lineWidth = 4
         tutorial_canvas_context.strokeStyle = this.color
+        tutorial_canvas_context.beginPath();
+        tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI*2), true)
+   
+       tutorial_canvas_context.fill()
+        tutorial_canvas_context.stroke(); 
+    }
+    ddraw(){
+
+            tutorial_canvas_context.fillStyle = this.color
+
+        tutorial_canvas_context.lineWidth = 1
+        tutorial_canvas_context.strokeStyle = "black"
         tutorial_canvas_context.beginPath();
         tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI*2), true)
    
@@ -6910,6 +6929,302 @@ let orbs = []
 //     }
 // }
 
+class Dangler{
+    constructor(x,y){
+     this.licked = 0
+    this.layer = Math.floor(Math.random()*2)
+    if(Math.random()<.999){
+        this.layer = 0
+    }
+    this.body = new Circle(x,y, 8, "yellow")
+    this.segments = []
+    this.length = 8
+    this.joints = []
+    this.dis = 30
+    this.guide = new Circle(this.body.x+Math.sin(this.angle), this.body.y+Math.cos(this.angle), 5, "orange")
+    this.box = new Shape()
+    this.marked = 0
+    this.yeet = 0
+    this.dip = 0
+     this.rigradius = this.body.radius+1
+            let spring = new Spring(this.body)
+            spring.anchor.radius = this.rigradius
+            spring.length = 20
+            spring.anchor.color= "yellow"
+            spring.body.color= "yellow"
+
+            spring.worm = this
+
+            this.joints.push(spring.anchor)
+                this.segments.push(spring)
+
+                for(let k = 0; k<this.length;k++){
+                    spring = new Spring(spring.anchor)
+                    spring.anchor.radius = this.rigradius
+                    spring.length = 31.5    
+                    this.rigradius-=this.body.radius/(this.length+10)  
+                    spring.worm = this
+                            spring.anchor.color= "yellow"
+                    this.segments.push(spring)
+                    if(k > 0){
+                        if(k < this.length-1){
+                    this.joints.push(spring.anchor)
+                        }
+                    }
+                }
+ 
+                this.box = new Shape(this.joints)
+                this.angle =Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
+                // console.log(this)
+                
+                this.joints[this.joints.length-2].radius = 20
+                this.joints[this.joints.length-2].color = "orange"
+        }
+        
+        eggrepel(){
+            for(let t=0;t<pomao.thrown.length;t++){
+                for(let k = 0;k<this.joints.length;k++){
+                    if(this.joints[k].repelCheck(pomao.thrown[t])){
+                        this.joints[k].xmom += pomao.thrown[t].xmom*.3
+                        pomao.thrown[t].xmom*=.945
+                        if(pomao.thrown[t].ymom <0){
+                            
+                        this.joints[k].ymom += pomao.thrown[t].ymom*.3
+                        pomao.thrown[t].ymom*=.945
+                        }else{
+                        this.joints[k].ymom += pomao.thrown[t].ymom*.3
+                        }
+
+                        if(k > 0){
+                          this.joints[k-1].xmom += pomao.thrown[t].xmom*.3
+                          pomao.thrown[t].xmom*=.945
+                          if(pomao.thrown[t].ymom <0){
+                              
+                          this.joints[k-1].ymom += pomao.thrown[t].ymom*.3
+                          pomao.thrown[t].ymom*=.945
+                          }else{
+                          this.joints[k-1].ymom += pomao.thrown[t].ymom*.3
+                          }
+                        }
+                        if(k < this.joints.length-1){
+                          this.joints[k+1].xmom += pomao.thrown[t].xmom*.3
+                          pomao.thrown[t].xmom*=.945
+                          if(pomao.thrown[t].ymom <0){
+                              
+                          this.joints[k+1].ymom += pomao.thrown[t].ymom*.3
+                          pomao.thrown[t].ymom*=.945
+                          }else{
+                          this.joints[k+1].ymom += pomao.thrown[t].ymom*.3
+                          }
+                        }
+                    }
+                }
+            }
+            for(let t=0;t<shockfriendly.shocksl.length;t++){
+              for(let k = 0;k<this.joints.length;k++){
+                  if(this.joints[k].repelCheck(shockfriendly.shocksl[t])){
+                      this.joints[k].xmom += shockfriendly.shocksl[t].xmom*.2              
+                      this.joints[k].ymom += shockfriendly.shocksl[t].ymom*.2
+                      if(k > 0){
+                        this.joints[k-1].xmom += shockfriendly.shocksl[t].xmom*.2
+                        this.joints[k-1].ymom += shockfriendly.shocksl[t].ymom*.2
+                      }
+                      if(k < this.joints.length-1){
+                        this.joints[k+1].xmom += shockfriendly.shocksl[t].xmom*.2
+                        this.joints[k+1].ymom += shockfriendly.shocksl[t].ymom*.2
+                        }
+                      }
+                  if(this.joints[k].repelCheck(shockfriendly.shocksr[t])){
+                      this.joints[k].xmom += shockfriendly.shocksr[t].xmom*.2              
+                      this.joints[k].ymom += shockfriendly.shocksr[t].ymom*.2
+                      if(k > 0){
+                        this.joints[k-1].xmom += shockfriendly.shocksr[t].xmom*.2
+                        this.joints[k-1].ymom += shockfriendly.shocksr[t].ymom*.2
+                      }
+                      if(k < this.joints.length-1){
+                        this.joints[k+1].xmom += shockfriendly.shocksr[t].xmom*.2
+                        this.joints[k+1].ymom += shockfriendly.shocksr[t].ymom*.2
+                        }
+                      }
+                  }
+              }
+        }
+          draw(){
+
+              this.box = new Shape(this.joints)
+              this.yeet = 0
+              
+              for(let t =0;t<this.joints.length;t++){
+              for(let f =0; f<floors.length;f++){
+                  if(squarecirclefeet(floors[f],(this.joints[t]))){
+                      // if(this.box.isInsideOf(floors[f])){
+
+                          this.yeet = 1
+                      }
+                  }
+              for(let f =0; f<ramps.length;f++){
+                  if(ramps[f].isPointInside(this.joints[t])){
+                      // if(this.box.isInsideOf(floors[f])){
+
+                          this.yeet = 1
+                      }
+                  }
+                  }
+              
+              for(let t = 0;t<this.segments.length; t++){
+                  if(this.yeet == 0){
+                      this.segments[t].anchor.xmom *= .995
+                      this.segments[t].anchor.ymom *= .998
+                      this.segments[t].body.xmom *= .995
+                      this.segments[t].body.ymom *= .998
+                  }else{
+                      
+                      this.segments[t].anchor.xmom *= .995
+                      this.segments[t].anchor.ymom *= .995
+                      this.segments[t].body.xmom *= .995
+                      this.segments[t].body.ymom *= .995 //99
+                  }
+                  // if(this.yeet == 1){
+
+                      this.segments[t].wbalance()
+                      this.segments[t].wbalance()
+                  // }
+       
+                  if(this.yeet == 0){
+                      this.joints[0].ymom+=.1
+                      this.segments[t].anchor.ymom += .02*(this.length-t)
+                      this.segments[t].body.ymom +=  .02*(this.length-t)
+                  }
+                 
+
+              }
+              
+
+              if(this.yeet == 0 || this.dip > 0){
+                //   this.joints[0].ymom+=.13
+                //   for(let t = 1;t<this.joints.length;t++){
+                //       this.joints[t].ymom+=.03
+                //   }
+              }
+              
+              this.joints[0].xmom = 0
+              this.joints[0].ymom = 0
+              for(let t = 0;t<this.segments.length; t++){
+                  this.segments[t].wmove()
+              }
+     
+              this.joints[0].xmom = 0
+              this.joints[0].ymom = 0
+          // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
+          this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x );
+
+          // if(this.angleRadians - this.angle  > .17){
+          //     this.angle +=.07
+          // }else  if(this.angleRadians - this.angle  < -.17){
+          //     this.angle -=.07
+          // }else{
+          //     this.angle = this.angleRadians
+          // }
+
+          this.angle = (this.angleRadians+this.angle*2)/3
+
+          this.yeet = 0
+          this.angle += (Math.random()-.5) 
+          this.angle = (this.angleRadians)
+              this.guide = new Circle(this.joints[this.joints.length-2].x+(Math.cos(this.angle)*this.dis), this.joints[this.joints.length-2].y+(Math.sin(this.angle)*this.dis), 5, "orange")
+              if(this.yeet == 0){
+                  // console.log(this.yeet)
+                  if(this.dip <= 0){
+                      if(Math.random()<.005){
+                        this.joints[this.joints.length-2].xmom -=  (this.joints[this.joints.length-2].x-this.guide.x)/(.2+((Math.random()-.5)*.1))
+                        this.joints[this.joints.length-2].ymom -=  (this.joints[this.joints.length-2].y-this.guide.y)/(.2+((Math.random()-.5)*.1))
+                        this.joints[this.joints.length-2].xmom -=  (Math.random()-.5)*.1
+                        this.joints[this.joints.length-2].ymom -=  (Math.random()-.5)*.1
+                        
+                        this.joints[0].xmom = 0
+                        this.joints[0].ymom = 0
+                        for(let t =1;t<this.joints.length;t++){
+                            if((Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) != 0){
+                                for(let  k = 0; (Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) < 5;k++){ //3
+                                    this.joints[t].xmom *=1.1
+                                    this.joints[t].ymom *=1.1
+                                    if(k> 500){
+                                        break
+                                    }
+                                }
+                            }
+                        }
+          
+                      }else{
+                        this.joints[0].xmom = 0
+                        this.joints[0].ymom = 0
+                          
+                        this.joints[this.joints.length-2].xmom = 0
+                        this.joints[this.joints.length-2].ymom = 0
+                      }
+        
+                      for(let t =0;t<this.joints.length;t++){
+                          if((Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) != 0){
+                              for(let  k = 0; (Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) < 1.3;k++){ //3
+                                  this.joints[t].xmom *=1.1
+                                  this.joints[t].ymom *=1.1
+                                  if(k> 500){
+                                      break
+                                  }
+                              }
+                          }
+                      }
+                      for(let t =0;t<1;t++){
+                          if(t == 0){
+                              if((Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) != 0){
+                                  for(let  k = 0; (Math.abs(this.joints[t].xmom)+Math.abs(this.joints[t].ymom)) < 8;k++){ //3
+                                      this.joints[t].xmom *=1.1
+                                      this.joints[t].ymom *=1.1
+                                      if(k> 500){
+                                          break
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }else{
+                      this.dip--
+                      for(let t = 0;t<this.segments.length;t++){
+                          this.segments[t].body.ymom *= .95
+                          this.segments[t].body.xmom *= .95
+                          this.segments[t].anchor.ymom *= .95
+                          this.segments[t].anchor.xmom *= .95
+
+                          //.5
+                      }
+                  }
+                  // this.body.xmom *=.98
+                  // this.body.ymom *=.98
+
+             
+                  
+                  for(let t = 0; (Math.abs(this.body.xmom) +Math.abs(this.body.ymom)) > 15; t++){
+                      this.body.xmom *=.98
+                      this.body.ymom *=.98
+                  }
+              }else{this.dip = 35}  //15
+              // this.guide.radius = (this.joints[0].radius/3)+1
+              // this.guide.draw()
+              this.eggrepel()
+              for(let t = 0;t<this.segments.length; t++){
+                  if(t > 0){
+                      if(t < this.segments.length-1){
+                          this.segments[t].ddraw()
+                          this.segments[t].body.ddraw()
+                      }
+                  }
+              }
+  
+              // for(let t = 0;t<this.joints.length;t++){
+              //     this.joints[t].wdraw()
+              // }
+          }
+}
 
 class Worm{
     constructor(x=0,y=0){
@@ -10386,7 +10701,25 @@ let island8 = new FloatingIsland(2800,-1400, 600, .5, .5)
 
 // pomao.eggmake = 161000000000
 
-for(let t = 0;t<54;t++){
+for(let t = 0;t<220;t++){//54
+    const dangler = new Dangler(-1300+Math.random()*5000,-2900+Math.random()*2900)
+    let dirty = 0
+    for(let t=0;t<ramps.length;t++){
+        if(ramps[t].isPointInside(dangler.joints[0])){
+            dirty = 0
+        }
+    }
+    for(let t=0;t<floors.length;t++){
+        if(floors[t].isPointInside(dangler.joints[0])){
+            dirty = 1
+        }
+    }
+    if(dirty == 1){
+        worms.push(dangler)
+    }
+}
+
+for(let t = 0;t<27;t++){
     const worm = new Worm(300+Math.random()*5000,-1250+Math.random()*2000)
     let dirty = 0
     for(let t=0;t<floors.length;t++){
@@ -10403,7 +10736,7 @@ for(let t = 0;t<54;t++){
         worms.push(worm)
     }
 }
-for(let t = 0;t<54;t++){
+for(let t = 0;t<27;t++){  //54
     const worm = new Worm(-2100+Math.random()*5000,-4100+Math.random()*1500)
     let dirty = 0
     for(let t=0;t<floors.length;t++){
