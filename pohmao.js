@@ -791,9 +791,13 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
                     }
                 }
             }
-                // this.increment*=.995
+                this.increment*=.995
                 // if(Math.abs(this.angle) > Math.PI){
                 //     this.angle*=.9995
+
+                this.angle-=Math.PI  
+                this.angle*=.9999
+                this.angle+=Math.PI
 
                 // }else{
                 //     this.angle*1.0005
