@@ -9,7 +9,7 @@ const spinnys = []
 let beamrocks = []
 let links = []
 const worms = []
-let floormpf
+let floormpf = []
 // const gamepads
 
 for(let i = 1; i < 44; i++) {
@@ -685,7 +685,7 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
     }
     draw(){
         // this.build()
-        // if(this.bigbody.repelCheck(pomao.body)){
+        if(this.bigbody.repelCheck(pomao.body)){
             this.angle+=.01
             this.build()
             this.body.draw()
@@ -693,7 +693,100 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
             // for(let w = 0; w<this.wings.length; w++){
             //     this.wings[w].draw()
             // }
-        // }
+        }
+    }
+}
+
+
+ class SeeSaw{
+    constructor(x,y){
+      this.body = new Circle(x,y, 2, "red")
+      this.bigbody = new Circle(x,y, 1900, "red")
+      this.wings = []
+      this.dis = 130
+      this.angle = Math.PI
+      this.see = 0
+      this.increment = 0
+      this.build()
+    }
+    build(){
+        //I don't think the colission here or inspinwheels is relevant
+        this.see = 0
+        
+        // console.log(this.wings)
+        if(this.wings.length > 0){
+            for(let f = this.wings.length-1;f>0;f--){
+                if(squarecirclefeetspin(this.wings[f], pomao.body)){
+                    pomao.wingthing = f
+                    pomao.xdisp = this.wings[f].x
+                    pomao.ydisp = this.wings[f].y
+                }
+          }
+        }
+        this.wings = []
+
+        this.dis = 0
+        let increment = Math.PI
+        let angle = this.angle+Math.PI
+        for(let w = 0; w<101; w++){
+         
+            let wing = new Rectangle(this.body.x +(1*(Math.cos(angle)*this.dis)), this.body.y +(1*(Math.sin(angle)*this.dis)), 20,20, "green")
+            wing.thing = w
+            if(squarecirclefeetspin( wing, pomao.body)){
+                this.see = 1
+                    let torque = Math.abs(w/2)
+             
+                    if(pomao.body.ymomstorage > 0){
+                        if(w%2==0){
+                            // if(Math.abs(-((pomao.body.ymomstorage+.1)*torque*Math.cos(this.angle))/150) > this.increment){
+
+                                this.increment= -((pomao.body.ymomstorage+.1)*torque*Math.cos(this.angle))/150
+                            // }
+                        }else{
+                            
+                            // if(Math.abs(-((pomao.body.ymomstorage+.1)*torque*Math.cos(this.angle))/150) > this.increment){
+
+                                this.increment= ((pomao.body.ymomstorage+.1)*torque*Math.cos(this.angle))/150
+                            // }
+                        }
+                    }
+              }
+            if(wing.thing == pomao.wingthing){
+                if(squarecirclefeetspin(wing, pomao.body)){
+                    pomao.body.x += wing.x - pomao.xdisp
+                    pomao.body.y += wing.y - pomao.ydisp
+  
+            tutorial_canvas_context.translate(-(wing.x - pomao.xdisp), -(wing.y - pomao.ydisp))
+            dry = 1
+  
+                }
+       
+            }
+            floors.push(wing)
+   
+            this.wings.push(wing)
+            angle+=increment
+            if(w%2 == 0 ){
+              this.dis+=5
+          }
+        }
+    }
+    draw(){
+        // this.build()
+        if(this.bigbody.repelCheck(pomao.body)){
+                this.angle+=this.increment*.0025
+                // this.increment*=.995
+                if(Math.abs(this.angle) > Math.PI){
+                    this.angle*=.9995
+
+                }
+            this.build()
+            this.body.draw()
+          //   this.bigbody.draw()
+            // for(let w = 0; w<this.wings.length; w++){
+            //     this.wings[w].draw()
+            // }
+        }
     }
 }
 
@@ -3589,6 +3682,7 @@ class Shape{
 class Pomao{
     constructor(){
         this.cutscene = 0
+        this.wingthing = 0
         this.eggmake=0
         this.rooted = {}
         this.rootedframe = 0
@@ -3713,6 +3807,9 @@ class Pomao{
         if(dry == 1){
             if(this.body.ymom > 0){
                 if(!keysPressed['s']  || (gamepadAPI.axesStatus[1] > .5)){
+                    if(this.body.ymom > 0){
+                        this.body.ymomstorage = this.body.ymom+this.body.symom
+                    }
                 this.body.ymom = 0
                 }else{
                     this.body.ymom +=11.1
@@ -3786,6 +3883,9 @@ class Pomao{
                                 this.tonguey = 0
                                 resettonguediff()
                             }
+                            if(pomao.body.ymom > 0){
+                        pomao.body.ymomstorage = pomao.body.ymom+pomao.body.symom
+                            }
                             pomao.body.symom = 0
                             pomao.body.ymom = 0
                             pomao.body.sxmom = 0
@@ -3831,6 +3931,9 @@ class Pomao{
                             this.tonguex = 0
                             this.tonguey = 0
                             resettonguediff()
+                        }
+                        if(pomao.body.ymom > 0){
+                        pomao.body.ymomstorage = pomao.body.ymom+pomao.body.symom
                         }
                         pomao.body.symom = 0
                         pomao.body.ymom = 0
@@ -3882,6 +3985,9 @@ class Pomao{
                         this.tonguexmom*=.49
                         }
                     }
+                    if(pomao.body.ymom > 0){
+                    pomao.body.ymomstorage = pomao.body.ymom+pomao.body.symom
+                    }
                     pomao.body.ymom = 0
                     pomao.body.xmom *= .975
                     // this.hng = 0  // infiinite flutter?
@@ -3925,6 +4031,9 @@ class Pomao{
                                     this.tonguey = 0
                                     resettonguediff()
                                 }
+                                if(pomao.body.ymom > 0){
+                                pomao.body.ymomstorage = pomao.body.ymom+pomao.body.symom
+                                }
                                 pomao.body.symom = 0
                                 pomao.body.ymom = 0
                                 pomao.body.sxmom = 0
@@ -3940,6 +4049,9 @@ class Pomao{
                             this.tonguex = 0
                             this.tonguey = 0
                             resettonguediff()
+                        }
+                        if(pomao.body.ymom > 0){
+                        pomao.body.ymomstorage = pomao.body.ymom+pomao.body.symom
                         }
                         pomao.body.symom = 0
                         pomao.body.ymom = 0
@@ -3986,6 +4098,10 @@ class Pomao{
                         this.tongueymom*=.49
                         this.tonguexmom*=.49
                         }
+                    }
+                    
+                    if(pomao.body.ymom > 0){
+                    pomao.body.ymomstorage = pomao.body.ymom+pomao.body.symom
                     }
                     pomao.body.ymom = 0
                     pomao.body.xmom = 0
@@ -8391,6 +8507,16 @@ window.setInterval(function(){
                  ramps[t].draw()
             }
         }
+        if(level == 6){
+            floors.splice(0,floors.length)
+            for(let t = 0;t<floormpf.length;t++){
+                    floors.push(floormpf[t])
+            }
+            for(let t = 0;t<spinnys.length;t++){
+                spinnys[t].draw()
+            }
+            
+        }
 
 //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
       
@@ -8733,7 +8859,7 @@ window.setInterval(function(){
         //         pomao.eggs.push(seepx)
         //     }
 
-        if(level == 6){
+        if(level == 6){ // 6
             tutorial_canvas_context.drawImage(transfloor, 0,0,500,500, -12100, 33, 42000, 1000)
             tutorial_canvas_context.drawImage(transfloor, 0,0,500,500, -12100, 35, 42000, 1000)
             tutorial_canvas_context.drawImage(hillshadowbad, 0,0,hillshadowbad.width,hillshadowbad.height, ramps[0].x-ramps[0].length*10.9, -1250, ramps[0].length*21.8, 1550)
@@ -8854,6 +8980,43 @@ if(square.x <= circle.x+(circle.radius-12)){
     }
 }
 return false
+}
+
+function squarecirclefeetdeep(square, circle){
+
+
+    const squareendh = square.y + square.height
+    const squareendw = square.x + square.width
+    
+    if(square.x <= circle.x){
+        if(square.y <= circle.y+circle.radius+2){
+            if(squareendw >= circle.x){
+                if(squareendh >= circle.y){
+                    return true
+                }
+            }
+        }
+    }
+    //test
+    if(square.x <= circle.x+(circle.radius*.65)){
+        if(square.y <= circle.y+circle.radius+2){
+            if(squareendw >= circle.x){
+                if(squareendh >= circle.y){
+                    return true
+                }
+            }
+        }
+    }
+    if(square.x <= circle.x){
+        if(square.y <= circle.y+circle.radius){
+            if(squareendw+(circle.radius*.65)+2>= circle.x){
+                if(squareendh >= circle.y){
+                    return true
+                }
+            }
+        }
+    }
+    return false
 }
 
 
@@ -11067,6 +11230,11 @@ for(let t = 0;t<27;t++){  //54
         worms.push(worm)
     }
 }
+
+floormpf = [...floors]
+
+spinny = new SeeSaw(-1200, -300)
+spinnys.push(spinny)
 
 }
     
