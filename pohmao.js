@@ -716,10 +716,10 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
         // console.log(this.wings)
         if(this.wings.length > 0){
             for(let f = this.wings.length-1;f>0;f--){
-                if(squarecirclefeetspin(this.wings[f], pomao.body)){
+                if(squarecirclefeetspinx(this.wings[f], pomao.body)){
                     pomao.wingthing = f
                     pomao.xdisp = this.wings[f].x
-                    pomao.ydisp = this.wings[f].y
+                    pomao.ydisp = this.wings[f].y-3.5
                 }
           }
         }
@@ -730,9 +730,9 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
         let angle = this.angle+Math.PI
         for(let w = 0; w<101; w++){
          
-            let wing = new Rectangle(this.body.x +(1*(Math.cos(angle)*this.dis)), this.body.y +(1*(Math.sin(angle)*this.dis)), 20,20, "green")
+            let wing = new Rectangle(this.body.x +(1*(Math.cos(angle)*this.dis)), this.body.y +(1*(Math.sin(angle)*this.dis)), 10,5, "green")
             wing.thing = w
-            if(squarecirclefeetspin( wing, pomao.body)){
+            if(squarecirclefeetspinx( wing, pomao.body)){
                 this.see = 1
                     let torque = Math.abs(w/2)
              
@@ -752,7 +752,7 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
                     }
               }
             if(wing.thing == pomao.wingthing){
-                if(squarecirclefeetspin(wing, pomao.body)){
+                if(squarecirclefeetspinx(wing, pomao.body)){
                     pomao.body.x += wing.x - pomao.xdisp
                     pomao.body.y += wing.y - pomao.ydisp
   
@@ -774,12 +774,30 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
     draw(){
         // this.build()
         if(this.bigbody.repelCheck(pomao.body)){
-                this.angle+=this.increment*.0025
-                // this.increment*=.995
-                if(Math.abs(this.angle) > Math.PI){
-                    this.angle*=.9995
-
+            if(Math.PI > this.angle){
+                if(this.increment > 0){
+                    this.angle+=this.increment*.0025
+                }else{
+                    if(Math.abs(Math.PI-this.angle) <= Math.PI/6){
+                        this.angle+=this.increment*.0025
+                    }
                 }
+            }else{
+                if(this.increment < 0){
+                    this.angle+=this.increment*.0025
+                }else{
+                    if(Math.abs(Math.PI-this.angle) <= Math.PI/6){
+                        this.angle+=this.increment*.0025
+                    }
+                }
+            }
+                // this.increment*=.995
+                // if(Math.abs(this.angle) > Math.PI){
+                //     this.angle*=.9995
+
+                // }else{
+                //     this.angle*1.0005
+                // }
             this.build()
             this.body.draw()
           //   this.bigbody.draw()
@@ -9093,6 +9111,23 @@ function squarecirclefeetspin(square, circle){
 
     if(square.x <= circle.x){
         if(square.y <= circle.y+circle.radius+3.5){
+            if(squareendw >= circle.x){
+                if(squareendh >= circle.y+(circle.radius-1)){
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+
+function squarecirclefeetspinx(square, circle){
+
+    let squareendh = square.y + square.height
+    let squareendw = square.x + square.width
+
+    if(square.x <= circle.x){
+        if(square.y <= circle.y+circle.radius+.1){
             if(squareendw >= circle.x){
                 if(squareendh >= circle.y+(circle.radius-1)){
                     return true
