@@ -716,7 +716,7 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
         // console.log(this.wings)
         if(this.wings.length > 0){
             for(let f = this.wings.length-1;f>0;f--){
-                if(squarecirclefeetspinx(this.wings[f], pomao.body)){
+                if(squarecirclefeetspinxdeep(this.wings[f], pomao.body)){
                     pomao.wingthing = f
                     pomao.xdisp = this.wings[f].x
                     pomao.ydisp = this.wings[f].y-3.5
@@ -752,7 +752,7 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
                     }
               }
             if(wing.thing == pomao.wingthing){
-                if(squarecirclefeetspinx(wing, pomao.body)){
+                if(squarecirclefeetspinxdeep(wing, pomao.body)){
                     pomao.body.x += wing.x - pomao.xdisp
                     pomao.body.y += wing.y - pomao.ydisp
   
@@ -8987,6 +8987,78 @@ if(square.x <= circle.x){
 return false
 }
 
+
+function squarecirclefeetspinx(square, circle){
+
+    let squareendh = square.y + square.height
+    let squareendw = square.x + square.width
+
+    if(square.x <= circle.x){
+        if(square.y <= circle.y+circle.radius+.1){
+            if(squareendw >= circle.x){
+                if(squareendh >= circle.y+(circle.radius-1)){
+                    return true
+                }
+            }
+        }
+    }
+    //test
+    if(square.x <= circle.x+(circle.radius*.65)){
+        if(square.y <= circle.y+circle.radius+.1){
+            if(squareendw >= circle.x){
+                if(squareendh >= circle.y){
+                    return true
+                }
+            }
+        }
+    }
+    if(square.x <= circle.x){
+        if(square.y <= circle.y+circle.radius+.1){
+            if(squareendw+(circle.radius*.65) >= circle.x){
+                if(squareendh >= circle.y){
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+function squarecirclefeetspinxdeep(square, circle){
+
+    let squareendh = square.y + square.height
+    let squareendw = square.x + square.width
+
+    if(square.x <= circle.x){
+        if(square.y <= circle.y+circle.radius+3.5){
+            if(squareendw >= circle.x){
+                if(squareendh >= circle.y+(circle.radius-1)){
+                    return true
+                }
+            }
+        }
+    }
+    //test
+    if(square.x <= circle.x+(circle.radius*.65)){
+        if(square.y <= circle.y+circle.radius+3.5){
+            if(squareendw >= circle.x){
+                if(squareendh >= circle.y){
+                    return true
+                }
+            }
+        }
+    }
+    if(square.x <= circle.x){
+        if(square.y <= circle.y+circle.radius+3.5){
+            if(squareendw+(circle.radius*.65) >= circle.x){
+                if(squareendh >= circle.y){
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+
 function squarecirclefacetopbottom(square, circle){
 
 const squareendh = square.y + square.height
@@ -9125,22 +9197,6 @@ function squarecirclefeetspin(square, circle){
     return false
 }
 
-function squarecirclefeetspinx(square, circle){
-
-    let squareendh = square.y + square.height
-    let squareendw = square.x + square.width
-
-    if(square.x <= circle.x){
-        if(square.y <= circle.y+circle.radius+.1){
-            if(squareendw >= circle.x){
-                if(squareendh >= circle.y+(circle.radius-1)){
-                    return true
-                }
-            }
-        }
-    }
-    return false
-}
 
 function squarecircleedges(square, circle){
 const squareendh = square.y + square.height
