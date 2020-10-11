@@ -1530,20 +1530,23 @@ class Fractal2{
         this.tip = this.y - this.length
         this.accept1 = (this.y-this.tip)/(this.x1-this.x)
         this.accept2 = (this.y-this.tip)/(this.x2-this.x)
+        this.width = this.length*7
+        this.height = this.length
 
     }
 
     draw(){
-        tutorial_canvas_context.strokeStyle = this.color
-        tutorial_canvas_context.fillStyle = this.color
-        tutorial_canvas_context.stokeWidth = 3
-        tutorial_canvas_context.moveTo(this.x, this.y)
-        tutorial_canvas_context.lineTo(this.x1, this.y)
-        tutorial_canvas_context.lineTo(this.x, this.tip)
-        tutorial_canvas_context.lineTo(this.x2, this.y)
-        tutorial_canvas_context.lineTo(this.x, this.y)
-        tutorial_canvas_context.fill()
-        tutorial_canvas_context.stroke()
+        // tutorial_canvas_context.strokeStyle = this.color
+        // tutorial_canvas_context.fillStyle = this.color
+        // tutorial_canvas_context.stokeWidth = 3
+        // tutorial_canvas_context.moveTo(this.x, this.y)
+        // tutorial_canvas_context.lineTo(this.x1, this.y)
+        // tutorial_canvas_context.lineTo(this.x, this.tip)
+        // tutorial_canvas_context.lineTo(this.x2, this.y)
+        // tutorial_canvas_context.lineTo(this.x, this.y)
+        // tutorial_canvas_context.fill()
+        // tutorial_canvas_context.stroke()
+        tutorial_canvas_context.drawImage(rampimg2,0,0, rampimg2.width,rampimg2.height, this.x2, this.tip, this.width, this.height)
     }
 
     isPointInside(point){
@@ -10958,13 +10961,14 @@ const layer1 = new Rectangle(-2100, -2600, 600, 12300, "red" )
 walls.push(layer1)
 floors.push(layer1)
 roofs.push(layer1)
-const layer1mountain1 = new Triangle90(4100,-2580, "red", 600)
+const layer1mountain1 = new Triangle90(3900,-2580, "red", 580)
 ramps.push(layer1mountain1)
 ramps90.push(layer1mountain1)
-const layer1mountain2 = new Triangle90l(4100,-2580, "red", 600)
+const layer1mountain2 = new Triangle90l(3900,-2580, "red", 580)
 ramps.push(layer1mountain2)
 ramps90.push(layer1mountain2)
-floors.push(layer1soft)
+
+
 
 const layer2 = new Rectangle(0, -5200, 600, 11700, "red" )
 walls.push(layer2)
@@ -10994,6 +10998,30 @@ let island11 = new FloatingIsland(9800,-700, 290, .4, .9)
 let island12 = new FloatingIsland(10250,-1270, 160, .5, .5)
 let island13 = new FloatingIsland(10250,-1270, 160, .5, .5)
 let island14 = new FloatingIsland(10250,-3070, 160, .5, .5)
+let island15 = new FloatingIsland(9250,-3570, 160, .5, .8)
+let island16 = new FloatingIsland(8050,-3670,260, .2, .8)
+let island17 = new FloatingIsland(6500,-3870,100, .2, .525)
+let island18 = new FloatingIsland(7300,-3970,100, .2, 1.525)
+let island19 = new FloatingIsland(9850,-4070, 160, .5, 3.5)
+let island20 = new FloatingIsland(9550,-3270, 180, .35, 1)
+let island21 = new FloatingIsland(8650,-3970, 100, .35, 1)
+
+
+const layer1mountain3 = new Trianglex(8100,-2580, "red", 200)
+ramps.push(layer1mountain3)
+ramps90.push(layer1mountain3)
+
+const layer1mountain4 = new Trianglex(7100,-2580, "red", 300)
+ramps.push(layer1mountain4)
+ramps90.push(layer1mountain4)
+
+const layer1mountain5 = new Trianglex(6200,-2580, "red", 350)
+ramps.push(layer1mountain5)
+ramps90.push(layer1mountain5)
+// const layer1mountain4 = new Triangle90l(8100,-2580, "red", 200)
+// ramps.push(layer1mountain4)
+// ramps90.push(layer1mountain4)
+
 
 // pomao.eggmake = 161000000000
 
