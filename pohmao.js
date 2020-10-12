@@ -199,6 +199,8 @@ const lvl4floorimg = new Image()
 lvl4floorimg.src ="floor7.png"
 const lvl5floorimg = new Image()
 lvl5floorimg.src ="floor8.png"
+const lvl6floorimg = new Image()
+lvl6floorimg.src ="floor9.png"
 const walling = new Image()
 walling.src ="wall.png"
 const lvl2walling = new Image()
@@ -8591,7 +8593,7 @@ window.setInterval(function(){
                         tutorial_canvas_context.drawImage(lvl5floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                      }else if(level == 6){
                     
-                        tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                        tutorial_canvas_context.drawImage(lvl6floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                      }
                 }
             }else{
@@ -8612,7 +8614,7 @@ window.setInterval(function(){
                     tutorial_canvas_context.drawImage(lvl5floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                  }else if(level == 6){
                     
-                    tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                    tutorial_canvas_context.drawImage(lvl6floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                  }
             }
             }else{
@@ -8934,7 +8936,7 @@ window.setInterval(function(){
     // swinger1move()
 },  14) 
 
-}, 6969);  //6969
+},6969 );  //6969
 
 function squarecirclefaceblockjump(square, circle){
 const squareendh = square.y + square.height
@@ -11263,6 +11265,7 @@ let island18 = new FloatingIsland(7300,-3970,100, .2, 1.525)
 let island19 = new FloatingIsland(9850,-4070, 160, .5, 3.5)
 let island20 = new FloatingIsland(9550,-3270, 180, .35, 1)
 let island21 = new FloatingIsland(8650,-3970, 100, .35, 1)
+let island22 = new FloatingIsland(-1600,-5000, 20, 1, 25)
 
 
 const layer1mountain3 = new Trianglex(8100,-2580, "red", 200)
@@ -11325,6 +11328,26 @@ for(let t = 0;t<27;t++){  //54
         worms.push(worm)
     }
 }
+
+
+for(let t = 0;t<14;t++){
+    const step = new FloatingIsland(-1500+t*200, -4500+t*50, 50, .02, 1.4)
+    // floors.push(step)
+    // walls.push(step)
+    // walls.push(step)
+
+}
+
+
+for(let t = 0;t<18;t++){
+    const step = new FloatingIsland(-1200+t*200, -5050-t*50,50, .02, 1.4)
+    // floors.push(step)
+    // walls.push(step)
+    // walls.push(step)
+
+}
+
+
 
 floormpf = [...floors]
 
