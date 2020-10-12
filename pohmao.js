@@ -234,6 +234,9 @@ rampimg1.src = 'ramp1.png'
 const rampcurveimg1 = new Image()
 rampcurveimg1.src = 'rampcurve1.png'
 
+const wormimg = new Image()
+wormimg.src = 'wormimg.png'
+
 const fruitsprites = new Image()
 fruitsprites.src = 'fruitsprites11.png'
 const cake = new Image()
@@ -3336,19 +3339,21 @@ class Circle{
     }
     wdraw(){
 
-        if(this.color == "transparent"){
-            tutorial_canvas_context.fillStyle = this.color
-         //this.color
-            }else{    
-                tutorial_canvas_context.fillStyle = "cyan" //cyan
-            }
-        tutorial_canvas_context.lineWidth = 4
-        tutorial_canvas_context.strokeStyle = this.color
-        tutorial_canvas_context.beginPath();
-        tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI*2), true)
+        tutorial_canvas_context.drawImage(wormimg, 0,0,wormimg.width,wormimg.height, this.x-this.radius, this.y-this.radius, this.radius*2, this.radius*2)
+
+    //     if(this.color == "transparent"){
+    //         tutorial_canvas_context.fillStyle = this.color
+    //      //this.color
+    //         }else{    
+    //             tutorial_canvas_context.fillStyle = "cyan" //cyan
+    //         }
+    //     tutorial_canvas_context.lineWidth = 4
+    //     tutorial_canvas_context.strokeStyle = this.color
+    //     tutorial_canvas_context.beginPath();
+    //     tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI*2), true)
    
-       tutorial_canvas_context.fill()
-        tutorial_canvas_context.stroke(); 
+    //    tutorial_canvas_context.fill()
+    //     tutorial_canvas_context.stroke(); 
     }
     ddraw(){
 
