@@ -179,6 +179,8 @@ const shocks =[]
 let blocks = []
 let nails = []
 let dry = 0
+const propimg = new Image()
+propimg.src ="propoganda.png"
 const transfloor = new Image()
 transfloor.src ="hsemitrans.png"
 const hillshadowbad = new Image()
@@ -336,6 +338,12 @@ cactusimgtop.src = 'cactustopdark.png'
 
 const pomomimg = new Image()
 pomomimg.src = 'pomom.png'
+
+
+const jomaoimg = new Image()
+jomaoimg.src = 'jomao.png'
+const jomaoimgl = new Image()
+jomaoimgl.src = 'jomaol.png'
 
 const pawmaoimg = new Image()
 pawmaoimg.src = 'pawmao.png'
@@ -8396,6 +8404,15 @@ window.setInterval(function(){
       
         let pawheight = 70+(Math.sin(((pomao.timeloop*.75)+3.14))*2)
         tutorial_canvas_context.drawImage(pawmaoimg, 0,0,pawmaoimg.width,pawmaoimg.height, 2500,-3040-(Math.sin(((pomao.timeloop*.75)+3.14))*1.9), 70,pawheight)
+      
+        let jawheight = 70+(Math.sin(((pomao.timeloop*1.75)+3.14))*2)
+        if(pomao.body.x < 1260){
+            tutorial_canvas_context.drawImage(jomaoimgl, 0,0,pawmaoimg.width,pawmaoimg.height,1225,-1070-(Math.sin(((pomao.timeloop*1.75)+3.14))*1.9), 70,jawheight)
+
+        }else{
+            
+        tutorial_canvas_context.drawImage(jomaoimg, 0,0,pawmaoimg.width,pawmaoimg.height,1225,-1070-(Math.sin(((pomao.timeloop*1.75)+3.14))*1.9), 70,jawheight)
+        }
 
 
 
@@ -8405,6 +8422,7 @@ window.setInterval(function(){
         if(level == 3){
             
 
+            tutorial_canvas_context.drawImage(propimg, 0,0,propimg.width,propimg.height,500, -400, propimg.width/2,propimg.height/2)
         
         tutorial_canvas_context.drawImage(pomarinel, 0,0,pomarine.width,pomarine.height, 4500-pmarinedisp,-35+pmarinedisp, 70,70)
         if(jailswitch == 0){
@@ -10128,9 +10146,20 @@ function loadlvl2(){
      walls.push(momblock)
      roofs.push(momblock)
      invisblocks.push(momblock)
-    
      
     
+     
+     
+    
+     const joblock = new Rectangle(1225,-1070, 90,60)
+     floors.push(joblock)
+     walls.push(joblock)
+     roofs.push(joblock)
+     invisblocks.push(joblock)
+    
+     
+     
+    // chats must be after padialogue to function after this point
      let padialogue = new Dialogue(2505,-3035)
      padialogue.words.push( "Pomao!")
      padialogue.words.push( "I need to talk to you.")
@@ -10146,6 +10175,7 @@ function loadlvl2(){
      chats.push(padialogue)
      
     
+    
      let pomarinedialogue = new Dialogue(5505,-3035)
      pomarinedialogue.words.push( "You!!")
      pomarinedialogue.words.push( "Stop what you are doing!")
@@ -10157,6 +10187,14 @@ function loadlvl2(){
      pomarinedialogue.words.push( "You're coming with me kid...")
      chats.push(pomarinedialogue)
     
+
+     
+     let jodialogue = new Dialogue(1225,-1070)
+     jodialogue.words.push( "Jomao: Pomao!")
+     jodialogue.words.push( "Jomao: I'd hug you but...")
+     jodialogue.words.push( "Jomao: Ya know, no arms.")
+     chats.push(jodialogue)
+
      const pawblock = new Rectangle(2505,-3035, 90,60)
      floors.push(pawblock)
      walls.push(pawblock)
