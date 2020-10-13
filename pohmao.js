@@ -678,16 +678,16 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
          
             let wing = new Rectangle(this.body.x +(1*(Math.cos(angle)*this.dis)), this.body.y +(1*(Math.sin(angle)*this.dis)), 20,20, "green")
             wing.thing = w
-            if(wing.thing == pomao.wingthing){
-              if(squarecirclefeet(wing, pomao.body)){
-                  pomao.body.x += wing.x - pomao.xdisp
-                  pomao.body.y += wing.y - pomao.ydisp
+        //     if(wing.thing == pomao.wingthing){
+        //       if(squarecirclefeet(wing, pomao.body)){
+        //           pomao.body.x += wing.x - pomao.xdisp
+        //           pomao.body.y += wing.y - pomao.ydisp
 
-          tutorial_canvas_context.translate(-(wing.x - pomao.xdisp), -(wing.y - pomao.ydisp))
-          dry = 1
+        //   tutorial_canvas_context.translate(-(wing.x - pomao.xdisp), -(wing.y - pomao.ydisp))
+        //   dry = 1
 
-              }
-            }
+        //       }
+        //     }
             floors.push(wing)
             this.wings.push(wing)
             angle+=increment
