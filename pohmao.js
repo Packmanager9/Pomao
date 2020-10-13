@@ -658,17 +658,17 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
       this.build()
     }
     build(){
-        for(let f = floors.length;f>0;f--){
-            if(this.wings.includes(floors[f])){
-              if(squarecirclefeetspin(floors[f], pomao.body)){
-                  pomao.wingthing =this.wings.indexOf(floors[f])
-                  pomao.xdisp = floors[f].x
-                  pomao.ydisp = floors[f].y
-                  f = 0
-              }
-              //   floors.splice(f,1)
-            }
-        }
+        // for(let f = floors.length;f>0;f--){
+        //     if(this.wings.includes(floors[f])){
+        //       if(squarecirclefeetspin(floors[f], pomao.body)){
+        //           pomao.wingthing =this.wings.indexOf(floors[f])
+        //           pomao.xdisp = floors[f].x
+        //           pomao.ydisp = floors[f].y
+        //           f = 0
+        //       }
+        //       //   floors.splice(f,1)
+        //     }
+        // }
         this.wings = []
 
         this.dis = 100
