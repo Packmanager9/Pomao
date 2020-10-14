@@ -3288,6 +3288,12 @@ class Circle{
         this.yrepel = 0
         this.lens = 0
     }     
+    simplemove(){
+
+
+        this.x += this.xmom
+        this.y += this.ymom
+    }
     chmove(){
 
         if(this.y > 33-this.radius){
@@ -7277,6 +7283,7 @@ let orbs = []
 //     }
 // }
 
+
 class Dangler{
     constructor(x,y){
      this.licked = 0
@@ -8298,6 +8305,7 @@ loadlvl1()
 // }
 setTimeout(function(){
     
+    
 
 window.setInterval(function(){ 
     if(pomao.paused == 10){
@@ -9237,7 +9245,23 @@ if(square.x <= circle.x+circle.radius){
 }
 return false
 }
-    
+  function getRandomDarkColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[(Math.floor(Math.random() * 13)+1)];
+    }
+    return color;
+  }
+  function getRandomDarkerColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[(Math.floor(Math.random() * 7)+1)];
+    }
+    return color;
+  }
+
 function getRandomLightColor() {
 var letters = '0123456789ABCDEF';
 var color = '#';
@@ -11337,7 +11361,7 @@ for(let t = 0;t<60;t++){
 }
 
 
-for(let t = 0;t<27;t++){
+for(let t = 0;t<28;t++){
     const worm = new Worm(300+Math.random()*5000,-1250+Math.random()*2000)
     let dirty = 0
     for(let t=0;t<floors.length;t++){
@@ -11354,8 +11378,8 @@ for(let t = 0;t<27;t++){
         worms.push(worm)
     }
 }
-for(let t = 0;t<27;t++){  //54
-    const worm = new Worm(-2100+Math.random()*5000,-4100+Math.random()*1500)
+for(let t = 0;t<50;t++){  //54
+    const worm = new Worm(-2100+Math.random()*5000,-4100+Math.random()*3500)
     let dirty = 0
     for(let t=0;t<floors.length;t++){
         if(floors[t].isPointInside(worm.joints[0])){
