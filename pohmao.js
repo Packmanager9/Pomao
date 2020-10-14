@@ -616,6 +616,291 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
 
  });
 
+ 
+ class Bosscircle{
+    constructor(x, y, radius, color, xmom = 0, ymom = 0){
+        this.height = 0
+        this.width = 0
+        this.x = x
+        this.y = y
+        this.radius = radius
+        this.color = color
+        this.xmom = xmom
+        this.ymom = ymom
+        this.sxmom = 0
+        this.symom = 0
+        this.cxmom = 0
+        this.cymom = 0
+        this.xrepel = 0
+        this.yrepel = 0
+        this.lens = 0
+    }       
+     draw(){   
+         
+ 
+        tutorial_canvas_context.fillStyle = this.color
+        
+        tutorial_canvas_context.lineWidth = 0
+        tutorial_canvas_context.strokeStyle = this.color
+        tutorial_canvas_context.beginPath();
+        tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI*2), true)
+ 
+       tutorial_canvas_context.fill()
+        tutorial_canvas_context.stroke(); 
+    }
+    move(){
+        this.x += this.xmom
+        this.y += this.ymom
+    }
+    smove(){
+        this.x += this.sxmom
+        this.y += this.symom
+    }
+    cmove(){
+        this.x += this.cxmom
+        this.y += this.cymom
+    }
+    isPointInside(point){
+        this.areaY = point.y - this.y 
+        this.areaX = point.x - this.x
+        if(((this.areaX*this.areaX)+(this.areaY*this.areaY)) <= (this.radius*this.radius)){
+            return true
+        }
+        return false
+    }
+
+    repelCheck(point){
+        this.areaY = point.y - this.y 
+        this.areaX = point.x - this.x
+        if(((this.areaX*this.areaX)+(this.areaY*this.areaY)) <= (this.radius+point.radius)*(point.radius+this.radius)){
+            return true
+        }
+        return false
+    }
+}
+
+
+class Bossspring{
+constructor(x,y, body = 0, anchor = 0){
+    if(body == 0){
+        this.body = new Bosscircle(x,y,2,"red")
+    }else{
+        this.body = body
+    }
+    if(anchor == 0){
+        this.anchor = new Bosscircle(x+1,y+1,2,"red")
+    }else{
+        this.anchor = anchor
+    }
+    this.length = 30
+
+}
+draw(){
+
+
+}
+balance(){
+
+    let xmomavg = (this.body.sxmom+this.anchor.sxmom)*.5
+    let ymomavg = (this.body.symom+this.anchor.symom)*.5
+
+    this.body.sxmom = (this.body.sxmom + xmomavg)*.5
+    this.body.symom = (this.body.symom + ymomavg)*.5
+
+    this.anchor.sxmom = (this.anchor.sxmom + xmomavg)*.5
+    this.anchor.symom = (this.anchor.symom + ymomavg)*.5
+
+    let link = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "white", 4)
+
+    
+    let xvec = this.body.x-this.anchor.x
+    let yvec = this.body.y-this.anchor.y
+
+    for(let t = 0; (Math.abs(xvec)+Math.abs(yvec)) > .5; t++){
+        xvec*=.99
+        yvec*=.99
+        if(t>1000){
+            break
+        }
+    }
+
+    for(let t = 0; (Math.abs(xvec)+Math.abs(yvec)) < .5; t++){
+        xvec*= 1.01
+        yvec*= 1.01
+        if(t>1000){
+            break
+        }
+    }
+
+    if(link.hypotenuse() < this.length-5 ){
+        this.body.sxmom += xvec
+        this.body.symom += yvec
+        this.anchor.sxmom -= xvec
+        this.anchor.symom -= yvec
+
+
+    }else  if(link.hypotenuse() > this.length+5 ){
+
+        this.body.sxmom -= xvec
+        this.body.symom -= yvec
+        this.anchor.sxmom += xvec
+        this.anchor.symom += yvec
+
+    }else{
+        this.body.sxmom*=.99
+        this.body.symom*=.99
+        this.anchor.sxmom*=.99
+        this.anchor.symom*=.99
+    }
+
+    this.body.smove()
+    this.anchor.smove()
+}
+draw(){
+    
+    this.balance()
+    let link = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "white", 1)
+
+    link.draw()
+    this.body.draw()
+    this.anchor.draw()
+}
+}
+
+class Blobboss{
+constructor(x = 0, y = 0){
+    this.beads = []
+    this.linksl = []
+    this.linksr = []
+    this.links = []
+    this.centroid =  new Bosscircle(350,350, 5, "green")
+    this.size = 10
+    let start = new Bosscircle(350,350, 2, "yellow")
+    let end = new Bosscircle(350,350, 2, "purple")
+    
+    let spring = new Bossspring(350,350, start, end)
+    this.links.push(spring)
+    this.beads.push(spring.body)
+    this.beads.push(spring.anchor)
+    let sproing
+    let spraing
+    for(let t = 0;t<this.size; t++){
+        if(t == 0){
+
+            spraing = new Bossspring(351,358,0, spring.body)
+            spraing.body.color = "teal"
+            this.linksl.push(spraing)
+            this.links.push(spraing)
+            this.beads.push(spraing.body)
+        }else{
+            spraing = new Bossspring(352,357,0, spraing.body)
+             spraing.body.color = "gray"
+        this.linksl.push(spraing)
+        this.links.push(spraing)
+        this.beads.push(spraing.body)
+        }
+    }
+    for(let t = 0;t<this.size; t++){
+        if(t == 0){
+
+             sproing = new Bossspring(353,356, spring.anchor, 0)
+             sproing.body.color = "white"
+            this.linksr.push(sproing)
+            this.links.push(sproing)
+            this.beads.push(sproing.anchor)
+        }else{
+         sproing = new Bossspring(354,355,sproing.anchor, 0)
+         sproing.body.color = "orange"
+        this.linksr.push(sproing)
+        this.links.push(sproing)
+        this.beads.push(sproing.anchor)
+        }
+    }
+
+    let cap = new Bossspring(350,350,  spraing.body, sproing.anchor )
+    cap.draw()
+    console.log(cap, this.links)
+    this.links.push(cap)
+    console.log(cap, this.links)
+    this.linksl = []
+    this.linksr = []
+
+    this.dis = 150
+    this.angle = 0
+    this.increment = (Math.PI*2)/this.beads.length
+
+    // for(let t = 0; t<this.beads.length; t++){
+
+
+    //     this.beads[t].x = this.centroid.x + (Math.sin(this.angle)*this.dis)
+    //     this.beads[t].y = this.centroid.y + (Math.cos(this.angle)*this.dis)
+    //     this.angle += this.increment
+    // }
+
+}
+draw(){
+
+    for(let t = 0;t<this.beads.length;t++){
+        let xvec = (this.beads[t].x-this.centroid.x)
+        let yvec =  (this.beads[t].y-this.centroid.y)
+        for(let t = 0; (Math.abs(xvec)+Math.abs(yvec)) > .3; t++){
+            xvec*=.98
+            yvec*=.98
+            if(t>1000){
+                break
+            }
+        }
+
+        for(let t = 0; (Math.abs(xvec)+Math.abs(yvec)) < .3; t++){
+            xvec*= 1.01
+            yvec*= 1.01
+            if(t>1000){
+                break
+            }
+        }
+        this.beads[t].sxmom += xvec
+        this.beads[t].symom += yvec
+
+    }
+
+
+    for(let t = 0;t<this.beads.length;t++){
+        this.beads[t].cmove()
+    }
+
+    // for(let t = 0;t<this.beads.length;t++){
+    //     this.beads[t].cxmom *= .9
+    //     this.beads[t].cymom *= .9
+    // }
+
+    for(let t = 0;t<this.links.length;t++){
+        this.links[t].balance()
+    }
+    for(let t = 0;t<this.links.length;t++){
+        this.links[t].draw()
+    }
+
+    let xposavg = 0
+    let yposavg = 0
+
+    for(let t = 0;t<this.beads.length;t++){
+        xposavg+=this.beads[t].x
+        yposavg+=this.beads[t].y
+    }
+    xposavg/= this.beads.length
+    yposavg/= this.beads.length
+
+    this.centroid.x = xposavg
+    this.centroid.y = yposavg
+
+    this.centroid.draw()
+
+
+
+}
+}
+
+
  class FloatingIsland{
      constructor(x,y, radius = 200, small = 1, scale = 1){
 
@@ -7921,6 +8206,13 @@ class Worm{
                 // for(let t = 0;t<this.joints.length;t++){
                 //     this.joints[t].wdraw()
                 // }
+            }
+        }
+
+        class Starboss{
+            constructor(){
+                this.links = []
+                this.centroid = new Circle()
             }
         }
     
