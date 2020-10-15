@@ -4834,7 +4834,24 @@ for(let t = 0; t<floors.length; t++){
        }
 
      }
-     if(level == 1){
+    this.tongue.draw()
+
+    this.link = new Line(this.body.x, 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongue.x, this.tongue.y, "blue",3) // radius 3 // this.tongue.radius*1.1
+    this.link.draw()
+
+
+    
+    for(let t = 0; t<fruits.length; t++){
+        if(fruits[t].x > this.body.x-((tutorial_canvas.width/2)+fruits[t].width) && fruits[t].x < this.body.x+((tutorial_canvas.width/2)+fruits[t].width) ){
+            if(fruits[t].y > this.body.y-((tutorial_canvas.height/2)+fruits[t].height) && fruits[t].y < this.body.y+((tutorial_canvas.height/2)+fruits[t].height) ){
+
+            fruits[t].draw()
+            
+        }
+    }
+    }
+
+    if(level == 1){
         if(boss.body1.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body1.radius) && boss.body1.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body1.radius) ){
             if(boss.body1.y > pomao.body.y-((tutorial_canvas.height*3)+boss.body1.radius) && boss.body1.y < pomao.body.y+((tutorial_canvas.height*3)+boss.body1.radius) ){
                 boss.draw()
@@ -4856,23 +4873,6 @@ for(let t = 0; t<floors.length; t++){
      if(level == 5){
         chafer.draw()
      }
-
-    this.tongue.draw()
-
-    this.link = new Line(this.body.x, 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongue.x, this.tongue.y, "blue",3) // radius 3 // this.tongue.radius*1.1
-    this.link.draw()
-
-
-    
-    for(let t = 0; t<fruits.length; t++){
-        if(fruits[t].x > this.body.x-((tutorial_canvas.width/2)+fruits[t].width) && fruits[t].x < this.body.x+((tutorial_canvas.width/2)+fruits[t].width) ){
-            if(fruits[t].y > this.body.y-((tutorial_canvas.height/2)+fruits[t].height) && fruits[t].y < this.body.y+((tutorial_canvas.height/2)+fruits[t].height) ){
-
-            fruits[t].draw()
-            
-        }
-    }
-    }
 
     // for(let t = 0; t<fruits.length; t++){
     //         //394929
