@@ -4661,11 +4661,198 @@ class Pomao{
         if(Math.abs(this.rattled < 3)){
             this.rattled = 0
         }
-    for(let t = 0; t<pomao.thrown.length; t++){
-        pomao.thrown[t].draw()
-    }
+
+        if(level == 1){
+            tutorial_canvas_context.fillStyle = "black";
+            tutorial_canvas_context.font = `${30}px Arial`;
+            // tutorial_canvas_context.fillText("M to throw eggs", 0,350)
+            // tutorial_canvas_context.fillText("<- W to jump", 300,350)
+            // tutorial_canvas_context.fillText("Space to lick", 310,290)
+            // tutorial_canvas_context.fillText("^ hold W to hover", -400,350)
+            // tutorial_canvas_context.fillText("Lick down in air (K+space) to pogo ->", -400,-120)
+            // tutorial_canvas_context.fillText("Lick diagonally (K+L/J+space) before you touch the floor to gain speed ->", 800,-120)
+            // tutorial_canvas_context.fillText("Hold S to pass down through thin floors     vvv", 2100,-120)
+            // tutorial_canvas_context.fillText("You made it! ->", 2900,500)
+            // tutorial_canvas_context.fillText(" Press N to Ground pound", 2600,220)
+            // tutorial_canvas_context.fillText(" Pomao can swim >^", 3200, -500)
+            // tutorial_canvas_context.fillText("Cancel your grappling momentum by tapping A/D ^", 3450, 500)
+            // tutorial_canvas_context.fillText("You can go up through thin floors ^", 3880, 420) 
+            // tutorial_canvas_context.fillText("pull yourself up with your tongue 'I' ^", 3880, 450)
+            // tutorial_canvas_context.fillText("Canceling momentum can help you climb walls! ^", 3800, 180)
+            // tutorial_canvas_context.fillText("Put an egg in the switch with M", 4050, -700)
+            // tutorial_canvas_context.fillText("Nice!", 4050, -770)
+            // tutorial_canvas_context.fillText("Beware the cave of the beast!", 11000, 500)
+            // tutorial_canvas_context.fillText("<= <= <=", 12800, 500)
+            // tutorial_canvas_context.fillText("Can't grapple ice!", 4300+(14*530),-5100-(14*150))
+            // tutorial_canvas_context.fillText("Try to pogo, then flutter up", 4300+(14*530),-5100-(14*148))
+            door.draw()
+            if(door.isPointInside(pomao.body)){
+                loadlvl2()
+                pmarinedisp = 0
+            }
+        }
+        if(level == 2){
+            if(chats[1].active > 0){
+                if(chats[1].complete == 0){
+                    pomao.disabled = 1
+                    pomao.cutscene = 1
+                    chats[0].words = ["talk"]
+                    chats[0].words.push("Pomao, would you mind cleaning the fruits out of the back yard?")
+                }else{
+                    pomao.cutscene = 0
+                    pomao.disabled = 0
+                }
+            }
+            if(fruits.length == 0){
+                
+                chats[2].body.x = pomao.body.x
+                chats[2].body.y = pomao.body.y
+                pomao.cutscene = 1
+                if(pmarinedisp == 0){
+                    chats[2].active = 1
+                    chats[2].body.x = pomao.body.x
+                    chats[2].body.y = pomao.body.y
+                }
+                if(pomao.body.x+50 > pmarinedisp+5500){
+                    chats[2].body.x = pomao.body.x
+                    chats[2].body.y = pomao.body.y
+                    // chats[2].active = 1
+                }else{
+                    pmarinedisp-=9
+                }
+            }
+            if(chats[2].complete == 1){
+                pmarinedisp = 0
+                loadlvl3()
+            }
+
+            
+        let momheight = 70+(Math.sin(((pomao.timeloop*1.3)+3.14))*1.7)
+        tutorial_canvas_context.drawImage(pomomimg, 0,0,pomomimg.width,pomomimg.height, 500,-590-(Math.sin(((pomao.timeloop*1.3)+3.14))*1.9), 70,momheight)
+      
+        let pawheight = 70+(Math.sin(((pomao.timeloop*.75)+3.14))*2)
+        tutorial_canvas_context.drawImage(pawmaoimg, 0,0,pawmaoimg.width,pawmaoimg.height, 2500,-3040-(Math.sin(((pomao.timeloop*.75)+3.14))*1.9), 70,pawheight)
+      
+        let jawheight = 70+(Math.sin(((pomao.timeloop*1.75)+3.14))*2)
+        if(pomao.body.x < 1260){
+            tutorial_canvas_context.drawImage(jomaoimgl, 0,0,pawmaoimg.width,pawmaoimg.height,1225,-1070-(Math.sin(((pomao.timeloop*1.75)+3.14))*1.9), 70,jawheight)
+
+        }else{
+            
+        tutorial_canvas_context.drawImage(jomaoimg, 0,0,pawmaoimg.width,pawmaoimg.height,1225,-1070-(Math.sin(((pomao.timeloop*1.75)+3.14))*1.9), 70,jawheight)
+        }
 
 
+
+        tutorial_canvas_context.drawImage(pomarinel, 0,0,pomarine.width,pomarine.height, 5500+pmarinedisp,-35, 70,70)
+        
+        }
+        if(level == 3){
+            
+
+            tutorial_canvas_context.drawImage(propimg, 0,0,propimg.width,propimg.height,500, -400, propimg.width/2,propimg.height/2)
+        
+        tutorial_canvas_context.drawImage(pomarinel, 0,0,pomarine.width,pomarine.height, 4500-pmarinedisp,-35+pmarinedisp, 70,70)
+        if(jailswitch == 0){
+
+            let momheight = 70+(Math.sin(((pomao.timeloop*1.3)+3.14))*1.7)
+            tutorial_canvas_context.drawImage(prisoner1img, 0,0,prisoner1img.width,prisoner1img.height, 200,-35-(Math.sin(((pomao.timeloop*1.3)+3.14))*1.9), 70,momheight)
+          
+            let pawheight = 70+(Math.sin(((pomao.timeloop*.75)+3.14))*2)
+            tutorial_canvas_context.drawImage(prisoner2img, 0,0,prisoner2img.width,prisoner2img.height, 600,-35-(Math.sin(((pomao.timeloop*.75)+3.14))*1.9), 70,pawheight)
+          
+            let prisoner3height = 68+(Math.sin(((pomao.timeloop*.6)+3.14))*.8)
+            tutorial_canvas_context.drawImage(prisoner3img, 0,0,prisoner3img.width,prisoner3img.height, 900,-34-(Math.sin(((pomao.timeloop*.6)+3.14))*.8), 70,prisoner3height)
+    
+            tutorial_canvas_context.drawImage(jailswitchimgl, 0,0,jailswitchimgl.width,jailswitchimgl.height, 4800,-95, 128,128)
+        }else{
+            chats = []
+
+
+            for(let t = 0;t<floors.length;t++){
+                if(invisblocks.includes(floors[t])){
+                    floors.splice(t,1)
+                }
+            }
+            for(let t = 0;t<walls.length;t++){
+                if(invisblocks.includes(walls[t])){
+                    walls.splice(t,1)
+                }
+            }
+            for(let t = 0;t<roofs.length;t++){
+                if(invisblocks.includes(roofs[t])){
+                    roofs.splice(t,1)
+                }
+            }
+
+
+
+        tutorial_canvas_context.drawImage(jailswitchimg, 0,0,jailswitchimg.width,jailswitchimg.height, 4800,-95, 128,128)
+        floors[0].y+=10000
+        }
+
+        if(pmarinedisp == 0){
+            for(let t = 0;t<shockfriendly.shocksl.length;t++){
+                if(floors[floors.length-1].isPointInside(shockfriendly.shocksl[t]) || floors[floors.length-1].isPointInside(shockfriendly.shocksr[t])){
+                    pmarinedisp-=10
+                    floors[floors.length-1].y+=10000
+                    break
+                }
+            }
+        }else{
+            pmarinedisp -= 9
+        }
+        
+        for(let t = 0;t<shockfriendly.shocksl.length;t++){
+            if(floors[floors.length-2].isPointInside(shockfriendly.shocksl[t]) || floors[floors.length-2].isPointInside(shockfriendly.shocksr[t])){
+                if(pmarinedisp!=0){
+
+                    jailswitch = 1
+                }
+            }
+        }
+        
+        if(floors[floors.length-2].isPointInside(pomao.tongue) || floors[floors.length-2].isPointInside(pomao.tongue)){
+            if(pmarinedisp!=0){
+            jailswitch = 1
+            }
+        }
+        door.draw()
+        if(door.isPointInside(pomao.body)){
+            loadlvl4()
+            pmarinedisp = 0
+        }
+        }
+        if(level == 4){
+            
+          
+            let prisoner3height = 68+(Math.sin(((pomao.timeloop*.6)+3.14))*.8)
+            
+            tutorial_canvas_context.drawImage(prisoner3img, 0,0,prisoner3img.width,prisoner3img.height, 213,-3456-(Math.sin(((pomao.timeloop*.6)+3.14))*.8), 70,prisoner3height)
+            floors.splice(0,floors.length)
+            for(let t = 0;t<floormpf.length;t++){
+                    floors.push(floormpf[t])
+            }
+            for(let t = 0;t<spinnys.length;t++){
+                spinnys[t].draw()
+            }
+            
+            door.draw()
+            
+            if(door.isPointInside(pomao.body)){
+                loadlvl5()
+            }
+        }
+
+        if(level == 5){
+            
+            door.draw()
+            if(door.isPointInside(pomao.body)){
+                loadlvl6()
+            }
+        }
+
+       
     
     if(level == 1  || level == 5){
         for(let t = 0; t<ramps.length; t++){
@@ -4804,6 +4991,10 @@ for(let t = 0; t<floors.length; t++){
     //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
     for(let t = 0; t<pomao.eggs.length; t++){
         pomao.eggs[t].draw()
+    }
+
+    for(let t = 0; t<pomao.thrown.length; t++){
+        pomao.thrown[t].draw()
     }
 
     
@@ -9236,197 +9427,6 @@ window.setInterval(function(){
              
         drawFractal()   
 
-        if(level == 1){
-            tutorial_canvas_context.fillStyle = "black";
-            tutorial_canvas_context.font = `${30}px Arial`;
-            // tutorial_canvas_context.fillText("M to throw eggs", 0,350)
-            // tutorial_canvas_context.fillText("<- W to jump", 300,350)
-            // tutorial_canvas_context.fillText("Space to lick", 310,290)
-            // tutorial_canvas_context.fillText("^ hold W to hover", -400,350)
-            // tutorial_canvas_context.fillText("Lick down in air (K+space) to pogo ->", -400,-120)
-            // tutorial_canvas_context.fillText("Lick diagonally (K+L/J+space) before you touch the floor to gain speed ->", 800,-120)
-            // tutorial_canvas_context.fillText("Hold S to pass down through thin floors     vvv", 2100,-120)
-            // tutorial_canvas_context.fillText("You made it! ->", 2900,500)
-            // tutorial_canvas_context.fillText(" Press N to Ground pound", 2600,220)
-            // tutorial_canvas_context.fillText(" Pomao can swim >^", 3200, -500)
-            // tutorial_canvas_context.fillText("Cancel your grappling momentum by tapping A/D ^", 3450, 500)
-            // tutorial_canvas_context.fillText("You can go up through thin floors ^", 3880, 420) 
-            // tutorial_canvas_context.fillText("pull yourself up with your tongue 'I' ^", 3880, 450)
-            // tutorial_canvas_context.fillText("Canceling momentum can help you climb walls! ^", 3800, 180)
-            // tutorial_canvas_context.fillText("Put an egg in the switch with M", 4050, -700)
-            // tutorial_canvas_context.fillText("Nice!", 4050, -770)
-            // tutorial_canvas_context.fillText("Beware the cave of the beast!", 11000, 500)
-            // tutorial_canvas_context.fillText("<= <= <=", 12800, 500)
-            // tutorial_canvas_context.fillText("Can't grapple ice!", 4300+(14*530),-5100-(14*150))
-            // tutorial_canvas_context.fillText("Try to pogo, then flutter up", 4300+(14*530),-5100-(14*148))
-            door.draw()
-            if(door.isPointInside(pomao.body)){
-                loadlvl2()
-                pmarinedisp = 0
-            }
-        }
-        if(level == 2){
-            if(chats[1].active > 0){
-                if(chats[1].complete == 0){
-                    pomao.disabled = 1
-                    pomao.cutscene = 1
-                    chats[0].words = ["talk"]
-                    chats[0].words.push("Pomao, would you mind cleaning the fruits out of the back yard?")
-                }else{
-                    pomao.cutscene = 0
-                    pomao.disabled = 0
-                }
-            }
-            if(fruits.length == 0){
-                
-                chats[2].body.x = pomao.body.x
-                chats[2].body.y = pomao.body.y
-                pomao.cutscene = 1
-                if(pmarinedisp == 0){
-                    chats[2].active = 1
-                    chats[2].body.x = pomao.body.x
-                    chats[2].body.y = pomao.body.y
-                }
-                if(pomao.body.x+50 > pmarinedisp+5500){
-                    chats[2].body.x = pomao.body.x
-                    chats[2].body.y = pomao.body.y
-                    // chats[2].active = 1
-                }else{
-                    pmarinedisp-=9
-                }
-            }
-            if(chats[2].complete == 1){
-                pmarinedisp = 0
-                loadlvl3()
-            }
-
-            
-        let momheight = 70+(Math.sin(((pomao.timeloop*1.3)+3.14))*1.7)
-        tutorial_canvas_context.drawImage(pomomimg, 0,0,pomomimg.width,pomomimg.height, 500,-590-(Math.sin(((pomao.timeloop*1.3)+3.14))*1.9), 70,momheight)
-      
-        let pawheight = 70+(Math.sin(((pomao.timeloop*.75)+3.14))*2)
-        tutorial_canvas_context.drawImage(pawmaoimg, 0,0,pawmaoimg.width,pawmaoimg.height, 2500,-3040-(Math.sin(((pomao.timeloop*.75)+3.14))*1.9), 70,pawheight)
-      
-        let jawheight = 70+(Math.sin(((pomao.timeloop*1.75)+3.14))*2)
-        if(pomao.body.x < 1260){
-            tutorial_canvas_context.drawImage(jomaoimgl, 0,0,pawmaoimg.width,pawmaoimg.height,1225,-1070-(Math.sin(((pomao.timeloop*1.75)+3.14))*1.9), 70,jawheight)
-
-        }else{
-            
-        tutorial_canvas_context.drawImage(jomaoimg, 0,0,pawmaoimg.width,pawmaoimg.height,1225,-1070-(Math.sin(((pomao.timeloop*1.75)+3.14))*1.9), 70,jawheight)
-        }
-
-
-
-        tutorial_canvas_context.drawImage(pomarinel, 0,0,pomarine.width,pomarine.height, 5500+pmarinedisp,-35, 70,70)
-        
-        }
-        if(level == 3){
-            
-
-            tutorial_canvas_context.drawImage(propimg, 0,0,propimg.width,propimg.height,500, -400, propimg.width/2,propimg.height/2)
-        
-        tutorial_canvas_context.drawImage(pomarinel, 0,0,pomarine.width,pomarine.height, 4500-pmarinedisp,-35+pmarinedisp, 70,70)
-        if(jailswitch == 0){
-
-            let momheight = 70+(Math.sin(((pomao.timeloop*1.3)+3.14))*1.7)
-            tutorial_canvas_context.drawImage(prisoner1img, 0,0,prisoner1img.width,prisoner1img.height, 200,-35-(Math.sin(((pomao.timeloop*1.3)+3.14))*1.9), 70,momheight)
-          
-            let pawheight = 70+(Math.sin(((pomao.timeloop*.75)+3.14))*2)
-            tutorial_canvas_context.drawImage(prisoner2img, 0,0,prisoner2img.width,prisoner2img.height, 600,-35-(Math.sin(((pomao.timeloop*.75)+3.14))*1.9), 70,pawheight)
-          
-            let prisoner3height = 68+(Math.sin(((pomao.timeloop*.6)+3.14))*.8)
-            tutorial_canvas_context.drawImage(prisoner3img, 0,0,prisoner3img.width,prisoner3img.height, 900,-34-(Math.sin(((pomao.timeloop*.6)+3.14))*.8), 70,prisoner3height)
-    
-            tutorial_canvas_context.drawImage(jailswitchimgl, 0,0,jailswitchimgl.width,jailswitchimgl.height, 4800,-95, 128,128)
-        }else{
-            chats = []
-
-
-            for(let t = 0;t<floors.length;t++){
-                if(invisblocks.includes(floors[t])){
-                    floors.splice(t,1)
-                }
-            }
-            for(let t = 0;t<walls.length;t++){
-                if(invisblocks.includes(walls[t])){
-                    walls.splice(t,1)
-                }
-            }
-            for(let t = 0;t<roofs.length;t++){
-                if(invisblocks.includes(roofs[t])){
-                    roofs.splice(t,1)
-                }
-            }
-
-
-
-        tutorial_canvas_context.drawImage(jailswitchimg, 0,0,jailswitchimg.width,jailswitchimg.height, 4800,-95, 128,128)
-        floors[0].y+=10000
-        }
-
-        if(pmarinedisp == 0){
-            for(let t = 0;t<shockfriendly.shocksl.length;t++){
-                if(floors[floors.length-1].isPointInside(shockfriendly.shocksl[t]) || floors[floors.length-1].isPointInside(shockfriendly.shocksr[t])){
-                    pmarinedisp-=10
-                    floors[floors.length-1].y+=10000
-                    break
-                }
-            }
-        }else{
-            pmarinedisp -= 9
-        }
-        
-        for(let t = 0;t<shockfriendly.shocksl.length;t++){
-            if(floors[floors.length-2].isPointInside(shockfriendly.shocksl[t]) || floors[floors.length-2].isPointInside(shockfriendly.shocksr[t])){
-                if(pmarinedisp!=0){
-
-                    jailswitch = 1
-                }
-            }
-        }
-        
-        if(floors[floors.length-2].isPointInside(pomao.tongue) || floors[floors.length-2].isPointInside(pomao.tongue)){
-            if(pmarinedisp!=0){
-            jailswitch = 1
-            }
-        }
-        door.draw()
-        if(door.isPointInside(pomao.body)){
-            loadlvl4()
-            pmarinedisp = 0
-        }
-        }
-        if(level == 4){
-            
-          
-            let prisoner3height = 68+(Math.sin(((pomao.timeloop*.6)+3.14))*.8)
-            
-            tutorial_canvas_context.drawImage(prisoner3img, 0,0,prisoner3img.width,prisoner3img.height, 213,-3456-(Math.sin(((pomao.timeloop*.6)+3.14))*.8), 70,prisoner3height)
-            floors.splice(0,floors.length)
-            for(let t = 0;t<floormpf.length;t++){
-                    floors.push(floormpf[t])
-            }
-            for(let t = 0;t<spinnys.length;t++){
-                spinnys[t].draw()
-            }
-            
-            door.draw()
-            
-            if(door.isPointInside(pomao.body)){
-                loadlvl5()
-            }
-        }
-
-        if(level == 5){
-            
-            door.draw()
-            if(door.isPointInside(pomao.body)){
-                loadlvl6()
-            }
-        }
-
-       
         // swinger1move()
         pomao.draw()   
         
