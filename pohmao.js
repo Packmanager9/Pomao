@@ -12066,7 +12066,7 @@ for(let t = 0;t<60;t++){
 }
 
 for(let t = 0;t<30;t++){
-    const waggler = new Waggler(200+(200*t), -5200)
+    const waggler = new Waggler(250+(200*t), -5200)
     worms.push(waggler)
 }
 
