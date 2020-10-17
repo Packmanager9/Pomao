@@ -9002,6 +9002,223 @@ class Worm{
             }
         }
 
+        class Bossspringhand{
+            constructor(x,y, body = 0, anchor = 0){
+                if(body == 0){
+                    this.body = new Bosscircle(x,y,2,"red")
+                }else{
+                    this.body = body
+                }
+                if(anchor == 0){
+                    this.anchor = new Bosscircle(x+1,y+1,2,"red")
+                }else{
+                    this.anchor = anchor
+                }
+                this.length = 3
+        
+            }
+            balance(){
+        
+                let xmomavg = (this.body.sxmom+this.anchor.sxmom)*.5
+                let ymomavg = (this.body.symom+this.anchor.symom)*.5
+        
+                this.body.sxmom = (this.body.sxmom + xmomavg)*.5
+                this.body.symom = (this.body.symom + ymomavg)*.5
+        
+                this.anchor.sxmom = (this.anchor.sxmom + xmomavg)*.5
+                this.anchor.symom = (this.anchor.symom + ymomavg)*.5
+        
+                let link = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "white", 4)
+        
+                
+                let xvec = this.body.x-this.anchor.x
+                let yvec = this.body.y-this.anchor.y
+        
+                for(let t = 0; (Math.abs(xvec)+Math.abs(yvec)) > .5; t++){
+                    xvec*=.99
+                    yvec*=.99
+                    if(t>1000){
+                        break
+                    }
+                }
+        
+                for(let t = 0; (Math.abs(xvec)+Math.abs(yvec)) < .5; t++){
+                    xvec*= 1.01
+                    yvec*= 1.01
+                    if(t>1000){
+                        break
+                    }
+                }
+        
+                if(link.hypotenuse() < this.length-5 ){
+                    this.body.sxmom += xvec
+                    this.body.symom += yvec
+                    this.anchor.sxmom -= xvec
+                    this.anchor.symom -= yvec
+        
+        
+                }else  if(link.hypotenuse() > this.length+5 ){
+        
+                    this.body.sxmom -= xvec
+                    this.body.symom -= yvec
+                    this.anchor.sxmom += xvec
+                    this.anchor.symom += yvec
+        
+                }else{
+                    this.body.sxmom*=.99
+                    this.body.symom*=.99
+                    this.anchor.sxmom*=.99
+                    this.anchor.symom*=.99
+                }
+        
+                if(this.body != starboss.start){
+                    this.body.smove()
+                    }
+                    if(this.anchor != starboss.start){
+                        this.anchor.smove()
+                    }
+            }
+            draw(){
+                
+                this.balance()
+                let link = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "white", 1)
+        
+                link.draw()
+                this.body.draw()
+                if(this.body != starboss.start){
+                    this.body.move()
+        
+                }
+                this.anchor.draw()
+            }
+        }
+    
+        
+        
+class Finger{
+    constructor(center){
+        this.center = center
+
+        this.dis = 50
+        this.dis2 = 50
+        this.angle = Math.PI/4
+        this.angle2 = Math.PI/6
+
+        this.tip1 = new Bosscircle(0,0,10,"yellow")
+
+        this.tip2 = new Bosscircle(0,0,10,"orange")
+        this.tip12 = new Bosscircle(0,0,10,"yellow")
+
+        this.tip22 = new Bosscircle(0,0,10,"orange")
+
+        this.link1 = new Line(this.tip1.x, this.tip1.y, this.center.x, this.center.y, "red", 3)
+        this.link2 = new Line(this.tip2.x, this.tip2.y, this.center.x, this.center.y, "red", 3)
+        this.link12 = new Line(this.tip1.x, this.tip1.y, this.tip12.x, this.tip12.y, "red", 3)
+        this.link22 = new Line(this.tip2.x, this.tip2.y, this.tip22.x, this.tip22.y, "red", 3)
+        this.tip12 =  new Bosscircle(this.tip1.x+(Math.sin(0+this.angle2)*this.dis2),this.tip1.y+(Math.cos(0+this.angle2)*this.dis2),10,"purple")
+        this.tip22 =  new Bosscircle(this.tip2.x+(Math.sin(0-this.angle2)*this.dis2),this.tip2.y+(Math.cos(0-this.angle2)*this.dis2),10,"pink")
+    }
+
+    draw(){
+
+        this.tip1 =  new Bosscircle(this.center.x+(Math.sin(0+this.angle)*this.dis),this.center.y+(Math.cos(0+this.angle)*this.dis),10,"yellow")
+        this.tip2 =  new Bosscircle(this.center.x+(Math.sin(0-this.angle)*this.dis),this.center.y+(Math.cos(0-this.angle)*this.dis),10,"orange")
+
+        this.tip12 =  new Bosscircle(this.tip1.x+(Math.sin(0-this.angle2)*this.dis2),this.tip1.y+(Math.cos(0-this.angle2)*this.dis2),10,"purple")
+        this.tip22 =  new Bosscircle(this.tip2.x+(Math.sin(0+this.angle2)*this.dis2),this.tip2.y+(Math.cos(0+this.angle2)*this.dis2),10,"pink")
+
+
+        this.link1 = new Line(this.tip1.x, this.tip1.y, this.center.x, this.center.y, "red", 3)
+        this.link2 = new Line(this.tip2.x, this.tip2.y, this.center.x, this.center.y, "red", 3)
+        this.link12 = new Line(this.tip1.x, this.tip1.y, this.tip12.x, this.tip12.y, "red", 3)
+        this.link22 = new Line(this.tip2.x, this.tip2.y, this.tip22.x, this.tip22.y, "red", 3)
+        this.link1.draw()
+        this.link2.draw()
+        this.link12.draw()
+        this.link22.draw()
+        this.tip1.draw()
+        this.tip2.draw()
+        this.tip12.draw()
+        this.tip22.draw()
+
+
+    }
+}
+
+class Arm{
+    constructor(x, y){
+
+        this.start = new Bosscircle(350,0, 2, "yellow")
+        this.end = new Bosscircle(350,350, 2, "purple")
+        this.segments = []
+
+        this.size = 20
+        
+        let spring = new Bossspringhand(350,350, this.start, this.end)
+        this.segments.push(spring)
+        let spraing
+        for(let t = 0;t<this.size; t++){
+            if(t == 0){
+                spraing = new Bossspringhand(350,350,0, spring.body)
+                spraing.body.color = "teal"
+                this.segments.push(spraing)
+            }else{
+                spraing = new Bossspringhand(350,350,0, spraing.body)
+                 spraing.body.color = "gray"
+                this.segments.push(spraing)
+            }
+        }
+
+        
+        this.joint = this.segments[this.segments.length-1].body
+
+
+        // this.grip = []
+
+        this.hand1 = new Finger(this.joint)
+
+        
+
+    }
+    draw(){
+        for(let t = 0;t<this.segments.length;t++){
+            this.segments[t].anchor.ymom+=.01
+            this.start.sxmom = 0
+            this.start.symom = 0
+            this.segments[t].draw()
+            this.start.sxmom = 0
+            this.start.symom = 0
+        }
+        this.hand1.draw()
+        this.joint.draw()
+
+        if(keysPressed['y']){
+            this.hand1.angle += .05
+            this.hand1.angle2 -= .05
+        }
+
+        if(keysPressed['u']){
+            this.hand1.angle -= .05
+            this.hand1.angle2 += .05
+        }
+
+        if(keysPressed['w']){
+            this.hand1.center.y -=1
+        }
+        if(keysPressed['a']){
+            this.hand1.center.x -=1
+        }
+        if(keysPressed['s']){
+            this.hand1.center.y +=1
+        }
+        if(keysPressed['d']){
+            this.hand1.center.x +=1
+        }
+    }
+}
+
+
+
         class Starboss{
             constructor(){
                 this.links = []
