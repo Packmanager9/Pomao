@@ -651,6 +651,8 @@ tutorialholo.chat.words.push("Ok, great, use WASD to move, W can jump, hold it t
     move(){
         this.x += this.xmom
         this.y += this.ymom
+        this.ymom*=.98
+        this.xmom*=.98
     }
     smove(){
         this.x += this.sxmom
