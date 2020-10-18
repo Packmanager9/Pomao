@@ -3534,7 +3534,7 @@ class Rectangle {
     }
     move(){
         this.x+=this.xmom
-        this.xmom *= .97
+        this.xmom *= .97 // why is this here?
         this.y+=this.ymom
     }
     ymove(){
