@@ -12335,7 +12335,7 @@ for(let t = 0;t<14;t++){
 }
 
 
-for(let t = 0;t<18;t++){
+for(let t = 0;t<19;t++){
     const step = new FloatingIsland(-1200+t*200, -5050-t*50,50, .02, 1.4)
     // floors.push(step)
     // walls.push(step)
@@ -12352,4 +12352,8 @@ spinnys.push(spinny)
 
 }
     
+
+
+// const worm = new Worm(300+Math.random()*5000,-1250+Math.random()*2000)
+// console.log(JSON.stringify(worm))
 })
