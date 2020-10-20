@@ -12347,7 +12347,7 @@ for(let t = 0;t<19;t++){
 
 floormpf = [...floors]
 
-spinny = new SeeSaw(-1200, -300)
+spinny = new SeeSaw(-1200, -301)
 spinnys.push(spinny)
 
 }
