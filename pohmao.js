@@ -2297,6 +2297,8 @@ class Swimmer{
     if(this.marked == 1){
         this.body.x  -= ((this.body.x-pomao.tongue.x)/1)+(this.anchor.xdif*.9)
         this.body.y -= ((this.body.y-pomao.tongue.y)/1)+(this.anchor.ydif*.9)
+        this.anchor.xdif *= .97
+        this.anchor.ydif *= .97
     }
     if(this.marked == 2){
       this.body.x  -= ((this.body.x-pomao.body.x)/1.1)
@@ -2733,6 +2735,8 @@ class Boys {
         this.x  -= ((this.bodyx.x-pomao.tongue.x)/1)+(this.anchor.xdif*.9)
         this.y -= (((this.bodyx.y-pomao.tongue.y)/1)+(this.anchor.ydif*.9))+10
         // pomao.diry = 1
+        this.anchor.xdif *= .97
+        this.anchor.ydif *= .97
 
       }
       if(this.marked == 2){
@@ -12347,7 +12351,7 @@ for(let t = 0;t<19;t++){
 
 floormpf = [...floors]
 
-spinny = new SeeSaw(-1200, -302)
+spinny = new SeeSaw(-1200, -301)
 spinnys.push(spinny)
 
 }
