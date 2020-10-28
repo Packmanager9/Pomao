@@ -4904,6 +4904,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
 
             for (let t = 0; t < floors.length; t++) {
+
+                //add a thing that makes the floors only get drawn if they are in the screen
                 if (invisblocks.includes(floors[t])) {
 
                 } else {
@@ -12350,7 +12352,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         floormpf = [...floors]
 
-        spinny = new SeeSaw(-1200, -302)
+        spinny = new SeeSaw(-1200, -301)
         spinnys.push(spinny)
 
     }
