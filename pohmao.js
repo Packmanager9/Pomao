@@ -27,7 +27,7 @@ for (let i = 9; i < 12; i++) {
 
 window.addEventListener('DOMContentLoaded', (event) => {
 
-
+    // var encoder = new Whammy.Video(60); 
     const gamepadAPI = {
         controller: {},
         turbo: true,
@@ -366,6 +366,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const pomaoimg = new Image()
     pomaoimg.src = 'pomao.png'
+    // const pomaoimgx = new Image()
+    // pomaoimgx.src = 'pomaoimgx.png'
 
 
     const pomaoimgg = new Image()
@@ -550,6 +552,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tip.body = tip
 
         console.log(pomao)
+        // encoder.compile()
 
 
         if (pomao.paused == 10) {
@@ -9896,6 +9899,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     ungrapplable[t].draw()
             // }
             // swinger1move()
+            // encoder.add(tutorial_canvas_context)
         }, 14)
 
     }, 6969);  //6969
@@ -12347,6 +12351,34 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // walls.push(step)
 
         }
+
+
+        for (let t = 0; t < 900; t++) {
+            const fruit = new Fruit(-2100 + (Math.random() * (11600 + 2100)), -5000 + (Math.random() * 5000), 60, 60, "red")
+            let wet = 0
+            for (let s = 0; s < floors.length; s++) {
+                if (squarecircleedges(floors[s], fruit.body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < ramps.length; k++) {
+                if (ramps[k].isPointInside(fruit.body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
 
 
 
