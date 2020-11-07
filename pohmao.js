@@ -5057,8 +5057,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (level == 1) {
                 if (boss.body1.x > pomao.body.x - ((tutorial_canvas.width * 3) + boss.body1.radius) && boss.body1.x < pomao.body.x + ((tutorial_canvas.width * 3) + boss.body1.radius)) {
                     if (boss.body1.y > pomao.body.y - ((tutorial_canvas.height * 3) + boss.body1.radius) && boss.body1.y < pomao.body.y + ((tutorial_canvas.height * 3) + boss.body1.radius)) {
-                        boss.draw()
+                        boss.fight = 1
                     }
+                }
+                if(boss.fight == 1){
+                    boss.draw()
                 }
             }
             if (level == 4) {
@@ -6463,6 +6466,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class Bossbeam {
         constructor() {
             this.wall1 = new Rectangle(4700, -800, 1500, 50, "red")
+            this.fight = 0
             this.cleared = 0
             floors.push(this.wall1)
             walls.push(this.wall1)
