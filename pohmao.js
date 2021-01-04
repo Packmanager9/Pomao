@@ -318,7 +318,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // pomaoflbhg.src = 'pomaofbhlg.png'
 
     const pomaoflh = new Image()
-    pomaoflh.src = 'pomaoflh.png'
+    pomaoflh.src = 'newpomaohfl.png'
 
     const pomaoflhg = new Image()
     pomaoflhg.src = 'pomaoflhg.png'
@@ -379,13 +379,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
     pomaoimggl.src = 'pomaogl.png'
 
     const pomaofh = new Image()
-    pomaofh.src = 'pomaofh.png'
+    pomaofh.src = 'newpomaohf.png'
 
     // const pomaofhg = new Image()
     // pomaofhg.src = 'pomaofhg.png'
 
     const pomaoimgh = new Image()
-    pomaoimgh.src = 'pomaoh.png'
+    pomaoimgh.src = 'newpomaoh.png'
     // const pomaoimghg = new Image()
     // pomaoimghg.src = 'pomaohg.png'
 
@@ -399,7 +399,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // pomaoimghbg.src = 'pomaohbg.png'
 
     const pomaoimglh = new Image()
-    pomaoimglh.src = 'pomaolh.png'
+    pomaoimglh.src = 'newpomaolh.png'
     const pomaoimglhg = new Image()
     pomaoimglhg.src = 'pomaolhg.png'
     const pomaoimgb = new Image()
@@ -425,11 +425,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // mangosteen.src = 'Fruit 03 - Mangosteen.png'
 
     const pomaoimgup = new Image()
-    pomaoimgup.src = 'pomaoup.png'
+    pomaoimgup.src = 'newpomaoup.png'
     const pomaoimgupg = new Image()
     pomaoimgupg.src = 'pomaoupg.png'
     const pomaoimglup = new Image()
-    pomaoimglup.src = 'pomaoupl.png'
+    pomaoimglup.src = 'newpomaoupl.png'
     const pomaoimglupg = new Image()
     pomaoimglupg.src = 'pomaouplg.png'
 
