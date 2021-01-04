@@ -367,7 +367,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     pomarinel.src = 'pomarinel.png'
 
     const pomaoimg = new Image()
-    pomaoimg.src = 'pomao.png'
+    pomaoimg.src = 'rcpomaolp.png'
     // const pomaoimgx = new Image()
     // pomaoimgx.src = 'pomaoimgx.png'
 
@@ -414,7 +414,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const seedeggfl = new Image()
     seedeggfl.src = 'eggfl.png'
     const pomaoimgl = new Image()
-    pomaoimgl.src = 'pomaol.png'
+    pomaoimgl.src = 'rcpomaolpl.png'
     const pomaoimglg = new Image()
     pomaoimglg.src = 'pomaolg.png'
     const pomaoimgbl = new Image()
@@ -442,11 +442,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const pomaoimglupbg = new Image()
     pomaoimglupbg.src = 'pomaoupblg.png'
     const pomaof = new Image()
-    pomaof.src = 'pomaof.png'
+    pomaof.src = 'pomaofpaint.png'
     const pomaofg = new Image()
     pomaofg.src = 'pomaofg.png'
     const pomaofl = new Image()
-    pomaofl.src = 'pomaofl.png'
+    pomaofl.src = 'pomaofpaintl.png'
     const pomaoflg = new Image()
     pomaoflg.src = 'pomaoflg.png'
     const pomaofb = new Image()
@@ -5289,7 +5289,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                             } else {
                                 if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaofl, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    tutorial_canvas_context.drawImage(pomaofl, (pomaofl.width / 3 * this.flap), 0, pomaofl.width / 3, pomaofl.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 } else {
                                     tutorial_canvas_context.drawImage(pomaoimgl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 }
@@ -5297,13 +5297,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else {
                             if (this.dir == 1) {
                                 if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaofh, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    tutorial_canvas_context.drawImage(pomaofh, (pomaofh.width / 3 * this.flap), 0, pomaofh.width / 3, pomaofh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 } else {
                                     tutorial_canvas_context.drawImage(pomaoimgh, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 }
                             } else {
                                 if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaoflh, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    tutorial_canvas_context.drawImage(pomaoflh, (pomaoflh.width / 3 * this.flap), 0, pomaoflh.width / 3, pomaoflh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 } else {
                                     tutorial_canvas_context.drawImage(pomaoimglh, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 }
@@ -5313,13 +5313,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if (this.disabled == 0) {
                             if (this.dir == 1) {
                                 if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaofb, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    tutorial_canvas_context.drawImage(pomaofb, (pomaofb.width / 3 * this.flap), 0, pomaofb.width / 3, pomaofb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 } else {
                                     tutorial_canvas_context.drawImage(pomaoimgb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 }
                             } else {
                                 if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaoflb, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    tutorial_canvas_context.drawImage(pomaoflb, (pomaoflb.width / 3 * this.flap), 0, pomaoflb.width / 3, pomaoflb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 } else {
                                     tutorial_canvas_context.drawImage(pomaoimgbl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 }
@@ -5328,13 +5328,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                             if (this.dir == 1) {
                                 if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaofbh, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    tutorial_canvas_context.drawImage(pomaofbh, (pomaofbh.width / 3 * this.flap), 0, pomaofbh.width / 3, pomaofbh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 } else {
                                     tutorial_canvas_context.drawImage(pomaoimglhb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 }
                             } else {
                                 if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaoflbh, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    tutorial_canvas_context.drawImage(pomaoflbh, (pomaoflbh.width / 3 * this.flap), 0, pomaoflbh.width / 3, pomaoflbh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 } else {
                                     tutorial_canvas_context.drawImage(pomaoimghb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 }
@@ -5347,7 +5347,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if (this.dir == 1) {
 
                             if (this.hng !== 0) {
-                                tutorial_canvas_context.drawImage(pomaospitf, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                tutorial_canvas_context.drawImage(pomaospitf, (pomaospitf.width / 3 * this.flap), 0, pomaospitf.width / 3, pomaospitf.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
 
                             } else {
 
@@ -5356,7 +5356,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else {
 
                             if (this.hng !== 0) {
-                                tutorial_canvas_context.drawImage(pomaospitfl, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                tutorial_canvas_context.drawImage(pomaospitfl, (pomaospitfl.width / 3 * this.flap), 0, pomaospitfl.width / 3, pomaospitfl.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                             } else {
                                 tutorial_canvas_context.drawImage(pomaospitl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
 
@@ -5366,7 +5366,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if (this.dir == 1) {
 
                             if (this.hng !== 0) {
-                                tutorial_canvas_context.drawImage(pomaospitfb, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                tutorial_canvas_context.drawImage(pomaospitfb, (pomaospitfb.width / 3 * this.flap), 0, pomaospitfb.width / 3, pomaospitfb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
 
                             } else {
 
@@ -5375,7 +5375,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else {
 
                             if (this.hng !== 0) {
-                                tutorial_canvas_context.drawImage(pomaospitflb, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                tutorial_canvas_context.drawImage(pomaospitflb, (pomaospitflb.width / 3 * this.flap), 0, pomaospitflb.width / 3, pomaospitflb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                             } else {
                                 tutorial_canvas_context.drawImage(pomaospitlb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
 
