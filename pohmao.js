@@ -260,59 +260,59 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // jumpometer.src = 'jumpometer.png'
 
     const pomaospit = new Image()
-    pomaospit.src = 'pomaospit.png'
+    pomaospit.src = 'newpomaospit.png'
 
     // const pomaospitg= new Image()
     // pomaospitg.src = 'pomaospitg.png'
 
     const pomaospitb = new Image()
-    pomaospitb.src = 'pomaospitb.png'
+    pomaospitb.src = 'newspitb.png'
 
     // const pomaospitbg = new Image()
     // pomaospitbg.src = 'pomaospitbg.png'
 
     const pomaospitl = new Image()
-    pomaospitl.src = 'pomaospitl.png'
+    pomaospitl.src = 'newpomaospitl.png'
     // const pomaospitlg = new Image()
     // pomaospitlg.src = 'pomaospitlg.png'
     const pomaospitlb = new Image()
-    pomaospitlb.src = 'pomaospitbl.png'
+    pomaospitlb.src = 'newspitbl.png'
     // const pomaospitlbg = new Image()
     // pomaospitlbg.src = 'pomaospitblg.png'
 
     const pomaospitf = new Image()
-    pomaospitf.src = 'pomaospitf.png'
+    pomaospitf.src = 'newpomaospitflap.png'
 
     // const pomaospitfg = new Image()
     // pomaospitfg.src = 'pomaospitfg.png'
 
     const pomaospitfb = new Image()
-    pomaospitfb.src = 'pomaospitfb.png'
+    pomaospitfb.src = 'blushflapspitblush.png'
 
     // const pomaospitfbg = new Image()
     // pomaospitfbg.src = 'pomaospitfbg.png'
 
     const pomaospitfl = new Image()
-    pomaospitfl.src = 'pomaospitfl.png'
+    pomaospitfl.src = 'newpomaospitflapl.png'
 
     // const pomaospitflg = new Image()
     // pomaospitflg.src = 'pomaospitflg.png'
 
 
     const pomaospitflb = new Image()
-    pomaospitflb.src = 'pomaospitflb.png'
+    pomaospitflb.src = 'blushflapspitblushl.png'
 
 
     // const pomaospitflbg = new Image()
     // pomaospitflbg.src = 'pomaospitflbg.png'
 
     const pomaoflb = new Image()
-    pomaoflb.src = 'pomaoflb.png'
+    pomaoflb.src = 'pomaoblushflapleft.png'
     // const pomaoflbg = new Image()
     // pomaoflbg.src = 'pomaoflbg.png'
 
     const pomaoflbh = new Image()
-    pomaoflbh.src = 'pomaofbhl.png'
+    pomaoflbh.src = 'newblushsadflapl.png'
 
     // const pomaoflbhg = new Image()
     // pomaoflbhg.src = 'pomaofbhlg.png'
@@ -324,7 +324,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     pomaoflhg.src = 'pomaoflhg.png'
 
     const pomaofbh = new Image()
-    pomaofbh.src = 'pomaofbh.png'
+    pomaofbh.src = 'newblushsadflap.png'
 
     // const pomaofbhg = new Image()
     // pomaofbhg.src = 'pomaofbhg.png'
@@ -390,11 +390,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // pomaoimghg.src = 'pomaohg.png'
 
     const pomaoimglhb = new Image()
-    pomaoimglhb.src = 'pomaolhb.png'
+    pomaoimglhb.src = 'newbh.png'
     // const pomaoimglhbg = new Image()
     // pomaoimglhbg.src = 'pomaolhbg.png'
     const pomaoimghb = new Image()
-    pomaoimghb.src = 'pomaohb.png'
+    pomaoimghb.src = 'newbhl.png'
     // const pomaoimghbg = new Image()
     // pomaoimghbg.src = 'pomaohbg.png'
 
@@ -403,7 +403,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const pomaoimglhg = new Image()
     pomaoimglhg.src = 'pomaolhg.png'
     const pomaoimgb = new Image()
-    pomaoimgb.src = 'pomaob.png'
+    pomaoimgb.src = 'newb.png'
     const pomaoimgbg = new Image()
     pomaoimgbg.src = 'pomaobg.png'
 
@@ -418,7 +418,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const pomaoimglg = new Image()
     pomaoimglg.src = 'pomaolg.png'
     const pomaoimgbl = new Image()
-    pomaoimgbl.src = 'pomaobl.png'
+    pomaoimgbl.src = 'newbl.png'
     const pomaoimgblg = new Image()
     pomaoimgblg.src = 'pomaoblg.png'
     // const mangosteen = new Image()
@@ -434,11 +434,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     pomaoimglupg.src = 'pomaouplg.png'
 
     const pomaoimgupb = new Image()
-    pomaoimgupb.src = 'pomaoupb.png'
+    pomaoimgupb.src = 'eatblush.png'
     const pomaoimgupbg = new Image()
     pomaoimgupbg.src = 'pomaoupbg.png'
     const pomaoimglupb = new Image()
-    pomaoimglupb.src = 'pomaoupbl.png'
+    pomaoimglupb.src = 'eatblushl.png'
     const pomaoimglupbg = new Image()
     pomaoimglupbg.src = 'pomaoupblg.png'
     const pomaof = new Image()
@@ -450,7 +450,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const pomaoflg = new Image()
     pomaoflg.src = 'pomaoflg.png'
     const pomaofb = new Image()
-    pomaofb.src = 'pomaofb.png'
+    pomaofb.src = 'pomaoblushflapright.png'
     const pomaofbg = new Image()
     pomaofbg.src = 'pomaofbg.png'
     const ramp90 = new Image()
@@ -10002,6 +10002,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // }
             // swinger1move()
             // encoder.add(tutorial_canvas_context)
+
         }, 14)
 
     }, 6969);  //6969
@@ -10662,8 +10663,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floors.push(wall3)
         walls.push(wall3)
         roofs.push(wall3)
-        const block = new Rectangle(-1500, 200, 200, 200, "orange")
-        const block2 = new Rectangle(2200, 200, 200, 200, "orange")
+        const block = new Rectangle(-1500, 200, 60, 60, "orange")
+        const block2 = new Rectangle(2200, 200, 60, 60, "orange")
         const nail = new Rectangle(-1950, 200, 200, 200, "orange")
         nails.push(nail)
         const floor2 = new Rectangle(-100, 500, 20, 550, "red")
@@ -10681,10 +10682,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         blocks.push(block)
         floors.push(block2)
         walls.push(block2)
+        blocks.push(block2)
         floors.push(nail)
         // walls.push(nail)
         blocks.push(nail)
-        blocks.push(block2)
         const buttonswitch = new Switchfloor(4500, -640, 4500 - 2000, -800, 50, 2050)
         const lvl1buttonswitch = new Switchfloor(6500, -3540, 9800, -3540, 50, 1300)
         const lvl1buttonswitch1 = new Switchfloor(4080, -2540, 4200, -4150, 50, 380)
