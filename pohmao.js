@@ -4985,7 +4985,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             const heightt = sheetheightt / rowst
                                             const srcxt = Math.floor(floors[t].timer % colst) * widtht
                                             const srcyt = 0
-        
+
                                             tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }
                                     }
@@ -5030,7 +5030,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         const heightt = sheetheightt / rowst
                                         const srcxt = Math.floor(floors[t].timer % colst) * widtht
                                         const srcyt = 0
-    
+
                                         tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }
                                 }
@@ -9756,8 +9756,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
                 }
                 if (pomao.hits > -1) {
-                    if(level == 1){
-                        tutorial_canvas_context.drawImage(paintedbackground,pomao.body.x-640,pomao.body.y-360)
+                    if (level == 1) {
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                     }
                     // tutorial_canvas_context.drawImage(jumpometer, 0, 0, 10, 1000, -2200, -350, 10, 1000)
 
@@ -9901,8 +9901,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     fracta2l.draw()
                     fracta3l.draw()
                     //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
-
-
 
                     // fracta4l.draw()
                     loader = 1000
@@ -12556,8 +12554,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // boss = new Bossbeam()
 
 
-        for(let t = 0;t<100;t++){
-            const floor = new Rectangle(-12000+(333*t), 33, 333, 333)
+        for (let t = 0; t < 100; t++) {
+            const floor = new Rectangle(-12000 + (333 * t), 33, 333, 333)
             floors.push(floor)
             walls.push(floor)
             roofs.push(floor)
