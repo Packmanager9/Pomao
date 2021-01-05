@@ -366,6 +366,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const pomarinel = new Image()
     pomarinel.src = 'pomarinel.png'
 
+
+    const paintedbackground = new Image()
+    paintedbackground.src = 'bg5.png'
+
     const pomaoimg = new Image()
     pomaoimg.src = 'rcpomaolp.png'
     // const pomaoimgx = new Image()
@@ -9752,6 +9756,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
                 }
                 if (pomao.hits > -1) {
+                    if(level == 1){
+                        tutorial_canvas_context.drawImage(paintedbackground,pomao.body.x-640,pomao.body.y-360)
+                    }
                     // tutorial_canvas_context.drawImage(jumpometer, 0, 0, 10, 1000, -2200, -350, 10, 1000)
 
                     drawFractal()
