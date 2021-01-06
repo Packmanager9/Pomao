@@ -21,8 +21,11 @@ for (let t = 42; t > 0; t--) {
 // //console.log(zimgs)
 
 const rimgs = []
-for (let i = 9; i < 12; i++) {
-    rimgs.push(Object.assign(new Image(), { 'src': `r${i}.png` }));
+// for (let i = 9; i < 12; i++) {
+//     rimgs.push(Object.assign(new Image(), { 'src': `r${i}.png` }));
+// }
+for (let i = 1; i < 4; i++) {
+    rimgs.push(Object.assign(new Image(), { 'src': `targoy${i}.png` }));
 }
 
 window.addEventListener('DOMContentLoaded', (event) => {
@@ -2414,7 +2417,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.move()
                 this.bodydraw = new Circlec(this.body.x, this.body.y, this.body.radius + 7, "#AA00DD")
                 this.bodydrawhuge = new Circlec(this.body.x, this.body.y, this.body.radius + 17, "#AA00DD")
-                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, 48, 48, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 48 * (this.body.radius * .06666666666), 48 * (this.body.radius * .06666666666))
+                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0,  rimgs[0].width,  rimgs[0].height, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 48 * (this.body.radius * .06666666666), 48 * (this.body.radius * .06666666666))
 
             }
         }
@@ -6693,7 +6696,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
                 for (let t = 0; t < this.beams.length; t++) {
-                    tutorial_canvas_context.drawImage(rimgs[0], 0, 0, 48, 48, this.beams[t].x - (24 * (this.beams[t].radius * .06666666666)), this.beams[t].y - (24 * (this.beams[t].radius * .06666666666)), 48 * (this.beams[t].radius * .06666666666), 48 * (this.beams[t].radius * .06666666666))
+                    tutorial_canvas_context.drawImage(rimgs[0], 0, 0, rimgs[0].width,  rimgs[0].height, this.beams[t].x - (24 * (this.beams[t].radius * .06666666666)), this.beams[t].y - (24 * (this.beams[t].radius * .06666666666)), 48 * (this.beams[t].radius * .06666666666), 48 * (this.beams[t].radius * .06666666666))
 
                 }
 
@@ -6740,7 +6743,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             } else {
 
                 for (let t = 0; t < this.beams.length; t++) {
-                    tutorial_canvas_context.drawImage(rimgs[0], 0, 0, 48, 48, this.beams[t].x - (24 * (this.beams[t].radius * .06666666666)), this.beams[t].y - (24 * (this.beams[t].radius * .06666666666)), 48 * (this.beams[t].radius * .06666666666), 48 * (this.beams[t].radius * .06666666666))
+                    tutorial_canvas_context.drawImage(rimgs[0], 0, 0, rimgs[0].width,  rimgs[0].height, this.beams[t].x - (24 * (this.beams[t].radius * .06666666666)), this.beams[t].y - (24 * (this.beams[t].radius * .06666666666)), 48 * (this.beams[t].radius * .06666666666), 48 * (this.beams[t].radius * .06666666666))
                     this.beams[t].move()
                     this.beams[t].xmom *= .98
                     this.beams[t].ymom *= .98
