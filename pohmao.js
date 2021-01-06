@@ -2417,7 +2417,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.move()
                 this.bodydraw = new Circlec(this.body.x, this.body.y, this.body.radius + 7, "#AA00DD")
                 this.bodydrawhuge = new Circlec(this.body.x, this.body.y, this.body.radius + 17, "#AA00DD")
-                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0,  rimgs[0].width,  rimgs[0].height, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 48 * (this.body.radius * .06666666666), 48 * (this.body.radius * .06666666666))
+                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0,  rimgs[0].width,  rimgs[0].height, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 52 * (this.body.radius * .06666666666), 52 * (this.body.radius * .06666666666))
 
             }
         }
