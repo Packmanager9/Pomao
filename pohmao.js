@@ -333,7 +333,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // pomaofbhg.src = 'pomaofbhg.png'
 
     const boysprites = new Image()
-    boysprites.src = 'boisterousboys.png'
+    boysprites.src = 'boisters2.png'
 
     const cactusimg = new Image()
     cactusimg.src = 'cactusdark.png'
@@ -2442,7 +2442,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.anchor.xdif = 0
             this.anchor.ydif = 0
             this.timeloop = 0
-            this.type = Math.floor(Math.random() * 17)
+            this.type = Math.floor(Math.random() * 34)
             this.body = new Circle(this.x + this.width / 2, this.y + this.height / 2, this.width / 2.5, "blue")
             this.jumpcountercap = Math.floor(Math.random() * 700) + 100
             this.jumpcounter = Math.floor(Math.random() * this.jumpcountercap)
@@ -2647,7 +2647,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // this.body.draw()
             const sheetwidth = boysprites.width
             const sheetheight = boysprites.height
-            const cols = 17
+            const cols = 34
             const rows = 1
 
 
@@ -6952,8 +6952,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         shock() {
             if (pomao.body.ymom > 10.2) {
-                const shockright = new Circlec(this.center.x - 3, this.center.y, this.center.radius, "yellow", 20.5, 2)
-                const shockleft = new Circlec(this.center.x + 3, this.center.y, this.center.radius, "yellow", -20.5, 2)
+                const shockright = new Circlec(this.center.x - 3, this.center.y+2, this.center.radius, "yellow", 20.5, 2) // no +2 before
+                const shockleft = new Circlec(this.center.x + 3, this.center.y+2, this.center.radius, "yellow", -20.5, 2)
                 // const shockrightxz = new Circlec(this.center.x-3, this.center.y-17, this.center.radius, "yellow", 20.5, 2)
                 // const shockleftxz = new Circlec(this.center.x+3, this.center.y-17, this.center.radius, "yellow", -20.5, 2)
                 // const shockrightx = new Circlec(this.center.x-3, this.center.y+17, this.center.radius, "yellow", 20.5, 2)
