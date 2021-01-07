@@ -5819,6 +5819,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     pomao.body.ymom = -5.1
 
                     this.runner = 0
+                } else if (this.jumping == 2) {
+                    if (this.bonked == 0) {
+                        this.body.ymom = -2.1
+                        this.runner = 0
+                    }
                 } else {
 
                     if (pomao.runner > 37) {
