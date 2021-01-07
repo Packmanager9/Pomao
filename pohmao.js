@@ -3975,23 +3975,38 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (this == pomao.body) {
                     tutorial_canvas_context.translate(0, -this.symom)
                 }
-            }else{
+            } else {
                 let blocktongue = 0
-                for(let t = 0;t<floors.length;t++){
-                    if(floors[t].isPointInside(pomao.tongue) |! pomao.tonguebox.isInsideOf(floors[t])){
+                for (let t = 0; t < floors.length; t++) {
+                    if (floors[t].isPointInside(pomao.tongue) | !pomao.tonguebox.isInsideOf(floors[t])) {
                         blocktongue = 1
                     }
                 }
-                if(blocktongue == 1){
-                    pomao.tonguex*=.975
-                    pomao.tonguey*=.975
+                if (blocktongue == 1) {
+                    pomao.tonguex *= .975
+                    pomao.tonguey *= .975
                 }
             }
 
         }
         smove() {
             this.x += this.sxmom
-            this.y += this.symom
+            if (Math.abs(this.symom) <= 3.1) {
+                this.y += this.symom
+                if (this == pomao.body) {
+                    tutorial_canvas_context.translate(-this.sxmom, -this.symom)
+                }
+            } else {
+
+                this.y += this.symom
+                if (this == pomao.body) {
+                    tutorial_canvas_context.translate(-this.sxmom, -this.symom)
+                }
+                // this.y += (this.symom/(Math.abs(this.symom)))*3.1
+                // if (this == pomao.body) {
+                //     tutorial_canvas_context.translate(-this.sxmom, -(this.symom/(Math.abs(this.symom)))*3.1)
+                // }
+            }
 
             for (let t = 0; t < blocks.length; t++) {
                 if (squarecirclefaceblockjump(blocks[t], pomao.body)) {
@@ -4003,9 +4018,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
 
-            if (this == pomao.body) {
-                tutorial_canvas_context.translate(-this.sxmom, -this.symom)
-            }
+            // if (this == pomao.body) {
+            //     tutorial_canvas_context.translate(-this.sxmom, -this.symom)
+            // }
         }
         isPointInside(point) {
             this.areaY = point.y - this.y
@@ -4312,11 +4327,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // for(let t = 1; t<this.eggs.length; t++){
                 //     this.eggs[t].posy = []
                 // }
-            }else if (pomao.grounded == 2) {
+            } else if (pomao.grounded == 2) {
                 this.runner = 0
+                if (this.body.ymom > 0) {
+                    if (!keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
+                        if (this.body.ymom > 0) {
+                            this.body.ymomstorage = this.body.ymom + this.body.symom
+                        }
                         this.body.ymom = 0
-            }else {
-                this.jumping = 1
+                    } else {
+                        this.body.ymom += 11.1
+                    }
+                } // this will never trigger
+                this.jumping = 2
+                // this.body.ymom += .1
+                if (this.rootedframe <= 0) {
+                    this.rooted = {}
+                }
+                this.rootedframe--
+                pomao.grounded = 0
+            } else {
+                // if(this.jumping == 0){
+                    this.jumping = 1
+                // }
                 this.body.ymom += .1
                 if (this.rootedframe <= 0) {
                     this.rooted = {}
@@ -4355,9 +4388,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                 }
                             }
-                            if (!roofs.includes(floors[t]) || (1==1)) {
+                            if (!roofs.includes(floors[t]) || (1 == 1)) {
 
-                                if (pomao.body.x < floors[t].x || (1==1)) {
+                                if (pomao.body.x < floors[t].x || (1 == 1)) {
                                     this.tongueymom *= .49
                                     this.tonguexmom *= .49
                                 }
@@ -4368,7 +4401,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                         pomao.body.ymom = 0
                         pomao.body.xmom *= .975
-                        // this.hng = 0  // infiinite flutter?
+                        // this.hng = 0  // infinite flutter?
                         this.grounded = 2   // infinite flutter on walls
                         break
                     }
@@ -4390,7 +4423,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                             }
                         }
-                        if (pomao.body.x >  floors[t].x) {
+                        if (pomao.body.x > floors[t].x) {
                             this.blocked = 1
                         } else {
                             this.blocked = -1
@@ -4463,9 +4496,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                         }
                                     }
-                                    if (!roofs.includes(floors[t]) || (1==1)) {
+                                    if (!roofs.includes(floors[t]) || (1 == 1)) {
 
-                                        if (pomao.body.x < floors[t].x || (1==1)) {
+                                        if (pomao.body.x < floors[t].x || (1 == 1)) {
                                             this.tongueymom *= .49
                                             this.tonguexmom *= .49
                                         }
@@ -4477,7 +4510,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.body.ymom = 0
                                 pomao.body.xmom *= .975
                                 // this.hng = 0  // infiinite flutter?
-                                this.grounded = 2
+                                // this.grounded = 2
                                 break
                             }
                         }
@@ -4534,9 +4567,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                                 this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                             }
                                         }
-                                        if (!roofs.includes(floors[t]) || (1==1)) {
+                                        if (!roofs.includes(floors[t]) || (1 == 1)) {
 
-                                            if (pomao.body.x < floors[t].x || (1==1)) {
+                                            if (pomao.body.x < floors[t].x || (1 == 1)) {
                                                 this.tongueymom *= .49
                                                 this.tonguexmom *= .49
                                             }
@@ -4562,7 +4595,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 if (nails.includes(floors[t])) {
                                     if (this.pounding == 10) {
                                         this.pounding = 0 // floor clip?
-                                         floors[t].ymom = this.body.radius
+                                        floors[t].ymom = this.body.radius
                                         // if(floors[t].isBlocked == false){
                                         floors[t].move()
                                         // }
@@ -4621,9 +4654,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                     }
                                 }
-                                if (!roofs.includes(floors[t]) || (1==1)) {
+                                if (!roofs.includes(floors[t]) || (1 == 1)) {
 
-                                    if (pomao.body.x < floors[t].x || (1==1)) {
+                                    if (pomao.body.x < floors[t].x || (1 == 1)) {
                                         this.tongueymom *= .49
                                         this.tonguexmom *= .49
                                     }
@@ -5810,6 +5843,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.bonked == 0) {
 
                         this.body.ymom = -5.1
+                        this.runner = 0
+                    }
+                }else if (this.jumping == 2) {
+                    if (this.bonked == 0) {
+                        this.body.ymom = -2.1
                         this.runner = 0
                     }
                 } else {
@@ -7632,7 +7670,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 tutorial_canvas_context.stroke()
                 tutorial_canvas_context.fill()
 
-            tutorial_canvas_context.closePath();
+                tutorial_canvas_context.closePath();
                 this.ray = []
 
                 if (this.body.color == "red") {
