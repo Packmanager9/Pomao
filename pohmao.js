@@ -5351,7 +5351,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.tongue.draw()
 
             this.link = new Line(this.body.x, 3 + this.body.y - (Math.sin(this.timeloop) * 1), this.tongue.x, this.tongue.y, "blue", 3) // radius 3 // this.tongue.radius*1.1
-            // this.link.draw()
+            this.link.draw()
 
 
 
