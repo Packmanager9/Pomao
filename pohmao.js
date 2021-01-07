@@ -516,10 +516,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (event.key != "ArrowDown") {
 
                     if (event.key != "ArrowLeft") {
-                        if(event.key !="q"){
-                            
-                        delete keysPressed[event.key.toLocaleLowerCase()];
-                        }else {
+                        if (event.key != "q") {
+
+                            delete keysPressed[event.key.toLocaleLowerCase()];
+                        } else {
 
                             delete keysPressed[event.key];
                         }
@@ -3410,7 +3410,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.type < 10) {
 
 
-                if(!keysPressed['q']){
+                if (!keysPressed['q']) {
                     if (pomao.tripping <= 0) {
                         tutorial_canvas_context.drawImage(fruitsprites, srcx, srcy, width, height, this.x, this.y, this.width, this.height)
                     } else {
@@ -3426,10 +3426,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
-            
+
             this.body = new Circle(this.x + this.width / 2, this.y + this.height / 2, this.width / 3, "blue")
-            if(keysPressed['q']){
-            this.body.draw()
+            if (keysPressed['q']) {
+                this.body.draw()
             }
             if (this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
                 // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
@@ -4196,7 +4196,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (!this.body.repelCheck(this.tongue)) {
                 for (let t = 0; t < 30; t++) {
                     const ray = new Circlec(this.body.x + (this.tonguex - (this.tonguex * .033333 * t)), (-(Math.sin(this.timeloop) * 1.5)) + this.body.y + (this.tonguey - (this.tonguey * .033333 * t)), 1.5, "red")
-                    if(keysPressed['q']){
+                    if (keysPressed['q']) {
                         ray.draw()
                     }
                     this.tongueray.push(ray)
@@ -4304,6 +4304,52 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             pomao.grounded = 0
             for (let t = 0; t < floors.length; t++) {
+                if ((squarecircleedges(floors[t], pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
+                    if (!ungrapplable.includes(floors[t])) {
+                        // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
+                        // this.body.y = floors[t].y-this.body.radius
+                        if (this.tongueymom < 0) {
+                            if (Math.abs(this.tonguey) > 1) {
+                                this.body.symom += this.tongueymom * 1.1
+                            }
+                            if (Math.abs(this.tonguex) > 15) {
+                                if (this.dir == -1) {
+                                    this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                } else {
+                                    this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                }
+                            }
+                            this.tongueymom *= .49
+                            this.tonguexmom *= .49
+                        } else {
+                            if (Math.abs(this.tonguey) > 1) {
+                                this.body.symom -= this.tongueymom * 1.1
+                            }
+                            if (Math.abs(this.tonguex) > 15) {
+                                if (this.dir == -1) {
+                                    this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                } else {
+                                    this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                }
+                            }
+                            if (!roofs.includes(floors[t]) || (1==1)) {
+
+                                if (pomao.body.x < floors[t].x || (1==1)) {
+                                    this.tongueymom *= .49
+                                    this.tonguexmom *= .49
+                                }
+                            }
+                        }
+                        if (pomao.body.ymom > 0) {
+                            pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                        }
+                        pomao.body.ymom = 0
+                        pomao.body.xmom *= .975
+                        // this.hng = 0  // infiinite flutter?
+                        this.dry = 1
+                        break
+                    }
+                }
 
                 if (t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(floors[t])) {
 
@@ -4321,7 +4367,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                             }
                         }
-                        if (pomao.body.x > floors[t].x) {
+                        if (pomao.body.x >  floors[t].x) {
                             this.blocked = 1
                         } else {
                             this.blocked = -1
@@ -4366,48 +4412,52 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                     if (squarecirclefeet(floors[t], this.body)) {
                         if ((squarecircleedges(floors[t], pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
-                        if (!ungrapplable.includes(floors[t])) {
-                            // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
-                            // this.body.y = floors[t].y-this.body.radius
-                            if (this.tongueymom < 0) {
-                                if (Math.abs(this.tonguey) > 1) {
-                                    this.body.symom += this.tongueymom * 1.1
-                                }
-                                if (Math.abs(this.tonguex) > 15) {
-                                    if (this.dir == -1) {
-                                        this.body.sxmom -= Math.abs(this.tonguexmom * 3)
-                                    } else {
-                                        this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                            // console.log("4369")  //hits this on thin floors?
+                            if (!ungrapplable.includes(floors[t])) {
+                                // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
+                                // this.body.y = floors[t].y-this.body.radius
+                                if (this.tongueymom < 0) {
+                                    if (Math.abs(this.tonguey) > 1) {
+                                        this.body.symom += this.tongueymom * 1.1
                                     }
-                                }
-                                this.tongueymom *= .49
-                                this.tonguexmom *= .49
-                            } else {
-                                if (Math.abs(this.tonguey) > 1) {
-                                    this.body.symom -= this.tongueymom * 1.1
-                                }
-                                if (Math.abs(this.tonguex) > 15) {
-                                    if (this.dir == -1) {
-                                        this.body.sxmom -= Math.abs(this.tonguexmom * 3)
-                                    } else {
-                                        this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                    if (Math.abs(this.tonguex) > 15) {
+                                        if (this.dir == -1) {
+                                            this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                        } else {
+                                            this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                        }
                                     }
-                                }
-                                if (!roofs.includes(floors[t])) {
                                     this.tongueymom *= .49
                                     this.tonguexmom *= .49
+                                } else {
+                                    if (Math.abs(this.tonguey) > 1) {
+                                        this.body.symom -= this.tongueymom * 1.1
+                                    }
+                                    if (Math.abs(this.tonguex) > 15) {
+                                        if (this.dir == -1) {
+                                            this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                        } else {
+                                            this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                        }
+                                    }
+                                    if (!roofs.includes(floors[t]) || (1==1)) {
+
+                                        if (pomao.body.x < floors[t].x || (1==1)) {
+                                            this.tongueymom *= .49
+                                            this.tonguexmom *= .49
+                                        }
+                                    }
                                 }
+                                if (pomao.body.ymom > 0) {
+                                    pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                                }
+                                pomao.body.ymom = 0
+                                pomao.body.xmom *= .975
+                                // this.hng = 0  // infiinite flutter?
+                                this.dry = 1
+                                break
                             }
-                            if (pomao.body.ymom > 0) {
-                                pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
-                            }
-                            pomao.body.ymom = 0
-                            pomao.body.xmom *= .975
-                            // this.hng = 0  // infiinite flutter?
-                            this.dry = 1
-                            break
                         }
-                    }
                         if (jellys.includes(floors[t])) {
                             if (this.body.ymom > 0) {
                                 this.body.ymom *= .9
@@ -4461,9 +4511,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                                 this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                             }
                                         }
-                                        if (!roofs.includes(floors[t])) {
-                                            this.tongueymom *= .49
-                                            this.tonguexmom *= .49
+                                        if (!roofs.includes(floors[t]) || (1==1)) {
+
+                                            if (pomao.body.x < floors[t].x || (1==1)) {
+                                                this.tongueymom *= .49
+                                                this.tonguexmom *= .49
+                                            }
                                         }
                                     }
                                     if (pomao.body.ymom > 0) {
@@ -4544,9 +4597,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                     }
                                 }
-                                if (!roofs.includes(floors[t])) {
-                                    this.tongueymom *= .49
-                                    this.tonguexmom *= .49
+                                if (!roofs.includes(floors[t]) || (1==1)) {
+
+                                    if (pomao.body.x < floors[t].x || (1==1)) {
+                                        this.tongueymom *= .49
+                                        this.tonguexmom *= .49
+                                    }
                                 }
                             }
                             if (pomao.body.ymom > 0) {
@@ -4658,7 +4714,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                             }
                             if (!roofs.includes(ramps[t])) {
-
                                 this.tongueymom *= .49
                                 this.tonguexmom *= .49
                             }
@@ -5484,7 +5539,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // this.link.draw()
 
 
-            if(!keysPressed['q']){
+            if (!keysPressed['q']) {
 
                 if (this.diry == -1) {
                     hot--
@@ -5495,9 +5550,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                     if (hot <= 0) {
-    
+
                         if (this.blush <= 1) {
-    
+
                             if (this.disabled == 0) {
                                 if (this.dir == 1) {
                                     if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
@@ -5543,7 +5598,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                 }
                             } else {
-    
+
                                 if (this.dir == 1) {
                                     if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
                                         tutorial_canvas_context.drawImage(pomaofbh, (pomaofbh.width / 3 * this.flap), 0, pomaofbh.width / 3, pomaofbh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
@@ -5560,59 +5615,59 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                         }
                     } else {
-    
+
                         if (this.blush <= 1) {
                             if (this.dir == 1) {
-    
+
                                 if (this.hng !== 0) {
                                     tutorial_canvas_context.drawImage(pomaospitf, (pomaospitf.width / 3 * this.flap), 0, pomaospitf.width / 3, pomaospitf.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-    
+
                                 } else {
-    
+
                                     tutorial_canvas_context.drawImage(pomaospit, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 }
                             } else {
-    
+
                                 if (this.hng !== 0) {
                                     tutorial_canvas_context.drawImage(pomaospitfl, (pomaospitfl.width / 3 * this.flap), 0, pomaospitfl.width / 3, pomaospitfl.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 } else {
                                     tutorial_canvas_context.drawImage(pomaospitl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-    
+
                                 }
                             }
                         } else {
                             if (this.dir == 1) {
-    
+
                                 if (this.hng !== 0) {
                                     tutorial_canvas_context.drawImage(pomaospitfb, (pomaospitfb.width / 3 * this.flap), 0, pomaospitfb.width / 3, pomaospitfb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-    
+
                                 } else {
-    
+
                                     tutorial_canvas_context.drawImage(pomaospitb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 }
                             } else {
-    
+
                                 if (this.hng !== 0) {
                                     tutorial_canvas_context.drawImage(pomaospitflb, (pomaospitflb.width / 3 * this.flap), 0, pomaospitflb.width / 3, pomaospitflb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 } else {
                                     tutorial_canvas_context.drawImage(pomaospitlb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-    
+
                                 }
                             }
-    
+
                         }
                     }
                 } else {
                     if (this.blush <= 1) {
-    
+
                         if (this.dir == 1) {
                             tutorial_canvas_context.drawImage(pomaoimgup, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         } else {
                             tutorial_canvas_context.drawImage(pomaoimglup, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         }
-    
+
                     } else {
-    
+
                         if (this.dir == 1) {
                             tutorial_canvas_context.drawImage(pomaoimgupb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         } else {
@@ -5620,11 +5675,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                 }
-    
-    
+
+
                 pomao.body.color = "transparent"
 
-            }else{
+            } else {
                 // pomao.body = new Circlec(pomao.body.x, pomao.body.y, pomao.body.radius, "black")
 
                 pomao.body.color = "black"
@@ -7195,7 +7250,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         draw() {
 
-            if(keysPressed['q']){
+            if (keysPressed['q']) {
                 this.radius = 23
                 new Circlex(this.x, this.y, this.radius, "yellow").draw()
             }
@@ -7211,8 +7266,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.marked == 0) {
 
                 this.jiggle += .2
-                if(!keysPressed['q']){
-                tutorial_canvas_context.drawImage(seedegg, this.x - (this.width / 2), (this.y + 7) - (this.height / 2) + (7 * Math.cos(this.jiggle)), this.width, this.height)
+                if (!keysPressed['q']) {
+                    tutorial_canvas_context.drawImage(seedegg, this.x - (this.width / 2), (this.y + 7) - (this.height / 2) + (7 * Math.cos(this.jiggle)), this.width, this.height)
                 }
 
             } else {
