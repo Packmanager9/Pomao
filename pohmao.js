@@ -1,4 +1,5 @@
 
+
 let level = 1
 const zimgs = []
 let pmarinedisp = 0
@@ -515,7 +516,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (event.key != "ArrowDown") {
 
                     if (event.key != "ArrowLeft") {
+                        if(event.key !="q"){
+                            
                         delete keysPressed[event.key.toLocaleLowerCase()];
+                        }else {
+
+                            delete keysPressed[event.key];
+                        }
                     } else {
 
                         delete keysPressed[event.key];
@@ -3403,10 +3410,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.type < 10) {
 
 
-                if (pomao.tripping <= 0) {
-                    tutorial_canvas_context.drawImage(fruitsprites, srcx, srcy, width, height, this.x, this.y, this.width, this.height)
-                } else {
-                    tutorial_canvas_context.drawImage(fruitsprites, srcx, srcy, width, height, this.x + (Math.sin(pomao.timeloop + this.loopoffset) * 7.5), this.y + (Math.cos((pomao.timeloop / 10) + this.loopoffset) * 7.5), this.width + (Math.sin((pomao.timeloop / 10) + this.loopoffset) * 15), this.height + (Math.cos(pomao.timeloop + this.loopoffset) * 15))
+                if(!keysPressed['q']){
+                    if (pomao.tripping <= 0) {
+                        tutorial_canvas_context.drawImage(fruitsprites, srcx, srcy, width, height, this.x, this.y, this.width, this.height)
+                    } else {
+                        tutorial_canvas_context.drawImage(fruitsprites, srcx, srcy, width, height, this.x + (Math.sin(pomao.timeloop + this.loopoffset) * 7.5), this.y + (Math.cos((pomao.timeloop / 10) + this.loopoffset) * 7.5), this.width + (Math.sin((pomao.timeloop / 10) + this.loopoffset) * 15), this.height + (Math.cos(pomao.timeloop + this.loopoffset) * 15))
+                    }
                 }
 
 
@@ -3417,8 +3426,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
-
+            
             this.body = new Circle(this.x + this.width / 2, this.y + this.height / 2, this.width / 3, "blue")
+            if(keysPressed['q']){
+            this.body.draw()
+            }
             if (this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
                 // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
                 // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
@@ -3915,6 +3927,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.lens = 0
         }
         draw() {
+            let dummy = new Circlec(this.x, this.y, this.radius, this.color)
+            dummy.draw()
         }
         move() {
 
@@ -4182,7 +4196,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (!this.body.repelCheck(this.tongue)) {
                 for (let t = 0; t < 30; t++) {
                     const ray = new Circlec(this.body.x + (this.tonguex - (this.tonguex * .033333 * t)), (-(Math.sin(this.timeloop) * 1.5)) + this.body.y + (this.tonguey - (this.tonguey * .033333 * t)), 1.5, "red")
-                    // ray.draw()
+                    ray.draw()
                     this.tongueray.push(ray)
                 }
 
@@ -5335,7 +5349,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.tongue.draw()
 
             this.link = new Line(this.body.x, 3 + this.body.y - (Math.sin(this.timeloop) * 1), this.tongue.x, this.tongue.y, "blue", 3) // radius 3 // this.tongue.radius*1.1
-            this.link.draw()
+            // this.link.draw()
 
 
 
@@ -5468,142 +5482,153 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // this.link.draw()
 
 
-            if (this.diry == -1) {
-                hot--
-                for (let t = 0; t < this.thrown.length; t++) {
-                    if (this.body.repelCheck(this.thrown[t]) && this.thrown[t].timer < 5) {
-                        hot = 20
-                        this.thrown[t].timer = 6
+            if(!keysPressed['q']){
+
+                if (this.diry == -1) {
+                    hot--
+                    for (let t = 0; t < this.thrown.length; t++) {
+                        if (this.body.repelCheck(this.thrown[t]) && this.thrown[t].timer < 5) {
+                            hot = 20
+                            this.thrown[t].timer = 6
+                        }
                     }
-                }
-                if (hot <= 0) {
-
-                    if (this.blush <= 1) {
-
-                        if (this.disabled == 0) {
-                            if (this.dir == 1) {
-                                if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaof, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                    if (hot <= 0) {
+    
+                        if (this.blush <= 1) {
+    
+                            if (this.disabled == 0) {
+                                if (this.dir == 1) {
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaof, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimg, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
                                 } else {
-                                    tutorial_canvas_context.drawImage(pomaoimg, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaofl, (pomaofl.width / 3 * this.flap), 0, pomaofl.width / 3, pomaofl.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimgl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
                                 }
                             } else {
-                                if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaofl, (pomaofl.width / 3 * this.flap), 0, pomaofl.width / 3, pomaofl.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                if (this.dir == 1) {
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaofh, (pomaofh.width / 3 * this.flap), 0, pomaofh.width / 3, pomaofh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimgh, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
                                 } else {
-                                    tutorial_canvas_context.drawImage(pomaoimgl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaoflh, (pomaoflh.width / 3 * this.flap), 0, pomaoflh.width / 3, pomaoflh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimglh, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
                                 }
                             }
                         } else {
-                            if (this.dir == 1) {
-                                if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaofh, (pomaofh.width / 3 * this.flap), 0, pomaofh.width / 3, pomaofh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                            if (this.disabled == 0) {
+                                if (this.dir == 1) {
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaofb, (pomaofb.width / 3 * this.flap), 0, pomaofb.width / 3, pomaofb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimgb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
                                 } else {
-                                    tutorial_canvas_context.drawImage(pomaoimgh, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaoflb, (pomaoflb.width / 3 * this.flap), 0, pomaoflb.width / 3, pomaoflb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimgbl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
                                 }
                             } else {
-                                if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaoflh, (pomaoflh.width / 3 * this.flap), 0, pomaoflh.width / 3, pomaoflh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+    
+                                if (this.dir == 1) {
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaofbh, (pomaofbh.width / 3 * this.flap), 0, pomaofbh.width / 3, pomaofbh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimglhb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
                                 } else {
-                                    tutorial_canvas_context.drawImage(pomaoimglh, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaoflbh, (pomaoflbh.width / 3 * this.flap), 0, pomaoflbh.width / 3, pomaoflbh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimghb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
                                 }
                             }
                         }
                     } else {
-                        if (this.disabled == 0) {
+    
+                        if (this.blush <= 1) {
                             if (this.dir == 1) {
-                                if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaofb, (pomaofb.width / 3 * this.flap), 0, pomaofb.width / 3, pomaofb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+    
+                                if (this.hng !== 0) {
+                                    tutorial_canvas_context.drawImage(pomaospitf, (pomaospitf.width / 3 * this.flap), 0, pomaospitf.width / 3, pomaospitf.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+    
                                 } else {
-                                    tutorial_canvas_context.drawImage(pomaoimgb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+    
+                                    tutorial_canvas_context.drawImage(pomaospit, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 }
                             } else {
-                                if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaoflb, (pomaoflb.width / 3 * this.flap), 0, pomaoflb.width / 3, pomaoflb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+    
+                                if (this.hng !== 0) {
+                                    tutorial_canvas_context.drawImage(pomaospitfl, (pomaospitfl.width / 3 * this.flap), 0, pomaospitfl.width / 3, pomaospitfl.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 } else {
-                                    tutorial_canvas_context.drawImage(pomaoimgbl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    tutorial_canvas_context.drawImage(pomaospitl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+    
                                 }
                             }
                         } else {
-
                             if (this.dir == 1) {
-                                if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaofbh, (pomaofbh.width / 3 * this.flap), 0, pomaofbh.width / 3, pomaofbh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+    
+                                if (this.hng !== 0) {
+                                    tutorial_canvas_context.drawImage(pomaospitfb, (pomaospitfb.width / 3 * this.flap), 0, pomaospitfb.width / 3, pomaospitfb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+    
                                 } else {
-                                    tutorial_canvas_context.drawImage(pomaoimglhb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+    
+                                    tutorial_canvas_context.drawImage(pomaospitb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 }
                             } else {
-                                if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                    tutorial_canvas_context.drawImage(pomaoflbh, (pomaoflbh.width / 3 * this.flap), 0, pomaoflbh.width / 3, pomaoflbh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+    
+                                if (this.hng !== 0) {
+                                    tutorial_canvas_context.drawImage(pomaospitflb, (pomaospitflb.width / 3 * this.flap), 0, pomaospitflb.width / 3, pomaospitflb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                                 } else {
-                                    tutorial_canvas_context.drawImage(pomaoimghb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    tutorial_canvas_context.drawImage(pomaospitlb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+    
                                 }
                             }
+    
                         }
                     }
                 } else {
-
                     if (this.blush <= 1) {
+    
                         if (this.dir == 1) {
-
-                            if (this.hng !== 0) {
-                                tutorial_canvas_context.drawImage(pomaospitf, (pomaospitf.width / 3 * this.flap), 0, pomaospitf.width / 3, pomaospitf.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-
-                            } else {
-
-                                tutorial_canvas_context.drawImage(pomaospit, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                            }
+                            tutorial_canvas_context.drawImage(pomaoimgup, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         } else {
-
-                            if (this.hng !== 0) {
-                                tutorial_canvas_context.drawImage(pomaospitfl, (pomaospitfl.width / 3 * this.flap), 0, pomaospitfl.width / 3, pomaospitfl.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                            } else {
-                                tutorial_canvas_context.drawImage(pomaospitl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-
-                            }
+                            tutorial_canvas_context.drawImage(pomaoimglup, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         }
+    
                     } else {
+    
                         if (this.dir == 1) {
-
-                            if (this.hng !== 0) {
-                                tutorial_canvas_context.drawImage(pomaospitfb, (pomaospitfb.width / 3 * this.flap), 0, pomaospitfb.width / 3, pomaospitfb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-
-                            } else {
-
-                                tutorial_canvas_context.drawImage(pomaospitb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                            }
+                            tutorial_canvas_context.drawImage(pomaoimgupb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         } else {
-
-                            if (this.hng !== 0) {
-                                tutorial_canvas_context.drawImage(pomaospitflb, (pomaospitflb.width / 3 * this.flap), 0, pomaospitflb.width / 3, pomaospitflb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                            } else {
-                                tutorial_canvas_context.drawImage(pomaospitlb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-
-                            }
+                            tutorial_canvas_context.drawImage(pomaoimglupb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         }
-
                     }
                 }
-            } else {
-                if (this.blush <= 1) {
+    
+    
+                pomao.body.color = "transparent"
 
-                    if (this.dir == 1) {
-                        tutorial_canvas_context.drawImage(pomaoimgup, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                    } else {
-                        tutorial_canvas_context.drawImage(pomaoimglup, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                    }
+            }else{
+                // pomao.body = new Circlec(pomao.body.x, pomao.body.y, pomao.body.radius, "black")
 
-                } else {
-
-                    if (this.dir == 1) {
-                        tutorial_canvas_context.drawImage(pomaoimgupb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                    } else {
-                        tutorial_canvas_context.drawImage(pomaoimglupb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                    }
-                }
+                pomao.body.color = "black"
+                pomao.body.draw()
+                // pomao.body = new Circlex(pomao.body.x, pomao.body.y, pomao.body.radius, "black")
             }
-
-
 
 
             for (let t = 0; t < worms.length; t++) {
@@ -7167,6 +7192,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.x += this.xmom
         }
         draw() {
+
+            if(keysPressed['q']){
+                this.radius = 23
+                new Circlex(this.x, this.y, this.radius, "yellow").draw()
+            }
+
             if (pomao.eggs.includes(this)) {
                 this.marked = 0
             }
@@ -7178,8 +7209,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.marked == 0) {
 
                 this.jiggle += .2
+                if(!keysPressed['q']){
                 tutorial_canvas_context.drawImage(seedegg, this.x - (this.width / 2), (this.y + 7) - (this.height / 2) + (7 * Math.cos(this.jiggle)), this.width, this.height)
-
+                }
 
             } else {
 
@@ -10218,7 +10250,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 if (level == 1) {
 
-                    tutorialholo.draw()
+                    // tutorialholo.draw()
                 }
             } else {
                 pomao.pausetimer++
@@ -10262,7 +10294,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         }, 14)
 
-    }, 6969);  //6969
+    }, 1);  //6969
 
     function squarecirclefaceblockjump(square, circle) {
         const squareendh = square.y + square.height
