@@ -4196,7 +4196,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (!this.body.repelCheck(this.tongue)) {
                 for (let t = 0; t < 30; t++) {
                     const ray = new Circlec(this.body.x + (this.tonguex - (this.tonguex * .033333 * t)), (-(Math.sin(this.timeloop) * 1.5)) + this.body.y + (this.tonguey - (this.tonguey * .033333 * t)), 1.5, "red")
-                    ray.draw()
+                    if(keysPressed['q']){
+                        ray.draw()
+                    }
                     this.tongueray.push(ray)
                 }
 
