@@ -1884,8 +1884,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     tutorial_canvas_context.lineWidth = 0
                     for (let t = 1; t < 2; t++) {
                         tutorial_canvas_context.fillStyle = getRandomLightColortp()
-                        this.joints[t].color = getRandomLightColortp()
-                        this.joints[t].draw()
+                        if(typeof this.joints[t] != "undefined"){
+                            this.joints[t].color = getRandomLightColortp()
+                            this.joints[t].draw()
+                        }
 
 
                     }
@@ -1954,8 +1956,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     tutorial_canvas_context.lineWidth = 0
                     for (let t = 1; t < 2; t++) {
                         tutorial_canvas_context.fillStyle = getRandomLightColortp()
+                        if(typeof this.joints[t] != "undefined"){
                         this.joints[t].color = getRandomLightColortp()
                         this.joints[t].draw()
+                        }
 
 
                     }
@@ -3381,7 +3385,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.type2 = Math.floor(Math.random() * 9)
                 }
             }
-
+            // this.type2 = 9
             this.body = new Circle(this.x + this.width / 2, this.y + this.height / 2, this.width / 2.5, "blue")
             this.bodybig = new Circle(this.x + this.width / 2, this.y + this.height / 2, this.width / 1.5, "blue")
         }
