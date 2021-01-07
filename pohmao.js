@@ -181,7 +181,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const shocks = []
     let blocks = []
     let nails = []
-    let dry = 0
+    // letpomao.grounded= 0
     const crackfloorimg = new Image()
     crackfloorimg.src = "cracksheet.png"
     const propimg = new Image()
@@ -993,7 +993,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 //           pomao.body.y += wing.y - pomao.ydisp
 
                 //   tutorial_canvas_context.translate(-(wing.x - pomao.xdisp), -(wing.y - pomao.ydisp))
-                //   dry = 1
+                //  pomao.grounded= 1
 
                 //       }
                 //     }
@@ -1079,7 +1079,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.y += wing.y - pomao.ydisp
 
                         tutorial_canvas_context.translate(-(wing.x - pomao.xdisp), -(wing.y - pomao.ydisp))
-                        dry = 1
+                        pomao.grounded = 1
 
                     }
 
@@ -4130,6 +4130,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class Pomao {
         constructor() {
             this.cutscene = 0
+            this.grounded = 0
             this.wingthing = 0
             this.eggmake = 0
             this.rooted = {}
@@ -4253,7 +4254,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             // //////console.log(this.electron, this.positron)
 
-            if (dry == 1) {
+            if (pomao.grounded == 1) {
                 if (this.body.ymom > 0) {
                     if (!keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
                         if (this.body.ymom > 0) {
@@ -4285,7 +4286,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.rootedframe--
 
             }
-            dry = 0
+            pomao.grounded = 0
             for (let t = 0; t < floors.length; t++) {
 
                 if (t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(floors[t])) {
@@ -4293,7 +4294,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 } else {
 
                     if (walls.includes(floors[t]) && squarecirclefacetopbottom(floors[t], this.body)) {
-                        dry = 1
+                        pomao.grounded = 1
                         floors[t].active = 1
 
                         if (blocks.includes(floors[t])) {
@@ -4318,7 +4319,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                             tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - (this.body.radius)))
                             this.body.y = floors[t].y - (this.body.radius)
-                            dry = 1
+                            pomao.grounded = 1
                             floors[t].active = 1
                             if (blocks.includes(floors[t])) {
                                 if (this.pounding == 10) {
@@ -4348,6 +4349,49 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                     if (squarecirclefeet(floors[t], this.body)) {
+                        if ((squarecircleedges(floors[t], pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
+                        if (!ungrapplable.includes(floors[t])) {
+                            // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
+                            // this.body.y = floors[t].y-this.body.radius
+                            if (this.tongueymom < 0) {
+                                if (Math.abs(this.tonguey) > 1) {
+                                    this.body.symom += this.tongueymom * 1.1
+                                }
+                                if (Math.abs(this.tonguex) > 15) {
+                                    if (this.dir == -1) {
+                                        this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                    } else {
+                                        this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                    }
+                                }
+                                this.tongueymom *= .49
+                                this.tonguexmom *= .49
+                            } else {
+                                if (Math.abs(this.tonguey) > 1) {
+                                    this.body.symom -= this.tongueymom * 1.1
+                                }
+                                if (Math.abs(this.tonguex) > 15) {
+                                    if (this.dir == -1) {
+                                        this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                    } else {
+                                        this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                    }
+                                }
+                                if (!roofs.includes(floors[t])) {
+                                    this.tongueymom *= .49
+                                    this.tonguexmom *= .49
+                                }
+                            }
+                            if (pomao.body.ymom > 0) {
+                                pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                            }
+                            pomao.body.ymom = 0
+                            pomao.body.xmom *= .975
+                            // this.hng = 0  // infiinite flutter?
+                            this.dry = 1
+                            break
+                        }
+                    }
                         if (jellys.includes(floors[t])) {
                             if (this.body.ymom > 0) {
                                 this.body.ymom *= .9
@@ -4359,7 +4403,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             this.body.sxmom *= .4
                             // }
                             if (floors[t].isPointInside(this.body)) {
-                                dry = 1
+                                pomao.grounded = 1
                                 floors[t].active = 1
 
                                 if (nails.includes(floors[t])) {
@@ -4373,12 +4417,55 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                             }
                         } else {
+                            if ((squarecircleedges(floors[t], pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
+                                if (!ungrapplable.includes(floors[t])) {
+                                    // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
+                                    // this.body.y = floors[t].y-this.body.radius
+                                    if (this.tongueymom < 0) {
+                                        if (Math.abs(this.tonguey) > 1) {
+                                            this.body.symom += this.tongueymom * 1.1
+                                        }
+                                        if (Math.abs(this.tonguex) > 15) {
+                                            if (this.dir == -1) {
+                                                this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                            } else {
+                                                this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                            }
+                                        }
+                                        this.tongueymom *= .49
+                                        this.tonguexmom *= .49
+                                    } else {
+                                        if (Math.abs(this.tonguey) > 1) {
+                                            this.body.symom -= this.tongueymom * 1.1
+                                        }
+                                        if (Math.abs(this.tonguex) > 15) {
+                                            if (this.dir == -1) {
+                                                this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                            } else {
+                                                this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                            }
+                                        }
+                                        if (!roofs.includes(floors[t])) {
+                                            this.tongueymom *= .49
+                                            this.tonguexmom *= .49
+                                        }
+                                    }
+                                    if (pomao.body.ymom > 0) {
+                                        pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                                    }
+                                    pomao.body.ymom = 0
+                                    pomao.body.xmom *= .975
+                                    // this.hng = 0  // infiinite flutter?
+                                    this.dry = 1
+                                    break
+                                }
+                            }
 
                             if (Math.abs(this.body.y - floors[t].y) <= this.body.radius) {
 
                                 tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - this.body.radius))
                                 this.body.y = floors[t].y - this.body.radius
-                                dry = 1
+                                pomao.grounded = 1
                                 floors[t].active = 1
                                 if (nails.includes(floors[t])) {
                                     if (this.pounding == 10) {
@@ -4412,6 +4499,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             const cloudpuff = new Shockwave(this.body)
                             shocks.push(cloudpuff)
                         }
+
                     } else if ((squarecircleedges(floors[t], pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
                         if (!ungrapplable.includes(floors[t])) {
                             // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
@@ -4475,7 +4563,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             this.body.symom *= .4
                             // }
                             if (ramps[t].isPointInside(this.body)) {
-                                dry = 1
+                                pomao.grounded = 1
 
                             }
                         } else {
@@ -4485,7 +4573,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                                         tutorial_canvas_context.translate(0, this.body.y - (ramps[t].y - this.body.radius))
                                         this.body.y = ramps[t].y - this.body.radius
-                                        dry = 1
+                                        pomao.grounded = 1
                                         if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
                                             this.tonguex = 0
                                             this.tonguey = 0
@@ -4504,7 +4592,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 } else {
                                     tutorial_canvas_context.translate(0, this.body.y - (ramps[t].y - this.body.radius))
                                     this.body.y = ramps[t].y - this.body.radius
-                                    dry = 1
+                                    pomao.grounded = 1
                                     if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
                                         this.tonguex = 0
                                         this.tonguey = 0
@@ -4618,7 +4706,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
 
-                    dry = 1
+                    pomao.grounded = 1
                     break
                 }
             }
