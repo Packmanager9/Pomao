@@ -9871,7 +9871,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.timerbase = 120
             this.timer = 200
             this.body = new Circle(x, y, 100, "transparent")
-            this.words = ["talk"]
+            this.words = ["Talk"]
             this.active = -1
             this.box = new Rectangle(x - 50, y - 50, 40, 90, "white")
             this.complete = 0
@@ -9905,11 +9905,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 tutorial_canvas_context.font = "30px Arial";
                 tutorial_canvas_context.fillText(`${this.words[this.active]}`, this.box.x + 40, this.box.y + 40);
             } else if (this.active == 0) {
-                this.box = new Rectangle(this.body.x - 50, this.body.y - 50, 40, 90, "white")
+                this.box = new Rectangle(this.body.x - 50, this.body.y - 50, 20, 38, "white")
                 this.box.draw()
                 tutorial_canvas_context.fillStyle = "black";
-                tutorial_canvas_context.font = "16px Arial";
-                tutorial_canvas_context.fillText(`${this.words[this.active]}`, this.box.x + 16, this.box.y + 16);
+                tutorial_canvas_context.font = "14px Arial";
+                tutorial_canvas_context.fillText(`${this.words[this.active]}`, this.box.x + 6, this.box.y + 14);
                 if (keysPressed['e'] || gamepadAPI.buttonsStatus.includes('Axis-Right')) {
                     this.active = 1
                 }
@@ -10250,7 +10250,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 if (level == 1) {
 
-                    // tutorialholo.draw()
+                    tutorialholo.draw()
                 }
             } else {
                 pomao.pausetimer++
