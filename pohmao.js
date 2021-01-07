@@ -4603,6 +4603,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                             this.body.sxmom = 0
                             this.body.symom = 0
+                            // this.body.xmom = 0 // counter 123232
+                            this.body.ymom = 0
                             if (k == 0) {
                                 if (this.pounding > 0) {
                                     this.pounding--
