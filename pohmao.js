@@ -676,6 +676,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke();
+            tutorial_canvas_context.closePath();
         }
         move() {
             this.x += this.xmom
@@ -1166,6 +1167,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI * 2), true)
             tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke();
+            tutorial_canvas_context.closePath();
         }
         move() {
             this.x += this.xmom
@@ -3589,6 +3591,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             canvas_context.lineTo(this.target.x, this.target.y)
             canvas_context.stroke()
             canvas_context.lineWidth = linewidthstorage
+            tutorial_canvas_context.closePath();
         }
     }
     class Rectangle {
@@ -3763,6 +3766,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke();
+            tutorial_canvas_context.closePath();
         }
         wdraw() {
 
@@ -3799,6 +3803,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke();
+            tutorial_canvas_context.closePath();
         }
         chdraw() {
 
@@ -3816,6 +3821,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke();
+            tutorial_canvas_context.closePath();
         }
         move() {
             this.x += this.xmom
@@ -3883,6 +3889,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke();
+            tutorial_canvas_context.closePath();
         }
         move() {
             this.x += this.xmom
@@ -3968,6 +3975,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (this == pomao.body) {
                     tutorial_canvas_context.translate(0, -this.symom)
                 }
+            }else{
+                let blocktongue = 0
+                for(let t = 0;t<floors.length;t++){
+                    if(floors[t].isPointInside(pomao.tongue) |! pomao.tonguebox.isInsideOf(floors[t])){
+                        blocktongue = 1
+                    }
+                }
+                if(blocktongue == 1){
+                    pomao.tonguex*=.975
+                    pomao.tonguey*=.975
+                }
             }
 
         }
@@ -4031,6 +4049,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.lineTo(this.x2, this.y2)
             tutorial_canvas_context.stroke()
             tutorial_canvas_context.lineWidth = 1
+            tutorial_canvas_context.closePath();
         }
     }
 
@@ -4293,7 +4312,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // for(let t = 1; t<this.eggs.length; t++){
                 //     this.eggs[t].posy = []
                 // }
-            } else {
+            }else if (pomao.grounded == 2) {
+                this.runner = 0
+                        this.body.ymom = 0
+            }else {
                 this.jumping = 1
                 this.body.ymom += .1
                 if (this.rootedframe <= 0) {
@@ -4305,6 +4327,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             pomao.grounded = 0
             for (let t = 0; t < floors.length; t++) {
                 if ((squarecircleedges(floors[t], pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
+                      console.log("43dss")  //hits this on thin floors?  while clipping?
                     if (!ungrapplable.includes(floors[t])) {
                         // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                         // this.body.y = floors[t].y-this.body.radius
@@ -4346,7 +4369,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.ymom = 0
                         pomao.body.xmom *= .975
                         // this.hng = 0  // infiinite flutter?
-                        this.dry = 1
+                        this.grounded = 2   // infinite flutter on walls
                         break
                     }
                 }
@@ -4412,7 +4435,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                     if (squarecirclefeet(floors[t], this.body)) {
                         if ((squarecircleedges(floors[t], pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
-                            // console.log("4369")  //hits this on thin floors?
+                            console.log("4369")  //hits this on thin floors?
                             if (!ungrapplable.includes(floors[t])) {
                                 // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                                 // this.body.y = floors[t].y-this.body.radius
@@ -4454,7 +4477,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.body.ymom = 0
                                 pomao.body.xmom *= .975
                                 // this.hng = 0  // infiinite flutter?
-                                this.dry = 1
+                                this.grounded = 2
                                 break
                             }
                         }
@@ -4538,7 +4561,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 floors[t].active = 1
                                 if (nails.includes(floors[t])) {
                                     if (this.pounding == 10) {
-                                        floors[t].ymom = this.body.radius
+                                        this.pounding = 0 // floor clip?
+                                         floors[t].ymom = this.body.radius
                                         // if(floors[t].isBlocked == false){
                                         floors[t].move()
                                         // }
@@ -7607,6 +7631,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 tutorial_canvas_context.stroke()
                 tutorial_canvas_context.fill()
+
+            tutorial_canvas_context.closePath();
                 this.ray = []
 
                 if (this.body.color == "red") {
@@ -10351,7 +10377,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         }, 14)
 
-    }, 6969);  //6969
+    }, 1);  //6969
 
     function squarecirclefaceblockjump(square, circle) {
         const squareendh = square.y + square.height
