@@ -192,12 +192,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
     hillshadowbad.src = "hillshadow.png"
     const hillshadow = new Image()
     hillshadow.src = "hillshadow2.png"
+    // const floorimg = new Image()
+    // floorimg.src = "floor4.png"
     const floorimg = new Image()
-    floorimg.src = "floor4.png"
+    floorimg.src = "floorB.png"
     const cloudimg = new Image()
     cloudimg.src = "cloudlist.png"
     const batimg = new Image()
     batimg.src = "bat.png"
+    const blockimg = new Image()
+    blockimg.src = "block.png"
     const lvl2floorimg = new Image()
     lvl2floorimg.src = "floor5.png"
     const lvl3floorimg = new Image()
@@ -208,8 +212,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     lvl5floorimg.src = "floor8.png"
     const lvl6floorimg = new Image()
     lvl6floorimg.src = "floor9.png"
+    // const walling = new Image()
+    // walling.src = "wall.png"
     const walling = new Image()
-    walling.src = "wall.png"
+    walling.src = "wallA.png"
     const lvl2walling = new Image()
     lvl2walling.src = "wall5.png"
     const lvl5walling = new Image()
@@ -2417,7 +2423,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.move()
                 this.bodydraw = new Circlec(this.body.x, this.body.y, this.body.radius + 7, "#AA00DD")
                 this.bodydrawhuge = new Circlec(this.body.x, this.body.y, this.body.radius + 17, "#AA00DD")
-                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0,  rimgs[0].width,  rimgs[0].height, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 52 * (this.body.radius * .06666666666), 52 * (this.body.radius * .06666666666))
+                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, rimgs[0].width, rimgs[0].height, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 52 * (this.body.radius * .06666666666), 52 * (this.body.radius * .06666666666))
 
             }
         }
@@ -3591,11 +3597,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         underlaps(RectA) {
             // console.log(RectA)
-            if (this.isPointInside(new Point(RectA.x, RectA.y + RectA.height ))) {
+            if (this.isPointInside(new Point(RectA.x, RectA.y + RectA.height))) {
 
                 return true
             }
-            if (this.isPointInside(new Point(RectA.x + RectA.width, RectA.y + RectA.height ))) {
+            if (this.isPointInside(new Point(RectA.x + RectA.width, RectA.y + RectA.height))) {
 
                 return true
             }
@@ -5171,10 +5177,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }
                             }
+
+                            if (blocks.includes(floors[t])) {
+                                tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                            }
                         } else {
 
                             if (nails.includes(floors[t])) {
                                 tutorial_canvas_context.drawImage(nailimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                            } else {
+
+                                if (blocks.includes(floors[t])) {
+                                    tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                }
                             }
                             if (ungrapplable.includes(floors[t])) {
                                 floors[t].draw()
@@ -6696,7 +6711,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
                 for (let t = 0; t < this.beams.length; t++) {
-                    tutorial_canvas_context.drawImage(rimgs[0], 0, 0, rimgs[0].width,  rimgs[0].height, this.beams[t].x - (24 * (this.beams[t].radius * .06666666666)), this.beams[t].y - (24 * (this.beams[t].radius * .06666666666)), 48 * (this.beams[t].radius * .06666666666), 48 * (this.beams[t].radius * .06666666666))
+                    tutorial_canvas_context.drawImage(rimgs[0], 0, 0, rimgs[0].width, rimgs[0].height, this.beams[t].x - (24 * (this.beams[t].radius * .06666666666)), this.beams[t].y - (24 * (this.beams[t].radius * .06666666666)), 48 * (this.beams[t].radius * .06666666666), 48 * (this.beams[t].radius * .06666666666))
 
                 }
 
@@ -6743,7 +6758,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             } else {
 
                 for (let t = 0; t < this.beams.length; t++) {
-                    tutorial_canvas_context.drawImage(rimgs[0], 0, 0, rimgs[0].width,  rimgs[0].height, this.beams[t].x - (24 * (this.beams[t].radius * .06666666666)), this.beams[t].y - (24 * (this.beams[t].radius * .06666666666)), 48 * (this.beams[t].radius * .06666666666), 48 * (this.beams[t].radius * .06666666666))
+                    tutorial_canvas_context.drawImage(rimgs[0], 0, 0, rimgs[0].width, rimgs[0].height, this.beams[t].x - (24 * (this.beams[t].radius * .06666666666)), this.beams[t].y - (24 * (this.beams[t].radius * .06666666666)), 48 * (this.beams[t].radius * .06666666666), 48 * (this.beams[t].radius * .06666666666))
                     this.beams[t].move()
                     this.beams[t].xmom *= .98
                     this.beams[t].ymom *= .98
@@ -6952,8 +6967,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         shock() {
             if (pomao.body.ymom > 10.2) {
-                const shockright = new Circlec(this.center.x - 3, this.center.y+2, this.center.radius, "yellow", 20.5, 2) // no +2 before
-                const shockleft = new Circlec(this.center.x + 3, this.center.y+2, this.center.radius, "yellow", -20.5, 2)
+                const shockright = new Circlec(this.center.x - 3, this.center.y + 2, this.center.radius, "yellow", 20.5, 2) // no +2 before
+                const shockleft = new Circlec(this.center.x + 3, this.center.y + 2, this.center.radius, "yellow", -20.5, 2)
                 // const shockrightxz = new Circlec(this.center.x-3, this.center.y-17, this.center.radius, "yellow", 20.5, 2)
                 // const shockleftxz = new Circlec(this.center.x+3, this.center.y-17, this.center.radius, "yellow", -20.5, 2)
                 // const shockrightx = new Circlec(this.center.x-3, this.center.y+17, this.center.radius, "yellow", 20.5, 2)
@@ -9925,7 +9940,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             for (let n = 0; n < walls.length; n++) {
                                 if (blocks[t] !== walls[n]) {
                                     if (walls[n].overlaps(blocks[t])) {
-                                        if(!blocks.includes(walls[n])){
+                                        if (!blocks.includes(walls[n])) {
                                             blockblock = 1
                                         }
                                     }
@@ -10840,7 +10855,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floors.push(nail)
 
         for (let t = 0; t < 20; t++) {
-            const blockx = new Rectangle(-3000  +(t*345), -1000, 60, 60, "orange")
+            const blockx = new Rectangle(-3000 + (t * 345), -1000, 60, 60, "orange")
             floors.push(blockx)
             walls.push(blockx)
             blocks.push(blockx)
