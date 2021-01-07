@@ -10377,7 +10377,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         }, 14)
 
-    }, 1);  //6969
+    }, 6969);  //6969
 
     function squarecirclefaceblockjump(square, circle) {
         const squareendh = square.y + square.height
