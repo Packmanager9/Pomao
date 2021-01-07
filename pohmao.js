@@ -4327,7 +4327,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             pomao.grounded = 0
             for (let t = 0; t < floors.length; t++) {
                 if ((squarecircleedges(floors[t], pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
-                      console.log("43dss")  //hits this on thin floors?  while clipping?
+                    //   console.log("43dss")  //hits this on thin floors?  while clipping?
                     if (!ungrapplable.includes(floors[t])) {
                         // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                         // this.body.y = floors[t].y-this.body.radius
@@ -4435,7 +4435,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                     if (squarecirclefeet(floors[t], this.body)) {
                         if ((squarecircleedges(floors[t], pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
-                            console.log("4369")  //hits this on thin floors?
+                            // console.log("4369")  //hits this on thin floors?
                             if (!ungrapplable.includes(floors[t])) {
                                 // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                                 // this.body.y = floors[t].y-this.body.radius
