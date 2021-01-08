@@ -226,9 +226,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const ballsprite = new Image()
     ballsprite.src = "ballsprite3.png"
     const eyeimg = new Image()
-    eyeimg.src = "eyeboss.png"
+    eyeimg.src = "eyepaint.png"
     const eyeimgred = new Image()
-    eyeimgred.src = "eyebossred.png"
+    eyeimgred.src = "eyepaintred.png"
 
     const jazz = new Audio('gulpnoise.wav');
     const jazz2 = new Audio('gulpnoise2.wav');
@@ -379,6 +379,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const paintedbackground = new Image()
     paintedbackground.src = 'bg5.png'
+    const wallpaperimg = new Image()
+    wallpaperimg.src = 'wallpaper.jpg'
+    const redwallpaperimg = new Image()
+    redwallpaperimg.src = 'redwall.png'
 
     const pomaoimg = new Image()
     pomaoimg.src = 'rcpomaolp.png'
@@ -1884,7 +1888,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     tutorial_canvas_context.lineWidth = 0
                     for (let t = 1; t < 2; t++) {
                         tutorial_canvas_context.fillStyle = getRandomLightColortp()
-                        if(typeof this.joints[t] != "undefined"){
+                        if (typeof this.joints[t] != "undefined") {
                             this.joints[t].color = getRandomLightColortp()
                             this.joints[t].draw()
                         }
@@ -1956,9 +1960,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     tutorial_canvas_context.lineWidth = 0
                     for (let t = 1; t < 2; t++) {
                         tutorial_canvas_context.fillStyle = getRandomLightColortp()
-                        if(typeof this.joints[t] != "undefined"){
-                        this.joints[t].color = getRandomLightColortp()
-                        this.joints[t].draw()
+                        if (typeof this.joints[t] != "undefined") {
+                            this.joints[t].color = getRandomLightColortp()
+                            this.joints[t].draw()
                         }
 
 
@@ -4211,6 +4215,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.hng = 0
             this.dir = 1
             this.timeloop = 0
+            this.timeloops = 0  //?
             this.timeloopx = 0
             this.thrown = []
             this.pounding = 0
@@ -4352,7 +4357,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 pomao.grounded = 0
             } else {
                 // if(this.jumping == 0){
-                    this.jumping = 1
+                this.jumping = 1
                 // }
                 this.body.ymom += .1
                 if (this.rootedframe <= 0) {
@@ -5854,7 +5859,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.body.ymom = -5.1
                         this.runner = 0
                     }
-                }else if (this.jumping == 2) {
+                } else if (this.jumping == 2) {
                     if (this.bonked == 0) {
                         this.body.ymom = -2.1
                         this.runner = 0
@@ -6042,7 +6047,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 for (let t = 0; t < blocks.length; t++) {
                                     if (blocks[t].marked == -1) {
                                         if (!nails.includes(blocks[t])) {
-                                            if (blocks[t].isBlocked) {
+                                            if (!blocks[t].isBlocked) {
                                                 blocks[t].x += gamepadAPI.axesStatus[0] * 2.999
                                             }
                                         }
@@ -6057,7 +6062,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 for (let t = 0; t < blocks.length; t++) {
                                     if (blocks[t].marked == 1) {
                                         if (!nails.includes(blocks[t])) {
+                                            if (!blocks[t].isBlocked) {
                                             blocks[t].x += gamepadAPI.axesStatus[0] * 2.999
+                                            }
                                         }
                                         // blocks[t].xmom+=.1
                                     }
@@ -6071,7 +6078,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             for (let t = 0; t < blocks.length; t++) {
                                 if (blocks[t].marked == 1) {
                                     if (!nails.includes(blocks[t])) {
-                                        if (blocks[t].isBlocked) {
+                                        if (!blocks[t].isBlocked) {
                                             blocks[t].x += gamepadAPI.axesStatus[0] * 2.999
                                         }
                                     }
@@ -10098,7 +10105,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (pomao.high > 1 && pomao.tripping > 0) {
 
                     if (level == 1) {
+                        tutorial_canvas_context.globalAlpha = 0.2;
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                        tutorial_canvas_context.globalAlpha = 1;
+                    }else if(level == 2){
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280*1.54, (720*3)+10)
+                        tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
+                        tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
+                        tutorial_canvas_context.globalAlpha = 1;
                     }
                     // tutorial_canvas_context.fillStyle = `rgba(85, 85, 128,${15 / 255})`
                     tutorial_canvas_context.fillStyle = `rgba(85, 125, 178,${15 / 255})`
@@ -10107,9 +10122,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
                 } else if (pomao.high > 1) {
 
-                    // if (level == 1) {
-                    //     tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
-                    // }
+                    if (level == 1) {
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                        tutorial_canvas_context.globalAlpha = 1;
+                    }else if(level == 2){
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280*1.54, (720*3)+10)
+                        tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
+                        tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
+                        tutorial_canvas_context.globalAlpha = 1;
+                    }
                     tutorial_canvas_context.fillStyle = `rgba(153, 193, 230,${63 / 255})`
                     // tutorial_canvas_context.fillStyle = `rgba(153, 153, 230,${63 / 255})`
                     tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
@@ -10119,7 +10142,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
                     if (level == 1) {
+                        tutorial_canvas_context.globalAlpha = 0.2;
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                        tutorial_canvas_context.globalAlpha = 1;
+                    }else if(level == 2){
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280*1.54, (720*3)+10)
+                        tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
+                        tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
+                        tutorial_canvas_context.globalAlpha = 1;
                     }
                     tutorial_canvas_context.fillStyle = `rgba(190, 190, 255,${14 / 255})`
                     tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
@@ -10131,7 +10162,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     //pictures
 
                     if (level == 1) {
+                        // tutorial_canvas_context.globalAlpha = 0.1;
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                        // tutorial_canvas_context.globalAlpha = 1;
+                    }else if(level == 2){
+                        // tutorial_canvas_context.globalAlpha = 0.1;
+                        tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280*1.54, (720*3)+10)
+                        tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
+                        tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
+                        // tutorial_canvas_context.globalAlpha = 1;
                     }
                     // if(keysPressed['p']){
                     //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
@@ -12996,21 +13035,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(wall2)
         floors.push(wall2)
         roofs.push(wall2)
-
-
         floormpf = [...floors]
-
     }
-
-
-
-    // const worm = new Worm(300+Math.random()*5000,-1250+Math.random()*2000)
-    // console.log(JSON.stringify(worm))
-    // let newrect = new Rectangle(0,0,700,700, "")
-    // let newrectw = new Rectangle(0,0,500,700, "")
-    // if(newrect.overlaps(newrectw)){
-    //     console.log("what")
-    // }
 })
-
-
