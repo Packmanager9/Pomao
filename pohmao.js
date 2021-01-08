@@ -384,7 +384,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const redwallpaperimg = new Image()
     redwallpaperimg.src = 'redwall.png'
     const dessertimg = new Image()
-    dessertimg.src = 'dessert4.png'
+    dessertimg.src = 'desert13.png'
 
     const pomaoimg = new Image()
     pomaoimg.src = 'rcpomaolp.png'
@@ -428,11 +428,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     pomaoimgbg.src = 'pomaobg.png'
 
     const seedegg = new Image()
-    seedegg.src = 'seedegg.png'
+    seedegg.src = 'seedeggpaint3.png'
     const seedeggf = new Image()
-    seedeggf.src = 'eggf.png'
+    seedeggf.src = 'seedeggpaintfirel.png'
     const seedeggfl = new Image()
-    seedeggfl.src = 'eggfl.png'
+    seedeggfl.src = 'seedeggpaintfire.png'
     const pomaoimgl = new Image()
     pomaoimgl.src = 'rcpomaolpl.png'
     const pomaoimglg = new Image()
@@ -10118,7 +10118,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
                         tutorial_canvas_context.globalAlpha = 0.2;
-                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2625, 15000, 5400)
+                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
                     // tutorial_canvas_context.fillStyle = `rgba(85, 85, 128,${15 / 255})`
@@ -10140,7 +10140,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
                         tutorial_canvas_context.globalAlpha = 0.2;
-                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2625, 15000, 5400)
+                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
                     tutorial_canvas_context.fillStyle = `rgba(153, 193, 230,${63 / 255})`
@@ -10163,7 +10163,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
                         tutorial_canvas_context.globalAlpha = 0.2;
-                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2625, 15000, 5400)
+                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
                     tutorial_canvas_context.fillStyle = `rgba(190, 190, 255,${14 / 255})`
@@ -10186,7 +10186,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
                         // tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
-                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2625, 15000, 5400)
+                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
                     }
                     // if(keysPressed['p']){
                     //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
@@ -10952,7 +10952,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.thrown = []
 
 
-        const floor = new Rectangle(-100000000, 650, 50, 7000000000, "red")
+        const floor = new Rectangle(-100000000, 650, 500, 7000000000, "red")
         walls.push(floor)
         roofs.push(floor)
         floors.push(floor)
@@ -11598,8 +11598,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     function loadlvl2() {
 
 
-        pin = new Circle(9900, -8100, 10, "blue")
-        pin2 = new Circle(9900, -8100 + (7 * 220), 100, "orange")
+        pin = new Circle(9900, -8100, 10, "transparent")
+        pin2 = new Circle(9900, -8100 + (7 * 220), 100, "transparent")
 
 
         beamrocks = []
@@ -11771,8 +11771,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     function loadlvl3() {
 
-        pin = new Circle(9900, -8100, 10, "blue")
-        pin2 = new Circle(9900, -8100 + (7 * 220), 100, "orange")
+        pin = new Circle(9900, -8100, 10, "transparent")
+        pin2 = new Circle(9900, -8100 + (7 * 220), 100, "transparent")
 
         beamrocks = []
         pomao.eggs = [pomao.body]
@@ -11911,8 +11911,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl4() {
 
-        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "blue")
-        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "orange")
+        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
+        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
         springs = []
         objsprings = []
 
@@ -12446,8 +12446,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl5() {
 
-        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "blue")
-        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "orange")
+        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
+        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
         springs = []
         objsprings = []
 
@@ -12709,8 +12709,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl6() {
 
-        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "blue")
-        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "orange")
+        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
+        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
         springs = []
         objsprings = []
 
@@ -12978,8 +12978,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl7() {
 
-        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "blue")
-        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "orange")
+        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
+        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
         springs = []
         objsprings = []
 
