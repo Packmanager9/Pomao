@@ -10118,7 +10118,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
                         tutorial_canvas_context.globalAlpha = 0.2;
-                        tutorial_canvas_context.drawImage(dessertimg, -1000, -3970)
+                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2625, 15000, 5400)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
                     // tutorial_canvas_context.fillStyle = `rgba(85, 85, 128,${15 / 255})`
@@ -10140,7 +10140,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
                         tutorial_canvas_context.globalAlpha = 0.2;
-                        tutorial_canvas_context.drawImage(dessertimg, -1000, -3970)
+                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2625, 15000, 5400)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
                     tutorial_canvas_context.fillStyle = `rgba(153, 193, 230,${63 / 255})`
@@ -10163,7 +10163,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
                         tutorial_canvas_context.globalAlpha = 0.2;
-                        tutorial_canvas_context.drawImage(dessertimg, -1000, -3970)
+                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2625, 15000, 5400)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
                     tutorial_canvas_context.fillStyle = `rgba(190, 190, 255,${14 / 255})`
