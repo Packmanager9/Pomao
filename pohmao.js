@@ -207,8 +207,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     lvl2floorimg.src = "floor5.png"
     const lvl3floorimg = new Image()
     lvl3floorimg.src = "floor6.png"
+    // const lvl4floorimg = new Image()
+    // lvl4floorimg.src = "floor7.png"
     const lvl4floorimg = new Image()
-    lvl4floorimg.src = "floor7.png"
+    lvl4floorimg.src = "floorpaintlvl4-3.png"
+    const lvl4fwallimg = new Image()
+    lvl4fwallimg.src = "wallpaintlvl4.png"
     const lvl5floorimg = new Image()
     lvl5floorimg.src = "floor8.png"
     const lvl6floorimg = new Image()
@@ -5281,7 +5285,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         } else if (level == 4) {
 
-                                            tutorial_canvas_context.drawImage(lvl4floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                            tutorial_canvas_context.drawImage(lvl4fwallimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         } else if (level == 5) {
 
                                             tutorial_canvas_context.drawImage(lvl5walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
