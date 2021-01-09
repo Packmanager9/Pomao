@@ -5429,7 +5429,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                         }
                     } else {
-                        floors[t].draw()
+                        // floors[t].draw()
+
+                        tutorial_canvas_context.globalAlpha = 0.5
+                        tutorial_canvas_context.drawImage(paintedbackground, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                        tutorial_canvas_context.globalAlpha = 1
                     }
                 }
             }
@@ -10310,7 +10314,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         // tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                         // }else{
 
+                        // jellys[t].draw()
+                        tutorial_canvas_context.globalAlpha = 0.5
+                        tutorial_canvas_context.drawImage(paintedbackground, jellys[t].x, jellys[t].y, jellys[t].width, jellys[t].height)
+
+                        tutorial_canvas_context.globalAlpha = 0.3
                         jellys[t].draw()
+                        tutorial_canvas_context.globalAlpha = 1
                         // }
                     }
 
