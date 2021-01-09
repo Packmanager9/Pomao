@@ -10049,7 +10049,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 this.box.x = pomao.body.x - 640
                 this.box.y = pomao.body.y + 60
-                this.box.width = 1280
+                tutorial_canvas_context.fillStyle = "black";
+                tutorial_canvas_context.font = "30px Arial";
+                this.box.width = getTextWidth(`${this.words[this.active]}`, tutorial_canvas_context.font)+80
                 this.box.height = 50
                 this.box.draw()
                 tutorial_canvas_context.fillStyle = "black";
@@ -10124,6 +10126,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 2){
                         tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280*1.54, (720*3)+10)
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
@@ -10134,6 +10137,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
                         tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
@@ -10150,6 +10154,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 2){
                         tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280*1.54, (720*3)+10)
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
@@ -10160,6 +10165,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
                         tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
@@ -10177,6 +10183,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 2){
                         tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280*1.54, (720*3)+10)
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
@@ -10187,6 +10194,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
                         tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
@@ -10205,6 +10213,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         // tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 2){
                         // tutorial_canvas_context.globalAlpha = 0.1;
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280*1.54, (720*3)+10)
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
@@ -10212,6 +10221,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }else if(level == 4){
                         tutorial_canvas_context.drawImage(paintedbackgroundlvl4, pomao.body.x - 640, pomao.body.y - 360)
                     }else if(level == 5){
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
                     }
                     // if(keysPressed['p']){
@@ -13084,5 +13094,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floors.push(wall2)
         roofs.push(wall2)
         floormpf = [...floors]
+    }
+
+    function getTextWidth(text, font) {
+        // re-use canvas object for better performance
+        var canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+        var context = canvas.getContext("2d");
+        context.font = font;
+        var metrics = context.measureText(text);
+        return metrics.width;
     }
 })
