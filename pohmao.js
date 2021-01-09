@@ -383,6 +383,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const paintedbackground = new Image()
     paintedbackground.src = 'bg5.png'
+    const paintedbackgroundlvl4 = new Image()
+    paintedbackgroundlvl4.src = 'bg6.png'
     const wallpaperimg = new Image()
     wallpaperimg.src = 'wallpaper.jpg'
     const redwallpaperimg = new Image()
@@ -10126,6 +10128,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
                         tutorial_canvas_context.globalAlpha = 1;
+                    }else if(level == 4){
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackgroundlvl4, pomao.body.x - 640, pomao.body.y - 360)
+                        tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
                         tutorial_canvas_context.globalAlpha = 0.2;
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
@@ -10147,6 +10153,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280*1.54, (720*3)+10)
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
+                        tutorial_canvas_context.globalAlpha = 1;
+                    }else if(level == 4){
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackgroundlvl4, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
                         tutorial_canvas_context.globalAlpha = 0.2;
@@ -10170,6 +10180,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280*1.54, (720*3)+10)
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
+                        tutorial_canvas_context.globalAlpha = 1;
+                    }else if(level == 4){
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackgroundlvl4, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 5){
                         tutorial_canvas_context.globalAlpha = 0.2;
@@ -10195,6 +10209,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
                         // tutorial_canvas_context.globalAlpha = 1;
+                    }else if(level == 4){
+                        tutorial_canvas_context.drawImage(paintedbackgroundlvl4, pomao.body.x - 640, pomao.body.y - 360)
                     }else if(level == 5){
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
                     }
