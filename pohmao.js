@@ -7772,7 +7772,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     let rigradius = 20
                     let spring = new ChSpring(this.body)
-                    spring.health = 1150
+                    spring.health = 1350  //1150
                     spring.anchor.radius = rigradius
                     this.joints.push(spring.anchor)
                     this.legs.push(spring)
@@ -7783,7 +7783,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     for (let k = 0; k < 8; k++) {
                         spring = new ChSpring(spring.anchor)
                         spring.anchor.radius = rigradius
-                        spring.health = rigradius * 8
+                        spring.health = rigradius * 10 //8
                         rigradius -= 2.4
                         if (k % 2 == 0) {
                             spring.anchor.color = "red"
@@ -7798,7 +7798,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     let rigradius = 20
                     let spring = new ChSpring(this.body)
-                    spring.health = 1150
+                    spring.health = 1350 //1150
                     spring.anchor.radius = rigradius
                     this.joints.push(spring.anchor)
                     this.legs.push(spring)
@@ -7814,7 +7814,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else {
                             spring.anchor.color = "#090909"
                         }
-                        spring.health = rigradius * 8
+                        spring.health = rigradius * 10 // 8
                         rigradius -= 2.4
                         this.legs.push(spring)
                         this.joints.push(spring.anchor)
