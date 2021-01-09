@@ -214,7 +214,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const lvl4fwallimg = new Image()
     lvl4fwallimg.src = "wallpaintlvl4.png"
     const lvl5floorimg = new Image()
-    lvl5floorimg.src = "floor8.png"
+    lvl5floorimg.src = "desertfloor.png"
     const lvl6floorimg = new Image()
     lvl6floorimg.src = "floor9.png"
     // const walling = new Image()
@@ -555,8 +555,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const tutorial_canvas_context = tutorial_canvas.getContext('2d');
 
     // tutorial_canvas_context.scale(.075,.075)
+    // tutorial_canvas_context.scale(.1,.1)
     // tutorial_canvas_context.scale(.5,.5)
     // tutorial_canvas_context.translate(3300,19750) //lvl4
+    // tutorial_canvas_context.translate(2000,3000) //lvl4
     // tutorial_canvas_context.translate(3300,9000)//lvl6
     // tutorial_canvas_context.translate(640,360)
 
@@ -5490,7 +5492,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (fruits[t].x > this.body.x - ((tutorial_canvas.width / 2) + fruits[t].width) && fruits[t].x < this.body.x + ((tutorial_canvas.width / 2) + fruits[t].width)) {
                     if (fruits[t].y > this.body.y - ((tutorial_canvas.height / 2) + fruits[t].height) && fruits[t].y < this.body.y + ((tutorial_canvas.height / 2) + fruits[t].height)) {
 
-                        fruits[t].draw()
+                        // fruits[t].draw()
 
                     }
                 }
@@ -5532,13 +5534,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (boys[t].cactus == 1) {
                     if (boys[t].x > this.body.x - (tutorial_canvas.width * 1.6) && boys[t].x < this.body.x + (tutorial_canvas.width * 1.6)) {
                         if (boys[t].y > this.body.y - (tutorial_canvas.height * 3.6) && boys[t].y < this.body.y + (tutorial_canvas.height * 3.6)) {
-                            boys[t].draw()
+                            // boys[t].draw()
                         }
                     }
                 } else {
                     if (boys[t].x > this.body.x - (tutorial_canvas.width / 1) && boys[t].x < this.body.x + (tutorial_canvas.width / 1.6)) {
                         if (boys[t].y > this.body.y - (tutorial_canvas.height / 1.6) && boys[t].y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                            boys[t].draw()
+                            // boys[t].draw()
                         }
                     }
                 }
