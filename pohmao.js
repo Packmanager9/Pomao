@@ -5492,7 +5492,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (fruits[t].x > this.body.x - ((tutorial_canvas.width / 2) + fruits[t].width) && fruits[t].x < this.body.x + ((tutorial_canvas.width / 2) + fruits[t].width)) {
                     if (fruits[t].y > this.body.y - ((tutorial_canvas.height / 2) + fruits[t].height) && fruits[t].y < this.body.y + ((tutorial_canvas.height / 2) + fruits[t].height)) {
 
-                        // fruits[t].draw()
+                        fruits[t].draw()
 
                     }
                 }
@@ -5534,13 +5534,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (boys[t].cactus == 1) {
                     if (boys[t].x > this.body.x - (tutorial_canvas.width * 1.6) && boys[t].x < this.body.x + (tutorial_canvas.width * 1.6)) {
                         if (boys[t].y > this.body.y - (tutorial_canvas.height * 3.6) && boys[t].y < this.body.y + (tutorial_canvas.height * 3.6)) {
-                            // boys[t].draw()
+                            boys[t].draw()
                         }
                     }
                 } else {
                     if (boys[t].x > this.body.x - (tutorial_canvas.width / 1) && boys[t].x < this.body.x + (tutorial_canvas.width / 1.6)) {
                         if (boys[t].y > this.body.y - (tutorial_canvas.height / 1.6) && boys[t].y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                            // boys[t].draw()
+                            boys[t].draw()
                         }
                     }
                 }
