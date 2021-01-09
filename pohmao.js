@@ -383,6 +383,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const paintedbackground = new Image()
     paintedbackground.src = 'bg5.png'
+    const paintedbackgroundlvl3 = new Image()
+    paintedbackgroundlvl3.src = 'bg7.png'
     const paintedbackgroundlvl4 = new Image()
     paintedbackgroundlvl4.src = 'bg6.png'
     const wallpaperimg = new Image()
@@ -5370,6 +5372,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                             } else {
 
+                                // if (level == 1) {  // adjusts sprites to resolution of the image, but it doesn't look nice
+                                //     tutorial_canvas_context.drawImage(floorimg, 0,0,Math.min(floorimg.width, floors[t].width),Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                // } else if (level == 2) {
+
+                                //     tutorial_canvas_context.drawImage(lvl2floorimg, 0,0,Math.min(lvl2floorimg.width, floors[t].width),Math.min(lvl2floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                // } else if (level == 3) {
+
+                                //     tutorial_canvas_context.drawImage(lvl3floorimg, 0,0,Math.min(lvl3floorimg.width, floors[t].width),Math.min(lvl3floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                // } else if (level == 4) {
+
+                                //     tutorial_canvas_context.drawImage(lvl4floorimg, 0,0,Math.min(lvl4floorimg.width, floors[t].width),Math.min(lvl4floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                // } else if (level == 5) {
+
+                                //     tutorial_canvas_context.drawImage(lvl5floorimg, 0,0,Math.min(lvl5floorimg.width, floors[t].width),Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                // } else if (level == 6) {
+
+                                //     tutorial_canvas_context.drawImage(lvl6floorimg, 0,0,Math.min(lvl6floorimg.width, floors[t].width),Math.min(lvl6floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                // } else if (level == 7) {
+
                                 if (level == 1) {
                                     tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 } else if (level == 2) {
@@ -5377,7 +5398,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     tutorial_canvas_context.drawImage(lvl2floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 } else if (level == 3) {
 
-                                    tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    tutorial_canvas_context.drawImage(lvl3floorimg,  floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 } else if (level == 4) {
 
                                     tutorial_canvas_context.drawImage(lvl4floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
@@ -10131,6 +10152,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
                         tutorial_canvas_context.globalAlpha = 1;
+                    }else if(level == 3){
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
+                        tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 4){
                         tutorial_canvas_context.globalAlpha = 0.2;
                         tutorial_canvas_context.drawImage(paintedbackgroundlvl4, pomao.body.x - 640, pomao.body.y - 360)
@@ -10158,6 +10183,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280*1.54, (720*3)+10)
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
+                        tutorial_canvas_context.globalAlpha = 1;
+                    }else if(level == 3){
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 4){
                         tutorial_canvas_context.globalAlpha = 0.2;
@@ -10187,6 +10216,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280*1.54, (720*3)+10)
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
+                        tutorial_canvas_context.globalAlpha = 1;
+                    }else if(level == 3){
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.globalAlpha = 1;
                     }else if(level == 4){
                         tutorial_canvas_context.globalAlpha = 0.2;
@@ -10218,6 +10251,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280*2.35, (720*2)-12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500,525)
                         // tutorial_canvas_context.globalAlpha = 1;
+                    }else if(level == 3){
+                        tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
                     }else if(level == 4){
                         tutorial_canvas_context.drawImage(paintedbackgroundlvl4, pomao.body.x - 640, pomao.body.y - 360)
                     }else if(level == 5){
@@ -10955,6 +10990,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl1() {
 
+        pomao.tonguex = 0
+        pomao.tonguey = 0
 
         pin = new Circle(9900, -8100, 10, "blue")
         pin2 = new Circle(9900, -8100 + (7 * 220), 100, "orange")
@@ -11639,6 +11676,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl2() {
 
+        pomao.tonguex = 0
+        pomao.tonguey = 0
 
         pin = new Circle(9900, -8100, 10, "transparent")
         pin2 = new Circle(9900, -8100 + (7 * 220), 100, "transparent")
@@ -11813,6 +11852,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     function loadlvl3() {
 
+        pomao.tonguex = 0
+        pomao.tonguey = 0
         pin = new Circle(9900, -8100, 10, "transparent")
         pin2 = new Circle(9900, -8100 + (7 * 220), 100, "transparent")
 
@@ -11953,6 +11994,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl4() {
 
+        pomao.tonguex = 0
+        pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
         pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
         springs = []
@@ -12488,6 +12531,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl5() {
 
+        pomao.tonguex = 0
+        pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
         pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
         springs = []
@@ -12751,6 +12796,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl6() {
 
+        pomao.tonguex = 0
+        pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
         pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
         springs = []
@@ -13020,6 +13067,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl7() {
 
+        pomao.tonguex = 0
+        pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
         pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
         springs = []
