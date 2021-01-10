@@ -10490,7 +10490,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
 
                     // fracta4l.draw()
-                    loader = 1000
+                    loader = 200
                 } else {
 
                     spidermusic.pause()
