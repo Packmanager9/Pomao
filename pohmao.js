@@ -228,7 +228,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const nailimg = new Image()
     nailimg.src = "poundnail.png"
     const ballsprite = new Image()
-    ballsprite.src = "ballsprite3.png"
+    ballsprite.src = "ballsprite4.png"
+    const ballspritelvl4 = new Image()
+    ballspritelvl4.src = "ballsprite5.png"
     const eyeimg = new Image()
     eyeimg.src = "eyepaint.png"
     const eyeimgred = new Image()
@@ -454,6 +456,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const pomaoimgup = new Image()
     pomaoimgup.src = 'newpomaoup.png'
+    const healthbase = new Image()
+    healthbase.src = 'healthbase.png'
+    const healthdot = new Image()
+    healthdot.src = 'healthdot.png'
     const pomaoimgupg = new Image()
     pomaoimgupg.src = 'pomaoupg.png'
     const pomaoimglup = new Image()
@@ -1282,7 +1288,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.beam.draw()
             // this.body.draw()
             if (ramps.includes(this.anchor)) {
-                tutorial_canvas_context.drawImage(ballsprite, 0, 0, ballsprite.width, ballsprite.height, pin2.x - pin2.radius, pin2.y - pin2.radius, pin2.radius * 2, pin2.radius * 2)
+                // tutorial_canvas_context.drawImage(ballsprite, 0, 0, ballsprite.width, ballsprite.height, pin2.x - pin2.radius, pin2.y - pin2.radius, pin2.radius * 2, pin2.radius * 2)
+                if (level == 4) {
+                    tutorial_canvas_context.drawImage(ballspritelvl4, 0, 0, ballsprite.width, ballsprite.height, pin2.x - pin2.radius, pin2.y - pin2.radius, pin2.radius * 2, pin2.radius * 2)
+                } else {
+                    tutorial_canvas_context.drawImage(ballsprite, 0, 0, ballsprite.width, ballsprite.height, pin2.x - pin2.radius, pin2.y - pin2.radius, pin2.radius * 2, pin2.radius * 2)
+                }
             }
             // this.anchor.draw()
         }
@@ -4157,6 +4168,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
             this.body = new Circle(this.pomao.body.x - 575, this.pomao.body.y - 300, 25, "red")
             this.body.draw()
+            tutorial_canvas_context.drawImage(healthbase, 0, 0, healthbase.width, healthbase.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
             let a = Math.PI
             this.rays = []
             for (let t = 0; t < 9; t++) {
@@ -4165,7 +4177,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 a += (Math.PI / 4.5)
             }
             for (let t = 0; t < this.pomao.hits; t++) {
-                this.rays[t].draw()
+                // this.rays[t].draw()
+
+                tutorial_canvas_context.drawImage(healthdot, 0, 0, healthdot.width, healthdot.height, this.rays[t].x - (this.rays[t].radius * 1.2), this.rays[t].y - (this.rays[t].radius * 1.2), this.rays[t].radius * 2.4, this.rays[t].radius * 2.4)
             }
 
         }
@@ -5250,7 +5264,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             // ctx.fillStyle = 'transparent';
 
                             // tutorial_canvas_context.drawImage(c, ramps[t].x2, ramps[t].tip, ramps[t].x1 - ramps[t].x2, ramps[t].y - ramps[t].tip)
-                        
+
 
                             // ctx.drawImage(floorimg, 0, 0)
                             // ctx.globalCompositeOperation = 'source-in';
