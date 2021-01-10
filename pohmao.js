@@ -4163,16 +4163,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
         constructor(pomao) {
             this.pomao = pomao
             this.rays = []
-            this.body = new Circle(this.pomao.body.x - 575, this.pomao.body.y - 300, 25, "red")
+            this.body = new Circle(this.pomao.body.x - 575, this.pomao.body.y - 300, 27.5, "red")
         }
         draw() {
-            this.body = new Circle(this.pomao.body.x - 575, this.pomao.body.y - 300, 25, "red")
+            this.body = new Circle(this.pomao.body.x - 575, this.pomao.body.y - 300, 27.5, "red")
             this.body.draw()
             tutorial_canvas_context.drawImage(healthbase, 0, 0, healthbase.width, healthbase.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
             let a = Math.PI
             this.rays = []
             for (let t = 0; t < 9; t++) {
-                const ray = new Circle(this.body.x + (Math.sin(a) * 26), this.body.y + (Math.cos(a) * 26), 5, "yellow")
+                const ray = new Circle(this.body.x + (Math.sin(a) * 28), this.body.y + (Math.cos(a) * 28), 6, "yellow")
                 this.rays.push(ray)
                 a += (Math.PI / 4.5)
             }
