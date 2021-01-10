@@ -239,7 +239,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const jazz = new Audio('gulpnoise.wav');
     const jazz2 = new Audio('gulpnoise2.wav');
     const spidermusic = new Audio('Mopao.mp3');
-    const targoymusic = new Audio('pomo2.wav');
+    const targoymusic = new Audio('pomo3.wav');
 
     const jailswitchimgl = new Image()
     jailswitchimgl.src = 'switchl.png'
@@ -7019,6 +7019,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.body2anchor = new Circle(this.body2.x + ((Math.random() - .5) * 200), this.body2.y + ((Math.random() - .5) * 200), 10, "transparent")
             this.body3anchor = new Circle(this.body3.x + ((Math.random() - .5) * 200), this.body3.y + ((Math.random() - .5) * 200), 10, "transparent")
             this.health = 666
+            this.maxhealth = 666
             this.beams = []
             this.beambox = new Shape(this.beams)
             this.bump = 0
@@ -7031,6 +7032,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (boss.body1.x > pomao.body.x - ((tutorial_canvas.width * 1) + boss.body1.radius) && boss.body1.x < pomao.body.x + ((tutorial_canvas.width * 1) + boss.body1.radius)) {
                     if (boss.body1.y > pomao.body.y - ((tutorial_canvas.height * 1) + boss.body1.radius) && boss.body1.y < pomao.body.y + ((tutorial_canvas.height * 1) + boss.body1.radius)) {
                         this.move()
+                        targoymusic.playbackRate = .4+(1-(.5*(this.health/this.maxhealth)));
                         targoymusic.play()
                     } else {
                         this.beam()
