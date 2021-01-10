@@ -11072,10 +11072,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.thrown = []
 
 
-        const floor = new Rectangle(-100000000, 650, 500, 7000000000, "red")
+        const floor = new Rectangle(-100000000, 650, 500, 100000000-12000, "red")
         walls.push(floor)
         roofs.push(floor)
         floors.push(floor)
+        for(let t = 0;t<30;t++){
+            const floor2 = new Rectangle(-12000+(t*2000), 650, 500, 2000, "red")
+            walls.push(floor2)
+            roofs.push(floor2)
+            floors.push(floor2)
+        }
 
         boss = new Bossbeam()
 
