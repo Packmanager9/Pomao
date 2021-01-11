@@ -185,6 +185,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // letpomao.grounded= 0
     const crackfloorimg = new Image()
     crackfloorimg.src = "cracksheet.png"
+    const pomaodownpaint = new Image()
+    pomaodownpaint.src = "pomaodownpaint.png"
+    const pomaodownpaintl = new Image()
+    pomaodownpaintl.src = "pomaodownpaintl.png"
+    const pomaodownpaintb = new Image()
+    pomaodownpaintb.src = "pomaodownpaintb.png"
+    const pomaodownpaintlb = new Image()
+    pomaodownpaintlb.src = "pomaodownpaintlb.png"
     const propimg = new Image()
     propimg.src = "propoganda.png"
     const transfloor = new Image()
@@ -5693,7 +5701,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             this.thrown[t].timer = 6
                         }
                     }
-                    if (hot <= 0) {
+                     if(this.tonguex > 14 && this.tonguey > 14){
+                        if (this.blush <= 1) {
+                        tutorial_canvas_context.drawImage(pomaodownpaint, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                        }else{
+                            tutorial_canvas_context.drawImage(pomaodownpaintb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                        }
+                    }else   if(this.tonguex < -14 && this.tonguey > 14){
+                        if (this.blush <= 1) {
+                        tutorial_canvas_context.drawImage(pomaodownpaintl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                        }else{
+                        tutorial_canvas_context.drawImage(pomaodownpaintlb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                        }
+                    }else if (hot <= 0) {
 
                         if (this.blush <= 1) {
 
