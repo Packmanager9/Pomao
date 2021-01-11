@@ -395,7 +395,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const redwallpaperimg = new Image()
     redwallpaperimg.src = 'redwall.png'
     const dessertimg = new Image()
-    dessertimg.src = 'desert13.png'
+    dessertimg.src = 'desertfloor2.png'
 
     const pomaoimg = new Image()
     pomaoimg.src = 'rcpomaolp.png'
@@ -10304,7 +10304,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(paintedbackgroundlvl4, pomao.body.x - 640, pomao.body.y - 360)
                     } else if (level == 5) {
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
-                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
+                        tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
                     }
                     // if(keysPressed['p']){
                     //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
