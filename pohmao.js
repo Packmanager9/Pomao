@@ -10210,7 +10210,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     } else if (level == 5) {
                         tutorial_canvas_context.globalAlpha = 0.2;
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
-                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
+                        tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
                     // tutorial_canvas_context.fillStyle = `rgba(85, 85, 128,${15 / 255})`
@@ -10242,7 +10242,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     } else if (level == 5) {
                         tutorial_canvas_context.globalAlpha = 0.2;
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
-                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
+                        tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
                     tutorial_canvas_context.fillStyle = `rgba(153, 193, 230,${63 / 255})`
@@ -10275,7 +10275,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     } else if (level == 5) {
                         tutorial_canvas_context.globalAlpha = 0.2;
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
-                        tutorial_canvas_context.drawImage(dessertimg, -2075, -2225, 15000, 2675)
+                        tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
                     tutorial_canvas_context.fillStyle = `rgba(190, 190, 255,${14 / 255})`
@@ -10601,9 +10601,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // swinger1move()
             // encoder.add(tutorial_canvas_context)
 
-        }, 14)
+        }, 7)
 
-    }, 6969);  //6969
+    }, 1);  //6969
 
     function squarecirclefaceblockjump(square, circle) {
         const squareendh = square.y + square.height
