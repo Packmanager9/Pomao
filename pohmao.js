@@ -10023,15 +10023,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (Math.random() < .4) {
                     this.height = 64
                     this.width = 64
+                    tutorial_canvas_context.globalAlpha = Math.random()
                     tutorial_canvas_context.drawImage(jomaoholoimg, this.frame * 103, 0, 103, 121, this.body.x - (103 / 2), this.body.y - (121 / 2), this.width, this.height)
                     tutorial_canvas_context.drawImage(jomaoholoimg, this.frame * 103, 0, 103, 121, this.body.x - (103 / 2), this.body.y - (121 / 2), this.width, this.height)
+                    tutorial_canvas_context.globalAlpha = 1
 
                 } else {
                     if (Math.random() < .1) {
+                        tutorial_canvas_context.globalAlpha = Math.random()
                         tutorial_canvas_context.drawImage(jomaoholoimg, 0, 0, 103, 121, this.body.x - (103 / 2), this.body.y - (121 / 2), this.width, this.height)
+                        tutorial_canvas_context.globalAlpha = 1
 
                         if (Math.random() < .5) {
+                            tutorial_canvas_context.globalAlpha = Math.random()
                             tutorial_canvas_context.drawImage(jomaoholoimg, 0, 0, 103, 121, this.body.x - (103 / 2), this.body.y - (121 / 2), this.width, this.height)
+                            tutorial_canvas_context.globalAlpha = 1
                         }
                     } else {
 
@@ -10040,13 +10046,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                         this.height = 64 + (.4 * Math.cos(Math.sin(pomao.timeloop + Math.PI))) + (Math.random() - .5) * 12
                         this.width = 64 + (Math.random() - .5) * 12
+                        tutorial_canvas_context.globalAlpha = Math.random()
                         tutorial_canvas_context.drawImage(jomaoholoimg, this.frame * 103, 0, 103, 121, this.body.x - (103 / 2), this.body.y - (121 / 2), this.width, this.height)
+                        tutorial_canvas_context.globalAlpha = 1
                         if (Math.random() > .7) {
+                            tutorial_canvas_context.globalAlpha = Math.random()
                             tutorial_canvas_context.drawImage(jomaoholoimg, (this.frame + (Math.random() * .1)) * 103, 0, 103, 121, this.body.x - (103 / 2), this.body.y - (121 / 2), this.width, this.height)
+                            tutorial_canvas_context.globalAlpha = 1
                         } if (Math.random() > .7) {
+                            tutorial_canvas_context.globalAlpha = Math.random()
                             tutorial_canvas_context.drawImage(jomaoholoimg, (2 + this.frame + (Math.random() * .2)) * 103, 0, 103, 121, this.body.x - (103 / 2), this.body.y - (121 / 2), this.width, this.height)
+                            tutorial_canvas_context.globalAlpha = 1
                         } if (Math.random() > .7) {
+                            tutorial_canvas_context.globalAlpha = Math.random()
                             tutorial_canvas_context.drawImage(jomaoholoimg, (3 + this.frame + (Math.random() * .3)) * 103, 0, 103, 121, this.body.x - (103 / 2), this.body.y - (121 / 2), this.width, this.height)
+                            tutorial_canvas_context.globalAlpha = 1
                         }
                     }
 
