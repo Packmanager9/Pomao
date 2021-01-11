@@ -10601,9 +10601,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // swinger1move()
             // encoder.add(tutorial_canvas_context)
 
-        }, 7)
+        }, 14)
 
-    }, 1);  //6969
+    }, 6969);  //6969
 
     function squarecirclefaceblockjump(square, circle) {
         const squareendh = square.y + square.height
