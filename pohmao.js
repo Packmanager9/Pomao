@@ -1194,7 +1194,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (squarecirclefeetspinxdeep(this.wings[f], pomao.body)) {
                         pomao.wingthing = f
                         pomao.xdisp = this.wings[f].x
-                        pomao.ydisp = this.wings[f].y - 3.5
+                        pomao.ydisp = this.wings[f].y //- 3.5
                     }
                 }
             }
@@ -1315,7 +1315,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.lineWidth = 1
             tutorial_canvas_context.strokeStyle = this.color
             tutorial_canvas_context.beginPath();
-            tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI * 2), true)
+            if(this.radius>0){
+                tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI * 2), true)
+            }
             tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke();
             tutorial_canvas_context.closePath();
@@ -3922,8 +3924,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.lineWidth = 4
             tutorial_canvas_context.strokeStyle = this.color
             tutorial_canvas_context.beginPath();
+            if(this.radius>1){
             tutorial_canvas_context.arc(this.x, this.y, this.radius - 1, 0, (Math.PI * 2), true)
-
+            }
             tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke();
             tutorial_canvas_context.closePath();
@@ -4619,16 +4622,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 shocks.push(cloudpuff)
                             }
                             if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
+                                if(this.wingcheck == 0){
                                 this.tonguex = 0
                                 this.tonguey = 0
                                 resettonguediff()
+                                }
                             }
                             if (pomao.body.ymom > 0) {
                                 pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
                             }
+                            if(this.wingcheck == 0){
                             pomao.body.symom = 0
                             pomao.body.ymom = 0
                             pomao.body.sxmom = 0
+                            }
                             break
                         }
                     }
@@ -4768,16 +4775,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                 }
                                 if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
+                                    if(this.wingcheck == 0){
                                     this.tonguex = 0
                                     this.tonguey = 0
                                     resettonguediff()
+                                    }
                                 }
                                 if (pomao.body.ymom > 0) {
                                     pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
                                 }
+                                if(this.wingcheck == 0){
                                 pomao.body.symom = 0
                                 pomao.body.ymom = 0
                                 pomao.body.sxmom = 0
+                                }
                                 break
                             }
 
@@ -4871,7 +4882,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     
                 }
             }
-            this.wingcheck =  0
             for (let t = 0; t < ramps.length; t++) {
 
                 if (t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(ramps[t])) {
@@ -4901,16 +4911,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         this.body.y = ramps[t].y - this.body.radius
                                         pomao.grounded = 1
                                         if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
+                                            if(this.wingcheck == 0){
                                             this.tonguex = 0
                                             this.tonguey = 0
                                             resettonguediff()
+                                            }
                                         }
                                         if (pomao.body.ymom > 0) {
                                             pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
                                         }
+                                        if(this.wingcheck == 0){
                                         pomao.body.symom = 0
                                         pomao.body.ymom = 0
                                         pomao.body.sxmom = 0
+                                        }
                                         break
 
                                     }
@@ -4920,16 +4934,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     this.body.y = ramps[t].y - this.body.radius
                                     pomao.grounded = 1
                                     if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
-                                        this.tonguex = 0
-                                        this.tonguey = 0
-                                        resettonguediff()
+                                        if(this.wingcheck == 0){
+                                            this.tonguex = 0
+                                            this.tonguey = 0
+                                            resettonguediff()
+                                        }
                                     }
                                     if (pomao.body.ymom > 0) {
                                         pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
                                     }
+                                    if(this.wingcheck == 0){
                                     pomao.body.symom = 0
                                     pomao.body.ymom = 0
                                     pomao.body.sxmom = 0
+                                    }
                                     break
                                 }
                             }
@@ -5041,6 +5059,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.eggs[t].steery()
                 }
             }
+
+            this.wingcheck =  0
         }
         draw() {
             this.eggmake--
@@ -13269,7 +13289,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
         for (let t = 0; t < 14; t++) {
-            const step = new FloatingIsland(-1500 + t * 200, -4500 + t * 50, 50, .02, 1.4)
+            const step = new FloatingIsland(-1500 + t * 200, -4500 + t * 50, 50, 0, 1.4)   //0 = 0.02
             // floors.push(step)
             // walls.push(step)
             // walls.push(step)
@@ -13278,7 +13298,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
         for (let t = 0; t < 19; t++) {
-            const step = new FloatingIsland(-1200 + t * 200, -5050 - t * 50, 50, .02, 1.4)
+            const step = new FloatingIsland(-1200 + t * 200, -5050 - t * 50, 50, 0, 1.4)
             // floors.push(step)
             // walls.push(step)
             // walls.push(step)
@@ -13319,6 +13339,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         let spinny = new SeeSaw(-1200, -301)
         spinnys.push(spinny)
+
+
+        let spinny1 = new BigSeeSaw(6500-1200, -5600,5)
+        spinnys.push(spinny1)
+
+        let spinny2 = new BigSeeSaw(7700-1200, -6300,7.5)
+        spinnys.push(spinny2)
+
+        let spinny3 = new BigSeeSaw(9700-1200, -7200,10)
+        spinnys.push(spinny3)
 
     }
 
@@ -13461,7 +13491,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //  pomao.eggmake = 161
         // boss = new Bossbeam()
 
-        let floorlvl8 = new Rectangle(-12000, 33, 500, 12000)
+        let floorlvl8 = new Rectangle(-12000, 33, 500, 22000)
             floors.push(floorlvl8)
             walls.push(floorlvl8)
             roofs.push(floorlvl8)
@@ -13490,10 +13520,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let spinny = new BigSeeSaw(-1200, -301,5)
         spinnys.push(spinny)
 
-        let spinny2 = new BigSeeSaw(-1200, -701,5)
+        let spinny2 = new BigSeeSaw(-100, -701,7.5)
         spinnys.push(spinny2)
 
-        let spinny3 = new BigSeeSaw(-1200, -1401,5)
+        let spinny3 = new BigSeeSaw(1600, -1401,10)
         spinnys.push(spinny3)
     }
 
