@@ -1172,6 +1172,126 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
     }
+    class BigSeeSaw {
+        constructor(x, y, scale) {
+            this.body = new Circle(x, y, 2, "red")
+            this.bigbody = new Circle(x, y, 1900, "red")
+            this.wings = []
+            this.dis = 130
+            this.angle = Math.PI
+            this.see = 0
+            this.increment = 0
+            this.build()
+            this.scale = scale
+        }
+        build() {
+            //I don't think the colission here or inspinwheels is relevant
+            this.see = 0
+
+            // console.log(this.wings)
+            if (this.wings.length > 0) {
+                for (let f = this.wings.length - 1; f > 0; f--) {
+                    if (squarecirclefeetspinxdeep(this.wings[f], pomao.body)) {
+                        pomao.wingthing = f
+                        pomao.xdisp = this.wings[f].x
+                        pomao.ydisp = this.wings[f].y - 3.5
+                    }
+                }
+            }
+            this.wings = []
+
+            this.dis = 0
+            let increment = Math.PI
+            let angle = this.angle + Math.PI
+            for (let w = 0; w < 201; w++) {
+
+                let wing = new Rectangle(this.body.x + (1 * (Math.cos(angle) * this.dis)), this.body.y + (1 * (Math.sin(angle) * this.dis)), this.scale*2, this.scale, "green")
+                wing.thing = w
+
+
+                if ((squarecircleedges(wing, pomao.tongue) || pomao.tonguebox.isInsideOf(wing)) && !pomao.body.repelCheck(pomao.tongue)) {
+                    pomao.wingcheck = 1
+                }
+                if (squarecirclefeetspinx(wing, pomao.body)) {
+                    this.see = 1
+                    let torque = Math.abs(w / 2)
+
+                    if (pomao.body.ymomstorage > 0) {
+                        if (w % 2 == 0) {
+                            // if(Math.abs(-((pomao.body.ymomstorage+.1)*torque*Math.cos(this.angle))/150) > this.increment){
+
+                            this.increment = -((pomao.body.ymomstorage + .1) * torque * Math.cos(this.angle)) / 150
+                            // }
+                        } else {
+
+                            // if(Math.abs(-((pomao.body.ymomstorage+.1)*torque*Math.cos(this.angle))/150) > this.increment){
+
+                            this.increment = ((pomao.body.ymomstorage + .1) * torque * Math.cos(this.angle)) / 150
+                            // }
+                        }
+                    }
+                }
+                if (wing.thing == pomao.wingthing) {
+                    if (squarecirclefeetspinxdeep(wing, pomao.body)) {
+                        pomao.body.x += wing.x - pomao.xdisp
+                        pomao.body.y += wing.y - pomao.ydisp
+
+                        tutorial_canvas_context.translate(-(wing.x - pomao.xdisp), -(wing.y - pomao.ydisp))
+                        pomao.grounded = 1
+
+                    }
+
+                }
+
+                floors.push(wing)
+
+                this.wings.push(wing)
+                angle += increment
+                if (w % 2 == 0) {
+                    this.dis += this.scale
+                }
+            }
+        }
+        draw() {
+            // this.build()
+            if (this.bigbody.repelCheck(pomao.body)) {
+                if (Math.PI > this.angle) {
+                    if (this.increment > 0) {
+                        this.angle += this.increment * .0025
+                    } else {
+                        if (Math.abs(Math.PI - this.angle) <= Math.PI / 6) {
+                            this.angle += this.increment * .0025
+                        }
+                    }
+                } else {
+                    if (this.increment < 0) {
+                        this.angle += this.increment * .0025
+                    } else {
+                        if (Math.abs(Math.PI - this.angle) <= Math.PI / 6) {
+                            this.angle += this.increment * .0025
+                        }
+                    }
+                }
+                this.increment *= .995
+                // if(Math.abs(this.angle) > Math.PI){
+                //     this.angle*=.9995
+
+                this.angle -= Math.PI
+                this.angle *= .9999
+                this.angle += Math.PI
+
+                // }else{
+                //     this.angle*1.0005
+                // }
+                this.build()
+                this.body.draw()
+                //   this.bigbody.draw()
+                // for(let w = 0; w<this.wings.length; w++){
+                //     this.wings[w].draw()
+                // }
+            }
+        }
+    }
 
 
     class CircleF {
@@ -4220,6 +4340,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     class Pomao {
         constructor() {
+            this.wingcheck = 0
             this.cutscene = 0
             this.grounded = 0
             this.wingthing = 0
@@ -4402,6 +4523,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             }
             pomao.grounded = 0
+           
             for (let t = 0; t < floors.length; t++) {
                 if ((squarecircleedges(floors[t], pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
                     //   console.log("43dss")  //hits this on thin floors?  while clipping?
@@ -4719,6 +4841,37 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
             }
+            if(this.wingcheck == 1){
+                if (this.tongueymom < 0) {
+                    if (Math.abs(this.tonguey) > 1) {
+                        this.body.symom += this.tongueymom * 1.1
+                    }
+                    if (Math.abs(this.tonguex) > 15) {
+                        if (this.dir == -1) {
+                            this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                        } else {
+                            this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                        }
+                    }
+                    this.tongueymom *= .49
+                    this.tonguexmom *= .49
+                } else {
+                    if (Math.abs(this.tonguey) > 1) {
+                        this.body.symom -= this.tongueymom * 1.1
+                    }
+                    if (Math.abs(this.tonguex) > 15) {
+                        if (this.dir == -1) {
+                            this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                        } else {
+                            this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                        }
+                    }
+                            this.tongueymom *= .49
+                            this.tonguexmom *= .49
+                    
+                }
+            }
+            this.wingcheck =  0
             for (let t = 0; t < ramps.length; t++) {
 
                 if (t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(ramps[t])) {
@@ -5246,6 +5399,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
+            if(level == 8){       
+                floors.splice(0, floors.length)
+                for (let t = 0; t < floormpf.length; t++) {
+                    floors.push(floormpf[t])
+                }
+                for (let t = 0; t < spinnys.length; t++) {
+                    spinnys[t].draw()
+                }
+            }
 
             if (level == 1 || level == 5) {
                 for (let t = 0; t < ramps.length; t++) {
@@ -5371,6 +5533,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             const srcyt = 0
 
                                             tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                        }else if (level == 8) {
+                                            tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }
                                     }
                                 } else {
@@ -5419,6 +5583,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         const srcyt = 0
 
                                         tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    }else if (level == 8) {
+                                        tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }
                                 }
                             } else {
@@ -5484,6 +5650,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     const srcyt = 0
 
                                     tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                }else if (level == 8) {
+                                    tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }
                             }
 
@@ -10202,12 +10370,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     //abracadabra
-    loadlvl1()
+    // loadlvl1()
     // loadlvl2()
     // loadlvl3()
     // loadlvl4()
     // loadlvl5()
     // loadlvl6()
+    // loadlvl7()
+    loadlvl8()
 
     // for(let t=0;t<10;t++){
     //     chafer.draw()
@@ -12602,7 +12772,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floormpf = [...floors]
         for (let t = 0; t < 5; t++) {
 
-            spinny = new Spinwheel(2600 - t * 700, -11300 - t * 990)
+            let spinny = new Spinwheel(2600 - t * 700, -11300 - t * 990)
             spinnys.push(spinny)
 
         }
@@ -13147,7 +13317,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         floormpf = [...floors]
 
-        spinny = new SeeSaw(-1200, -301)
+        let spinny = new SeeSaw(-1200, -301)
         spinnys.push(spinny)
 
     }
@@ -13230,6 +13400,101 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floors.push(wall2)
         roofs.push(wall2)
         floormpf = [...floors]
+    }
+
+
+    function loadlvl8() {
+
+        pomao.tonguex = 0
+        pomao.tonguey = 0
+        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
+        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
+        springs = []
+        objsprings = []
+
+        // objsprings.push(pin2)
+
+        // let spring = new Spring(pin)
+        // springs.push(spring)
+        // for(let k = 0; k<33;k++){
+        //     spring = new Spring(spring.anchor)
+        //     if(k < 32){
+        //         springs.push(spring)
+        //     }else if(k == 32 ){
+        //         spring.anchor = pin2
+        //         springs.push(spring)
+        //     }
+        // }
+
+        beamrocks = []
+        pomao.cutscene = 0
+        level = 8
+
+
+        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
+        pomao.body.x = -1000
+        pomao.body.y = 0
+        spinnys.splice(0, spinnys.length)
+        ramps90 = []
+        swimmers = []
+        bats = []
+        floors.splice(0, floors.length)
+        ramps = []
+        boys.splice(0, boys.length)
+        deadboys.splice(0, deadboys.length)
+        fruits.splice(0, fruits.length)
+        walls.splice(0, walls.length)
+        invisblocks = []
+        ungrapplable = []
+        jellys = []
+        roofs.splice(0, roofs.length)
+        switches = []
+        blocks = []
+        nails = []
+        chats = []
+        orbs = []
+        links = []
+        worms.splice(0, worms.length)
+        pomao.thrown = []
+
+        boss = new Circle(0, 0, 0, "transparent")
+        //  pomao.eggmake = 161
+        // boss = new Bossbeam()
+
+        let floorlvl8 = new Rectangle(-12000, 33, 500, 12000)
+            floors.push(floorlvl8)
+            walls.push(floorlvl8)
+            roofs.push(floorlvl8)
+
+        // for (let t = 0; t < 100; t++) {
+        //     const floor = new Rectangle(-13000 + (150 * t), 66, 600, 333)
+        //     floors.push(floor)
+        //     walls.push(floor)
+        //     roofs.push(floor)
+        //     floor.type = 1
+        // }
+
+        const wall1 = new Rectangle(-2100, -30000, 30033, 50, "cyan")
+        walls.push(wall1)
+        floors.push(wall1)
+        roofs.push(wall1)
+        // ungrapplable.push(wall1)
+
+        const wall2 = new Rectangle(11600, -30000, 30033, 50, "cyan")
+        walls.push(wall2)
+        floors.push(wall2)
+        roofs.push(wall2)
+        
+        floormpf = [...floors]
+
+        let spinny = new BigSeeSaw(-1200, -301,5)
+        spinnys.push(spinny)
+
+        let spinny2 = new BigSeeSaw(-1200, -701,5)
+        spinnys.push(spinny2)
+
+        let spinny3 = new BigSeeSaw(-1200, -1401,5)
+        spinnys.push(spinny3)
     }
 
     function getTextWidth(text, font) {
