@@ -5577,7 +5577,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                                     } else if (level == 6) {
 
-                                        tutorial_canvas_context.drawImage(lvl6floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                        // tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+
+                                        tutorial_canvas_context.drawImage(floorimg, 0, 0, Math.min(floorimg.width, floors[t].width), Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     } else if (level == 7) {
 
                                         if (floors[t].type == 1) {
@@ -5644,7 +5646,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     tutorial_canvas_context.drawImage(lvl5floorimg, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 } else if (level == 6) {
 
-                                    tutorial_canvas_context.drawImage(lvl6floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    tutorial_canvas_context.drawImage(floorimg, 0, 0, Math.min(floorimg.width, floors[t].width), Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    // tutorial_canvas_context.drawImage(lvl6floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 } else if (level == 7) {
 
                                     if (floors[t].type == 1) {
@@ -10436,6 +10439,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
                         tutorial_canvas_context.globalAlpha = 1;
+                    }else if (level == 6) {
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                        tutorial_canvas_context.globalAlpha = 1;
                     }
                     // tutorial_canvas_context.fillStyle = `rgba(85, 85, 128,${15 / 255})`
                     tutorial_canvas_context.fillStyle = `rgba(85, 125, 178,${15 / 255})`
@@ -10467,6 +10474,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.globalAlpha = 0.2;
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
+                        tutorial_canvas_context.globalAlpha = 1;
+                    }else if (level == 6) {
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.globalAlpha = 1;
                     }
                     tutorial_canvas_context.fillStyle = `rgba(153, 193, 230,${63 / 255})`
@@ -10501,6 +10512,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
                         tutorial_canvas_context.globalAlpha = 1;
+                    }else if (level == 6) {
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                        tutorial_canvas_context.globalAlpha = 1;
                     }
                     tutorial_canvas_context.fillStyle = `rgba(190, 190, 255,${14 / 255})`
                     tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
@@ -10529,6 +10544,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     } else if (level == 5) {
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
+                    }else if (level == 6) {
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                     }
                     // if(keysPressed['p']){
                     //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
@@ -13158,6 +13175,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
 
+        11600
+
+        for (let t = 2; t < 22; t++) {
+            const ladder2 = new Rectangle(11230, -5600-(t*170), 20, 370, "red")
+            if (t % 3 == 0) {
+                ladder2.x -= 305
+            }
+            if (t % 5 == 0) {
+                ladder2.x -= 605
+            }
+            floors.push(ladder2)
+        }
+
+        const layer2ramp = new Triangle90(11600, -5200, "red", 190)
+        ramps.push(layer2ramp)
+        ramps90.push(layer2ramp)
+
 
         const ramp5 = new Triangle90(5300, 53, "red", 500)
         ramps.push(ramp5)
@@ -13241,13 +13275,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-        for (let t = 0; t < 60; t++) {
-            const dangler = new Dangler(-2000 + (200 * t), -2010)
+        for (let t = 0; t < 30; t++) {
+            const dangler = new Dangler(-2000 + (400 * t), -2010)
             worms.push(dangler)
         }
 
-        for (let t = 0; t < 30; t++) {
-            const waggler = new Waggler(250 + (200 * t), -5200)
+        for (let t = 0; t < 15; t++) {
+            const waggler = new Waggler(250 + (280 * t), -5200)
             worms.push(waggler)
         }
 
@@ -13349,6 +13383,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         let spinny3 = new BigSeeSaw(9700-1200, -7200,10)
         spinnys.push(spinny3)
+
+        // let spinny4 = new BigSeeSaw(12700-1200, -8400,10)
+        // spinnys.push(spinny4)
 
     }
 
