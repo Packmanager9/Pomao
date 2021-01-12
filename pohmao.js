@@ -13175,7 +13175,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
 
-        11600
+        // 11600
 
         for (let t = 2; t < 22; t++) {
             const ladder2 = new Rectangle(11230, -5600-(t*170), 20, 370, "red")
@@ -13188,9 +13188,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             floors.push(ladder2)
         }
 
-        const layer2ramp = new Triangle90(11600, -5200, "red", 190)
-        ramps.push(layer2ramp)
-        ramps90.push(layer2ramp)
 
 
         const ramp5 = new Triangle90(5300, 53, "red", 500)
@@ -13273,6 +13270,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         // pomao.eggmake = 161000000000
 
+        const layer2ramp = new Triangle90(11600, -5200, "red", 190)
+        ramps.push(layer2ramp)
+        ramps90.push(layer2ramp)
 
 
         for (let t = 0; t < 30; t++) {
