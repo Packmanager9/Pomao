@@ -183,6 +183,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let blocks = []
     let nails = []
     // letpomao.grounded= 0
+    const hilllump = new Image()
+    hilllump.src = "hilllump.png"
     const crackfloorimg = new Image()
     crackfloorimg.src = "cracksheet.png"
     const pomaodownpaint = new Image()
@@ -968,7 +970,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         constructor(x, y, radius = 200, small = 1, scale = 1) {
 
             this.orb = new Circle(x, y, radius, "green")
-
+            this.orb.orb = 1
             this.block = new Rectangle(x - radius, y, radius, radius * 2, "red")
 
             if (small < 1) {
@@ -980,7 +982,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             walls.push(this.block)
             roofs.push(this.block)
             floors.push(this.block)
-            ramps.push(this.orb)
+            if (this.orb.radius > 0) {
+                ramps.push(this.orb)
+            }
 
             // const dangler1 = new Dangler(x-this.block.width*.5,y)
             // worms.push(dangler1)
@@ -1205,7 +1209,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let angle = this.angle + Math.PI
             for (let w = 0; w < 201; w++) {
 
-                let wing = new Rectangle(this.body.x + (1 * (Math.cos(angle) * this.dis)), this.body.y + (1 * (Math.sin(angle) * this.dis)), this.scale*2, this.scale, "green")
+                let wing = new Rectangle(this.body.x + (1 * (Math.cos(angle) * this.dis)), this.body.y + (1 * (Math.sin(angle) * this.dis)), this.scale * 2, this.scale, "green")
                 wing.thing = w
 
 
@@ -1315,7 +1319,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.lineWidth = 1
             tutorial_canvas_context.strokeStyle = this.color
             tutorial_canvas_context.beginPath();
-            if(this.radius>0){
+            if (this.radius > 0) {
                 tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI * 2), true)
             }
             tutorial_canvas_context.fill()
@@ -3924,8 +3928,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.lineWidth = 4
             tutorial_canvas_context.strokeStyle = this.color
             tutorial_canvas_context.beginPath();
-            if(this.radius>1){
-            tutorial_canvas_context.arc(this.x, this.y, this.radius - 1, 0, (Math.PI * 2), true)
+            if (this.radius > 1) {
+                tutorial_canvas_context.arc(this.x, this.y, this.radius - 1, 0, (Math.PI * 2), true)
             }
             tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke();
@@ -4526,7 +4530,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             }
             pomao.grounded = 0
-           
+
             for (let t = 0; t < floors.length; t++) {
                 if ((squarecircleedges(floors[t], pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
                     //   console.log("43dss")  //hits this on thin floors?  while clipping?
@@ -4622,19 +4626,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 shocks.push(cloudpuff)
                             }
                             if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
-                                if(this.wingcheck == 0){
-                                this.tonguex = 0
-                                this.tonguey = 0
-                                resettonguediff()
+                                if (this.wingcheck == 0) {
+                                    this.tonguex = 0
+                                    this.tonguey = 0
+                                    resettonguediff()
                                 }
                             }
                             if (pomao.body.ymom > 0) {
                                 pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
                             }
-                            if(this.wingcheck == 0){
-                            pomao.body.symom = 0
-                            pomao.body.ymom = 0
-                            pomao.body.sxmom = 0
+                            if (this.wingcheck == 0) {
+                                pomao.body.symom = 0
+                                pomao.body.ymom = 0
+                                pomao.body.sxmom = 0
                             }
                             break
                         }
@@ -4775,19 +4779,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                 }
                                 if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
-                                    if(this.wingcheck == 0){
-                                    this.tonguex = 0
-                                    this.tonguey = 0
-                                    resettonguediff()
+                                    if (this.wingcheck == 0) {
+                                        this.tonguex = 0
+                                        this.tonguey = 0
+                                        resettonguediff()
                                     }
                                 }
                                 if (pomao.body.ymom > 0) {
                                     pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
                                 }
-                                if(this.wingcheck == 0){
-                                pomao.body.symom = 0
-                                pomao.body.ymom = 0
-                                pomao.body.sxmom = 0
+                                if (this.wingcheck == 0) {
+                                    pomao.body.symom = 0
+                                    pomao.body.ymom = 0
+                                    pomao.body.sxmom = 0
                                 }
                                 break
                             }
@@ -4852,7 +4856,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
             }
-            if(this.wingcheck == 1){
+            if (this.wingcheck == 1) {
                 if (this.tongueymom < 0) {
                     if (Math.abs(this.tonguey) > 1) {
                         this.body.symom += this.tongueymom * 1.1
@@ -4877,9 +4881,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             this.body.sxmom += Math.abs(this.tonguexmom * 3)
                         }
                     }
-                            this.tongueymom *= .49
-                            this.tonguexmom *= .49
-                    
+                    this.tongueymom *= .49
+                    this.tonguexmom *= .49
+
                 }
             }
             for (let t = 0; t < ramps.length; t++) {
@@ -4911,19 +4915,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         this.body.y = ramps[t].y - this.body.radius
                                         pomao.grounded = 1
                                         if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
-                                            if(this.wingcheck == 0){
-                                            this.tonguex = 0
-                                            this.tonguey = 0
-                                            resettonguediff()
+                                            if (this.wingcheck == 0) {
+                                                this.tonguex = 0
+                                                this.tonguey = 0
+                                                resettonguediff()
                                             }
                                         }
                                         if (pomao.body.ymom > 0) {
                                             pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
                                         }
-                                        if(this.wingcheck == 0){
-                                        pomao.body.symom = 0
-                                        pomao.body.ymom = 0
-                                        pomao.body.sxmom = 0
+                                        if (this.wingcheck == 0) {
+                                            pomao.body.symom = 0
+                                            pomao.body.ymom = 0
+                                            pomao.body.sxmom = 0
                                         }
                                         break
 
@@ -4934,7 +4938,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     this.body.y = ramps[t].y - this.body.radius
                                     pomao.grounded = 1
                                     if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
-                                        if(this.wingcheck == 0){
+                                        if (this.wingcheck == 0) {
                                             this.tonguex = 0
                                             this.tonguey = 0
                                             resettonguediff()
@@ -4943,10 +4947,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     if (pomao.body.ymom > 0) {
                                         pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
                                     }
-                                    if(this.wingcheck == 0){
-                                    pomao.body.symom = 0
-                                    pomao.body.ymom = 0
-                                    pomao.body.sxmom = 0
+                                    if (this.wingcheck == 0) {
+                                        pomao.body.symom = 0
+                                        pomao.body.ymom = 0
+                                        pomao.body.sxmom = 0
                                     }
                                     break
                                 }
@@ -5060,7 +5064,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
 
-            this.wingcheck =  0
+            this.wingcheck = 0
         }
         draw() {
             this.eggmake--
@@ -5419,7 +5423,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
-            if(level == 8){       
+            if (level == 8) {
                 floors.splice(0, floors.length)
                 for (let t = 0; t < floormpf.length; t++) {
                     floors.push(floormpf[t])
@@ -5441,7 +5445,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-                                ramps[t].draw()
+                                if (typeof ramps[t].orb != "undefined") {
+
+                                    tutorial_canvas_context.drawImage(hilllump, 0, 0, hilllump.width, hilllump.height, ramps[t].x-ramps[t].radius, ramps[t].y-ramps[t].radius, ramps[t].radius * 2, ramps[t].radius * 2)
+                                    // tutorial_canvas_context.drawImage(hilllump, ramps[t].x, ramps[t].y, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius)
+                                } else {
+                                    ramps[t].draw()
+                                }
                             }
                         }
 
@@ -5479,7 +5489,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             } else {
                 for (let t = 0; t < ramps.length; t++) {
-                    ramps[t].draw()
+
+                    if (typeof ramps[t].orb != "undefined") {
+
+                        tutorial_canvas_context.drawImage(hilllump, 0, 0, hilllump.width, hilllump.height, ramps[t].x-ramps[t].radius, ramps[t].y-ramps[t].radius, ramps[t].radius * 2, ramps[t].radius * 2)
+
+                        // tutorial_canvas_context.drawImage(hilllump, ramps[t].x, ramps[t].y, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius)
+                    } else {
+                        ramps[t].draw()
+                    }
                 }
             }
             if (level == 6) {
@@ -5520,7 +5538,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         } else if (level == 4) {
                                             tutorial_canvas_context.drawImage(lvl4fwallimg, 0, 0, Math.min(lvl4fwallimg.width, floors[t].width), Math.min(lvl4fwallimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                           
+
                                             // tutorial_canvas_context.drawImage(lvl4fwallimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         } else if (level == 5) {
 
@@ -5553,7 +5571,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             const srcyt = 0
 
                                             tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                        }else if (level == 8) {
+                                        } else if (level == 8) {
                                             tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }
                                     }
@@ -5605,7 +5623,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         const srcyt = 0
 
                                         tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                    }else if (level == 8) {
+                                    } else if (level == 8) {
                                         tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }
                                 }
@@ -5673,7 +5691,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     const srcyt = 0
 
                                     tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                }else if (level == 8) {
+                                } else if (level == 8) {
                                     tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }
                             }
@@ -5892,19 +5910,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             this.thrown[t].timer = 6
                         }
                     }
-                     if(this.tonguex > 14 && this.tonguey > 14){
+                    if (this.tonguex > 14 && this.tonguey > 14) {
                         if (this.blush <= 1) {
-                        tutorial_canvas_context.drawImage(pomaodownpaint, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                        }else{
+                            tutorial_canvas_context.drawImage(pomaodownpaint, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                        } else {
                             tutorial_canvas_context.drawImage(pomaodownpaintb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         }
-                    }else   if(this.tonguex < -14 && this.tonguey > 14){
+                    } else if (this.tonguex < -14 && this.tonguey > 14) {
                         if (this.blush <= 1) {
-                        tutorial_canvas_context.drawImage(pomaodownpaintl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                        }else{
-                        tutorial_canvas_context.drawImage(pomaodownpaintlb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                            tutorial_canvas_context.drawImage(pomaodownpaintl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                        } else {
+                            tutorial_canvas_context.drawImage(pomaodownpaintlb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         }
-                    }else if (hot <= 0) {
+                    } else if (hot <= 0) {
 
                         if (this.blush <= 1) {
 
@@ -7243,7 +7261,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (boss.body1.x > pomao.body.x - ((tutorial_canvas.width * 1) + boss.body1.radius) && boss.body1.x < pomao.body.x + ((tutorial_canvas.width * 1) + boss.body1.radius)) {
                     if (boss.body1.y > pomao.body.y - ((tutorial_canvas.height * 1) + boss.body1.radius) && boss.body1.y < pomao.body.y + ((tutorial_canvas.height * 1) + boss.body1.radius)) {
                         this.move()
-                        targoymusic.playbackRate = .4+(1-(.5*(this.health/this.maxhealth)));
+                        targoymusic.playbackRate = .4 + (1 - (.5 * (this.health / this.maxhealth)));
                         targoymusic.play()
                     } else {
                         this.beam()
@@ -10439,7 +10457,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
                         tutorial_canvas_context.globalAlpha = 1;
-                    }else if (level == 6) {
+                    } else if (level == 6) {
                         tutorial_canvas_context.globalAlpha = 0.2;
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.globalAlpha = 1;
@@ -10475,7 +10493,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
                         tutorial_canvas_context.globalAlpha = 1;
-                    }else if (level == 6) {
+                    } else if (level == 6) {
                         tutorial_canvas_context.globalAlpha = 0.2;
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.globalAlpha = 1;
@@ -10512,7 +10530,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
                         tutorial_canvas_context.globalAlpha = 1;
-                    }else if (level == 6) {
+                    } else if (level == 6) {
                         tutorial_canvas_context.globalAlpha = 0.2;
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.globalAlpha = 1;
@@ -10544,7 +10562,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     } else if (level == 5) {
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
-                    }else if (level == 6) {
+                    } else if (level == 6) {
                         tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                     }
                     // if(keysPressed['p']){
@@ -11319,12 +11337,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.thrown = []
 
 
-        const floor = new Rectangle(-100000000, 650, 500, 100000000-12000, "red")
+        const floor = new Rectangle(-100000000, 650, 500, 100000000 - 12000, "red")
         walls.push(floor)
         roofs.push(floor)
         floors.push(floor)
-        for(let t = 0;t<30;t++){
-            const floor2 = new Rectangle(-12000+(t*2000), 650, 500, 2000, "red")
+        for (let t = 0; t < 30; t++) {
+            const floor2 = new Rectangle(-12000 + (t * 2000), 650, 500, 2000, "red")
             walls.push(floor2)
             roofs.push(floor2)
             floors.push(floor2)
@@ -13178,7 +13196,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // 11600
 
         for (let t = 2; t < 22; t++) {
-            const ladder2 = new Rectangle(11230, -5600-(t*170), 20, 370, "red")
+            const ladder2 = new Rectangle(11230, -5600 - (t * 170), 20, 370, "red")
             if (t % 3 == 0) {
                 ladder2.x -= 305
             }
@@ -13186,8 +13204,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 ladder2.x -= 605
             }
             floors.push(ladder2)
+            // if(t == 21 || t== 22){
+            //     console.log(ladder2)
+            // }
         }
 
+        const lvl6layer3 = new Rectangle(-2100, -9170, 500, (10925 + 2100) - 605)
+        floors.push(lvl6layer3)
+        walls.push(lvl6layer3)
+        roofs.push(lvl6layer3)
 
 
         const ramp5 = new Triangle90(5300, 53, "red", 500)
@@ -13366,6 +13391,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
 
+        for (let t = 0; t < 1100; t++) {
+            const fruit = new Fruit(-5100 + (Math.random() * (11600 + 2400)), -11200 + (Math.random() * 6000), 60, 60, "red")
+            let wet = 0
+            for (let s = 0; s < floors.length; s++) {
+                if (squarecircleedges(floors[s], fruit.body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < ramps.length; k++) {
+                if (ramps[k].isPointInside(fruit.body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
 
 
 
@@ -13375,13 +13426,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         spinnys.push(spinny)
 
 
-        let spinny1 = new BigSeeSaw(6500-1200, -5600,5)
+        let spinny1 = new BigSeeSaw(6500 - 1200, -5600, 5)
         spinnys.push(spinny1)
 
-        let spinny2 = new BigSeeSaw(7700-1200, -6300,7.5)
+        let spinny2 = new BigSeeSaw(7700 - 1200, -6300, 7.5)
         spinnys.push(spinny2)
 
-        let spinny3 = new BigSeeSaw(9700-1200, -7200,10)
+        let spinny3 = new BigSeeSaw(9700 - 1200, -7200, 10)
         spinnys.push(spinny3)
 
         // let spinny4 = new BigSeeSaw(12700-1200, -8400,10)
@@ -13529,9 +13580,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // boss = new Bossbeam()
 
         let floorlvl8 = new Rectangle(-12000, 33, 500, 22000)
-            floors.push(floorlvl8)
-            walls.push(floorlvl8)
-            roofs.push(floorlvl8)
+        floors.push(floorlvl8)
+        walls.push(floorlvl8)
+        roofs.push(floorlvl8)
 
         // for (let t = 0; t < 100; t++) {
         //     const floor = new Rectangle(-13000 + (150 * t), 66, 600, 333)
@@ -13551,16 +13602,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(wall2)
         floors.push(wall2)
         roofs.push(wall2)
-        
+
         floormpf = [...floors]
 
-        let spinny = new BigSeeSaw(-1200, -301,5)
+        let spinny = new BigSeeSaw(-1200, -301, 5)
         spinnys.push(spinny)
 
-        let spinny2 = new BigSeeSaw(-100, -701,7.5)
+        let spinny2 = new BigSeeSaw(-100, -701, 7.5)
         spinnys.push(spinny2)
 
-        let spinny3 = new BigSeeSaw(1600, -1401,10)
+        let spinny3 = new BigSeeSaw(1600, -1401, 10)
         spinnys.push(spinny3)
     }
 
