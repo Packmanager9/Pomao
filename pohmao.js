@@ -5447,7 +5447,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                                 if (typeof ramps[t].orb != "undefined") {
 
-                                    tutorial_canvas_context.drawImage(hilllump, 0, 0, hilllump.width, hilllump.height, ramps[t].x-ramps[t].radius, ramps[t].y-ramps[t].radius, ramps[t].radius * 2, ramps[t].radius * 2)
+                                    tutorial_canvas_context.drawImage(hilllump, 0, 0, hilllump.width, hilllump.height, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius, ramps[t].radius * 2, ramps[t].radius * 2)
                                     // tutorial_canvas_context.drawImage(hilllump, ramps[t].x, ramps[t].y, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius)
                                 } else {
                                     ramps[t].draw()
@@ -5492,7 +5492,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     if (typeof ramps[t].orb != "undefined") {
 
-                        tutorial_canvas_context.drawImage(hilllump, 0, 0, hilllump.width, hilllump.height, ramps[t].x-ramps[t].radius, ramps[t].y-ramps[t].radius, ramps[t].radius * 2, ramps[t].radius * 2)
+                        tutorial_canvas_context.drawImage(hilllump, 0, 0, hilllump.width, hilllump.height, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius, ramps[t].radius * 2, ramps[t].radius * 2)
 
                         // tutorial_canvas_context.drawImage(hilllump, ramps[t].x, ramps[t].y, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius)
                     } else {
@@ -5859,15 +5859,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             for (let t = 0; t < worms.length; t++) {
                 if (worms[t].marked == 1) {
-                    worms.splice(t, 1)
-                    pomao.hits += 1
-                    if (pomao.hits > 9) {
-                        pomao.hits = 9
-                    }
                     if (pomao.eggs.length < 16) {
-                        const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
-                        pomao.eggs.push(seepx)
+                        if (worms[t].bopped !== 1) {
+                            const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
+                            pomao.eggs.push(seepx)  //seemingly busted, gives egg on egg hit
+
+                            pomao.hits += 1
+                            if (pomao.hits > 9) {
+                                pomao.hits = 9
+                            }
+                        }
                     }
+                    worms.splice(t, 1)
 
                 }
             }
@@ -6072,15 +6075,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             for (let t = 0; t < worms.length; t++) {
                 if (worms[t].marked == 1) {
-                    worms.splice(t, 1)
-                    pomao.hits += 1
-                    if (pomao.hits > 9) {
-                        pomao.hits = 9
-                    }
                     if (pomao.eggs.length < 16) {
-                        const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
-                        pomao.eggs.push(seepx)
+                        if (worms[t].bopped !== 1) {
+                            const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
+                            pomao.eggs.push(seepx)  //seemingly busted, gives egg on egg  // fixed
+                        }
+                        pomao.hits += 1
+                        if (pomao.hits > 9) {
+                            pomao.hits = 9
+                        }
                     }
+                    worms.splice(t, 1)
 
                 }
             }
@@ -6881,7 +6886,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (pomao.eggs.length < 16) {
 
                     const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
-                    pomao.eggs.push(seepx)
+                    pomao.eggs.push(seepx) //safe
                 }
             }
 
@@ -7117,7 +7122,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (pomao.eggs.length < 16) {
 
                     const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
-                    pomao.eggs.push(seepx)
+                    pomao.eggs.push(seepx) //safe
                 }
             }
 
@@ -8787,6 +8792,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Dangler {
         constructor(x, y) {
+            // this.beingEaten = 0
             this.licked = 0
             this.dangler = 1
             this.layer = 0
@@ -8842,6 +8848,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         pop() {
             this.bopped = 1
+            console.log("hit")
             let rotx = 0
             let roty = 0
 
@@ -9164,6 +9171,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Waggler {
         constructor(x, y) {
+            // this.beingEaten = 0
             this.licked = 0
             this.dangler = 1
             this.layer = 0
@@ -9219,6 +9227,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         pop() {
             this.bopped = 1
+            console.log("jit")
             let rotx = 0
             let roty = 0
 
@@ -9541,6 +9550,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class Worm {
         constructor(x = 0, y = 0) {
             this.licked = 0
+            this.beingEaten = 0
             this.layer = Math.floor(Math.random() * 2)
             if (Math.random() < .999) {
                 this.layer = 0
