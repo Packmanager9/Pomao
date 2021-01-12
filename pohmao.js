@@ -13337,7 +13337,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         floormpf = [...floors]
 
-        let spinny = new SeeSaw(-1200, -301)
+        let spinny = new BigSeeSaw(-1200, -301, 5)
         spinnys.push(spinny)
 
 
