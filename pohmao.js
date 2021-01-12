@@ -10370,14 +10370,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     //abracadabra
-    // loadlvl1()
+    loadlvl1()
     // loadlvl2()
     // loadlvl3()
     // loadlvl4()
     // loadlvl5()
     // loadlvl6()
     // loadlvl7()
-    loadlvl8()
+    // loadlvl8()
 
     // for(let t=0;t<10;t++){
     //     chafer.draw()
