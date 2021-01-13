@@ -2128,6 +2128,301 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         }
 
+        dbmove() {
+            // this.body.ymom*=.99
+            // this.body.xmom*=.99
+            // this.anchor.ymom*=.99
+            // this.anchor.xmom*=.99
+            let blockedlick = 0
+            let blockedlick2 = 0
+            // for (let t = this.worm.joints.length - 2; t < this.worm.joints.length; t++) {
+                // // if(t!=this.worm.joints.indexOf(this)){
+                // if (this.worm.joints[t].marked > 1) {
+                //     blockedlick2 = 2
+                // }
+                // // }
+            // }
+            for (let t = this.worm.joints.length - 2; t < this.worm.joints.length; t++) {
+                if (t != this.worm.joints.indexOf(this)) {
+                    if (this.worm.joints[t].marked > 0) {
+                        if (blockedlick2 == 2) {
+                            if (this.worm.joints[t].marked == 1) {
+                                this.worm.joints[t].marked = 2
+                            }
+                            blockedlick = 1
+                        } else {
+                            blockedlick = 1
+                        }
+                    }
+                }
+            }
+            if (this.anchor.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.anchor)) {
+                // if (blockedlick == 0) {
+                //     if (Math.abs(pomao.tonguex) + Math.abs(pomao.tonguey) > 7) {
+                //         if (this.anchor == this.worm.joints[this.worm.joints.length - 2]) {
+                //             this.anchor.marked = 1
+                //             if (this.anchor.xdif + this.anchor.ydif == 0) {
+                //                 this.anchor.xdif = pomao.tongue.x - this.anchor.x
+                //                 this.anchor.ydif = pomao.tongue.y - this.anchor.y
+                //                 const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red", 1)
+                //                 const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x - this.anchor.xdif, pomao.tongue.y - this.anchor.ydif, "red", 1)
+                //                 if (link2.hypotenuse() > link1.hypotenuse() - 10) {
+                //                     this.anchor.xdif = .001
+                //                     this.anchor.ydif = 0
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
+            }
+            if (this.anchor.repelCheck(pomao.body) && (this.anchor.repelCheck(pomao.tongue) || (this.anchor.marked == 1 || this.anchor.marked == 2))) {
+                // if (Math.abs(pomao.tonguex) + Math.abs(pomao.tonguey) < 14) {
+                //     if (this.worm.licked == 0) {
+
+                //         for (let t = 0; t < this.worm.segments.length; t++) {
+                //             // console.log(this.worm.segments[t].anchor.marked )
+                //             if (this.worm.segments[t].anchor.marked == 1) {
+                //                 this.worm.licked = 1
+                //             }
+                //         }
+
+                //     }
+                //     if (this.worm.licked == 1) {
+
+                //         this.anchor.marked = 2
+                //         pomao.diry = 1
+                //         if (typeof this.anchor.timer != "number") {
+                //             this.anchor.timer = this.worm.joints.length * 3
+                //             this.anchor.index = 0
+                //         }
+                //     }
+                // }
+            } else if (this.anchor.repelCheck(pomao.body) && !this.anchor.repelCheck(pomao.tongue)) {
+                // if (this.anchor.x > pomao.body.x) {
+                //     this.bump = 1
+                // } else {
+                //     this.bump = -1
+                // }
+                // //   if(pomao.body.ymom == 0){
+                // if (blockedlick == 0) {
+
+                //     if (this.body.radius >= 15) {
+                //         if (pomao.disabled != 1) {
+                //             if (pomao.pounding != 10) {
+                //                 pomao.body.xmom = -3 * (this.bump)
+                //                 pomao.disabled = 1
+                //                 pomao.hits--
+                //                 pomao.body.ymom = -1.8
+                //                 this.anchor.xmom += -pomao.body.xmom * 5
+                //                 this.body.xmom += -pomao.body.xmom * 5
+                //             }
+                //         } else {
+                //             if (this.bump * pomao.body.xmom > 0) {
+                //                 pomao.body.xmom = -1.8 * (this.bump)
+                //                 pomao.body.ymom = -1.8
+                //                 this.anchor.xmom += -pomao.body.xmom * 5
+                //                 this.body.xmom += -pomao.body.xmom * 5
+                //             }
+                //         }
+                //     }
+                // }
+                //   }
+            }
+
+            if (this.anchor.marked == 1) {
+                this.anchor.x -= ((this.anchor.x - pomao.tongue.x) / 1) + (this.anchor.xdif * .9)
+                this.anchor.y -= ((this.anchor.y - pomao.tongue.y) / 1) + (this.anchor.ydif * .9)
+                this.anchor.radius *= .975
+                if (this.anchor.radius < 2.01) {
+                    this.anchor.radius = 2
+                }
+            }
+
+            this.anchor.xdif *= .95
+            this.anchor.ydif *= .95
+            if (this.anchor.marked == 2) {
+                this.anchor.xdif *= .9
+                this.anchor.ydif *= .9
+                this.anchor.x -= ((this.anchor.x - pomao.body.x) / 1.1)
+                this.anchor.y -= ((this.anchor.y - pomao.body.y) / 1.1)
+                this.marked = 2
+                pomao.diry = 1
+                this.anchor.timer--
+                if (this.anchor.timer % 3 == 0) {
+
+                    this.anchor.index++
+                    this.anchor.index %= this.worm.segments.length
+                }
+
+                this.anchor.radius *= .975
+                this.worm.segments[this.anchor.index].body.color = "transparent"
+
+
+                if (this.anchor.timer <= 0) {
+                    this.worm.marked = 1
+                }
+            }
+
+
+            if (typeof this.body.marked != "number" || this.body.marked == 0) {
+                this.body.move()
+            }
+
+            if (this.anchor.marked == 0) {
+                this.anchor.move()
+            }
+
+
+
+        }
+        dmove() {
+            // this.body.ymom*=.99
+            // this.body.xmom*=.99
+            // this.anchor.ymom*=.99
+            // this.anchor.xmom*=.99
+            let blockedlick = 0
+            let blockedlick2 = 0
+            for (let t = this.worm.joints.length - 2; t < this.worm.joints.length; t++) {
+                // if(t!=this.worm.joints.indexOf(this)){
+                if (this.worm.joints[t].marked > 1) {
+                    blockedlick2 = 2
+                }
+                // }
+            }
+            for (let t = this.worm.joints.length - 2; t < this.worm.joints.length; t++) {
+                if (t != this.worm.joints.indexOf(this)) {
+                    if (this.worm.joints[t].marked > 0) {
+                        if (blockedlick2 == 2) {
+                            if (this.worm.joints[t].marked == 1) {
+                                this.worm.joints[t].marked = 2
+                            }
+                            blockedlick = 1
+                        } else {
+                            blockedlick = 1
+                        }
+                    }
+                }
+            }
+            if (this.anchor.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.anchor)) {
+                if (blockedlick == 0) {
+                    if (Math.abs(pomao.tonguex) + Math.abs(pomao.tonguey) > 7) {
+                        if (this.anchor == this.worm.joints[this.worm.joints.length - 2]) {
+                            this.anchor.marked = 1
+                            if (this.anchor.xdif + this.anchor.ydif == 0) {
+                                this.anchor.xdif = pomao.tongue.x - this.anchor.x
+                                this.anchor.ydif = pomao.tongue.y - this.anchor.y
+                                const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red", 1)
+                                const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x - this.anchor.xdif, pomao.tongue.y - this.anchor.ydif, "red", 1)
+                                if (link2.hypotenuse() > link1.hypotenuse() - 10) {
+                                    this.anchor.xdif = .001
+                                    this.anchor.ydif = 0
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (this.anchor.repelCheck(pomao.body) && (this.anchor.repelCheck(pomao.tongue) || (this.anchor.marked == 1 || this.anchor.marked == 2))) {
+                if (Math.abs(pomao.tonguex) + Math.abs(pomao.tonguey) < 14) {
+                    if (this.worm.licked == 0) {
+
+                        for (let t = 0; t < this.worm.segments.length; t++) {
+                            // console.log(this.worm.segments[t].anchor.marked )
+                            if (this.worm.segments[t].anchor.marked == 1) {
+                                this.worm.licked = 1
+                            }
+                        }
+
+                    }
+                    if (this.worm.licked == 1) {
+
+                        this.anchor.marked = 2
+                        pomao.diry = 1
+                        if (typeof this.anchor.timer != "number") {
+                            this.anchor.timer = this.worm.joints.length * 3
+                            this.anchor.index = 0
+                        }
+                    }
+                }
+            } else if (this.anchor.repelCheck(pomao.body) && !this.anchor.repelCheck(pomao.tongue)) {
+                if (this.anchor.x > pomao.body.x) {
+                    this.bump = 1
+                } else {
+                    this.bump = -1
+                }
+                //   if(pomao.body.ymom == 0){
+                if (blockedlick == 0) {
+
+                    if (this.body.radius >= 15) {
+                        if (pomao.disabled != 1) {
+                            if (pomao.pounding != 10) {
+                                pomao.body.xmom = -3 * (this.bump)
+                                pomao.disabled = 1
+                                pomao.hits--
+                                pomao.body.ymom = -1.8
+                                this.anchor.xmom += -pomao.body.xmom * 5
+                                this.body.xmom += -pomao.body.xmom * 5
+                            }
+                        } else {
+                            if (this.bump * pomao.body.xmom > 0) {
+                                pomao.body.xmom = -1.8 * (this.bump)
+                                pomao.body.ymom = -1.8
+                                this.anchor.xmom += -pomao.body.xmom * 5
+                                this.body.xmom += -pomao.body.xmom * 5
+                            }
+                        }
+                    }
+                }
+                //   }
+            }
+
+            if (this.anchor.marked == 1) {
+                this.anchor.x -= ((this.anchor.x - pomao.tongue.x) / 1) + (this.anchor.xdif * .9)
+                this.anchor.y -= ((this.anchor.y - pomao.tongue.y) / 1) + (this.anchor.ydif * .9)
+                this.anchor.radius *= .975
+                if (this.anchor.radius < 2.01) {
+                    this.anchor.radius = 2
+                }
+            }
+
+            this.anchor.xdif *= .95
+            this.anchor.ydif *= .95
+            if (this.anchor.marked == 2) {
+                this.anchor.xdif *= .9
+                this.anchor.ydif *= .9
+                this.anchor.x -= ((this.anchor.x - pomao.body.x) / 1.1)
+                this.anchor.y -= ((this.anchor.y - pomao.body.y) / 1.1)
+                this.marked = 2
+                pomao.diry = 1
+                this.anchor.timer--
+                if (this.anchor.timer % 3 == 0) {
+
+                    this.anchor.index++
+                    this.anchor.index %= this.worm.segments.length
+                }
+
+                this.anchor.radius *= .975
+                this.worm.segments[this.anchor.index].body.color = "transparent"
+
+
+                if (this.anchor.timer <= 0) {
+                    this.worm.marked = 1
+                }
+            }
+
+
+            if (typeof this.body.marked != "number" || this.body.marked == 0) {
+                this.body.move()
+            }
+
+            if (this.anchor.marked == 0) {
+                this.anchor.move()
+            }
+
+
+
+        }
+
     }
 
 
@@ -10011,7 +10306,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     this.body.x = this.wormanchor.x
                     this.body.y = this.wormanchor.y
-                    this.segments[t].dmove()
+                    this.segments[t].dbmove()
 
                     this.body.x = this.wormanchor.x
                     this.body.y = this.wormanchor.y
