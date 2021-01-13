@@ -185,6 +185,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // letpomao.grounded= 0
     const hilllump = new Image()
     hilllump.src = "hilllump.png"
+    const title = new Image()
+    title.src = "tittle.png"
     const crackfloorimg = new Image()
     crackfloorimg.src = "cracksheet.png"
     const pomaodownpaint = new Image()
@@ -583,7 +585,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // tutorial_canvas_context.translate(3300,9000)//lvl6
     // tutorial_canvas_context.translate(640,360)
 
-    tutorial_canvas.style.background = "#664613"
+    tutorial_canvas.style.background = `rgba(170, 170, 255,${1})` //"#664613"
 
 
     let flex = tutorial_canvas.getBoundingClientRect();
@@ -10400,9 +10402,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     // pomao.eggs.push(seep)
 
-    tutorial_canvas_context.fillStyle = "black";
-    tutorial_canvas_context.font = `${30}px Arial`;
-    tutorial_canvas_context.fillText("loading", 300, 350)
+    // tutorial_canvas_context.fillStyle = "Yellow";
+    // tutorial_canvas_context.font = `${130}px Arial`;
+    // tutorial_canvas_context.fillText("Pomao's Quest!", 220, 200)
+    // tutorial_canvas_context.drawImage(title, 0,0, title.width, title.height, 0,0, 1280,720)
+                        
+    tutorial_canvas_context.fillStyle = "magenta";
+    tutorial_canvas_context.font = `${40}px Arial`;
+    tutorial_canvas_context.fillText("Press A to start!", 1080-(getTextWidth("Press A to start!",tutorial_canvas_context.font)*.5), 680)
+    tutorial_canvas_context.strokeStyle = "black";
+    tutorial_canvas_context.strokeStyle = 3
+    tutorial_canvas_context.font = `${40}px Arial`;
+    tutorial_canvas_context.strokeText("Press A to start!",  1080-(getTextWidth("Press A to start!",tutorial_canvas_context.font)*.5), 680)
 
     let chafer
     let boss = new Bossbeam()
@@ -10433,11 +10444,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // for(let t=0;t<10;t++){
     //     chafer.draw()
     // }
+    let started = 0
     setTimeout(function () {
 
 
 
         window.setInterval(function () {
+
+           if( gamepadAPI.buttonsStatus.includes('A') || keysPressed['a']){
+                started = 1
+            }else{
+
+                tutorial_canvas_context.drawImage(title, 0,0, title.width, title.height, 40, 20, 1200, 680)
+                        
+                gamepadAPI.update()
+
+            }
+            if(started == 1){
             if (pomao.paused == 10) {
 
                 // "#AAAAFF"
@@ -10794,7 +10817,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     tutorial_canvas_context.font = "30px Arial";
                     tutorial_canvas_context.fillText(`Pomao fell asleep and went home`, pomao.body.x - 200, pomao.body.y);
                     tutorial_canvas_context.fillText(`(Loading level)`, pomao.body.x - 100, pomao.body.y + 50);
-                    tutorial_canvas.style.background = "#8888CC"
+                    tutorial_canvas.style.background =  `rgba(170, 170, 255,${1})`  // "#8888CC"
                 }
 
 
@@ -10869,10 +10892,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // }
             // swinger1move()
             // encoder.add(tutorial_canvas_context)
-
+        }
         }, 14)
 
-    }, 6969);  //6969
+    }, 1);  //6969
 
     function squarecirclefaceblockjump(square, circle) {
         const squareendh = square.y + square.height
