@@ -10158,7 +10158,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.eggrepel()
                 this.body.x = this.wormanchor.x
                 this.body.y = this.wormanchor.y
-                this.beam = new Line(this.joints[0].x, this.joints[0].y, this.wormanchor.x, this.wormanchor.y, "#191919", this.body.radius * 1.4)
+                this.beam = new Line(this.joints[0].x, this.joints[0].y, this.wormanchor.x, this.wormanchor.y, "#191919", this.body.radius * 1.1)
                 this.beam.draw()
                 for (let t = 0; t < this.segments.length; t++) {
                     if (t > 0) {
@@ -14111,9 +14111,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         level = 6
 
 
-        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y+10000)
+        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y+0)
         pomao.body.x = -1000
-        pomao.body.y = -10000
+        pomao.body.y = 0
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
