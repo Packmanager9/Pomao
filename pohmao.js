@@ -10451,7 +10451,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         window.setInterval(function () {
 
-           if( gamepadAPI.buttonsStatus.includes('A') || keysPressed['a']){
+           if( started ==1||gamepadAPI.buttonsStatus.includes('A') || keysPressed['a']){
                 started = 1
             }else{
 
