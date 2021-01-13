@@ -9595,6 +9595,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.box = new Shape(this.joints)
             this.angle = Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
             // console.log(this)
+            this.bopped = 0
         }
         eggrepel() {
             for (let t = 0; t < pomao.thrown.length; t++) {
