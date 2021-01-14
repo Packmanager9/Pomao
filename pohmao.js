@@ -10883,8 +10883,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                         this.health -= 5
                         for (let n = 0; n < this.segments.length; n++) {
-                            this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 10
-                            this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 10
+                            this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 6
+                            this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 6
                         }
                     }
                 }
@@ -10905,8 +10905,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                         this.health -= 1
                         for (let n = 0; n < this.segments.length; n++) {
-                            this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 4
-                            this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 4
+                            this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 6
+                            this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 6
                         }
                     }
                     if (this.joints[k].repelCheck(shockfriendly.shocksr[t])) {
@@ -10923,8 +10923,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                         this.health -= 12
                         for (let n = 0; n < this.segments.length; n++) {
-                            this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 4
-                            this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 4
+                            this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 6
+                            this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 6
                         }
                     }
                 }
@@ -10942,8 +10942,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     walls.splice(walls.indexOf(this.wall2), 1)
                     floors.splice(floors.indexOf(this.wall2), 1)
                     roofs.splice(roofs.indexOf(this.wall2), 1)
-                    floormpf.splice(this.wall1)
-                    floormpf.splice(this.wall2)
+                    floormpf.splice(floormpf.indexOf(this.wall1),1)
+                    floormpf.splice(floormpf.indexOf(this.wall2),1)
                     for(let t = 0;t<worms.length; t++){
                         if(worms[t].pop){
                             worms[t].pop()
@@ -11145,8 +11145,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     walls.splice(walls.indexOf(this.wall2), 1)
                     floors.splice(floors.indexOf(this.wall2), 1)
                     roofs.splice(roofs.indexOf(this.wall2), 1)
-                    floormpf.splice(this.wall1)
-                    floormpf.splice(this.wall2)
+                    floormpf.splice(floormpf.indexOf(this.wall1),1)
+                    floormpf.splice(floormpf.indexOf(this.wall2),1)
                     for(let t = 0;t<worms.length; t++){
                         if(worms[t].pop){
                             worms[t].pop()
