@@ -1816,28 +1816,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             // }
 
-            if (this.anchor.repelCheck(pomao.body) && (this.anchor.repelCheck(pomao.tongue) || (this.anchor.marked == 1 || this.anchor.marked == 2))) {
-                // if (Math.abs(pomao.tonguex) + Math.abs(pomao.tonguey) < 14) {
-                //     if (this.worm.licked == 0) {
+            // if (this.anchor.repelCheck(pomao.body) && (this.anchor.repelCheck(pomao.tongue) || (this.anchor.marked == 1 || this.anchor.marked == 2))) {
+            //     // if (Math.abs(pomao.tonguex) + Math.abs(pomao.tonguey) < 14) {
+            //     //     if (this.worm.licked == 0) {
 
-                //         for (let t = 0; t < this.worm.segments.length; t++) {
-                //             // console.log(this.worm.segments[t].anchor.marked )
-                //             if (this.worm.segments[t].anchor.marked == 1) {
-                //                 this.worm.licked = 1
-                //             }
-                //         }
+            //     //         for (let t = 0; t < this.worm.segments.length; t++) {
+            //     //             // console.log(this.worm.segments[t].anchor.marked )
+            //     //             if (this.worm.segments[t].anchor.marked == 1) {
+            //     //                 this.worm.licked = 1
+            //     //             }
+            //     //         }
 
-                //     }
-                //     if (this.worm.licked == 1) {
+            //     //     }
+            //     //     if (this.worm.licked == 1) {
 
-                //         this.anchor.marked = 2
-                //         pomao.diry = 1
-                //         if (typeof this.anchor.timer != "number") {
-                //             this.anchor.timer = this.worm.joints.length * 3
-                //         }
-                //     }
-                // }
-            } else if (this.anchor.repelCheck(pomao.body)) {
+            //     //         this.anchor.marked = 2
+            //     //         pomao.diry = 1
+            //     //         if (typeof this.anchor.timer != "number") {
+            //     //             this.anchor.timer = this.worm.joints.length * 3
+            //     //         }
+            //     //     }
+            //     // }
+            // } else 
+            
+            if (this.anchor.repelCheck(pomao.body)) {
                 if (this.anchor.x > pomao.body.x) {
                     this.bump = 1
                 } else {
