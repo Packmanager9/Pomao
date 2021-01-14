@@ -5958,6 +5958,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
 
+            if (level == 6) {
+                door.x = -2100
+                door.y = -9170-door.height
+                door.draw()
+                if (door.isPointInside(pomao.body)) {
+                    loadlvl7()
+                }
+            }
+
 
             if (level == 8) {
                 floors.splice(0, floors.length)
@@ -10773,6 +10782,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (Math.random() < .999) {
                 this.layer = 0
             }
+            this.wall1 = new Rectangle(-2100+door.width, -11070,2000, 50)
+            this.wall2 = new Rectangle(-2100, -11070,50, door.width)
+            floors.push(this.wall1)
+            walls.push(this.wall1)
+            roofs.push(this.wall1)
+            floors.push(this.wall2)
+            walls.push(this.wall2)
+            roofs.push(this.wall2)
+            floormpf.push(this.wall1)
+            floormpf.push(this.wall2)
             this.dead = 0
             this.health = 5555
             this.maxhealth = 5555
@@ -10916,6 +10935,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // this.health = 0
                 if(this.dead == 0){
                     this.dead = 1
+
+                    walls.splice(walls.indexOf(this.wall1), 1)
+                    floors.splice(floors.indexOf(this.wall1), 1)
+                    roofs.splice(roofs.indexOf(this.wall1), 1)
+                    walls.splice(walls.indexOf(this.wall2), 1)
+                    floors.splice(floors.indexOf(this.wall2), 1)
+                    roofs.splice(roofs.indexOf(this.wall2), 1)
+                    floormpf.splice(this.wall1)
+                    floormpf.splice(this.wall2)
                     for(let t = 0;t<worms.length; t++){
                         if(worms[t].pop){
                             worms[t].pop()
@@ -11111,6 +11139,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // this.health = 0
                 if(this.dead == 0){
                     this.dead = 1
+                    walls.splice(walls.indexOf(this.wall1), 1)
+                    floors.splice(floors.indexOf(this.wall1), 1)
+                    roofs.splice(roofs.indexOf(this.wall1), 1)
+                    walls.splice(walls.indexOf(this.wall2), 1)
+                    floors.splice(floors.indexOf(this.wall2), 1)
+                    roofs.splice(roofs.indexOf(this.wall2), 1)
+                    floormpf.splice(this.wall1)
+                    floormpf.splice(this.wall2)
                     for(let t = 0;t<worms.length; t++){
                         if(worms[t].pop){
                             worms[t].pop()
