@@ -6376,7 +6376,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             for (let t = 0; t < worms.length; t++) {
                 if (worms[t].boss == 1) {
-                    if (pomao.body.y < -9170) {
+                    if (pomao.body.y < -8570) {
                         worms[t].draw()
                     }
                 } else {
@@ -9396,7 +9396,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         pop() {
             this.bopped = 1
-            console.log("hit")
+            // console.log("hit")
             let rotx = 0
             let roty = 0
 
@@ -9775,7 +9775,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         pop() {
             this.bopped = 1
-            console.log("jit")
+            // console.log("jit")
             let rotx = 0
             let roty = 0
 
@@ -10773,8 +10773,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (Math.random() < .999) {
                 this.layer = 0
             }
-            this.health = 10000
-            this.maxhealth = 10000
+            this.dead = 0
+            this.health = 5555
+            this.maxhealth = 5555
             this.dangler = 0
             this.body = new Circle(x, y, 22, "yellow")
             this.segments = []
@@ -10861,10 +10862,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         //     }
                         // }
 
-                        this.health -= 4
+                        this.health -= 5
                         for (let n = 0; n < this.segments.length; n++) {
-                            this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 4
-                            this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 4
+                            this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 10
+                            this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 10
                         }
                     }
                 }
@@ -10901,7 +10902,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             this.joints[k + 1].ymom += shockfriendly.shocksr[t].ymom * .2
                         }
 
-                        this.health -= 10
+                        this.health -= 12
                         for (let n = 0; n < this.segments.length; n++) {
                             this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 4
                             this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 4
@@ -10911,9 +10912,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
         draw() {
-            if (this.health < 0) {
-                this.health = 0
-            }
+            if (this.health <= 0) {
+                // this.health = 0
+                if(this.dead == 0){
+                    this.dead = 1
+                    for(let t = 0;t<worms.length; t++){
+                        if(worms[t].pop){
+                            worms[t].pop()
+                        }
+                    }
+                }
+            }else{
 
             this.box = new Shape(this.joints)
             this.yeet = 0
@@ -10971,8 +10980,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if(this.joints[t].x<-2100){
                         this.joints[t].x = -2100
                     }
-                    if(this.joints[t].y>-8700){
-                        this.joints[t].y = -8700
+                    if(this.joints[t].y>-8870){
+                        this.joints[t].y = -8870
                     }
                 }
             }
@@ -11098,9 +11107,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     this.joints[t].wdraw()
             // }
 
-            if (this.health < 0) {
-                this.health = 0
+            if (this.health <= 0) {
+                // this.health = 0
+                if(this.dead == 0){
+                    this.dead = 1
+                    for(let t = 0;t<worms.length; t++){
+                        if(worms[t].pop){
+                            worms[t].pop()
+                        }
+                    }
+                }
             }
+        }
         }
     }
 
@@ -12100,6 +12118,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                             if (level == 5) {
                                 loadlvl5()
+                            }
+                            if (level == 6) {
+                                loadlvl6()
+                            }
+                            if (level == 7) {
+                                loadlvl7()
+                            }
+                            if (level == 8) {
+                                loadlvl8()
+                            }
+                            if (level == 9) {
+                                loadlvl9()
                             }
                         }
 
@@ -14526,11 +14556,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (t % 5 == 0) {
                 ladder2.x -= 605
             }
-            floors.push(ladder2)
+            if(t!= 19){
+                floors.push(ladder2)
+            }
             // if(t == 21 || t== 22){
             //     console.log(ladder2)
             // }
         }
+
+        const ladderx = new Rectangle(10030, -8870 , 20, 2000, "red")
+        floors.push(ladderx)
 
         const lvl6layer3 = new Rectangle(-2100, -9170, 500, (10925 + 2100) - 605)
         floors.push(lvl6layer3)
@@ -14546,11 +14581,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.push(wagglersubunit2)
         worms.push(wormboss)
 
-        for (let t = 0; t < 17; t++) {
+        for (let t = 0; t < 14; t++) {
 
             const lvl6layer3walls = new Rectangle(-1600 + (t * 850), -11170, 1800, 300)
             if (t % 2 == 0) {
-                lvl6layer3walls.y -= 500
+                lvl6layer3walls.y -= 480
             }
 
             floors.push(lvl6layer3walls)
