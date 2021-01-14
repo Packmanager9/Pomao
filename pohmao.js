@@ -412,7 +412,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     dessertimg.src = 'desertfloor2.png'
 
     const pomaoimg = new Image()
-    pomaoimg.src = 'rcpomaolp.png'
+    pomaoimg.src = 'rcpomaolpx.png'
     // const pomaoimgx = new Image()
     // pomaoimgx.src = 'pomaoimgx.png'
 
@@ -1544,9 +1544,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.beam.draw()
         }
         wbsdraw() {
-            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "#191919", this.anchor.radius * 2)
-            tutorial_canvas_context.drawImage(wormbossimg, 0, 0, wormbossimg.width, wormbossimg.height, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2)
+            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "#191919", this.body.radius * 1.8)
             this.beam.draw()
+            tutorial_canvas_context.drawImage(wormbossimg, 0, 0, wormbossimg.width, wormbossimg.height, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2)
         }
         wmove(t = -1) {
             // this.body.ymom*=.99
@@ -1837,36 +1837,36 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 //         }
                 //     }
                 // }
-            } else if (this.anchor.repelCheck(pomao.body) && !this.anchor.repelCheck(pomao.tongue)) {
-                // if (this.anchor.x > pomao.body.x) {
-                //     this.bump = 1
-                // } else {
-                //     this.bump = -1
-                // }
-                // //   if(pomao.body.ymom == 0){
-                // if (blockedlick == 0) {
+            } else if (this.anchor.repelCheck(pomao.body)) {
+                if (this.anchor.x > pomao.body.x) {
+                    this.bump = 1
+                } else {
+                    this.bump = -1
+                }
+                //   if(pomao.body.ymom == 0){
+                if (blockedlick == 0) {
 
-                //     if (this.body.radius >= 15) {
-                //         if (pomao.disabled != 1) {
-                //             if (pomao.pounding != 10) {
-                //                 pomao.body.xmom = -3 * (this.bump)
-                //                 pomao.disabled = 1
-                //                 pomao.hits--
-                //                 pomao.body.ymom = -1.8
-                //                 this.anchor.xmom += -pomao.body.xmom * 5
-                //                 this.body.xmom += -pomao.body.xmom * 5
-                //             }
-                //         } else {
-                //             if (this.bump * pomao.body.xmom > 0) {
-                //                 pomao.body.xmom = -1.8 * (this.bump)
-                //                 pomao.body.ymom = -1.8
-                //                 this.anchor.xmom += -pomao.body.xmom * 5
-                //                 this.body.xmom += -pomao.body.xmom * 5
-                //             }
-                //         }
-                //     }
-                // }
-                // //   }
+                    if (this.body.radius >= 15) {
+                        if (pomao.disabled != 1) {
+                            if (pomao.pounding != 10) {
+                                pomao.body.xmom = -3 * (this.bump)
+                                pomao.disabled = 1
+                                pomao.hits-=3
+                                pomao.body.ymom = -1.8
+                                this.anchor.xmom += -pomao.body.xmom * 5
+                                this.body.xmom += -pomao.body.xmom * 5
+                            }
+                        } else {
+                            if (this.bump * pomao.body.xmom > 0) {
+                                pomao.body.xmom = -1.8 * (this.bump)
+                                pomao.body.ymom = -1.8
+                                this.anchor.xmom += -pomao.body.xmom * 5
+                                this.body.xmom += -pomao.body.xmom * 5
+                            }
+                        }
+                    }
+                }
+                //   }
             }
 
             if (this.anchor.marked == 1) {
@@ -1988,11 +1988,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let blockedlick = 0
             let blockedlick2 = 0
             // for (let t = this.worm.joints.length - 2; t < this.worm.joints.length; t++) {
-                // // if(t!=this.worm.joints.indexOf(this)){
-                // if (this.worm.joints[t].marked > 1) {
-                //     blockedlick2 = 2
-                // }
-                // // }
+            // // if(t!=this.worm.joints.indexOf(this)){
+            // if (this.worm.joints[t].marked > 1) {
+            //     blockedlick2 = 2
+            // }
+            // // }
             // }
             for (let t = this.worm.joints.length - 2; t < this.worm.joints.length; t++) {
                 if (t != this.worm.joints.indexOf(this)) {
@@ -2136,11 +2136,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let blockedlick = 0
             let blockedlick2 = 0
             // for (let t = this.worm.joints.length - 2; t < this.worm.joints.length; t++) {
-                // // if(t!=this.worm.joints.indexOf(this)){
-                // if (this.worm.joints[t].marked > 1) {
-                //     blockedlick2 = 2
-                // }
-                // // }
+            // // if(t!=this.worm.joints.indexOf(this)){
+            // if (this.worm.joints[t].marked > 1) {
+            //     blockedlick2 = 2
+            // }
+            // // }
             // }
             for (let t = this.worm.joints.length - 2; t < this.worm.joints.length; t++) {
                 if (t != this.worm.joints.indexOf(this)) {
@@ -2197,35 +2197,35 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 //         }
                 //     }
                 // }
-            } else if (this.anchor.repelCheck(pomao.body) && !this.anchor.repelCheck(pomao.tongue)) {
-                // if (this.anchor.x > pomao.body.x) {
-                //     this.bump = 1
-                // } else {
-                //     this.bump = -1
-                // }
-                // //   if(pomao.body.ymom == 0){
-                // if (blockedlick == 0) {
+            } else if (this.anchor.repelCheck(pomao.body)) {
+                if (this.anchor.x > pomao.body.x) {
+                    this.bump = 1
+                } else {
+                    this.bump = -1
+                }
+                //   if(pomao.body.ymom == 0){
+                if (blockedlick == 0) {
 
-                //     if (this.body.radius >= 15) {
-                //         if (pomao.disabled != 1) {
-                //             if (pomao.pounding != 10) {
-                //                 pomao.body.xmom = -3 * (this.bump)
-                //                 pomao.disabled = 1
-                //                 pomao.hits--
-                //                 pomao.body.ymom = -1.8
-                //                 this.anchor.xmom += -pomao.body.xmom * 5
-                //                 this.body.xmom += -pomao.body.xmom * 5
-                //             }
-                //         } else {
-                //             if (this.bump * pomao.body.xmom > 0) {
-                //                 pomao.body.xmom = -1.8 * (this.bump)
-                //                 pomao.body.ymom = -1.8
-                //                 this.anchor.xmom += -pomao.body.xmom * 5
-                //                 this.body.xmom += -pomao.body.xmom * 5
-                //             }
-                //         }
-                //     }
-                // }
+                    if (this.body.radius >= 15) {
+                        if (pomao.disabled != 1) {
+                            if (pomao.pounding != 10) {
+                                pomao.body.xmom = -3 * (this.bump)
+                                pomao.disabled = 1
+                                pomao.hits-=3
+                                pomao.body.ymom = -1.8
+                                this.anchor.xmom += -pomao.body.xmom * 5
+                                this.body.xmom += -pomao.body.xmom * 5
+                            }
+                        } else {
+                            if (this.bump * pomao.body.xmom > 0) {
+                                pomao.body.xmom = -1.8 * (this.bump)
+                                pomao.body.ymom = -1.8
+                                this.anchor.xmom += -pomao.body.xmom * 5
+                                this.body.xmom += -pomao.body.xmom * 5
+                            }
+                        }
+                    }
+                }
                 //   }
             }
 
@@ -6375,19 +6375,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             for (let t = 0; t < worms.length; t++) {
-                if (worms[t].dangler == 0) {
-                    if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
-                        if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .7) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .016)) {
-                            if (worms[t].layer == 0) {
-                                worms[t].draw()
-                            }
-                        }
+                if (worms[t].boss == 1) {
+                    if (pomao.body.y < -9170) {
+                        worms[t].draw()
                     }
                 } else {
-                    if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
-                        if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .2) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .2)) {
-                            if (worms[t].layer == 0) {
-                                worms[t].draw()
+                    if (worms[t].dangler == 0) {
+                        if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
+                            if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .7) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .016)) {
+                                if (worms[t].layer == 0) {
+                                    worms[t].draw()
+                                }
+                            }
+                        }
+                    } else {
+                        if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
+                            if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .2) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .2)) {
+                                if (worms[t].layer == 0) {
+                                    worms[t].draw()
+                                }
                             }
                         }
                     }
@@ -6601,10 +6607,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
             for (let t = 0; t < worms.length; t++) {
-                if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
-                    if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .7) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .016)) {
-                        if (worms[t].layer == 1) {
-                            worms[t].draw()
+                if (worms[t].boss == 1) {
+                    // if (pomao.y < -9170) {
+                    //     // worms[t].draw() // maybe remove this?
+                    // }
+                } else {
+                    if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
+                        if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .7) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .016)) {
+                            if (worms[t].layer == 1) {
+                                worms[t].draw()
+                            }
                         }
                     }
                 }
@@ -10086,6 +10098,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class Wagglersubunit {
         constructor(x, y, anchor) {
             // this.beingEaten = 0
+            this.boss = 1
             this.licked = 0
             this.dangler = 1
             this.layer = 0
@@ -10268,9 +10281,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.body.x = this.wormanchor.x
                     this.body.y = this.wormanchor.y
                     // if(t < this.segments.length-1){
-                        this.segments[t].wbalance()
-                        this.segments[t].wbalance()
-                        this.segments[t].wbalance()
+                    this.segments[t].wbalance()
+                    this.segments[t].wbalance()
+                    this.segments[t].wbalance()
                     // }
 
                     this.body.x = this.wormanchor.x
@@ -10453,8 +10466,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.eggrepel()
                 this.body.x = this.wormanchor.x
                 this.body.y = this.wormanchor.y
-                this.beam = new Line(this.joints[0].x, this.joints[0].y, this.wormanchor.x, this.wormanchor.y, "#191919", this.body.radius * 1.1)
+                this.beam = new Line(this.joints[0].x, this.joints[0].y, this.wormanchor.x, this.wormanchor.y, "#191919", this.wormanchor.radius * 1.1)
                 this.beam.draw()
+                this.wormanchor.wbsdraw()
                 for (let t = 0; t < this.segments.length; t++) {
                     if (t > 0) {
                         if (t < this.segments.length - 1) {
@@ -10752,18 +10766,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     class Wormboss {
         constructor(x = 0, y = 0) {
+            this.boss = 1
             this.licked = 0
             this.beingEaten = 0
             this.layer = Math.floor(Math.random() * 2)
             if (Math.random() < .999) {
                 this.layer = 0
             }
-            this.health = 1000
-            this.maxhealth = 1000
+            this.health = 10000
+            this.maxhealth = 10000
             this.dangler = 0
-            this.body = new Circle(x, y, 30, "yellow")
+            this.body = new Circle(x, y, 22, "yellow")
             this.segments = []
-            this.length = 29
+            this.length = 35
             this.joints = []
             this.dis = 22
             this.guide = new Circle(this.body.x + Math.sin(this.angle), this.body.y + Math.cos(this.angle), 5, "orange")
@@ -10950,9 +10965,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
             if (this.yeet == 0 || this.dip > 0) {
-                this.joints[0].ymom += .13
+                this.joints[0].ymom += .1
                 for (let t = 1; t < this.joints.length; t++) {
-                    this.joints[t].ymom += .03
+                    this.joints[t].ymom += .02
+                    if(this.joints[t].x<-2100){
+                        this.joints[t].x = -2100
+                    }
+                    if(this.joints[t].y>-8700){
+                        this.joints[t].y = -8700
+                    }
                 }
             }
             for (let t = 0; t < this.segments.length; t++) {
@@ -10971,15 +10992,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     this.angle = this.angleRadians
             // }
 
-            this.angle = (this.angleRadians + this.angle * 2) / 3
+            this.angle = this.angleRadians // (this.angleRadians + this.angle * 2) / 3
 
             this.angle += (Math.random() - .5)
-            this.guide = new Circle(this.joints[0].x + (Math.cos(this.angle) * this.dis), this.joints[0].y + (Math.sin(this.angle) * this.dis), 5, "orange")
+            this.guide = new Circle(this.joints[0].x + (Math.cos(this.angle) * this.dis), this.joints[0].y + (Math.sin(this.angle) * this.dis * 2), 5, "orange")
             if (this.yeet == 1) {
                 // console.log(this.yeet)
                 if (this.dip <= 0) {
-                    this.body.xmom -= (this.body.x - this.guide.x) / 3
-                    this.body.ymom -= (this.body.y - this.guide.y) / 3
+                    this.body.xmom -= (this.body.x - this.guide.x) / 2
+                    this.body.ymom -= (this.body.y - this.guide.y) / 2
                     this.body.xmom -= (Math.random() - .5) * .1
                     this.body.ymom -= (Math.random() - .5) * .1
 
@@ -11009,6 +11030,36 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 } else {
                     this.dip--
+
+                    this.body.xmom -= (this.body.x - this.guide.x) / 300
+                    this.body.ymom -= (this.body.y - this.guide.y) / 300
+                    this.body.xmom -= (Math.random() - .5) * .1
+                    this.body.ymom -= (Math.random() - .5) * .1
+
+                    for (let t = 0; t < this.joints.length; t++) {
+                        if ((Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) != 0) {
+                            for (let k = 0; (Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) < 3; k++) { //3
+                                this.joints[t].xmom *= 1.1
+                                this.joints[t].ymom *= 1.1
+                                if (k > 500) {
+                                    break
+                                }
+                            }
+                        }
+                    }
+                    for (let t = 0; t < 1; t++) {
+                        if (t == 0) {
+                            if ((Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) != 0) {
+                                for (let k = 0; (Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) < 8; k++) { //3
+                                    this.joints[t].xmom *= 1.1
+                                    this.joints[t].ymom *= 1.1
+                                    if (k > 500) {
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    }
                     for (let t = 0; t < this.segments.length; t++) {
                         this.segments[t].body.ymom *= .95
                         this.segments[t].body.xmom *= .95
@@ -14406,7 +14457,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         level = 6
 
 
-        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y+0)
+        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y + 0)
         pomao.body.x = -1000
         pomao.body.y = 0
         spinnys.splice(0, spinnys.length)
@@ -14487,13 +14538,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
         roofs.push(lvl6layer3)
 
 
-        const wormboss = new Wormboss(6000, -10250)
+        const wormboss = new Wormboss(0, -10250)
         const wagglersubunit = new Wagglersubunit(wormboss.joints[2].x, wormboss.joints[2].y, wormboss.joints[2])
         const wagglersubunit2 = new Wagglersubunit(wormboss.joints[2].x, wormboss.joints[2].y, wormboss.joints[2])
 
-        worms.push(wormboss)
         worms.push(wagglersubunit)
         worms.push(wagglersubunit2)
+        worms.push(wormboss)
+
+        for (let t = 0; t < 17; t++) {
+
+            const lvl6layer3walls = new Rectangle(-1600 + (t * 850), -11170, 1800, 300)
+            if (t % 2 == 0) {
+                lvl6layer3walls.y -= 500
+            }
+
+            floors.push(lvl6layer3walls)
+            walls.push(lvl6layer3walls)
+            roofs.push(lvl6layer3walls)
+
+        }
 
         const ramp5 = new Triangle90(5300, 53, "red", 500)
         ramps.push(ramp5)
