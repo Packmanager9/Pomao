@@ -10795,8 +10795,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             floormpf.push(this.wall1)
             floormpf.push(this.wall2)
             this.dead = 0
-            this.health = 5555
-            this.maxhealth = 5555
+            this.health = 7777
+            this.maxhealth = 7777
             this.dangler = 0
             this.body = new Circle(x, y, 22, "yellow")
             this.segments = []
@@ -10883,7 +10883,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         //     }
                         // }
 
-                        this.health -= 5
+                        this.health -= 4
                         for (let n = 0; n < this.segments.length; n++) {
                             this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 6
                             this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 6
@@ -10923,7 +10923,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             this.joints[k + 1].ymom += shockfriendly.shocksr[t].ymom * .2
                         }
 
-                        this.health -= 12
+                        this.health -= 10
                         for (let n = 0; n < this.segments.length; n++) {
                             this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 6
                             this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 6
