@@ -10166,12 +10166,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         pop() {
             this.bopped = 1
-            console.log("jit")
+            // console.log("jit")
             let rotx = 0
             let roty = 0
 
             for (let g = 0; g < 10; g++) {
-                let color = this.joints[this.joints.length - 2].color
+                let color = "#191919" //this.joints[this.joints.length - 2].color
                 const dot1 = new Circlec(this.joints[this.joints.length - 2].x, this.joints[this.joints.length - 2].y, this.joints[this.joints.length - 2].radius * .33, color, Math.cos(rotx) * 4, Math.sin(roty) * 4)
                 this.pops.push(dot1)
                 rotx += 2 * Math.PI / 10
