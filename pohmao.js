@@ -1838,7 +1838,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     //     }
             //     // }
             // } else 
-            
+
             if (this.anchor.repelCheck(pomao.body)) {
                 if (this.anchor.x > pomao.body.x) {
                     this.bump = 1
@@ -1853,7 +1853,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             if (pomao.pounding != 10) {
                                 pomao.body.xmom = -3 * (this.bump)
                                 pomao.disabled = 1
-                                pomao.hits-=3
+                                pomao.hits -= 3
                                 pomao.body.ymom = -1.8
                                 this.anchor.xmom += -pomao.body.xmom * 5
                                 this.body.xmom += -pomao.body.xmom * 5
@@ -2213,7 +2213,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             if (pomao.pounding != 10) {
                                 pomao.body.xmom = -3 * (this.bump)
                                 pomao.disabled = 1
-                                pomao.hits-=3
+                                pomao.hits -= 3
                                 pomao.body.ymom = -1.8
                                 this.anchor.xmom += -pomao.body.xmom * 5
                                 this.body.xmom += -pomao.body.xmom * 5
@@ -4881,6 +4881,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             return false
         }
+        isPointInsideTargeted(point) {
+            for (let t = 0; t < this.shapes.length; t++) {
+                if (this.shapes[t].repelCheck(point)) {
+                    return this.shapes[t].target
+                }
+            }
+
+            return false
+        }
+        isInsideOfTargeted(box) {
+
+            for (let t = 0; t < this.shapes.length; t++) {
+                if (box.isPointInside(this.shapes[t])) {
+                    return this.shapes[t].target
+                }
+            }
+
+            return false
+        }
 
     }
     class Pomao {
@@ -5962,7 +5981,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (level == 6) {
                 door.x = -2100
-                door.y = -9170-door.height
+                door.y = -9170 - door.height
                 door.draw()
                 if (door.isPointInside(pomao.body)) {
                     loadlvl7()
@@ -8601,6 +8620,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.arms = []
             this.pops = []
             this.cleared = 0
+            this.metashape = []
 
             for (let t = 0; t < this.limbs; t++) {
 
@@ -8676,6 +8696,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         }
 
+        castBetween(from, to, granularity = 10, radius = 1, target) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
+            let limit = new LineOP(from, to).hypotenuse() / (to.radius * 2)
+            // console.log(from, to, target)
+            radius = to.radius
+            let shape_array = []
+            for (let t = 0; t < limit; t++) {
+                let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "red")
+                circ.target = target
+                shape_array.push(circ)
+            }
+            this.metashape.push((new Shape(shape_array)))
+            return true;
+        }
         pop() {
             this.bopped = 1
             let rotx = 0
@@ -8994,6 +9027,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     }
                 }
+                this.metashape = []
+                for (let f = 0; f < this.legs.length; f++) {
+                    this.castBetween(this.legs[f].anchor, this.legs[f].body, 10, 1, this.legs[f])
+                }
+                for (let r = 0; r < pomao.thrown.length; r++) {
+                    for (let z = 0; z < this.metashape.length; z++) {
+                        if (this.metashape[z].isPointInsideTargeted(pomao.thrown[r])) {
+                            this.metashape[z].isPointInsideTargeted(pomao.thrown[r]).health -= .1
+                        }
+                    }
+                }
+                this.metashape = []
 
                 for (let f = 0; f < this.legs.length; f++) {
                     for (let r = 0; r < pomao.thrown.length; r++) {
@@ -10784,8 +10829,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (Math.random() < .999) {
                 this.layer = 0
             }
-            this.wall1 = new Rectangle(-2100+door.width, -11070,2000, 50)
-            this.wall2 = new Rectangle(-2100, -11070,50, door.width)
+            this.wall1 = new Rectangle(-2100 + door.width, -11070, 2000, 50)
+            this.wall2 = new Rectangle(-2100, -11070, 50, door.width)
             floors.push(this.wall1)
             walls.push(this.wall1)
             roofs.push(this.wall1)
@@ -10935,7 +10980,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
             if (this.health <= 0) {
                 // this.health = 0
-                if(this.dead == 0){
+                if (this.dead == 0) {
                     this.dead = 1
 
                     walls.splice(walls.indexOf(this.wall1), 1)
@@ -10944,120 +10989,108 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     walls.splice(walls.indexOf(this.wall2), 1)
                     floors.splice(floors.indexOf(this.wall2), 1)
                     roofs.splice(roofs.indexOf(this.wall2), 1)
-                    floormpf.splice(floormpf.indexOf(this.wall1),1)
-                    floormpf.splice(floormpf.indexOf(this.wall2),1)
-                    for(let t = 0;t<worms.length; t++){
-                        if(worms[t].pop){
+                    floormpf.splice(floormpf.indexOf(this.wall1), 1)
+                    floormpf.splice(floormpf.indexOf(this.wall2), 1)
+                    for (let t = 0; t < worms.length; t++) {
+                        if (worms[t].pop) {
                             worms[t].pop()
                         }
                     }
                 }
-            }else{
+            } else {
 
-            this.box = new Shape(this.joints)
-            this.yeet = 0
+                this.box = new Shape(this.joints)
+                this.yeet = 0
 
-            for (let t = 0; t < this.joints.length; t++) {
-                for (let f = 0; f < floors.length; f++) {
-                    if (squarecirclefeet(floors[f], (this.joints[t]))) {
-                        // if(this.box.isInsideOf(floors[f])){
+                for (let t = 0; t < this.joints.length; t++) {
+                    for (let f = 0; f < floors.length; f++) {
+                        if (squarecirclefeet(floors[f], (this.joints[t]))) {
+                            // if(this.box.isInsideOf(floors[f])){
 
-                        this.yeet = 1
-                    }
-                }
-                for (let f = 0; f < ramps.length; f++) {
-                    if (ramps[f].isPointInside(this.joints[t])) {
-                        // if(this.box.isInsideOf(floors[f])){
-
-                        this.yeet = 1
-                    }
-                }
-            }
-
-            for (let t = 0; t < this.segments.length; t++) {
-                if (this.yeet == 0) {
-                    this.segments[t].anchor.xmom *= .995
-                    this.segments[t].anchor.ymom *= .998
-                    this.segments[t].body.xmom *= .995
-                    this.segments[t].body.ymom *= .998
-                } else {
-
-                    this.segments[t].anchor.xmom *= .995
-                    this.segments[t].anchor.ymom *= .995
-                    this.segments[t].body.xmom *= .995
-                    this.segments[t].body.ymom *= .995 //99
-                }
-                // if(this.yeet == 1){
-
-                this.segments[t].wbalance()
-                this.segments[t].wbalance()
-                // }
-
-                // if(this.yeet == 0){
-                //     this.joints[0].ymom+=.1
-                // this.segments[t].anchor.ymom += .0002*(this.length-t)
-                // this.segments[t].body.ymom +=  .0002*(this.length-t)
-                // }
-
-
-            }
-
-
-            if (this.yeet == 0 || this.dip > 0) {
-                this.joints[0].ymom += .1
-                for (let t = 1; t < this.joints.length; t++) {
-                    this.joints[t].ymom += .02
-                    if(this.joints[t].x<-2100){
-                        this.joints[t].x = -2100
-                    }
-                    if(this.joints[t].y>-8870){
-                        this.joints[t].y = -8870
-                    }
-                }
-            }
-            for (let t = 0; t < this.segments.length; t++) {
-                // this.segments[t].wmove(t)
-                this.segments[t].wbmove(t)
-            }
-
-            // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
-            this.angleRadians = Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
-
-            // if(this.angleRadians - this.angle  > .17){
-            //     this.angle +=.07
-            // }else  if(this.angleRadians - this.angle  < -.17){
-            //     this.angle -=.07
-            // }else{
-            //     this.angle = this.angleRadians
-            // }
-
-            this.angle = this.angleRadians // (this.angleRadians + this.angle * 2) / 3
-
-            this.angle += (Math.random() - .5)
-            this.guide = new Circle(this.joints[0].x + (Math.cos(this.angle) * this.dis), this.joints[0].y + (Math.sin(this.angle) * this.dis * 2), 5, "orange")
-            if (this.yeet == 1) {
-                // console.log(this.yeet)
-                if (this.dip <= 0) {
-                    this.body.xmom -= (this.body.x - this.guide.x) / 2
-                    this.body.ymom -= (this.body.y - this.guide.y) / 2
-                    this.body.xmom -= (Math.random() - .5) * .1
-                    this.body.ymom -= (Math.random() - .5) * .1
-
-                    for (let t = 0; t < this.joints.length; t++) {
-                        if ((Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) != 0) {
-                            for (let k = 0; (Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) < 3; k++) { //3
-                                this.joints[t].xmom *= 1.1
-                                this.joints[t].ymom *= 1.1
-                                if (k > 500) {
-                                    break
-                                }
-                            }
+                            this.yeet = 1
                         }
                     }
-                    for (let t = 0; t < 1; t++) {
-                        if (t == 0) {
+                    for (let f = 0; f < ramps.length; f++) {
+                        if (ramps[f].isPointInside(this.joints[t])) {
+                            // if(this.box.isInsideOf(floors[f])){
+
+                            this.yeet = 1
+                        }
+                    }
+                }
+
+                for (let t = 0; t < this.segments.length; t++) {
+                    if (this.yeet == 0) {
+                        this.segments[t].anchor.xmom *= .995
+                        this.segments[t].anchor.ymom *= .998
+                        this.segments[t].body.xmom *= .995
+                        this.segments[t].body.ymom *= .998
+                    } else {
+
+                        this.segments[t].anchor.xmom *= .995
+                        this.segments[t].anchor.ymom *= .995
+                        this.segments[t].body.xmom *= .995
+                        this.segments[t].body.ymom *= .995 //99
+                    }
+                    // if(this.yeet == 1){
+
+                    this.segments[t].wbalance()
+                    this.segments[t].wbalance()
+                    // }
+
+                    // if(this.yeet == 0){
+                    //     this.joints[0].ymom+=.1
+                    // this.segments[t].anchor.ymom += .0002*(this.length-t)
+                    // this.segments[t].body.ymom +=  .0002*(this.length-t)
+                    // }
+
+
+                }
+
+
+                if (this.yeet == 0 || this.dip > 0) {
+                    this.joints[0].ymom += .1
+                    for (let t = 1; t < this.joints.length; t++) {
+                        this.joints[t].ymom += .02
+                        if (this.joints[t].x < -2100) {
+                            this.joints[t].x = -2100
+                        }
+                        if (this.joints[t].y > -8870) {
+                            this.joints[t].y = -8870
+                        }
+                    }
+                }
+                for (let t = 0; t < this.segments.length; t++) {
+                    // this.segments[t].wmove(t)
+                    this.segments[t].wbmove(t)
+                }
+
+                // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
+                this.angleRadians = Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
+
+                // if(this.angleRadians - this.angle  > .17){
+                //     this.angle +=.07
+                // }else  if(this.angleRadians - this.angle  < -.17){
+                //     this.angle -=.07
+                // }else{
+                //     this.angle = this.angleRadians
+                // }
+
+                this.angle = this.angleRadians // (this.angleRadians + this.angle * 2) / 3
+
+                this.angle += (Math.random() - .5)
+                this.guide = new Circle(this.joints[0].x + (Math.cos(this.angle) * this.dis), this.joints[0].y + (Math.sin(this.angle) * this.dis * 2), 5, "orange")
+                if (this.yeet == 1) {
+                    // console.log(this.yeet)
+                    if (this.dip <= 0) {
+                        this.body.xmom -= (this.body.x - this.guide.x) / 2
+                        this.body.ymom -= (this.body.y - this.guide.y) / 2
+                        this.body.xmom -= (Math.random() - .5) * .1
+                        this.body.ymom -= (Math.random() - .5) * .1
+
+                        for (let t = 0; t < this.joints.length; t++) {
                             if ((Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) != 0) {
-                                for (let k = 0; (Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) < 8; k++) { //3
+                                for (let k = 0; (Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) < 3; k++) { //3
                                     this.joints[t].xmom *= 1.1
                                     this.joints[t].ymom *= 1.1
                                     if (k > 500) {
@@ -11066,30 +11099,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                             }
                         }
-                    }
-                } else {
-                    this.dip--
-
-                    this.body.xmom -= (this.body.x - this.guide.x) / 300
-                    this.body.ymom -= (this.body.y - this.guide.y) / 300
-                    this.body.xmom -= (Math.random() - .5) * .1
-                    this.body.ymom -= (Math.random() - .5) * .1
-
-                    for (let t = 0; t < this.joints.length; t++) {
-                        if ((Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) != 0) {
-                            for (let k = 0; (Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) < 3; k++) { //3
-                                this.joints[t].xmom *= 1.1
-                                this.joints[t].ymom *= 1.1
-                                if (k > 500) {
-                                    break
+                        for (let t = 0; t < 1; t++) {
+                            if (t == 0) {
+                                if ((Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) != 0) {
+                                    for (let k = 0; (Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) < 8; k++) { //3
+                                        this.joints[t].xmom *= 1.1
+                                        this.joints[t].ymom *= 1.1
+                                        if (k > 500) {
+                                            break
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                    for (let t = 0; t < 1; t++) {
-                        if (t == 0) {
+                    } else {
+                        this.dip--
+
+                        this.body.xmom -= (this.body.x - this.guide.x) / 300
+                        this.body.ymom -= (this.body.y - this.guide.y) / 300
+                        this.body.xmom -= (Math.random() - .5) * .1
+                        this.body.ymom -= (Math.random() - .5) * .1
+
+                        for (let t = 0; t < this.joints.length; t++) {
                             if ((Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) != 0) {
-                                for (let k = 0; (Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) < 8; k++) { //3
+                                for (let k = 0; (Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) < 3; k++) { //3
                                     this.joints[t].xmom *= 1.1
                                     this.joints[t].ymom *= 1.1
                                     if (k > 500) {
@@ -11098,65 +11131,77 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                             }
                         }
-                    }
-                    for (let t = 0; t < this.segments.length; t++) {
-                        this.segments[t].body.ymom *= .95
-                        this.segments[t].body.xmom *= .95
-                        this.segments[t].anchor.ymom *= .95
-                        this.segments[t].anchor.xmom *= .95
+                        for (let t = 0; t < 1; t++) {
+                            if (t == 0) {
+                                if ((Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) != 0) {
+                                    for (let k = 0; (Math.abs(this.joints[t].xmom) + Math.abs(this.joints[t].ymom)) < 8; k++) { //3
+                                        this.joints[t].xmom *= 1.1
+                                        this.joints[t].ymom *= 1.1
+                                        if (k > 500) {
+                                            break
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        for (let t = 0; t < this.segments.length; t++) {
+                            this.segments[t].body.ymom *= .95
+                            this.segments[t].body.xmom *= .95
+                            this.segments[t].anchor.ymom *= .95
+                            this.segments[t].anchor.xmom *= .95
 
-                        //.5
+                            //.5
+                        }
+                    }
+                    // this.body.xmom *=.98
+                    // this.body.ymom *=.98
+
+
+
+                    for (let t = 0; (Math.abs(this.body.xmom) + Math.abs(this.body.ymom)) > 15; t++) {
+                        this.body.xmom *= .98
+                        this.body.ymom *= .98
+                    }
+                } else { this.dip = 35 }  //15
+                // this.guide.radius = (this.joints[0].radius/3)+1
+                // this.guide.draw()
+                this.eggrepel()
+                for (let t = 0; t < this.segments.length - 1; t++) {
+                    if (t > 0) {
+                        if (t < this.segments.length - 2) {
+                            this.segments[t].wbdraw()
+                            this.segments[t].body.wbdraw()
+                        } else if (t < this.segments.length - 1) {
+                            // this.segments[t].wdraw()
+                            this.segments[t].body.wbdraw()
+                        }
                     }
                 }
-                // this.body.xmom *=.98
-                // this.body.ymom *=.98
 
+                // for(let t = 0;t<this.joints.length;t++){
+                //     this.joints[t].wdraw()
+                // }
 
-
-                for (let t = 0; (Math.abs(this.body.xmom) + Math.abs(this.body.ymom)) > 15; t++) {
-                    this.body.xmom *= .98
-                    this.body.ymom *= .98
-                }
-            } else { this.dip = 35 }  //15
-            // this.guide.radius = (this.joints[0].radius/3)+1
-            // this.guide.draw()
-            this.eggrepel()
-            for (let t = 0; t < this.segments.length - 1; t++) {
-                if (t > 0) {
-                    if (t < this.segments.length - 2) {
-                        this.segments[t].wbdraw()
-                        this.segments[t].body.wbdraw()
-                    } else if (t < this.segments.length - 1) {
-                        // this.segments[t].wdraw()
-                        this.segments[t].body.wbdraw()
-                    }
-                }
-            }
-
-            // for(let t = 0;t<this.joints.length;t++){
-            //     this.joints[t].wdraw()
-            // }
-
-            if (this.health <= 0) {
-                // this.health = 0
-                if(this.dead == 0){
-                    this.dead = 1
-                    walls.splice(walls.indexOf(this.wall1), 1)
-                    floors.splice(floors.indexOf(this.wall1), 1)
-                    roofs.splice(roofs.indexOf(this.wall1), 1)
-                    walls.splice(walls.indexOf(this.wall2), 1)
-                    floors.splice(floors.indexOf(this.wall2), 1)
-                    roofs.splice(roofs.indexOf(this.wall2), 1)
-                    floormpf.splice(floormpf.indexOf(this.wall1),1)
-                    floormpf.splice(floormpf.indexOf(this.wall2),1)
-                    for(let t = 0;t<worms.length; t++){
-                        if(worms[t].pop){
-                            worms[t].pop()
+                if (this.health <= 0) {
+                    // this.health = 0
+                    if (this.dead == 0) {
+                        this.dead = 1
+                        walls.splice(walls.indexOf(this.wall1), 1)
+                        floors.splice(floors.indexOf(this.wall1), 1)
+                        roofs.splice(roofs.indexOf(this.wall1), 1)
+                        walls.splice(walls.indexOf(this.wall2), 1)
+                        floors.splice(floors.indexOf(this.wall2), 1)
+                        roofs.splice(roofs.indexOf(this.wall2), 1)
+                        floormpf.splice(floormpf.indexOf(this.wall1), 1)
+                        floormpf.splice(floormpf.indexOf(this.wall2), 1)
+                        for (let t = 0; t < worms.length; t++) {
+                            if (worms[t].pop) {
+                                worms[t].pop()
+                            }
                         }
                     }
                 }
             }
-        }
         }
     }
 
@@ -14594,7 +14639,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (t % 5 == 0) {
                 ladder2.x -= 605
             }
-            if(t!= 19){
+            if (t != 19) {
                 floors.push(ladder2)
             }
             // if(t == 21 || t== 22){
@@ -14602,7 +14647,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // }
         }
 
-        const ladderx = new Rectangle(10030, -8870 , 20, 2000, "red")
+        const ladderx = new Rectangle(10030, -8870, 20, 2000, "red")
         floors.push(ladderx)
 
         const lvl6layer3 = new Rectangle(-2100, -9170, 500, (10925 + 2100) - 605)
@@ -15066,5 +15111,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
         context.font = font;
         var metrics = context.measureText(text);
         return metrics.width;
+    }
+
+    function castBetween(from, to, granularity = 10, radius = 1) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
+        let limit = granularity
+        let shape_array = []
+        for (let t = 0; t < limit; t++) {
+            let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "red")
+            shape_array.push(circ)
+        }
+        return (new Shape(shape_array))
     }
 })
