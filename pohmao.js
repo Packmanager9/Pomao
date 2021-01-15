@@ -6485,13 +6485,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             this.thrown[t].timer = 6
                         }
                     }
-                    if (this.tonguex > 14 && this.tonguey > 18) {
+                    if (this.tonguex > 14 && this.tonguey > 25) {
                         if (this.blush <= 1) {
                             tutorial_canvas_context.drawImage(pomaodownpaint, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         } else {
                             tutorial_canvas_context.drawImage(pomaodownpaintb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         }
-                    } else if (this.tonguex < -14 && this.tonguey > 18) {
+                    } else if (this.tonguex < -14 && this.tonguey > 25) {
                         if (this.blush <= 1) {
                             tutorial_canvas_context.drawImage(pomaodownpaintl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         } else {
@@ -8629,7 +8629,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     let rigradius = 20
                     let spring = new ChSpring(this.body)
-                    spring.health = 1350  //1150
+                    spring.health = 1650  //1150 //1350
                     spring.anchor.radius = rigradius
                     this.joints.push(spring.anchor)
                     this.legs.push(spring)
@@ -8655,7 +8655,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     let rigradius = 20
                     let spring = new ChSpring(this.body)
-                    spring.health = 1350 //1150
+                    spring.health = 1650 //1150  //1350
                     spring.anchor.radius = rigradius
                     this.joints.push(spring.anchor)
                     this.legs.push(spring)
