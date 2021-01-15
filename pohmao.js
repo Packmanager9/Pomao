@@ -6485,13 +6485,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             this.thrown[t].timer = 6
                         }
                     }
-                    if (this.tonguex > 14 && this.tonguey > 14) {
+                    if (this.tonguex > 14 && this.tonguey > 18) {
                         if (this.blush <= 1) {
                             tutorial_canvas_context.drawImage(pomaodownpaint, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         } else {
                             tutorial_canvas_context.drawImage(pomaodownpaintb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         }
-                    } else if (this.tonguex < -14 && this.tonguey > 14) {
+                    } else if (this.tonguex < -14 && this.tonguey > 18) {
                         if (this.blush <= 1) {
                             tutorial_canvas_context.drawImage(pomaodownpaintl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         } else {
@@ -8702,7 +8702,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             radius = to.radius
             let shape_array = []
             for (let t = 0; t < limit; t++) {
-                let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "red")
+                let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "gray")
                 circ.target = target
                 shape_array.push(circ)
             }
