@@ -10857,6 +10857,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let spring = new Spring(this.body)
             spring.anchor.radius = this.rigradius
             spring.length = 12
+            this.metashape = []
 
             spring.worm = this
 
@@ -10889,7 +10890,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // console.log(this)
             this.bopped = 0
         }
+
+        castBetween(from, to) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
+            let limit = new LineOP(from, to).hypotenuse() / (to.radius * 2)
+            // console.log(from, to, target)
+            let radius = to.radius
+            let shape_array = []
+            for (let t = 0; t < limit; t++) {
+                let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "gray")
+                circ.target = this
+                // circ.draw()
+                shape_array.push(circ)
+            }
+            this.metashape.push((new Shape(shape_array)))
+            return true;
+        }
         eggrepel() {
+
+
+            for (let k = 0; k < pomao.thrown.length; k++) {
+                for (let t = 0; t < pomao.thrown.length; t++) {
+                    if (this.metashape[k].isPointInside(pomao.thrown[t])) {
+                        this.health -= .5
+                    }
+                }
+            }
             for (let t = 0; t < pomao.thrown.length; t++) {
                 for (let k = 0; k < this.joints.length; k++) {
                     if (this.joints[k].repelCheck(pomao.thrown[t])) {
@@ -10936,18 +10961,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
+
+
+            for (let k = 0; k < pomao.thrown.length; k++) {
+                for (let t = 0; t < shockfriendly.shocksl.length; t++) {
+                    if (this.metashape[k].isPointInside(shockfriendly.shocksl[t])) {
+                        this.health -= .5
+                    }
+                    if (this.metashape[k].isPointInside(shockfriendly.shocksr[t])) {
+                        this.health -= .5
+                    }
+                }
+            }
             for (let t = 0; t < shockfriendly.shocksl.length; t++) {
                 for (let k = 0; k < this.joints.length; k++) {
                     if (this.joints[k].repelCheck(shockfriendly.shocksl[t])) {
                         this.joints[k].xmom += shockfriendly.shocksl[t].xmom * .2
-                        this.joints[k].ymom += shockfriendly.shocksl[t].ymom * .2
+                        this.joints[k].ymom += shockfriendly.shocksl[t].ymom * .5
                         if (k > 0) {
                             this.joints[k - 1].xmom += shockfriendly.shocksl[t].xmom * .2
-                            this.joints[k - 1].ymom += shockfriendly.shocksl[t].ymom * .2
+                            this.joints[k - 1].ymom += shockfriendly.shocksl[t].ymom * .5
                         }
                         if (k < this.joints.length - 1) {
                             this.joints[k + 1].xmom += shockfriendly.shocksl[t].xmom * .2
-                            this.joints[k + 1].ymom += shockfriendly.shocksl[t].ymom * .2
+                            this.joints[k + 1].ymom += shockfriendly.shocksl[t].ymom * .5
                         }
 
                         this.health -= 1
@@ -10958,14 +10995,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                     if (this.joints[k].repelCheck(shockfriendly.shocksr[t])) {
                         this.joints[k].xmom += shockfriendly.shocksr[t].xmom * .2
-                        this.joints[k].ymom += shockfriendly.shocksr[t].ymom * .2
+                        this.joints[k].ymom += shockfriendly.shocksr[t].ymom * .5
                         if (k > 0) {
                             this.joints[k - 1].xmom += shockfriendly.shocksr[t].xmom * .2
-                            this.joints[k - 1].ymom += shockfriendly.shocksr[t].ymom * .2
+                            this.joints[k - 1].ymom += shockfriendly.shocksr[t].ymom * .5
                         }
                         if (k < this.joints.length - 1) {
                             this.joints[k + 1].xmom += shockfriendly.shocksr[t].xmom * .2
-                            this.joints[k + 1].ymom += shockfriendly.shocksr[t].ymom * .2
+                            this.joints[k + 1].ymom += shockfriendly.shocksr[t].ymom * .5
                         }
 
                         this.health -= 10
@@ -11065,6 +11102,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.segments[t].wbmove(t)
                 }
 
+                this.metashape = []
+
+                for (let t = 1; t < this.joints.length; t++) {
+                    this.castBetween(this.joints[t], this.joints[t - 1])
+                }
                 // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
                 this.angleRadians = Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
 
@@ -11165,7 +11207,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 } else { this.dip = 35 }  //15
                 // this.guide.radius = (this.joints[0].radius/3)+1
                 // this.guide.draw()
+
                 this.eggrepel()
+                        for (let n = 0; n < this.segments.length; n++) {
+                            this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 6
+                            this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 6
+                        }
                 for (let t = 0; t < this.segments.length - 1; t++) {
                     if (t > 0) {
                         if (t < this.segments.length - 2) {
@@ -11202,6 +11249,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
+
         }
     }
 
