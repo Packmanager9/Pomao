@@ -10,6 +10,7 @@ const spinnys = []
 let beamrocks = []
 let links = []
 const worms = []
+const floppers = []
 let floormpf = []
 // const gamepads
 
@@ -183,6 +184,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let blocks = []
     let nails = []
     // letpomao.grounded= 0
+    const spikeenemyimg = new Image()
+    spikeenemyimg.src = "spikeenemyimg.png"
     const hilllump = new Image()
     hilllump.src = "hilllump.png"
     const title = new Image()
@@ -700,6 +703,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.xrepel = 0
             this.yrepel = 0
             this.lens = 0
+        }
+
+        repelCheck(point) {
+            this.areaY = point.y - this.y
+            this.areaX = point.x - this.x
+            if (((this.areaX * this.areaX) + (this.areaY * this.areaY)) <= (this.radius + point.radius) * (point.radius + this.radius)) {
+                return true
+            }
+            return false
         }
         draw() {
 
@@ -4276,14 +4288,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             return Math.sqrt(hypotenuse)
         }
         draw() {
-            let linewidthstorage = canvas_context.lineWidth
-            canvas_context.strokeStyle = this.color
-            canvas_context.lineWidth = this.width
-            canvas_context.beginPath()
-            canvas_context.moveTo(this.object.x, this.object.y)
-            canvas_context.lineTo(this.target.x, this.target.y)
-            canvas_context.stroke()
-            canvas_context.lineWidth = linewidthstorage
+            let linewidthstorage = tutorial_canvas_context.lineWidth
+            tutorial_canvas_context.strokeStyle = this.color
+            tutorial_canvas_context.lineWidth = this.width
+            tutorial_canvas_context.beginPath()
+            tutorial_canvas_context.moveTo(this.object.x, this.object.y)
+            tutorial_canvas_context.lineTo(this.target.x, this.target.y)
+            tutorial_canvas_context.stroke()
+            tutorial_canvas_context.lineWidth = linewidthstorage
             tutorial_canvas_context.closePath();
         }
     }
@@ -6403,6 +6415,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
+            for (let t = 0; t < floppers.length; t++) {
+                if (floppers[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                    if (floppers[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                        floppers[t].draw()
+                    } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                        if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                            floppers[t].draw()
+                        }
+                    }
+                } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                    if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                        floppers[t].draw()
+                    }
+                }
+            }
+
 
             for (let t = 0; t < worms.length; t++) {
                 if (worms[t].boss == 1) {
@@ -11209,10 +11237,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // this.guide.draw()
 
                 this.eggrepel()
-                        for (let n = 0; n < this.segments.length; n++) {
-                            this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 6
-                            this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 6
-                        }
+                for (let n = 0; n < this.segments.length; n++) {
+                    this.segments[n].body.radius = ((this.health / this.maxhealth) * this.segments[n].body.storad) + 6
+                    this.segments[n].anchor.radius = ((this.health / this.maxhealth) * this.segments[n].anchor.storad) + 6
+                }
                 for (let t = 0; t < this.segments.length - 1; t++) {
                     if (t > 0) {
                         if (t < this.segments.length - 2) {
@@ -11779,6 +11807,326 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
+    class Flopper {
+        constructor(x, y) {
+            this.body = new Bosscircle(x, y, 14, "red")
+            this.lump = new Bosscircle(x, y, 40, "transparent")
+            this.link = new LineOP(this.body, this.lump, "yellow", 10)
+            this.bodystopped = 0
+            this.lumpstopped = 0
+            this.metashape = []
+            this.blockedbody = 0
+            this.blockedlump = 0
+            this.walker = 0
+            this.walkcap = 76 + Math.floor(Math.random()*17)*2
+            this.foot = 0
+            this.dead = 0
+        }
+        castBetween(from, to) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
+            let limit = new LineOP(from, to).hypotenuse() / (to.radius * 2)
+            // console.log(from, to, target)
+            let radius = to.radius
+            let shape_array = []
+            for (let t = 0; t < limit; t++) {
+                let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "gray")
+                circ.target = this
+                // circ.draw()
+                shape_array.push(circ)
+            }
+            this.metashape.push((new Shape(shape_array)))
+            return true;
+        }
+        draw() {
+
+            this.bodystopped = 0
+            this.lumpstopped = 0
+
+            this.body.ymom += .2
+            this.lump.ymom += .25  // .2
+
+            this.walker++
+            
+            if (this.foot == 0) {
+                this.foot = 1
+                if (this.walker % this.walkcap == 0) {
+                    if (pomao.body.x < this.lump.x) {
+                        if(this.dead == 0){
+                        this.lump.xmom -= 4.9
+                        this.lump.ymom -= 3.8
+                        }
+                    } else {
+                        if(this.dead == 0){
+                        this.lump.xmom += 4.9
+                        this.lump.ymom -= 3.8
+                        }
+                    }
+                }
+            } else {
+                this.foot = 0
+                if (this.dead != 1){
+                if (this.walker % this.walkcap == 0) {
+                    if (pomao.body.x < this.body.x) {
+                        if(this.dead == 0){
+                        this.body.xmom -= 6.9
+                        this.body.ymom -= 8.8
+                        }
+                    } else {
+                        if(this.dead == 0){
+                        this.body.xmom += 6.9
+                        this.body.ymom -= 8.8
+                        }
+                    }
+                }
+            }
+            }
+            this.body.xmom *= .99
+            this.lump.xmom *= .99
+            for (let t = 0; t < floors.length; t++) {
+                if (squarecirclefeet(floors[t], this.body)) {
+                    if (this.body.ymom > 0) {
+                        this.body.ymom = 0
+                        this.lumpstopped = 1
+                    }
+                }
+                if (squarecirclefeet(floors[t], this.lump)) {
+                    if (this.lump.ymom > 0) {
+                        this.lump.ymom = 0
+                        this.lumpstopped = 1
+                    }
+                }
+            }
+
+            this.blockedbody = 0
+            this.blockedlump = 0
+            this.lump.xmom -= (this.lump.x - this.body.x) / 300
+            this.lump.ymom -= (this.lump.y - this.body.y) / 300
+            this.body.xmom -= (this.body.x - this.lump.x) / 200
+            this.body.ymom -= (this.body.y - this.lump.y) / 200
+            for (let t = 0; t < walls.length; t++) {
+                if (squarecircleface(walls[t], this.body)) {
+
+                    if (this.body.x > walls[t].x) {
+                        this.blockedbody = 1
+                    } else {
+                        this.blockedbody = -1
+                    }
+                }
+                if (squarecircleface(walls[t], this.lump)) {
+
+                    if (this.lump.x > walls[t].x) {
+                        this.blockedlump = 1
+                    } else {
+                        this.blockedlump = -1
+                    }
+                }
+            }
+
+
+            if (this.dead != 1) {
+                this.body.move()
+            }
+            // this.lump.move()
+            if(this.dead == 0){
+                this.lump.y += this.lump.ymom
+            }else{
+                if(this.lump.ymom > 0){
+                    this.lump.y += this.lump.ymom
+                }
+            }
+
+            this.lump.xrepel = 0
+            this.lump.yrepel = 0
+            for (let f = 0; f < floppers.length; f++) {
+                if (this !== floppers[f]) {
+                    if (this.lump.repelCheck(floppers[f].lump)) {
+                        const distance = ((new Line(floppers[f].lump.x, floppers[f].lump.y, this.lump.x, this.lump.y, 1, "red")).hypotenuse()) -(this.lump.radius*2)
+                        const angleRadians = Math.atan2(floppers[f].lump.y - this.lump.y, floppers[f].lump.x - this.lump.x);
+                        this.lump.xrepel += (Math.cos(angleRadians) * distance) / 2
+                        this.lump.yrepel += (Math.sin(angleRadians) * distance) / 2
+                        // floppers[f].xrepelled = 1
+                    }
+                }
+            }
+
+
+            if (this.dead != 1) {
+                if (this.blockedbody == 0) {
+                    if(this.dead == 0){
+                    this.body.x += this.body.xmom
+                    }
+                    this.body.x += this.body.xrepel
+                } else if (this.blockedbody == 1) {
+                    if (this.body.xmom > 0) {
+                        if(this.dead == 0){
+                        this.body.x += this.body.xmom
+                        }
+                    }
+                    if (this.body.xrepel > 0) {
+                        this.body.x += this.body.xrepel
+                    }
+                } else {
+                    if (this.body.xmom < 0) {
+                        if(this.dead == 0){
+                        this.body.x += this.body.xmom
+                        }
+                    }
+
+                    if (this.body.xrepel < 0) {
+                        this.body.x += this.body.xrepel
+                    }
+                }
+            }
+
+            if (this.blockedlump == 0) {
+                // if(this.dead == 0){
+                this.lump.x += this.lump.xmom
+                // }
+                this.lump.x += this.lump.xrepel
+            } else if (this.blockedlump == 1) {
+                if (this.lump.xmom > 0) {
+                    // if(this.dead == 0){
+                    this.lump.x += this.lump.xmom*2
+                    // }
+                }
+                if (this.lump.xrepel > 0) {
+                    this.lump.x += this.lump.xrepel
+                }
+            } else {
+                if (this.lump.xmom < 0) {
+                    // if(this.dead == 0){
+                    this.lump.x += this.lump.xmom*2
+                    // }
+                }
+
+                if (this.lump.xrepel < 0) {
+                    this.lump.x += this.lump.xrepel
+                }
+            }
+            if (this.lump.x > pomao.body.x) {
+                this.bump = 1
+            } else {
+                this.bump = -1
+            }
+            this.metashape = []
+            this.castBetween(this.body, this.lump)
+            if (this.lump.repelCheck(pomao.body)) {
+                if (pomao.disabled != 1) {
+                    if (pomao.pounding != 10) {
+                        pomao.body.xmom = -3 * (this.bump)
+                        pomao.disabled = 1
+                        pomao.hits--
+                        pomao.body.ymom = -1.8
+                        this.lump.xmom += -pomao.body.xmom * 5
+                        if (this.dead != 1){
+                        this.body.xmom += -pomao.body.xmom * 5
+                        }
+                    } else {
+                        pomao.body.xmom = -3 * (this.bump)
+                        pomao.disabled = 1
+                        pomao.hits--
+                        pomao.body.ymom = -1.8
+                        pomao.pounding = 0
+                        this.lump.xmom += -pomao.body.xmom * 3
+                        if (this.dead != 1){
+                        this.body.xmom += -pomao.body.xmom * 3
+                        }
+                    }
+                } else {
+                    if (this.bump * pomao.body.xmom > 0) {
+                        pomao.body.xmom = -1.8 * (this.bump)
+                        pomao.body.ymom = -1.8
+                        this.lump.xmom += -pomao.body.xmom * 3
+                        if (this.dead != 1){
+                        this.body.xmom += -pomao.body.xmom * 3
+                        }
+                    }
+                }
+            }
+            for (let t = 0; t < this.metashape.length; t++) {
+
+                for (let k = 0; k < pomao.thrown.length; k++) {
+                    if (this.lump.isPointInside(pomao.thrown[k])) {
+                        this.body = this.lump
+                        this.walker += .5
+                        this.link.color = "transparent"
+                        this.dead = 1
+                    }
+                    if (this.body.isPointInside(pomao.thrown[k])) {
+                        this.body = this.lump
+                        this.walker += .5
+                        this.link.color = "transparent"
+                        this.dead = 1
+                    }
+                }
+                if (this.metashape[0].x > pomao.body.x) {
+                    this.bump = 1
+                } else {
+                    this.bump = -1
+                }
+                if (this.metashape[t].isPointInside(pomao.body)) {
+                    if (pomao.disabled != 1) {
+                        if (pomao.pounding != 10) {
+                            pomao.body.xmom = -2 * (this.bump)
+                            // pomao.disabled = 1
+                            // pomao.hits--
+                            pomao.body.ymom = -1.1
+                            this.lump.xmom += -pomao.body.xmom * 5
+                            if (this.dead != 1){
+                            this.body.xmom += -pomao.body.xmom * 5
+                            }
+                        } else {
+                            pomao.body.xmom = -2 * (this.bump)
+                            // pomao.disabled = 1
+                            // pomao.hits--
+                            pomao.body.ymom = -1.1
+                            pomao.pounding = 0
+                            this.lump.xmom += -pomao.body.xmom * 3
+                            if (this.dead != 1){
+                            this.body.xmom += -pomao.body.xmom * 3
+                            }
+                        }
+                    } else {
+                        if (this.bump * pomao.body.xmom > 0) {
+                            pomao.body.xmom = -1.1 * (this.bump)
+                            pomao.body.ymom = -1.1
+                            this.lump.xmom += -pomao.body.xmom * 3
+                            if (this.dead != 1){
+                                this.body.xmom += -pomao.body.xmom * 3
+                            }
+                        }
+                    }
+                    for (let k = 0; k < pomao.thrown.length; k++) {
+                        if (this.metashape[t].isPointInside(pomao.thrown[k])) {
+                            this.body = this.lump
+                            this.walker += .5
+                            this.link.color = "transparent"
+                            this.dead = 1
+                        }
+                        if (this.lump.isPointInside(pomao.thrown[k])) {
+                            this.body = this.lump
+                            this.walker += .5
+                            this.link.color = "transparent"
+                            this.dead = 1
+                        }
+                        if (this.body.isPointInside(pomao.thrown[k])) {
+                            this.body = this.lump
+                            this.walker += .5
+                            this.link.color = "transparent"
+                            this.dead = 1
+                        }
+                    }
+                }
+            }
+            this.link.draw()
+            // this.lump.draw()
+            this.body.draw()
+            tutorial_canvas_context.drawImage(spikeenemyimg, 0, 0, spikeenemyimg.width, spikeenemyimg.height, this.lump.x - this.lump.radius, this.lump.y - this.lump.radius, this.lump.radius * 2, this.lump.radius * 2)
+
+        }
+
+
+    }
+
     class Dialogue {
         constructor(x, y) {
             this.timerbase = 120
@@ -11933,6 +12281,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 1;
+                        } else if (level == 7) {
+                            tutorial_canvas_context.globalAlpha = 0.2;
+                            tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.globalAlpha = 1;
                         }
                         // tutorial_canvas_context.fillStyle = `rgba(85, 85, 128,${15 / 255})`
                         tutorial_canvas_context.fillStyle = `rgba(85, 125, 178,${15 / 255})`
@@ -11968,6 +12320,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 6) {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.globalAlpha = 1;
+                        } else if (level == 7) {
+                            tutorial_canvas_context.globalAlpha = 0.2;
+                            tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
                         tutorial_canvas_context.fillStyle = `rgba(153, 193, 230,${63 / 255})`
@@ -12006,6 +12362,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 1;
+                        } else if (level == 7) {
+                            tutorial_canvas_context.globalAlpha = 0.2;
+                            tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.globalAlpha = 1;
                         }
                         tutorial_canvas_context.fillStyle = `rgba(190, 190, 255,${14 / 255})`
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
@@ -12036,6 +12396,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
                         } else if (level == 6) {
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                        } else if (level == 7) {
+                            tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
                         }
                         // if(keysPressed['p']){
                         //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
@@ -14982,8 +15344,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         level = 7
 
 
-        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
-        pomao.body.x = -1000
+        tutorial_canvas_context.translate(pomao.body.x + 1, pomao.body.y)
+        pomao.body.x = -1
         pomao.body.y = 0
         spinnys.splice(0, spinnys.length)
         ramps90 = []
@@ -15013,27 +15375,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // boss = new Bossbeam()
 
 
-        for (let t = 0; t < 1; t++) {
-            const worm = new Worm(300 + Math.random() * 5000, -1250 + Math.random() * 2000)
-            // const wagglersubunit = new Wagglersubunit(worm.joints[2].x, worm.joints[2].y, worm.joints[2])
-            // const wagglersubunit2 = new Wagglersubunit(worm.joints[2].x, worm.joints[2].y, worm.joints[2])
-            let dirty = 0
-            for (let t = 0; t < floors.length; t++) {
-                if (floors[t].isPointInside(worm.joints[0])) {
-                    dirty = 1
-                }
-            }
-            for (let t = 0; t < ramps.length; t++) {
-                if (ramps[t].isPointInside(worm.joints[0])) {
-                    dirty = 1
-                }
-            }
-            if (dirty == 1) {
-                worms.push(worm)
-                // worms.push(wagglersubunit)
-                // worms.push(wagglersubunit2)
-            }
+        for (let t = 0; t < 10; t++) {
+            let flopper = new Flopper(-700+(Math.random()*500), -700+(Math.random()*500))
+            floppers.push(flopper)
         }
+
 
 
         for (let t = 0; t < 100; t++) {
@@ -15054,6 +15400,34 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(wall2)
         floors.push(wall2)
         roofs.push(wall2)
+
+
+        for (let t = 0; t < 900; t++) {
+            const fruit = new Fruit(-2100 + (Math.random() * (11600 + 2100)), -5000 + (Math.random() * 5000), 60, 60, "red")
+            let wet = 0
+            for (let s = 0; s < floors.length; s++) {
+                if (squarecircleedges(floors[s], fruit.body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < ramps.length; k++) {
+                if (ramps[k].isPointInside(fruit.body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
         floormpf = [...floors]
     }
 
