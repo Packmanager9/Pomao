@@ -186,6 +186,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // letpomao.grounded= 0
     const spikeenemyimg = new Image()
     spikeenemyimg.src = "spikeenemyimg.png"
+    const redcircleimg = new Image()
+    redcircleimg.src = "smallredcircle.png"
+    const smallyellowcircle = new Image()
+    smallyellowcircle.src = "smallyellowcircle.png"
+    
     const hilllump = new Image()
     hilllump.src = "hilllump.png"
     const title = new Image()
@@ -4314,8 +4319,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.active = 0
             this.counter = 0
             this.isBlocked = true
+            this.splice = 0
         }
         underlaps(RectA) {
+
+            if(this.splice == 1){
+                roofs.splice(roofs.indexOf(this), 1)
+                walls.splice(walls.indexOf(this), 1)
+                floors.splice(floors.indexOf(this), 1)
+                console.log("hit")
+            }
             // console.log(RectA)
             if (this.isPointInside(new Point(RectA.x, RectA.y + RectA.height))) {
 
@@ -4332,6 +4345,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
             return false
         }
         overlaps(RectA) {
+
+            if(this.splice == 1){
+                roofs.splice(roofs.indexOf(this), 1)
+                walls.splice(walls.indexOf(this), 1)
+                floors.splice(floors.indexOf(this), 1)
+                console.log("hit")
+            }
             // console.log(RectA)
             if (this.isPointInside(new Point(RectA.x, RectA.y))) {
 
@@ -4357,13 +4377,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
             return false
         }
         draw() {
+
             tutorial_canvas_context.fillStyle = this.color
             tutorial_canvas_context.fillRect(this.x, this.y, this.width, this.height)
+            // if(this.type == 1){
+          
+            // }
         }
         move() {
+
             this.x += this.xmom
             this.xmom *= .97 // why is this here?
-            this.y += this.ymom
+            this.y += this.ymom      
         }
         ymove() {
             if (this.ymom > 0) {
@@ -4371,6 +4396,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
         isPointInside(point) {
+
             if (point.x >= this.x) {
                 if (point.y >= this.y) {
                     if (point.x <= this.x + this.width) {
@@ -4387,6 +4413,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             return false
+        }
+        clean(){
+            if(this.splice == 1){
+                roofs.splice(roofs.indexOf(this), 1)
+                walls.splice(walls.indexOf(this), 1)
+                floors.splice(floors.indexOf(this), 1)
+            }
         }
     }
     class Circle {
@@ -6091,6 +6124,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+            for (let t = 0; t < floors.length; t++) {
+                floors[t].clean()
+            }
 
             for (let t = 0; t < floors.length; t++) {
 
@@ -6131,10 +6167,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             if (floors[t].type == 1) {
                                                 if (floors[t].active !== 0) {
                                                     floors[t].counter++
-                                                    if (floors[t].counter % 5 == 0) {
+                                                    if (floors[t].counter % 8 == 0) {
                                                         floors[t].timer++
                                                         if (floors[t].timer > 21) {
                                                             floors[t].timer = 21
+                                                            floors[t].splice = 1
                                                         }
                                                     }
                                                 }
@@ -6354,16 +6391,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 //     } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
                 //         if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
                 //             floppers[t].draw()
+                //         }else if(floppers[t].dead == 0){
+                //             floppers[t].draw()
                 //         }
+                //     }else if(floppers[t].dead == 0){
+                //         floppers[t].draw()
                 //     }
                 // } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
                 //     if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
                 //         floppers[t].draw()
+                //     }else if(floppers[t].dead == 0){
+                //         floppers[t].draw()
                 //     }
+                // }else if(floppers[t].dead == 0){
+                //     floppers[t].draw()
                 // }
             }
 
-            
+
             this.tongue.draw()
 
             this.link = new Line(this.body.x, 3 + this.body.y - (Math.sin(this.timeloop) * 1), this.tongue.x, this.tongue.y, "blue", 3) // radius 3 // this.tongue.radius*1.1
@@ -11854,14 +11899,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         popline() {
             let rotx = 0
             let roty = 0
-            let dots = Math.floor(Math.random()*9)+7
+            let dots = Math.floor(Math.random()*8)+6
             for(let t = 0;t<this.metashape[0].shapes.length;t++){
                 for (let g = 0; g < dots; g++) {
                     let color = "yellow"
                     if(Math.random() < .3){
                         color = "orange"
                     }   
-                    const dot1 = new Circlec(this.metashape[0].shapes[t].x, this.metashape[0].shapes[t].y, this.metashape[0].shapes[t].radius / 2, color, Math.cos(rotx) * 4+Math.random(), Math.sin(roty) * 4+Math.random())
+                    const dot1 = new Circlec(this.metashape[0].shapes[t].x, this.metashape[0].shapes[t].y, this.metashape[0].shapes[t].radius / 1.5+(Math.random()*2), color, Math.cos(rotx) * 4+Math.random(), Math.sin(roty) * 4+Math.random())
                     this.pops.push(dot1)
                     console.log(dot1)
                     rotx += 2 * Math.PI / 17+Math.random()
@@ -11879,7 +11924,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             for (let t = 0; t < this.pops.length; t++) {
                 this.pops[t].radius *= .79
                 this.pops[t].move()
-                this.pops[t].draw()
+                if(Math.random()<.5){
+                    this.pops[t].draw()
+                }
             }
             for (let t = 0; t < this.pops.length; t++) {
                 if (this.pops[t].radius < .11) {
@@ -11888,15 +11935,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
         castBetween(from, to) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
-            let limit = new LineOP(from, to).hypotenuse() / (from.radius/1.1)
+            let limit = new LineOP(from, to).hypotenuse() / (from.radius/1.5)
             // console.log(from, to, target)
             let radius = from.radius
             let shape_array = []
             for (let t = 0; t < limit; t++) {
-                let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "gray")
+                let circ = new Bosscircle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "yellow")
                 circ.target = this
                 // circ.draw()
+                circ.radius = this.body.radius/3
                 // circ.draw()
+                circ.radius = from.radius
                 shape_array.push(circ)
             }
             this.metashape.push((new Shape(shape_array)))
@@ -12285,10 +12334,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             this.popdraw()
-            this.link.draw()
+            // this.link.draw()
             // this.lump.draw()
-            this.body.draw()
+            // this.body.draw()
+
+
+            for(let t = 0;t<this.metashape[0].shapes.length;t++){
+                this.metashape[0].shapes[t].radius = this.body.radius*.35
+                tutorial_canvas_context.drawImage(smallyellowcircle, 0, 0, smallyellowcircle.width, smallyellowcircle.height, this.metashape[0].shapes[t].x - this.metashape[0].shapes[t].radius, this.metashape[0].shapes[t].y - this.metashape[0].shapes[t].radius, this.metashape[0].shapes[t].radius * 2, this.metashape[0].shapes[t].radius * 2)
+                this.metashape[0].shapes[t].radius = this.body.radius
+            }
+
+
             tutorial_canvas_context.drawImage(spikeenemyimg, 0, 0, spikeenemyimg.width, spikeenemyimg.height, this.lump.x - this.lump.radius, this.lump.y - this.lump.radius, this.lump.radius * 2, this.lump.radius * 2)
+            if(this.body != this.lump){
+                tutorial_canvas_context.drawImage(redcircleimg, 0, 0, redcircleimg.width, redcircleimg.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
+            }
   // if(this.dead == 1){
 
   this.boing = 0
@@ -15954,8 +16015,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // boss = new Bossbeam()
 
 
-        for (let t = 0; t < 100; t++) {
-            let flopper = new Flopper(0 +(t*305), -430+t*(-120))
+        for (let t = 1; t < 40; t++) {
+            let flopper = new Flopper(-305 +(t*305), -310+t*(-120))
             // if(Math.random()<.95){
                 flopper.dead = 1
                 flopper.body.radius *= 1.4
@@ -15963,7 +16024,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 flopper.gravity+=.05+(Math.random()*.5)
                 flopper.ratio = (Math.random()*.5)+.25
             // }
-            floppers.push(flopper)
+            if(t%5 !== 0){
+                floppers.push(flopper)
+            }else{
+                const safefloor = new Rectangle(flopper.body.x-25, flopper.body.y, 50,50)
+                safefloor.type = 1
+                floors.push(safefloor)
+                walls.push(safefloor)
+                roofs.push(safefloor)
+            }
+        }
+        for (let t = 1; t < 40; t++) {
+            let flopper = new Flopper(-305 -(t*305), -310+t*(-120))
+            // if(Math.random()<.95){
+            // }
+                const safefloor = new Rectangle(flopper.body.x-25, flopper.body.y, 50,50)
+                safefloor.type = 1
+                floors.push(safefloor)
+                walls.push(safefloor)
+                roofs.push(safefloor)
         }
 
         for (let t = 0; t < 10; t++) {
@@ -15978,10 +16057,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             floors.push(floor)
             walls.push(floor)
             roofs.push(floor)
-            floor.type = 1
+            // floor.type = 1
         }
 
-        const wall1 = new Rectangle(-2100, -30000, 30033, 50, "cyan")
+        const wall1 = new Rectangle(-12000, -30000, 30033, 50, "cyan")
         walls.push(wall1)
         floors.push(wall1)
         roofs.push(wall1)
