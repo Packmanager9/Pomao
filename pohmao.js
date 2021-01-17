@@ -6415,20 +6415,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
+            
             for (let t = 0; t < floppers.length; t++) {
-                if (floppers[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                    if (floppers[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                        floppers[t].draw()
-                    } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                        if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                            floppers[t].draw()
-                        }
-                    }
-                } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                    if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                        floppers[t].draw()
-                    }
-                }
+                floppers[t].draw()
+                // if (floppers[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                //     if (floppers[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                //         floppers[t].draw()
+                //     } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                //         if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                //             floppers[t].draw()
+                //         }
+                //     }
+                // } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                //     if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                //         floppers[t].draw()
+                //     }
+                // }
             }
 
 
@@ -11821,15 +11823,469 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.walkcap = 76 + Math.floor(Math.random()*17)*2
             this.foot = 0
             this.dead = 0
+            this.ratio = 1
+            this.gravity = .15
         }
         castBetween(from, to) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
-            let limit = new LineOP(from, to).hypotenuse() / (to.radius * 2)
+            let limit = new LineOP(from, to).hypotenuse() / (from.radius)
             // console.log(from, to, target)
-            let radius = to.radius
+            let radius = from.radius
             let shape_array = []
             for (let t = 0; t < limit; t++) {
                 let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "gray")
                 circ.target = this
+                // circ.draw()
+                // circ.draw()
+                shape_array.push(circ)
+            }
+            this.metashape.push((new Shape(shape_array)))
+            return true;
+        }
+        draw() {
+            if(this.dead == 1){
+                this.link.width = this.body.radius/2
+            }else{
+            this.link.width = this.body.radius
+            }
+            for (let t = 0; t < shockfriendly.shocksl.length; t++) {
+                if (this.lump.repelCheck(shockfriendly.shocksl[t])) {
+                    this.lump.xmom += shockfriendly.shocksl[t].xmom * .09
+                    this.lump.ymom += shockfriendly.shocksl[t].ymom * .09
+                    break
+                }
+                if (this.lump.repelCheck(shockfriendly.shocksr[t])) {
+                    this.lump.xmom += shockfriendly.shocksr[t].xmom * .09
+                    this.lump.ymom += shockfriendly.shocksr[t].ymom * .09
+                    break
+                }
+            }
+            for (let t = 0; t < shockfriendly.shocksl.length; t++) {
+                if (this.body.repelCheck(shockfriendly.shocksl[t])) {
+                        this.body.xmom += shockfriendly.shocksl[t].xmom * .09
+                        this.body.ymom += shockfriendly.shocksl[t].ymom * .09
+                        break
+                }
+                if (this.body.repelCheck(shockfriendly.shocksr[t])) {
+                        this.body.xmom += shockfriendly.shocksr[t].xmom * .09
+                        this.body.ymom += shockfriendly.shocksr[t].ymom * .09
+                        break
+                }
+            }
+            this.bodystopped = 0
+            this.lumpstopped = 0
+            this.body.ymom += .2
+            this.lump.ymom += this.gravity  // .2
+            this.walker++
+            if (this.foot == 0) {
+                this.foot = 1
+                if (this.walker % this.walkcap == 0) {
+                    if (pomao.body.x < this.lump.x) {
+                        if(this.dead == 0){
+                        this.lump.xmom -= 4.9
+                        this.lump.ymom -= 3.8
+                        }
+                    } else {
+                        if(this.dead == 0){
+                        this.lump.xmom += 4.9
+                        this.lump.ymom -= 3.8
+                        }
+                    }
+                }
+            } else {
+                this.foot = 0
+                if (this.dead != 1){
+                if (this.walker % this.walkcap == 0) {
+                    if (pomao.body.x < this.body.x) {
+                        if(this.dead == 0){
+                        this.body.xmom -= 6.9
+                        this.body.ymom -= 8.8
+                        }
+                    } else {
+                        if(this.dead == 0){
+                        this.body.xmom += 6.9
+                        this.body.ymom -= 8.8
+                        }
+                    }
+                }
+            }
+            }
+            this.body.xmom *= .99
+            this.lump.xmom *= .99
+            this.lump.ymom *= .99
+            if(Math.abs(this.lump.xmom)+Math.abs(this.lump.ymom) > 20){
+                this.lump.xmom *= .9
+                this.lump.ymom *= .9
+            }
+            for (let t = 0; t < floors.length; t++) {
+                if (squarecirclefeet(floors[t], this.body)) {
+                    if (this.body.ymom > 0) {
+                        this.body.ymom = 0
+                        this.lumpstopped = 1
+                    }
+                }
+                if (squarecirclefeet(floors[t], this.lump)) {
+                    if (this.lump.ymom > 0) {
+                        this.lump.ymom = 0
+                        this.lumpstopped = 1
+                    }
+                }
+            }
+
+            this.blockedbody = 0
+            this.blockedlump = 0
+            this.lump.xmom -= (this.lump.x - this.body.x) / 300
+            this.lump.ymom -= (this.lump.y - this.body.y) / 300
+            this.body.xmom -= (this.body.x - this.lump.x) / 200
+            this.body.ymom -= (this.body.y - this.lump.y) / 200
+            for (let t = 0; t < walls.length; t++) {
+                if (squarecircleface(walls[t], this.body)) {
+
+                    if (this.body.x > walls[t].x) {
+                        this.blockedbody = 1
+                    } else {
+                        this.blockedbody = -1
+                    }
+                }
+                if (squarecircleface(walls[t], this.lump)) {
+
+                    if (this.lump.x > walls[t].x) {
+                        this.blockedlump = 1
+                    } else {
+                        this.blockedlump = -1
+                    }
+                }
+            }
+
+
+            if (this.dead != 1) {
+                this.body.move()
+            }
+            // this.lump.move()
+            // if(this.dead == 0){
+                this.lump.y += this.lump.ymom
+            // }else{
+            //     if(this.lump.ymom > 0){
+            //         this.lump.y += this.lump.ymom
+            //     }
+            // }
+
+            this.lump.xrepel = 0
+            this.lump.yrepel = 0
+            for (let f = 0; f < floppers.length; f++) {
+                if (this !== floppers[f]) {
+                    if (this.lump.repelCheck(floppers[f].lump)) {
+                        const distance = ((new Line(floppers[f].lump.x, floppers[f].lump.y, this.lump.x, this.lump.y, 1, "red")).hypotenuse()) -(this.lump.radius*2)
+                        const angleRadians = Math.atan2(floppers[f].lump.y - this.lump.y, floppers[f].lump.x - this.lump.x);
+                        this.lump.xrepel += (Math.cos(angleRadians) * distance) / 2
+                        this.lump.yrepel += (Math.sin(angleRadians) * distance) / 2
+                        // floppers[f].xrepelled = 1
+                    }
+                }
+            }
+
+
+            if (this.dead != 1) {
+                if (this.blockedbody == 0) {
+                    if(this.dead == 0){
+                    this.body.x += this.body.xmom
+                    }
+                    this.body.x += this.body.xrepel
+                } else if (this.blockedbody == 1) {
+                    if (this.body.xmom > 0) {
+                        if(this.dead == 0){
+                        this.body.x += this.body.xmom
+                        }
+                    }
+                    if (this.body.xrepel > 0) {
+                        this.body.x += this.body.xrepel
+                    }
+                } else {
+                    if (this.body.xmom < 0) {
+                        if(this.dead == 0){
+                        this.body.x += this.body.xmom
+                        }
+                    }
+
+                    if (this.body.xrepel < 0) {
+                        this.body.x += this.body.xrepel
+                    }
+                }
+            }
+
+            if (this.blockedlump == 0) {
+                // if(this.dead == 0){
+                this.lump.x += this.lump.xmom
+                // }
+                this.lump.x += this.lump.xrepel
+            } else if (this.blockedlump == 1) {
+                if (this.lump.xmom > 0) {
+                    // if(this.dead == 0){
+                    this.lump.x += this.lump.xmom*2
+                    // }
+                }
+                if (this.lump.xrepel > 0) {
+                    this.lump.x += this.lump.xrepel
+                }
+            } else {
+                if (this.lump.xmom < 0) {
+                    // if(this.dead == 0){
+                    this.lump.x += this.lump.xmom*2
+                    // }
+                }
+
+                if (this.lump.xrepel < 0) {
+                    this.lump.x += this.lump.xrepel
+                }
+            }
+            if (this.lump.x > pomao.body.x) {
+                this.bump = 1
+            } else {
+                this.bump = -1
+            }
+            this.metashape = []
+            this.castBetween(this.body, this.lump)
+            if (this.lump.repelCheck(pomao.body)) {
+                if (pomao.disabled != 1) {
+                    if (pomao.pounding != 10) {
+                        pomao.body.xmom = -3 * (this.bump)
+                        pomao.disabled = 1
+                        pomao.hits--
+                        pomao.body.ymom = -1.8
+                        this.lump.xmom += -pomao.body.xmom * 5 * this.ratio
+                        this.lump.ymom += 1.8
+                        if (this.dead != 1){
+                        this.body.xmom += -pomao.body.xmom * 5 * this.ratio
+                        this.lump.ymom += 1.8
+                        }
+                    } else {
+                        pomao.body.xmom = -3 * (this.bump)
+                        pomao.disabled = 1
+                        pomao.hits--
+                        pomao.body.ymom = -1.8
+                        pomao.pounding = 0
+                        this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
+                        this.lump.ymom += 1.8
+                        if (this.dead != 1){
+                        this.body.xmom += -pomao.body.xmom * 3 * this.ratio
+                        this.lump.ymom += 1.8
+                        }
+                    }
+                } else {
+                    if (this.bump * pomao.body.xmom > 0) {
+                        pomao.body.xmom = -1.8 * (this.bump)
+                        pomao.body.ymom = -1.8
+                        this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
+                        this.lump.ymom += 1.8
+                        if (this.dead != 1){
+                        this.body.xmom += -pomao.body.xmom * 3 * this.ratio
+                        this.lump.ymom += 1.8
+                        }
+                    }
+                }
+            }
+            for (let t = 0; t < this.metashape.length; t++) {
+
+                for (let k = 0; k < pomao.thrown.length; k++) {
+                    if(this.dead == 0){
+                        if (this.lump.isPointInside(pomao.thrown[k])) {
+                            this.body = this.lump
+                            this.walker += .5
+                            this.link.color = "transparent"
+                            this.dead = 1
+                        }
+                        if (this.body.isPointInside(pomao.thrown[k])) {
+                            this.body = this.lump
+                            this.walker += .5
+                            this.link.color = "transparent"
+                            this.dead = 1
+                        }
+                    }else{
+                        if(this.body != this.lump){
+                            if (this.lump.isPointInside(pomao.thrown[k])) {
+                                this.body.radius *= .96
+                            }
+                            if (this.body.isPointInside(pomao.thrown[k])) {
+                                this.body.radius *= .96
+                            }
+    
+                            if(this.body.radius < 5){
+                                this.body = this.lump
+                                this.walker += .5
+                                this.link.color = "transparent"
+                                this.dead = 1
+                            }
+                        }
+                    }
+                }
+                if(this.dead == 0){
+                    if (this.metashape[0].shapes[0].x > pomao.body.x) {
+                        this.bump = 1
+                    } else {
+                        this.bump = -1
+                    }
+                }else{
+                    this.bump = 0
+                }
+                if (this.metashape[t].isPointInside(pomao.body)) {
+                    if (pomao.disabled != 1) {
+                        if (pomao.pounding != 10) {
+                            pomao.body.xmom = -2 * (this.bump)
+                            // pomao.disabled = 1
+                            // pomao.hits--
+                            pomao.body.ymom = -1.1
+                            this.lump.xmom += -pomao.body.xmom * 5 * this.ratio
+                            this.lump.ymom += 1.8
+                            if (this.dead != 1){
+                            this.body.xmom += -pomao.body.xmom * 5 * this.ratio
+                            this.lump.ymom += 1.8
+                            }
+                        } else {
+                            pomao.body.xmom = -2 * (this.bump)
+                            // pomao.disabled = 1
+                            // pomao.hits--
+                            pomao.body.ymom = -1.1
+                            pomao.pounding = 0
+                            this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
+                            this.lump.ymom += 1.8
+                            if (this.dead != 1){
+                            this.body.xmom += -pomao.body.xmom * 3 * this.ratio
+                            this.lump.ymom += 1.8
+                            }
+                        }
+                    } else {
+                        if (this.bump * pomao.body.xmom > 0) {
+                            pomao.body.xmom = -1.1 * (this.bump)
+                            pomao.body.ymom = -1.1
+                            this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
+                            this.lump.ymom += 1.8
+                            if (this.dead != 1){
+                                this.body.xmom += -pomao.body.xmom * 3 * this.ratio
+                                this.lump.ymom += 1.8
+                            }
+                        }
+                    }
+                    for (let k = 0; k < pomao.thrown.length; k++) {
+                        if(this.dead == 0){
+                            if (this.metashape[t].isPointInside(pomao.thrown[k])) {
+                                this.body = this.lump
+                                this.walker += .5
+                                this.link.color = "transparent"
+                                this.dead = 1
+                            }
+                            if (this.lump.isPointInside(pomao.thrown[k])) {
+                                this.body = this.lump
+                                this.walker += .5
+                                this.link.color = "transparent"
+                                this.dead = 1
+                            }
+                            if (this.body.isPointInside(pomao.thrown[k])) {
+                                this.body = this.lump
+                                this.walker += .5
+                                this.link.color = "transparent"
+                                this.dead = 1
+                            }
+                        }else{
+                            if(this.body != this.lump){
+                                if (this.metashape[t].isPointInside(pomao.thrown[k])) {
+                                    this.body.radius*=.9
+                                }
+                                if (this.lump.isPointInside(pomao.thrown[k])) {
+                                    this.body.radius*=.96
+                                }
+                                if (this.body.isPointInside(pomao.thrown[k])) {
+                                    this.body.radius*=.96
+                                }
+                                if(this.body.radius < 5){
+                                    this.body = this.lump
+                                    this.walker += .5
+                                    this.link.color = "transparent"
+                                    this.dead = 1
+                                }
+                            }
+                        }
+                    }
+              
+                }
+            }
+            this.link.draw()
+            // this.lump.draw()
+            this.body.draw()
+            tutorial_canvas_context.drawImage(spikeenemyimg, 0, 0, spikeenemyimg.width, spikeenemyimg.height, this.lump.x - this.lump.radius, this.lump.y - this.lump.radius, this.lump.radius * 2, this.lump.radius * 2)
+  // if(this.dead == 1){
+
+  this.boing = 0
+  for(let t =0;t<this.metashape.length;t++){
+      if(this.metashape[t].isPointInside(pomao.tongue)){
+          this.boing = 1
+      }
+  }
+
+
+    if ((this.body.isPointInside(pomao.tongue) || ((typeof this.body.radius == "number") && (pomao.tonguebox.isInsideOf(this.body) ||this.body.repelCheck(pomao.tongue)))) || this.boing) {
+        if (pomao.tongueymom < 0) {
+            if (Math.abs(pomao.tonguey) > 1) {
+                pomao.body.symom += pomao.tongueymom * 1.1
+            }
+            if (Math.abs(pomao.tonguex) > 15) {
+                if (pomao.dir == -1) {
+                    pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
+                } else {
+                    pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
+                }
+            }
+            pomao.tongueymom *= .49
+            pomao.tonguexmom *= .49
+        } else {
+            if (Math.abs(pomao.tonguey) > 1) {
+                pomao.body.symom -= pomao.tongueymom * 1.1
+            }
+            if (Math.abs(pomao.tonguex) > 15) {
+                if (pomao.dir == -1) {
+                    pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
+                } else {
+                    pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
+                }
+            }
+
+        }
+        if (pomao.body.ymom > 0) {
+            pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+        }
+        pomao.body.ymom = 0
+        pomao.body.xmom *= .975
+        // pomao.hng = 0  // infiinite flutter?
+        pomao.dry = 1
+    }
+// }
+        }
+
+
+    }
+
+    class FlopperNoGravity {
+        constructor(x, y) {
+            this.body = new Bosscircle(x, y, 14, "transparent")
+            this.lump = new Bosscircle(x, y, 40, "transparent")
+            this.link = new LineOP(this.body, this.lump, "transparent", 10)
+            this.bodystopped = 0
+            this.lumpstopped = 0
+            this.metashape = []
+            this.blockedbody = 0
+            this.blockedlump = 0
+            this.walker = 0
+            this.walkcap = 76 + Math.floor(Math.random()*17)*2
+            this.foot = 0
+            this.dead = 1
+        }
+        castBetween(from, to) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
+            let limit = new LineOP(from, to).hypotenuse() / (from.radius*2)
+            // console.log(from, to, target)
+            let radius = from.radius
+            let shape_array = []
+            for (let t = 0; t < limit; t++) {
+                let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "gray")
+                circ.target = this
+                // circ.draw()
                 // circ.draw()
                 shape_array.push(circ)
             }
@@ -11838,11 +12294,39 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         draw() {
 
+
+
+
+            for (let t = 0; t < shockfriendly.shocksl.length; t++) {
+                if (this.lump.repelCheck(shockfriendly.shocksl[t])) {
+                    this.lump.xmom += shockfriendly.shocksl[t].xmom * .09
+                    this.lump.ymom += shockfriendly.shocksl[t].ymom * .09
+                    break
+                }
+                if (this.lump.repelCheck(shockfriendly.shocksr[t])) {
+                    this.lump.xmom += shockfriendly.shocksr[t].xmom * .09
+                    this.lump.ymom += shockfriendly.shocksr[t].ymom * .09
+                    break
+                }
+            }
+            for (let t = 0; t < shockfriendly.shocksl.length; t++) {
+                if (this.body.repelCheck(shockfriendly.shocksl[t])) {
+                        this.body.xmom += shockfriendly.shocksl[t].xmom * .09
+                        this.body.ymom += shockfriendly.shocksl[t].ymom * .09
+                        break
+                }
+                if (this.body.repelCheck(shockfriendly.shocksr[t])) {
+                        this.body.xmom += shockfriendly.shocksr[t].xmom * .09
+                        this.body.ymom += shockfriendly.shocksr[t].ymom * .09
+                        break
+                }
+            }
+
             this.bodystopped = 0
             this.lumpstopped = 0
 
             this.body.ymom += .2
-            this.lump.ymom += .25  // .2
+            this.lump.ymom += .15  // .2
 
             this.walker++
             
@@ -11926,13 +12410,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.body.move()
             }
             // this.lump.move()
-            if(this.dead == 0){
+            // if(this.dead == 0){
                 this.lump.y += this.lump.ymom
-            }else{
-                if(this.lump.ymom > 0){
-                    this.lump.y += this.lump.ymom
-                }
-            }
+            // }else{
+            //     if(this.lump.ymom > 0){
+            //         this.lump.y += this.lump.ymom
+            //     }
+            // }
 
             this.lump.xrepel = 0
             this.lump.yrepel = 0
@@ -12126,7 +12610,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     }
-
     class Dialogue {
         constructor(x, y) {
             this.timerbase = 120
@@ -15375,8 +15858,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // boss = new Bossbeam()
 
 
-        for (let t = 0; t < 10; t++) {
-            let flopper = new Flopper(-700+(Math.random()*500), -700+(Math.random()*500))
+        for (let t = 0; t < 100; t++) {
+            let flopper = new Flopper(-2100+(Math.random()*5000), -2100+(Math.random()*2000))
+            if(Math.random()<.95){
+                flopper.dead = 1
+                flopper.body.radius *= 1.4
+                flopper.lump.radius *= 1 + (Math.random()*.5)
+                flopper.gravity+=(Math.random()*.5)
+                flopper.ratio = (Math.random()*.5)+.25
+            }
             floppers.push(flopper)
         }
 
