@@ -186,6 +186,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // letpomao.grounded= 0
     const spikeenemyimg = new Image()
     spikeenemyimg.src = "spikeenemyimg.png"
+    const volcbg = new Image()
+    volcbg.src = "vbg.png"
     const redcircleimg = new Image()
     redcircleimg.src = "smallredcircle.png"
     const smallyellowcircle = new Image()
@@ -12851,13 +12853,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     //abracadabra
-    // loadlvl1()
+    loadlvl1()
     // loadlvl2()
     // loadlvl3()
     // loadlvl4()
     // loadlvl5()
     // loadlvl6()
-    loadlvl7()
+    // loadlvl7()
     // loadlvl8()
 
     // for(let t=0;t<10;t++){
@@ -12915,7 +12917,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 7) {
                             tutorial_canvas_context.globalAlpha = 0.2;
-                            tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
                         // tutorial_canvas_context.fillStyle = `rgba(85, 85, 128,${15 / 255})`
@@ -12955,7 +12957,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 7) {
                             tutorial_canvas_context.globalAlpha = 0.2;
-                            tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
                         tutorial_canvas_context.fillStyle = `rgba(153, 193, 230,${63 / 255})`
@@ -12996,7 +12998,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 7) {
                             tutorial_canvas_context.globalAlpha = 0.2;
-                            tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
                         tutorial_canvas_context.fillStyle = `rgba(190, 190, 255,${14 / 255})`
@@ -13029,7 +13031,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 6) {
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         } else if (level == 7) {
-                            tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
                         }
                         // if(keysPressed['p']){
                         //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
