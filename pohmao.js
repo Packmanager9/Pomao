@@ -10938,13 +10938,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         eggrepel() {
 
 
-            for (let k = 0; k < pomao.thrown.length; k++) {
-                for (let t = 0; t < pomao.thrown.length; t++) {
-                    if (this.metashape[k].isPointInside(pomao.thrown[t])) {
-                        this.health -= .5
-                    }
-                }
-            }
+            // for (let k = 0; k < pomao.thrown.length; k++) {
+                // for (let t = 0; t < pomao.thrown.length; t++) {
+                //     if (this.metashape[k].isPointInside(pomao.thrown[t])) {
+                //         this.health -= .5
+                //     }
+                // }
+            // }
             for (let t = 0; t < pomao.thrown.length; t++) {
                 for (let k = 0; k < this.joints.length; k++) {
                     if (this.joints[k].repelCheck(pomao.thrown[t])) {
