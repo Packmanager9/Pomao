@@ -591,7 +591,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // tutorial_canvas_context.scale(.1,.1)
     // tutorial_canvas_context.scale(.5,.5)
     // tutorial_canvas_context.translate(3300,19750) //lvl4
-    // tutorial_canvas_context.translate(2000,3000) //lvl4
+    // tutorial_canvas_context.translate(2000,8000) //lvl4
     // tutorial_canvas_context.translate(3300,9000)//lvl6
     // tutorial_canvas_context.translate(640,360)
 
@@ -12851,13 +12851,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     //abracadabra
-    loadlvl1()
+    // loadlvl1()
     // loadlvl2()
     // loadlvl3()
     // loadlvl4()
     // loadlvl5()
     // loadlvl6()
-    // loadlvl7()
+    loadlvl7()
     // loadlvl8()
 
     // for(let t=0;t<10;t++){
@@ -16020,6 +16020,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //  pomao.eggmake = 161
         // boss = new Bossbeam()
 
+        let heighttrap = 0
 
         for (let t = 1; t < 40; t++) {
             let flopper = new Flopper(-305 +(t*305), -310+t*(-120))
@@ -16044,6 +16045,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 flopper.gravity+=.55
                 floppers.push(flopper)
             }
+            heighttrap = flopper.body.y-450
         }
         for (let t = 1; t < 40; t++) {
             let flopper = new Flopper(-305 -(t*305), -310+t*(-120))
@@ -16062,6 +16064,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
 
+        for (let t = 0; t < 450; t++) {
+        const safefloor = new Rectangle(-11500+(t*50), heighttrap, 50,50)
+        safefloor.type = 1
+        floors.push(safefloor)
+        walls.push(safefloor)
+        roofs.push(safefloor)
+        }
 
         for (let t = 0; t < 100; t++) {
             const floor = new Rectangle(-12000 + (333 * t), 33, 333, 333)
