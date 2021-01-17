@@ -6343,6 +6343,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
             }
+
+
+            
+            for (let t = 0; t < floppers.length; t++) {
+                floppers[t].draw()
+                // if (floppers[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                //     if (floppers[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                //         floppers[t].draw()
+                //     } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                //         if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                //             floppers[t].draw()
+                //         }
+                //     }
+                // } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                //     if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                //         floppers[t].draw()
+                //     }
+                // }
+            }
+
+            
             this.tongue.draw()
 
             this.link = new Line(this.body.x, 3 + this.body.y - (Math.sin(this.timeloop) * 1), this.tongue.x, this.tongue.y, "blue", 3) // radius 3 // this.tongue.radius*1.1
@@ -6415,23 +6436,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         swimmers[t].draw()
                     }
                 }
-            }
-            
-            for (let t = 0; t < floppers.length; t++) {
-                floppers[t].draw()
-                // if (floppers[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                //     if (floppers[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                //         floppers[t].draw()
-                //     } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                //         if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                //             floppers[t].draw()
-                //         }
-                //     }
-                // } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                //     if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                //         floppers[t].draw()
-                //     }
-                // }
             }
 
 
@@ -12098,6 +12102,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.bump = 1
             } else {
                 this.bump = -1
+            }
+            if(this.body.repelCheck(pomao.body)){
+                if(this.body.y > pomao.body.y + 5){
+                    // pomao.dry = 1
+                    pomao.hng *= .5
+                }
             }
             this.metashape = []
             this.castBetween(this.body, this.lump)
