@@ -12152,12 +12152,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             } else {
                 this.bump = -1
             }
+            this.rbody = this.body.radius
+            this.body.radius*=1.5
             if(this.body.repelCheck(pomao.body)){
-                if(this.body.y > pomao.body.y + 5){
+                if(this.body.y > pomao.body.y + 3){
                     // pomao.dry = 1
                     pomao.hng *= .5
+                    pomao.body.symom += -3
                 }
             }
+            this.body.radius = this.rbody
             this.metashape = []
             this.castBetween(this.body, this.lump)
             if (this.lump.repelCheck(pomao.body)) {
@@ -12348,7 +12352,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if(this.body != this.lump){
                 tutorial_canvas_context.drawImage(redcircleimg, 0, 0, redcircleimg.width, redcircleimg.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
             }
-            tutorial_canvas_context.drawImage(spikeenemyimg, 0, 0, spikeenemyimg.width, spikeenemyimg.height, this.lump.x - this.lump.radius, this.lump.y - this.lump.radius, this.lump.radius * 2, this.lump.radius * 2)
+            tutorial_canvas_context.drawImage(spikeenemyimg, 0, 0, spikeenemyimg.width, spikeenemyimg.height, this.lump.x - (this.lump.radius*1.1), this.lump.y - (this.lump.radius*1.1), this.lump.radius * 2.2, this.lump.radius * 2.2)
           
   // if(this.dead == 1){
 
@@ -12359,7 +12363,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
       }
   }
 
-
+  if ((this.lump.isPointInside(pomao.tongue) || ((typeof this.lump.radius == "number") && (pomao.tonguebox.isInsideOf(this.lump) ||this.lump.repelCheck(pomao.tongue)))) || this.boing) {
+      this.boing = 1
+  }
     if ((this.body.isPointInside(pomao.tongue) || ((typeof this.body.radius == "number") && (pomao.tonguebox.isInsideOf(this.body) ||this.body.repelCheck(pomao.tongue)))) || this.boing) {
         if (pomao.tongueymom < 0) {
             if (Math.abs(pomao.tonguey) > 1) {
@@ -16026,12 +16032,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // }
             if(t%5 !== 0){
                 floppers.push(flopper)
-            }else{
+            }else if(t%3 !== 0){
                 const safefloor = new Rectangle(flopper.body.x-25, flopper.body.y, 50,50)
                 safefloor.type = 1
                 floors.push(safefloor)
                 walls.push(safefloor)
                 roofs.push(safefloor)
+            }else{  
+                flopper.body.y -= 300
+                flopper.lump.y -= 300
+                flopper.gravity+=.55
+                floppers.push(flopper)
             }
         }
         for (let t = 1; t < 40; t++) {
