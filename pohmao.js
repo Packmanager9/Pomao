@@ -12156,13 +12156,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             this.rbody = this.body.radius
             this.body.radius*=1.5
-            if(this.body.repelCheck(pomao.body)){
+            this.psto = pomao.body.radius
+            pomao.body.radius *= 5
+        
+            this.shadowstrike = new Circlec(pomao.body.x, pomao.body.y+22, 33, "blue")
+            if(this.shadowstrike.isPointInside(this.body)){
                 if(this.body.y > pomao.body.y + 3){
-                    // pomao.dry = 1
+                        pomao.body.ymom = 0
                     pomao.hng *= .5
-                    pomao.body.symom += -3
+                    pomao.body.symom += -5
+                    this.lump.ymom += 2
+                    if(pomao.pounding == 10){
+                        this.lump.ymom += 1
+                    }
                 }
             }
+            pomao.body.radius = this.psto
             this.body.radius = this.rbody
             this.metashape = []
             this.castBetween(this.body, this.lump)
@@ -12174,7 +12183,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.hits--
                         pomao.body.ymom = -1.8
                         this.lump.xmom += -pomao.body.xmom * 5 * this.ratio
-                        this.lump.ymom += 1.8
+                        this.lump.ymom += 2.8  //1.8
                         if (this.dead != 1){
                         this.body.xmom += -pomao.body.xmom * 5 * this.ratio
                         this.lump.ymom += 1.8
@@ -12186,7 +12195,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.ymom = -1.8
                         pomao.pounding = 0
                         this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
-                        this.lump.ymom += 1.8
+                        this.lump.ymom += 2.8
                         if (this.dead != 1){
                         this.body.xmom += -pomao.body.xmom * 3 * this.ratio
                         this.lump.ymom += 1.8
@@ -12197,14 +12206,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.xmom = -1.8 * (this.bump)
                         pomao.body.ymom = -1.8
                         this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
-                        this.lump.ymom += 1.8
+                        this.lump.ymom += 2.8
                         if (this.dead != 1){
                         this.body.xmom += -pomao.body.xmom * 3 * this.ratio
-                        this.lump.ymom += 1.8
+                        this.lump.ymom += 2.8
                         }
                     }
                 }
             }
+
+            this.psto = pomao.body.radius
+            pomao.body.radius *= .25
             for (let t = 0; t < this.metashape.length; t++) {
 
                 for (let k = 0; k < pomao.thrown.length; k++) {
@@ -12252,6 +12264,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }else{
                     this.bump = 0
                 }
+
                 if (this.metashape[t].isPointInside(pomao.body)) {
                     if (pomao.disabled != 1) {
                         if (pomao.pounding != 10) {
@@ -12260,10 +12273,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             // pomao.hits--
                             pomao.body.ymom = -1.1
                             this.lump.xmom += -pomao.body.xmom * 5 * this.ratio
-                            this.lump.ymom += 1.8
+                            // this.lump.ymom += 1.8 // culprit?
                             if (this.dead != 1){
                             this.body.xmom += -pomao.body.xmom * 5 * this.ratio
-                            this.lump.ymom += 1.8
+                            // this.lump.ymom += 1.8
                             }
                         } else {
                             pomao.body.xmom = -2 * (this.bump)
@@ -12272,10 +12285,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.ymom = -1.1
                             pomao.pounding = 0
                             this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
-                            this.lump.ymom += 1.8
+                            // this.lump.ymom += 1.8
                             if (this.dead != 1){
                             this.body.xmom += -pomao.body.xmom * 3 * this.ratio
-                            this.lump.ymom += 1.8
+                            // this.lump.ymom += 1.8
                             }
                         }
                     } else {
@@ -12283,10 +12296,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom = -1.1 * (this.bump)
                             pomao.body.ymom = -1.1
                             this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
-                            this.lump.ymom += 1.8
+                            // this.lump.ymom += 1.8
                             if (this.dead != 1){
                                 this.body.xmom += -pomao.body.xmom * 3 * this.ratio
-                                this.lump.ymom += 1.8
+                                // this.lump.ymom += 1.8
                             }
                         }
                     }
@@ -12338,6 +12351,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
               
                 }
+                pomao.body.radius = this.psto
             }
             this.popdraw()
             // this.link.draw()
@@ -12677,6 +12691,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
+            // this.psto = pomao.body.radius
+            // pomao.body.radius *= .25
             for (let t = 0; t < this.metashape.length; t++) {
 
                 for (let k = 0; k < pomao.thrown.length; k++) {
@@ -12752,6 +12768,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
+            // pomao.body.radius = this.psto
             this.link.draw()
             // this.lump.draw()
             this.body.draw()
