@@ -4593,6 +4593,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.lens = 0
         }
         draw() {
+            tutorial_canvas_context.fillStyle = this.color
 
             if (!ramps.includes(this)) {
                 tutorial_canvas_context.fillStyle = this.color
@@ -10938,12 +10939,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         eggrepel() {
 
 
-            // for (let k = 0; k < pomao.thrown.length; k++) {
-                // for (let t = 0; t < pomao.thrown.length; t++) {
-                //     if (this.metashape[k].isPointInside(pomao.thrown[t])) {
-                //         this.health -= .5
-                //     }
-                // }
+            pomao.eggmake = 100000 //x//
+            // for (let k = 0; k < this.metashape.length; k++) {
+            //     for (let t = 0; t < pomao.thrown.length; t++) {
+            //         if (this.metashape[k].isPointInside(pomao.thrown[t])) {
+            //             this.health -= .5
+            //         }
+            //     }
             // }
             for (let t = 0; t < pomao.thrown.length; t++) {
                 for (let k = 0; k < this.joints.length; k++) {
@@ -11825,9 +11827,64 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.dead = 0
             this.ratio = 1
             this.gravity = .15
+            this.pops = []
+            this.castBetween(this.body, this.lump)
+        }
+
+        pop() {
+            let rotx = 0
+            let roty = 0
+            let dots = Math.floor(Math.random()*9)+7
+            for (let g = 0; g < dots; g++) {
+                let color = "red"
+                if(Math.random() < .3){
+                    color = "orange"
+                }   
+                const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius / 2, color, Math.cos(rotx) * 4, Math.sin(roty) * 4)
+                this.pops.push(dot1)
+                rotx += 2 * Math.PI / 17
+                roty += 2 * Math.PI / 17
+            }
+
+        }
+        popline() {
+            let rotx = 0
+            let roty = 0
+            let dots = Math.floor(Math.random()*9)+7
+            for(let t = 0;t<this.metashape[0].shapes.length;t++){
+                for (let g = 0; g < dots; g++) {
+                    let color = "yellow"
+                    if(Math.random() < .3){
+                        color = "orange"
+                    }   
+                    const dot1 = new Circlec(this.metashape[0].shapes[t].x, this.metashape[0].shapes[t].y, this.metashape[0].shapes[t].radius / 2, color, Math.cos(rotx) * 4+Math.random(), Math.sin(roty) * 4+Math.random())
+                    this.pops.push(dot1)
+                    console.log(dot1)
+                    rotx += 2 * Math.PI / 17+Math.random()
+                    roty += 2 * Math.PI / 17+Math.random()
+                }
+            }
+
+        }
+        popdraw() {
+            for (let t = 0; t < this.pops.length; t++) {
+                if (this.pops[t].radius < .1) {
+                    this.pops.splice(t, 1)
+                }
+            }
+            for (let t = 0; t < this.pops.length; t++) {
+                this.pops[t].radius *= .79
+                this.pops[t].move()
+                this.pops[t].draw()
+            }
+            for (let t = 0; t < this.pops.length; t++) {
+                if (this.pops[t].radius < .11) {
+                    this.pops.splice(t, 1)
+                }
+            }
         }
         castBetween(from, to) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
-            let limit = new LineOP(from, to).hypotenuse() / (from.radius)
+            let limit = new LineOP(from, to).hypotenuse() / (from.radius/1.1)
             // console.log(from, to, target)
             let radius = from.radius
             let shape_array = []
@@ -12088,12 +12145,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (let k = 0; k < pomao.thrown.length; k++) {
                     if(this.dead == 0){
                         if (this.lump.isPointInside(pomao.thrown[k])) {
+                            this.pop()
+                            this.popline()
                             this.body = this.lump
                             this.walker += .5
                             this.link.color = "transparent"
                             this.dead = 1
                         }
                         if (this.body.isPointInside(pomao.thrown[k])) {
+                            this.pop()
+                            this.popline()
                             this.body = this.lump
                             this.walker += .5
                             this.link.color = "transparent"
@@ -12118,11 +12179,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
                 if(this.dead == 0){
-                    if (this.metashape[0].shapes[0].x > pomao.body.x) {
-                        this.bump = 1
-                    } else {
-                        this.bump = -1
-                    }
+                    // if (this.metashape[0].shapes[0].x > pomao.body.x) {
+                    //     this.bump = 1
+                    // } else {
+                    //     this.bump = -1
+                    // }
                 }else{
                     this.bump = 0
                 }
@@ -12167,18 +12228,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     for (let k = 0; k < pomao.thrown.length; k++) {
                         if(this.dead == 0){
                             if (this.metashape[t].isPointInside(pomao.thrown[k])) {
+                                this.pop()
+                                this.popline()
                                 this.body = this.lump
                                 this.walker += .5
                                 this.link.color = "transparent"
                                 this.dead = 1
                             }
                             if (this.lump.isPointInside(pomao.thrown[k])) {
+                                this.pop()
+                                this.popline()
                                 this.body = this.lump
                                 this.walker += .5
                                 this.link.color = "transparent"
                                 this.dead = 1
                             }
                             if (this.body.isPointInside(pomao.thrown[k])) {
+                                this.pop()
+                                this.popline()
                                 this.body = this.lump
                                 this.walker += .5
                                 this.link.color = "transparent"
@@ -12207,6 +12274,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
               
                 }
             }
+            this.popdraw()
             this.link.draw()
             // this.lump.draw()
             this.body.draw()
@@ -12255,6 +12323,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.body.xmom *= .975
         // pomao.hng = 0  // infiinite flutter?
         pomao.dry = 1
+        pomao.body.symom -=.0005
+        if(this.lump.isPointInside(pomao.tongue)){
+            this.lump.xmom += pomao.body.sxmom*.5
+        }
     }
 // }
         }
@@ -15473,9 +15545,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         level = 6
 
 
-        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y + 0)
+        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y + 10000)
         pomao.body.x = -1000
-        pomao.body.y = 0
+        pomao.body.y = -10000
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -15873,14 +15945,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
         for (let t = 0; t < 100; t++) {
-            let flopper = new Flopper(-2100+(Math.random()*5000), -2100+(Math.random()*2000))
-            if(Math.random()<.95){
+            let flopper = new Flopper(0 +(t*305), -430+t*(-120))
+            // if(Math.random()<.95){
                 flopper.dead = 1
                 flopper.body.radius *= 1.4
                 flopper.lump.radius *= 1 + (Math.random()*.5)
-                flopper.gravity+=(Math.random()*.5)
+                flopper.gravity+=.05+(Math.random()*.5)
                 flopper.ratio = (Math.random()*.5)+.25
-            }
+            // }
+            floppers.push(flopper)
+        }
+
+        for (let t = 0; t < 10; t++) {
+            let flopper = new Flopper(-2100+(Math.random()*5000), -2100+(Math.random()*2000))
             floppers.push(flopper)
         }
 
