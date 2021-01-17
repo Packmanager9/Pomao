@@ -13662,6 +13662,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         objsprings = []
         spinnys.splice(0, spinnys.length)
         worms.splice(0, worms.length)
+
+        floppers.splice(0, floppers.length)
         level = 1
         pomao.thrown = []
 
@@ -14353,6 +14355,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         spinnys.splice(0, spinnys.length)
         worms.splice(0, worms.length)
 
+        floppers.splice(0, floppers.length)
+
         pomao.thrown = []
 
         const floor = new Rectangle(-1000, 33, 645, 20000)
@@ -14526,6 +14530,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         links = []
         spinnys.splice(0, spinnys.length)
         worms.splice(0, worms.length)
+
+        floppers.splice(0, floppers.length)
         pomao.thrown = []
 
 
@@ -14688,6 +14694,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         orbs = []
         links = []
         worms.splice(0, worms.length)
+
+        floppers.splice(0, floppers.length)
         pomao.thrown = []
 
         //  pomao.eggmake = 161
@@ -15224,6 +15232,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         orbs = []
         links = []
         worms.splice(0, worms.length)
+
+        floppers.splice(0, floppers.length)
         pomao.thrown = []
 
         //  pomao.eggmake = 161
@@ -15487,6 +15497,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         orbs = []
         links = []
         worms.splice(0, worms.length)
+
+        floppers.splice(0, floppers.length)
         pomao.thrown = []
 
         boss = new Circle(0, 0, 0, "transparent")
@@ -15851,6 +15863,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         orbs = []
         links = []
         worms.splice(0, worms.length)
+
+        floppers.splice(0, floppers.length)
         pomao.thrown = []
 
         boss = new Circle(0, 0, 0, "transparent")
@@ -15974,6 +15988,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         orbs = []
         links = []
         worms.splice(0, worms.length)
+
+        floppers.splice(0, floppers.length)
         pomao.thrown = []
 
         boss = new Circle(0, 0, 0, "transparent")
