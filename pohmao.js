@@ -16162,10 +16162,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 safefloor.height+=60
             }
             if(t%20 == 10){
+                if(t > 100 && t <  350){
             const safefloor2 = new Rectangle(-11500 + (t * 50), heighttrap-800, 50, 500)
             floors.push(safefloor2)
             walls.push(safefloor2)
             roofs.push(safefloor2)
+            }
             }
             if(t%20 == 15){
                 if(t > 150 && t< 300){
@@ -16173,10 +16175,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     floors.push(safefloor3)
                     walls.push(safefloor3)
                     roofs.push(safefloor3)
+                
                 }else{
                     let flopper = new Flopper(250-11500 + (t * 50), heighttrap-400)
         
                         flopper.spin = -.75
+                        if(t > 225){
+                            flopper.spin *=-1
+                        }
 
                     // if(Math.random()<.95){
                     flopper.dead = 1
@@ -16233,6 +16239,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 roofs.push(safefloorx)
             }
         }
+        const safewall1 = new Rectangle(-2050, heighttrap-6400, 5200, 50)
+        const safewall2 = new Rectangle(2050, heighttrap-6400, 5200, 50)
+        floors.push(safewall1)
+        walls.push(safewall1)
+        roofs.push(safewall1)
+        floors.push(safewall2)
+        walls.push(safewall2)
+        roofs.push(safewall2)
 
         let lava = new Rectangle(-12000, 500, 1000000, 24000, "#FFAA0088")
         let lava2 = new Rectangle(-12000, 520, 1000000, 24000, "#FF000088")
