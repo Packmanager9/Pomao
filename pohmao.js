@@ -12058,6 +12058,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
+            for (let t = 0; t < floors.length; t++) {
+                if (squarecirclehead(floors[t], this.body)) {
+                    if (this.body.ymom < 0) {
+                        this.body.ymom = 0
+                        this.lumpstopped = 1
+                    }
+                }
+                if (squarecirclehead(floors[t], this.lump)) {
+                    if (this.lump.ymom < 0) {
+                        this.lump.ymom = 0
+                        this.lumpstopped = 1
+                    }
+                }
+            }
 
             this.blockedbody = 0
             this.blockedlump = 0
@@ -12196,7 +12210,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (pomao.pounding != 10) {
                         pomao.body.xmom = -3 * (this.bump)
                         pomao.disabled = 1
-                        pomao.hits--
+                        pomao.hits-=2
                         pomao.body.ymom = -1.8
                         this.lump.xmom += -pomao.body.xmom * 5 * this.ratio
                         this.lump.ymom += 2.8  //1.8
@@ -12207,7 +12221,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     } else {
                         pomao.body.xmom = -3 * (this.bump)
                         pomao.disabled = 1
-                        pomao.hits--
+                        pomao.hits-=2
                         pomao.body.ymom = -1.8
                         pomao.pounding = 0
                         this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
@@ -12680,7 +12694,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (pomao.pounding != 10) {
                         pomao.body.xmom = -3 * (this.bump)
                         pomao.disabled = 1
-                        pomao.hits--
+                        pomao.hits-=2
                         pomao.body.ymom = -1.8
                         this.lump.xmom += -pomao.body.xmom * 5
                         if (this.dead != 1) {
@@ -12689,7 +12703,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     } else {
                         pomao.body.xmom = -3 * (this.bump)
                         pomao.disabled = 1
-                        pomao.hits--
+                        pomao.hits-=2
                         pomao.body.ymom = -1.8
                         pomao.pounding = 0
                         this.lump.xmom += -pomao.body.xmom * 3
@@ -16178,6 +16192,48 @@ window.addEventListener('DOMContentLoaded', (event) => {
             roofs.push(safefloor)
         }
 
+        for(let t = 0;t<13;t++){
+            const safefloory = new Rectangle(-30, (heighttrap-900) - (t*400), 60, 60)
+            safefloory.type = 1
+            floors.push(safefloory)
+            walls.push(safefloory)
+            roofs.push(safefloory)
+        }
+        for(let t= 0; t<200;t++){
+
+            const safefloorx = new Rectangle(-2000+(Math.random()*4000), (heighttrap-900) - (Math.random()*5000), 60, 60)
+            if(t%3 == 0){
+                let flopper = new Flopper(-2000+(Math.random()*4000),  (heighttrap-900) - (Math.random()*5000))
+                flopper.dead = 1
+                flopper.body.radius *= 1.4
+                flopper.lump.radius *= 1 + (Math.random() * .5)
+                flopper.gravity += .05 + (Math.random() * .5)
+                flopper.ratio = (Math.random() * .5) + .25
+                if(Math.random()<.1){
+                    flopper.spin = .76// .5+(Math.random()*.5)
+                if(Math.random()<.5){
+                    flopper.spin*=-1
+                }
+                }
+                floppers.push(flopper)
+            }
+            safefloorx.type = 1
+            let stopper = 0
+            for(let k=0;k<floors.length;k++){
+                let link = (new LineOP(safefloorx, floors[k])).hypotenuse()
+                if(link < 200){
+                    stopper = 1
+                }
+            }
+
+
+            if(stopper == 0){
+                floors.push(safefloorx)
+                walls.push(safefloorx)
+                roofs.push(safefloorx)
+            }
+        }
+
         let lava = new Rectangle(-12000, 500, 1000000, 24000, "#FFAA0088")
         let lava2 = new Rectangle(-12000, 520, 1000000, 24000, "#FF000088")
         lavas.push(lava)
@@ -16202,8 +16258,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         roofs.push(wall2)
 
 
-        for (let t = 0; t < 1900; t++) {
-            const fruit = new Fruit(-12000 + (Math.random() * (24000)), -8000 + (Math.random() * 8000), 60, 60, "red")
+        for (let t = 0; t < 2500; t++) {
+            const fruit = new Fruit(-12000 + (Math.random() * (24000)), -13000 + (Math.random() * 13000), 60, 60, "red")
             let wet = 0
             for (let s = 0; s < floors.length; s++) {
                 if (squarecircleedges(floors[s], fruit.body)) {
