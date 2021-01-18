@@ -6387,28 +6387,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
             for (let t = 0; t < floppers.length; t++) {
-                floppers[t].draw()
-                // if (floppers[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                //     if (floppers[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                //         floppers[t].draw()
-                //     } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                //         if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                //             floppers[t].draw()
-                //         }else if(floppers[t].dead == 0){
-                //             floppers[t].draw()
-                //         }
-                //     }else if(floppers[t].dead == 0){
-                //         floppers[t].draw()
-                //     }
-                // } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                //     if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                //         floppers[t].draw()
-                //     }else if(floppers[t].dead == 0){
-                //         floppers[t].draw()
-                //     }
-                // }else if(floppers[t].dead == 0){
-                //     floppers[t].draw()
-                // }
+                // floppers[t].draw()
+                if (floppers[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                    if (floppers[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                        floppers[t].draw()
+                    } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                        if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                            floppers[t].draw()
+                        }else if(floppers[t].dead == 0){
+                            floppers[t].draw()
+                        }
+                    }else if(floppers[t].dead == 0){
+                        floppers[t].draw()
+                    }
+                } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                    if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                        floppers[t].draw()
+                    }else if(floppers[t].dead == 0){
+                        floppers[t].draw()
+                    }
+                }else if(floppers[t].dead == 0){
+                    floppers[t].draw()
+                }
             }
 
 
@@ -16202,8 +16202,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         roofs.push(wall2)
 
 
-        for (let t = 0; t < 900; t++) {
-            const fruit = new Fruit(-2100 + (Math.random() * (11600 + 2100)), -5000 + (Math.random() * 5000), 60, 60, "red")
+        for (let t = 0; t < 1900; t++) {
+            const fruit = new Fruit(-12000 + (Math.random() * (24000)), -8000 + (Math.random() * 8000), 60, 60, "red")
             let wet = 0
             for (let s = 0; s < floors.length; s++) {
                 if (squarecircleedges(floors[s], fruit.body)) {
