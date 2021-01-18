@@ -12256,10 +12256,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     } else {
                         if (this.body != this.lump) {
                             if (this.lump.isPointInside(pomao.thrown[k])) {
-                                this.body.radius *= .96
+                                this.body.radius *= .955
                             }
                             if (this.body.isPointInside(pomao.thrown[k])) {
-                                this.body.radius *= .96
+                                this.body.radius *= .955
                             }
 
                             if (this.body.radius < 5) {
@@ -12319,53 +12319,54 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                         }
                     }
-                    for (let k = 0; k < pomao.thrown.length; k++) {
-                        if (this.dead == 0) {
+                 
+
+                }
+                for (let k = 0; k < pomao.thrown.length; k++) {
+                    if (this.dead == 0) {
+                        if (this.metashape[t].isPointInside(pomao.thrown[k])) {
+                            this.pop()
+                            this.popline()
+                            this.body = this.lump
+                            this.walker += .5
+                            this.link.color = "transparent"
+                            this.dead = 1
+                        }
+                        if (this.lump.isPointInside(pomao.thrown[k])) {
+                            this.pop()
+                            this.popline()
+                            this.body = this.lump
+                            this.walker += .5
+                            this.link.color = "transparent"
+                            this.dead = 1
+                        }
+                        if (this.body.isPointInside(pomao.thrown[k])) {
+                            this.pop()
+                            this.popline()
+                            this.body = this.lump
+                            this.walker += .5
+                            this.link.color = "transparent"
+                            this.dead = 1
+                        }
+                    } else {
+                        if (this.body != this.lump) {
                             if (this.metashape[t].isPointInside(pomao.thrown[k])) {
-                                this.pop()
-                                this.popline()
-                                this.body = this.lump
-                                this.walker += .5
-                                this.link.color = "transparent"
-                                this.dead = 1
+                                this.body.radius *= .955
                             }
                             if (this.lump.isPointInside(pomao.thrown[k])) {
-                                this.pop()
-                                this.popline()
-                                this.body = this.lump
-                                this.walker += .5
-                                this.link.color = "transparent"
-                                this.dead = 1
+                                this.body.radius *= .955
                             }
                             if (this.body.isPointInside(pomao.thrown[k])) {
-                                this.pop()
-                                this.popline()
+                                this.body.radius *= .955
+                            }
+                            if (this.body.radius < 5) {
                                 this.body = this.lump
                                 this.walker += .5
                                 this.link.color = "transparent"
                                 this.dead = 1
-                            }
-                        } else {
-                            if (this.body != this.lump) {
-                                if (this.metashape[t].isPointInside(pomao.thrown[k])) {
-                                    this.body.radius *= .9
-                                }
-                                if (this.lump.isPointInside(pomao.thrown[k])) {
-                                    this.body.radius *= .96
-                                }
-                                if (this.body.isPointInside(pomao.thrown[k])) {
-                                    this.body.radius *= .96
-                                }
-                                if (this.body.radius < 5) {
-                                    this.body = this.lump
-                                    this.walker += .5
-                                    this.link.color = "transparent"
-                                    this.dead = 1
-                                }
                             }
                         }
                     }
-
                 }
                 pomao.body.radius = this.psto
             }
