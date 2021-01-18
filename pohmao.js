@@ -11880,6 +11880,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.ratio = 1
             this.gravity = .15
             this.pops = []
+            this.spin = 0
             this.castBetween(this.body, this.lump)
         }
 
@@ -11955,6 +11956,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
             return true;
         }
         draw() {
+
+            // if(this.spin != 0){
+                this.angleRadians = Math.atan2(this.lump.y - this.body.y, this.lump.x - this.body.x);
+
+                this.lump.xmom += Math.cos(this.angleRadians+(Math.PI*.5))*this.spin
+                this.lump.ymom += Math.sin(this.angleRadians+(Math.PI*.5))*this.spin
+            // }
+
+
             if (this.dead == 1) {
                 this.link.width = this.body.radius / 2
             } else {
@@ -11987,7 +11997,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.bodystopped = 0
             this.lumpstopped = 0
             this.body.ymom += .2
-            this.lump.ymom += this.gravity  // .2
+            if(this.spin == 0){
+                this.lump.ymom += this.gravity  // .2
+            }
+            if(this.body == this.lump){
+                this.spin = 0
+            }
             this.walker++
             if (this.foot == 0) {
                 this.foot = 1
@@ -16072,6 +16087,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         for (let t = 1; t < 40; t++) {
             let flopper = new Flopper(-305 + (t * 305), -310 + t * (-120))
+            if(t == 30){
+                flopper.spin = -.75
+            }
             // if(Math.random()<.95){
             flopper.dead = 1
             flopper.body.radius *= 1.4
@@ -16108,6 +16126,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         for (let t = 0; t < 10; t++) {
             let flopper = new Flopper(-2100 + (Math.random() * 5000), -2100 + (Math.random() * 2000))
+            // flopper.spin = 1
+            // if(Math.random()<.5){
+            //     flopper.spin = -1
+            // }
             floppers.push(flopper)
         }
 
@@ -16136,6 +16158,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     floors.push(safefloor3)
                     walls.push(safefloor3)
                     roofs.push(safefloor3)
+                }else{
+                    let flopper = new Flopper(250-11500 + (t * 50), heighttrap-400)
+        
+                        flopper.spin = -.75
+
+                    // if(Math.random()<.95){
+                    flopper.dead = 1
+                    flopper.body.radius *= 1.4
+                    flopper.lump.radius *= 1 + (Math.random() * .5)
+                    flopper.gravity += .05 + (Math.random() * .5)
+                    flopper.ratio = (Math.random() * .5) + .25
+                    floppers.push(flopper)
                 }
             }
             floors.push(safefloor)
