@@ -15902,9 +15902,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         level = 6
 
 
-        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y + 10000)
+        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y + 0)
         pomao.body.x = -1000
-        pomao.body.y = -10000
+        pomao.body.y = 0
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
