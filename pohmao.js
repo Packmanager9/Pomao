@@ -13029,15 +13029,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.angle = 0
             this.dead = 0
             this.bodysize = 30
+            this.maxhealth = 1500
             this.observer = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), this.bodysize, "red", 4000, 1, 0)
-            this.observer.type =1
-            this.observer.health =1000
+            this.observer.type = 1
+            this.observer.health = this.maxhealth
             this.observer2 = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), this.bodysize, "blue", 4000, 1, 0)
-            this.observer2.type =2
-            this.observer2.health =1000
+            this.observer2.type = 2
+            this.observer2.health = this.maxhealth
             this.observer3 = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), this.bodysize, "yellow", 4000, 1, 0)
-            this.observer3.type =3
-            this.observer3.health =1000
+            this.observer3.type = 3
+            this.observer3.health = this.maxhealth
             this.center = new Point(this.observer.body.x, this.observer.body.y)
             this.dis = 120 //90
             this.links = []
@@ -13056,60 +13057,60 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
             this.kicker = 0
-            if(this.observer.health <=0){
-                this.kicker +=1
+            if (this.observer.health <= 0) {
+                this.kicker += 1
                 this.observer.health = 0
             }
-            if(this.observer2.health <=0){
-                this.kicker +=1
+            if (this.observer2.health <= 0) {
+                this.kicker += 1
                 this.observer2.health = 0
             }
-            if(this.observer3.health <=0){
-                this.kicker +=1
+            if (this.observer3.health <= 0) {
+                this.kicker += 1
                 this.observer3.health = 0
             }
-            if(this.kicker >= 2){
+            if (this.kicker >= 2) {
                 this.dead = 1
             }
 
 
-            if(this.dead == 0){
+            if (this.dead == 0) {
 
 
                 this.obstacles = [...beamrocks]
                 this.shot++
-                this.shot %= 12
-    
+                this.shot %= 6
+
                 this.observer.body.x = this.center.x + (Math.cos(this.observer.globalangle) * this.dis)
                 this.observer.body.y = this.center.y + (Math.sin(this.observer.globalangle) * this.dis)
-    
+
                 this.observer2.body.x = this.center.x + (Math.cos(this.observer2.globalangle) * this.dis)
                 this.observer2.body.y = this.center.y + (Math.sin(this.observer2.globalangle) * this.dis)
-    
+
                 this.observer3.body.x = this.center.x + (Math.cos(this.observer3.globalangle) * this.dis)
                 this.observer3.body.y = this.center.y + (Math.sin(this.observer3.globalangle) * this.dis)
-    
-    
-                if(this.observer.health > 0){
-                this.observer.globalangle += 0.0125
+
+
+                if (this.observer.health > 0) {
+                    this.observer.globalangle += 0.00725
                 }
-    
-                if(this.observer2.health > 0){
-                this.observer2.globalangle -= 0.0125  //((this.observer2.globalangle*9)+(Math.PI*1)+(Math.atan2(this.observer2.body.y-pomao.body.y,this.observer2.body.x-pomao.body.x)))/10
+
+                if (this.observer2.health > 0) {
+                    this.observer2.globalangle -= 0.00725  //((this.observer2.globalangle*9)+(Math.PI*1)+(Math.atan2(this.observer2.body.y-pomao.body.y,this.observer2.body.x-pomao.body.x)))/10
                 }
-    
-    
-                if(this.observer3.health > 0){
-                this.observer3.globalangle = ((this.observer3.globalangle * 99) + (Math.PI * 1) + (Math.atan2(this.observer3.body.y - pomao.body.y, this.observer3.body.x - pomao.body.x))) / 100
+
+
+                if (this.observer3.health > 0) {
+                    this.observer3.globalangle = ((this.observer3.globalangle * 99) + (Math.PI * 1) + (Math.atan2(this.observer3.body.y - pomao.body.y, this.observer3.body.x - pomao.body.x))) / 100
                 }
-    
-    
+
+
                 if (this.shot == 0) {
                     if (this.observer.pomaosighted == 1) {
                         let link = new LineOP(this.observer.sight, this.observer.body).hypotenuse()
                         let rocket = new Bosscircle(this.observer.body.x, this.observer.body.y, 10, "red", (this.observer.body.x - this.observer.sight.x) / (link * -0.18), (this.observer.body.y - this.observer.sight.y) / (link * -0.18))
                         rocket.type = 1
-                        if(this.observer.health > 0){
+                        if (this.observer.health > 0) {
                             this.rockets.push(rocket)
                         }
                     }
@@ -13117,61 +13118,61 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         let link = new LineOP(this.observer2.sight, this.observer2.body).hypotenuse()
                         let rocket = new Bosscircle(this.observer2.body.x, this.observer2.body.y, 10, "blue", (this.observer2.body.x - this.observer2.sight.x) / (link * -0.18), (this.observer2.body.y - this.observer2.sight.y) / (link * -0.18))
                         rocket.type = 2
-                        if(this.observer2.health > 0){
-                        this.rockets.push(rocket)
+                        if (this.observer2.health > 0) {
+                            this.rockets.push(rocket)
                         }
                     }
                     if (this.observer3.pomaosighted == 1) {
                         let link = (new LineOP(this.observer3.sight, this.observer3.body)).hypotenuse()
                         let rocket = new Bosscircle(this.observer3.body.x, this.observer3.body.y, 10, "yellow", (this.observer3.body.x - this.observer3.sight.x) / (link * -0.18), (this.observer3.body.y - this.observer3.sight.y) / (link * -0.18))
                         rocket.type = 3
-                        if(this.observer3.health > 0){
-                        this.rockets.push(rocket)
+                        if (this.observer3.health > 0) {
+                            this.rockets.push(rocket)
                         }
                     }
                 }
-    
+
                 for (let t = 0; t < this.links.length; t++) {
                     this.links[t].draw()
                 }
-    
+
                 for (let t = 0; t < this.rockets.length; t++) {
-                    if(this.rockets[t].repelCheck(pomao.body)){
-                        if(this.rockets[t].x < pomao.body.x - 3 ){
+                    if (this.rockets[t].repelCheck(pomao.body)) {
+                        if (this.rockets[t].x < pomao.body.x - 3) {
                             this.bump = -1
-                        }else if(this.rockets[t].x > pomao.body.x  + 3){
+                        } else if (this.rockets[t].x > pomao.body.x + 3) {
                             this.bump = 1
-                        }else{
-                            this.bump = 0
+                        } else {
+                            this.bump = Math.random() - .5
                         }
-    
-                            if (pomao.disabled != 1) {
-                                if (pomao.pounding != 10) {
-                                    pomao.body.xmom = -1 * (this.bump)
-                                    pomao.disabled = 1
-                                    pomao.hits--
-                                    pomao.body.ymom = -1.8
-                                }else{
-                                    pomao.pounding = 0
-                                    pomao.body.ymom = -1.8
-                                }
+
+                        if (pomao.disabled != 1) {
+                            if (pomao.pounding != 10) {
+                                pomao.body.xmom = -4 * (this.bump)
+                                pomao.disabled = 1
+                                pomao.hits--
+                                pomao.body.ymom = -1.8
                             } else {
-                                if (this.bump * pomao.body.xmom > 0) {
-                                    pomao.body.xmom = -.8 * (this.bump)
-                                    pomao.body.ymom = -1.8
-                                }
+                                pomao.pounding = 0
+                                pomao.body.ymom = -1.8
                             }
-    
-    
+                        } else {
+                            if (this.bump * pomao.body.xmom > 0) {
+                                pomao.body.xmom = -2.8 * (this.bump)
+                                pomao.body.ymom = -1.8
+                            }
+                        }
+
+
                         // pomao.body.xmom = this.rockets[t].xmom * 1.1
                         // pomao.body.ymom = this.rockets[t].ymom * 1.1
                     }
                 }
-    
+
                 for (let t = 0; t < this.rockets.length; t++) {
                     this.rockets[t].fmove()
                     this.rockets[t].draw()
-                for (let q = 0; q < this.obstacles.length; q++) {
+                    for (let q = 0; q < this.obstacles.length; q++) {
                         if (this.obstacles[q].doesPerimeterTouch(this.rockets[t])) {
                             if (Math.abs(this.obstacles[q].x - this.rockets[t].x) <= Math.abs(this.rockets[t].xmom * 3.1) || Math.abs((this.obstacles[q].x + this.obstacles[q].width) - this.rockets[t].x) <= Math.abs(this.rockets[t].xmom * 3.1)) {
                                 this.rockets[t].x -= this.rockets[t].xmom
@@ -13191,51 +13192,81 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
                 for (let t = 0; t < this.rockets.length; t++) {
-                    if(this.observer.body.repelCheck(this.rockets[t])){
-                        if(this.rockets[t].type != this.observer.type){
-                            this.observer.health -= (Math.abs(this.rockets[t].xmom) + Math.abs(this.rockets[t].ymom))*2
-                            this.observer.body.radius =((this.bodysize-6)*(this.observer.health/1000))+6
+                    if (this.observer.body.repelCheck(this.rockets[t])) {
+                        if (this.rockets[t].type != this.observer.type) {
+                            this.observer.health -= (Math.abs(this.rockets[t].xmom) + Math.abs(this.rockets[t].ymom)) * 1
+                            this.observer.body.radius = ((this.bodysize - 6) * (this.observer.health / this.maxhealth)) + 6
                         }
                     }
-                    if(this.observer2.body.repelCheck(this.rockets[t])){
-                        if(this.rockets[t].type != this.observer2.type){
-                            this.observer2.health -= (Math.abs(this.rockets[t].xmom) + Math.abs(this.rockets[t].ymom))*2
-                            this.observer2.body.radius =((this.bodysize-6)*(this.observer2.health/1000))+6
+                    if (this.observer2.body.repelCheck(this.rockets[t])) {
+                        if (this.rockets[t].type != this.observer2.type) {
+                            this.observer2.health -= (Math.abs(this.rockets[t].xmom) + Math.abs(this.rockets[t].ymom)) * 1
+                            this.observer2.body.radius = ((this.bodysize - 6) * (this.observer2.health / this.maxhealth)) + 6
                         }
                     }
-                    if(this.observer3.body.repelCheck(this.rockets[t])){
-                        if(this.rockets[t].type != this.observer3.type){
-                            this.observer3.health -= (Math.abs(this.rockets[t].xmom) + Math.abs(this.rockets[t].ymom))*2
-                            this.observer3.body.radius =((this.bodysize-6)*(this.observer3.health/1000))+6
+                    if (this.observer3.body.repelCheck(this.rockets[t])) {
+                        if (this.rockets[t].type != this.observer3.type) {
+                            this.observer3.health -= (Math.abs(this.rockets[t].xmom) + Math.abs(this.rockets[t].ymom)) * 1
+                            this.observer3.body.radius = ((this.bodysize - 6) * (this.observer3.health / this.maxhealth)) + 6
                         }
                     }
                 }
                 for (let t = 0; t < pomao.thrown.length; t++) {
-                    if(this.observer.body.repelCheck(pomao.thrown[t])){
-                        if(pomao.thrown[t].type != this.observer.type){
-                            this.observer.health -= 3
-                            this.observer.body.radius =((this.bodysize-6)*(this.observer.health/1000))+6
+                    if (this.observer.body.repelCheck(pomao.thrown[t])) {
+                        if (pomao.thrown[t].type != this.observer.type) {
+                            this.observer.health -= 6
+                            this.observer.body.radius = ((this.bodysize - 6) * (this.observer.health / this.maxhealth)) + 6
                         }
                     }
-                    if(this.observer2.body.repelCheck(pomao.thrown[t])){
-                        if(pomao.thrown[t].type != this.observer2.type){
-                            this.observer2.health -= 3
-                            this.observer2.body.radius =((this.bodysize-6)*(this.observer2.health/1000))+6
+                    if (this.observer2.body.repelCheck(pomao.thrown[t])) {
+                        if (pomao.thrown[t].type != this.observer2.type) {
+                            this.observer2.health -= 6
+                            this.observer2.body.radius = ((this.bodysize - 6) * (this.observer2.health / this.maxhealth)) + 6
                         }
                     }
-                    if(this.observer3.body.repelCheck(pomao.thrown[t])){
-                        if(pomao.thrown[t].type != this.observer3.type){
-                            this.observer3.health -= 3
-                            this.observer3.body.radius =((this.bodysize-6)*(this.observer3.health/1000))+6
+                    if (this.observer3.body.repelCheck(pomao.thrown[t])) {
+                        if (pomao.thrown[t].type != this.observer3.type) {
+                            this.observer3.health -= 6
+                            this.observer3.body.radius = ((this.bodysize - 6) * (this.observer3.health / this.maxhealth)) + 6
                         }
                     }
                 }
-    
-    
+
+
+                for (let t = 0; t < shockfriendly.shocksl.length; t++) {
+                    if (this.observer.body.repelCheck(shockfriendly.shocksl[t])) {
+                            this.observer.health -= 2
+                            this.observer.body.radius = ((this.bodysize - 6) * (this.observer.health / this.maxhealth)) + 6
+                    }
+                    if (this.observer2.body.repelCheck(shockfriendly.shocksl[t])) {
+                            this.observer2.health -= 2
+                            this.observer2.body.radius = ((this.bodysize - 6) * (this.observer2.health / this.maxhealth)) + 6
+                    }
+                    if (this.observer3.body.repelCheck(shockfriendly.shocksl[t])) {
+                            this.observer3.health -= 2
+                            this.observer3.body.radius = ((this.bodysize - 6) * (this.observer3.health / this.maxhealth)) + 6
+                    }
+                    if (this.observer.body.repelCheck(shockfriendly.shocksr[t])) {
+                            this.observer.health -= 2
+                            this.observer.body.radius = ((this.bodysize - 6) * (this.observer.health / this.maxhealth)) + 6
+                    }
+                    if (this.observer2.body.repelCheck(shockfriendly.shocksr[t])) {
+                            this.observer2.health -= 2
+                            this.observer2.body.radius = ((this.bodysize - 6) * (this.observer2.health / this.maxhealth)) + 6
+                    }
+                    if (this.observer3.body.repelCheck(shockfriendly.shocksr[t])) {
+                            this.observer3.health -= 2
+                            this.observer3.body.radius = ((this.bodysize - 6) * (this.observer3.health / this.maxhealth)) + 6
+                    }
+                }
+
+
+
+
                 this.observer.draw()
                 this.observer2.draw()
                 this.observer3.draw()
-    
+
             }
 
         }
@@ -16824,7 +16855,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
         for (let t = 0; t < 3500; t++) {
-            const fruit = new Fruit(-12000 + (Math.random() * (24000)), (heighttrap-10700) + (Math.random() * Math.abs(heighttrap-10700) ), 60, 60, "red")
+            const fruit = new Fruit(-12000 + (Math.random() * (24000)), (heighttrap - 10700) + (Math.random() * Math.abs(heighttrap - 10700)), 60, 60, "red")
             let wet = 0
             for (let s = 0; s < floors.length; s++) {
                 if (squarecircleedges(floors[s], fruit.body)) {
