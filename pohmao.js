@@ -13089,14 +13089,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.rockets[t].fmove()
                     this.rockets[t].draw()
                     if (this.obstacles[q].doesPerimeterTouch(this.rockets[t])) {
-                        if (Math.abs(this.obstacles[q].x - this.rockets[t].x) <= Math.abs(this.rockets[t].xmom * 1.1) || Math.abs((this.obstacles[q].x + this.obstacles[q].width) - this.rockets[t].x) <= Math.abs(this.rockets[t].xmom * 1.1)) {
+                        if (Math.abs(this.obstacles[q].x - this.rockets[t].x) <= Math.abs(this.rockets[t].xmom * 3.1) || Math.abs((this.obstacles[q].x + this.obstacles[q].width) - this.rockets[t].x) <= Math.abs(this.rockets[t].xmom * 3.1)) {
                             this.rockets[t].x -= this.rockets[t].xmom
                             this.rockets[t].x -= this.rockets[t].xmom
                             this.rockets[t].xmom *= -1
                             this.rockets[t].x += this.rockets[t].xmom
                             this.rockets[t].x += this.rockets[t].xmom
                         }
-                        if (Math.abs(this.obstacles[q].y - this.rockets[t].y) <= Math.abs(this.rockets[t].ymom * 1.1) || Math.abs((this.obstacles[q].y + this.obstacles[q].height) - this.rockets[t].y) <= Math.abs(this.rockets[t].ymom * 1.1)) {
+                        if (Math.abs(this.obstacles[q].y - this.rockets[t].y) <= Math.abs(this.rockets[t].ymom * 3.1) || Math.abs((this.obstacles[q].y + this.obstacles[q].height) - this.rockets[t].y) <= Math.abs(this.rockets[t].ymom * 3.1)) {
                             this.rockets[t].y -= this.rockets[t].ymom
                             this.rockets[t].y -= this.rockets[t].ymom
                             this.rockets[t].ymom *= -1
