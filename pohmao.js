@@ -11071,16 +11071,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
-            // for (let k = 0; k < pomao.thrown.length; k++) {
-            //     for (let t = 0; t < shockfriendly.shocksl.length; t++) {
-            //         // if (this.metashape[k].isPointInside(shockfriendly.shocksl[t])) {
-            //         //     this.health -= .5
-            //         // }
-            //         // if (this.metashape[k].isPointInside(shockfriendly.shocksr[t])) {
-            //         //     this.health -= .5
-            //         // }
-            //     }
-            // }
+            for (let k = 0; k < this.metashape.length; k++) {   //still busted? was thrown not metashape
+                for (let t = 0; t < shockfriendly.shocksl.length; t++) {
+                    if (this.metashape[k].isPointInside(shockfriendly.shocksl[t])) {
+                        this.health -= .5
+                    }
+                    if (this.metashape[k].isPointInside(shockfriendly.shocksr[t])) {
+                        this.health -= .5
+                    }
+                }
+            }
             for (let t = 0; t < shockfriendly.shocksl.length; t++) {
                 for (let k = 0; k < this.joints.length; k++) {
                     if (this.joints[k].repelCheck(shockfriendly.shocksl[t])) {
