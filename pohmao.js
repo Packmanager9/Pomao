@@ -741,6 +741,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.ymom *= .98
             this.xmom *= .98
         }
+        fmove() {
+            this.x += this.xmom
+            this.y += this.ymom
+        }
         smove() {
             this.x += this.sxmom
             this.y += this.symom
@@ -4324,6 +4328,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.isBlocked = true
             this.splice = 0
         }
+
+        doesPerimeterTouch(point) {
+            if (point.x + point.radius >= this.x) {
+                if (point.y + point.radius >= this.y) {
+                    if (point.x - point.radius <= this.x + this.width) {
+                        if (point.y - point.radius <= this.y + this.height) {
+                            return true
+                        }
+                    }
+                }
+            }
+            return false
+        }
         underlaps(RectA) {
 
             if (this.splice == 1) {
@@ -6458,7 +6475,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (level == 5) {
                 chafer.draw()
             }
-            if(level == 7){
+            if (level == 7) {
                 boss.draw()
             }
 
@@ -12824,7 +12841,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class ObserverLaser {
         constructor(x, y, radius, color, range = 40000, rays = 10, angle = (Math.PI * .125)) {
-            this.body = new Circle(x, y, radius, color)
+            this.body = new Bosscircle(x, y, radius, color)
             this.color = color
             this.ray = []
             this.rayrange = range
@@ -12834,8 +12851,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.obstacles = []
             this.raymake = rays
             this.points = [[this.body.x, this.body.y]]
+            this.pomaosighted = 0
+            this.sight = {}
+            this.sight.x = 0
+            this.sight.y = 0
         }
         beam() {
+
+            this.pomaosighted = 0
             this.obstacles = [...beamrocks]
             this.obstacles.push(pomao.body)
 
@@ -12854,31 +12877,39 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.ray[t].move()
                         for (let q = 0; q < this.obstacles.length; q++) {
                             if (this.obstacles[q].isPointInside(this.ray[t])) {
-                                if(this.obstacles[q] == pomao.body){
+                                if (this.obstacles[q] == pomao.body) {
                                     this.ray[t].xmom = 0
                                     this.ray[t].ymom = 0
+
+                                    this.pomaosighted = 1
                                 }
                                 // this.ray[t].collided = 1
-                                if(Math.abs(this.obstacles[q].x-this.ray[t].x) <= Math.abs(this.ray[t].xmom*1.1) || Math.abs((this.obstacles[q].x+this.obstacles[q].width)-this.ray[t].x) <= Math.abs(this.ray[t].xmom*1.1) ){
-                                    this.ray[t].x-=this.ray[t].xmom
-                                    this.ray[t].x-=this.ray[t].xmom
-                                    this.ray[t].xmom*=-1
-                                    this.ray[t].x+=this.ray[t].xmom
-                                    this.ray[t].x+=this.ray[t].xmom
+                                if (Math.abs(this.obstacles[q].x - this.ray[t].x) <= Math.abs(this.ray[t].xmom * 1.1) || Math.abs((this.obstacles[q].x + this.obstacles[q].width) - this.ray[t].x) <= Math.abs(this.ray[t].xmom * 1.1)) {
+                                    this.ray[t].x -= this.ray[t].xmom
+                                    this.ray[t].x -= this.ray[t].xmom
+                                    this.ray[t].xmom *= -1
+                                    this.ray[t].x += this.ray[t].xmom
+                                    this.ray[t].x += this.ray[t].xmom
                                 }
-                                if(Math.abs(this.obstacles[q].y-this.ray[t].y) <= Math.abs(this.ray[t].ymom*1.1) || Math.abs((this.obstacles[q].y+this.obstacles[q].height)-this.ray[t].y) <=  Math.abs(this.ray[t].ymom*1.1) ){
-                                    this.ray[t].y-=this.ray[t].ymom
-                                    this.ray[t].y-=this.ray[t].ymom
-                                    this.ray[t].ymom*=-1
-                                    this.ray[t].y+=this.ray[t].ymom
-                                    this.ray[t].y+=this.ray[t].ymom
+                                if (Math.abs(this.obstacles[q].y - this.ray[t].y) <= Math.abs(this.ray[t].ymom * 1.1) || Math.abs((this.obstacles[q].y + this.obstacles[q].height) - this.ray[t].y) <= Math.abs(this.ray[t].ymom * 1.1)) {
+                                    this.ray[t].y -= this.ray[t].ymom
+                                    this.ray[t].y -= this.ray[t].ymom
+                                    this.ray[t].ymom *= -1
+                                    this.ray[t].y += this.ray[t].ymom
+                                    this.ray[t].y += this.ray[t].ymom
                                 }
                                 this.points.push([this.ray[t].x, this.ray[t].y])
                                 // this.ray[t].ymom*=-1
+
+                                if (this.points.length > 1) {
+                                    this.sight.x = this.points[1][0]
+                                    this.sight.y = this.points[1][1]
+                                }
+
                             }
                         }
                     }
-                    if(f == this.rayrange-1){
+                    if (f == this.rayrange - 1) {
                         this.points.push([this.ray[t].x, this.ray[t].y])
                     }
                 }
@@ -12896,11 +12927,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     canvas_context.lineTo(this.ray[y].x, this.ray[y].y)
             //     canvas_context.lineTo(this.body.x, this.body.y)
             // }
-            for(let t = 1;t<this.points.length;t++){
+            for (let t = 1; t < this.points.length; t++) {
                 tutorial_canvas_context.lineTo(this.points[t][0], this.points[t][1])
                 // canvas_context.lineTo(this.body.x, this.body.y)
             }
-
 
 
             tutorial_canvas_context.stroke()
@@ -12994,21 +13024,91 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     class Rocketbox {
-        constructor(x,y){
-            this.body = new Rectangle(x, y, 50,50, "white")
+        constructor(x, y) {
+            this.body = new Rectangle(x, y, 50, 50, "white")
             this.angle = 0
-            this.observer = new ObserverLaser(this.body.x+(this.body.width*.5), this.body.y+(this.body.height*.5), 5, "red", 4000, 1, 0)
-            this.observer2 = new ObserverLaser(this.body.x+(this.body.width*.5), this.body.y+(this.body.height*.5), 5, "blue", 4000, 1, 0)
+            this.observer = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), 30, "red", 20000, 1, 0)
+            this.observer2 = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), 30, "blue", 20000, 1, 0)
+            this.observer3 = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), 30, "yellow", 20000, 1, 0)
+            this.center = new Point(this.observer.body.x, this.observer.body.y)
+            this.dis = 90
+            this.links = []
+            let link1 = new LineOP(this.observer.body, this.observer2.body, "#191919", 15)
+            this.links.push(link1)
+            let link2 = new LineOP(this.observer.body, this.observer3.body, "#191919", 15)
+            this.links.push(link2)
+            let link3 = new LineOP(this.observer2.body, this.observer3.body, "#191919", 15)
+            this.links.push(link3)
+            this.rockets = []
+            this.shot = 0
         }
-        draw(){
+        draw() {
             // this.body.draw()
+            this.obstacles = [...beamrocks]
+            this.shot++
+            this.shot %= 10
 
-            this.observer.globalangle = ((this.observer.globalangle*99)+(Math.PI*1)+(Math.atan2(this.observer.body.y-pomao.body.y,this.observer.body.x-pomao.body.x)))/100
-            this.observer2.globalangle = ((this.observer2.globalangle*99)+(Math.PI*2)+(Math.atan2(this.observer2.body.y-pomao.body.y,this.observer2.body.x-pomao.body.x)))/100
+            this.observer.body.x = this.center.x + (Math.cos(this.observer.globalangle) * this.dis)
+            this.observer.body.y = this.center.y + (Math.sin(this.observer.globalangle) * this.dis)
+
+            this.observer2.body.x = this.center.x + (Math.cos(this.observer2.globalangle) * this.dis)
+            this.observer2.body.y = this.center.y + (Math.sin(this.observer2.globalangle) * this.dis)
+
+            this.observer3.body.x = this.center.x + (Math.cos(this.observer3.globalangle) * this.dis)
+            this.observer3.body.y = this.center.y + (Math.sin(this.observer3.globalangle) * this.dis)
 
 
+            this.observer.globalangle += 0.025
+            this.observer2.globalangle -= 0.025  //((this.observer2.globalangle*9)+(Math.PI*1)+(Math.atan2(this.observer2.body.y-pomao.body.y,this.observer2.body.x-pomao.body.x)))/10
+            this.observer3.globalangle = ((this.observer3.globalangle * 99) + (Math.PI * 1) + (Math.atan2(this.observer3.body.y - pomao.body.y, this.observer3.body.x - pomao.body.x))) / 100
+
+
+            if (this.shot == 0) {
+                if (this.observer.pomaosighted == 1) {
+                    let link = new LineOP(this.observer.sight, this.observer.body).hypotenuse()
+                    let rocket = new Bosscircle(this.observer.body.x, this.observer.body.y, 10, "red", (this.observer.body.x - this.observer.sight.x) / (link * -1.1), (this.observer.body.y - this.observer.sight.y) / (link * -1.1))
+                    this.rockets.push(rocket)
+                }
+                if (this.observer2.pomaosighted == 1) {
+                    let link = new LineOP(this.observer2.sight, this.observer2.body).hypotenuse()
+                    let rocket = new Bosscircle(this.observer2.body.x, this.observer2.body.y, 10, "blue", (this.observer2.body.x - this.observer2.sight.x) / (link * -1.1), (this.observer2.body.y - this.observer2.sight.y) / (link * -1.1))
+                    this.rockets.push(rocket)
+                }
+                if (this.observer3.pomaosighted == 1) {
+                    let link = (new LineOP(this.observer3.sight, this.observer3.body)).hypotenuse()
+                    let rocket = new Bosscircle(this.observer3.body.x, this.observer3.body.y, 10, "yellow", (this.observer3.body.x - this.observer3.sight.x) / (link * -1.1), (this.observer3.body.y - this.observer3.sight.y) / (link * -1.1))
+                    this.rockets.push(rocket)
+                }
+            }
+
+            for (let t = 0; t < this.links.length; t++) {
+                this.links[t].draw()
+            }
+            for (let q = 0; q < this.obstacles.length; q++) {
+                for (let t = 0; t < this.rockets.length; t++) {
+                    this.rockets[t].fmove()
+                    this.rockets[t].draw()
+                    if (this.obstacles[q].doesPerimeterTouch(this.rockets[t])) {
+                        if (Math.abs(this.obstacles[q].x - this.rockets[t].x) <= Math.abs(this.rockets[t].xmom * 1.1) || Math.abs((this.obstacles[q].x + this.obstacles[q].width) - this.rockets[t].x) <= Math.abs(this.rockets[t].xmom * 1.1)) {
+                            this.rockets[t].x -= this.rockets[t].xmom
+                            this.rockets[t].x -= this.rockets[t].xmom
+                            this.rockets[t].xmom *= -1
+                            this.rockets[t].x += this.rockets[t].xmom
+                            this.rockets[t].x += this.rockets[t].xmom
+                        }
+                        if (Math.abs(this.obstacles[q].y - this.rockets[t].y) <= Math.abs(this.rockets[t].ymom * 1.1) || Math.abs((this.obstacles[q].y + this.obstacles[q].height) - this.rockets[t].y) <= Math.abs(this.rockets[t].ymom * 1.1)) {
+                            this.rockets[t].y -= this.rockets[t].ymom
+                            this.rockets[t].y -= this.rockets[t].ymom
+                            this.rockets[t].ymom *= -1
+                            this.rockets[t].y += this.rockets[t].ymom
+                            this.rockets[t].y += this.rockets[t].ymom
+                        }
+                    }
+                }
+            }
             this.observer.draw()
             this.observer2.draw()
+            this.observer3.draw()
         }
 
 
@@ -16269,7 +16369,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         level = 7
 
 
-        tutorial_canvas_context.translate(pomao.body.x + 1, pomao.body.y)
+        tutorial_canvas_context.translate(pomao.body.x + 1, pomao.body.y + 0)
         pomao.body.x = -1
         pomao.body.y = 0
         spinnys.splice(0, spinnys.length)
@@ -16481,14 +16581,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             if (flopper.body.y < heighttrap) {
-                if(flopper.body.y > heighttrap-8500){
+                if (flopper.body.y > heighttrap - 8500) {
                     floppers.push(flopper)
                 }
             }
         }
 
         let centerer = new Point(0, heighttrap - 3000)
-        boss = new Rocketbox(centerer.x, centerer.y-6500)
+        boss = new Rocketbox(centerer.x, centerer.y - 6200)
         // for(let t= 0; t<200;t++){
 
         //     const safefloorx = new Rectangle(-2000+(Math.random()*4000), (heighttrap-900) - (Math.random()*5000), 60, 60)
@@ -16523,18 +16623,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //         roofs.push(safefloorx)
         //     }
         // }
-        const safewall1 = new Rectangle(-2050, heighttrap - 8700, 7500, 50)
-        const safewall2 = new Rectangle(2050, heighttrap - 8700, 7500, 50)
+        const safewall1 = new Rectangle(-2050, heighttrap - 10700, 9500, 50)
+        const safewall2 = new Rectangle(2050, heighttrap - 10700, 9500, 50)
         floors.push(safewall1)
         walls.push(safewall1)
         roofs.push(safewall1)
         floors.push(safewall2)
         walls.push(safewall2)
         roofs.push(safewall2)
+        beamrocks.push(safewall1)
+        beamrocks.push(safewall2)
 
         const centerbossfloor = new Rectangle(-850, heighttrap - 8700, 20, 1600)
         const bosssafefloorleft = new Rectangle(-2050, heighttrap - 8700, 50, 1200)
-        const bosssafefloorright = new Rectangle(-2050+(1200+1600), heighttrap - 8700, 50, 1300)
+        const bosssafefloorright = new Rectangle(-2050 + (1200 + 1600), heighttrap - 8700, 50, 1300)
 
         floors.push(centerbossfloor)
         floors.push(bosssafefloorright)
