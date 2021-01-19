@@ -6458,6 +6458,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (level == 5) {
                 chafer.draw()
             }
+            if(level == 7){
+                boss.draw()
+            }
 
             // for(let t = 0; t<fruits.length; t++){
             //         //394929
@@ -12817,6 +12820,199 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     }
+
+
+    class ObserverLaser {
+        constructor(x, y, radius, color, range = 40000, rays = 10, angle = (Math.PI * .125)) {
+            this.body = new Circle(x, y, radius, color)
+            this.color = color
+            this.ray = []
+            this.rayrange = range
+            this.globalangle = Math.PI
+            this.gapangle = angle
+            this.currentangle = 0
+            this.obstacles = []
+            this.raymake = rays
+            this.points = [[this.body.x, this.body.y]]
+        }
+        beam() {
+            this.obstacles = [...beamrocks]
+            this.obstacles.push(pomao.body)
+
+            this.points = [[this.body.x, this.body.y]]
+            this.currentangle = this.gapangle / 2
+            for (let k = 0; k < this.raymake; k++) {
+                this.currentangle += (this.gapangle / Math.ceil(this.raymake / 2))
+                let ray = new Circle(this.body.x, this.body.y, 1, "white", (((Math.cos(this.globalangle + this.currentangle)))), (((Math.sin(this.globalangle + this.currentangle)))))
+                ray.collided = 0
+                ray.lifespan = this.rayrange - 1
+                this.ray.push(ray)
+            }
+            for (let f = 0; f < this.rayrange; f++) {
+                for (let t = 0; t < this.ray.length; t++) {
+                    if (this.ray[t].collided < 1) {
+                        this.ray[t].move()
+                        for (let q = 0; q < this.obstacles.length; q++) {
+                            if (this.obstacles[q].isPointInside(this.ray[t])) {
+                                if(this.obstacles[q] == pomao.body){
+                                    this.ray[t].xmom = 0
+                                    this.ray[t].ymom = 0
+                                }
+                                // this.ray[t].collided = 1
+                                if(Math.abs(this.obstacles[q].x-this.ray[t].x) <= Math.abs(this.ray[t].xmom*1.1) || Math.abs((this.obstacles[q].x+this.obstacles[q].width)-this.ray[t].x) <= Math.abs(this.ray[t].xmom*1.1) ){
+                                    this.ray[t].x-=this.ray[t].xmom
+                                    this.ray[t].x-=this.ray[t].xmom
+                                    this.ray[t].xmom*=-1
+                                    this.ray[t].x+=this.ray[t].xmom
+                                    this.ray[t].x+=this.ray[t].xmom
+                                }
+                                if(Math.abs(this.obstacles[q].y-this.ray[t].y) <= Math.abs(this.ray[t].ymom*1.1) || Math.abs((this.obstacles[q].y+this.obstacles[q].height)-this.ray[t].y) <=  Math.abs(this.ray[t].ymom*1.1) ){
+                                    this.ray[t].y-=this.ray[t].ymom
+                                    this.ray[t].y-=this.ray[t].ymom
+                                    this.ray[t].ymom*=-1
+                                    this.ray[t].y+=this.ray[t].ymom
+                                    this.ray[t].y+=this.ray[t].ymom
+                                }
+                                this.points.push([this.ray[t].x, this.ray[t].y])
+                                // this.ray[t].ymom*=-1
+                            }
+                        }
+                    }
+                    if(f == this.rayrange-1){
+                        this.points.push([this.ray[t].x, this.ray[t].y])
+                    }
+                }
+            }
+        }
+        draw() {
+            this.beam()
+            this.body.draw()
+            tutorial_canvas_context.lineWidth = 5.5
+            tutorial_canvas_context.fillStyle = this.color
+            tutorial_canvas_context.strokeStyle = this.color
+            tutorial_canvas_context.beginPath()
+            tutorial_canvas_context.moveTo(this.body.x, this.body.y)
+            // for (let y = 0; y < this.ray.length; y++) {
+            //     canvas_context.lineTo(this.ray[y].x, this.ray[y].y)
+            //     canvas_context.lineTo(this.body.x, this.body.y)
+            // }
+            for(let t = 1;t<this.points.length;t++){
+                tutorial_canvas_context.lineTo(this.points[t][0], this.points[t][1])
+                // canvas_context.lineTo(this.body.x, this.body.y)
+            }
+
+
+
+            tutorial_canvas_context.stroke()
+            tutorial_canvas_context.closePath()
+            // canvas_context.fill()
+            this.ray = []
+        }
+    }
+    function setUp(canvas_pass, style = "#050505") {
+        canvas = canvas_pass
+        canvas_context = canvas.getContext('2d');
+        canvas.style.background = style
+        window.setInterval(function () {
+            main()
+        }, 18)
+        document.addEventListener('keydown', (event) => {
+            keysPressed[event.key] = true;
+        });
+        document.addEventListener('keyup', (event) => {
+            delete keysPressed[event.key];
+        });
+        window.addEventListener('pointerdown', e => {
+            // for(let t = 0;t<enemies.length;t++){
+            //     enemies[t].type += 1
+            // }
+        });
+        // window.addEventListener('pointerup', e => {
+        //     window.removeEventListener("pointermove", continued_stimuli);
+        // })
+
+        canvas.addEventListener('pointermove', continued_stimuli);
+        function continued_stimuli(e) {
+            FLEX_engine = canvas.getBoundingClientRect();
+            XS_engine = e.clientX - FLEX_engine.left;
+            YS_engine = e.clientY - FLEX_engine.top;
+            TIP_engine.x = XS_engine
+            TIP_engine.y = YS_engine
+            TIP_engine.body = TIP_engine
+
+
+
+
+        }
+    }
+    function gamepad_control(object, speed = 1) { // basic control for objects using the controler
+        console.log(gamepadAPI.axesStatus[1] * gamepadAPI.axesStatus[0])
+        if (typeof object.body != 'undefined') {
+            if (typeof (gamepadAPI.axesStatus[1]) != 'undefined') {
+                if (typeof (gamepadAPI.axesStatus[0]) != 'undefined') {
+                    object.body.x += (gamepadAPI.axesStatus[2] * speed)
+                    object.body.y += (gamepadAPI.axesStatus[1] * speed)
+                }
+            }
+        } else if (typeof object != 'undefined') {
+            if (typeof (gamepadAPI.axesStatus[1]) != 'undefined') {
+                if (typeof (gamepadAPI.axesStatus[0]) != 'undefined') {
+                    object.x += (gamepadAPI.axesStatus[0] * speed)
+                    object.y += (gamepadAPI.axesStatus[1] * speed)
+                }
+            }
+        }
+    }
+    function control(object, speed = 1) { // basic control for objects
+        if (typeof object.body != 'undefined') {
+            if (keysPressed['w']) {
+                object.body.y -= speed
+            }
+            if (keysPressed['d']) {
+                object.body.x += speed
+            }
+            if (keysPressed['s']) {
+                object.body.y += speed
+            }
+            if (keysPressed['a']) {
+                object.body.x -= speed
+            }
+        } else if (typeof object != 'undefined') {
+            if (keysPressed['w']) {
+                object.y -= speed
+            }
+            if (keysPressed['d']) {
+                object.x += speed
+            }
+            if (keysPressed['s']) {
+                object.y += speed
+            }
+            if (keysPressed['a']) {
+                object.x -= speed
+            }
+        }
+    }
+
+    class Rocketbox {
+        constructor(x,y){
+            this.body = new Rectangle(x, y, 50,50, "white")
+            this.angle = 0
+            this.observer = new ObserverLaser(this.body.x+(this.body.width*.5), this.body.y+(this.body.height*.5), 5, "red", 4000, 1, 0)
+            this.observer2 = new ObserverLaser(this.body.x+(this.body.width*.5), this.body.y+(this.body.height*.5), 5, "blue", 4000, 1, 0)
+        }
+        draw(){
+            // this.body.draw()
+
+            this.observer.globalangle = ((this.observer.globalangle*99)+(Math.PI*1)+(Math.atan2(this.observer.body.y-pomao.body.y,this.observer.body.x-pomao.body.x)))/100
+            this.observer2.globalangle = ((this.observer2.globalangle*99)+(Math.PI*2)+(Math.atan2(this.observer2.body.y-pomao.body.y,this.observer2.body.x-pomao.body.x)))/100
+
+
+            this.observer.draw()
+            this.observer2.draw()
+        }
+
+
+    }
     class Dialogue {
         constructor(x, y) {
             this.timerbase = 120
@@ -16290,6 +16486,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
         }
+
+        let centerer = new Point(0, heighttrap - 3000)
+        boss = new Rocketbox(centerer.x, centerer.y-6500)
         // for(let t= 0; t<200;t++){
 
         //     const safefloorx = new Rectangle(-2000+(Math.random()*4000), (heighttrap-900) - (Math.random()*5000), 60, 60)
@@ -16324,8 +16523,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //         roofs.push(safefloorx)
         //     }
         // }
-        const safewall1 = new Rectangle(-2050, heighttrap - 8600, 7400, 50)
-        const safewall2 = new Rectangle(2050, heighttrap - 8600, 7400, 50)
+        const safewall1 = new Rectangle(-2050, heighttrap - 8700, 7500, 50)
+        const safewall2 = new Rectangle(2050, heighttrap - 8700, 7500, 50)
         floors.push(safewall1)
         walls.push(safewall1)
         roofs.push(safewall1)
@@ -16333,6 +16532,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(safewall2)
         roofs.push(safewall2)
 
+        const centerbossfloor = new Rectangle(-850, heighttrap - 8700, 20, 1600)
+        const bosssafefloorleft = new Rectangle(-2050, heighttrap - 8700, 50, 1200)
+        const bosssafefloorright = new Rectangle(-2050+(1200+1600), heighttrap - 8700, 50, 1300)
+
+        floors.push(centerbossfloor)
+        floors.push(bosssafefloorright)
+        walls.push(bosssafefloorright)
+        roofs.push(bosssafefloorright)
+        floors.push(bosssafefloorleft)
+        walls.push(bosssafefloorleft)
+        roofs.push(bosssafefloorleft)
+
+        beamrocks.push(centerbossfloor)
+        beamrocks.push(bosssafefloorright)
+        beamrocks.push(bosssafefloorleft)
 
         const safecap1 = new Rectangle(2050, heighttrap - 1200, 50, 14050)
 
@@ -16473,6 +16687,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //     roofs.push(floor)
         //     floor.type = 1
         // }
+
+
+
+
 
         const wall1 = new Rectangle(-2100, -30000, 30033, 50, "cyan")
         walls.push(wall1)
