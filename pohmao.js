@@ -13028,8 +13028,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.body = new Rectangle(x, y, 50, 50, "white")
             this.angle = 0
             this.dead = 0
-            this.bodysize = 30
-            this.maxhealth = 1500
+            this.bodysize = 40
+            this.maxhealth = 1800
             this.observer = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), this.bodysize, "red", 4000, 1, 0)
             this.observer.type = 1
             this.observer.health = this.maxhealth
@@ -13195,19 +13195,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.observer.body.repelCheck(this.rockets[t])) {
                         if (this.rockets[t].type != this.observer.type) {
                             this.observer.health -= (Math.abs(this.rockets[t].xmom) + Math.abs(this.rockets[t].ymom)) * 1
-                            this.observer.body.radius = ((this.bodysize - 6) * (this.observer.health / this.maxhealth)) + 6
+                            this.observer.body.radius = ((this.bodysize - 16) * (this.observer.health / this.maxhealth)) + 16
                         }
                     }
                     if (this.observer2.body.repelCheck(this.rockets[t])) {
                         if (this.rockets[t].type != this.observer2.type) {
                             this.observer2.health -= (Math.abs(this.rockets[t].xmom) + Math.abs(this.rockets[t].ymom)) * 1
-                            this.observer2.body.radius = ((this.bodysize - 6) * (this.observer2.health / this.maxhealth)) + 6
+                            this.observer2.body.radius = ((this.bodysize - 16) * (this.observer2.health / this.maxhealth)) + 16
                         }
                     }
                     if (this.observer3.body.repelCheck(this.rockets[t])) {
                         if (this.rockets[t].type != this.observer3.type) {
                             this.observer3.health -= (Math.abs(this.rockets[t].xmom) + Math.abs(this.rockets[t].ymom)) * 1
-                            this.observer3.body.radius = ((this.bodysize - 6) * (this.observer3.health / this.maxhealth)) + 6
+                            this.observer3.body.radius = ((this.bodysize - 16) * (this.observer3.health / this.maxhealth)) + 16
                         }
                     }
                 }
@@ -13215,19 +13215,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.observer.body.repelCheck(pomao.thrown[t])) {
                         if (pomao.thrown[t].type != this.observer.type) {
                             this.observer.health -= 6
-                            this.observer.body.radius = ((this.bodysize - 6) * (this.observer.health / this.maxhealth)) + 6
+                            this.observer.body.radius = ((this.bodysize - 16) * (this.observer.health / this.maxhealth)) + 16
                         }
                     }
                     if (this.observer2.body.repelCheck(pomao.thrown[t])) {
                         if (pomao.thrown[t].type != this.observer2.type) {
                             this.observer2.health -= 6
-                            this.observer2.body.radius = ((this.bodysize - 6) * (this.observer2.health / this.maxhealth)) + 6
+                            this.observer2.body.radius = ((this.bodysize - 16) * (this.observer2.health / this.maxhealth)) + 16
                         }
                     }
                     if (this.observer3.body.repelCheck(pomao.thrown[t])) {
                         if (pomao.thrown[t].type != this.observer3.type) {
                             this.observer3.health -= 6
-                            this.observer3.body.radius = ((this.bodysize - 6) * (this.observer3.health / this.maxhealth)) + 6
+                            this.observer3.body.radius = ((this.bodysize - 16) * (this.observer3.health / this.maxhealth)) + 16
                         }
                     }
                 }
@@ -13236,27 +13236,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (let t = 0; t < shockfriendly.shocksl.length; t++) {
                     if (this.observer.body.repelCheck(shockfriendly.shocksl[t])) {
                             this.observer.health -= 2
-                            this.observer.body.radius = ((this.bodysize - 6) * (this.observer.health / this.maxhealth)) + 6
+                            this.observer.body.radius = ((this.bodysize - 16) * (this.observer.health / this.maxhealth)) + 16
                     }
                     if (this.observer2.body.repelCheck(shockfriendly.shocksl[t])) {
                             this.observer2.health -= 2
-                            this.observer2.body.radius = ((this.bodysize - 6) * (this.observer2.health / this.maxhealth)) + 6
+                            this.observer2.body.radius = ((this.bodysize - 16) * (this.observer2.health / this.maxhealth)) + 16
                     }
                     if (this.observer3.body.repelCheck(shockfriendly.shocksl[t])) {
                             this.observer3.health -= 2
-                            this.observer3.body.radius = ((this.bodysize - 6) * (this.observer3.health / this.maxhealth)) + 6
+                            this.observer3.body.radius = ((this.bodysize - 16) * (this.observer3.health / this.maxhealth)) + 16
                     }
                     if (this.observer.body.repelCheck(shockfriendly.shocksr[t])) {
                             this.observer.health -= 2
-                            this.observer.body.radius = ((this.bodysize - 6) * (this.observer.health / this.maxhealth)) + 6
+                            this.observer.body.radius = ((this.bodysize - 16) * (this.observer.health / this.maxhealth)) + 16
                     }
                     if (this.observer2.body.repelCheck(shockfriendly.shocksr[t])) {
                             this.observer2.health -= 2
-                            this.observer2.body.radius = ((this.bodysize - 6) * (this.observer2.health / this.maxhealth)) + 6
+                            this.observer2.body.radius = ((this.bodysize - 16) * (this.observer2.health / this.maxhealth)) + 16
                     }
                     if (this.observer3.body.repelCheck(shockfriendly.shocksr[t])) {
                             this.observer3.health -= 2
-                            this.observer3.body.radius = ((this.bodysize - 6) * (this.observer3.health / this.maxhealth)) + 6
+                            this.observer3.body.radius = ((this.bodysize - 16) * (this.observer3.health / this.maxhealth)) + 16
                     }
                 }
 
