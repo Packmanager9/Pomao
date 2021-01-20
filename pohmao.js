@@ -13050,6 +13050,51 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.links.push(link3)
             this.rockets = []
             this.shot = 0
+            this.pops = []
+        }
+        pop() {
+            let rotx = 0
+            let roty = 0
+            let dots = Math.floor(Math.random() * 19) + 17
+            for (let g = 0; g < dots; g++) {
+                let color = this.observer.body.color
+                const dot1 = new Circlec(this.observer.body.x, this.observer.body.y, this.observer.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
+                this.pops.push(dot1)
+                rotx += 2 * Math.PI / 17
+                roty += 2 * Math.PI / 17
+            }
+            for (let g = 0; g < dots; g++) {
+                let color = this.observer2.body.color
+                const dot1 = new Circlec(this.observer2.body.x, this.observer2.body.y, this.observer2.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
+                this.pops.push(dot1)
+                rotx += 2 * Math.PI / 17
+                roty += 2 * Math.PI / 17
+            }
+            for (let g = 0; g < dots; g++) {
+                let color = this.observer3.body.color
+                const dot1 = new Circlec(this.observer3.body.x, this.observer3.body.y, this.observer3.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
+                this.pops.push(dot1)
+                rotx += 2 * Math.PI / 17
+                roty += 2 * Math.PI / 17
+            }
+
+        }       
+        popdraw() {
+            for (let t = 0; t < this.pops.length; t++) {
+                if (this.pops[t].radius < .1) {
+                    this.pops.splice(t, 1)
+                }
+            }
+            for (let t = 0; t < this.pops.length; t++) {
+                this.pops[t].radius *= .98
+                this.pops[t].move()
+                this.pops[t].draw()
+            }
+            for (let t = 0; t < this.pops.length; t++) {
+                if (this.pops[t].radius < .1) {
+                    this.pops.splice(t, 1)
+                }
+            }
         }
         draw() {
             // this.body.draw()
@@ -13070,6 +13115,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.observer3.health = 0
             }
             if (this.kicker >= 2) {
+                if(this.dead == 0){
+                    this.pop()
+                }
                 this.dead = 1
             }
 
@@ -13267,6 +13315,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.observer2.draw()
                 this.observer3.draw()
 
+            }else{
+                this.popdraw()
+                door.height = 1000
+                door.x = 0-(door.width*.5)
+                door.y = (-14172+33)-door.height
+                door.draw()
+                if(door.isPointInside(pomao.body)){
+                    loadlvl8()
+                }
             }
 
         }
