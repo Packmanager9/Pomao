@@ -11015,7 +11015,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         eggrepel() {
 
 
-            pomao.eggmake = 100000 //x//
+            // pomao.eggmake = 100000 //x//
             // for (let k = 0; k < this.metashape.length; k++) {
             //     for (let t = 0; t < pomao.thrown.length; t++) {
             //         if (this.metashape[k].isPointInside(pomao.thrown[t])) {
