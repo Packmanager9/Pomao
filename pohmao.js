@@ -13118,7 +13118,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if(this.dead == 0){
                     this.pop()
                 }
-                this.dead = 1
+                if(this.dead == 10){
+                    this.pop()
+                }
+                if(this.dead == 20){
+                    this.pop()
+                }
+                if(this.dead == 30){
+                    this.pop()
+                }
+                this.dead++
             }
 
 
