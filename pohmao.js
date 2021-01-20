@@ -13316,11 +13316,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.observer3.draw()
 
             }else{
-                this.popdraw()
                 door.height = 1000
                 door.x = 0-(door.width*.5)
                 door.y = (-14172+33)-door.height
                 door.draw()
+                this.popdraw()
                 if(door.isPointInside(pomao.body)){
                     loadlvl8()
                 }
