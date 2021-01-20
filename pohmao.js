@@ -13058,21 +13058,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let dots = Math.floor(Math.random() * 19) + 17
             for (let g = 0; g < dots; g++) {
                 let color = this.observer.body.color
-                const dot1 = new Circlec(this.observer.body.x, this.observer.body.y, this.observer.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
+                let dot1 = new Circlec(this.observer.body.x, this.observer.body.y, this.observer.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
                 this.pops.push(dot1)
                 rotx += 2 * Math.PI / 17
                 roty += 2 * Math.PI / 17
-            }
-            for (let g = 0; g < dots; g++) {
-                let color = this.observer2.body.color
-                const dot1 = new Circlec(this.observer2.body.x, this.observer2.body.y, this.observer2.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
+            // }
+            // for (let g = 0; g < dots; g++) {
+                 color = this.observer2.body.color
+                 dot1 = new Circlec(this.observer2.body.x, this.observer2.body.y, this.observer2.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
                 this.pops.push(dot1)
                 rotx += 2 * Math.PI / 17
                 roty += 2 * Math.PI / 17
-            }
-            for (let g = 0; g < dots; g++) {
-                let color = this.observer3.body.color
-                const dot1 = new Circlec(this.observer3.body.x, this.observer3.body.y, this.observer3.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
+            // }
+            // for (let g = 0; g < dots; g++) {
+                 color = this.observer3.body.color
+                 dot1 = new Circlec(this.observer3.body.x, this.observer3.body.y, this.observer3.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
                 this.pops.push(dot1)
                 rotx += 2 * Math.PI / 17
                 roty += 2 * Math.PI / 17
