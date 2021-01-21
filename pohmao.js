@@ -262,6 +262,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     eyeimgred.src = "eyepaintred.png"
 
     const lvl4basemusic = new Audio('voidx.mp3');
+    const lvl4bossmusic = new Audio('eyelow.mp3');
     const jazz = new Audio('gulpnoise.wav');
     const jazz2 = new Audio('gulpnoise2.wav');
     const spidermusic = new Audio('Mopao.mp3');
@@ -6493,6 +6494,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (boss.getdrawn == 1) {
                     boss.draw()
                     lvl4basemusic.pause()
+                    lvl4bossmusic.playbackRate = .4 + (1 - (.5 * (boss.health / boss.maxhealth)));
+                    lvl4bossmusic.play()
                 } else if (pomao.body.y < (-10300 - 6550) + 350) {
                     lvl4basemusic.play()
                     boss.getdrawn = 1
@@ -8439,6 +8442,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.obstacles = []
                 this.raymake = 37 // 19
                 this.health = 1200
+                this.maxhealth = 1200
                 this.shook = 0
                 this.smack = 0
                 this.dir = 1
