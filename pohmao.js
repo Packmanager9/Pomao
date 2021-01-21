@@ -6052,6 +6052,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             } else {
                 lvl4basemusic.pause()
+                lvl4bossmusic.pause()
             }
 
             if (level == 5) {
