@@ -11967,8 +11967,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (Math.random() < .3) {
                         color = "orange"
                     }
-                    const dot1 = new Circlec(this.metashape[0].shapes[t].x, this.metashape[0].shapes[t].y, this.metashape[0].shapes[t].radius / 1.5 + (Math.random() * 2), color, Math.cos(rotx) * 4 + Math.random(), Math.sin(roty) * 4 + Math.random())
-                    // this.pops.push(dot1)
+                    const dot1 = new Circlec(this.metashape[0].shapes[t].x, this.metashape[0].shapes[t].y, this.metashape[0].shapes[t].radius / 1.2 + (Math.random() * 2), color, Math.cos(rotx) * 4 + Math.random(), Math.sin(roty) * 4 + Math.random())
+                    this.pops.push(dot1)
                     // console.log(dot1)
                     rotx += 2 * Math.PI / 17 + Math.random()
                     roty += 2 * Math.PI / 17 + Math.random()
