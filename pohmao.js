@@ -191,6 +191,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     volcbg.src = "vbg.png"
     const redcircleimg = new Image()
     redcircleimg.src = "smallredcircle.png"
+    const bluecircleimg = new Image()
+    bluecircleimg.src = "bluecircle.png"
     const smallyellowcircle = new Image()
     smallyellowcircle.src = "smallyellowcircle.png"
 
@@ -388,6 +390,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     jomaoimg.src = 'jomao.png'
     const jomaoimgl = new Image()
     jomaoimgl.src = 'jomaol.png'
+    const rebellionbossimg = new Image()
+    rebellionbossimg.src = 'eyepatchtwoscarqueen.png'
+    const rebellionbossimgleft = new Image()
+    rebellionbossimgleft.src = 'eyepatchlessqueen.png'
 
     const pawmaoimg = new Image()
     pawmaoimg.src = 'pawmao.png'
@@ -661,6 +667,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             loadlvl5button = new Rectangle(640 - 100, 360, 50, 50, "orange")
             loadlvl6button = new Rectangle(640, 360, 50, 50, "green")
             loadlvl7button = new Rectangle(640 + 100, 360, 50, 50, "yellow")
+            loadlvl8button = new Rectangle(640 + 200, 360, 50, 50, "teal")
 
             if (loadlvl1button.isPointInside(tip)) {
                 loadlvl1()
@@ -686,6 +693,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if (loadlvl7button.isPointInside(tip)) {
                 loadlvl7()
+            }
+            if (loadlvl8button.isPointInside(tip)) {
+                loadlvl8()
             }
         }
 
@@ -6063,7 +6073,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (let t = 0; t < spinnys.length; t++) {
                     spinnys[t].draw()
                 }
+                let rebelqueenheight = 68 + (Math.sin(((pomao.timeloop * .6) + 3.14)) * .8)
+
+                let  queenxpos = 70
+                if(pomao.body.x > queenxpos+35){
+                    tutorial_canvas_context.drawImage(rebellionbossimg, 0, 0, rebellionbossimg.width, rebellionbossimg.height, 100, -100 - (Math.sin(((pomao.timeloop * .2) + 5.14)) * .9), queenxpos, rebelqueenheight)
+                }else{
+                tutorial_canvas_context.drawImage(rebellionbossimgleft, 0, 0, rebellionbossimgleft.width, rebellionbossimgleft.height, 100, -100 - (Math.sin(((pomao.timeloop * .2) + 5.14)) * .9), queenxpos, rebelqueenheight)
+                }
             }
+
+            
 
             if (level == 1 || level == 5) {
                 for (let t = 0; t < ramps.length; t++) {
@@ -8247,6 +8267,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let loadlvl5button
     let loadlvl6button
     let loadlvl7button
+    let loadlvl8button
 
     class Seed {
         constructor(target) {
@@ -12917,10 +12938,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         draw() {
             this.beam()
-            this.body.draw()
+            // this.body.draw()
+      
+
             tutorial_canvas_context.lineWidth = 5.5
             tutorial_canvas_context.fillStyle = this.color
             tutorial_canvas_context.strokeStyle = this.color
+
+
+            if(this.body.color == "#FF0000"){ 
+                tutorial_canvas_context.strokeStyle = "#FF000088"
+                tutorial_canvas_context.fillStyle = "#FF000088"
+            }
+            if(this.body.color == "#FFFF00"){ 
+                tutorial_canvas_context.strokeStyle = "#FFFF0088"
+                tutorial_canvas_context.fillStyle = "#FFFF0088"
+            }
+            if(this.body.color == "#0000FF"){ 
+                tutorial_canvas_context.strokeStyle = "#0000FF88"
+                tutorial_canvas_context.fillStyle = "#0000FF88"
+            }
             tutorial_canvas_context.beginPath()
             tutorial_canvas_context.moveTo(this.body.x, this.body.y)
             // for (let y = 0; y < this.ray.length; y++) {
@@ -12935,6 +12972,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             tutorial_canvas_context.stroke()
             tutorial_canvas_context.closePath()
+
+            if(this.body.color == "#FF0000"){ 
+                tutorial_canvas_context.drawImage(redcircleimg, 0, 0, redcircleimg.width, redcircleimg.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
+            }
+            if(this.body.color == "#FFFF00"){ 
+                tutorial_canvas_context.drawImage(smallyellowcircle, 0, 0, smallyellowcircle.width, smallyellowcircle.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
+            }
+            if(this.body.color == "#0000FF"){ 
+                tutorial_canvas_context.drawImage(bluecircleimg, 0, 0, bluecircleimg.width, bluecircleimg.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
+            }
             // canvas_context.fill()
             this.ray = []
         }
@@ -13030,13 +13077,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.dead = 0
             this.bodysize = 40
             this.maxhealth = 1800
-            this.observer = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), this.bodysize, "red", 4000, 1, 0)
+            this.observer = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), this.bodysize, "#FF0000", 4000, 1, 0)
             this.observer.type = 1
             this.observer.health = this.maxhealth
-            this.observer2 = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), this.bodysize, "blue", 4000, 1, 0)
+            this.observer2 = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), this.bodysize, "#0000FF", 4000, 1, 0)
             this.observer2.type = 2
             this.observer2.health = this.maxhealth
-            this.observer3 = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), this.bodysize, "yellow", 4000, 1, 0)
+            this.observer3 = new ObserverLaser(this.body.x + (this.body.width * .5), this.body.y + (this.body.height * .5), this.bodysize, "#FFFF00", 4000, 1, 0)
             this.observer3.type = 3
             this.observer3.health = this.maxhealth
             this.center = new Point(this.observer.body.x, this.observer.body.y)
@@ -13902,6 +13949,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl5button = new Rectangle(pomao.body.x - 100, pomao.body.y, 50, 50, "orange")
                     loadlvl6button = new Rectangle(pomao.body.x, pomao.body.y, 50, 50, "green")
                     loadlvl7button = new Rectangle(pomao.body.x + 100, pomao.body.y, 50, 50, "yellow")
+                    loadlvl8button = new Rectangle(pomao.body.x + 200, pomao.body.y, 50, 50, "teal")
 
                     loadlvl1button.draw()
                     loadlvl2button.draw()
@@ -13910,6 +13958,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl5button.draw()
                     loadlvl6button.draw()
                     loadlvl7button.draw()
+                    loadlvl8button.draw()
                 }
 
                 // for(let t =0;t<ungrapplable.length;t++){
