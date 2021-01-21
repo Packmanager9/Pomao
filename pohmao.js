@@ -225,7 +225,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const cloudimg = new Image()
     cloudimg.src = "cloudlist.png"
     const batimg = new Image()
-    batimg.src = "bat.png"
+    batimg.src = "paintbat.png"
     const blockimg = new Image()
     blockimg.src = "block.png"
     const lvl2floorimg = new Image()
@@ -7517,7 +7517,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // this.move()
                 this.bodydraw = new Circlec(this.body.x, this.body.y, this.body.radius + 7, "#AA00DD")
                 this.bodydrawhuge = new Circlec(this.body.x, this.body.y, this.body.radius + 17, "#AA00DD")
-                tutorial_canvas_context.drawImage(batimg, 0, 0, 48, 48, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 48 * (this.body.radius * .06666666666), 48 * (this.body.radius * .06666666666))
+                tutorial_canvas_context.drawImage(batimg, 0, 0, batimg.width, batimg.height, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 48 * (this.body.radius * .06666666666), 48 * (this.body.radius * .06666666666))
 
             }
 
