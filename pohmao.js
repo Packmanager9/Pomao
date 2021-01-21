@@ -261,6 +261,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const eyeimgred = new Image()
     eyeimgred.src = "eyepaintred.png"
 
+    const lvl4basemusic = new Audio('voidx.mp3');
     const jazz = new Audio('gulpnoise.wav');
     const jazz2 = new Audio('gulpnoise2.wav');
     const spidermusic = new Audio('Mopao.mp3');
@@ -6028,6 +6029,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if (level == 4) {
 
+                if(boss.getdrawn != 1){
+                    lvl4basemusic.play()
+                }
 
                 let prisoner3height = 68 + (Math.sin(((pomao.timeloop * .6) + 3.14)) * .8)
 
@@ -6045,6 +6049,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (door.isPointInside(pomao.body)) {
                     loadlvl5()
                 }
+            } else {
+                lvl4basemusic.pause()
             }
 
             if (level == 5) {
@@ -6075,15 +6081,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 let rebelqueenheight = 68 + (Math.sin(((pomao.timeloop * .6) + 3.14)) * .8)
 
-                let  queenxpos = 70
-                if(pomao.body.x > queenxpos+35){
+                let queenxpos = 70
+                if (pomao.body.x > queenxpos + 35) {
                     tutorial_canvas_context.drawImage(rebellionbossimg, 0, 0, rebellionbossimg.width, rebellionbossimg.height, 100, -100 - (Math.sin(((pomao.timeloop * .2) + 5.14)) * .9), queenxpos, rebelqueenheight)
-                }else{
-                tutorial_canvas_context.drawImage(rebellionbossimgleft, 0, 0, rebellionbossimgleft.width, rebellionbossimgleft.height, 100, -100 - (Math.sin(((pomao.timeloop * .2) + 5.14)) * .9), queenxpos, rebelqueenheight)
+                } else {
+                    tutorial_canvas_context.drawImage(rebellionbossimgleft, 0, 0, rebellionbossimgleft.width, rebellionbossimgleft.height, 100, -100 - (Math.sin(((pomao.timeloop * .2) + 5.14)) * .9), queenxpos, rebelqueenheight)
                 }
             }
 
-            
+
 
             if (level == 1 || level == 5) {
                 for (let t = 0; t < ramps.length; t++) {
@@ -6486,7 +6492,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 if (boss.getdrawn == 1) {
                     boss.draw()
+                    lvl4basemusic.pause()
                 } else if (pomao.body.y < (-10300 - 6550) + 350) {
+                    lvl4basemusic.play()
                     boss.getdrawn = 1
                 }
                 //     }  
@@ -12939,22 +12947,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
             this.beam()
             // this.body.draw()
-      
+
 
             tutorial_canvas_context.lineWidth = 5.5
             tutorial_canvas_context.fillStyle = this.color
             tutorial_canvas_context.strokeStyle = this.color
 
 
-            if(this.body.color == "#FF0000"){ 
+            if (this.body.color == "#FF0000") {
                 tutorial_canvas_context.strokeStyle = "#FF000088"
                 tutorial_canvas_context.fillStyle = "#FF000088"
             }
-            if(this.body.color == "#FFFF00"){ 
+            if (this.body.color == "#FFFF00") {
                 tutorial_canvas_context.strokeStyle = "#FFFF0088"
                 tutorial_canvas_context.fillStyle = "#FFFF0088"
             }
-            if(this.body.color == "#0000FF"){ 
+            if (this.body.color == "#0000FF") {
                 tutorial_canvas_context.strokeStyle = "#0000FF88"
                 tutorial_canvas_context.fillStyle = "#0000FF88"
             }
@@ -12973,13 +12981,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.stroke()
             tutorial_canvas_context.closePath()
 
-            if(this.body.color == "#FF0000"){ 
+            if (this.body.color == "#FF0000") {
                 tutorial_canvas_context.drawImage(redcircleimg, 0, 0, redcircleimg.width, redcircleimg.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
             }
-            if(this.body.color == "#FFFF00"){ 
+            if (this.body.color == "#FFFF00") {
                 tutorial_canvas_context.drawImage(smallyellowcircle, 0, 0, smallyellowcircle.width, smallyellowcircle.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
             }
-            if(this.body.color == "#0000FF"){ 
+            if (this.body.color == "#0000FF") {
                 tutorial_canvas_context.drawImage(bluecircleimg, 0, 0, bluecircleimg.width, bluecircleimg.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
             }
             // canvas_context.fill()
@@ -13109,23 +13117,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.pops.push(dot1)
                 rotx += 2 * Math.PI / 17
                 roty += 2 * Math.PI / 17
-            // }
-            // for (let g = 0; g < dots; g++) {
-                 color = this.observer2.body.color
-                 dot1 = new Circlec(this.observer2.body.x, this.observer2.body.y, this.observer2.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
+                // }
+                // for (let g = 0; g < dots; g++) {
+                color = this.observer2.body.color
+                dot1 = new Circlec(this.observer2.body.x, this.observer2.body.y, this.observer2.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
                 this.pops.push(dot1)
                 rotx += 2 * Math.PI / 17
                 roty += 2 * Math.PI / 17
-            // }
-            // for (let g = 0; g < dots; g++) {
-                 color = this.observer3.body.color
-                 dot1 = new Circlec(this.observer3.body.x, this.observer3.body.y, this.observer3.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
+                // }
+                // for (let g = 0; g < dots; g++) {
+                color = this.observer3.body.color
+                dot1 = new Circlec(this.observer3.body.x, this.observer3.body.y, this.observer3.body.radius, color, Math.cos(rotx) * 14, Math.sin(roty) * 14)
                 this.pops.push(dot1)
                 rotx += 2 * Math.PI / 17
                 roty += 2 * Math.PI / 17
             }
 
-        }       
+        }
         popdraw() {
             for (let t = 0; t < this.pops.length; t++) {
                 if (this.pops[t].radius < .1) {
@@ -13162,16 +13170,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.observer3.health = 0
             }
             if (this.kicker >= 2) {
-                if(this.dead == 0){
+                if (this.dead == 0) {
                     this.pop()
                 }
-                if(this.dead == 10){
+                if (this.dead == 10) {
                     this.pop()
                 }
-                if(this.dead == 20){
+                if (this.dead == 20) {
                     this.pop()
                 }
-                if(this.dead == 30){
+                if (this.dead == 30) {
                     this.pop()
                 }
                 this.dead++
@@ -13339,28 +13347,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 for (let t = 0; t < shockfriendly.shocksl.length; t++) {
                     if (this.observer.body.repelCheck(shockfriendly.shocksl[t])) {
-                            this.observer.health -= 2
-                            this.observer.body.radius = ((this.bodysize - 16) * (this.observer.health / this.maxhealth)) + 16
+                        this.observer.health -= 2
+                        this.observer.body.radius = ((this.bodysize - 16) * (this.observer.health / this.maxhealth)) + 16
                     }
                     if (this.observer2.body.repelCheck(shockfriendly.shocksl[t])) {
-                            this.observer2.health -= 2
-                            this.observer2.body.radius = ((this.bodysize - 16) * (this.observer2.health / this.maxhealth)) + 16
+                        this.observer2.health -= 2
+                        this.observer2.body.radius = ((this.bodysize - 16) * (this.observer2.health / this.maxhealth)) + 16
                     }
                     if (this.observer3.body.repelCheck(shockfriendly.shocksl[t])) {
-                            this.observer3.health -= 2
-                            this.observer3.body.radius = ((this.bodysize - 16) * (this.observer3.health / this.maxhealth)) + 16
+                        this.observer3.health -= 2
+                        this.observer3.body.radius = ((this.bodysize - 16) * (this.observer3.health / this.maxhealth)) + 16
                     }
                     if (this.observer.body.repelCheck(shockfriendly.shocksr[t])) {
-                            this.observer.health -= 2
-                            this.observer.body.radius = ((this.bodysize - 16) * (this.observer.health / this.maxhealth)) + 16
+                        this.observer.health -= 2
+                        this.observer.body.radius = ((this.bodysize - 16) * (this.observer.health / this.maxhealth)) + 16
                     }
                     if (this.observer2.body.repelCheck(shockfriendly.shocksr[t])) {
-                            this.observer2.health -= 2
-                            this.observer2.body.radius = ((this.bodysize - 16) * (this.observer2.health / this.maxhealth)) + 16
+                        this.observer2.health -= 2
+                        this.observer2.body.radius = ((this.bodysize - 16) * (this.observer2.health / this.maxhealth)) + 16
                     }
                     if (this.observer3.body.repelCheck(shockfriendly.shocksr[t])) {
-                            this.observer3.health -= 2
-                            this.observer3.body.radius = ((this.bodysize - 16) * (this.observer3.health / this.maxhealth)) + 16
+                        this.observer3.health -= 2
+                        this.observer3.body.radius = ((this.bodysize - 16) * (this.observer3.health / this.maxhealth)) + 16
                     }
                 }
 
@@ -13371,13 +13379,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.observer2.draw()
                 this.observer3.draw()
 
-            }else{
+            } else {
                 door.height = 1000
-                door.x = 0-(door.width*.5)
-                door.y = (-14172+33)-door.height
+                door.x = 0 - (door.width * .5)
+                door.y = (-14172 + 33) - door.height
                 door.draw()
                 this.popdraw()
-                if(door.isPointInside(pomao.body)){
+                if (door.isPointInside(pomao.body)) {
                     loadlvl8()
                 }
             }
