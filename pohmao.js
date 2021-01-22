@@ -14480,7 +14480,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         lavas.splice(0, lavas.length)
         level = 1
         pomao.thrown = []
-
+        door = new Rectangle(4550, 450, 200, 200, "#090909")
 
         const floor = new Rectangle(-100000000, 650, 500, 100000000 - 12000, "red")
         walls.push(floor)
