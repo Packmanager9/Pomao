@@ -13147,7 +13147,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             for (let t = 0; t < this.pops.length; t++) {
-                this.pops[t].radius *= .98
+                this.pops[t].radius *= .97
                 this.pops[t].move()
                 this.pops[t].draw()
             }
@@ -13386,13 +13386,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.observer3.draw()
 
             } else {
-                door.height = 1000
-                door.x = 0 - (door.width * .5)
-                door.y = (-14172 + 33) - door.height
-                door.draw()
+
                 this.popdraw()
-                if (door.isPointInside(pomao.body)) {
-                    loadlvl8()
+                if(this.pops.length == 0){
+                    door.height = 1000
+                    door.x = 0 - (door.width * .5)
+                    door.y = (-14172 + 33) - door.height
+                    door.draw()
+                    if (door.isPointInside(pomao.body)) {
+                        loadlvl8()
+                    }
                 }
             }
 
