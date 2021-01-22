@@ -261,6 +261,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const eyeimgred = new Image()
     eyeimgred.src = "eyepaintred.png"
 
+    const pipelevelbasemusic = new Audio('pipevault.wav');
     const lvl4basemusic = new Audio('voidx.mp3');
     const lvl4bossmusic = new Audio('eyelow.mp3');
     const jazz = new Audio('gulpnoise.wav');
