@@ -13537,6 +13537,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     // "#AAAAFF"
                     if (pomao.high > 1 && pomao.tripping > 0) {
 
+                        tutorial_canvas_context.fillStyle = `rgba(85, 125, 178,${15 / 255})`
+
                         if (level == 1) {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
@@ -13567,16 +13569,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 7) {
                             tutorial_canvas_context.globalAlpha = 0.2;
+                             tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${15 / 255})`
                             tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
                         // tutorial_canvas_context.fillStyle = `rgba(85, 85, 128,${15 / 255})`
-                        tutorial_canvas_context.fillStyle = `rgba(85, 125, 178,${15 / 255})`
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
 
                         //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
                     } else if (pomao.high > 1) {
 
+                        tutorial_canvas_context.fillStyle = `rgba(153, 193, 230,${63 / 255})`
                         if (level == 1) {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
@@ -13607,10 +13610,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 7) {
                             tutorial_canvas_context.globalAlpha = 0.2;
+                            tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${63 / 255})`
                             tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
-                        tutorial_canvas_context.fillStyle = `rgba(153, 193, 230,${63 / 255})`
                         // tutorial_canvas_context.fillStyle = `rgba(153, 153, 230,${63 / 255})`
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
 
@@ -13618,6 +13621,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     } else if (pomao.tripping > 0) {
 
 
+                        tutorial_canvas_context.fillStyle = `rgba(190, 190, 255,${14 / 255})`
                         if (level == 1) {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
@@ -13648,15 +13652,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 7) {
                             tutorial_canvas_context.globalAlpha = 0.2;
+                            tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${14 / 255})`
                             tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
-                        tutorial_canvas_context.fillStyle = `rgba(190, 190, 255,${14 / 255})`
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
 
                         //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
                     } else {
                         tutorial_canvas_context.fillStyle = `rgba(170, 170, 255,${1})`
+
+                   if (level == 7) {
+                        tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${1})`
+                    }
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
                         //pictures
 
