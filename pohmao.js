@@ -262,6 +262,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     eyeimgred.src = "eyepaintred.png"
 
     const pipelevelbasemusic = new Audio('pipevault.wav');
+    const lvl7bosssong = new Audio('lvl7bosssong.wav');
     const lvl4basemusic = new Audio('voidx.mp3');
     const lvl4bossmusic = new Audio('eyelow.mp3');
     const jazz = new Audio('gulpnoise.wav');
@@ -13189,6 +13190,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.pop()
                 }
                 this.dead++
+                lvl7bosssong.pause()
+            }else{
+                if(this.rockets.length > 0){
+
+                    lvl7bosssong.playbackRate = .5 + (1 - (.5 * ((this.observer.health+this.observer2.health+this.observer3.health) / (3*this.maxhealth))));
+                    lvl7bosssong.play()
+                }
             }
 
 
