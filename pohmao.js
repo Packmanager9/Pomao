@@ -265,6 +265,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const lvl7bosssong = new Audio('lvl7bosssong.wav');
     const lvl4basemusic = new Audio('voidx.mp3');
     const lvl4bossmusic = new Audio('eyelowdiff.wav');
+    const lvl6bossmusic = new Audio('wormsign.mp3');
     const jazz = new Audio('gulpnoise.wav');
     const jazz2 = new Audio('gulpnoise2.wav');
     const spidermusic = new Audio('Mopao.mp3');
@@ -11178,7 +11179,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                 }
+                lvl6bossmusic.pause()
             } else {
+                
+                lvl6bossmusic.playbackRate = .5 + (1 - (.5 * (this.health / this.maxhealth)));
+                lvl6bossmusic.play()
 
                 this.box = new Shape(this.joints)
                 this.yeet = 0
@@ -16284,6 +16289,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl6() {
 
+        lvl6bossmusic.pause()
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
