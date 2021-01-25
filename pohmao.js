@@ -6084,13 +6084,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (let t = 0; t < spinnys.length; t++) {
                     spinnys[t].draw()
                 }
-                let rebelqueenheight = 68 + (Math.sin(((pomao.timeloop * .6) + 3.14)) * .8)
+                let rebelqueenheight = 68 + (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9)
 
                 let queenxpos = 70
                 if (pomao.body.x > queenxpos + 35) {
-                    tutorial_canvas_context.drawImage(rebellionbossimg, 0, 0, rebellionbossimg.width, rebellionbossimg.height, 100, -100 - (Math.sin(((pomao.timeloop * .2) + 5.14)) * .9), queenxpos, rebelqueenheight)
+                    tutorial_canvas_context.drawImage(rebellionbossimg, 0, 0, rebellionbossimg.width, rebellionbossimg.height, 100, -100 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), queenxpos, rebelqueenheight)
                 } else {
-                    tutorial_canvas_context.drawImage(rebellionbossimgleft, 0, 0, rebellionbossimgleft.width, rebellionbossimgleft.height, 100, -100 - (Math.sin(((pomao.timeloop * .2) + 5.14)) * .9), queenxpos, rebelqueenheight)
+                    tutorial_canvas_context.drawImage(rebellionbossimgleft, 0, 0, rebellionbossimgleft.width, rebellionbossimgleft.height, 100, -100 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), queenxpos, rebelqueenheight)
                 }
             }
 
@@ -17099,10 +17099,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //  pomao.eggmake = 161
         // boss = new Bossbeam()
 
-        let floorlvl8 = new Rectangle(-12000, 33, 500, 22000)
+        let leaderblock = new Rectangle(112,-33, 68, 50)
+
+        walls.push(leaderblock)
+        floors.push(leaderblock)
+        roofs.push(leaderblock)
+
+        let floorlvl8 = new Rectangle(-2100, 33, 500, 22000)
         floors.push(floorlvl8)
         walls.push(floorlvl8)
         roofs.push(floorlvl8)
+
 
         // for (let t = 0; t < 100; t++) {
         //     const floor = new Rectangle(-13000 + (150 * t), 66, 600, 333)
@@ -17113,6 +17120,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // }
 
 
+        let rebellionleaderdiailogue = new Dialogue(105, -68)
+        rebellionleaderdiailogue.words.push("???: What the...")
+        rebellionleaderdiailogue.words.push("???: How did you find us?")
+        rebellionleaderdiailogue.words.push("???: Who do you work for?")
+        rebellionleaderdiailogue.words.push("???: Oh no! The security system!")
+        rebellionleaderdiailogue.words.push("???: No no no no! don't tell me you smashed it!")
+        rebellionleaderdiailogue.words.push("Pomao: Maybe.")
+        rebellionleaderdiailogue.words.push("Pomao: I'm Pomao. Who are you?")
+        rebellionleaderdiailogue.words.push("???: Look kid, you don't want any part of this.")
+        rebellionleaderdiailogue.words.push("???: But you know where we are.")
+        rebellionleaderdiailogue.words.push("???: Plus you owe us for the security system.")
+        rebellionleaderdiailogue.words.push("???: I don't think we can let you leave.")
+        rebellionleaderdiailogue.words.push("Pomao: When?")
+        rebellionleaderdiailogue.words.push("???: Now.")
+        rebellionleaderdiailogue.words.push("Pomao: Oh.")
+        rebellionleaderdiailogue.words.push("???: Welcome to the resistance I guess.")
+        chats.push(rebellionleaderdiailogue)
 
 
 
@@ -17129,14 +17153,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         floormpf = [...floors]
 
-        let spinny = new BigSeeSaw(-1200, -301, 5)
-        spinnys.push(spinny)
+        // let spinny = new BigSeeSaw(-1200, -301, 5)
+        // spinnys.push(spinny)
 
-        let spinny2 = new BigSeeSaw(-100, -701, 7.5)
-        spinnys.push(spinny2)
+        // let spinny2 = new BigSeeSaw(-100, -701, 7.5)
+        // spinnys.push(spinny2)
 
-        let spinny3 = new BigSeeSaw(1600, -1401, 10)
-        spinnys.push(spinny3)
+        // let spinny3 = new BigSeeSaw(1600, -1401, 10)
+        // spinnys.push(spinny3)
     }
 
     function getTextWidth(text, font) {
