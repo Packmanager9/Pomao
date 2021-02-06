@@ -12,6 +12,7 @@ let links = []
 const worms = []
 const lavas = []
 const floppers = []
+const magnets = []
 let floormpf = []
 // const gamepads
 
@@ -755,6 +756,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.y += this.ymom
             this.ymom *= .98
             this.xmom *= .98
+        }
+        movenofric() {
+            this.x += this.xmom*.1
+            this.y += this.ymom*.1
         }
         fmove() {
             this.x += this.xmom
@@ -3224,7 +3229,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
 
-        gravity() {
+        gravity() {  
+
 
             if (this.dry == 1) {
                 if (this.ymom > 0) {
@@ -3565,6 +3571,125 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //     this.y+=this.ymom
         // }
     }
+
+    class Magneato {
+        constructor(x, y) {
+            this.center = new Circle(x, y, 0, "transparent")
+            this.positron = new Bosscircle(x+.01, y, 25, "magenta")
+            this.electron = new Bosscircle(x-.01, y, 25, "yellow")
+            this.electron.ymom = 20
+            this.positron.ymom = -20
+            this.electron.xmom = 40
+            this.positron.xmom = -40
+            this.body = {}
+            this.counter = 0
+        }
+        physics(){
+
+            if(this.counter%1 == 0 ){
+                this.link = new LineOP(this.positron, this.electron)
+                this.linkhyp = this.link.hypotenuse()
+                this.positron.xmom -= (this.positron.x - this.electron.x) / (this.linkhyp*.5)*.10
+                this.electron.xmom -= (this.electron.x - this.positron.x) / (this.linkhyp*.5)*.10
+                this.positron.ymom -= (this.positron.y - this.electron.y) / (this.linkhyp*.10)
+                this.electron.ymom -= (this.electron.y - this.positron.y) / (this.linkhyp*.10)
+    
+                this.positron.movenofric()
+                this.electron.movenofric()
+            }
+            this.counter++
+            this.link = new LineOP(this.positron, this.electron)
+            this.linkhyp = this.link.hypotenuse()
+            this.body = castBetween(this.positron, this.electron, this.linkhyp / (this.electron.radius*.4), this.electron.radius*.2)
+            this.body.shapes.push(this.positron)
+            this.body.shapes.push(this.electron)
+            let tonguelink = new LineOP(pomao.body, pomao.tongue)
+
+            if (this.body.isPointInside(pomao.body)) {
+
+                
+                let liner = new LineOP(this.body.isPointInsideTargetedShape(pomao.body), pomao.body)
+
+                pomao.dry = 1
+                pomao.grounded = 1
+                pomao.jumping = 0
+                if(liner.hypotenuse() < (this.body.isPointInsideTargetedShape(pomao.body).radius+pomao.body.radius)){
+                    pomao.body.y-=1
+                    tutorial_canvas_context.translate(0, 1)
+                    if (!this.body.isPointInside(pomao.body)) {
+                        pomao.body.y+=2
+                        tutorial_canvas_context.translate(0, -2)
+                    }
+                }
+                if (pomao.body.ymom > 0) {
+                    pomao.body.ymom = 0
+                }
+                if (pomao.body.symom < 0) {
+                    pomao.body.symom = 0
+                }
+            }
+            if (tonguelink.hypotenuse() > 20) {
+
+                if ((this.body.isPointInside(pomao.tongue) || ((pomao.tonguebox.isInsideOfShape(this.body) || this.body.isPointInside(pomao.tongue))))) {
+                    if (pomao.tongueymom < 0) {
+                        if (Math.abs(pomao.tonguey) > 1) {
+                            pomao.body.symom += pomao.tongueymom * 1.1
+                        }
+                        if (Math.abs(pomao.tonguex) > 15) {
+                            if (pomao.dir == -1) {
+                                pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
+                            } else {
+                                pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
+                            }
+                        }
+                    } else {
+                        if (Math.abs(pomao.tonguey) > 1) {
+                            pomao.body.symom -= pomao.tongueymom * 1.1
+                        }
+                        if (Math.abs(pomao.tonguex) > 15) {
+                            if (pomao.dir == -1) {
+                                pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
+                            } else {
+                                pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
+                            }
+                        }
+
+                    }
+                    if (pomao.body.ymom > 0) {
+                        pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                    }
+                    pomao.body.ymom = 0
+                    pomao.body.xmom *= .975
+                    // pomao.hng = 0  // infiinite flutter?
+                    pomao.dry = 1
+                    pomao.body.symom -= .0005
+
+                    pomao.tongueymom *= .49
+                    pomao.tonguexmom *= .49
+                    // if (this.electron.isPointInside(pomao.tongue)) {
+                    //     this.electron.xmom += pomao.body.sxmom * .5
+                    // }
+                }
+                // }
+            }
+
+        }
+        draw() {
+            this.body = castBetween(this.positron, this.electron, this.linkhyp / (this.electron.radius*.4), this.electron.radius*.2)
+            this.body.shapes.push(this.positron)
+            this.body.shapes.push(this.electron)
+            this.body.draw()
+            // this.positron.draw()
+            // this.electron.draw()
+
+        }
+
+
+
+    }
+
+
+
 
     class Cactus {
         constructor(x, y, height, width, color) {
@@ -4962,6 +5087,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             return false
         }
+        isInsideOfShape(box) {
+
+            for (let k = 0; k < box.length; k++) {
+                for (let t = 0; t < this.shapes.length; t++) {
+                    if (box[k].isPointInside(this.shapes[t])) {
+                        return true
+                    }
+                }
+            }
+
+            return false
+        }
         isPointInsideTargeted(point) {
             for (let t = 0; t < this.shapes.length; t++) {
                 if (this.shapes[t].repelCheck(point)) {
@@ -4969,6 +5106,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
 
+            return false
+        }
+        isPointInsideTargetedShape(point) {
+            for (let t = 0; t < this.shapes.length; t++) {
+                if (this.shapes[t].repelCheck(point)) {
+                    return this.shapes[t]
+                }
+            }
             return false
         }
         isInsideOfTargeted(box) {
@@ -4982,6 +5127,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             return false
         }
 
+        draw() {
+            for (let t = 0; t < this.shapes.length; t++) {
+                this.shapes[t].draw()
+            }
+        }
     }
     class Pomao {
         constructor() {
@@ -5051,6 +5201,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.tonguebox = new Shape(this.tongueray)
         }
         gravity() {
+
+            for (let t = 0; t < magnets.length; t++) {
+                magnets[t].physics()
+            }
+
             this.flapstep++
             if (this.flapstep % 3 == 0) {
 
@@ -6033,7 +6188,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if (level == 4) {
 
-                if(boss.getdrawn != 1){
+                if (boss.getdrawn != 1) {
                     lvl4basemusic.play()
                 }
 
@@ -6433,6 +6588,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
+            for (let t = 0; t < magnets.length; t++) {
+                magnets[t].draw()
+            }
 
             for (let t = 0; t < floppers.length; t++) {
                 // floppers[t].draw()
@@ -11181,7 +11339,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 lvl6bossmusic.pause()
             } else {
-                
+
                 lvl6bossmusic.playbackRate = .5 + (1 - (.5 * (this.health / this.maxhealth)));
                 lvl6bossmusic.play()
 
@@ -13196,10 +13354,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 this.dead++
                 lvl7bosssong.pause()
-            }else{
-                if(this.rockets.length > 0){
+            } else {
+                if (this.rockets.length > 0) {
 
-                    lvl7bosssong.playbackRate = .5 + (1 - (.5 * ((this.observer.health+this.observer2.health+this.observer3.health) / (3*this.maxhealth))));
+                    lvl7bosssong.playbackRate = .5 + (1 - (.5 * ((this.observer.health + this.observer2.health + this.observer3.health) / (3 * this.maxhealth))));
                     lvl7bosssong.play()
                 }
             }
@@ -13401,7 +13559,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             } else {
 
                 this.popdraw()
-                if(this.pops.length == 0){
+                if (this.pops.length == 0) {
                     door.height = 1000
                     door.x = 0 - (door.width * .5)
                     door.y = (-14172 + 33) - door.height
@@ -13574,7 +13732,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 7) {
                             tutorial_canvas_context.globalAlpha = 0.2;
-                             tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${15 / 255})`
+                            tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${15 / 255})`
                             tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
@@ -13667,9 +13825,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     } else {
                         tutorial_canvas_context.fillStyle = `rgba(170, 170, 255,${1})`
 
-                   if (level == 7) {
-                        tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${1})`
-                    }
+                        if (level == 7) {
+                            tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${1})`
+                        }
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
                         //pictures
 
@@ -17099,7 +17257,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //  pomao.eggmake = 161
         // boss = new Bossbeam()
 
-        let leaderblock = new Rectangle(112,-33, 68, 50)
+        let magnet = new Magneato(-100, -500)
+        magnets.push(magnet)
+
+        let leaderblock = new Rectangle(112, -33, 68, 50)
 
         walls.push(leaderblock)
         floors.push(leaderblock)
@@ -17172,11 +17333,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         return metrics.width;
     }
 
-    function castBetween(from, to, granularity = 10, radius = 1) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
+    function castBetween(from, to, granularity = 10, radius = 1, color = "gray") { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
         let limit = granularity
         let shape_array = []
         for (let t = 0; t < limit; t++) {
-            let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "red")
+            let circ = new Bosscircle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius,  color)
             shape_array.push(circ)
         }
         return (new Shape(shape_array))
