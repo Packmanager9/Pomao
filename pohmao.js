@@ -3577,12 +3577,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.center = new Circle(x, y, 0, "transparent")
             this.positron = new Bosscircle(x+.01, y, 25, "magenta")
             this.electron = new Bosscircle(x-.01, y, 25, "yellow")
-            this.electron.ymom = 20
-            this.positron.ymom = -20
-            this.electron.xmom = 40
-            this.positron.xmom = -40
+            this.electron.ymom = 30
+            this.positron.ymom = -30
+            this.electron.xmom = 30
+            this.positron.xmom = -30
             this.body = {}
+            this.flipper = -1
             this.counter = 0
+            
         }
         physics(){
 
@@ -3679,8 +3681,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.body.shapes.push(this.positron)
             this.body.shapes.push(this.electron)
             this.body.draw()
-            // this.positron.draw()
-            // this.electron.draw()
+            if(this.positron.x > this.electron.x+(this.positron.radius+this.electron.radius) && this.positron.xmom > this.electron.xmom){
+                this.flipper =-1
+            }
+            if(this.electron.x > this.positron.x+(this.positron.radius+this.electron.radius) && this.electron.xmom > this.positron.xmom){
+                this.flipper =1
+            }
+            if(this.flipper == 1){
+                this.positron.draw()
+                this.electron.draw()
+            }else{
+            this.electron.draw()
+            this.positron.draw()
+            }
 
         }
 
