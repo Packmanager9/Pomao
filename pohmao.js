@@ -266,6 +266,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const lvl7bosssong = new Audio('lvl7bosssong.wav');
     const lvl4basemusic = new Audio('voidx.mp3');
     const lvl4bossmusic = new Audio('eyelowdiff.wav');
+    const lvl5basemusic = new Audio('lvl5basedrop.wav');
     const lvl6bossmusic = new Audio('wormsign.mp3');
     const jazz = new Audio('gulpnoise.wav');
     const jazz2 = new Audio('gulpnoise2.wav');
@@ -5412,8 +5413,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                         }
                     }
+                    pomao.body.ymom = 0
+                    pomao.body.symom = 0
+                    pomao.body.sxmom = 0
                 }
-                    if (walls.includes(floors[t]) && squarecirclefacetopbottom(floors[t], this.body)) {
+                    if (walls.includes(floors[t]) && (floors[t].doesPerimeterTouch(this.body)) && typeof floors[t].waggle != "number" ) {
                         pomao.grounded = 1
                         floors[t].active = 1
 
@@ -5435,49 +5439,93 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             const cloudpuff = new Shockwave(this.body)
                             shocks.push(cloudpuff)
                         }
-                        if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
+                        // if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
 
-                            tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - (this.body.radius)))
-                            this.body.y = floors[t].y - (this.body.radius)
-                            pomao.grounded = 1
-                            floors[t].active = 1
-                            if (blocks.includes(floors[t])) {
-                                if (this.pounding == 10) {
-                                    floors[t].ymom = this.body.radius
-                                    if (floors[t].isBlocked == false) {
-                                        floors[t].move()
-                                    }
-                                }
-                            }
+                        // floors[t].active = 1
 
-                            if (this.pounding == 10) {
-                                const cloudpuff = new Shockwave(this.body)
-                                shocks.push(cloudpuff)
-                            }
-                            if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
-                                if (this.wingcheck == 0) {
-                                    this.tonguex = 0
-                                    this.tonguey = 0
-                                    resettonguediff()
-                                }
-                            }
-                            if (pomao.body.ymom > 0) {
-                                pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
-                            }
-                            if (this.wingcheck == 0) {
-                                pomao.body.symom = 0
-                                pomao.body.ymom = 0
-                                pomao.body.sxmom = 0
-                            }
-                            break
-                        }
+                        // if (blocks.includes(floors[t])) {
+                        //     if (this.pounding == 10) {
+                        //         floors[t].ymom = this.body.radius
+                        //         if (floors[t].isBlocked == false) {
+                        //             floors[t].move()
+                        //         }
+                        //     }
+                        // }
+                        // if (pomao.body.x > floors[t].x) {
+                        //     this.blocked = 1
+                        // } else {
+                        //     this.blocked = -1
+                        // }
+
+                        // if (this.pounding == 10) {
+                        //     const cloudpuff = new Shockwave(this.body)
+                        //     shocks.push(cloudpuff)
+                        // }
+                        // if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
+
+                        //     tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - (this.body.radius)))
+                        //     this.body.y = floors[t].y - (this.body.radius)
+                        //     pomao.grounded = 1
+                        //     floors[t].active = 1
+                        //     if (blocks.includes(floors[t])) {
+                        //         if (this.pounding == 10) {
+                        //             floors[t].ymom = this.body.radius
+                        //             if (floors[t].isBlocked == false) {
+                        //                 floors[t].move()
+                        //             }
+                        //         }
+                        //     }
+
+                        //     if (this.pounding == 10) {
+                        //         const cloudpuff = new Shockwave(this.body)
+                        //         shocks.push(cloudpuff)
+                        //     }
+                        //     if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
+                        //         if (this.wingcheck == 0) {
+                        //             this.tonguex = 0
+                        //             this.tonguey = 0
+                        //             resettonguediff()
+                        //         }
+                        //     }
+                        //     if (pomao.body.ymom > 0) {
+                        //         pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                        //     }
+                        //     if (this.wingcheck == 0) {
+                        //         pomao.body.symom = 0
+                        //         pomao.body.ymom = 0
+                        //         pomao.body.sxmom = 0
+                        //     }
+                        //     break
+                        // }
+                        // }
                     }
 
                     if( typeof floors[t].waggle == "number") {
-                        if (squarecircleedges(floors[t], pomao.tongue)) {
-                            if(floors[t].y > floors[t].y - this.body.radius ){
-                                tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - this.body.radius))
-                                this.body.y = floors[t].y - this.body.radius
+                        if (squarecirclefeet(floors[t], pomao.body)) {
+                            if(t < floors.length-2){
+                                if(floors[t].y < floors[t+1].y ){
+                                    if(floors[t].y > floors[t].y - this.body.radius ){
+                                        tutorial_canvas_context.translate(0, this.body.y - (floors[t+1].y - this.body.radius))
+                                        this.body.y = floors[t+1].y - this.body.radius
+                                        console.log("smacky")
+                                        //working
+                                        pomao.grounded = 1
+                                        floors[t].active = 1
+                                        pomao.dry = 1
+                                        this.pounding = 0
+                                    }
+                                }else{
+                                    if(floors[t+1].y > floors[t].y - this.body.radius ){
+                                        tutorial_canvas_context.translate(0, this.body.y - (floors[t+1].y - this.body.radius)-((floors[t].y - floors[t+1].y )*.9))
+                                        this.body.y = floors[t+1].y - this.body.radius + ((floors[t].y - floors[t+1].y )*.9)
+                                        console.log("smackx")
+                                        pomao.grounded = 1
+                                        floors[t].active = 1
+                                        pomao.dry = 1
+                                        this.pounding = 0
+                                    }
+
+                                }
                             }
                         }
                     }
@@ -5602,7 +5650,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
 
 
-                            if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
+                            if (Math.abs(this.body.y - floors[t].y) <= this.body.radius) {
 
                                 tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - this.body.radius))
                                 this.body.y = floors[t].y - this.body.radius
@@ -6261,6 +6309,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (level == 5) {
 
+                if (pomao.body.x < 7925) {
+
+                    lvl5basemusic.playbackRate =1.05
+                    lvl5basemusic.play()
+                }
+
+
                 door.draw()
                 if (door.isPointInside(pomao.body)) {
                     loadlvl6()
@@ -6587,7 +6642,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                     // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     if(t>1){
-                                        let link = new Line(floors[t].x+5, floors[t].y-5,floors[t-1].x+5, floors[t-1].y-5, "blue", 13)
+                                        let link = new Line(floors[t].x+1.5, floors[t].y+1.5,floors[t-1].x+1.5, floors[t-1].y+1.5, "blue", 3)
                                         link.draw()
                                     }
                                     floors[t].draw()
@@ -14308,6 +14363,43 @@ window.addEventListener('DOMContentLoaded', (event) => {
         if (square.x <= circle.x) {
             if (square.y <= circle.y + circle.radius) {
                 if (squareendw + (circle.radius * .65) >= circle.x) {
+                    if (squareendh >= circle.y) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+
+
+    function squarecirclefeetwavy(square, circle) {
+
+        const squareendh = square.y + square.height
+        const squareendw = square.x + square.width
+
+        if (square.x <= circle.x) {
+            if (square.y <= circle.y + circle.radius) {
+                if (squareendw >= circle.x) {
+                    if (squareendh >= circle.y) {
+                        return true
+                    }
+                }
+            }
+        }
+        //test
+        if (square.x <= circle.x + (circle.radius * .85)) {
+            if (square.y <= circle.y  >= (circle.radius * 1.4)) {
+                if (squareendw >= circle.x) {
+                    if (squareendh >= circle.y) {
+                        return true
+                    }
+                }
+            }
+        }
+        if (square.x <= circle.x) {
+            if (square.y<= circle.y  >= (circle.radius * 1.4)) {
+                if (squareendw + (circle.radius * .85) >= circle.x) {
                     if (squareendh >= circle.y) {
                         return true
                     }
