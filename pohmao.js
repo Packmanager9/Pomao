@@ -5390,28 +5390,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 } else {
 
-                    if (walls.includes(floors[t]) && squarecirclefacetopbottom(floors[t], this.body)) {
+                    if ( squarecirclefacetopbottom(floors[t], this.body)) {
+
+                    if(typeof floors[t].waggle == "number"){
                         pomao.grounded = 1
                         floors[t].active = 1
-
-                        if(typeof floors[t].waggle == "number"){
-                            let value = 0
-                            if(t > 50 && t< floors.length-51){
-                                for(let n = t-50;n<(t+50);n++){
-                                    value +=(Math.PI/100)
-                                    if(this.body.ymom > 0){
-                                        let bump = (this.body.ymom*Math.sin(value))
-                                        if(bump < this.body.ymom*1.01){
-                                            bump *= 1.01
-                                        }
-                                        if(bump > this.body.ymom*.99){
-                                            bump = this.body.ymom
-                                        }
-                                        floors[n].waggle+=bump
+                        let value = 0
+                        if(t > 150 && t< floors.length-151){
+                            for(let n = t-150;n<(t+150);n++){
+                                value +=(Math.PI/300)
+                                if(this.body.ymom > 11){
+                                    let bump = (this.body.ymom*Math.sin(value))*5
+                                    if(bump < this.body.ymom*5.01){
+                                        bump *= 1.01
                                     }
+                                    if(bump > this.body.ymom*.99){
+                                        // bump = this.body.ymom
+                                    }
+                                    floors[n].waggle+=bump
                                 }
                             }
                         }
+                    }
+                }
+                    if (walls.includes(floors[t]) && squarecirclefacetopbottom(floors[t], this.body)) {
+                        pomao.grounded = 1
+                        floors[t].active = 1
 
                         if (blocks.includes(floors[t])) {
                             if (this.pounding == 10) {
@@ -5431,7 +5435,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             const cloudpuff = new Shockwave(this.body)
                             shocks.push(cloudpuff)
                         }
-                        if (Math.abs(this.body.y - floors[t].y) <= this.body.radius) {
+                        if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
 
                             tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - (this.body.radius)))
                             this.body.y = floors[t].y - (this.body.radius)
@@ -5466,6 +5470,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.body.sxmom = 0
                             }
                             break
+                        }
+                    }
+
+                    if( typeof floors[t].waggle == "number") {
+                        if (squarecircleedges(floors[t], pomao.tongue)) {
+                            if(floors[t].y > floors[t].y - this.body.radius ){
+                                tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - this.body.radius))
+                                this.body.y = floors[t].y - this.body.radius
+                            }
                         }
                     }
                     if (squarecirclefeet(floors[t], this.body)) {
@@ -5588,7 +5601,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                             }
 
-                            if (Math.abs(this.body.y - floors[t].y) <= this.body.radius) {
+
+                            if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
 
                                 tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - this.body.radius))
                                 this.body.y = floors[t].y - this.body.radius
@@ -6429,9 +6443,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }else if (level == 9) {
                                             if(typeof floors[t].waggle == "number"){
-                                                floors[t].y = floors[t].waggle + (Math.cos((lvl9rotationalvariable+t)/1000)*120)
+                                                floors[t].y = floors[t].waggle //+ (Math.cos((lvl9rotationalvariable+t)/1000)*120)
                                             }
                                             // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                            if(t>1){
+                                                let link = new Line(floors[t].x+5, floors[t].y-5,floors[t-1].x+5, floors[t-1].y-5, "blue", 5)
+                                                link.draw()
+                                            }
                                             floors[t].draw()
                                         }
                                     }
@@ -6485,7 +6503,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     } else if (level == 8) {
                                         tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                    }
+                                    }else if (level == 9) {
+                                            if(typeof floors[t].waggle == "number"){
+                                                floors[t].y = floors[t].waggle //+ (Math.cos((lvl9rotationalvariable+t)/1000)*120)
+                                            }
+                                            // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                            if(t>1){
+                                                let link = new Line(floors[t].x+5, floors[t].y-5,floors[t-1].x+5, floors[t-1].y-5, "blue", 5)
+                                                link.draw()
+                                            }
+                                            floors[t].draw()
+                                        }
                                 }
                             } else {
 
@@ -6553,6 +6581,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 } else if (level == 8) {
                                     tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                }else if (level == 9) {
+                                    if(typeof floors[t].waggle == "number"){
+                                        floors[t].y = floors[t].waggle //+ (Math.cos((lvl9rotationalvariable+t)/1000)*120)
+                                    }
+                                    // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    if(t>1){
+                                        let link = new Line(floors[t].x+5, floors[t].y-5,floors[t-1].x+5, floors[t-1].y-5, "blue", 13)
+                                        link.draw()
+                                    }
+                                    floors[t].draw()
                                 }
                             }
 
@@ -17425,10 +17463,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //  pomao.eggmake = 161
         // boss = new Bossbeam()
 
-        for(let t = 0;t<1000;t++){
-            let floor = new Rectangle(-2100+(t*10), 0, 3000, 10, "blue")
+        for(let t = 0;t<3000;t++){
+            let floor = new Rectangle(-2100+(t*3), 0, 3000, 3, "blue")
             floor.waggle = floor.y
-            walls.push(floor)
+            // walls.push(floor)
             floors.push(floor)
             roofs.push(floor)
         }
