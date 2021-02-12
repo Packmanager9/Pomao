@@ -5412,12 +5412,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                             }
                         }
-                    }
+
                     pomao.body.ymom = 0
                     pomao.body.symom = 0
                     pomao.body.sxmom = 0
+                    }
                 }
-                    if (walls.includes(floors[t]) && (floors[t].doesPerimeterTouch(this.body)) && typeof floors[t].waggle != "number" ) {
+                    if (walls.includes(floors[t]) && squarecirclefacetopbottom(floors[t], this.body) && typeof floors[t].waggle != "number" ) {
                         pomao.grounded = 1
                         floors[t].active = 1
 
@@ -5439,65 +5440,65 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             const cloudpuff = new Shockwave(this.body)
                             shocks.push(cloudpuff)
                         }
-                        // if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
+                        if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
 
-                        // floors[t].active = 1
+                        floors[t].active = 1
 
-                        // if (blocks.includes(floors[t])) {
-                        //     if (this.pounding == 10) {
-                        //         floors[t].ymom = this.body.radius
-                        //         if (floors[t].isBlocked == false) {
-                        //             floors[t].move()
-                        //         }
-                        //     }
-                        // }
-                        // if (pomao.body.x > floors[t].x) {
-                        //     this.blocked = 1
-                        // } else {
-                        //     this.blocked = -1
-                        // }
+                        if (blocks.includes(floors[t])) {
+                            if (this.pounding == 10) {
+                                floors[t].ymom = this.body.radius
+                                if (floors[t].isBlocked == false) {
+                                    floors[t].move()
+                                }
+                            }
+                        }
+                        if (pomao.body.x > floors[t].x) {
+                            this.blocked = 1
+                        } else {
+                            this.blocked = -1
+                        }
 
-                        // if (this.pounding == 10) {
-                        //     const cloudpuff = new Shockwave(this.body)
-                        //     shocks.push(cloudpuff)
-                        // }
-                        // if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
+                        if (this.pounding == 10) {
+                            const cloudpuff = new Shockwave(this.body)
+                            shocks.push(cloudpuff)
+                        }
+                        if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
 
-                        //     tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - (this.body.radius)))
-                        //     this.body.y = floors[t].y - (this.body.radius)
-                        //     pomao.grounded = 1
-                        //     floors[t].active = 1
-                        //     if (blocks.includes(floors[t])) {
-                        //         if (this.pounding == 10) {
-                        //             floors[t].ymom = this.body.radius
-                        //             if (floors[t].isBlocked == false) {
-                        //                 floors[t].move()
-                        //             }
-                        //         }
-                        //     }
+                            tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - (this.body.radius)))
+                            this.body.y = floors[t].y - (this.body.radius)
+                            pomao.grounded = 1
+                            floors[t].active = 1
+                            if (blocks.includes(floors[t])) {
+                                if (this.pounding == 10) {
+                                    floors[t].ymom = this.body.radius
+                                    if (floors[t].isBlocked == false) {
+                                        floors[t].move()
+                                    }
+                                }
+                            }
 
-                        //     if (this.pounding == 10) {
-                        //         const cloudpuff = new Shockwave(this.body)
-                        //         shocks.push(cloudpuff)
-                        //     }
-                        //     if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
-                        //         if (this.wingcheck == 0) {
-                        //             this.tonguex = 0
-                        //             this.tonguey = 0
-                        //             resettonguediff()
-                        //         }
-                        //     }
-                        //     if (pomao.body.ymom > 0) {
-                        //         pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
-                        //     }
-                        //     if (this.wingcheck == 0) {
-                        //         pomao.body.symom = 0
-                        //         pomao.body.ymom = 0
-                        //         pomao.body.sxmom = 0
-                        //     }
-                        //     break
-                        // }
-                        // }
+                            if (this.pounding == 10) {
+                                const cloudpuff = new Shockwave(this.body)
+                                shocks.push(cloudpuff)
+                            }
+                            if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
+                                if (this.wingcheck == 0) {
+                                    this.tonguex = 0
+                                    this.tonguey = 0
+                                    resettonguediff()
+                                }
+                            }
+                            if (pomao.body.ymom > 0) {
+                                pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                            }
+                            if (this.wingcheck == 0) {
+                                pomao.body.symom = 0
+                                pomao.body.ymom = 0
+                                pomao.body.sxmom = 0
+                            }
+                            break
+                        }
+                        }
                     }
 
                     if( typeof floors[t].waggle == "number") {
@@ -6313,6 +6314,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     lvl5basemusic.playbackRate =1.05
                     lvl5basemusic.play()
+                }else{
+                    lvl5basemusic.pause()
                 }
 
 
@@ -6320,6 +6323,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (door.isPointInside(pomao.body)) {
                     loadlvl6()
                 }
+            }else{
+                lvl5basemusic.pause()
             }
 
             if (level == 6) {
