@@ -1,5 +1,5 @@
 
-
+let lvl9rotationalvariable = 0
 let level = 1
 const zimgs = []
 let pmarinedisp = 0
@@ -5394,6 +5394,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.grounded = 1
                         floors[t].active = 1
 
+                        if(typeof floors[t].waggle == "number"){
+                            let value = 0
+                            if(t > 50 && t< floors.length-51){
+                                for(let n = t-50;n<(t+50);n++){
+                                    value +=(Math.PI/100)
+                                    if(this.body.ymom > 0){
+                                        let bump = (this.body.ymom*Math.sin(value))
+                                        if(bump < this.body.ymom*1.01){
+                                            bump *= 1.01
+                                        }
+                                        if(bump > this.body.ymom*.99){
+                                            bump = this.body.ymom
+                                        }
+                                        floors[n].waggle+=bump
+                                    }
+                                }
+                            }
+                        }
+
                         if (blocks.includes(floors[t])) {
                             if (this.pounding == 10) {
                                 floors[t].ymom = this.body.radius
@@ -6408,6 +6427,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         } else if (level == 8) {
                                             tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                        }else if (level == 9) {
+                                            if(typeof floors[t].waggle == "number"){
+                                                floors[t].y = floors[t].waggle + (Math.cos((lvl9rotationalvariable+t)/1000)*120)
+                                            }
+                                            // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                            floors[t].draw()
                                         }
                                     }
                                 } else {
@@ -13687,6 +13712,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // loadlvl6()
     // loadlvl7()
     // loadlvl8()
+    // loadlvl9()
 
     // for(let t=0;t<10;t++){
     //     chafer.draw()
@@ -14197,6 +14223,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     // console.log("lava")
                 }
             }
+            lvl9rotationalvariable++
         }, 14)
 
     }, 1);  //6969
@@ -17311,6 +17338,110 @@ window.addEventListener('DOMContentLoaded', (event) => {
         rebellionleaderdiailogue.words.push("Pomao: Oh.")
         rebellionleaderdiailogue.words.push("???: Welcome to the resistance I guess.")
         chats.push(rebellionleaderdiailogue)
+
+
+
+        const wall1 = new Rectangle(-2100, -30000, 30033, 50, "cyan")
+        walls.push(wall1)
+        floors.push(wall1)
+        roofs.push(wall1)
+        // ungrapplable.push(wall1)
+
+        const wall2 = new Rectangle(11600, -30000, 30033, 50, "cyan")
+        walls.push(wall2)
+        floors.push(wall2)
+        roofs.push(wall2)
+
+        floormpf = [...floors]
+
+        // let spinny = new BigSeeSaw(-1200, -301, 5)
+        // spinnys.push(spinny)
+
+        // let spinny2 = new BigSeeSaw(-100, -701, 7.5)
+        // spinnys.push(spinny2)
+
+        // let spinny3 = new BigSeeSaw(1600, -1401, 10)
+        // spinnys.push(spinny3)
+    }
+
+    function loadlvl9() {
+
+        pomao.tonguex = 0
+        pomao.tonguey = 0
+        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
+        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
+        springs = []
+        objsprings = []
+
+        // objsprings.push(pin2)
+
+        // let spring = new Spring(pin)
+        // springs.push(spring)
+        // for(let k = 0; k<33;k++){
+        //     spring = new Spring(spring.anchor)
+        //     if(k < 32){
+        //         springs.push(spring)
+        //     }else if(k == 32 ){
+        //         spring.anchor = pin2
+        //         springs.push(spring)
+        //     }
+        // }
+
+        beamrocks = []
+        pomao.cutscene = 0
+        level = 9
+
+
+        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
+        pomao.body.x = -1000
+        pomao.body.y = 0
+        spinnys.splice(0, spinnys.length)
+        ramps90 = []
+        swimmers = []
+        bats = []
+        floors.splice(0, floors.length)
+        ramps = []
+        boys.splice(0, boys.length)
+        deadboys.splice(0, deadboys.length)
+        fruits.splice(0, fruits.length)
+        walls.splice(0, walls.length)
+        invisblocks = []
+        ungrapplable = []
+        jellys = []
+        roofs.splice(0, roofs.length)
+        switches = []
+        blocks = []
+        nails = []
+        chats = []
+        orbs = []
+        links = []
+        worms.splice(0, worms.length)
+
+        floppers.splice(0, floppers.length)
+        lavas.splice(0, lavas.length)
+        pomao.thrown = []
+
+        boss = new Circle(0, 0, 0, "transparent")
+        //  pomao.eggmake = 161
+        // boss = new Bossbeam()
+
+        for(let t = 0;t<1000;t++){
+            let floor = new Rectangle(-2100+(t*10), 0, 3000, 10, "blue")
+            floor.waggle = floor.y
+            walls.push(floor)
+            floors.push(floor)
+            roofs.push(floor)
+        }
+
+
+        // for (let t = 0; t < 100; t++) {
+        //     const floor = new Rectangle(-13000 + (150 * t), 66, 600, 333)
+        //     floors.push(floor)
+        //     walls.push(floor)
+        //     roofs.push(floor)
+        //     floor.type = 1
+        // }
+
 
 
 
