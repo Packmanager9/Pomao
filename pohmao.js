@@ -262,6 +262,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const eyeimgred = new Image()
     eyeimgred.src = "eyepaintred.png"
 
+    const lvl1basemusic = new Audio('lvl1base.mp3');
     const pipelevelbasemusic = new Audio('pipevault.wav');
     const lvl7bosssong = new Audio('lvl7bosssong.wav');
     const lvl4basemusic = new Audio('voidx.mp3');
@@ -6780,10 +6781,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (boss.body1.y > pomao.body.y - ((tutorial_canvas.height * 3) + boss.body1.radius) && boss.body1.y < pomao.body.y + ((tutorial_canvas.height * 3) + boss.body1.radius)) {
                         boss.fight = 1
                     }
+                }else{
+                    lvl1basemusic.play()
                 }
                 if (boss.fight == 1) {
                     boss.draw()
                 }
+            }else{
+                lvl1basemusic.pause()
             }
             if (level == 4) {
                 // if(boss.body.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body.radius) && boss.body.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body.radius) ){
@@ -8282,6 +8287,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.move()
                         targoymusic.playbackRate = .4 + (1 - (.5 * (this.health / this.maxhealth)));
                         targoymusic.play()
+
+                    lvl1basemusic.pause()
                     } else {
                         this.beam()
                     }
@@ -16795,10 +16802,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         ramps90.push(layer2mountain2)
 
         let island1 = new FloatingIsland(-1000, -1000, 300, .8)
-
         let island2 = new FloatingIsland(-300, -400, 100, .8)
-
-
         let island3 = new FloatingIsland(-20, -1200, 400, .6, .65)
         let island4 = new FloatingIsland(500, -600, 50, .6)
         let island5 = new FloatingIsland(600, -400, 70, .9)
