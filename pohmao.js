@@ -676,6 +676,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             loadlvl6button = new Rectangle(640, 360, 50, 50, "green")
             loadlvl7button = new Rectangle(640 + 100, 360, 50, 50, "yellow")
             loadlvl8button = new Rectangle(640 + 200, 360, 50, 50, "teal")
+            loadlvl9button = new Rectangle(640 + 300, 360, 50, 50, "blue")
 
             if (loadlvl1button.isPointInside(tip)) {
                 loadlvl1()
@@ -704,6 +705,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if (loadlvl8button.isPointInside(tip)) {
                 loadlvl8()
+            }
+            if (loadlvl9button.isPointInside(tip)) {
+                loadlvl9()
             }
         }
 
@@ -8584,6 +8588,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let loadlvl6button
     let loadlvl7button
     let loadlvl8button
+    let loadlvl9button
 
     class Seed {
         constructor(target) {
@@ -14290,6 +14295,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl6button = new Rectangle(pomao.body.x, pomao.body.y, 50, 50, "green")
                     loadlvl7button = new Rectangle(pomao.body.x + 100, pomao.body.y, 50, 50, "yellow")
                     loadlvl8button = new Rectangle(pomao.body.x + 200, pomao.body.y, 50, 50, "teal")
+                    loadlvl9button = new Rectangle(pomao.body.x + 300, pomao.body.y, 50, 50, "blue")
 
                     loadlvl1button.draw()
                     loadlvl2button.draw()
@@ -14299,6 +14305,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl6button.draw()
                     loadlvl7button.draw()
                     loadlvl8button.draw()
+                    loadlvl9button.draw()
                 }
 
                 // for(let t =0;t<ungrapplable.length;t++){
