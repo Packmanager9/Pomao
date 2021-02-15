@@ -1671,7 +1671,40 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                 }
-            } else if (this.anchor.repelCheck(pomao.body) && !this.anchor.repelCheck(pomao.tongue)) {
+                 if (this.anchor.repelCheck(pomao.body) && !this.anchor.repelCheck(pomao.tongue)) {
+                    if (this.anchor.x > pomao.body.x) {
+                        this.bump = 1
+                    } else {
+                        this.bump = -1
+                    }
+                    //   if(pomao.body.ymom == 0){
+                    if (blockedlick == 0) {
+    
+                        // if (this.body.radius >= 15) {
+                            if (pomao.disabled != 1) {
+                                if (pomao.pounding != 10) {
+                                    pomao.body.xmom = -3 * (this.bump)
+                                    pomao.disabled = 1
+                                    pomao.hits--
+                                    pomao.body.ymom = -1.8
+                                    this.anchor.xmom += -pomao.body.xmom * 5
+                                    this.body.xmom += -pomao.body.xmom * 5
+                                }
+                            } else {
+                                if (this.bump * pomao.body.xmom > 0) {
+                                    pomao.body.xmom = -1.8 * (this.bump)
+                                    pomao.body.ymom = -1.8
+                                    this.anchor.xmom += -pomao.body.xmom * 5
+                                    this.body.xmom += -pomao.body.xmom * 5
+                                }
+                            }
+                        // }
+                    }
+                    //   }
+                }
+            }  
+            
+            if (this.anchor.repelCheck(pomao.body) ) {
                 if (this.anchor.x > pomao.body.x) {
                     this.bump = 1
                 } else {
@@ -1680,7 +1713,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 //   if(pomao.body.ymom == 0){
                 if (blockedlick == 0) {
 
-                    if (this.body.radius >= 15) {
+                    // if (this.body.radius >= 15) {
                         if (pomao.disabled != 1) {
                             if (pomao.pounding != 10) {
                                 pomao.body.xmom = -3 * (this.bump)
@@ -1698,7 +1731,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 this.body.xmom += -pomao.body.xmom * 5
                             }
                         }
-                    }
+                    // }
                 }
                 //   }
             }
