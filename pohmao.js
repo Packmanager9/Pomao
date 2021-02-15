@@ -14336,7 +14336,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             lvl9rotationalvariable++
-        }, 14)
+        }, 11)
 
     }, 1);  //6969
 
