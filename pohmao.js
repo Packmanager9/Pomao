@@ -5458,7 +5458,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         if (bump > this.body.ymom * .99) {
                                             // bump = this.body.ymom
                                         }
-                                        if(floors[t].y < 500){
+                                        if (floors[t].y < 500) {
                                             floors[n].waggle += bump
                                         }
                                     }
@@ -6411,8 +6411,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (level == 9) {
                 for (let t = 0; t < debris.length; t++) {
-                    if (debris[t].link.hypotenuse() < 735) {
-                        debris[t].draw()
+                    if (pomao.eggtimer % 500 == 0) {
+                        debris[t].particle *= -1
+                    }
+                    if(typeof debris[t].link == "undefined"  ){
+                        let link = new LineOP(debris[t].body, pomao.body)
+
+                        if (link.hypotenuse() < 1200) {
+                            debris[t].draw()
+                        }
+
+
+                    }else{
+                        if (debris[t].link.hypotenuse() < 900) {
+                            debris[t].draw()
+                        }
                     }
                 }
 
@@ -7865,34 +7878,108 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Atomdebris {
         constructor(x, y, color) {
-            this.body = new Circle(x, y, 2, color)
+            this.body = new Circle(x, y, 2, color, (Math.random() - .5)*5, (Math.random() - .5)*5)
             this.link = new LineOP(this.body, pomao.body)
             this.angle = this.link.angle()
             this.r = Math.floor(Math.random() * 255)
             this.g = Math.floor(Math.random() * 255)
             this.b = Math.floor(Math.random() * 255)
+            this.particle = 1
+            this.type = Math.floor(Math.random()*6)
+            this.flip = -1
+            this.flapper = (Math.floor(Math.random()*100))
+            this.flapmax = 125+(Math.floor(Math.random()*100))
+            this.anglespeed = (Math.random()-.5)*.25
         }
         draw() {
-            this.angle = this.link.angle()
-            if (this.link.hypotenuse() < 250) {
-                this.angle += (250 - this.link.hypotenuse()) / 2500
-                this.liner = this.link.hypotenuse()
-                this.body.y = (Math.sin(this.angle) * this.liner) + pomao.body.y
-                this.body.x = (Math.cos(this.angle) * this.liner) + pomao.body.x
+            // if (this.particle == 1) {
+                this.angle = this.link.angle()
+                if (this.link.hypotenuse() < 250) {
+                    this.angle += (250 - this.link.hypotenuse()) / 2500
+                    this.liner = this.link.hypotenuse()
+                    this.body.y = (Math.sin(this.angle) * this.liner) + pomao.body.y
+                    this.body.x = (Math.cos(this.angle) * this.liner) + pomao.body.x
+                    this.body.color = `rgb(${this.r},${this.g},${this.b})`
+                    this.r++
+                    this.g++
+                    this.b++
+                    this.r %= 256
+                    this.g %= 256
+                    this.b %= 256
+                    this.body.x += (Math.random() - .5)
+                    this.body.y += (Math.random() - .5)
+            } else {
+
+                this.body.color = `rgb(${this.r},${this.g},${this.b})`
+                this.r++
+                this.g++
+                this.b++
+                this.r %= 256
+                this.g %= 256
+                this.b %= 256
+
+                if (this.link.hypotenuse() < 250) {
+                // this.body.move()
+                }
+                this.flapper++
+                if(this.flapper%this.flapmax == 0){
+                    this.flip*=-1
+                }
+                if(this.flip == 1){
+                    if(this.type ==1){
+                        this.body.x -= Math.sin(this.angle)*1
+                        this.body.y -= Math.cos(this.angle)*5
+                    }
+                    if(this.type ==2){
+                        this.body.x -= Math.sin(this.angle)*5
+                        this.body.y -= Math.cos(this.angle)*1
+                    }
+                    if(this.type ==0){
+                        this.body.x -= Math.cos(this.angle)*2
+                        this.body.y -= Math.cos(this.angle)*2
+                    }
+                    if(this.type ==3){
+                        this.body.x -= Math.sin(this.angle)*2
+                        this.body.y -= Math.sin(this.angle)*2
+                    }
+                    if(this.type ==4){
+                        this.body.x -= Math.cos(this.angle)*5
+                        this.body.y -= Math.cos(this.angle)*2
+                    }
+                    if(this.type ==5){
+                        this.body.x -= Math.sin(this.angle)*2
+                        this.body.y -= Math.sin(this.angle)*5
+                    }
+
+                }else{
+                    if(this.type ==1){
+                        this.body.x += Math.sin(this.angle)*1
+                        this.body.y += Math.cos(this.angle)*5
+                    }
+                    if(this.type ==2){
+                        this.body.x += Math.sin(this.angle)*5
+                        this.body.y += Math.cos(this.angle)*1
+                    }
+                    if(this.type ==0){
+                        this.body.x += Math.cos(this.angle)*2
+                        this.body.y += Math.cos(this.angle)*2
+                    }
+                    if(this.type ==3){
+                        this.body.x += Math.sin(this.angle)*2
+                        this.body.y += Math.sin(this.angle)*2
+                    }
+                    if(this.type ==4){
+                        this.body.x += Math.cos(this.angle)*5
+                        this.body.y += Math.cos(this.angle)*2
+                    }
+                    if(this.type ==5){
+                        this.body.x += Math.sin(this.angle)*2
+                        this.body.y += Math.sin(this.angle)*5
+                    }
+                }
+            
+                this.angle += this.anglespeed
             }
-
-            this.body.color = `rgb(${this.r},${this.g},${this.b})`
-
-            this.r++
-            this.g++
-            this.b++
-
-
-            this.r %= 256
-
-            this.g %= 256
-
-            this.b %= 256
 
             this.body.x += (Math.random() - .5)
             this.body.y += (Math.random() - .5)
@@ -7900,6 +7987,106 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
     }
+
+
+    class Radiator {
+        constructor(x,y){
+            this.body = new Bosscircle(x,y, 20, "red")
+            this.emmiter = []
+            this.blastage = 0
+        }
+        draw(){
+            if(Math.random()<1){
+                let alpha = new Bosscircle(this.body.x, this.body.y, 3, "red", (Math.random()-.5)*10, (Math.random()-.5)*10)
+
+                let kut = 0
+                while(Math.abs(alpha.xmom)+Math.abs(alpha.ymom)   < 5 ){
+                    alpha.xmom*=1.2
+                    alpha.ymom*=1.2
+                    kut++
+                    if(kut>1000){
+                        break
+                    }
+                }
+                this.emmiter.push(alpha)
+            }
+            for(let t = 0;t<this.emmiter.length;t++){
+                this.emmiter[t].fmove()
+                this.emmiter[t].draw()
+            }
+            for(let t = 0;t<this.emmiter.length;t++){
+                let link = new LineOP(this.emmiter[t], this.body)
+                if(link.hypotenuse() > 100+this.blastage){
+                    this.emmiter.splice(t,1)
+                }
+            }
+            this.bodydraw = new Shape(this.emmiter)
+
+            for(let t = 0 ;t<pomao.thrown.length;t++){
+                if (this.body.repelCheck(pomao.thrown[t])) {
+                    this.blastage++
+                    pomao.thrown.splice(t,1)
+                    break
+                }
+            }
+            if(this.blastage>0){
+                this.blastage++
+                this.body.radius*=.99
+            }
+
+            if(this.blastage == 100){
+                for(let t = 0;t<this.emmiter.length;t++){
+                    this.emmiter[t].xmom*=-3
+                    this.emmiter[t].ymom*=-3
+                }
+                this.body.color = "magenta"
+            }
+            if(this.blastage == 110){
+                for(let t = 0;t<this.emmiter.length;t++){
+                    this.emmiter[t].xmom*=-5
+                    this.emmiter[t].ymom*=-5
+                }
+                this.body.color = "blue"
+            }
+
+            if(this.blastage == 120){
+                this.blastage = -100
+                debris.splice(debris.indexOf(this),1)
+            }
+
+
+            if (this.body.repelCheck(pomao.body)  || this.bodydraw.isPointInside(pomao.body)) {
+                if (this.body.x > pomao.body.x) {
+                    this.bump = 1
+                } else {
+                    this.bump = -1
+                }
+                //   if(pomao.body.ymom == 0){
+                if (this.body.radius >= 15) {
+                    if (pomao.disabled != 1) {
+                        if (pomao.pounding != 10) {
+                            pomao.body.xmom = -3 * (this.bump)
+                            pomao.disabled = 1
+                            pomao.hits--
+                            pomao.body.ymom = -1.8
+                            this.body.xmom = -pomao.body.xmom
+                        }
+                    } else {
+                        if (this.bump * pomao.body.xmom > 0) {
+                            pomao.body.xmom = -1.8 * (this.bump)
+                            pomao.body.ymom = -1.8
+                            this.body.xmom = -pomao.body.xmom
+                        }
+                    }
+                }
+                //   }
+            }
+
+
+            this.body.draw()
+        }
+    }
+
 
 
     class Bat {
@@ -14067,7 +14254,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 9) {
 
                             tutorial_canvas.style.background = `rgba(0, 0, 0,${1})` // "#8888CC"
-                            tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${14 / 255})`
+                            tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${31 / 255})`
                             tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
                         }
                         // tutorial_canvas_context.fillStyle = `rgba(85, 85, 128,${15 / 255})`
@@ -14113,7 +14300,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 9) {
 
                             tutorial_canvas.style.background = `rgba(0, 0, 0,${1})` // "#8888CC"
-                            tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${14 / 255})`
+                            tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${31 / 255})`
                             tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
                         }
                         // tutorial_canvas_context.fillStyle = `rgba(153, 153, 230,${63 / 255})`
@@ -14171,7 +14358,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
                         } else {
                             tutorial_canvas.style.background = `rgba(0, 0, 0,${1})` // "#8888CC"
-                            tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${14 / 255})`
+                            tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${31 / 255})`
                             tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
 
                         }
@@ -14204,7 +14391,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 9) {
 
                             tutorial_canvas.style.background = `rgba(0, 0, 0,${1})` // "#8888CC"
-                            tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${14 / 255})`
+                            tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${31 / 255})`
                             tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
                         }
                         // if(keysPressed['p']){
@@ -17776,7 +17963,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // boss = new Bossbeam()
 
         for (let t = 0; t < 3000; t++) {
-            let floor = new Rectangle(-2100 + (t * 3), 0, 3000, 3.1, "blue")
+            let floor = new Rectangle(-2100 + (t * 3), 0, 30000000, 3.1, "blue")
             floor.waggle = floor.y
             // walls.push(floor)
             floors.push(floor)
@@ -17801,7 +17988,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         roofs.push(wall1)
         // ungrapplable.push(wall1)
 
-        const wall2 = new Rectangle(11600, -30000, 30033, 50, "cyan")
+        const wall2 = new Rectangle(7000, -30000, 30033, 50, "cyan")
         walls.push(wall2)
         floors.push(wall2)
         roofs.push(wall2)
@@ -17812,10 +17999,51 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
 
-        for (let t = 0; t < 12; t++) {
-            let magnet = new Magneato(-100 + (t * 540), -100 - (t * 300))
+        for (let t = 0; t < 24; t++) {
+            let magnet = new Magneato(-100 + (t * 400), -100 - (t * 200))
+            let runner = Math.random() * 10000
+            for (let k = 0; k < runner; k++) {
+                magnet.physics()
+            }
             magnets.push(magnet)
         }
+        for (let t = 0; t < 24; t++) {
+            let magnet = new Magneato(600 + (t * 400), -200 - (t * 200))
+            let runner = Math.random() * 10000
+            for (let k = 0; k < runner; k++) {
+                magnet.physics()
+            }
+            magnets.push(magnet)
+        }
+
+        for (let t = 0; t < 24; t++) {
+            let radiator = new Radiator(1300 + (t * 400), -200 - (t * 200))
+            debris.push(radiator)
+        }
+        
+
+
+        for (let t = 0; t < 900; t++) {
+            const fruit = new Fruit(-2150 + (Math.random() * 13700), -8000 + (Math.random() * 9000), 60, 60, "red")
+            let wet = 0
+            // for (let s = 0; s < floors.length; s++) {
+            //     if (squarecircleedges(floors[s], fruit.body)) {
+            //         wet = 1
+            //         break
+            //     }
+            // }
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
+
 
         floormpf = [...floors]
 
