@@ -3658,9 +3658,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 let liner = new LineOP(this.body.isPointInsideTargetedShape(pomao.body), pomao.body)
 
+                if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
+                }else{
                 pomao.dry = 1
                 pomao.grounded = 1
                 pomao.jumping = 0
+
                 if (liner.hypotenuse() < (this.body.isPointInsideTargetedShape(pomao.body).radius + pomao.body.radius)) {
                     pomao.body.y -= 1
                     tutorial_canvas_context.translate(0, 1)
@@ -3676,6 +3679,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     pomao.body.symom = 0
                 }
             }
+        }
             if (tonguelink.hypotenuse() > 20) {
 
                 if ((this.body.isPointInside(pomao.tongue) || ((pomao.tonguebox.isInsideOfShape(this.body) || this.body.isPointInside(pomao.tongue))))) {
@@ -3706,6 +3710,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (pomao.body.ymom > 0) {
                         pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
                     }
+
                     pomao.body.ymom = 0
                     pomao.body.xmom *= .975
                     // pomao.hng = 0  // infiinite flutter?
@@ -8062,7 +8067,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.bump = -1
                 }
                 //   if(pomao.body.ymom == 0){
-                if (this.body.radius >= 15) {
+                // if (this.body.radius >= 15) {
                     if (pomao.disabled != 1) {
                         if (pomao.pounding != 10) {
                             pomao.body.xmom = -3 * (this.bump)
@@ -8078,7 +8083,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             this.body.xmom = -pomao.body.xmom
                         }
                     }
-                }
+                // }
                 //   }
             }
 
@@ -17965,7 +17970,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         for (let t = 0; t < 3000; t++) {
             let floor = new Rectangle(-2100 + (t * 3), 0, 30000000, 3.1, "blue")
             floor.waggle = floor.y
-            // walls.push(floor)
+            walls.push(floor)
             floors.push(floor)
             roofs.push(floor)
         }
