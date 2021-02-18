@@ -265,6 +265,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const lvl1basemusic = new Audio('lvl1base.mp3');
     const lvl2basemusic = new Audio('lvl2base.mp3');
+    const lvl9basemusic = new Audio('beastlyatomslap.mp3');
     const pipelevelbasemusic = new Audio('pipevault.wav');
     const lvl7bosssong = new Audio('lvl7bosssong.wav');
     const lvl4basemusic = new Audio('voidx.mp3');
@@ -6471,6 +6472,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             if (level == 9) {
+                lvl9basemusic.play()
                 for (let t = 0; t < debris.length; t++) {
                     if (pomao.eggtimer % 500 == 0) {
                         debris[t].particle *= -1
@@ -6491,6 +6493,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
 
+            }else{
+                lvl9basemusic.pause()
             }
 
 
