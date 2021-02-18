@@ -433,6 +433,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     paintedbackgroundlvl4.src = 'bg6.png'
     const wallpaperimg = new Image()
     wallpaperimg.src = 'wallpaper.jpg'
+    // const dealwithit = new Image()
+    // dealwithit.src = 'dealwithit.png'
     const redwallpaperimg = new Image()
     redwallpaperimg.src = 'redwall.png'
     const dessertimg = new Image()
@@ -3618,10 +3620,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.center = new Circle(x, y, 0, "transparent")
             this.positron = new Bosscircle(x + .01, y, 25, "magenta")
             this.electron = new Bosscircle(x - .01, y, 25, "yellow")
-            this.electron.ymom = 30
-            this.positron.ymom = -30
-            this.electron.xmom = 30
-            this.positron.xmom = -30
+            this.electron.ymom = 25*Math.random()
+            this.positron.ymom = -30*Math.random()
+            this.electron.xmom = 25*Math.random()
+            this.positron.xmom = -25*Math.random()
             this.body = {}
             this.flipper = -1
             this.counter = 0
@@ -3639,6 +3641,46 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 this.positron.movenofric()
                 this.electron.movenofric()
+                if(this.electron.x > 7000){
+                    if(this.electron.xmom > 0){
+                        this.electron.xmom*=-1
+                    }
+                }
+                if(this.electron.x < -2050){
+                    if(this.electron.xmom < 0){
+                        this.electron.xmom*=-1
+                    }
+                }
+                if(this.electron.y < -5050){
+                    if(this.electron.ymom < 0){
+                        this.electron.ymom*=-1
+                    }
+                }
+                if(this.electron.y > 0){
+                    if(this.electron.ymom > 0){
+                        this.electron.ymom*=-1
+                    }
+                }
+                if(this.positron.x > 7000){
+                    if(this.positron.xmom > 0){
+                        this.positron.xmom*=-1
+                    }
+                }
+                if(this.positron.x < -2050){
+                    if(this.positron.xmom < 0){
+                        this.positron.xmom*=-1
+                    }
+                }
+                if(this.positron.y < -5050){
+                    if(this.positron.ymom < 0){
+                        this.positron.ymom*=-1
+                    }
+                }
+                if(this.positron.y > 0){
+                    if(this.positron.ymom > 0){
+                        this.positron.ymom*=-1
+                    }
+                }
             }
             this.counter++
             this.link = new LineOP(this.positron, this.electron)
@@ -3665,11 +3707,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     pomao.jumping = 0
 
                     if (liner.hypotenuse() < (this.body.isPointInsideTargetedShape(pomao.body).radius + pomao.body.radius)) {
-                        pomao.body.y -= 1
-                        tutorial_canvas_context.translate(0, 1)
+                        pomao.body.y -= 3
+                        if( (Math.min(this.electron.ymom, this.positron.ymom)) < 0){
+                            pomao.body.y += (Math.min(this.electron.ymom, this.positron.ymom)*.01)
+                            tutorial_canvas_context.translate(0,  -(Math.min(this.electron.ymom, this.positron.ymom)*.01))
+                            pomao.body.x += ((this.electron.xmom + this.positron.xmom)*.01)
+                            tutorial_canvas_context.translate(-((this.electron.xmom + this.positron.xmom)*.01), 0)
+                        }
+                        tutorial_canvas_context.translate(0, 3)
                         if (!this.body.isPointInside(pomao.body)) {
-                            pomao.body.y += 2
-                            tutorial_canvas_context.translate(0, -2)
+                            pomao.body.y += 6
+                            tutorial_canvas_context.translate(0, -6)
                         }
                     }
                     if (pomao.body.ymom > 0) {
@@ -3732,7 +3780,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.body.shapes.push(this.positron)
             this.body.shapes.push(this.electron)
             // this.body.draw()
-            this.link = new LineOP(this.positron, this.electron, "gray", ((this.electron.radius * .4) / this.linkhyp) * 32)
+            this.link = new LineOP(this.positron, this.electron, "gray",Math.min((((this.electron.radius * .4) / this.linkhyp) * 64), 100))
             this.link.draw()
             if (this.positron.x > this.electron.x + (this.positron.radius + this.electron.radius) && this.positron.xmom > this.electron.xmom) {
                 this.flipper = -1
@@ -5278,7 +5326,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         gravity() {
 
             for (let t = 0; t < magnets.length; t++) {
+                if(Math.abs(magnets[t].electron.x-pomao.body.x) < 900 || Math.abs(magnets[t].positron.x-pomao.body.x) < 900  || Math.abs(magnets[t].electron.y-pomao.body.y) < 900 || Math.abs(magnets[t].positron.y-pomao.body.y) < 900  ){
                 magnets[t].physics()
+                }
             }
 
             this.flapstep++
@@ -6818,7 +6868,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
             for (let t = 0; t < magnets.length; t++) {
-                magnets[t].draw()
+                if(Math.abs(magnets[t].electron.x-pomao.body.x) < 700 || Math.abs(magnets[t].positron.x-pomao.body.x) < 700  || Math.abs(magnets[t].electron.y-pomao.body.y) < 700 || Math.abs(magnets[t].positron.y-pomao.body.y) < 700  ){
+                    magnets[t].draw()
+                }
             }
 
             for (let t = 0; t < floppers.length; t++) {
@@ -7156,6 +7208,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                 }
+
+                // tutorial_canvas_context.drawImage(dealwithit, (this.body.x - (this.width / 2))+10, (this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5))-20, this.width, this.height)
 
 
                 pomao.body.color = "transparent"
@@ -8006,7 +8060,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Radiator {
         constructor(x, y) {
-            this.body = new Bosscircle(x, y, 20, "red")
+            this.body = new Bosscircle(x, y, 20, "red", (Math.random()-.5)*18,(Math.random()-.5)*18)
             this.emmiter = []
             this.blastage = 0
         }
@@ -8027,6 +8081,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             for (let t = 0; t < this.emmiter.length; t++) {
                 this.emmiter[t].fmove()
+                this.emmiter[t].x+=this.body.xmom
+                this.emmiter[t].y+=this.body.ymom
                 this.emmiter[t].draw()
             }
             for (let t = 0; t < this.emmiter.length; t++) {
@@ -8109,8 +8165,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // }
                 //   }
             }
+            
 
+            if(this.body.x > 7000){
+                if(this.body.xmom > 0){
+                    this.body.xmom*=-1
+                }
+            }
+            if(this.body.x < -2050){
+                if(this.body.xmom < 0){
+                    this.body.xmom*=-1
+                }
+            }
+            if(this.body.y < -5050){
+                if(this.body.ymom < 0){
+                    this.body.ymom*=-1
+                }
+            }
+            if(this.body.y > 0){
+                if(this.body.ymom > 0){
+                    this.body.ymom*=-1
+                }
+            }
 
+            this.body.fmove()
             this.body.draw()
         }
     }
@@ -18047,21 +18125,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
         roofs.push(wall2)
         ungrapplable.push(wall2)
 
-        for (let t = 0; t < 15000; t++) {
-            let atom = new Atomdebris(-2150 + (Math.random() * 13700), -8000 + (Math.random() * 9000), "purple")
+        for (let t = 0; t < 10000; t++) {
+            let atom = new Atomdebris(-2150 + (Math.random() * 13700), -5000 + (Math.random() * 6000), "purple")
             debris.push(atom)
         }
 
 
-        for (let t = 0; t < 24; t++) {
-            let magnet = new Magneato(-100 + (t * 400), -100 - (t * 200))
+        for (let t = 0; t < 154; t++) {
+            let magnet = new Magneato(-100 - (t * 400), -100 - (t * 200))
             let runner = Math.random() * 10000
             for (let k = 0; k < runner; k++) {
                 magnet.physics()
             }
             magnets.push(magnet)
         }
-        for (let t = 0; t < 24; t++) {
+        for (let t = 0; t < 154; t++) {
             let magnet = new Magneato(600 + (t * 400), -200 - (t * 200))
             let runner = Math.random() * 10000
             for (let k = 0; k < runner; k++) {
@@ -18070,8 +18148,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
             magnets.push(magnet)
         }
 
-        for (let t = 0; t < 24; t++) {
-            let radiator = new Radiator(1300 + (t * 400), -200 - (t * 200))
+        const plug = magnets.length
+        for (let t = 0; t < 10; t++) {
+            let magnet = new Magneato(-1600 + (t * 400), -200 - (t * 200))
+            let runner = Math.random() * 10000
+            if(t%2 == 1){
+                // magnet.electron = magnets[Math.floor(t-1)+plug].positron
+                // if(Math.random()<.3){
+                //     magnet.electron = magnets[Math.floor(Math.random()*t-2)+plug].electron
+                // }
+            }
+            for (let k = 0; k < runner; k++) {
+                magnet.physics()
+            }
+            magnets.push(magnet)
+        }
+
+        for (let t = 0; t < 240; t++) {
+            let radiator = new Radiator(-2150 + (Math.random() * 13700), -5000 + (Math.random() * 6000))
             debris.push(radiator)
         }
 
