@@ -3656,7 +3656,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.electron.ymom*=-1
                     }
                 }
-                if(this.electron.y > 0){
+                if(this.electron.y+this.electron.radius > floors[(Math.floor((2100+this.electron.x)/3))%floors.length].y){
                     if(this.electron.ymom > 0){
                         this.electron.ymom*=-1
                     }
@@ -3676,7 +3676,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.positron.ymom*=-1
                     }
                 }
-                if(this.positron.y > 0){
+                if(this.positron.y+this.positron.radius >  floors[(Math.floor((2100+this.positron.x)/3))%floors.length].y){
                     if(this.positron.ymom > 0){
                         this.positron.ymom*=-1
                     }
@@ -8182,7 +8182,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.body.ymom*=-1
                 }
             }
-            if(this.body.y > 0){
+            if(this.body.y+this.body.radius > floors[(Math.floor((2100+this.body.x)/3))%floors.length].y){
                 if(this.body.ymom > 0){
                     this.body.ymom*=-1
                 }
@@ -18132,7 +18132,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
         for (let t = 0; t < 154; t++) {
-            let magnet = new Magneato(-100 - (t * 400), -100 - (t * 200))
+            let magnet = new Magneato(-100 + (t * 400), -100 - (t * 200))
             let runner = Math.random() * 10000
             for (let k = 0; k < runner; k++) {
                 magnet.physics()
@@ -18165,7 +18165,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
         for (let t = 0; t < 240; t++) {
-            let radiator = new Radiator(-2150 + (Math.random() * 13700), -5000 + (Math.random() * 6000))
+            let radiator = new Radiator(-2050 + (Math.random() * 13700), -5000 + (Math.random() * 6000))
             debris.push(radiator)
         }
 
