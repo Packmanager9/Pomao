@@ -188,6 +188,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let blocks = []
     let nails = []
     // letpomao.grounded= 0
+    const snowflakeimg2 = new Image()
+    snowflakeimg2.src = "snowflakes2.png"
     const snowflakeimg = new Image()
     snowflakeimg.src = "snowflakes.png"
     const spikeenemyimg = new Image()
@@ -6968,15 +6970,21 @@ this.link.draw()
 
 
 if (level == 10) {
-    // if (Math.random() < 1) {
-        for(let t =0;t<3;t++){
+    if (Math.random() < .5) {
+        for(let t =0;t<2;t++){
             let snow = new Snowflake((pomao.body.x - 5040) + Math.random() * 10080, (pomao.body.y - 360) - Math.random()*360)
             snows.push(snow)
         }
-    // }
+    }else{
+        let snow = new Snowflake((pomao.body.x - 5040) + Math.random() * 10080, (pomao.body.y - 360) - Math.random()*360)
+        snows.push(snow)
+    }
     for (let t = 0; t < snows.length; t++) {
-        snows[t].draw()
-        
+        if(Math.abs(snows[t].body.x- pomao.body.x) < 640){
+            snows[t].draw()
+        }else{
+            snows[t].drift()
+        }
     }
 
     if (level == 10) {
@@ -6985,16 +6993,16 @@ if (level == 10) {
         for (let k = 0; k < snows.length; k++) {
 
             if(snows[k].body.y > -100 && snows[k].body.x > -2100){
-                const t = (Math.round((2100 +   snows[k].body.x) / 3)) % floors.length
+                const t = (Math.round((2100 +   snows[k].body.x) / 5)) % floors.length
                 if(t>15 && t < floors.length-16){
                     if (floors[t].y < (snows[k].body.y) || floors[t+1].y < (snows[k].body.y) || floors[t-1].y < (snows[k].body.y) ) {
                         snows[k].marked = 1
                         if (typeof floors[t].waggle == "number") {
                             floors[t].active = 1
                             let value = 0
-                            if (t > 15 && t < floors.length - 16) {
-                                for (let n = t - 15; n < (t + 15); n++) {
-                                    value += (Math.PI / 30)
+                            if (t > 10 && t < floors.length - 11) {
+                                for (let n = t - 10; n < (t + 10); n++) {
+                                    value += (Math.PI / 20)
                                     // if (snows[k].body.ymom > 11) {
                                         let bump = (snows[k].body.ymom * Math.sin(value)) * 5
                                         if (bump < snows[k].body.ymom * 5.01) {
@@ -8073,9 +8081,27 @@ class Snowflake {
         this.anchor = {}
         this.anchor.xdif = 0
         this.anchor.ydif = 0
-        this.type = Math.floor(Math.random() * 20)
+        this.type = Math.floor(Math.random() * 48)
         this.draft = 1
 
+    }
+    drift(){
+        this.body.fmove()
+        this.body.x += wind
+        this.body.x += Math.random() - .5
+
+        if(this.draft == 1){
+        }else{
+            this.body.y += draft
+        }
+
+        if(Math.random()<.001){
+            this.draft = -1
+        }
+        if(Math.random()<.01){
+            this.draft = 1
+        }
+    
     }
     draw() {
         this.body.fmove()
@@ -8108,28 +8134,27 @@ class Snowflake {
         }
         // this.body.draw()
         
-        const sheetwidth = snowflakeimg.width
-        const sheetheight = snowflakeimg.height
-        const cols = 20
+        if(this.type < 20){
+            const sheetwidth = snowflakeimg.width
+            const sheetheight = snowflakeimg.height
+            const cols = 20
+            const rows = 1
+            const width = sheetwidth / cols
+            const height = sheetheight / rows
+            const srcx = Math.floor(this.type) * width
+            const srcy = 0 
+            tutorial_canvas_context.drawImage(snowflakeimg, srcx, srcy, width, height, this.body.x-this.body.radius, this.body.y-this.body.radius, this.body.radius*2, this.body.radius*2)
+        }else{
+        const sheetwidth = snowflakeimg2.width
+        const sheetheight = snowflakeimg2.height
+        const cols = 28
         const rows = 1
-
-
-
         const width = sheetwidth / cols
         const height = sheetheight / rows
-
-
-        const srcx = Math.floor(this.type) * width
-        const srcy = 0 //Math.floor(this.type2)*height
-
-        //   if(this.type < 17){
-
-
-        // tutorial_canvas_context.drawImage(pomaoimg, this.body.x-(this.width/2), this.body.y-(this.height/2)-(Math.sin(this.timeloop)*1.5),  this.width ,  this.height )
-
-
-            tutorial_canvas_context.drawImage(snowflakeimg, srcx, srcy, width, height, this.body.x-this.body.radius, this.body.y-this.body.radius, this.body.radius*2, this.body.radius*2)
-        
+        const srcx = Math.floor(this.type-20) * width
+        const srcy = 0
+        tutorial_canvas_context.drawImage(snowflakeimg2, srcx, srcy, width, height, this.body.x-this.body.radius, this.body.y-this.body.radius, this.body.radius*2, this.body.radius*2)
+        }
         this.colide()
 
         if(this.body.radius < 4){
@@ -18540,11 +18565,11 @@ function loadlvl10() {
     let clickercos = 0
     let clickersin = 0
     let clickertan = 0
-    for (let t = 0; t < 3000; t++) {
+    for (let t = 0; t < 1800; t++) {
         clickercos += (Math.PI * 2 * 310) / 3000
         clickersin += (Math.PI * 2 * 370) / 3000
         clickertan += (Math.PI * 2 * 410) / 3000
-        let floor = new Rectangle(-2100 + (t * 3), 0, 30000000, 3.1, "white")  //snowfloor
+        let floor = new Rectangle(-2100 + (t * 5), 0, 30000000, 5.1, "white")  //snowfloor
         floor.waggle = floor.y //+(Math.sin(clickercos)*.2)+(Math.cos(clickersin)*.3)+(Math.sin(clickertan)*.5)
         walls.push(floor)
         floors.push(floor)
@@ -18563,14 +18588,14 @@ function loadlvl10() {
 
 
 
-    const wall1 = new Rectangle(-2100, -30000, 30033, 50, "#FFFFFF05")
+    const wall1 = new Rectangle(-2100, -30000, 30033, 50, "#FFFFFF35")
     walls.push(wall1)
     floors.push(wall1)
     roofs.push(wall1)
     ungrapplable.push(wall1)
     // ungrapplable.push(wall1)
 
-    const wall2 = new Rectangle(6900, -30000, 30033, 50, "#FFFFFF05")
+    const wall2 = new Rectangle(6900, -30000, 30033, 50, "#FFFFFF35")
     walls.push(wall2)
     floors.push(wall2)
     roofs.push(wall2)
