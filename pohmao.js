@@ -278,6 +278,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const jazz = new Audio('gulpnoise.wav');
     const jazz2 = new Audio('gulpnoise2.wav');
     const spidermusic = new Audio('Mopao.mp3');
+    const level10basemusic = new Audio('snow.wav');
     const targoymusic = new Audio('pomo3.wav');
 
     const jailswitchimgl = new Image()
@@ -6967,10 +6968,12 @@ this.link.draw()
 
 
 if (level == 10) {
-    if (Math.random() < 2) {
-        let snow = new Snowflake((pomao.body.x - 5040) + Math.random() * 10080, (pomao.body.y - 360) - Math.random()*360)
-        snows.push(snow)
-    }
+    // if (Math.random() < 1) {
+        for(let t =0;t<3;t++){
+            let snow = new Snowflake((pomao.body.x - 5040) + Math.random() * 10080, (pomao.body.y - 360) - Math.random()*360)
+            snows.push(snow)
+        }
+    // }
     for (let t = 0; t < snows.length; t++) {
         snows[t].draw()
         
@@ -6978,37 +6981,39 @@ if (level == 10) {
 
     if (level == 10) {
         // for(let t = 0;t<floors.length;t+=3){
-      
+        level10basemusic.play()
         for (let k = 0; k < snows.length; k++) {
 
-        const t = (Math.floor((2100 +   snows[k].body.x) / 3)) % floors.length
-        if(t>15 && t < floors.length-16){
-            if (floors[t].doesPerimeterTouch(snows[k].body)) {
-                snows[k].marked = 1
-                if (typeof floors[t].waggle == "number") {
-                    floors[t].active = 1
-                    let value = 0
-                    if (t > 15 && t < floors.length - 16) {
-                        for (let n = t - 15; n < (t + 15); n++) {
-                            value += (Math.PI / 30)
-                            // if (snows[k].body.ymom > 11) {
-                                let bump = (snows[k].body.ymom * Math.sin(value)) * 5
-                                if (bump < snows[k].body.ymom * 5.01) {
-                                    bump *= 1.01
+            if(snows[k].body.y > -100){
+                const t = (Math.floor((2100 +   snows[k].body.x) / 3)) % floors.length
+                if(t>15 && t < floors.length-16){
+                    if (floors[t].doesPerimeterTouch(snows[k].body)) {
+                        snows[k].marked = 1
+                        if (typeof floors[t].waggle == "number") {
+                            floors[t].active = 1
+                            let value = 0
+                            if (t > 15 && t < floors.length - 16) {
+                                for (let n = t - 15; n < (t + 15); n++) {
+                                    value += (Math.PI / 30)
+                                    // if (snows[k].body.ymom > 11) {
+                                        let bump = (snows[k].body.ymom * Math.sin(value)) * 5
+                                        if (bump < snows[k].body.ymom * 5.01) {
+                                            bump *= 1.01
+                                        }
+                                        if (bump > snows[k].body.ymom * .99) {
+                                            // bump = this.body.ymom
+                                        }
+                                        if (floors[t].y > -100) {
+                                            floors[n].waggle -= bump/8
+                                        }
+                                    // }
                                 }
-                                if (bump > snows[k].body.ymom * .99) {
-                                    // bump = this.body.ymom
-                                }
-                                if (floors[t].y > -100) {
-                                    floors[n].waggle -= bump/8
-                                }
-                            // }
+                            }
                         }
+                        break
                     }
                 }
-                break
             }
-        }
             }
         // }
 
@@ -7019,6 +7024,8 @@ if (level == 10) {
             snows.splice(t, 1)
         }
     }
+}else{
+    level10basemusic.pause()
 }
 
 
