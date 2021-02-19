@@ -6984,10 +6984,10 @@ if (level == 10) {
         level10basemusic.play()
         for (let k = 0; k < snows.length; k++) {
 
-            if(snows[k].body.y > -100){
-                const t = (Math.floor((2100 +   snows[k].body.x) / 3)) % floors.length
+            if(snows[k].body.y > -100 && snows[k].body.x > -2100){
+                const t = (Math.round((2100 +   snows[k].body.x) / 3)) % floors.length
                 if(t>15 && t < floors.length-16){
-                    if (floors[t].doesPerimeterTouch(snows[k].body)) {
+                    if (floors[t].y < (snows[k].body.y) || floors[t+1].y < (snows[k].body.y) || floors[t-1].y < (snows[k].body.y) ) {
                         snows[k].marked = 1
                         if (typeof floors[t].waggle == "number") {
                             floors[t].active = 1
@@ -7010,7 +7010,7 @@ if (level == 10) {
                                 }
                             }
                         }
-                        break
+                        continue
                     }
                 }
             }
@@ -7019,9 +7019,13 @@ if (level == 10) {
 
         // }
     }
-    for (let t = 0; t < snows.length; t++) {
-        if (snows[t].marked == 1) {
-            snows.splice(t, 1)
+    let cutlength = 2
+    for(let k = 0;k<cutlength;k++){
+        for (let t = 0; t < snows.length; t++) {
+            if (snows[t].marked == 1) {
+                snows.splice(t, 1)
+                // cutlength++
+            }
         }
     }
 }else{
@@ -8115,6 +8119,9 @@ class Snowflake {
         this.colide()
 
         if(this.body.radius < 4){
+            this.marked=1
+        }
+        if(this.body.y > 360){
             this.marked=1
         }
 
@@ -18500,7 +18507,7 @@ function loadlvl10() {
         clickercos += (Math.PI * 2 * 310) / 3000
         clickersin += (Math.PI * 2 * 370) / 3000
         clickertan += (Math.PI * 2 * 410) / 3000
-        let floor = new Rectangle(-2100 + (t * 3), 0, 30000000, 3.1, "white")
+        let floor = new Rectangle(-2100 + (t * 3), 0, 30000000, 3.1, "white")  //snowfloor
         floor.waggle = floor.y //+(Math.sin(clickercos)*.2)+(Math.cos(clickersin)*.3)+(Math.sin(clickertan)*.5)
         walls.push(floor)
         floors.push(floor)
