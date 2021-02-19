@@ -8081,6 +8081,20 @@ class Snowflake {
         this.body.fmove()
         this.body.x += wind
         this.body.x += Math.random() - .5
+
+        if(Math.abs(this.body.x-pomao.body.x) < 400){
+            if(Math.abs(this.body.y-pomao.body.y) < 200){
+            for (let t = 0; t < shockfriendly.shocksl.length; t++) {
+                if (shockfriendly.shocksl[t].repelCheck(this.body) ) {
+                    this.body.x+=shockfriendly.shocksl[t].xmom
+                }
+                if (shockfriendly.shocksr[t].repelCheck(this.body) ) {
+                    this.body.x+=shockfriendly.shocksr[t].xmom
+                }
+            }
+        }
+    }
+
         if(this.draft == 1){
         }else{
             this.body.y += draft
@@ -9169,8 +9183,8 @@ class Shockwave {
         if (this.shocksl.length > 0) {
             if (this.shocksr.length > 0) {
                 for (let n = 0; n < this.shocksl.length - 1; n++) {
-                    const link2 = new Line(this.shocksl[n].x, this.shocksl[n].y + 34, this.shocksl[n + 1].x, this.shocksl[n + 1].y + 34, "cyan", this.shocksl[n].radius / 10)
-                    const link = new Line(this.shocksr[n].x, this.shocksr[n].y + 34, this.shocksr[n + 1].x, this.shocksr[n + 1].y + 34, "cyan", this.shocksr[n].radius / 10)
+                    const link2 = new Line(this.shocksl[n].x, this.shocksl[n].y + 34, this.shocksl[n + 1].x, this.shocksl[n + 1].y + 34, "#00FFFF88", this.shocksl[n].radius / 10)
+                    const link = new Line(this.shocksr[n].x, this.shocksr[n].y + 34, this.shocksr[n + 1].x, this.shocksr[n + 1].y + 34, "#00FFFF88", this.shocksr[n].radius / 10)
 
                     link.draw()
                     link2.draw()
@@ -14630,11 +14644,19 @@ setTimeout(function () {
                         tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${63 / 255})`
                         tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.globalAlpha = 1;
+                    } else if (level == 8) {
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${63 / 255})`
+                        tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
+                        tutorial_canvas_context.globalAlpha = 1;
                     } else if (level == 9) {
-
                         tutorial_canvas.style.background = `rgba(0, 0, 0,${1})` // "#8888CC"
                         tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${31 / 255})`
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
+                    } else if (level == 10) {
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                        tutorial_canvas_context.globalAlpha = 1;
                     }
                     // tutorial_canvas_context.fillStyle = `rgba(153, 153, 230,${63 / 255})`
                     tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
@@ -14677,6 +14699,19 @@ setTimeout(function () {
                         tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${14 / 255})`
                         tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
                         tutorial_canvas_context.globalAlpha = 1;
+                    }else if (level == 8) {
+                        tutorial_canvas_context.globalAlpha = 0.2;
+                        tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${14 / 255})`
+                        tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
+                        tutorial_canvas_context.globalAlpha = 1;
+                    }else if (level == 9) {
+                        tutorial_canvas.style.background = `rgba(0, 0, 0,${1})` // "#8888CC"
+                        tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${31 / 255})`
+                        tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
+                    }else if (level == 10) {
+                            tutorial_canvas_context.globalAlpha = 0.2;
+                            tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.globalAlpha = 1;
                     }
                     tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
 
@@ -14726,6 +14761,8 @@ setTimeout(function () {
                         tutorial_canvas.style.background = `rgba(0, 0, 0,${1})` // "#8888CC"
                         tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${31 / 255})`
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
+                    }else if (level == 10) {
+                        tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                     }
                     // if(keysPressed['p']){
                     //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
@@ -18585,25 +18622,25 @@ function loadlvl10() {
 
 
 
-    // for (let t = 0; t < 900; t++) {
-    //     const fruit = new Fruit(-2050 + (Math.random() * 13700), -8000 + (Math.random() * 9000), 60, 60, "red")
-    //     let wet = 0
-    //     // for (let s = 0; s < floors.length; s++) {
-    //     //     if (squarecircleedges(floors[s], fruit.body)) {
-    //     //         wet = 1
-    //     //         break
-    //     //     }
-    //     // }
-    //     for (let k = 0; k < fruits.length; k++) {
-    //         if (fruit.body.repelCheck(fruits[k].body)) {
-    //             wet = 1
-    //             break
-    //         }
-    //     }
-    //     if (wet == 0) {
-    //         fruits.push(fruit)
-    //     }
-    // }
+    for (let t = 0; t < 900; t++) {
+        const fruit = new Fruit(-2050 + (Math.random() * 9000), -8000 + (Math.random() * 7900), 60, 60, "red")
+        let wet = 0
+        // for (let s = 0; s < floors.length; s++) {
+        //     if (squarecircleedges(floors[s], fruit.body)) {
+        //         wet = 1
+        //         break
+        //     }
+        // }
+        for (let k = 0; k < fruits.length; k++) {
+            if (fruit.body.repelCheck(fruits[k].body)) {
+                wet = 1
+                break
+            }
+        }
+        if (wet == 0) {
+            fruits.push(fruit)
+        }
+    }
 
 
 
