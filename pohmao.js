@@ -8069,7 +8069,7 @@ class Snowflake {
         this.anchor = {}
         this.anchor.xdif = 0
         this.anchor.ydif = 0
-        this.type = Math.floor(Math.random() * 11)
+        this.type = Math.floor(Math.random() * 20)
         this.draft = 1
 
     }
@@ -8092,7 +8092,7 @@ class Snowflake {
         
         const sheetwidth = snowflakeimg.width
         const sheetheight = snowflakeimg.height
-        const cols = 11
+        const cols = 20
         const rows = 1
 
 
