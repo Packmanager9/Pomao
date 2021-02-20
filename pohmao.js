@@ -748,14 +748,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.bodies.push(block)
                 floors.push(block)
             }
-
-
         }
         draw() {
             for (let t = 0; t < this.bodies.length; t++) {
                 this.bodies[t].y = this.bodies[t].waggle
                 this.bodies[t].height = this.height + Math.abs(this.bodies[t].waggle - this.bodies[t].ysto)
-                // this.bodies[t].draw()
                 if (t > 0) {
                     let link = new Line(this.bodies[t].x + 1.5, this.bodies[t].waggle, this.bodies[t - 1].x + 1.5, this.bodies[t - 1].waggle, "white", 5)
                     link.draw()
