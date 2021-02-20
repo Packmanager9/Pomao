@@ -747,6 +747,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 block.waggle = block.y
                 this.bodies.push(block)
                 floors.push(block)
+                walls.push(block)
+                roofs.push(block)
             }
         }
         draw() {
@@ -771,7 +773,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if (bump < point.ymom * 5.01) {
                             bump *= 1.01
                         }
-                            if (this.bodies[t].y >  this.y-120) {
+                            if (this.bodies[t].y >  this.y-90) {
                                 this.bodies[n].waggle -= bump / 8
                                 if(this.bodies[n].waggle < this.snowheight){
                                     this.snowheight = this.bodies[n].waggle
