@@ -7128,7 +7128,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     snows.push(snow)
                 }
                 for (let t = 0; t < snows.length; t++) {
-                    if (Math.abs(snows[t].body.x - pomao.body.x) < 640) {
+                    if (Math.abs(snows[t].body.x - pomao.body.x) < 650) {
                         snows[t].draw()
                     } else {
                         snows[t].drift()
