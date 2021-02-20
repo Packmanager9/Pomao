@@ -13,6 +13,7 @@ let links = []
 const worms = []
 const debris = []
 const snows = []
+const snowfloors = []
 const lavas = []
 const floppers = []
 const magnets = []
@@ -730,6 +731,63 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     });
+
+    class Snowfloor {
+        constructor(x, y, h, w) {
+            this.bodies = []
+            this.snowheight = y
+            this.height = h
+            this.x = x
+            this.y = y
+            this.end = x + w
+            for (let t = 0; t < Math.ceil(w / 5); t++) {
+                let block = new Rectangle(x + (t * 5), y, h, 5.1, "white")
+                block.accum = 0
+                block.ysto = block.y
+                block.waggle = block.y
+                this.bodies.push(block)
+                floors.push(block)
+            }
+
+
+        }
+        draw() {
+            for (let t = 0; t < this.bodies.length; t++) {
+                this.bodies[t].y = this.bodies[t].waggle
+                this.bodies[t].height = this.height + Math.abs(this.bodies[t].waggle - this.bodies[t].ysto)
+                // this.bodies[t].draw()
+                if (t > 0) {
+                    let link = new Line(this.bodies[t].x + 1.5, this.bodies[t].waggle, this.bodies[t - 1].x + 1.5, this.bodies[t - 1].waggle, "white", 5)
+                    link.draw()
+                }
+            }
+        }
+        collideSnowheight(point) {
+            if (point.y > this.snowheight && point.x < this.end && point.x > this.x) {
+                const t = (Math.round(((point.x) - (this.x)) / 5)) % this.bodies.length
+                if (t > 10 && t < this.bodies.length - 11) {
+                if (this.bodies[t].y <= point.y || this.bodies[t + 1].y <= point.y || this.bodies[t - 1].y <= point.y) {
+                    let value = 0
+                    for (let n = t - 10; n < (t + 10); n++) {
+                        value += (Math.PI / 20)
+                        let bump = (point.ymom * Math.sin(value)) * 5
+                        if (bump < point.ymom * 5.01) {
+                            bump *= 1.01
+                        }
+                            if (this.bodies[t].y >  this.y-120) {
+                                this.bodies[n].waggle -= bump / 8
+                                if(this.bodies[n].waggle < this.snowheight){
+                                    this.snowheight = this.bodies[n].waggle
+                                }
+                            }
+                    }
+                    return true
+                }
+            }
+            }
+            return false
+        }
+    }
 
 
     class Bosscircle {
@@ -5203,22 +5261,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
         constructor(shapes) {
             this.shapes = shapes
         }
-        snowFloorShapeTest(point){
+        snowFloorShapeTest(point) {
 
             let retvar = 0
             let arrayhold = []
             let click = 0
             for (let t = 0; t < this.shapes.length; t++) {
                 if (squarecircleedges(this.shapes[t], point)) {
-                   arrayhold.push(this.shapes[t].y)
-                   click = 1
+                    arrayhold.push(this.shapes[t].y)
+                    click = 1
                 }
             }
-            if(arrayhold.length > 0){
-                retvar = arrayhold.reduce((accum, curr) => accum + curr)/arrayhold.length
+            if (arrayhold.length > 0) {
+                retvar = arrayhold.reduce((accum, curr) => accum + curr) / arrayhold.length
             }
 
-            if(click > 0){
+            if (click > 0) {
                 return retvar
             }
 
@@ -5516,31 +5574,236 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     }
             //     } else {
 
-                    for (let t = 0; t < floors.length; t++) {
-                        if(level == 9 || level == 10){
-                            if(level == 10){
-                                if(t <  ((Math.round((2100 + this.body.x) / 5))-60) % floors.length ){
-                                    t = ((Math.round((2100 + this.body.x) / 5))-60) % floors.length
-                                }
-                                if(t >  ((Math.round((2100 + this.body.x) / 5))+60) % floors.length ){
-                                    break
+            for (let t = 0; t < floors.length; t++) {
+                if (level == 9 || level == 10) {
+                    if (level == 10) {
+                        if (t < ((Math.round((2100 + this.body.x) / 5)) - 60) % floors.length) {
+                            t = ((Math.round((2100 + this.body.x) / 5)) - 60) % floors.length
+                        }
+                        if (t > ((Math.round((2100 + this.body.x) / 5)) + 60) % floors.length && t < 1860) {
+                            t = 1860
+                        }
+                    }
+                    if (level == 9) {
+                        if (t < ((Math.round((2100 + this.body.x) / 3)) - 90) % floors.length) {
+                            t = ((Math.round((2100 + this.body.x) / 3)) - 90) % floors.length
+                        }
+                        if (t > ((Math.round((2100 + this.body.x) / 3)) + 90) % floors.length) {
+                            break
+                        }
+                    }
+                }
+
+
+
+
+                if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
+                    //   console.log("43dss")  //hits this on thin floors?  while clipping?
+                    if (!ungrapplable.includes(floors[t])) {
+                        // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
+                        // this.body.y = floors[t].y-this.body.radius
+                        if (this.tongueymom < 0) {
+                            if (Math.abs(this.tonguey) > 1) {
+                                this.body.symom += this.tongueymom * 1.1
+                            }
+                            if (Math.abs(this.tonguex) > 15) {
+                                if (this.dir == -1) {
+                                    this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                } else {
+                                    this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                 }
                             }
-                            if(level == 9){
-                                if(t <  ((Math.round((2100 + this.body.x) / 3))-90) % floors.length ){
-                                    t = ((Math.round((2100 + this.body.x) / 3))-90) % floors.length
-                                } 
-                                if(t >  ((Math.round((2100 + this.body.x) / 3))+90) % floors.length ){
-                                    break
+                            this.tongueymom *= .49
+                            this.tonguexmom *= .49
+                        } else {
+                            if (Math.abs(this.tonguey) > 1) {
+                                this.body.symom -= this.tongueymom * 1.1
+                            }
+                            if (Math.abs(this.tonguex) > 15) {
+                                if (this.dir == -1) {
+                                    this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                } else {
+                                    this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                }
+                            }
+                            if (!roofs.includes(floors[t]) || (1 == 1)) {
+
+                                if (pomao.body.x < floors[t].x || (1 == 1)) {
+                                    this.tongueymom *= .49
+                                    this.tonguexmom *= .49
                                 }
                             }
                         }
+                        if (pomao.body.ymom > 0) {
+                            pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                        }
+                        pomao.body.ymom = 0
+                        pomao.body.xmom *= .975
+                        // this.hng = 0  // infinite flutter?
+                        this.grounded = 2   // infinite flutter on walls
+                        break
+                    }
+                }
+
+                if (t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(floors[t])) {
+
+                } else {
 
 
 
 
+
+
+
+                    if (squarecirclefacetopbottom(floors[t], this.body)) {
+
+                        if (level == 9) {
+
+                            if (typeof floors[t].waggle == "number") {
+                                pomao.grounded = 1
+                                floors[t].active = 1
+                                let value = 0
+                                if (t > 150 && t < floors.length - 151) {
+                                    for (let n = t - 150; n < (t + 150); n++) {
+                                        value += (Math.PI / 300)
+                                        if (this.body.ymom > 11) {
+                                            let bump = (this.body.ymom * Math.sin(value)) * 5
+                                            if (bump < this.body.ymom * 5.01) {
+                                                bump *= 1.01
+                                            }
+                                            if (bump > this.body.ymom * .99) {
+                                                // bump = this.body.ymom
+                                            }
+                                            if (floors[t].y < 500) {
+                                                floors[n].waggle += bump
+                                            }
+                                        }
+                                    }
+                                }
+
+                                pomao.body.ymom = 0
+                                pomao.body.symom = 0
+                                pomao.body.sxmom = 0
+                            }
+                        }
+
+                    }
+
+                    if (walls.includes(floors[t]) && squarecirclefacetopbottom(floors[t], this.body) && typeof floors[t].waggle != "number") {
+                        pomao.grounded = 1
+                        floors[t].active = 1
+
+                        if (blocks.includes(floors[t])) {
+                            if (this.pounding == 10) {
+                                floors[t].ymom = this.body.radius
+                                if (floors[t].isBlocked == false) {
+                                    floors[t].move()
+                                }
+                            }
+                        }
+                        if (pomao.body.x > floors[t].x) {
+                            this.blocked = 1
+                        } else {
+                            this.blocked = -1
+                        }
+
+                        if (this.pounding == 10) {
+                            const cloudpuff = new Shockwave(this.body)
+                            shocks.push(cloudpuff)
+                        }
+                        if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
+
+                            floors[t].active = 1
+
+                            if (blocks.includes(floors[t])) {
+                                if (this.pounding == 10) {
+                                    floors[t].ymom = this.body.radius
+                                    if (floors[t].isBlocked == false) {
+                                        floors[t].move()
+                                    }
+                                }
+                            }
+                            if (pomao.body.x > floors[t].x) {
+                                this.blocked = 1
+                            } else {
+                                this.blocked = -1
+                            }
+
+                            if (this.pounding == 10) {
+                                const cloudpuff = new Shockwave(this.body)
+                                shocks.push(cloudpuff)
+                            }
+                            if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
+
+                                tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - (this.body.radius)))
+                                this.body.y = floors[t].y - (this.body.radius)
+                                pomao.grounded = 1
+                                floors[t].active = 1
+                                if (blocks.includes(floors[t])) {
+                                    if (this.pounding == 10) {
+                                        floors[t].ymom = this.body.radius
+                                        if (floors[t].isBlocked == false) {
+                                            floors[t].move()
+                                        }
+                                    }
+                                }
+
+                                if (this.pounding == 10) {
+                                    const cloudpuff = new Shockwave(this.body)
+                                    shocks.push(cloudpuff)
+                                }
+                                if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
+                                    if (this.wingcheck == 0) {
+                                        this.tonguex = 0
+                                        this.tonguey = 0
+                                        resettonguediff()
+                                    }
+                                }
+                                if (pomao.body.ymom > 0) {
+                                    pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                                }
+                                if (this.wingcheck == 0) {
+                                    pomao.body.symom = 0
+                                    pomao.body.ymom = 0
+                                    pomao.body.sxmom = 0
+                                }
+                                break
+                            }
+                        }
+                    }
+
+                    if (typeof floors[t].waggle == "number") {
+                        if (squarecirclefeet(floors[t], pomao.body)) {
+                            if (t < floors.length - 2) {
+                                if (floors[t].y < floors[t + 1].y) {
+                                    if (floors[t].y > floors[t].y - this.body.radius) {
+                                        tutorial_canvas_context.translate(0, this.body.y - (floors[t + 1].y - this.body.radius))
+                                        this.body.y = floors[t + 1].y - this.body.radius
+                                        // console.log("smacky")
+                                        //working
+                                        pomao.grounded = 1
+                                        floors[t].active = 1
+                                        pomao.dry = 1
+                                        this.pounding = 0
+                                    }
+                                } else {
+                                    if (floors[t + 1].y > floors[t].y - this.body.radius) {
+                                        tutorial_canvas_context.translate(0, this.body.y - (floors[t + 1].y - this.body.radius) - ((floors[t].y - floors[t + 1].y) * .9))
+                                        this.body.y = floors[t + 1].y - this.body.radius + ((floors[t].y - floors[t + 1].y) * .9)
+                                        // console.log("smackx")
+                                        pomao.grounded = 1
+                                        floors[t].active = 1
+                                        pomao.dry = 1
+                                        this.pounding = 0
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    if (squarecirclefeet(floors[t], this.body)) {
                         if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
-                            //   console.log("43dss")  //hits this on thin floors?  while clipping?
+                            // console.log("4369")  //hits this on thin floors?
                             if (!ungrapplable.includes(floors[t])) {
                                 // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                                 // this.body.y = floors[t].y-this.body.radius
@@ -5569,7 +5832,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                     }
                                     if (!roofs.includes(floors[t]) || (1 == 1)) {
-    
+
                                         if (pomao.body.x < floors[t].x || (1 == 1)) {
                                             this.tongueymom *= .49
                                             this.tonguexmom *= .49
@@ -5581,334 +5844,37 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                                 pomao.body.ymom = 0
                                 pomao.body.xmom *= .975
-                                // this.hng = 0  // infinite flutter?
-                                this.grounded = 2   // infinite flutter on walls
+                                // this.hng = 0  // infiinite flutter?
+                                // this.grounded = 2
                                 break
                             }
                         }
-    
-                        if (t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(floors[t])) {
-    
-                        } else {
-    
-    
-    
-    
-    
-    
-    
-                            if (squarecirclefacetopbottom(floors[t], this.body)) {
-    
-                                if (level == 9) {
-    
-                                    if (typeof floors[t].waggle == "number") {
-                                        pomao.grounded = 1
-                                        floors[t].active = 1
-                                        let value = 0
-                                        if (t > 150 && t < floors.length - 151) {
-                                            for (let n = t - 150; n < (t + 150); n++) {
-                                                value += (Math.PI / 300)
-                                                if (this.body.ymom > 11) {
-                                                    let bump = (this.body.ymom * Math.sin(value)) * 5
-                                                    if (bump < this.body.ymom * 5.01) {
-                                                        bump *= 1.01
-                                                    }
-                                                    if (bump > this.body.ymom * .99) {
-                                                        // bump = this.body.ymom
-                                                    }
-                                                    if (floors[t].y < 500) {
-                                                        floors[n].waggle += bump
-                                                    }
-                                                }
-                                            }
-                                        }
-    
-                                        pomao.body.ymom = 0
-                                        pomao.body.symom = 0
-                                        pomao.body.sxmom = 0
-                                    }
-                                }
-    
+                        if (jellys.includes(floors[t])) {
+                            if (this.body.ymom > 0) {
+                                this.body.ymom *= .9
+                            } else {
+                                this.body.ymom *= .95
                             }
-    
-                            if (walls.includes(floors[t]) && squarecirclefacetopbottom(floors[t], this.body) && typeof floors[t].waggle != "number") {
+                            // if(this.body.symom>0){
+                            this.body.symom *= .4
+                            this.body.sxmom *= .4
+                            // }
+                            if (floors[t].isPointInside(this.body)) {
                                 pomao.grounded = 1
                                 floors[t].active = 1
-    
-                                if (blocks.includes(floors[t])) {
+
+                                if (nails.includes(floors[t])) {
                                     if (this.pounding == 10) {
                                         floors[t].ymom = this.body.radius
-                                        if (floors[t].isBlocked == false) {
-                                            floors[t].move()
-                                        }
+                                        // if(floors[t].isBlocked == false){
+                                        floors[t].move()
+                                        // }
                                     }
                                 }
-                                if (pomao.body.x > floors[t].x) {
-                                    this.blocked = 1
-                                } else {
-                                    this.blocked = -1
-                                }
-    
-                                if (this.pounding == 10) {
-                                    const cloudpuff = new Shockwave(this.body)
-                                    shocks.push(cloudpuff)
-                                }
-                                if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
-    
-                                    floors[t].active = 1
-    
-                                    if (blocks.includes(floors[t])) {
-                                        if (this.pounding == 10) {
-                                            floors[t].ymom = this.body.radius
-                                            if (floors[t].isBlocked == false) {
-                                                floors[t].move()
-                                            }
-                                        }
-                                    }
-                                    if (pomao.body.x > floors[t].x) {
-                                        this.blocked = 1
-                                    } else {
-                                        this.blocked = -1
-                                    }
-    
-                                    if (this.pounding == 10) {
-                                        const cloudpuff = new Shockwave(this.body)
-                                        shocks.push(cloudpuff)
-                                    }
-                                    if (Math.abs(this.body.y - floors[t].y) <= this.body.radius || typeof floors[t].waggle == "number") {
-    
-                                        tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - (this.body.radius)))
-                                        this.body.y = floors[t].y - (this.body.radius)
-                                        pomao.grounded = 1
-                                        floors[t].active = 1
-                                        if (blocks.includes(floors[t])) {
-                                            if (this.pounding == 10) {
-                                                floors[t].ymom = this.body.radius
-                                                if (floors[t].isBlocked == false) {
-                                                    floors[t].move()
-                                                }
-                                            }
-                                        }
-    
-                                        if (this.pounding == 10) {
-                                            const cloudpuff = new Shockwave(this.body)
-                                            shocks.push(cloudpuff)
-                                        }
-                                        if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
-                                            if (this.wingcheck == 0) {
-                                                this.tonguex = 0
-                                                this.tonguey = 0
-                                                resettonguediff()
-                                            }
-                                        }
-                                        if (pomao.body.ymom > 0) {
-                                            pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
-                                        }
-                                        if (this.wingcheck == 0) {
-                                            pomao.body.symom = 0
-                                            pomao.body.ymom = 0
-                                            pomao.body.sxmom = 0
-                                        }
-                                        break
-                                    }
-                                }
+
                             }
-    
-                            if (typeof floors[t].waggle == "number") {
-                                if (squarecirclefeet(floors[t], pomao.body)) {
-                                    if (t < floors.length - 2) {
-                                        if (floors[t].y < floors[t + 1].y) {
-                                            if (floors[t].y > floors[t].y - this.body.radius) {
-                                                tutorial_canvas_context.translate(0, this.body.y - (floors[t + 1].y - this.body.radius))
-                                                this.body.y = floors[t + 1].y - this.body.radius
-                                                // console.log("smacky")
-                                                //working
-                                                pomao.grounded = 1
-                                                floors[t].active = 1
-                                                pomao.dry = 1
-                                                this.pounding = 0
-                                            }
-                                        } else {
-                                            if (floors[t + 1].y > floors[t].y - this.body.radius) {
-                                                tutorial_canvas_context.translate(0, this.body.y - (floors[t + 1].y - this.body.radius) - ((floors[t].y - floors[t + 1].y) * .9))
-                                                this.body.y = floors[t + 1].y - this.body.radius + ((floors[t].y - floors[t + 1].y) * .9)
-                                                // console.log("smackx")
-                                                pomao.grounded = 1
-                                                floors[t].active = 1
-                                                pomao.dry = 1
-                                                this.pounding = 0
-                                            }
-    
-                                        }
-                                    }
-                                }
-                            }
-                            if (squarecirclefeet(floors[t], this.body)) {
-                                if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
-                                    // console.log("4369")  //hits this on thin floors?
-                                    if (!ungrapplable.includes(floors[t])) {
-                                        // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
-                                        // this.body.y = floors[t].y-this.body.radius
-                                        if (this.tongueymom < 0) {
-                                            if (Math.abs(this.tonguey) > 1) {
-                                                this.body.symom += this.tongueymom * 1.1
-                                            }
-                                            if (Math.abs(this.tonguex) > 15) {
-                                                if (this.dir == -1) {
-                                                    this.body.sxmom -= Math.abs(this.tonguexmom * 3)
-                                                } else {
-                                                    this.body.sxmom += Math.abs(this.tonguexmom * 3)
-                                                }
-                                            }
-                                            this.tongueymom *= .49
-                                            this.tonguexmom *= .49
-                                        } else {
-                                            if (Math.abs(this.tonguey) > 1) {
-                                                this.body.symom -= this.tongueymom * 1.1
-                                            }
-                                            if (Math.abs(this.tonguex) > 15) {
-                                                if (this.dir == -1) {
-                                                    this.body.sxmom -= Math.abs(this.tonguexmom * 3)
-                                                } else {
-                                                    this.body.sxmom += Math.abs(this.tonguexmom * 3)
-                                                }
-                                            }
-                                            if (!roofs.includes(floors[t]) || (1 == 1)) {
-    
-                                                if (pomao.body.x < floors[t].x || (1 == 1)) {
-                                                    this.tongueymom *= .49
-                                                    this.tonguexmom *= .49
-                                                }
-                                            }
-                                        }
-                                        if (pomao.body.ymom > 0) {
-                                            pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
-                                        }
-                                        pomao.body.ymom = 0
-                                        pomao.body.xmom *= .975
-                                        // this.hng = 0  // infiinite flutter?
-                                        // this.grounded = 2
-                                        break
-                                    }
-                                }
-                                if (jellys.includes(floors[t])) {
-                                    if (this.body.ymom > 0) {
-                                        this.body.ymom *= .9
-                                    } else {
-                                        this.body.ymom *= .95
-                                    }
-                                    // if(this.body.symom>0){
-                                    this.body.symom *= .4
-                                    this.body.sxmom *= .4
-                                    // }
-                                    if (floors[t].isPointInside(this.body)) {
-                                        pomao.grounded = 1
-                                        floors[t].active = 1
-    
-                                        if (nails.includes(floors[t])) {
-                                            if (this.pounding == 10) {
-                                                floors[t].ymom = this.body.radius
-                                                // if(floors[t].isBlocked == false){
-                                                floors[t].move()
-                                                // }
-                                            }
-                                        }
-    
-                                    }
-                                } else {
-                                    if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
-                                        if (!ungrapplable.includes(floors[t])) {
-                                            // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
-                                            // this.body.y = floors[t].y-this.body.radius
-                                            if (this.tongueymom < 0) {
-                                                if (Math.abs(this.tonguey) > 1) {
-                                                    this.body.symom += this.tongueymom * 1.1
-                                                }
-                                                if (Math.abs(this.tonguex) > 15) {
-                                                    if (this.dir == -1) {
-                                                        this.body.sxmom -= Math.abs(this.tonguexmom * 3)
-                                                    } else {
-                                                        this.body.sxmom += Math.abs(this.tonguexmom * 3)
-                                                    }
-                                                }
-                                                this.tongueymom *= .49
-                                                this.tonguexmom *= .49
-                                            } else {
-                                                if (Math.abs(this.tonguey) > 1) {
-                                                    this.body.symom -= this.tongueymom * 1.1
-                                                }
-                                                if (Math.abs(this.tonguex) > 15) {
-                                                    if (this.dir == -1) {
-                                                        this.body.sxmom -= Math.abs(this.tonguexmom * 3)
-                                                    } else {
-                                                        this.body.sxmom += Math.abs(this.tonguexmom * 3)
-                                                    }
-                                                }
-                                                if (!roofs.includes(floors[t]) || (1 == 1)) {
-    
-                                                    if (pomao.body.x < floors[t].x || (1 == 1)) {
-                                                        this.tongueymom *= .49
-                                                        this.tonguexmom *= .49
-                                                    }
-                                                }
-                                            }
-                                            if (pomao.body.ymom > 0) {
-                                                pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
-                                            }
-                                            pomao.body.ymom = 0
-                                            pomao.body.xmom *= .975
-                                            // this.hng = 0  // infiinite flutter?
-                                            this.dry = 1
-                                            break
-                                        }
-                                    }
-    
-    
-                                    if (Math.abs(this.body.y - floors[t].y) <= this.body.radius) {
-    
-                                        tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - this.body.radius))
-                                        this.body.y = floors[t].y - this.body.radius
-                                        pomao.grounded = 1
-                                        floors[t].active = 1
-                                        if (nails.includes(floors[t])) {
-                                            if (this.pounding == 10) {
-                                                this.pounding = 0 // floor clip?
-                                                floors[t].ymom = this.body.radius
-                                                // if(floors[t].isBlocked == false){
-                                                floors[t].move()
-                                                // }
-                                            }
-                                        }
-                                        if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
-                                            if (this.wingcheck == 0) {
-                                                this.tonguex = 0
-                                                this.tonguey = 0
-                                                resettonguediff()
-                                            }
-                                        }
-                                        if (pomao.body.ymom > 0) {
-                                            pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
-                                        }
-                                        if (this.wingcheck == 0) {
-                                            pomao.body.symom = 0
-                                            pomao.body.ymom = 0
-                                            pomao.body.sxmom = 0
-                                        }
-                                        break
-                                    }
-    
-                                    if (this.pounding == 10) {
-                                        const cloudpuff = new Shockwave(this.body)
-                                        shocks.push(cloudpuff)
-                                    }
-                                }
-    
-                                if (this.pounding == 10) {
-                                    const cloudpuff = new Shockwave(this.body)
-                                    shocks.push(cloudpuff)
-                                }
-    
-                            } else if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
+                        } else {
+                            if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
                                 if (!ungrapplable.includes(floors[t])) {
                                     // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                                     // this.body.y = floors[t].y-this.body.radius
@@ -5937,7 +5903,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             }
                                         }
                                         if (!roofs.includes(floors[t]) || (1 == 1)) {
-    
+
                                             if (pomao.body.x < floors[t].x || (1 == 1)) {
                                                 this.tongueymom *= .49
                                                 this.tonguexmom *= .49
@@ -5954,89 +5920,158 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     break
                                 }
                             }
-                        }
-    
-                    }
 
-                // }
-                if (this.wingcheck == 1) {
-                    if (this.tongueymom < 0) {
-                        if (Math.abs(this.tonguey) > 1) {
-                            this.body.symom += this.tongueymom * 1.1
-                        }
-                        if (Math.abs(this.tonguex) > 15) {
-                            if (this.dir == -1) {
-                                this.body.sxmom -= Math.abs(this.tonguexmom * 3)
-                            } else {
-                                this.body.sxmom += Math.abs(this.tonguexmom * 3)
+
+                            if (Math.abs(this.body.y - floors[t].y) <= this.body.radius) {
+
+                                tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - this.body.radius))
+                                this.body.y = floors[t].y - this.body.radius
+                                pomao.grounded = 1
+                                floors[t].active = 1
+                                if (nails.includes(floors[t])) {
+                                    if (this.pounding == 10) {
+                                        this.pounding = 0 // floor clip?
+                                        floors[t].ymom = this.body.radius
+                                        // if(floors[t].isBlocked == false){
+                                        floors[t].move()
+                                        // }
+                                    }
+                                }
+                                if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
+                                    if (this.wingcheck == 0) {
+                                        this.tonguex = 0
+                                        this.tonguey = 0
+                                        resettonguediff()
+                                    }
+                                }
+                                if (pomao.body.ymom > 0) {
+                                    pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                                }
+                                if (this.wingcheck == 0) {
+                                    pomao.body.symom = 0
+                                    pomao.body.ymom = 0
+                                    pomao.body.sxmom = 0
+                                }
+                                break
+                            }
+
+                            if (this.pounding == 10) {
+                                const cloudpuff = new Shockwave(this.body)
+                                shocks.push(cloudpuff)
                             }
                         }
-                        this.tongueymom *= .49
-                        this.tonguexmom *= .49
-                    } else {
-                        if (Math.abs(this.tonguey) > 1) {
-                            this.body.symom -= this.tongueymom * 1.1
-                        }
-                        if (Math.abs(this.tonguex) > 15) {
-                            if (this.dir == -1) {
-                                this.body.sxmom -= Math.abs(this.tonguexmom * 3)
-                            } else {
-                                this.body.sxmom += Math.abs(this.tonguexmom * 3)
-                            }
-                        }
-                        this.tongueymom *= .49
-                        this.tonguexmom *= .49
 
+                        if (this.pounding == 10) {
+                            const cloudpuff = new Shockwave(this.body)
+                            shocks.push(cloudpuff)
+                        }
+
+                    } else if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
+                        if (!ungrapplable.includes(floors[t])) {
+                            // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
+                            // this.body.y = floors[t].y-this.body.radius
+                            if (this.tongueymom < 0) {
+                                if (Math.abs(this.tonguey) > 1) {
+                                    this.body.symom += this.tongueymom * 1.1
+                                }
+                                if (Math.abs(this.tonguex) > 15) {
+                                    if (this.dir == -1) {
+                                        this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                    } else {
+                                        this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                    }
+                                }
+                                this.tongueymom *= .49
+                                this.tonguexmom *= .49
+                            } else {
+                                if (Math.abs(this.tonguey) > 1) {
+                                    this.body.symom -= this.tongueymom * 1.1
+                                }
+                                if (Math.abs(this.tonguex) > 15) {
+                                    if (this.dir == -1) {
+                                        this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                    } else {
+                                        this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                    }
+                                }
+                                if (!roofs.includes(floors[t]) || (1 == 1)) {
+
+                                    if (pomao.body.x < floors[t].x || (1 == 1)) {
+                                        this.tongueymom *= .49
+                                        this.tonguexmom *= .49
+                                    }
+                                }
+                            }
+                            if (pomao.body.ymom > 0) {
+                                pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                            }
+                            pomao.body.ymom = 0
+                            pomao.body.xmom *= .975
+                            // this.hng = 0  // infiinite flutter?
+                            this.dry = 1
+                            break
+                        }
                     }
                 }
-                for (let t = 0; t < ramps.length; t++) {
 
-                    if (t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(ramps[t])) {
+            }
 
-                    } else {
+            // }
+            if (this.wingcheck == 1) {
+                if (this.tongueymom < 0) {
+                    if (Math.abs(this.tonguey) > 1) {
+                        this.body.symom += this.tongueymom * 1.1
+                    }
+                    if (Math.abs(this.tonguex) > 15) {
+                        if (this.dir == -1) {
+                            this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                        } else {
+                            this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                        }
+                    }
+                    this.tongueymom *= .49
+                    this.tonguexmom *= .49
+                } else {
+                    if (Math.abs(this.tonguey) > 1) {
+                        this.body.symom -= this.tongueymom * 1.1
+                    }
+                    if (Math.abs(this.tonguex) > 15) {
+                        if (this.dir == -1) {
+                            this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                        } else {
+                            this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                        }
+                    }
+                    this.tongueymom *= .49
+                    this.tonguexmom *= .49
 
-                        if (squarecirclefeet(ramps[t], this.body)) {
-                            if (jellys.includes(ramps[t])) {
-                                if (this.body.ymom > 0) {
-                                    this.body.ymom *= .9
-                                } else {
-                                    this.body.ymom *= .95
-                                }
-                                // if(this.body.symom>0){
-                                this.body.symom *= .4
-                                // }
-                                if (ramps[t].isPointInside(this.body)) {
-                                    pomao.grounded = 1
+                }
+            }
+            for (let t = 0; t < ramps.length; t++) {
 
-                                }
+                if (t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(ramps[t])) {
+
+                } else {
+
+                    if (squarecirclefeet(ramps[t], this.body)) {
+                        if (jellys.includes(ramps[t])) {
+                            if (this.body.ymom > 0) {
+                                this.body.ymom *= .9
                             } else {
-                                if (Math.abs(this.body.y - ramps[t].y) <= this.body.radius) {
-                                    if (ramps90.includes(ramps[t])) {
-                                        if (ramps[t].x > pomao.body.x) {
+                                this.body.ymom *= .95
+                            }
+                            // if(this.body.symom>0){
+                            this.body.symom *= .4
+                            // }
+                            if (ramps[t].isPointInside(this.body)) {
+                                pomao.grounded = 1
 
-                                            tutorial_canvas_context.translate(0, this.body.y - (ramps[t].y - this.body.radius))
-                                            this.body.y = ramps[t].y - this.body.radius
-                                            pomao.grounded = 1
-                                            if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
-                                                if (this.wingcheck == 0) {
-                                                    this.tonguex = 0
-                                                    this.tonguey = 0
-                                                    resettonguediff()
-                                                }
-                                            }
-                                            if (pomao.body.ymom > 0) {
-                                                pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
-                                            }
-                                            if (this.wingcheck == 0) {
-                                                pomao.body.symom = 0
-                                                pomao.body.ymom = 0
-                                                pomao.body.sxmom = 0
-                                            }
-                                            break
+                            }
+                        } else {
+                            if (Math.abs(this.body.y - ramps[t].y) <= this.body.radius) {
+                                if (ramps90.includes(ramps[t])) {
+                                    if (ramps[t].x > pomao.body.x) {
 
-                                        }
-
-                                    } else {
                                         tutorial_canvas_context.translate(0, this.body.y - (ramps[t].y - this.body.radius))
                                         this.body.y = ramps[t].y - this.body.radius
                                         pomao.grounded = 1
@@ -6056,755 +6091,712 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             pomao.body.sxmom = 0
                                         }
                                         break
+
                                     }
+
+                                } else {
+                                    tutorial_canvas_context.translate(0, this.body.y - (ramps[t].y - this.body.radius))
+                                    this.body.y = ramps[t].y - this.body.radius
+                                    pomao.grounded = 1
+                                    if (pomao.body.symom != 0 || pomao.body.sxmom != 0) {
+                                        if (this.wingcheck == 0) {
+                                            this.tonguex = 0
+                                            this.tonguey = 0
+                                            resettonguediff()
+                                        }
+                                    }
+                                    if (pomao.body.ymom > 0) {
+                                        pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                                    }
+                                    if (this.wingcheck == 0) {
+                                        pomao.body.symom = 0
+                                        pomao.body.ymom = 0
+                                        pomao.body.sxmom = 0
+                                    }
+                                    break
                                 }
                             }
-                        } else if (ramps[t].isPointInside(pomao.tongue) || ((typeof ramps[t].radius == "number") && (pomao.tonguebox.isInsideOf(ramps[t]) || ramps[t].repelCheck(pomao.tongue)))) {
-
-                            // tutorial_canvas_context.translate(0,  this.body.y-(ramps[t].y-this.body.radius))
-                            // this.body.y = ramps[t].y-this.body.radius
-                            if (this.tongueymom < 0) {
-
-                                // if(!keysPressed['l'] && !keysPressed['j']){
-
-                                // }else{
-                                this.body.symom += this.tongueymom * 1.1
-                                // }
-                                if (Math.abs(this.tonguex) > 15) {
-                                    if (this.dir == -1) {
-                                        this.body.sxmom -= Math.abs(this.tonguexmom * 3)
-                                    } else {
-                                        this.body.sxmom += Math.abs(this.tonguexmom * 3)
-                                    }
-                                }
-                                this.tongueymom *= .5
-                                this.tonguexmom *= .5
-                            } else {
-                                // if(!keysPressed['l'] && !keysPressed['j']){
-
-                                // }else{
-                                this.body.symom -= this.tongueymom * 1.1
-                                // }
-                                if (Math.abs(this.tonguex) > 15) {
-                                    if (this.dir == -1) {
-                                        this.body.sxmom -= Math.abs(this.tonguexmom * 3)
-                                    } else {
-                                        this.body.sxmom += Math.abs(this.tonguexmom * 3)
-                                    }
-                                }
-                                if (!roofs.includes(ramps[t])) {
-                                    this.tongueymom *= .49
-                                    this.tonguexmom *= .49
-                                }
-                            }
-
-                            if (pomao.body.ymom > 0) {
-                                pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
-                            }
-                            pomao.body.ymom = 0
-                            pomao.body.xmom = 0
-                            this.dry = 1
-                            break
                         }
-                    }
+                    } else if (ramps[t].isPointInside(pomao.tongue) || ((typeof ramps[t].radius == "number") && (pomao.tonguebox.isInsideOf(ramps[t]) || ramps[t].repelCheck(pomao.tongue)))) {
 
-                }
-                this.footspot = new Circle(this.body.x, this.body.y + (this.body.radius - .01), 3, "red")
-                for (let t = 0; t < ramps.length; t++) {
+                        // tutorial_canvas_context.translate(0,  this.body.y-(ramps[t].y-this.body.radius))
+                        // this.body.y = ramps[t].y-this.body.radius
+                        if (this.tongueymom < 0) {
 
-                    // this.accept1 = (this.y-this.tip)/(this.x1-this.x)
-                    // this.accept2 = (this.y-this.tip)/(this.x2-this.x)
+                            // if(!keysPressed['l'] && !keysPressed['j']){
 
-                    // const yrat = (ramps[t].y-ramps[t].tip)
-                    // const x1dis = ramps[t].x1-ramps[t].x
-                    // const x2dis = this.footspot.x-ramps[t].x
-
-                    if (ramps[t].isPointInside(this.footspot)) {
-                        for (let k = 0; k < 10000; k++) {
-
-                            this.footspot = new Circle(this.body.x, this.body.y + (this.body.radius - 1), 3, "red")
-                            if (ramps[t].isPointInside(this.footspot)) {
-                                if (objsprings.includes(ramps[t])) {
-                                    pomao.rooted = ramps[t]
-                                    pomao.rootedframe = 10
+                            // }else{
+                            this.body.symom += this.tongueymom * 1.1
+                            // }
+                            if (Math.abs(this.tonguex) > 15) {
+                                if (this.dir == -1) {
+                                    this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                } else {
+                                    this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                 }
+                            }
+                            this.tongueymom *= .5
+                            this.tonguexmom *= .5
+                        } else {
+                            // if(!keysPressed['l'] && !keysPressed['j']){
 
-                                ramps[t].xmom += (this.body.xmom + this.body.sxmom) / 3
-                                if (pomao.body.ymom > 0) {
-                                    ramps[t].ymom += (this.body.ymom + this.body.symom) / 8
+                            // }else{
+                            this.body.symom -= this.tongueymom * 1.1
+                            // }
+                            if (Math.abs(this.tonguex) > 15) {
+                                if (this.dir == -1) {
+                                    this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                } else {
+                                    this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                 }
-                                if (ramps[t].ymom > 5) {
-                                    ramps[t].ymom = 5
-                                }
-                                if (ramps[t].ymom < -5) {
-                                    ramps[t].ymom = -5
-                                }
-                                this.body.sxmom = 0
-                                this.body.symom = 0
-                                // this.body.xmom = 0 // counter 123232
-                                this.body.ymom = 0
-                                if (k == 0) {
-                                    if (this.pounding > 0) {
-                                        this.pounding--
-                                    }
-                                }
-                                this.jumping = 0
-                                this.hng = 0
-                                tutorial_canvas_context.translate(0, this.body.y - (this.footspot.y - this.body.radius))
-                                this.body.y = this.footspot.y - this.body.radius
-
+                            }
+                            if (!roofs.includes(ramps[t])) {
+                                this.tongueymom *= .49
+                                this.tonguexmom *= .49
                             }
                         }
 
-                        pomao.grounded = 1
+                        if (pomao.body.ymom > 0) {
+                            pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                        }
+                        pomao.body.ymom = 0
+                        pomao.body.xmom = 0
+                        this.dry = 1
                         break
                     }
                 }
 
-                for (let t = 1; t < this.eggs.length; t++) {
-                    if (this.eggs[t].marked == 0) {
-                        this.eggs[t].steery()
-                    }
-                }
-
-                this.wingcheck = 0
             }
-            draw() {
-                this.eggmake--
-                if (this.eggmake > 0) {
-                    if (this.eggmake % 10 == 0) {
-                        if (pomao.eggs.length < 16) {
-                            const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
-                            pomao.eggs.push(seepx)
-                        }
-                    }
-                }
-                this.high--
-                this.tripping--
-                if (this.body.ymom + this.body.symom < 0) {
-                    this.pounding = 0
-                }
-                if (this.rattled > 0) {
-                    this.rattled--
-                } else if (this.rattled < 0) {
-                    this.rattled++
-                }
-                if (Math.abs(this.rattled < 3)) {
-                    this.rattled = 0
-                }
-                this.blush--
-                this.timeloop += .05
-                this.timeloops += .01
-                // this.bodytight = new Circle(this.body.x,this.body.y, 10, "yellow")
-                // this.bodytight = new Circle(this.body.x,this.body.y, 15, "yellow")
-                this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
-                this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
-                // this.bodytight.draw()
-                // this.bodyxtight.draw()
-                this.bodyloose = new Circle(this.body.x, this.body.y, 25, "yellow")
+            this.footspot = new Circle(this.body.x, this.body.y + (this.body.radius - .01), 3, "red")
+            for (let t = 0; t < ramps.length; t++) {
 
-                this.blocked = 0
-                for (let t = 0; t < walls.length; t++) {
-                    if (squarecircleface(walls[t], pomao.body)) {
-                        if (!blocks.includes(walls[t])) {
+                // this.accept1 = (this.y-this.tip)/(this.x1-this.x)
+                // this.accept2 = (this.y-this.tip)/(this.x2-this.x)
 
-                            if (pomao.body.x > walls[t].x) {
-                                this.blocked = 1
-                            } else {
-                                this.blocked = -1
+                // const yrat = (ramps[t].y-ramps[t].tip)
+                // const x1dis = ramps[t].x1-ramps[t].x
+                // const x2dis = this.footspot.x-ramps[t].x
+
+                if (ramps[t].isPointInside(this.footspot)) {
+                    for (let k = 0; k < 10000; k++) {
+
+                        this.footspot = new Circle(this.body.x, this.body.y + (this.body.radius - 1), 3, "red")
+                        if (ramps[t].isPointInside(this.footspot)) {
+                            if (objsprings.includes(ramps[t])) {
+                                pomao.rooted = ramps[t]
+                                pomao.rootedframe = 10
                             }
+
+                            ramps[t].xmom += (this.body.xmom + this.body.sxmom) / 3
+                            if (pomao.body.ymom > 0) {
+                                ramps[t].ymom += (this.body.ymom + this.body.symom) / 8
+                            }
+                            if (ramps[t].ymom > 5) {
+                                ramps[t].ymom = 5
+                            }
+                            if (ramps[t].ymom < -5) {
+                                ramps[t].ymom = -5
+                            }
+                            this.body.sxmom = 0
+                            this.body.symom = 0
+                            // this.body.xmom = 0 // counter 123232
+                            this.body.ymom = 0
+                            if (k == 0) {
+                                if (this.pounding > 0) {
+                                    this.pounding--
+                                }
+                            }
+                            this.jumping = 0
+                            this.hng = 0
+                            tutorial_canvas_context.translate(0, this.body.y - (this.footspot.y - this.body.radius))
+                            this.body.y = this.footspot.y - this.body.radius
+
                         }
                     }
-                }
-                this.bonked = 0
-                for (let t = 0; t < roofs.length; t++) {
-                    if (squarecirclehead(roofs[t], pomao.body)) {
-                        this.rattled = Math.min(Math.round(20 * (Math.abs(this.body.ymom) + Math.abs(this.body.symom))), 100)
 
-                        this.bonked = 1
-                        if (this.body.ymom < 0) {
-                            this.body.ymom *= -.1 //1 //.333
-                        }
-                        if (this.body.symom < 0) {
-                            this.body.symom *= -.1 //1 //.333
-                        }
+                    pomao.grounded = 1
+                    break
+                }
+            }
+
+            for (let t = 1; t < this.eggs.length; t++) {
+                if (this.eggs[t].marked == 0) {
+                    this.eggs[t].steery()
+                }
+            }
+
+            this.wingcheck = 0
+        }
+        draw() {
+            this.eggmake--
+            if (this.eggmake > 0) {
+                if (this.eggmake % 10 == 0) {
+                    if (pomao.eggs.length < 16) {
+                        const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
+                        pomao.eggs.push(seepx)
                     }
                 }
-                if (this.rattled == 50) {
-                    this.rattled += 40.5
-                }
-                if (this.rattled == 50.5) {
-                    this.rattled += 35.51
-                }
-                // if(this.rattled == 50.51){
-                //     this.rattled *- -1.5
-                // }
-                if (this.cutscene <= 0) {
-                    this.control()
-                }
-                if (this.blocked == 0) {
+            }
+            this.high--
+            this.tripping--
+            if (this.body.ymom + this.body.symom < 0) {
+                this.pounding = 0
+            }
+            if (this.rattled > 0) {
+                this.rattled--
+            } else if (this.rattled < 0) {
+                this.rattled++
+            }
+            if (Math.abs(this.rattled < 3)) {
+                this.rattled = 0
+            }
+            this.blush--
+            this.timeloop += .05
+            this.timeloops += .01
+            // this.bodytight = new Circle(this.body.x,this.body.y, 10, "yellow")
+            // this.bodytight = new Circle(this.body.x,this.body.y, 15, "yellow")
+            this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
+            // this.bodytight.draw()
+            // this.bodyxtight.draw()
+            this.bodyloose = new Circle(this.body.x, this.body.y, 25, "yellow")
 
-                    this.body.move()
-                } else {
-                    this.body.ymove()
-                }
-                this.gravity()
-                // this.body.draw()
-                this.tonguex += this.tonguexmom
-                this.tonguey += this.tongueymom
-                this.tonguex -= this.body.sxmom * .05
-                this.tonguey -= this.body.symom * .05
+            this.blocked = 0
+            for (let t = 0; t < walls.length; t++) {
+                if (squarecircleface(walls[t], pomao.body)) {
+                    if (!blocks.includes(walls[t])) {
 
-
-                if (this.tongue.x > this.body.x) {
-                    this.tonguexmom -= .5
-                }
-                if (this.tongue.x < this.body.x) {
-                    this.tonguexmom += .5
-                }
-                if (this.tongue.y > this.body.y && ((!keysPressed['l'] && !keysPressed['j']) || this.tongue.y > this.body.y + 5)) {
-                    this.tongueymom -= .5
-                }
-                if (this.tongue.y < this.body.y && ((!keysPressed['l'] && !keysPressed['j']) || this.tongue.y < this.body.y - 5)) {
-                    this.tongueymom += .5
-                }
-                this.fired--
-                if (this.bodytight.isPointInside(this.tongue)) {
-                    // if(!keysPressed[' ']){
-                    // if(Math.abs(this.tongueymom) > 20  || Math.abs(this.tonguexmom) > 20 ){
-                    if (this.fired <= 0) {
-                        this.tonguexmom *= 0
-                        this.tongueymom *= 0
-                        this.tonguex *= .9
-                        this.tonguey *= .9
-                    }
-                    // }
-                    // }
-                } else {
-                    this.tonguexmom *= .91
-                    this.tongueymom *= .91
-                }
-                this.tongue = new Circlec(this.body.x + this.tonguex, this.body.y + this.tonguey, 5, "blue")
-                this.tongued1 = new Circle(this.body.x + this.tonguex + (this.rattled / 3), this.body.y + this.tonguey, 5, "#0000FF77")
-                this.tongued2 = new Circle(this.body.x + this.tonguex - (this.rattled / 3), this.body.y + this.tonguey, 5, "#0000FF77")
-                this.tonguecast()
-                // if(this.rattled == 0){
-                // }else{
-                // this.tongued1.draw()
-                // this.link = new Line(this.body.x+(this.rattled/3), 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongued1.x, this.tongued1.y, "blue", 3)
-                // this.link.draw()
-                // this.tongued2.draw()
-                // this.link = new Line(this.body.x-(this.rattled/3), 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongued2.x, this.tongued2.y, "blue", 3)
-                // this.link.draw()
-                // }
-
-                if (this.tongue.y > this.body.y - 14) {
-                    this.diry = -1
-                } else {
-                    this.diry = 0
-                }
-
-
-
-                if (this.tongue.x > this.body.x + 14) {
-                    this.dir = 1
-                }
-                if (this.tongue.x < this.body.x - 14) {
-                    this.dir = -1
-                }
-
-                this.height = 64 + (Math.sin(this.timeloop) * (3 + this.pounding))
-                this.width = 64 + (Math.sin(this.timeloopx) * 1)
-                if (this.jumping == 1) {
-                    if (this.body.ymom < 0) {
-                        this.height = 68 + this.pounding + Math.round((Math.abs(this.body.ymom) + Math.abs(this.hng) + Math.abs(this.body.symom)) * 1.9)
-                    } else {
-                        this.height = 68 + this.pounding
-                    }
-                }
-                if (this.jumping == 1) {
-                    if (this.body.ymom < 0) {
-                        this.width = 60 - (this.pounding + ((Math.abs(this.body.ymom) + Math.abs(this.hng) + Math.abs(this.body.symom)) * 1.5))
-                    } else {
-                        this.width = 60 - this.pounding
-                    }
-                    // this.width  = 60-this.pounding
-                }
-
-                if (Math.abs(this.rattled < 3)) {
-                    this.rattled = 0
-                }
-
-                if (level == 1) {
-                    tutorial_canvas_context.fillStyle = "black";
-                    tutorial_canvas_context.font = `${30}px Arial`;
-                    // tutorial_canvas_context.fillText("M to throw eggs", 0,350)
-                    // tutorial_canvas_context.fillText("<- W to jump", 300,350)
-                    // tutorial_canvas_context.fillText("Space to lick", 310,290)
-                    // tutorial_canvas_context.fillText("^ hold W to hover", -400,350)
-                    // tutorial_canvas_context.fillText("Lick down in air (K+space) to pogo ->", -400,-120)
-                    // tutorial_canvas_context.fillText("Lick diagonally (K+L/J+space) before you touch the floor to gain speed ->", 800,-120)
-                    // tutorial_canvas_context.fillText("Hold S to pass down through thin floors     vvv", 2100,-120)
-                    // tutorial_canvas_context.fillText("You made it! ->", 2900,500)
-                    // tutorial_canvas_context.fillText(" Press N to Ground pound", 2600,220)
-                    // tutorial_canvas_context.fillText(" Pomao can swim >^", 3200, -500)
-                    // tutorial_canvas_context.fillText("Cancel your grappling momentum by tapping A/D ^", 3450, 500)
-                    // tutorial_canvas_context.fillText("You can go up through thin floors ^", 3880, 420) 
-                    // tutorial_canvas_context.fillText("pull yourself up with your tongue 'I' ^", 3880, 450)
-                    // tutorial_canvas_context.fillText("Canceling momentum can help you climb walls! ^", 3800, 180)
-                    // tutorial_canvas_context.fillText("Put an egg in the switch with M", 4050, -700)
-                    // tutorial_canvas_context.fillText("Nice!", 4050, -770)
-                    // tutorial_canvas_context.fillText("Beware the cave of the beast!", 11000, 500)
-                    // tutorial_canvas_context.fillText("<= <= <=", 12800, 500)
-                    // tutorial_canvas_context.fillText("Can't grapple ice!", 4300+(14*530),-5100-(14*150))
-                    // tutorial_canvas_context.fillText("Try to pogo, then flutter up", 4300+(14*530),-5100-(14*148))
-                    door.draw()
-                    if (door.isPointInside(pomao.body)) {
-                        loadlvl2()
-                        pmarinedisp = 0
-                    }
-                }
-                if (level == 2) {
-                    if (chats[1].active > 0) {
-                        if (chats[1].complete == 0) {
-                            pomao.disabled = 1
-                            pomao.cutscene = 1
-                            chats[0].words = ["talk"]
-                            chats[0].words.push("Pomao, would you mind cleaning the fruits out of the back yard?")
+                        if (pomao.body.x > walls[t].x) {
+                            this.blocked = 1
                         } else {
-                            pomao.cutscene = 0
-                            pomao.disabled = 0
+                            this.blocked = -1
                         }
                     }
-                    if (fruits.length == 0) {
+                }
+            }
+            this.bonked = 0
+            for (let t = 0; t < roofs.length; t++) {
+                if (squarecirclehead(roofs[t], pomao.body)) {
+                    this.rattled = Math.min(Math.round(20 * (Math.abs(this.body.ymom) + Math.abs(this.body.symom))), 100)
 
+                    this.bonked = 1
+                    if (this.body.ymom < 0) {
+                        this.body.ymom *= -.1 //1 //.333
+                    }
+                    if (this.body.symom < 0) {
+                        this.body.symom *= -.1 //1 //.333
+                    }
+                }
+            }
+            if (this.rattled == 50) {
+                this.rattled += 40.5
+            }
+            if (this.rattled == 50.5) {
+                this.rattled += 35.51
+            }
+            // if(this.rattled == 50.51){
+            //     this.rattled *- -1.5
+            // }
+            if (this.cutscene <= 0) {
+                this.control()
+            }
+            if (this.blocked == 0) {
+
+                this.body.move()
+            } else {
+                this.body.ymove()
+            }
+            this.gravity()
+            // this.body.draw()
+            this.tonguex += this.tonguexmom
+            this.tonguey += this.tongueymom
+            this.tonguex -= this.body.sxmom * .05
+            this.tonguey -= this.body.symom * .05
+
+
+            if (this.tongue.x > this.body.x) {
+                this.tonguexmom -= .5
+            }
+            if (this.tongue.x < this.body.x) {
+                this.tonguexmom += .5
+            }
+            if (this.tongue.y > this.body.y && ((!keysPressed['l'] && !keysPressed['j']) || this.tongue.y > this.body.y + 5)) {
+                this.tongueymom -= .5
+            }
+            if (this.tongue.y < this.body.y && ((!keysPressed['l'] && !keysPressed['j']) || this.tongue.y < this.body.y - 5)) {
+                this.tongueymom += .5
+            }
+            this.fired--
+            if (this.bodytight.isPointInside(this.tongue)) {
+                // if(!keysPressed[' ']){
+                // if(Math.abs(this.tongueymom) > 20  || Math.abs(this.tonguexmom) > 20 ){
+                if (this.fired <= 0) {
+                    this.tonguexmom *= 0
+                    this.tongueymom *= 0
+                    this.tonguex *= .9
+                    this.tonguey *= .9
+                }
+                // }
+                // }
+            } else {
+                this.tonguexmom *= .91
+                this.tongueymom *= .91
+            }
+            this.tongue = new Circlec(this.body.x + this.tonguex, this.body.y + this.tonguey, 5, "blue")
+            this.tongued1 = new Circle(this.body.x + this.tonguex + (this.rattled / 3), this.body.y + this.tonguey, 5, "#0000FF77")
+            this.tongued2 = new Circle(this.body.x + this.tonguex - (this.rattled / 3), this.body.y + this.tonguey, 5, "#0000FF77")
+            this.tonguecast()
+            // if(this.rattled == 0){
+            // }else{
+            // this.tongued1.draw()
+            // this.link = new Line(this.body.x+(this.rattled/3), 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongued1.x, this.tongued1.y, "blue", 3)
+            // this.link.draw()
+            // this.tongued2.draw()
+            // this.link = new Line(this.body.x-(this.rattled/3), 3+this.body.y-(Math.sin(this.timeloop)*1), this.tongued2.x, this.tongued2.y, "blue", 3)
+            // this.link.draw()
+            // }
+
+            if (this.tongue.y > this.body.y - 14) {
+                this.diry = -1
+            } else {
+                this.diry = 0
+            }
+
+
+
+            if (this.tongue.x > this.body.x + 14) {
+                this.dir = 1
+            }
+            if (this.tongue.x < this.body.x - 14) {
+                this.dir = -1
+            }
+
+            this.height = 64 + (Math.sin(this.timeloop) * (3 + this.pounding))
+            this.width = 64 + (Math.sin(this.timeloopx) * 1)
+            if (this.jumping == 1) {
+                if (this.body.ymom < 0) {
+                    this.height = 68 + this.pounding + Math.round((Math.abs(this.body.ymom) + Math.abs(this.hng) + Math.abs(this.body.symom)) * 1.9)
+                } else {
+                    this.height = 68 + this.pounding
+                }
+            }
+            if (this.jumping == 1) {
+                if (this.body.ymom < 0) {
+                    this.width = 60 - (this.pounding + ((Math.abs(this.body.ymom) + Math.abs(this.hng) + Math.abs(this.body.symom)) * 1.5))
+                } else {
+                    this.width = 60 - this.pounding
+                }
+                // this.width  = 60-this.pounding
+            }
+
+            if (Math.abs(this.rattled < 3)) {
+                this.rattled = 0
+            }
+
+            if (level == 1) {
+                tutorial_canvas_context.fillStyle = "black";
+                tutorial_canvas_context.font = `${30}px Arial`;
+                // tutorial_canvas_context.fillText("M to throw eggs", 0,350)
+                // tutorial_canvas_context.fillText("<- W to jump", 300,350)
+                // tutorial_canvas_context.fillText("Space to lick", 310,290)
+                // tutorial_canvas_context.fillText("^ hold W to hover", -400,350)
+                // tutorial_canvas_context.fillText("Lick down in air (K+space) to pogo ->", -400,-120)
+                // tutorial_canvas_context.fillText("Lick diagonally (K+L/J+space) before you touch the floor to gain speed ->", 800,-120)
+                // tutorial_canvas_context.fillText("Hold S to pass down through thin floors     vvv", 2100,-120)
+                // tutorial_canvas_context.fillText("You made it! ->", 2900,500)
+                // tutorial_canvas_context.fillText(" Press N to Ground pound", 2600,220)
+                // tutorial_canvas_context.fillText(" Pomao can swim >^", 3200, -500)
+                // tutorial_canvas_context.fillText("Cancel your grappling momentum by tapping A/D ^", 3450, 500)
+                // tutorial_canvas_context.fillText("You can go up through thin floors ^", 3880, 420) 
+                // tutorial_canvas_context.fillText("pull yourself up with your tongue 'I' ^", 3880, 450)
+                // tutorial_canvas_context.fillText("Canceling momentum can help you climb walls! ^", 3800, 180)
+                // tutorial_canvas_context.fillText("Put an egg in the switch with M", 4050, -700)
+                // tutorial_canvas_context.fillText("Nice!", 4050, -770)
+                // tutorial_canvas_context.fillText("Beware the cave of the beast!", 11000, 500)
+                // tutorial_canvas_context.fillText("<= <= <=", 12800, 500)
+                // tutorial_canvas_context.fillText("Can't grapple ice!", 4300+(14*530),-5100-(14*150))
+                // tutorial_canvas_context.fillText("Try to pogo, then flutter up", 4300+(14*530),-5100-(14*148))
+                door.draw()
+                if (door.isPointInside(pomao.body)) {
+                    loadlvl2()
+                    pmarinedisp = 0
+                }
+            }
+            if (level == 2) {
+                if (chats[1].active > 0) {
+                    if (chats[1].complete == 0) {
+                        pomao.disabled = 1
+                        pomao.cutscene = 1
+                        chats[0].words = ["talk"]
+                        chats[0].words.push("Pomao, would you mind cleaning the fruits out of the back yard?")
+                    } else {
+                        pomao.cutscene = 0
+                        pomao.disabled = 0
+                    }
+                }
+                if (fruits.length == 0) {
+
+                    chats[2].body.x = pomao.body.x
+                    chats[2].body.y = pomao.body.y
+                    pomao.cutscene = 1
+                    if (pmarinedisp == 0) {
+                        chats[2].active = 1
                         chats[2].body.x = pomao.body.x
                         chats[2].body.y = pomao.body.y
-                        pomao.cutscene = 1
-                        if (pmarinedisp == 0) {
-                            chats[2].active = 1
-                            chats[2].body.x = pomao.body.x
-                            chats[2].body.y = pomao.body.y
-                        }
-                        if (pomao.body.x + 50 > pmarinedisp + 5500) {
-                            chats[2].body.x = pomao.body.x
-                            chats[2].body.y = pomao.body.y
-                            // chats[2].active = 1
-                        } else {
-                            pmarinedisp -= 9
-                        }
                     }
-                    if (chats[2].complete == 1) {
-                        pmarinedisp = 0
-                        loadlvl3()
-                    }
-
-
-                    let momheight = 70 + (Math.sin(((pomao.timeloop * 1.3) + 3.14)) * 1.7)
-                    tutorial_canvas_context.drawImage(pomomimg, 0, 0, pomomimg.width, pomomimg.height, 500, -590 - (Math.sin(((pomao.timeloop * 1.3) + 3.14)) * 1.9), 70, momheight)
-
-                    let pawheight = 70 + (Math.sin(((pomao.timeloop * .75) + 3.14)) * 2)
-                    tutorial_canvas_context.drawImage(pawmaoimg, 0, 0, pawmaoimg.width, pawmaoimg.height, 2500, -3040 - (Math.sin(((pomao.timeloop * .75) + 3.14)) * 1.9), 70, pawheight)
-
-                    let jawheight = 70 + (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 2)
-                    if (pomao.body.x < 1260) {
-                        tutorial_canvas_context.drawImage(jomaoimgl, 0, 0, pawmaoimg.width, pawmaoimg.height, 1225, -1070 - (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 1.9), 70, jawheight)
-
-                    } else {
-
-                        tutorial_canvas_context.drawImage(jomaoimg, 0, 0, pawmaoimg.width, pawmaoimg.height, 1225, -1070 - (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 1.9), 70, jawheight)
-                    }
-
-
-
-                    tutorial_canvas_context.drawImage(pomarinel, 0, 0, pomarine.width, pomarine.height, 5500 + pmarinedisp, -35, 70, 70)
-                    lvl2basemusic.play()
-                } else {
-                    lvl2basemusic.pause()
-                }
-                if (level == 3) {
-
-
-                    tutorial_canvas_context.drawImage(propimg, 0, 0, propimg.width, propimg.height, 500, -400, propimg.width / 2, propimg.height / 2)
-
-                    tutorial_canvas_context.drawImage(pomarinel, 0, 0, pomarine.width, pomarine.height, 4500 - pmarinedisp, -35 + pmarinedisp, 70, 70)
-                    if (jailswitch == 0) {
-
-                        let momheight = 70 + (Math.sin(((pomao.timeloop * 1.3) + 3.14)) * 1.7)
-                        tutorial_canvas_context.drawImage(prisoner1img, 0, 0, prisoner1img.width, prisoner1img.height, 200, -35 - (Math.sin(((pomao.timeloop * 1.3) + 3.14)) * 1.9), 70, momheight)
-
-                        let pawheight = 70 + (Math.sin(((pomao.timeloop * .75) + 3.14)) * 2)
-                        tutorial_canvas_context.drawImage(prisoner2img, 0, 0, prisoner2img.width, prisoner2img.height, 600, -35 - (Math.sin(((pomao.timeloop * .75) + 3.14)) * 1.9), 70, pawheight)
-
-                        let prisoner3height = 68 + (Math.sin(((pomao.timeloop * .6) + 3.14)) * .8)
-                        tutorial_canvas_context.drawImage(prisoner3img, 0, 0, prisoner3img.width, prisoner3img.height, 900, -34 - (Math.sin(((pomao.timeloop * .6) + 3.14)) * .8), 70, prisoner3height)
-
-                        tutorial_canvas_context.drawImage(jailswitchimgl, 0, 0, jailswitchimgl.width, jailswitchimgl.height, 4800, -95, 128, 128)
-                    } else {
-                        chats = []
-
-
-                        for (let t = 0; t < floors.length; t++) {
-                            if (invisblocks.includes(floors[t])) {
-                                floors.splice(t, 1)
-                            }
-                        }
-                        for (let t = 0; t < walls.length; t++) {
-                            if (invisblocks.includes(walls[t])) {
-                                walls.splice(t, 1)
-                            }
-                        }
-                        for (let t = 0; t < roofs.length; t++) {
-                            if (invisblocks.includes(roofs[t])) {
-                                roofs.splice(t, 1)
-                            }
-                        }
-
-
-
-                        tutorial_canvas_context.drawImage(jailswitchimg, 0, 0, jailswitchimg.width, jailswitchimg.height, 4800, -95, 128, 128)
-                        floors[0].y += 10000
-                    }
-
-                    if (pmarinedisp == 0) {
-                        for (let t = 0; t < shockfriendly.shocksl.length; t++) {
-                            if (floors[floors.length - 1].isPointInside(shockfriendly.shocksl[t]) || floors[floors.length - 1].isPointInside(shockfriendly.shocksr[t])) {
-                                pmarinedisp -= 10
-                                floors[floors.length - 1].y += 10000
-                                break
-                            }
-                        }
+                    if (pomao.body.x + 50 > pmarinedisp + 5500) {
+                        chats[2].body.x = pomao.body.x
+                        chats[2].body.y = pomao.body.y
+                        // chats[2].active = 1
                     } else {
                         pmarinedisp -= 9
                     }
+                }
+                if (chats[2].complete == 1) {
+                    pmarinedisp = 0
+                    loadlvl3()
+                }
 
-                    for (let t = 0; t < shockfriendly.shocksl.length; t++) {
-                        if (floors[floors.length - 2].isPointInside(shockfriendly.shocksl[t]) || floors[floors.length - 2].isPointInside(shockfriendly.shocksr[t])) {
-                            if (pmarinedisp != 0) {
 
-                                jailswitch = 1
-                            }
+                let momheight = 70 + (Math.sin(((pomao.timeloop * 1.3) + 3.14)) * 1.7)
+                tutorial_canvas_context.drawImage(pomomimg, 0, 0, pomomimg.width, pomomimg.height, 500, -590 - (Math.sin(((pomao.timeloop * 1.3) + 3.14)) * 1.9), 70, momheight)
+
+                let pawheight = 70 + (Math.sin(((pomao.timeloop * .75) + 3.14)) * 2)
+                tutorial_canvas_context.drawImage(pawmaoimg, 0, 0, pawmaoimg.width, pawmaoimg.height, 2500, -3040 - (Math.sin(((pomao.timeloop * .75) + 3.14)) * 1.9), 70, pawheight)
+
+                let jawheight = 70 + (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 2)
+                if (pomao.body.x < 1260) {
+                    tutorial_canvas_context.drawImage(jomaoimgl, 0, 0, pawmaoimg.width, pawmaoimg.height, 1225, -1070 - (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 1.9), 70, jawheight)
+
+                } else {
+
+                    tutorial_canvas_context.drawImage(jomaoimg, 0, 0, pawmaoimg.width, pawmaoimg.height, 1225, -1070 - (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 1.9), 70, jawheight)
+                }
+
+
+
+                tutorial_canvas_context.drawImage(pomarinel, 0, 0, pomarine.width, pomarine.height, 5500 + pmarinedisp, -35, 70, 70)
+                lvl2basemusic.play()
+            } else {
+                lvl2basemusic.pause()
+            }
+            if (level == 3) {
+
+
+                tutorial_canvas_context.drawImage(propimg, 0, 0, propimg.width, propimg.height, 500, -400, propimg.width / 2, propimg.height / 2)
+
+                tutorial_canvas_context.drawImage(pomarinel, 0, 0, pomarine.width, pomarine.height, 4500 - pmarinedisp, -35 + pmarinedisp, 70, 70)
+                if (jailswitch == 0) {
+
+                    let momheight = 70 + (Math.sin(((pomao.timeloop * 1.3) + 3.14)) * 1.7)
+                    tutorial_canvas_context.drawImage(prisoner1img, 0, 0, prisoner1img.width, prisoner1img.height, 200, -35 - (Math.sin(((pomao.timeloop * 1.3) + 3.14)) * 1.9), 70, momheight)
+
+                    let pawheight = 70 + (Math.sin(((pomao.timeloop * .75) + 3.14)) * 2)
+                    tutorial_canvas_context.drawImage(prisoner2img, 0, 0, prisoner2img.width, prisoner2img.height, 600, -35 - (Math.sin(((pomao.timeloop * .75) + 3.14)) * 1.9), 70, pawheight)
+
+                    let prisoner3height = 68 + (Math.sin(((pomao.timeloop * .6) + 3.14)) * .8)
+                    tutorial_canvas_context.drawImage(prisoner3img, 0, 0, prisoner3img.width, prisoner3img.height, 900, -34 - (Math.sin(((pomao.timeloop * .6) + 3.14)) * .8), 70, prisoner3height)
+
+                    tutorial_canvas_context.drawImage(jailswitchimgl, 0, 0, jailswitchimgl.width, jailswitchimgl.height, 4800, -95, 128, 128)
+                } else {
+                    chats = []
+
+
+                    for (let t = 0; t < floors.length; t++) {
+                        if (invisblocks.includes(floors[t])) {
+                            floors.splice(t, 1)
+                        }
+                    }
+                    for (let t = 0; t < walls.length; t++) {
+                        if (invisblocks.includes(walls[t])) {
+                            walls.splice(t, 1)
+                        }
+                    }
+                    for (let t = 0; t < roofs.length; t++) {
+                        if (invisblocks.includes(roofs[t])) {
+                            roofs.splice(t, 1)
                         }
                     }
 
-                    if (floors[floors.length - 2].isPointInside(pomao.tongue) || floors[floors.length - 2].isPointInside(pomao.tongue)) {
+
+
+                    tutorial_canvas_context.drawImage(jailswitchimg, 0, 0, jailswitchimg.width, jailswitchimg.height, 4800, -95, 128, 128)
+                    floors[0].y += 10000
+                }
+
+                if (pmarinedisp == 0) {
+                    for (let t = 0; t < shockfriendly.shocksl.length; t++) {
+                        if (floors[floors.length - 1].isPointInside(shockfriendly.shocksl[t]) || floors[floors.length - 1].isPointInside(shockfriendly.shocksr[t])) {
+                            pmarinedisp -= 10
+                            floors[floors.length - 1].y += 10000
+                            break
+                        }
+                    }
+                } else {
+                    pmarinedisp -= 9
+                }
+
+                for (let t = 0; t < shockfriendly.shocksl.length; t++) {
+                    if (floors[floors.length - 2].isPointInside(shockfriendly.shocksl[t]) || floors[floors.length - 2].isPointInside(shockfriendly.shocksr[t])) {
                         if (pmarinedisp != 0) {
+
                             jailswitch = 1
                         }
                     }
-                    door.draw()
-                    if (door.isPointInside(pomao.body)) {
-                        loadlvl4()
-                        pmarinedisp = 0
-                    }
-                }
-                if (level == 4) {
-
-                    if (boss.getdrawn != 1) {
-                        lvl4basemusic.play()
-                    }
-
-                    let prisoner3height = 68 + (Math.sin(((pomao.timeloop * .6) + 3.14)) * .8)
-
-                    tutorial_canvas_context.drawImage(prisoner3img, 0, 0, prisoner3img.width, prisoner3img.height, 213, -3456 - (Math.sin(((pomao.timeloop * .6) + 3.14)) * .8), 70, prisoner3height)
-                    floors.splice(0, floors.length)
-                    for (let t = 0; t < floormpf.length; t++) {
-                        floors.push(floormpf[t])
-                    }
-                    for (let t = 0; t < spinnys.length; t++) {
-                        spinnys[t].draw()
-                    }
-
-                    door.draw()
-
-                    if (door.isPointInside(pomao.body)) {
-                        loadlvl5()
-                    }
-                } else {
-                    lvl4basemusic.pause()
-                    lvl4bossmusic.pause()
                 }
 
-                if (level == 5) {
-
-                    if (pomao.body.x < 7925) {
-
-                        lvl5basemusic.playbackRate = 1.05
-                        lvl5basemusic.play()
-                    } else {
-                        lvl5basemusic.pause()
+                if (floors[floors.length - 2].isPointInside(pomao.tongue) || floors[floors.length - 2].isPointInside(pomao.tongue)) {
+                    if (pmarinedisp != 0) {
+                        jailswitch = 1
                     }
+                }
+                door.draw()
+                if (door.isPointInside(pomao.body)) {
+                    loadlvl4()
+                    pmarinedisp = 0
+                }
+            }
+            if (level == 4) {
 
+                if (boss.getdrawn != 1) {
+                    lvl4basemusic.play()
+                }
 
-                    door.draw()
-                    if (door.isPointInside(pomao.body)) {
-                        loadlvl6()
-                    }
+                let prisoner3height = 68 + (Math.sin(((pomao.timeloop * .6) + 3.14)) * .8)
+
+                tutorial_canvas_context.drawImage(prisoner3img, 0, 0, prisoner3img.width, prisoner3img.height, 213, -3456 - (Math.sin(((pomao.timeloop * .6) + 3.14)) * .8), 70, prisoner3height)
+                floors.splice(0, floors.length)
+                for (let t = 0; t < floormpf.length; t++) {
+                    floors.push(floormpf[t])
+                }
+                for (let t = 0; t < spinnys.length; t++) {
+                    spinnys[t].draw()
+                }
+
+                door.draw()
+
+                if (door.isPointInside(pomao.body)) {
+                    loadlvl5()
+                }
+            } else {
+                lvl4basemusic.pause()
+                lvl4bossmusic.pause()
+            }
+
+            if (level == 5) {
+
+                if (pomao.body.x < 7925) {
+
+                    lvl5basemusic.playbackRate = 1.05
+                    lvl5basemusic.play()
                 } else {
                     lvl5basemusic.pause()
                 }
 
-                if (level == 6) {
-                    door.x = -2100
-                    door.y = -9170 - door.height
-                    door.draw()
-                    if (door.isPointInside(pomao.body)) {
-                        loadlvl7()
-                    }
+
+                door.draw()
+                if (door.isPointInside(pomao.body)) {
+                    loadlvl6()
                 }
+            } else {
+                lvl5basemusic.pause()
+            }
 
-
-                if (level == 8) {
-                    floors.splice(0, floors.length)
-                    for (let t = 0; t < floormpf.length; t++) {
-                        floors.push(floormpf[t])
-                    }
-                    for (let t = 0; t < spinnys.length; t++) {
-                        spinnys[t].draw()
-                    }
-                    let rebelqueenheight = 68 + (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9)
-
-                    let queenxpos = 70
-                    if (pomao.body.x > queenxpos + 35) {
-                        tutorial_canvas_context.drawImage(rebellionbossimg, 0, 0, rebellionbossimg.width, rebellionbossimg.height, 100, -100 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), queenxpos, rebelqueenheight)
-                    } else {
-                        tutorial_canvas_context.drawImage(rebellionbossimgleft, 0, 0, rebellionbossimgleft.width, rebellionbossimgleft.height, 100, -100 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), queenxpos, rebelqueenheight)
-                    }
+            if (level == 6) {
+                door.x = -2100
+                door.y = -9170 - door.height
+                door.draw()
+                if (door.isPointInside(pomao.body)) {
+                    loadlvl7()
                 }
+            }
 
-                if (level == 9) {
-                    lvl9basemusic.play()
-                    for (let t = 0; t < debris.length; t++) {
-                        if (pomao.eggtimer % 500 == 0) {
-                            debris[t].particle *= -1
+
+            if (level == 8) {
+                floors.splice(0, floors.length)
+                for (let t = 0; t < floormpf.length; t++) {
+                    floors.push(floormpf[t])
+                }
+                for (let t = 0; t < spinnys.length; t++) {
+                    spinnys[t].draw()
+                }
+                let rebelqueenheight = 68 + (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9)
+
+                let queenxpos = 70
+                if (pomao.body.x > queenxpos + 35) {
+                    tutorial_canvas_context.drawImage(rebellionbossimg, 0, 0, rebellionbossimg.width, rebellionbossimg.height, 100, -100 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), queenxpos, rebelqueenheight)
+                } else {
+                    tutorial_canvas_context.drawImage(rebellionbossimgleft, 0, 0, rebellionbossimgleft.width, rebellionbossimgleft.height, 100, -100 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), queenxpos, rebelqueenheight)
+                }
+            }
+
+            if (level == 9) {
+                lvl9basemusic.play()
+                for (let t = 0; t < debris.length; t++) {
+                    if (pomao.eggtimer % 500 == 0) {
+                        debris[t].particle *= -1
+                    }
+                    if (typeof debris[t].link == "undefined") {
+                        let link = new LineOP(debris[t].body, pomao.body)
+
+                        if (link.hypotenuse() < 1200) {
+                            debris[t].draw()
                         }
-                        if (typeof debris[t].link == "undefined") {
-                            let link = new LineOP(debris[t].body, pomao.body)
 
-                            if (link.hypotenuse() < 1200) {
-                                debris[t].draw()
-                            }
 
+                    } else {
+                        if (debris[t].link.hypotenuse() < 900) {
+                            debris[t].draw()
+                        }
+                    }
+                }
+
+
+            } else {
+                lvl9basemusic.pause()
+            }
+
+            if (level == 1 || level == 5) {
+                for (let t = 0; t < ramps.length; t++) {
+                    if (t > 1) {
+
+                        if (typeof ramps[t].radius == "number") {
 
                         } else {
-                            if (debris[t].link.hypotenuse() < 900) {
-                                debris[t].draw()
-                            }
-                        }
-                    }
-
-
-                } else {
-                    lvl9basemusic.pause()
-                }
-
-                if (level == 1 || level == 5) {
-                    for (let t = 0; t < ramps.length; t++) {
-                        if (t > 1) {
-
-                            if (typeof ramps[t].radius == "number") {
-
-                            } else {
-                                if (level != 5) {
+                            if (level != 5) {
 
 
 
 
-                                    if (typeof ramps[t].orb != "undefined") {
+                                if (typeof ramps[t].orb != "undefined") {
 
-                                        tutorial_canvas_context.drawImage(hilllump, 0, 0, hilllump.width, hilllump.height, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius, ramps[t].radius * 2, ramps[t].radius * 2)
-                                        // tutorial_canvas_context.drawImage(hilllump, ramps[t].x, ramps[t].y, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius)
-                                    } else {
-                                        ramps[t].draw()
-                                    }
+                                    tutorial_canvas_context.drawImage(hilllump, 0, 0, hilllump.width, hilllump.height, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius, ramps[t].radius * 2, ramps[t].radius * 2)
+                                    // tutorial_canvas_context.drawImage(hilllump, ramps[t].x, ramps[t].y, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius)
+                                } else {
+                                    ramps[t].draw()
                                 }
                             }
-
-                            tutorial_canvas_context.drawImage(rampcurveimg1, 1656, 578, 488, 73)
-
-                        } else {
-                            if (t == 1) {
-
-                                // var c = document.createElement("CANVAS");
-                                // var ctx = c.getContext('2d');
-                                // ctx.fillStyle = 'transparent';
-
-                                // tutorial_canvas_context.drawImage(c, ramps[t].x2, ramps[t].tip, ramps[t].x1 - ramps[t].x2, ramps[t].y - ramps[t].tip)
-
-
-                                // ctx.drawImage(floorimg, 0, 0)
-                                // ctx.globalCompositeOperation = 'source-in';
-                                // // ctx.beginPath();
-                                // // ctx.fill();    
-                                // ctx.moveTo( ramps[t].x,  ramps[t].y)
-                                // ctx.lineTo( ramps[t].x1,  ramps[t].y)
-                                // ctx.lineTo( ramps[t].x,  ramps[t].tip)
-                                // ctx.lineTo( ramps[t].x2,  ramps[t].y)
-                                // ctx.lineTo( ramps[t].x,  ramps[t].y)
-                                // ctx.stroke()
-                                // ctx.fill()
-
-                                tutorial_canvas_context.drawImage(rampimg1, ramps[t].x2, ramps[t].tip, ramps[t].x1 - ramps[t].x2, ramps[t].y - ramps[t].tip)
-                            }
-                            if (t == 0) {
-                                tutorial_canvas_context.drawImage(rampimg2, ramps[t].x2, ramps[t].tip, ramps[t].x1 - ramps[t].x2, ramps[t].y - ramps[t].tip)
-                            }
                         }
 
-                    }
-                } else {
-                    for (let t = 0; t < ramps.length; t++) {
-
-                        if (typeof ramps[t].orb != "undefined") {
-
-                            tutorial_canvas_context.drawImage(hilllump, 0, 0, hilllump.width, hilllump.height, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius, ramps[t].radius * 2, ramps[t].radius * 2)
-
-                            // tutorial_canvas_context.drawImage(hilllump, ramps[t].x, ramps[t].y, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius)
-                        } else {
-                            ramps[t].draw()
-                        }
-                    }
-                }
-                if (level == 6) {
-                    floors.splice(0, floors.length)
-                    for (let t = 0; t < floormpf.length; t++) {
-                        floors.push(floormpf[t])
-                    }
-                    for (let t = 0; t < spinnys.length; t++) {
-                        spinnys[t].draw()
-                    }
-
-                }
-
-                //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
-                for (let t = 0; t < floors.length; t++) {
-                    floors[t].clean()
-                }
-
-                for (let t = 0; t < floors.length; t++) {
-
-                    //add a thing that makes the floors only get drawn if they are in the screen
-                    if (invisblocks.includes(floors[t])) {
+                        tutorial_canvas_context.drawImage(rampcurveimg1, 1656, 578, 488, 73)
 
                     } else {
-                        if (!jellys.includes(floors[t])) {
+                        if (t == 1) {
 
-                            if (!nails.includes(floors[t]) && !ungrapplable.includes(floors[t])) {
-                                if (walls.includes(floors[t])) {
+                            // var c = document.createElement("CANVAS");
+                            // var ctx = c.getContext('2d');
+                            // ctx.fillStyle = 'transparent';
 
-                                    if (floors[t].width < 100) {
-                                        if (invisblocks.includes(floors[t])) {
-
-                                        } else {
-                                            if (level == 1) {
-                                                tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                            } else if (level == 2) {
-
-                                                tutorial_canvas_context.drawImage(lvl2walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                            } else if (level == 3) {
-
-                                                tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                            } else if (level == 4) {
-                                                tutorial_canvas_context.drawImage(lvl4fwallimg, 0, 0, Math.min(lvl4fwallimg.width, floors[t].width), Math.min(lvl4fwallimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-
-                                                // tutorial_canvas_context.drawImage(lvl4fwallimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                            } else if (level == 5) {
-
-                                                tutorial_canvas_context.drawImage(lvl5walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                            } else if (level == 6) {
-
-                                                tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                            } else if (level == 7) {
+                            // tutorial_canvas_context.drawImage(c, ramps[t].x2, ramps[t].tip, ramps[t].x1 - ramps[t].x2, ramps[t].y - ramps[t].tip)
 
 
-                                                if (floors[t].type == 1) {
-                                                    if (floors[t].active !== 0) {
-                                                        floors[t].counter++
-                                                        if (floors[t].counter % 8 == 0) {
-                                                            floors[t].timer++
-                                                            if (floors[t].timer > 21) {
-                                                                floors[t].timer = 21
-                                                                floors[t].splice = 1
-                                                            }
-                                                        }
-                                                    }
-                                                }
+                            // ctx.drawImage(floorimg, 0, 0)
+                            // ctx.globalCompositeOperation = 'source-in';
+                            // // ctx.beginPath();
+                            // // ctx.fill();    
+                            // ctx.moveTo( ramps[t].x,  ramps[t].y)
+                            // ctx.lineTo( ramps[t].x1,  ramps[t].y)
+                            // ctx.lineTo( ramps[t].x,  ramps[t].tip)
+                            // ctx.lineTo( ramps[t].x2,  ramps[t].y)
+                            // ctx.lineTo( ramps[t].x,  ramps[t].y)
+                            // ctx.stroke()
+                            // ctx.fill()
 
-                                                const sheetwidtht = crackfloorimg.width
-                                                const sheetheightt = crackfloorimg.height
-                                                const colst = 22
-                                                const rowst = 1
-                                                const widtht = sheetwidtht / colst
-                                                const heightt = sheetheightt / rowst
-                                                const srcxt = Math.floor(floors[t].timer % colst) * widtht
-                                                const srcyt = 0
+                            tutorial_canvas_context.drawImage(rampimg1, ramps[t].x2, ramps[t].tip, ramps[t].x1 - ramps[t].x2, ramps[t].y - ramps[t].tip)
+                        }
+                        if (t == 0) {
+                            tutorial_canvas_context.drawImage(rampimg2, ramps[t].x2, ramps[t].tip, ramps[t].x1 - ramps[t].x2, ramps[t].y - ramps[t].tip)
+                        }
+                    }
 
-                                                tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                            } else if (level == 8) {
-                                                tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                            } else if (level == 9) {
-                                                if (typeof floors[t].waggle == "number") {
-                                                    floors[t].y = floors[t].waggle //+ (Math.cos((lvl9rotationalvariable+t)/1000)*120)
-                                                }
-                                                // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                                if (t > 1) {
-                                                    let link = new Line(floors[t].x + 5, floors[t].y - 5, floors[t - 1].x + 5, floors[t - 1].y - 5, "blue", 5)
-                                                    link.draw()
-                                                }
-                                                // if(Math.abs(floors[t].x-pomao.body.x) > 600){
-                                                //     floors[t].draw()
-                                                // }
-                                            } else if (level == 10) {
-                                                if (typeof floors[t].waggle == "number") {
-                                                    floors[t].y = floors[t].waggle //+ (Math.cos((lvl9rotationalvariable+t)/1000)*120)
-                                                }
-                                                // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                                if (t > 1) {
-                                                    let link = new Line(floors[t].x + 1.5, floors[t].y, floors[t - 1].x + 1.5, floors[t - 1].y, "white", 5)
-                                                    link.draw()
-                                                }
-                                                if (Math.abs(floors[t].x - pomao.body.x) < 640) {
-                                                    floors[t].draw()
-                                                }
-                                            }
-                                        }
+                }
+            } else {
+                for (let t = 0; t < ramps.length; t++) {
+
+                    if (typeof ramps[t].orb != "undefined") {
+
+                        tutorial_canvas_context.drawImage(hilllump, 0, 0, hilllump.width, hilllump.height, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius, ramps[t].radius * 2, ramps[t].radius * 2)
+
+                        // tutorial_canvas_context.drawImage(hilllump, ramps[t].x, ramps[t].y, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius)
+                    } else {
+                        ramps[t].draw()
+                    }
+                }
+            }
+            if (level == 6) {
+                floors.splice(0, floors.length)
+                for (let t = 0; t < floormpf.length; t++) {
+                    floors.push(floormpf[t])
+                }
+                for (let t = 0; t < spinnys.length; t++) {
+                    spinnys[t].draw()
+                }
+
+            }
+
+            //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+            for (let t = 0; t < floors.length; t++) {
+                floors[t].clean()
+            }
+
+            if(level == 10){
+                for(let t =0;t<snowfloors.length;t++){
+                    snowfloors[t].draw()
+                    for(let k = 0;k<snows.length;k++){
+                        if(snowfloors[t].collideSnowheight(snows[k].body)){
+                            snows[k].marked = 1
+                        }
+                    }
+                }
+            }
+            for (let t = 0; t < floors.length; t++) {
+
+                //add a thing that makes the floors only get drawn if they are in the screen
+                if (invisblocks.includes(floors[t])) {
+
+                } else {
+                    if (!jellys.includes(floors[t])) {
+
+                        if (!nails.includes(floors[t]) && !ungrapplable.includes(floors[t])) {
+                            if (walls.includes(floors[t])) {
+
+                                if (floors[t].width < 100) {
+                                    if (invisblocks.includes(floors[t])) {
+
                                     } else {
                                         if (level == 1) {
-                                            tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                            tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         } else if (level == 2) {
 
-                                            tutorial_canvas_context.drawImage(lvl2floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                            tutorial_canvas_context.drawImage(lvl2walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         } else if (level == 3) {
 
                                             tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         } else if (level == 4) {
+                                            tutorial_canvas_context.drawImage(lvl4fwallimg, 0, 0, Math.min(lvl4fwallimg.width, floors[t].width), Math.min(lvl4fwallimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
 
-                                            tutorial_canvas_context.drawImage(lvl4floorimg, 0, 0, Math.min(lvl4floorimg.width, floors[t].width), Math.min(lvl4floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                            // tutorial_canvas_context.drawImage(lvl4floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                            // tutorial_canvas_context.drawImage(lvl4fwallimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         } else if (level == 5) {
 
-                                            // tutorial_canvas_context.drawImage(lvl5floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                            tutorial_canvas_context.drawImage(lvl5floorimg, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-
+                                            tutorial_canvas_context.drawImage(lvl5walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         } else if (level == 6) {
 
-                                            // tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-
-                                            tutorial_canvas_context.drawImage(floorimg, 0, 0, Math.min(floorimg.width, floors[t].width), Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                            tutorial_canvas_context.drawImage(walling, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         } else if (level == 7) {
+
 
                                             if (floors[t].type == 1) {
                                                 if (floors[t].active !== 0) {
                                                     floors[t].counter++
-                                                    if (floors[t].counter % 5 == 0) {
+                                                    if (floors[t].counter % 8 == 0) {
                                                         floors[t].timer++
                                                         if (floors[t].timer > 21) {
                                                             floors[t].timer = 21
+                                                            floors[t].splice = 1
                                                         }
                                                     }
                                                 }
                                             }
-
 
                                             const sheetwidtht = crackfloorimg.width
                                             const sheetheightt = crackfloorimg.height
@@ -6834,8 +6826,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             if (typeof floors[t].waggle == "number") {
                                                 floors[t].y = floors[t].waggle //+ (Math.cos((lvl9rotationalvariable+t)/1000)*120)
                                             }
-                                            // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                            if (t > 1) {
+                                            // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height) 
+                                            if (t > 1 && t < 1859) {
                                                 let link = new Line(floors[t].x + 1.5, floors[t].y, floors[t - 1].x + 1.5, floors[t - 1].y, "white", 5)
                                                 link.draw()
                                             }
@@ -6845,30 +6837,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                     }
                                 } else {
-
-                                    // if (level == 1) {  // adjusts sprites to resolution of the image, but it doesn't look nice
-                                    //     tutorial_canvas_context.drawImage(floorimg, 0,0,Math.min(floorimg.width, floors[t].width),Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                    // } else if (level == 2) {
-
-                                    //     tutorial_canvas_context.drawImage(lvl2floorimg, 0,0,Math.min(lvl2floorimg.width, floors[t].width),Math.min(lvl2floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                    // } else if (level == 3) {
-
-                                    //     tutorial_canvas_context.drawImage(lvl3floorimg, 0,0,Math.min(lvl3floorimg.width, floors[t].width),Math.min(lvl3floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                    // } else if (level == 4) {
-
-                                    //     tutorial_canvas_context.drawImage(lvl4floorimg, 0,0,Math.min(lvl4floorimg.width, floors[t].width),Math.min(lvl4floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                    // } else if (level == 5) {
-
-                                    //     tutorial_canvas_context.drawImage(lvl5floorimg, 0,0,Math.min(lvl5floorimg.width, floors[t].width),Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                    // } else if (level == 6) {
-
-                                    //     tutorial_canvas_context.drawImage(lvl6floorimg, 0,0,Math.min(lvl6floorimg.width, floors[t].width),Math.min(lvl6floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                    // } else if (level == 7) {
-
                                     if (level == 1) {
                                         tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     } else if (level == 2) {
-                                        // tutorial_canvas_context.drawImage(lvl2floorimg, 0,0,Math.min(lvl2floorimg.width, floors[t].width),Math.min(lvl2floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+
                                         tutorial_canvas_context.drawImage(lvl2floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     } else if (level == 3) {
 
@@ -6876,13 +6848,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     } else if (level == 4) {
 
                                         tutorial_canvas_context.drawImage(lvl4floorimg, 0, 0, Math.min(lvl4floorimg.width, floors[t].width), Math.min(lvl4floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                        // tutorial_canvas_context.drawImage(lvl4floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     } else if (level == 5) {
 
+                                        // tutorial_canvas_context.drawImage(lvl5floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         tutorial_canvas_context.drawImage(lvl5floorimg, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+
                                     } else if (level == 6) {
 
+                                        // tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+
                                         tutorial_canvas_context.drawImage(floorimg, 0, 0, Math.min(floorimg.width, floors[t].width), Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                        // tutorial_canvas_context.drawImage(lvl6floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     } else if (level == 7) {
 
                                         if (floors[t].type == 1) {
@@ -6916,7 +6892,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                         // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         if (t > 1) {
-                                            let link = new Line(floors[t].x + 1.5, floors[t].y + 1.5, floors[t - 1].x + 1.5, floors[t - 1].y + 1.5, "blue", 3)
+                                            let link = new Line(floors[t].x + 5, floors[t].y - 5, floors[t - 1].x + 5, floors[t - 1].y - 5, "blue", 5)
                                             link.draw()
                                         }
                                         // if(Math.abs(floors[t].x-pomao.body.x) > 600){
@@ -6927,108 +6903,189 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             floors[t].y = floors[t].waggle //+ (Math.cos((lvl9rotationalvariable+t)/1000)*120)
                                         }
                                         // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                        if (t > 1) {
+                                        if (t > 1 && t < 1859) {
                                             let link = new Line(floors[t].x + 1.5, floors[t].y, floors[t - 1].x + 1.5, floors[t - 1].y, "white", 5)
                                             link.draw()
                                         }
-                                        // if(Math.abs(floors[t].x-pomao.body.x) > 600){
-                                        floors[t].draw()
-                                        // }
+                                        if (Math.abs(floors[t].x - pomao.body.x) < 640) {
+                                            floors[t].draw()
+                                        }
                                     }
                                 }
+                            } else {
+
+                                // if (level == 1) {  // adjusts sprites to resolution of the image, but it doesn't look nice
+                                //     tutorial_canvas_context.drawImage(floorimg, 0,0,Math.min(floorimg.width, floors[t].width),Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                // } else if (level == 2) {
+
+                                //     tutorial_canvas_context.drawImage(lvl2floorimg, 0,0,Math.min(lvl2floorimg.width, floors[t].width),Math.min(lvl2floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                // } else if (level == 3) {
+
+                                //     tutorial_canvas_context.drawImage(lvl3floorimg, 0,0,Math.min(lvl3floorimg.width, floors[t].width),Math.min(lvl3floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                // } else if (level == 4) {
+
+                                //     tutorial_canvas_context.drawImage(lvl4floorimg, 0,0,Math.min(lvl4floorimg.width, floors[t].width),Math.min(lvl4floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                // } else if (level == 5) {
+
+                                //     tutorial_canvas_context.drawImage(lvl5floorimg, 0,0,Math.min(lvl5floorimg.width, floors[t].width),Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                // } else if (level == 6) {
+
+                                //     tutorial_canvas_context.drawImage(lvl6floorimg, 0,0,Math.min(lvl6floorimg.width, floors[t].width),Math.min(lvl6floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                // } else if (level == 7) {
+
+                                if (level == 1) {
+                                    tutorial_canvas_context.drawImage(floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                } else if (level == 2) {
+                                    // tutorial_canvas_context.drawImage(lvl2floorimg, 0,0,Math.min(lvl2floorimg.width, floors[t].width),Math.min(lvl2floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    tutorial_canvas_context.drawImage(lvl2floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                } else if (level == 3) {
+
+                                    tutorial_canvas_context.drawImage(lvl3floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                } else if (level == 4) {
+
+                                    tutorial_canvas_context.drawImage(lvl4floorimg, 0, 0, Math.min(lvl4floorimg.width, floors[t].width), Math.min(lvl4floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                } else if (level == 5) {
+
+                                    tutorial_canvas_context.drawImage(lvl5floorimg, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                } else if (level == 6) {
+
+                                    tutorial_canvas_context.drawImage(floorimg, 0, 0, Math.min(floorimg.width, floors[t].width), Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    // tutorial_canvas_context.drawImage(lvl6floorimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                } else if (level == 7) {
+
+                                    if (floors[t].type == 1) {
+                                        if (floors[t].active !== 0) {
+                                            floors[t].counter++
+                                            if (floors[t].counter % 5 == 0) {
+                                                floors[t].timer++
+                                                if (floors[t].timer > 21) {
+                                                    floors[t].timer = 21
+                                                }
+                                            }
+                                        }
+                                    }
+
+
+                                    const sheetwidtht = crackfloorimg.width
+                                    const sheetheightt = crackfloorimg.height
+                                    const colst = 22
+                                    const rowst = 1
+                                    const widtht = sheetwidtht / colst
+                                    const heightt = sheetheightt / rowst
+                                    const srcxt = Math.floor(floors[t].timer % colst) * widtht
+                                    const srcyt = 0
+
+                                    tutorial_canvas_context.drawImage(crackfloorimg, srcxt, srcyt, widtht, heightt, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                } else if (level == 8) {
+                                    tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                } else if (level == 9) {
+                                    if (typeof floors[t].waggle == "number") {
+                                        floors[t].y = floors[t].waggle //+ (Math.cos((lvl9rotationalvariable+t)/1000)*120)
+                                    }
+                                    // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    if (t > 1) {
+                                        let link = new Line(floors[t].x + 1.5, floors[t].y + 1.5, floors[t - 1].x + 1.5, floors[t - 1].y + 1.5, "blue", 3)
+                                        link.draw()
+                                    }
+                                    // if(Math.abs(floors[t].x-pomao.body.x) > 600){
+                                    //     floors[t].draw()
+                                    // }
+                                } else if (level == 10) {
+                                    if (typeof floors[t].waggle == "number") {
+                                        floors[t].y = floors[t].waggle //+ (Math.cos((lvl9rotationalvariable+t)/1000)*120)
+                                    }
+                                    // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    if (t > 1 && t < 1859) {
+                                        let link = new Line(floors[t].x + 1.5, floors[t].y, floors[t - 1].x + 1.5, floors[t - 1].y, "white", 5)
+                                        link.draw()
+                                    }
+                                    // if(Math.abs(floors[t].x-pomao.body.x) > 600){
+                                    floors[t].draw()
+                                    // }
+                                }
+                            }
+
+                            if (blocks.includes(floors[t])) {
+                                tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                            }
+                        } else {
+
+                            if (nails.includes(floors[t])) {
+                                tutorial_canvas_context.drawImage(nailimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                            } else {
 
                                 if (blocks.includes(floors[t])) {
                                     tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }
-                            } else {
-
-                                if (nails.includes(floors[t])) {
-                                    tutorial_canvas_context.drawImage(nailimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                } else {
-
-                                    if (blocks.includes(floors[t])) {
-                                        tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                                    }
-                                }
-                                if (ungrapplable.includes(floors[t])) {
-                                    floors[t].draw()
-                                }
                             }
-                        } else {
-                            // floors[t].draw()
+                            if (ungrapplable.includes(floors[t])) {
+                                floors[t].draw()
+                            }
+                        }
+                    } else {
+                        // floors[t].draw()
 
-                            tutorial_canvas_context.globalAlpha = 0.5
-                            tutorial_canvas_context.drawImage(paintedbackground, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
-                            tutorial_canvas_context.globalAlpha = 1
+                        tutorial_canvas_context.globalAlpha = 0.5
+                        tutorial_canvas_context.drawImage(paintedbackground, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                        tutorial_canvas_context.globalAlpha = 1
+                    }
+                }
+            }
+            // floor.draw()
+
+            for (let t = 0; t < switches.length; t++) {
+                switches[t].draw()
+            }
+            //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
+            for (let t = 0; t < pomao.eggs.length; t++) {
+                pomao.eggs[t].draw()
+            }
+
+            for (let t = 0; t < pomao.thrown.length; t++) {
+                pomao.thrown[t].draw()
+            }
+
+
+
+            if (pin.x > pomao.body.x - ((tutorial_canvas.width * 1.2) + pin.radius) && pin.x < pomao.body.x + ((tutorial_canvas.width * 1.2) + pin.radius)) {
+                swinger1move()
+            } else if (pin.y > pomao.body.y - ((tutorial_canvas.height * 1.2) + pin.radius) && pin.y < pomao.body.y + ((tutorial_canvas.height * 1.2) + pin.radius)) {
+                swinger1move()
+            } else if (pin2.x > pomao.body.x - ((tutorial_canvas.width * 1.2) + pin2.radius) && pin2.x < pomao.body.x + ((tutorial_canvas.width * 1.2) + pin2.radius)) {
+                swinger1move()
+            } else if (pin2.y > pomao.body.y - ((tutorial_canvas.height * 1.2) + pin2.radius) && pin2.y < pomao.body.y + ((tutorial_canvas.height * 1.2) + pin2.radius)) {
+                swinger1move()
+            }
+
+            if (level == 5) {
+                // chafer.draw()
+                for (let t = 0; t < orbs.length; t++) {
+
+                    if (orbs[t].body.x > pomao.body.x - ((tutorial_canvas.width * 2) + orbs[t].body.radius) && orbs[t].body.x < pomao.body.x + ((tutorial_canvas.width * 2) + orbs[t].body.radius)) {
+                        if (orbs[t].body.y > pomao.body.y - ((tutorial_canvas.height * 2) + orbs[t].body.radius) && orbs[t].body.y < pomao.body.y + ((tutorial_canvas.height * 2) + orbs[t].body.radius)) {
+                            orbs[t].draw()
                         }
                     }
                 }
-                // floor.draw()
-
-                for (let t = 0; t < switches.length; t++) {
-                    switches[t].draw()
-                }
-                //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
-                for (let t = 0; t < pomao.eggs.length; t++) {
-                    pomao.eggs[t].draw()
+                for (let t = 0; t < links.length; t++) {
+                    let link = new Line(orbs[links[t][0]].body.x, orbs[links[t][0]].body.y, orbs[links[t][1]].body.x, orbs[links[t][1]].body.y, "white", 2)
+                    link.draw()
                 }
 
-                for (let t = 0; t < pomao.thrown.length; t++) {
-                    pomao.thrown[t].draw()
+            }
+
+
+            for (let t = 0; t < magnets.length; t++) {
+                if (Math.abs(magnets[t].electron.x - pomao.body.x) < 700 || Math.abs(magnets[t].positron.x - pomao.body.x) < 700 || Math.abs(magnets[t].electron.y - pomao.body.y) < 700 || Math.abs(magnets[t].positron.y - pomao.body.y) < 700) {
+                    magnets[t].draw()
                 }
+            }
 
-
-
-                if (pin.x > pomao.body.x - ((tutorial_canvas.width * 1.2) + pin.radius) && pin.x < pomao.body.x + ((tutorial_canvas.width * 1.2) + pin.radius)) {
-                    swinger1move()
-                } else if (pin.y > pomao.body.y - ((tutorial_canvas.height * 1.2) + pin.radius) && pin.y < pomao.body.y + ((tutorial_canvas.height * 1.2) + pin.radius)) {
-                    swinger1move()
-                } else if (pin2.x > pomao.body.x - ((tutorial_canvas.width * 1.2) + pin2.radius) && pin2.x < pomao.body.x + ((tutorial_canvas.width * 1.2) + pin2.radius)) {
-                    swinger1move()
-                } else if (pin2.y > pomao.body.y - ((tutorial_canvas.height * 1.2) + pin2.radius) && pin2.y < pomao.body.y + ((tutorial_canvas.height * 1.2) + pin2.radius)) {
-                    swinger1move()
-                }
-
-                if (level == 5) {
-                    // chafer.draw()
-                    for (let t = 0; t < orbs.length; t++) {
-
-                        if (orbs[t].body.x > pomao.body.x - ((tutorial_canvas.width * 2) + orbs[t].body.radius) && orbs[t].body.x < pomao.body.x + ((tutorial_canvas.width * 2) + orbs[t].body.radius)) {
-                            if (orbs[t].body.y > pomao.body.y - ((tutorial_canvas.height * 2) + orbs[t].body.radius) && orbs[t].body.y < pomao.body.y + ((tutorial_canvas.height * 2) + orbs[t].body.radius)) {
-                                orbs[t].draw()
-                            }
-                        }
-                    }
-                    for (let t = 0; t < links.length; t++) {
-                        let link = new Line(orbs[links[t][0]].body.x, orbs[links[t][0]].body.y, orbs[links[t][1]].body.x, orbs[links[t][1]].body.y, "white", 2)
-                        link.draw()
-                    }
-
-                }
-
-
-                for (let t = 0; t < magnets.length; t++) {
-                    if (Math.abs(magnets[t].electron.x - pomao.body.x) < 700 || Math.abs(magnets[t].positron.x - pomao.body.x) < 700 || Math.abs(magnets[t].electron.y - pomao.body.y) < 700 || Math.abs(magnets[t].positron.y - pomao.body.y) < 700) {
-                        magnets[t].draw()
-                    }
-                }
-
-                for (let t = 0; t < floppers.length; t++) {
-                    // floppers[t].draw()
-                    if (floppers[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                        if (floppers[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                            floppers[t].draw()
-                        } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                            if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                                floppers[t].draw()
-                            }
-                            // else if(floppers[t].dead == 0){
-                            //     floppers[t].draw()
-                            // }
-                        }
-                        // else if(floppers[t].dead == 0){
-                        //         floppers[t].draw()
-                        //     }
+            for (let t = 0; t < floppers.length; t++) {
+                // floppers[t].draw()
+                if (floppers[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                    if (floppers[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                        floppers[t].draw()
                     } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
                         if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
                             floppers[t].draw()
@@ -7038,728 +7095,723 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         // }
                     }
                     // else if(floppers[t].dead == 0){
+                    //         floppers[t].draw()
+                    //     }
+                } else if (floppers[t].lump.x > this.body.x - (tutorial_canvas.width / 1.6) && floppers[t].lump.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                    if (floppers[t].lump.y > this.body.y - (tutorial_canvas.height / 1.6) && floppers[t].lump.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                        floppers[t].draw()
+                    }
+                    // else if(floppers[t].dead == 0){
                     //     floppers[t].draw()
                     // }
                 }
+                // else if(floppers[t].dead == 0){
+                //     floppers[t].draw()
+                // }
+            }
 
 
-                this.tongue.draw()
+            this.tongue.draw()
 
-                this.link = new Line(this.body.x, 3 + this.body.y - (Math.sin(this.timeloop) * 1), this.tongue.x, this.tongue.y, "blue", 3) // radius 3 // this.tongue.radius*1.1
-                this.link.draw()
+            this.link = new Line(this.body.x, 3 + this.body.y - (Math.sin(this.timeloop) * 1), this.tongue.x, this.tongue.y, "blue", 3) // radius 3 // this.tongue.radius*1.1
+            this.link.draw()
 
 
-                if (level == 10) {
-                    if (Math.random() < .5) {
-                        for (let t = 0; t < 2; t++) {
-                            let snow = new Snowflake((pomao.body.x - 5040) + Math.random() * 10080, (pomao.body.y - 360) - Math.random() * 360)
-                            snows.push(snow)
-                        }
-                    } else {
+            if (level == 10) {
+                if (Math.random() < .5) {
+                    for (let t = 0; t < 2; t++) {
                         let snow = new Snowflake((pomao.body.x - 5040) + Math.random() * 10080, (pomao.body.y - 360) - Math.random() * 360)
                         snows.push(snow)
                     }
-                    for (let t = 0; t < snows.length; t++) {
-                        if (Math.abs(snows[t].body.x - pomao.body.x) < 640) {
-                            snows[t].draw()
-                        } else {
-                            snows[t].drift()
-                        }
+                } else {
+                    let snow = new Snowflake((pomao.body.x - 5040) + Math.random() * 10080, (pomao.body.y - 360) - Math.random() * 360)
+                    snows.push(snow)
+                }
+                for (let t = 0; t < snows.length; t++) {
+                    if (Math.abs(snows[t].body.x - pomao.body.x) < 640) {
+                        snows[t].draw()
+                    } else {
+                        snows[t].drift()
                     }
+                }
 
-                    if (level == 10) {
-                        // for(let t = 0;t<floors.length;t+=3){
-                        level10basemusic.play()
-                        for (let k = 0; k < snows.length; k++) {
+                if (level == 10) {
+                    // for(let t = 0;t<floors.length;t+=3){
+                    level10basemusic.play()
+                    for (let k = 0; k < snows.length; k++) {
 
-                            if (snows[k].body.y > -100 && snows[k].body.x > -2100) {
-                                const t = (Math.round((2100 + snows[k].body.x) / 5)) % floors.length
-                                if (t > 15 && t < floors.length - 16) {
-                                    if (floors[t].y < (snows[k].body.y) || floors[t + 1].y < (snows[k].body.y) || floors[t - 1].y < (snows[k].body.y)) {
-                                        snows[k].marked = 1
-                                        if (typeof floors[t].waggle == "number") {
-                                            floors[t].active = 1
-                                            let value = 0
-                                            if (t > 10 && t < floors.length - 11) {
-                                                for (let n = t - 10; n < (t + 10); n++) {
-                                                    value += (Math.PI / 20)
-                                                    // if (snows[k].body.ymom > 11) {
-                                                    let bump = (snows[k].body.ymom * Math.sin(value)) * 5
-                                                    if (bump < snows[k].body.ymom * 5.01) {
-                                                        bump *= 1.01
-                                                    }
-                                                    if (bump > snows[k].body.ymom * .99) {
-                                                        // bump = this.body.ymom
-                                                    }
-                                                    if (floors[t].y > -100) {
-                                                        floors[n].waggle -= bump / 8
-                                                    }
-                                                    // }
+                        if (snows[k].body.y > -100 && snows[k].body.x > -2100) {
+                            const t = (Math.round((2100 + snows[k].body.x) / 5)) % floors.length
+                            if (t > 15 && t < (1861 - 16)) {  //floors.length - 16
+                                if (floors[t].y < (snows[k].body.y) || floors[t + 1].y < (snows[k].body.y) || floors[t - 1].y < (snows[k].body.y)) {
+                                    snows[k].marked = 1
+                                    if (typeof floors[t].waggle == "number") {
+                                        floors[t].active = 1
+                                        let value = 0
+                                        if (t > 10 && t < floors.length - 11) {
+                                            for (let n = t - 10; n < (t + 10); n++) {
+                                                value += (Math.PI / 20)
+                                                // if (snows[k].body.ymom > 11) {
+                                                let bump = (snows[k].body.ymom * Math.sin(value)) * 5
+                                                if (bump < snows[k].body.ymom * 5.01) {
+                                                    bump *= 1.01
                                                 }
+                                                if (bump > snows[k].body.ymom * .99) {
+                                                    // bump = this.body.ymom
+                                                }
+                                                if (floors[t].y > -100) {
+                                                    floors[n].waggle -= bump / 8
+                                                }
+                                                // }
                                             }
                                         }
-                                        continue
                                     }
+                                    continue
                                 }
                             }
                         }
-                        // }
-
-                        // }
                     }
-                    let cutlength = 2
-                    for (let k = 0; k < cutlength; k++) {
-                        for (let t = 0; t < snows.length; t++) {
-                            if (snows[t].marked == 1) {
-                                snows.splice(t, 1)
-                                // cutlength++
-                            }
-                        }
-                    }
-                } else {
-                    level10basemusic.pause()
-                }
+                    // }
 
-
-                for (let t = 0; t < fruits.length; t++) {
-                    if (fruits[t].x > this.body.x - ((tutorial_canvas.width / 2) + fruits[t].width) && fruits[t].x < this.body.x + ((tutorial_canvas.width / 2) + fruits[t].width)) {
-                        if (fruits[t].y > this.body.y - ((tutorial_canvas.height / 2) + fruits[t].height) && fruits[t].y < this.body.y + ((tutorial_canvas.height / 2) + fruits[t].height)) {
-
-                            fruits[t].draw()
-
-                        }
-                    }
-                }
-
-                if (level == 1) {
-                    if (boss.body1.x > pomao.body.x - ((tutorial_canvas.width * 3) + boss.body1.radius) && boss.body1.x < pomao.body.x + ((tutorial_canvas.width * 3) + boss.body1.radius)) {
-                        if (boss.body1.y > pomao.body.y - ((tutorial_canvas.height * 3) + boss.body1.radius) && boss.body1.y < pomao.body.y + ((tutorial_canvas.height * 3) + boss.body1.radius)) {
-                            boss.fight = 1
-                        }
-                    } else {
-                        lvl1basemusic.play()
-                    }
-                    if (boss.fight == 1) {
-                        boss.draw()
-                    }
-                } else {
-                    lvl1basemusic.pause()
-                }
-                if (level == 4) {
-                    // if(boss.body.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body.radius) && boss.body.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body.radius) ){
-                    //     if(boss.body.y > pomao.body.y-((tutorial_canvas.height*6)+boss.body.radius) && boss.body.y < pomao.body.y+((tutorial_canvas.height*6)+boss.body.radius) ){
-
-                    if (boss.getdrawn == 1) {
-                        boss.draw()
-                        lvl4basemusic.pause()
-                        lvl4bossmusic.playbackRate = .4 + (1 - (.5 * (boss.health / boss.maxhealth)));
-                        lvl4bossmusic.play()
-                    } else if (pomao.body.y < (-10300 - 6550) + 350) {
-                        lvl4basemusic.play()
-                        boss.getdrawn = 1
-                    }
-                    //     }  
                     // }
                 }
-                if (level == 5) {
-                    chafer.draw()
+                let cutlength = 2
+                for (let k = 0; k < cutlength; k++) {
+                    for (let t = 0; t < snows.length; t++) {
+                        if (snows[t].marked == 1) {
+                            snows.splice(t, 1)
+                            // cutlength++
+                        }
+                    }
                 }
-                if (level == 7) {
+            } else {
+                level10basemusic.pause()
+            }
+
+
+            for (let t = 0; t < fruits.length; t++) {
+                if (fruits[t].x > this.body.x - ((tutorial_canvas.width / 2) + fruits[t].width) && fruits[t].x < this.body.x + ((tutorial_canvas.width / 2) + fruits[t].width)) {
+                    if (fruits[t].y > this.body.y - ((tutorial_canvas.height / 2) + fruits[t].height) && fruits[t].y < this.body.y + ((tutorial_canvas.height / 2) + fruits[t].height)) {
+
+                        fruits[t].draw()
+
+                    }
+                }
+            }
+
+            if (level == 1) {
+                if (boss.body1.x > pomao.body.x - ((tutorial_canvas.width * 3) + boss.body1.radius) && boss.body1.x < pomao.body.x + ((tutorial_canvas.width * 3) + boss.body1.radius)) {
+                    if (boss.body1.y > pomao.body.y - ((tutorial_canvas.height * 3) + boss.body1.radius) && boss.body1.y < pomao.body.y + ((tutorial_canvas.height * 3) + boss.body1.radius)) {
+                        boss.fight = 1
+                    }
+                } else {
+                    lvl1basemusic.play()
+                }
+                if (boss.fight == 1) {
                     boss.draw()
                 }
+            } else {
+                lvl1basemusic.pause()
+            }
+            if (level == 4) {
+                // if(boss.body.x > pomao.body.x-((tutorial_canvas.width*3)+boss.body.radius) && boss.body.x < pomao.body.x+((tutorial_canvas.width*3)+boss.body.radius) ){
+                //     if(boss.body.y > pomao.body.y-((tutorial_canvas.height*6)+boss.body.radius) && boss.body.y < pomao.body.y+((tutorial_canvas.height*6)+boss.body.radius) ){
 
-                // for(let t = 0; t<fruits.length; t++){
-                //         //394929
-                //         fruits[t].draw()
-
+                if (boss.getdrawn == 1) {
+                    boss.draw()
+                    lvl4basemusic.pause()
+                    lvl4bossmusic.playbackRate = .4 + (1 - (.5 * (boss.health / boss.maxhealth)));
+                    lvl4bossmusic.play()
+                } else if (pomao.body.y < (-10300 - 6550) + 350) {
+                    lvl4basemusic.play()
+                    boss.getdrawn = 1
+                }
+                //     }  
                 // }
+            }
+            if (level == 5) {
+                chafer.draw()
+            }
+            if (level == 7) {
+                boss.draw()
+            }
 
-                for (let t = 0; t < boys.length; t++) {
-                    if (boys[t].cactus == 1) {
-                        if (boys[t].x > this.body.x - (tutorial_canvas.width * 1.6) && boys[t].x < this.body.x + (tutorial_canvas.width * 1.6)) {
-                            if (boys[t].y > this.body.y - (tutorial_canvas.height * 3.6) && boys[t].y < this.body.y + (tutorial_canvas.height * 3.6)) {
-                                boys[t].draw()
-                            }
-                        }
-                    } else {
-                        if (boys[t].x > this.body.x - (tutorial_canvas.width / 1) && boys[t].x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                            if (boys[t].y > this.body.y - (tutorial_canvas.height / 1.6) && boys[t].y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                                boys[t].draw()
-                            }
-                        }
-                    }
+            // for(let t = 0; t<fruits.length; t++){
+            //         //394929
+            //         fruits[t].draw()
 
-                }
+            // }
 
-                for (let t = 0; t < swimmers.length; t++) {
-                    if (swimmers[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && swimmers[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                        if (swimmers[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && swimmers[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                            swimmers[t].draw()
+            for (let t = 0; t < boys.length; t++) {
+                if (boys[t].cactus == 1) {
+                    if (boys[t].x > this.body.x - (tutorial_canvas.width * 1.6) && boys[t].x < this.body.x + (tutorial_canvas.width * 1.6)) {
+                        if (boys[t].y > this.body.y - (tutorial_canvas.height * 3.6) && boys[t].y < this.body.y + (tutorial_canvas.height * 3.6)) {
+                            boys[t].draw()
                         }
                     }
-                }
-
-
-                for (let t = 0; t < worms.length; t++) {
-                    if (worms[t].boss == 1) {
-                        if (pomao.body.y < -8570) {
-                            worms[t].draw()
-                        }
-                    } else {
-                        if (worms[t].dangler == 0) {
-                            if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
-                                if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .7) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .016)) {
-                                    if (worms[t].layer == 0) {
-                                        worms[t].draw()
-                                    }
-                                }
-                            }
-                        } else {
-                            if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
-                                if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .5) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .5)) {  //.2
-                                    if (worms[t].layer == 0) {
-                                        worms[t].draw()
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                for (let t = 0; t < worms.length; t++) {
-                    if (worms[t].marked == 1) {
-                        if (pomao.eggs.length < 16) {
-                            if (worms[t].bopped !== 1) {
-                                const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
-                                pomao.eggs.push(seepx)  //seemingly busted, gives egg on egg hit
-
-                                pomao.hits += 1
-                                if (pomao.hits > 9) {
-                                    pomao.hits = 9
-                                }
-                            }
-                        }
-                        worms.splice(t, 1)
-
-                    }
-                }
-                for (let t = 0; t < bats.length; t++) {
-                    if (bats[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && bats[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                        if (bats[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && bats[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
-                            bats[t].draw()
-                        }
-                    }
-                }
-                // for(let t = 0; t<swimmers.length; t++){
-                //         swimmers[t].draw()
-                // }
-                for (let t = 0; t < swimmers.length; t++) {
-                    swimmers[t].clean()
-                }
-
-                for (let t = 0; t < bats.length; t++) {
-                    bats[t].clean()
-                }
-
-
-                for (let t = 0; t < deadboys.length; t++) {
-                    deadboys[t].popdraw()
-                }
-
-
-
-                // this.link = new Line(this.body.x, 3+this.body.y, this.tongue.x, this.tongue.y, "blue", 3)
-                // this.link.draw()
-
-
-                if (!keysPressed['q']) {
-
-                    if (this.diry == -1) {
-                        hot--
-                        for (let t = 0; t < this.thrown.length; t++) {
-                            if (this.body.repelCheck(this.thrown[t]) && this.thrown[t].timer < 5) {
-                                hot = 20
-                                this.thrown[t].timer = 6
-                            }
-                        }
-                        if (this.tonguex > 14 && this.tonguey > 25) {
-                            if (this.blush <= 1) {
-                                tutorial_canvas_context.drawImage(pomaodownpaint, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                            } else {
-                                tutorial_canvas_context.drawImage(pomaodownpaintb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                            }
-                        } else if (this.tonguex < -14 && this.tonguey > 25) {
-                            if (this.blush <= 1) {
-                                tutorial_canvas_context.drawImage(pomaodownpaintl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                            } else {
-                                tutorial_canvas_context.drawImage(pomaodownpaintlb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                            }
-                        } else if (hot <= 0) {
-
-                            if (this.blush <= 1) {
-
-                                if (this.disabled == 0) {
-                                    if (this.dir == 1) {
-                                        if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                            tutorial_canvas_context.drawImage(pomaof, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        } else {
-                                            tutorial_canvas_context.drawImage(pomaoimg, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        }
-                                    } else {
-                                        if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                            tutorial_canvas_context.drawImage(pomaofl, (pomaofl.width / 3 * this.flap), 0, pomaofl.width / 3, pomaofl.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        } else {
-                                            tutorial_canvas_context.drawImage(pomaoimgl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        }
-                                    }
-                                } else {
-                                    if (this.dir == 1) {
-                                        if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                            tutorial_canvas_context.drawImage(pomaofh, (pomaofh.width / 3 * this.flap), 0, pomaofh.width / 3, pomaofh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        } else {
-                                            tutorial_canvas_context.drawImage(pomaoimgh, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        }
-                                    } else {
-                                        if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                            tutorial_canvas_context.drawImage(pomaoflh, (pomaoflh.width / 3 * this.flap), 0, pomaoflh.width / 3, pomaoflh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        } else {
-                                            tutorial_canvas_context.drawImage(pomaoimglh, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (this.disabled == 0) {
-                                    if (this.dir == 1) {
-                                        if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                            tutorial_canvas_context.drawImage(pomaofb, (pomaofb.width / 3 * this.flap), 0, pomaofb.width / 3, pomaofb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        } else {
-                                            tutorial_canvas_context.drawImage(pomaoimgb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        }
-                                    } else {
-                                        if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                            tutorial_canvas_context.drawImage(pomaoflb, (pomaoflb.width / 3 * this.flap), 0, pomaoflb.width / 3, pomaoflb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        } else {
-                                            tutorial_canvas_context.drawImage(pomaoimgbl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        }
-                                    }
-                                } else {
-
-                                    if (this.dir == 1) {
-                                        if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                            tutorial_canvas_context.drawImage(pomaofbh, (pomaofbh.width / 3 * this.flap), 0, pomaofbh.width / 3, pomaofbh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        } else {
-                                            tutorial_canvas_context.drawImage(pomaoimglhb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        }
-                                    } else {
-                                        if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
-                                            tutorial_canvas_context.drawImage(pomaoflbh, (pomaoflbh.width / 3 * this.flap), 0, pomaoflbh.width / 3, pomaoflbh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        } else {
-                                            tutorial_canvas_context.drawImage(pomaoimghb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-
-                            if (this.blush <= 1) {
-                                if (this.dir == 1) {
-
-                                    if (this.hng !== 0) {
-                                        tutorial_canvas_context.drawImage(pomaospitf, (pomaospitf.width / 3 * this.flap), 0, pomaospitf.width / 3, pomaospitf.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-
-                                    } else {
-
-                                        tutorial_canvas_context.drawImage(pomaospit, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                    }
-                                } else {
-
-                                    if (this.hng !== 0) {
-                                        tutorial_canvas_context.drawImage(pomaospitfl, (pomaospitfl.width / 3 * this.flap), 0, pomaospitfl.width / 3, pomaospitfl.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                    } else {
-                                        tutorial_canvas_context.drawImage(pomaospitl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-
-                                    }
-                                }
-                            } else {
-                                if (this.dir == 1) {
-
-                                    if (this.hng !== 0) {
-                                        tutorial_canvas_context.drawImage(pomaospitfb, (pomaospitfb.width / 3 * this.flap), 0, pomaospitfb.width / 3, pomaospitfb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-
-                                    } else {
-
-                                        tutorial_canvas_context.drawImage(pomaospitb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                    }
-                                } else {
-
-                                    if (this.hng !== 0) {
-                                        tutorial_canvas_context.drawImage(pomaospitflb, (pomaospitflb.width / 3 * this.flap), 0, pomaospitflb.width / 3, pomaospitflb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                                    } else {
-                                        tutorial_canvas_context.drawImage(pomaospitlb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-
-                                    }
-                                }
-
-                            }
-                        }
-                    } else {
-                        if (this.blush <= 1) {
-
-                            if (this.dir == 1) {
-                                tutorial_canvas_context.drawImage(pomaoimgup, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                            } else {
-                                tutorial_canvas_context.drawImage(pomaoimglup, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                            }
-
-                        } else {
-
-                            if (this.dir == 1) {
-                                tutorial_canvas_context.drawImage(pomaoimgupb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                            } else {
-                                tutorial_canvas_context.drawImage(pomaoimglupb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
-                            }
-                        }
-                    }
-
-                    // tutorial_canvas_context.drawImage(dealwithit, (this.body.x - (this.width / 2))+10, (this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5))-20, this.width, this.height)
-
-
-                    pomao.body.color = "transparent"
-
                 } else {
-                    // pomao.body = new Circlec(pomao.body.x, pomao.body.y, pomao.body.radius, "black")
-
-                    pomao.body.color = "black"
-                    pomao.body.draw()
-                    // pomao.body = new Circlex(pomao.body.x, pomao.body.y, pomao.body.radius, "black")
+                    if (boys[t].x > this.body.x - (tutorial_canvas.width / 1) && boys[t].x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                        if (boys[t].y > this.body.y - (tutorial_canvas.height / 1.6) && boys[t].y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                            boys[t].draw()
+                        }
+                    }
                 }
 
+            }
 
-                for (let t = 0; t < worms.length; t++) {
-                    if (worms[t].boss == 1) {
-                        // if (pomao.y < -9170) {
-                        //     // worms[t].draw() // maybe remove this?
-                        // }
-                    } else {
+            for (let t = 0; t < swimmers.length; t++) {
+                if (swimmers[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && swimmers[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                    if (swimmers[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && swimmers[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                        swimmers[t].draw()
+                    }
+                }
+            }
+
+
+            for (let t = 0; t < worms.length; t++) {
+                if (worms[t].boss == 1) {
+                    if (pomao.body.y < -8570) {
+                        worms[t].draw()
+                    }
+                } else {
+                    if (worms[t].dangler == 0) {
                         if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
                             if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .7) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .016)) {
-                                if (worms[t].layer == 1) {
+                                if (worms[t].layer == 0) {
+                                    worms[t].draw()
+                                }
+                            }
+                        }
+                    } else {
+                        if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
+                            if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .5) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .5)) {  //.2
+                                if (worms[t].layer == 0) {
                                     worms[t].draw()
                                 }
                             }
                         }
                     }
                 }
-                for (let t = 0; t < worms.length; t++) {
-                    if (worms[t].marked == 1) {
-                        if (pomao.eggs.length < 16) {
-                            if (worms[t].bopped !== 1) {
-                                const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
-                                pomao.eggs.push(seepx)  //seemingly busted, gives egg on egg  // fixed
-                            }
+            }
+            for (let t = 0; t < worms.length; t++) {
+                if (worms[t].marked == 1) {
+                    if (pomao.eggs.length < 16) {
+                        if (worms[t].bopped !== 1) {
+                            const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
+                            pomao.eggs.push(seepx)  //seemingly busted, gives egg on egg hit
+
                             pomao.hits += 1
                             if (pomao.hits > 9) {
                                 pomao.hits = 9
                             }
                         }
-                        worms.splice(t, 1)
-
                     }
-                }
+                    worms.splice(t, 1)
 
-
-                // this.diry = 1
-                // this.body.draw()
-                // this.footspot.draw()
-                this.body.xmom *= .96
-                if (Math.abs(this.body.xmom) < .5) {
-                    this.body.xmom = 0
-                    this.disabled = 0
                 }
-                this.health.draw()
             }
-            control() {
-
-                if (gamepadAPI.buttonsStatus.includes('RB') || keysPressed['p']) {
-                    if (this.pausetimer <= 0) {
-                        this.paused = -10
-                        this.pausetimer = 20
+            for (let t = 0; t < bats.length; t++) {
+                if (bats[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && bats[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                    if (bats[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && bats[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                        bats[t].draw()
                     }
                 }
-                this.pausetimer--
+            }
+            // for(let t = 0; t<swimmers.length; t++){
+            //         swimmers[t].draw()
+            // }
+            for (let t = 0; t < swimmers.length; t++) {
+                swimmers[t].clean()
+            }
+
+            for (let t = 0; t < bats.length; t++) {
+                bats[t].clean()
+            }
 
 
-                for (let t = 0; t < blocks.length; t++) {
-                    blocks[t].marked = 0
-                }
+            for (let t = 0; t < deadboys.length; t++) {
+                deadboys[t].popdraw()
+            }
 
-                for (let t = 0; t < blocks.length; t++) {
-                    if (squarecirclefaceblockjump(blocks[t], pomao.body)) {
-                        if (blocks[t].x < pomao.body.x) {
-                            blocks[t].marked = 1
+
+
+            // this.link = new Line(this.body.x, 3+this.body.y, this.tongue.x, this.tongue.y, "blue", 3)
+            // this.link.draw()
+
+
+            if (!keysPressed['q']) {
+
+                if (this.diry == -1) {
+                    hot--
+                    for (let t = 0; t < this.thrown.length; t++) {
+                        if (this.body.repelCheck(this.thrown[t]) && this.thrown[t].timer < 5) {
+                            hot = 20
+                            this.thrown[t].timer = 6
+                        }
+                    }
+                    if (this.tonguex > 14 && this.tonguey > 25) {
+                        if (this.blush <= 1) {
+                            tutorial_canvas_context.drawImage(pomaodownpaint, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         } else {
-                            blocks[t].marked = -1
+                            tutorial_canvas_context.drawImage(pomaodownpaintb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         }
-                    }
-                }
+                    } else if (this.tonguex < -14 && this.tonguey > 25) {
+                        if (this.blush <= 1) {
+                            tutorial_canvas_context.drawImage(pomaodownpaintl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                        } else {
+                            tutorial_canvas_context.drawImage(pomaodownpaintlb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                        }
+                    } else if (hot <= 0) {
 
-                gamepadAPI.update()
+                        if (this.blush <= 1) {
 
-                // //////console.log(gamepadAPI)
-                //   if(gamepadAPI.buttonsStatus.includes('A')){
-                if (gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A')) {
-                    // this.rooted = {}
-                    if (pomao.jumping == 0) {
-                        pomao.body.ymom = -5.1
+                            if (this.disabled == 0) {
+                                if (this.dir == 1) {
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaof, (pomaof.width / 3 * this.flap), 0, pomaof.width / 3, pomaof.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimg, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
+                                } else {
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaofl, (pomaofl.width / 3 * this.flap), 0, pomaofl.width / 3, pomaofl.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimgl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
+                                }
+                            } else {
+                                if (this.dir == 1) {
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaofh, (pomaofh.width / 3 * this.flap), 0, pomaofh.width / 3, pomaofh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimgh, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
+                                } else {
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaoflh, (pomaoflh.width / 3 * this.flap), 0, pomaoflh.width / 3, pomaoflh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimglh, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
+                                }
+                            }
+                        } else {
+                            if (this.disabled == 0) {
+                                if (this.dir == 1) {
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaofb, (pomaofb.width / 3 * this.flap), 0, pomaofb.width / 3, pomaofb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimgb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
+                                } else {
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaoflb, (pomaoflb.width / 3 * this.flap), 0, pomaoflb.width / 3, pomaoflb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimgbl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
+                                }
+                            } else {
 
-                        this.runner = 0
-                    } else if (this.jumping == 2) {
-                        if (this.bonked == 0) {
-                            this.body.ymom = -2.1
-                            this.runner = 0
+                                if (this.dir == 1) {
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaofbh, (pomaofbh.width / 3 * this.flap), 0, pomaofbh.width / 3, pomaofbh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimglhb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
+                                } else {
+                                    if (this.hng != 0 && this.pounding < 10 && (keysPressed['w'] || gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A'))) {
+                                        tutorial_canvas_context.drawImage(pomaoflbh, (pomaoflbh.width / 3 * this.flap), 0, pomaoflbh.width / 3, pomaoflbh.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    } else {
+                                        tutorial_canvas_context.drawImage(pomaoimghb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                    }
+                                }
+                            }
                         }
                     } else {
 
-                        if (pomao.runner > 37) {
+                        if (this.blush <= 1) {
+                            if (this.dir == 1) {
 
-                            if (pomao.hng < .1) {
-                                pomao.hng += .006
-                            } else if (pomao.hng < .2) {
-                                pomao.hng += .006
+                                if (this.hng !== 0) {
+                                    tutorial_canvas_context.drawImage(pomaospitf, (pomaospitf.width / 3 * this.flap), 0, pomaospitf.width / 3, pomaospitf.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+
+                                } else {
+
+                                    tutorial_canvas_context.drawImage(pomaospit, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                }
                             } else {
-                                pomao.hng += .001
+
+                                if (this.hng !== 0) {
+                                    tutorial_canvas_context.drawImage(pomaospitfl, (pomaospitfl.width / 3 * this.flap), 0, pomaospitfl.width / 3, pomaospitfl.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                } else {
+                                    tutorial_canvas_context.drawImage(pomaospitl, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+
+                                }
                             }
-                            if (pomao.hng < .216) {
-                                pomao.body.ymom += -pomao.hng
-                                //////console.log(pomao.hng)
+                        } else {
+                            if (this.dir == 1) {
+
+                                if (this.hng !== 0) {
+                                    tutorial_canvas_context.drawImage(pomaospitfb, (pomaospitfb.width / 3 * this.flap), 0, pomaospitfb.width / 3, pomaospitfb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+
+                                } else {
+
+                                    tutorial_canvas_context.drawImage(pomaospitb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                }
                             } else {
-                                // pomao.hng = -.05
-                                // pomao.runner = 0
-                            }
 
-                        }
+                                if (this.hng !== 0) {
+                                    tutorial_canvas_context.drawImage(pomaospitflb, (pomaospitflb.width / 3 * this.flap), 0, pomaospitflb.width / 3, pomaospitflb.height, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                                } else {
+                                    tutorial_canvas_context.drawImage(pomaospitlb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
 
-                    }
-                } else if (keysPressed['w'] || gamepadAPI.buttonsStatus.includes('A')) {
-                    // this.rooted = {}
-                    if (this.jumping == 0) {
-                        if (this.bonked == 0) {
-
-                            this.body.ymom = -5.1
-                            this.runner = 0
-                        }
-                    } else if (this.jumping == 2) {
-                        if (this.bonked == 0) {
-                            this.body.ymom = -2.1
-                            this.runner = 0
-                        }
-                    } else {
-                        if (this.runner > 37) {
-
-                            if (this.hng < .1) {
-                                this.hng += .006
-                            } else if (this.hng < .2) {
-                                this.hng += .006
-                            } else {
-                                this.hng += .001
-                            }
-                            if (this.hng < .216) {
-                                this.body.ymom += -this.hng
-                            } else {
-                                // this.hng = -.05
-                                // this.runner = 0
+                                }
                             }
 
                         }
                     }
                 } else {
-                    if (this.hng != 0) {
-                        this.hng *= .997
-                    }
-                }
+                    if (this.blush <= 1) {
 
-                // pomao.xdir = 0
-                // pomao.ydir = 0
-
-
-
-
-                let gamepad
-                // //////console.log(pomao)
-
-
-
-
-                this.ydir = 0
-                this.xdir = 0
-                // for(let t = 0; Math.abs(this.body.ymom) > 5.2;t++){
-                //     this.body.ymom*=.99
-                // }
-                for (let t = 0; Math.abs(this.body.symom) > 5.2; t++) {
-                    this.body.symom *= .99
-                }
-                for (let t = 0; Math.abs(this.body.sxmom) > 3.5; t++) {
-                    this.body.sxmom *= .99
-                }
-                this.body.sxmom *= .999
-
-                this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
-                this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
-
-                //   if(gamepadAPI.buttonsStatus.includes('A')){
-                if (keysPressed['f'] || keysPressed['n'] || gamepadAPI.buttonsStatus.includes('DPad-Left')) {
-                    // this.rooted = {}
-                    if (this.jumping == 1) {
-                        if (this.body.ymom > -3.5) {
-                            if (this.runner > 21) {
-
-
-                                this.pounding = 10
-                                this.body.ymom = 17
-                                this.timeloop = Math.PI
-                            }
+                        if (this.dir == 1) {
+                            tutorial_canvas_context.drawImage(pomaoimgup, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                        } else {
+                            tutorial_canvas_context.drawImage(pomaoimglup, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         }
-                    }
 
-                }
+                    } else {
 
-
-
-
-                this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
-                this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
-                if (keysPressed['a'] || keysPressed['d'] || (this.body.symom !== 0 || this.body.sxmom !== 0)) {
-                    // this.rooted = {}
-                    for (let t = 1; t < this.eggs.length; t++) {
-                        if (this.eggs[t].marked == 0) {
-                            if (this.blocked == 0) {
-                                this.eggs[t].steer()
-                            }
+                        if (this.dir == 1) {
+                            tutorial_canvas_context.drawImage(pomaoimgupb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
+                        } else {
+                            tutorial_canvas_context.drawImage(pomaoimglupb, this.body.x - (this.width / 2), this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5), this.width, this.height)
                         }
                     }
                 }
 
+                // tutorial_canvas_context.drawImage(dealwithit, (this.body.x - (this.width / 2))+10, (this.body.y - (this.height / 2) - (Math.sin(this.timeloop) * 1.5))-20, this.width, this.height)
 
-                if (keysPressed['s']) {
-                    // this.body.y+=2
-                    // for(let t = 0; t<fruits.length; t++){
-                    //     if(this.body.repelCheck(fruits[t].body)  || fruits[t].body.repelCheck(this.tongue)){
-                    //         // fruits[t].y+=1.9
-                    //         // fruits[t].x+=this.body.xmom
-                    //         // fruits[t].y+=this.body.ymom
-                    //     }
+
+                pomao.body.color = "transparent"
+
+            } else {
+                // pomao.body = new Circlec(pomao.body.x, pomao.body.y, pomao.body.radius, "black")
+
+                pomao.body.color = "black"
+                pomao.body.draw()
+                // pomao.body = new Circlex(pomao.body.x, pomao.body.y, pomao.body.radius, "black")
+            }
+
+
+            for (let t = 0; t < worms.length; t++) {
+                if (worms[t].boss == 1) {
+                    // if (pomao.y < -9170) {
+                    //     // worms[t].draw() // maybe remove this?
                     // }
+                } else {
+                    if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
+                        if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .7) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .016)) {
+                            if (worms[t].layer == 1) {
+                                worms[t].draw()
+                            }
+                        }
+                    }
+                }
+            }
+            for (let t = 0; t < worms.length; t++) {
+                if (worms[t].marked == 1) {
+                    if (pomao.eggs.length < 16) {
+                        if (worms[t].bopped !== 1) {
+                            const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
+                            pomao.eggs.push(seepx)  //seemingly busted, gives egg on egg  // fixed
+                        }
+                        pomao.hits += 1
+                        if (pomao.hits > 9) {
+                            pomao.hits = 9
+                        }
+                    }
+                    worms.splice(t, 1)
+
+                }
+            }
+
+
+            // this.diry = 1
+            // this.body.draw()
+            // this.footspot.draw()
+            this.body.xmom *= .96
+            if (Math.abs(this.body.xmom) < .5) {
+                this.body.xmom = 0
+                this.disabled = 0
+            }
+            this.health.draw()
+        }
+        control() {
+
+            if (gamepadAPI.buttonsStatus.includes('RB') || keysPressed['p']) {
+                if (this.pausetimer <= 0) {
+                    this.paused = -10
+                    this.pausetimer = 20
+                }
+            }
+            this.pausetimer--
+
+
+            for (let t = 0; t < blocks.length; t++) {
+                blocks[t].marked = 0
+            }
+
+            for (let t = 0; t < blocks.length; t++) {
+                if (squarecirclefaceblockjump(blocks[t], pomao.body)) {
+                    if (blocks[t].x < pomao.body.x) {
+                        blocks[t].marked = 1
+                    } else {
+                        blocks[t].marked = -1
+                    }
+                }
+            }
+
+            gamepadAPI.update()
+
+            // //////console.log(gamepadAPI)
+            //   if(gamepadAPI.buttonsStatus.includes('A')){
+            if (gamepadAPI.axesStatus[1] < -.5 || gamepadAPI.buttonsStatus.includes('A')) {
+                // this.rooted = {}
+                if (pomao.jumping == 0) {
+                    pomao.body.ymom = -5.1
+
+                    this.runner = 0
+                } else if (this.jumping == 2) {
+                    if (this.bonked == 0) {
+                        this.body.ymom = -2.1
+                        this.runner = 0
+                    }
+                } else {
+
+                    if (pomao.runner > 37) {
+
+                        if (pomao.hng < .1) {
+                            pomao.hng += .006
+                        } else if (pomao.hng < .2) {
+                            pomao.hng += .006
+                        } else {
+                            pomao.hng += .001
+                        }
+                        if (pomao.hng < .216) {
+                            pomao.body.ymom += -pomao.hng
+                            //////console.log(pomao.hng)
+                        } else {
+                            // pomao.hng = -.05
+                            // pomao.runner = 0
+                        }
+
+                    }
+
+                }
+            } else if (keysPressed['w'] || gamepadAPI.buttonsStatus.includes('A')) {
+                // this.rooted = {}
+                if (this.jumping == 0) {
+                    if (this.bonked == 0) {
+
+                        this.body.ymom = -5.1
+                        this.runner = 0
+                    }
+                } else if (this.jumping == 2) {
+                    if (this.bonked == 0) {
+                        this.body.ymom = -2.1
+                        this.runner = 0
+                    }
+                } else {
+                    if (this.runner > 37) {
+
+                        if (this.hng < .1) {
+                            this.hng += .006
+                        } else if (this.hng < .2) {
+                            this.hng += .006
+                        } else {
+                            this.hng += .001
+                        }
+                        if (this.hng < .216) {
+                            this.body.ymom += -this.hng
+                        } else {
+                            // this.hng = -.05
+                            // this.runner = 0
+                        }
+
+                    }
+                }
+            } else {
+                if (this.hng != 0) {
+                    this.hng *= .997
+                }
+            }
+
+            // pomao.xdir = 0
+            // pomao.ydir = 0
+
+
+
+
+            let gamepad
+            // //////console.log(pomao)
+
+
+
+
+            this.ydir = 0
+            this.xdir = 0
+            // for(let t = 0; Math.abs(this.body.ymom) > 5.2;t++){
+            //     this.body.ymom*=.99
+            // }
+            for (let t = 0; Math.abs(this.body.symom) > 5.2; t++) {
+                this.body.symom *= .99
+            }
+            for (let t = 0; Math.abs(this.body.sxmom) > 3.5; t++) {
+                this.body.sxmom *= .99
+            }
+            this.body.sxmom *= .999
+
+            this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
+
+            //   if(gamepadAPI.buttonsStatus.includes('A')){
+            if (keysPressed['f'] || keysPressed['n'] || gamepadAPI.buttonsStatus.includes('DPad-Left')) {
+                // this.rooted = {}
+                if (this.jumping == 1) {
+                    if (this.body.ymom > -3.5) {
+                        if (this.runner > 21) {
+
+
+                            this.pounding = 10
+                            this.body.ymom = 17
+                            this.timeloop = Math.PI
+                        }
+                    }
                 }
 
+            }
 
-                this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
-                this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
-                if (this.disabled == 0) {
-                    if (keysPressed['a']) {
-                        // this.rooted = {}
+
+
+
+            this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
+            if (keysPressed['a'] || keysPressed['d'] || (this.body.symom !== 0 || this.body.sxmom !== 0)) {
+                // this.rooted = {}
+                for (let t = 1; t < this.eggs.length; t++) {
+                    if (this.eggs[t].marked == 0) {
+                        if (this.blocked == 0) {
+                            this.eggs[t].steer()
+                        }
+                    }
+                }
+            }
+
+
+            if (keysPressed['s']) {
+                // this.body.y+=2
+                // for(let t = 0; t<fruits.length; t++){
+                //     if(this.body.repelCheck(fruits[t].body)  || fruits[t].body.repelCheck(this.tongue)){
+                //         // fruits[t].y+=1.9
+                //         // fruits[t].x+=this.body.xmom
+                //         // fruits[t].y+=this.body.ymom
+                //     }
+                // }
+            }
+
+
+            this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
+            if (this.disabled == 0) {
+                if (keysPressed['a']) {
+                    // this.rooted = {}
+                    this.dir = -1
+                    if (this.blocked !== 1) {
                         this.dir = -1
-                        if (this.blocked !== 1) {
-                            this.dir = -1
-                            this.body.x -= 3
-                            if (this.body.sxmom > 0) {
-                                this.body.sxmom = 0
-                            }
-
-                            tutorial_canvas_context.translate(3, 0)
-                            for (let t = 0; t < fruits.length; t++) {
-                                if (this.body.repelCheck(fruits[t].body) || fruits[t].body.repelCheck(this.tongue)) {
-                                    fruits[t].x -= 2.9
-                                    // fruits[t].x+=this.body.xmom
-                                    // fruits[t].y+=this.body.ymom
-                                }
-                            }
-
+                        this.body.x -= 3
+                        if (this.body.sxmom > 0) {
+                            this.body.sxmom = 0
                         }
 
-                        for (let t = 0; t < blocks.length; t++) {
-                            if (blocks[t].marked == 1) {
-                                if (!nails.includes(blocks[t])) {
-
-                                    if (!blocks[t].isBlocked) {
-                                        blocks[t].x -= 2.9999
-                                    }
-                                }
-                                // blocks[t].xmom-=.1
+                        tutorial_canvas_context.translate(3, 0)
+                        for (let t = 0; t < fruits.length; t++) {
+                            if (this.body.repelCheck(fruits[t].body) || fruits[t].body.repelCheck(this.tongue)) {
+                                fruits[t].x -= 2.9
+                                // fruits[t].x+=this.body.xmom
+                                // fruits[t].y+=this.body.ymom
                             }
                         }
-                    } else if (keysPressed['d']) {
-                        // this.rooted = {}
+
+                    }
+
+                    for (let t = 0; t < blocks.length; t++) {
+                        if (blocks[t].marked == 1) {
+                            if (!nails.includes(blocks[t])) {
+
+                                if (!blocks[t].isBlocked) {
+                                    blocks[t].x -= 2.9999
+                                }
+                            }
+                            // blocks[t].xmom-=.1
+                        }
+                    }
+                } else if (keysPressed['d']) {
+                    // this.rooted = {}
+                    this.dir = 1
+                    if (this.blocked !== -1) {
+                        this.body.x += 3
                         this.dir = 1
-                        if (this.blocked !== -1) {
-                            this.body.x += 3
-                            this.dir = 1
-                            if (this.body.sxmom < 0) {
-                                this.body.sxmom = 0
-                            }
+                        if (this.body.sxmom < 0) {
+                            this.body.sxmom = 0
+                        }
 
-                            tutorial_canvas_context.translate(-3, 0)
-                            for (let t = 0; t < fruits.length; t++) {
-                                if (this.body.repelCheck(fruits[t].body) || fruits[t].body.repelCheck(this.tongue)) {
-                                    fruits[t].x += 2.9
-                                    // fruits[t].x+=this.body.xmom
-                                    // fruits[t].y+=this.body.ymom
-                                }
+                        tutorial_canvas_context.translate(-3, 0)
+                        for (let t = 0; t < fruits.length; t++) {
+                            if (this.body.repelCheck(fruits[t].body) || fruits[t].body.repelCheck(this.tongue)) {
+                                fruits[t].x += 2.9
+                                // fruits[t].x+=this.body.xmom
+                                // fruits[t].y+=this.body.ymom
                             }
                         }
-                        for (let t = 0; t < blocks.length; t++) {
-                            if (blocks[t].marked == -1) {
-                                if (!nails.includes(blocks[t])) {
-                                    if (!blocks[t].isBlocked) {
-                                        blocks[t].x += 2.9999
-                                    }
+                    }
+                    for (let t = 0; t < blocks.length; t++) {
+                        if (blocks[t].marked == -1) {
+                            if (!nails.includes(blocks[t])) {
+                                if (!blocks[t].isBlocked) {
+                                    blocks[t].x += 2.9999
                                 }
-                                // blocks[t].xmom+=.1
                             }
+                            // blocks[t].xmom+=.1
                         }
-                    } else if (gamepadAPI.axesStatus.length > 0) {
-                        if (Math.abs(gamepadAPI.axesStatus[0]) > .2) {
-                            // this.rooted = {}
-                            // pomao.body.x+= gamepadAPI.axesStatus[0]*3
-                            // tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
+                    }
+                } else if (gamepadAPI.axesStatus.length > 0) {
+                    if (Math.abs(gamepadAPI.axesStatus[0]) > .2) {
+                        // this.rooted = {}
+                        // pomao.body.x+= gamepadAPI.axesStatus[0]*3
+                        // tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0]*3,0)
 
-                            // }else{
-                            // }else if(pomao.blocked*gamepadAPI.axesStatus[0]*3 > 0){
+                        // }else{
+                        // }else if(pomao.blocked*gamepadAPI.axesStatus[0]*3 > 0){
 
 
 
-                            if (this.blocked == 0) {
-                                if (gamepadAPI.axesStatus[0] * 3 > 0) {
-                                    // ////console.log("top")
-                                    pomao.body.x += gamepadAPI.axesStatus[0] * 3
-                                    tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0] * 3, 0)
+                        if (this.blocked == 0) {
+                            if (gamepadAPI.axesStatus[0] * 3 > 0) {
+                                // ////console.log("top")
+                                pomao.body.x += gamepadAPI.axesStatus[0] * 3
+                                tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0] * 3, 0)
 
-                                    for (let t = 0; t < blocks.length; t++) {
-                                        if (blocks[t].marked == -1) {
-                                            if (!nails.includes(blocks[t])) {
-                                                if (!blocks[t].isBlocked) {
-                                                    blocks[t].x += gamepadAPI.axesStatus[0] * 2.999
-                                                }
+                                for (let t = 0; t < blocks.length; t++) {
+                                    if (blocks[t].marked == -1) {
+                                        if (!nails.includes(blocks[t])) {
+                                            if (!blocks[t].isBlocked) {
+                                                blocks[t].x += gamepadAPI.axesStatus[0] * 2.999
                                             }
-                                            // blocks[t].xmom+=.1
                                         }
-                                    }
-                                } else {
-                                    // ////console.log("bottom")
-                                    pomao.body.x += gamepadAPI.axesStatus[0] * 3
-                                    tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0] * 3, 0)
-
-                                    for (let t = 0; t < blocks.length; t++) {
-                                        if (blocks[t].marked == 1) {
-                                            if (!nails.includes(blocks[t])) {
-                                                if (!blocks[t].isBlocked) {
-                                                    blocks[t].x += gamepadAPI.axesStatus[0] * 2.999
-                                                }
-                                            }
-                                            // blocks[t].xmom+=.1
-                                        }
+                                        // blocks[t].xmom+=.1
                                     }
                                 }
-                            } else if (gamepadAPI.axesStatus[0] * 3 * this.blocked > 0) {
-                                // this.rooted = {}
+                            } else {
+                                // ////console.log("bottom")
                                 pomao.body.x += gamepadAPI.axesStatus[0] * 3
                                 tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0] * 3, 0)
 
@@ -7774,41 +7826,213 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                 }
                             }
+                        } else if (gamepadAPI.axesStatus[0] * 3 * this.blocked > 0) {
+                            // this.rooted = {}
+                            pomao.body.x += gamepadAPI.axesStatus[0] * 3
+                            tutorial_canvas_context.translate(-gamepadAPI.axesStatus[0] * 3, 0)
 
-
-                            // }
-                            if (gamepadAPI.axesStatus[0] * 3 < .1) {
-                                // this.rooted = {}
-                                pomao.dir = -1
-                                if (pomao.body.sxmom > 0) {
-                                    pomao.body.sxmom = 0
+                            for (let t = 0; t < blocks.length; t++) {
+                                if (blocks[t].marked == 1) {
+                                    if (!nails.includes(blocks[t])) {
+                                        if (!blocks[t].isBlocked) {
+                                            blocks[t].x += gamepadAPI.axesStatus[0] * 2.999
+                                        }
+                                    }
+                                    // blocks[t].xmom+=.1
                                 }
                             }
-                            if (gamepadAPI.axesStatus[0] * 3 > -.1) {
-                                // this.rooted = {}
-                                pomao.dir = 1
-                                if (pomao.body.sxmom < 0) {
-                                    pomao.body.sxmom = 0
-                                }
+                        }
+
+
+                        // }
+                        if (gamepadAPI.axesStatus[0] * 3 < .1) {
+                            // this.rooted = {}
+                            pomao.dir = -1
+                            if (pomao.body.sxmom > 0) {
+                                pomao.body.sxmom = 0
                             }
-                            for (let t = 1; t < pomao.eggs.length; t++) {
-                                pomao.eggs[t].steer()
+                        }
+                        if (gamepadAPI.axesStatus[0] * 3 > -.1) {
+                            // this.rooted = {}
+                            pomao.dir = 1
+                            if (pomao.body.sxmom < 0) {
+                                pomao.body.sxmom = 0
                             }
+                        }
+                        for (let t = 1; t < pomao.eggs.length; t++) {
+                            pomao.eggs[t].steer()
                         }
                     }
                 }
-                // if(keysPressed['p']){
-                //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
-                // }
+            }
+            // if(keysPressed['p']){
+            //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
+            // }
+
+            this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
+            if (keysPressed[' ']) {
 
                 this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
                 this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
-                if (keysPressed[' ']) {
+                this.tongue = new Circlec(this.body.x + this.tonguex, this.body.y + this.tonguey, 5, "blue")
+                if (this.bodyxtight.isPointInside(this.tongue)) {
+                    if (keysPressed['ArrowDown'] || keysPressed['k']) {
+                        this.ydir = 1
+                        // this.tongueymom = 33
+                    } if (keysPressed['ArrowUp'] || keysPressed['i']) {
+                        this.ydir = -1
+                        // //////console.log('hit')
+                        // this.tongueymom = -33
+                    } if (keysPressed['ArrowLeft'] || keysPressed['j']) {
+                        this.xdir = -1
+                        // this.tonguexmom = -33
+                    } if (keysPressed['ArrowRight'] || keysPressed['l']) {
+                        this.xdir = 1
+                        // this.tonguexmom = 33
+                    }
+                    if (this.xdir == 1) {
+                        this.tonguexmom = 33.1 / 2
+                        this.dir = 1
+                    }
+                    if (this.ydir == 1) {
+                        this.tongueymom = 33.1 / 2
+                    }
+                    if (this.xdir == -1) {
+                        this.tonguexmom = -33.1 / 2
+                        this.dir = -1
+                    }
+                    if (this.ydir == -1) {
+                        this.tongueymom = -33.1 / 2
+                    }
+                    if (this.xdir * this.ydir != 0) {
+                        this.tonguexmom *= .81
+                        this.tongueymom *= .81
+                    }
+
+                    if (this.xdir == 0 && this.ydir == 0) {
+                        if (this.dir == 1) {
+                            this.tonguey = 0
+                            this.tongueymom = 0
+                            this.tonguexmom = 34 / 2
+                        } else {
+                            this.tonguey = 0
+                            this.tongueymom = 0
+                            this.tonguexmom = -34 / 2
+                        }
+                    }
+
+                    this.fired = 3
+                }
+            } else if (gamepadAPI.axesStatus.length > 0) {
+                if (Math.abs(gamepadAPI.axesStatus[2]) + Math.abs(gamepadAPI.axesStatus[3]) > .9 && !gamepadAPI.buttonsStatus.includes('Axis-Right')) {
 
                     this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
                     this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
-                    this.tongue = new Circlec(this.body.x + this.tonguex, this.body.y + this.tonguey, 5, "blue")
-                    if (this.bodyxtight.isPointInside(this.tongue)) {
+                    if (pomao.bodyxtight.isPointInside(pomao.tongue)) {
+
+                        this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
+                        this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
+
+                        let kick = 0
+
+
+
+
+
+                        const hurtle = (Rax(Math.atan2(((gamepadAPI.axesStatus[3])), ((gamepadAPI.axesStatus[2])))))
+
+
+                        if ((hurtle > 0 && hurtle < 22.5) || (hurtle > (360 - 22.5))) {
+                            pomao.xdir = 1
+                            pomao.tonguexmom = 33.1 / 2
+                            pomao.dir = 1
+                            kick++
+                        }
+                        if ((hurtle > 22.5 && hurtle < 67.5)) {
+                            pomao.xdir = 1
+                            pomao.tonguexmom = 33.1 / 2
+                            pomao.dir = 1
+                            kick++
+                            pomao.ydir = 1
+                            pomao.tongueymom = 33.1 / 2
+                            kick++
+                        }
+                        if ((hurtle > 67.5 && hurtle < 112.5)) {
+                            pomao.ydir = 1
+                            pomao.tongueymom = 33.1 / 2
+                            kick++
+                        }
+                        if ((hurtle > 112.5 && hurtle < 157.5)) {
+                            pomao.xdir = -1
+                            pomao.tonguexmom = -33.1 / 2
+                            pomao.dir = -1
+                            kick++
+                            pomao.ydir = 1
+                            pomao.tongueymom = 33.1 / 2
+                            kick++
+                        }
+                        if ((hurtle > 157.5 && hurtle < 202.5)) {
+                            pomao.xdir = -1
+                            pomao.tonguexmom = -33.1 / 2
+                            pomao.dir = -1
+                            kick++
+                        }
+                        if ((hurtle > 202.5 && hurtle < 247.5)) {
+                            pomao.xdir = -1
+                            pomao.tonguexmom = -33.1 / 2
+                            pomao.dir = -1
+                            kick++
+                            pomao.ydir = -1
+                            pomao.tongueymom = -33.1 / 2
+                            kick++
+                        }
+                        if ((hurtle > 247.5 && hurtle < 292.5)) {
+                            pomao.ydir = -1
+                            pomao.tongueymom = -33.1 / 2
+                            kick++
+                        }
+                        if ((hurtle > 292.5 && hurtle < (360 - 22.5))) {
+                            pomao.xdir = 1
+                            pomao.tonguexmom = 33.1 / 2
+                            kick++
+                            pomao.dir = 1
+                            pomao.ydir = -1
+                            pomao.tongueymom = -33.1 / 2
+                            kick++
+                        }
+
+
+                        if (kick == 2) {
+                            pomao.tonguexmom *= .81
+                            pomao.tongueymom *= .81
+                        }
+
+                        this.fired = 3
+
+                    }
+                }
+            } else if (this.bodytight.isPointInside(this.tongue)) {
+                this.tonguey *= .5
+                this.tonguex *= .5
+            }
+
+
+            this.ydir = 0
+            this.xdir = 0
+            this.eggtimer++
+
+            this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
+            this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
+            if (this.eggs[this.eggs.length - 1] != this.body) {
+
+                if (this.eggs.length > 1 && this.eggtimer > 10) {
+                    if (keysPressed['m'] || (gamepadAPI.buttonsStatus.includes('Axis-Right') && (Math.abs(gamepadAPI.axesStatus[2]) + Math.abs(gamepadAPI.axesStatus[3]) > .3))) {
+
+                        if (keysPressed['m']) {
+
+                            this.eggtimer = 0
+                        }
                         if (keysPressed['ArrowDown'] || keysPressed['k']) {
                             this.ydir = 1
                             // this.tongueymom = 33
@@ -7823,333 +8047,177 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             this.xdir = 1
                             // this.tonguexmom = 33
                         }
-                        if (this.xdir == 1) {
-                            this.tonguexmom = 33.1 / 2
-                            this.dir = 1
-                        }
-                        if (this.ydir == 1) {
-                            this.tongueymom = 33.1 / 2
-                        }
-                        if (this.xdir == -1) {
-                            this.tonguexmom = -33.1 / 2
-                            this.dir = -1
-                        }
-                        if (this.ydir == -1) {
-                            this.tongueymom = -33.1 / 2
-                        }
-                        if (this.xdir * this.ydir != 0) {
-                            this.tonguexmom *= .81
-                            this.tongueymom *= .81
-                        }
 
-                        if (this.xdir == 0 && this.ydir == 0) {
-                            if (this.dir == 1) {
-                                this.tonguey = 0
-                                this.tongueymom = 0
-                                this.tonguexmom = 34 / 2
-                            } else {
-                                this.tonguey = 0
-                                this.tongueymom = 0
-                                this.tonguexmom = -34 / 2
+                        //.3
+                        // if(gamepadAPI.axesStatus[3] < -.3){
+                        //     pomao.ydir = -1
+                        //     // pomao.tongueymom = -33.1
+                        // } if(gamepadAPI.axesStatus[3] > .3){
+                        //     pomao.ydir = 1
+                        //     // pomao.tongueymom = 33.1
+                        //     pomao.dir = 1
+                        // }
+                        // if(gamepadAPI.axesStatus[2] > .3){
+                        //     pomao.xdir = 1
+                        //     // pomao.tonguexmom = 33.1
+                        // }
+                        // if(gamepadAPI.axesStatus[2] < -.3){
+                        //     pomao.xdir = -1
+                        //     // pomao.tonguexmom = -33.1
+                        //     pomao.dir = -1
+                        // }
+
+                        if (keysPressed['m']) {
+                            if (this.xdir == -1) {
+                                this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
+                                this.eggs[this.eggs.length - 1].y = this.body.y
+                                this.eggs[this.eggs.length - 1].marked = 1
+                                this.eggs[this.eggs.length - 1].xmom = -12
+                                this.eggs[this.eggs.length - 1].ymom = -3
+                                // this.thrown.push(this.eggs[this.eggs.length-1])
+                                // this.eggs.pop()
+                                this.dir = -1
                             }
-                        }
-
-                        this.fired = 3
-                    }
-                } else if (gamepadAPI.axesStatus.length > 0) {
-                    if (Math.abs(gamepadAPI.axesStatus[2]) + Math.abs(gamepadAPI.axesStatus[3]) > .9 && !gamepadAPI.buttonsStatus.includes('Axis-Right')) {
-
-                        this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
-                        this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
-                        if (pomao.bodyxtight.isPointInside(pomao.tongue)) {
-
-                            this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
-                            this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
-
-                            let kick = 0
-
-
-
-
-
-                            const hurtle = (Rax(Math.atan2(((gamepadAPI.axesStatus[3])), ((gamepadAPI.axesStatus[2])))))
-
-
-                            if ((hurtle > 0 && hurtle < 22.5) || (hurtle > (360 - 22.5))) {
-                                pomao.xdir = 1
-                                pomao.tonguexmom = 33.1 / 2
-                                pomao.dir = 1
-                                kick++
+                            if (this.xdir == 1) {
+                                this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
+                                this.eggs[this.eggs.length - 1].y = this.body.y
+                                this.eggs[this.eggs.length - 1].marked = 1
+                                this.eggs[this.eggs.length - 1].xmom = 12
+                                this.eggs[this.eggs.length - 1].ymom = -3
+                                // this.thrown.push(this.eggs[this.eggs.length-1])
+                                // this.eggs.pop()
+                                this.dir = 1
                             }
-                            if ((hurtle > 22.5 && hurtle < 67.5)) {
-                                pomao.xdir = 1
-                                pomao.tonguexmom = 33.1 / 2
-                                pomao.dir = 1
-                                kick++
-                                pomao.ydir = 1
-                                pomao.tongueymom = 33.1 / 2
-                                kick++
+                            if (this.ydir == 1) {
+                                this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
+                                this.eggs[this.eggs.length - 1].y = this.body.y
+                                this.eggs[this.eggs.length - 1].marked = 1
+                                this.eggs[this.eggs.length - 1].xmom += this.dir
+                                this.eggs[this.eggs.length - 1].ymom = 8
+                                // this.thrown.push(this.eggs[this.eggs.length-1])
+                                // this.eggs.pop()
                             }
-                            if ((hurtle > 67.5 && hurtle < 112.5)) {
-                                pomao.ydir = 1
-                                pomao.tongueymom = 33.1 / 2
-                                kick++
+                            if (this.ydir == -1) {
+                                this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
+                                this.eggs[this.eggs.length - 1].y = this.body.y
+                                this.eggs[this.eggs.length - 1].marked = 1
+                                this.eggs[this.eggs.length - 1].xmom += this.dir
+                                this.eggs[this.eggs.length - 1].ymom = -8
+                                // this.thrown.push(this.eggs[this.eggs.length-1])
+                                // this.eggs.pop()
                             }
-                            if ((hurtle > 112.5 && hurtle < 157.5)) {
-                                pomao.xdir = -1
-                                pomao.tonguexmom = -33.1 / 2
-                                pomao.dir = -1
-                                kick++
-                                pomao.ydir = 1
-                                pomao.tongueymom = 33.1 / 2
-                                kick++
-                            }
-                            if ((hurtle > 157.5 && hurtle < 202.5)) {
-                                pomao.xdir = -1
-                                pomao.tonguexmom = -33.1 / 2
-                                pomao.dir = -1
-                                kick++
-                            }
-                            if ((hurtle > 202.5 && hurtle < 247.5)) {
-                                pomao.xdir = -1
-                                pomao.tonguexmom = -33.1 / 2
-                                pomao.dir = -1
-                                kick++
-                                pomao.ydir = -1
-                                pomao.tongueymom = -33.1 / 2
-                                kick++
-                            }
-                            if ((hurtle > 247.5 && hurtle < 292.5)) {
-                                pomao.ydir = -1
-                                pomao.tongueymom = -33.1 / 2
-                                kick++
-                            }
-                            if ((hurtle > 292.5 && hurtle < (360 - 22.5))) {
-                                pomao.xdir = 1
-                                pomao.tonguexmom = 33.1 / 2
-                                kick++
-                                pomao.dir = 1
-                                pomao.ydir = -1
-                                pomao.tongueymom = -33.1 / 2
-                                kick++
+                            if (this.xdir * this.ydir != 0) {
+                                // this.eggs[this.eggs.length-1].x  = this.body.x
+                                // this.eggs[this.eggs.length-1].y  = this.body.y
+                                this.eggs[this.eggs.length - 1].marked = 1
+                                this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
+                                this.eggs[this.eggs.length - 1].y = this.body.y
+                                this.eggs[this.eggs.length - 1].xmom *= .8
+                                this.eggs[this.eggs.length - 1].ymom *= .8
+                                // this.thrown.push(this.eggs[this.eggs.length-1])
+                                // this.eggs.pop()
                             }
 
 
-                            if (kick == 2) {
-                                pomao.tonguexmom *= .81
-                                pomao.tongueymom *= .81
-                            }
+                            if (this.xdir == 0 && this.ydir == 0) {
+                                if (this.dir == 1) {
 
-                            this.fired = 3
-
-                        }
-                    }
-                } else if (this.bodytight.isPointInside(this.tongue)) {
-                    this.tonguey *= .5
-                    this.tonguex *= .5
-                }
-
-
-                this.ydir = 0
-                this.xdir = 0
-                this.eggtimer++
-
-                this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
-                this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
-                if (this.eggs[this.eggs.length - 1] != this.body) {
-
-                    if (this.eggs.length > 1 && this.eggtimer > 10) {
-                        if (keysPressed['m'] || (gamepadAPI.buttonsStatus.includes('Axis-Right') && (Math.abs(gamepadAPI.axesStatus[2]) + Math.abs(gamepadAPI.axesStatus[3]) > .3))) {
-
-                            if (keysPressed['m']) {
-
-                                this.eggtimer = 0
-                            }
-                            if (keysPressed['ArrowDown'] || keysPressed['k']) {
-                                this.ydir = 1
-                                // this.tongueymom = 33
-                            } if (keysPressed['ArrowUp'] || keysPressed['i']) {
-                                this.ydir = -1
-                                // //////console.log('hit')
-                                // this.tongueymom = -33
-                            } if (keysPressed['ArrowLeft'] || keysPressed['j']) {
-                                this.xdir = -1
-                                // this.tonguexmom = -33
-                            } if (keysPressed['ArrowRight'] || keysPressed['l']) {
-                                this.xdir = 1
-                                // this.tonguexmom = 33
-                            }
-
-                            //.3
-                            // if(gamepadAPI.axesStatus[3] < -.3){
-                            //     pomao.ydir = -1
-                            //     // pomao.tongueymom = -33.1
-                            // } if(gamepadAPI.axesStatus[3] > .3){
-                            //     pomao.ydir = 1
-                            //     // pomao.tongueymom = 33.1
-                            //     pomao.dir = 1
-                            // }
-                            // if(gamepadAPI.axesStatus[2] > .3){
-                            //     pomao.xdir = 1
-                            //     // pomao.tonguexmom = 33.1
-                            // }
-                            // if(gamepadAPI.axesStatus[2] < -.3){
-                            //     pomao.xdir = -1
-                            //     // pomao.tonguexmom = -33.1
-                            //     pomao.dir = -1
-                            // }
-
-                            if (keysPressed['m']) {
-                                if (this.xdir == -1) {
-                                    this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
-                                    this.eggs[this.eggs.length - 1].y = this.body.y
-                                    this.eggs[this.eggs.length - 1].marked = 1
-                                    this.eggs[this.eggs.length - 1].xmom = -12
-                                    this.eggs[this.eggs.length - 1].ymom = -3
-                                    // this.thrown.push(this.eggs[this.eggs.length-1])
-                                    // this.eggs.pop()
-                                    this.dir = -1
-                                }
-                                if (this.xdir == 1) {
                                     this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
                                     this.eggs[this.eggs.length - 1].y = this.body.y
                                     this.eggs[this.eggs.length - 1].marked = 1
                                     this.eggs[this.eggs.length - 1].xmom = 12
-                                    this.eggs[this.eggs.length - 1].ymom = -3
+                                    this.eggs[this.eggs.length - 1].ymom = -.95
                                     // this.thrown.push(this.eggs[this.eggs.length-1])
                                     // this.eggs.pop()
-                                    this.dir = 1
-                                }
-                                if (this.ydir == 1) {
+                                } else {
+
                                     this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
                                     this.eggs[this.eggs.length - 1].y = this.body.y
                                     this.eggs[this.eggs.length - 1].marked = 1
-                                    this.eggs[this.eggs.length - 1].xmom += this.dir
-                                    this.eggs[this.eggs.length - 1].ymom = 8
-                                    // this.thrown.push(this.eggs[this.eggs.length-1])
-                                    // this.eggs.pop()
-                                }
-                                if (this.ydir == -1) {
-                                    this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
-                                    this.eggs[this.eggs.length - 1].y = this.body.y
-                                    this.eggs[this.eggs.length - 1].marked = 1
-                                    this.eggs[this.eggs.length - 1].xmom += this.dir
-                                    this.eggs[this.eggs.length - 1].ymom = -8
-                                    // this.thrown.push(this.eggs[this.eggs.length-1])
-                                    // this.eggs.pop()
-                                }
-                                if (this.xdir * this.ydir != 0) {
-                                    // this.eggs[this.eggs.length-1].x  = this.body.x
-                                    // this.eggs[this.eggs.length-1].y  = this.body.y
-                                    this.eggs[this.eggs.length - 1].marked = 1
-                                    this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
-                                    this.eggs[this.eggs.length - 1].y = this.body.y
-                                    this.eggs[this.eggs.length - 1].xmom *= .8
-                                    this.eggs[this.eggs.length - 1].ymom *= .8
+                                    this.eggs[this.eggs.length - 1].xmom = -12
+                                    this.eggs[this.eggs.length - 1].ymom = -.95
                                     // this.thrown.push(this.eggs[this.eggs.length-1])
                                     // this.eggs.pop()
                                 }
 
 
-                                if (this.xdir == 0 && this.ydir == 0) {
-                                    if (this.dir == 1) {
-
-                                        this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
-                                        this.eggs[this.eggs.length - 1].y = this.body.y
-                                        this.eggs[this.eggs.length - 1].marked = 1
-                                        this.eggs[this.eggs.length - 1].xmom = 12
-                                        this.eggs[this.eggs.length - 1].ymom = -.95
-                                        // this.thrown.push(this.eggs[this.eggs.length-1])
-                                        // this.eggs.pop()
-                                    } else {
-
-                                        this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
-                                        this.eggs[this.eggs.length - 1].y = this.body.y
-                                        this.eggs[this.eggs.length - 1].marked = 1
-                                        this.eggs[this.eggs.length - 1].xmom = -12
-                                        this.eggs[this.eggs.length - 1].ymom = -.95
-                                        // this.thrown.push(this.eggs[this.eggs.length-1])
-                                        // this.eggs.pop()
-                                    }
 
 
 
-
-
-                                    // //////console.log(this.eggs)
-                                    // this.eggs.splice(this.eggs.length-1, 1)
-                                    // //////console.log(this.eggs)
-                                }
+                                // //////console.log(this.eggs)
+                                // this.eggs.splice(this.eggs.length-1, 1)
+                                // //////console.log(this.eggs)
                             }
+                        }
 
 
 
-                            if (this.egglock == 3) {
-
-                                if (Math.abs(gamepadAPI.axesStatus[3]) > .25 || Math.abs(gamepadAPI.axesStatus[2]) > .25) {
-                                    this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
-                                    this.eggs[this.eggs.length - 1].y = this.body.y
-                                    this.eggs[this.eggs.length - 1].ymom = (gamepadAPI.axesStatus[3] * 14)
-                                    this.eggs[this.eggs.length - 1].xmom = (gamepadAPI.axesStatus[2] * 14)
-                                }
-                                if (pomao.blush > 1) {
-                                    this.eggs[this.eggs.length - 1].hot = 1
-                                }
-                                this.thrown.push(this.eggs[this.eggs.length - 1])
-                                for (let t = 0; t < pomao.eggs.length; t++) {
-                                    if (pomao.thrown.includes(pomao.eggs[t])) {
-                                        pomao.eggs.splice(t, 1)
-                                    }
-                                }
-                                this.egglock = 0
-                                this.eggtimer = 0
-                            }
-
+                        if (this.egglock == 3) {
 
                             if (Math.abs(gamepadAPI.axesStatus[3]) > .25 || Math.abs(gamepadAPI.axesStatus[2]) > .25) {
-                                this.egglock++
+                                this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
+                                this.eggs[this.eggs.length - 1].y = this.body.y
+                                this.eggs[this.eggs.length - 1].ymom = (gamepadAPI.axesStatus[3] * 14)
+                                this.eggs[this.eggs.length - 1].xmom = (gamepadAPI.axesStatus[2] * 14)
                             }
-
-                            if (keysPressed['m']) {
-                                if (pomao.blush > 1) {
-                                    this.eggs[this.eggs.length - 1].hot = 1
-                                }
-                                this.thrown.push(this.eggs[this.eggs.length - 1])
-                                for (let t = 0; t < pomao.eggs.length; t++) {
-                                    if (pomao.thrown.includes(pomao.eggs[t])) {
-                                        pomao.eggs.splice(t, 1)
-                                    }
+                            if (pomao.blush > 1) {
+                                this.eggs[this.eggs.length - 1].hot = 1
+                            }
+                            this.thrown.push(this.eggs[this.eggs.length - 1])
+                            for (let t = 0; t < pomao.eggs.length; t++) {
+                                if (pomao.thrown.includes(pomao.eggs[t])) {
+                                    pomao.eggs.splice(t, 1)
                                 }
                             }
-
+                            this.egglock = 0
+                            this.eggtimer = 0
                         }
+
+
+                        if (Math.abs(gamepadAPI.axesStatus[3]) > .25 || Math.abs(gamepadAPI.axesStatus[2]) > .25) {
+                            this.egglock++
+                        }
+
+                        if (keysPressed['m']) {
+                            if (pomao.blush > 1) {
+                                this.eggs[this.eggs.length - 1].hot = 1
+                            }
+                            this.thrown.push(this.eggs[this.eggs.length - 1])
+                            for (let t = 0; t < pomao.eggs.length; t++) {
+                                if (pomao.thrown.includes(pomao.eggs[t])) {
+                                    pomao.eggs.splice(t, 1)
+                                }
+                            }
+                        }
+
                     }
-
-                }
-                // if(keysPressed['ArrowDown'] || keysPressed['k'] ){
-                //     this.ydir = 1
-                //     // this.tongueymom = 33
-                //     } 
-                // if(keysPressed['ArrowUp'] || keysPressed['i'] ){
-                //     this.ydir = -1
-                //     // this.tongueymom = -33
-                //     } 
-                if (keysPressed['ArrowLeft'] || keysPressed['j']) {
-                    this.xdir = -1
-                    this.dir = -1
-                    // this.tonguexmom = -33
-                }
-                if (keysPressed['ArrowRight'] || keysPressed['l']) {
-                    this.xdir = 1
-                    this.dir = 1
-                    // this.tonguexmom = 33
                 }
 
-                this.runner++
+            }
+            // if(keysPressed['ArrowDown'] || keysPressed['k'] ){
+            //     this.ydir = 1
+            //     // this.tongueymom = 33
+            //     } 
+            // if(keysPressed['ArrowUp'] || keysPressed['i'] ){
+            //     this.ydir = -1
+            //     // this.tongueymom = -33
+            //     } 
+            if (keysPressed['ArrowLeft'] || keysPressed['j']) {
+                this.xdir = -1
+                this.dir = -1
+                // this.tonguexmom = -33
+            }
+            if (keysPressed['ArrowRight'] || keysPressed['l']) {
+                this.xdir = 1
+                this.dir = 1
+                // this.tonguexmom = 33
             }
 
-
+            this.runner++
         }
+
+
+    }
 
     let wind = Math.random() - .5
     let draft = Math.random() - .5
@@ -18657,6 +18725,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
 
+        // let snowfloor1 = new Rectangle(400, -320, 20, 720, "white")
+
+        // floors.push(snowfloor1)
+
         // for (let t = 0; t < 100; t++) {
         //     const floor = new Rectangle(-13000 + (150 * t), 66, 600, 333)
         //     floors.push(floor)
@@ -18725,6 +18797,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //     debris.push(radiator)
         // }
 
+
+
+        const drift1 = new Snowfloor(400, -320, 20, 720)
+
+        snowfloors.push(drift1)
+
+        const drift2 = new Snowfloor(700, -520, 20, 720)
+
+        snowfloors.push(drift2)
 
 
         for (let t = 0; t < 900; t++) {
