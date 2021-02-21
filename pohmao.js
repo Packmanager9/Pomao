@@ -15883,6 +15883,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
         level = 1
+        snowfloors.splice(0, snowfloors.length)
         pomao.thrown = []
         door = new Rectangle(4550, 450, 200, 200, "#090909")
 
@@ -16577,6 +16578,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
+        snowfloors.splice(0, snowfloors.length)
 
         pomao.thrown = []
 
@@ -16756,6 +16758,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
+        snowfloors.splice(0, snowfloors.length)
         pomao.thrown = []
 
 
@@ -16923,6 +16926,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
+        snowfloors.splice(0, snowfloors.length)
         pomao.thrown = []
 
         //  pomao.eggmake = 161
@@ -17464,6 +17468,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
+        snowfloors.splice(0, snowfloors.length)
         pomao.thrown = []
 
         //  pomao.eggmake = 161
@@ -17733,6 +17738,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
+        snowfloors.splice(0, snowfloors.length)
         pomao.thrown = []
 
         boss = new Circle(0, 0, 0, "transparent")
@@ -18099,6 +18105,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
+        snowfloors.splice(0, snowfloors.length)
         pomao.thrown = []
 
         boss = new Circle(0, 0, 0, "transparent")
@@ -18484,6 +18491,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
+        snowfloors.splice(0, snowfloors.length)
         pomao.thrown = []
 
         boss = new Circle(0, 0, 0, "transparent")
@@ -18614,6 +18622,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
+        snowfloors.splice(0, snowfloors.length)
         pomao.thrown = []
 
         boss = new Circle(0, 0, 0, "transparent")
@@ -18795,6 +18804,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         magnets.splice(0, magnets.length)
 
         floppers.splice(0, floppers.length)
+        snowfloors.splice(0, snowfloors.length)
         lavas.splice(0, lavas.length)
         pomao.thrown = []
 
