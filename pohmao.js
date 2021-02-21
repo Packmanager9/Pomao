@@ -5447,7 +5447,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 // console.log(floors[t].isPointInside(pomao.tongue) )
 
-                if(level == 10){
+                if(level == 10 || level == 9){
                     if (floors[t].snowThing(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t]) && !this.body.repelCheck(this.tongue)) { //
                         //   console.log("snowfail?")  //hits this on thin floors?  while clipping?
                         if (!ungrapplable.includes(floors[t])) {
