@@ -276,6 +276,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const pipelevelbasemusic = new Audio('pipevault.wav');
     const lvl7bosssong = new Audio('lvl7bosssong.wav');
     const lvl4basemusic = new Audio('voidx.mp3');
+    const level3basemusic = new Audio('lvl3basemusic.mp3');
     const lvl4bossmusic = new Audio('eyelowdiff.wav');
     const lvl5basemusic = new Audio('lvl5basedrop.wav');
     const lvl6bossmusic = new Audio('wormsign.mp3');
@@ -736,15 +737,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
         constructor(x, y, h, w) {
             this.bodies = []
             this.snowheight = y
-            this.height = h
+            this.height = []
             this.x = x
             this.y = y
+            this.hend = y +h
             this.end = x + w
+            let angler = 0
             for (let t = 0; t < Math.ceil(w / 5); t++) {
-                let block = new Rectangle(x + (t * 5), y, h, 5.1, "white")
+                angler+= Math.PI/3
+                let block = new Rectangle(x + (t * 5), y, h+(Math.cos(angler)*5), 5.1, "white")
                 block.accum = 0
                 block.ysto = block.y
                 block.waggle = block.y
+                this.height.push(block.height)
                 this.bodies.push(block)
                 floors.push(block)
                 walls.push(block)
@@ -754,7 +759,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
             for (let t = 0; t < this.bodies.length; t++) {
                 this.bodies[t].y = this.bodies[t].waggle
-                this.bodies[t].height = this.height + Math.abs(this.bodies[t].waggle - this.bodies[t].ysto)
+                this.bodies[t].height = this.height[t] + Math.abs(this.bodies[t].waggle - this.bodies[t].ysto)
                 if (t > 0) {
                     let link = new Line(this.bodies[t].x + 1.5, this.bodies[t].waggle, this.bodies[t - 1].x + 1.5, this.bodies[t - 1].waggle, "white", 5)
                     link.draw()
@@ -762,7 +767,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
         collideSnowheight(point) {
-            if (point.y > this.snowheight && point.x < this.end && point.x > this.x) {
+            if (point.y > this.snowheight && point.x < this.end && point.x > this.x && point.y < this.hend) {
                 const t = (Math.round(((point.x) - (this.x)) / 5)) % this.bodies.length
                 if (t > 10 && t < this.bodies.length - 11) {
                 if (this.bodies[t].y <= point.y || this.bodies[t + 1].y <= point.y || this.bodies[t - 1].y <= point.y) {
@@ -4656,7 +4661,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         snowThing(point){
             let linkcheck = new LineOP(this,point)
-            if(linkcheck.hypotenuse() < point.radius){
+            if(linkcheck.hypotenuse() < point.radius*2){
                 return true
             }
             return false
@@ -5423,6 +5428,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         tongueFix(){
 
+            if(level == 10 || level == 9 || level == 7){
             for (let t = 0; t < floors.length; t++) {
                 if (level == 9 || level == 10) {
                     if (level == 10) {
@@ -5447,7 +5453,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 // console.log(floors[t].isPointInside(pomao.tongue) )
 
-                if(level == 10 || level == 9){
+                if(level == 10 || level == 9 || level == 7){
                     if (floors[t].snowThing(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t]) && !this.body.repelCheck(this.tongue)) { //
                         //   console.log("snowfail?")  //hits this on thin floors?  while clipping?
                         if (!ungrapplable.includes(floors[t])) {
@@ -5499,6 +5505,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 }
             }
+        }
         }
         gravity() {
 
@@ -5580,7 +5587,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                         this.body.ymom = 0
                     } else {
-                        this.body.ymom += 11.1
+                        // this.body.ymom += 11.1  //literally what is this
                     }
                 }
                 if (this.jumping == 0) {
@@ -6573,6 +6580,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 lvl2basemusic.pause()
             }
             if (level == 3) {
+                level3basemusic.play()
 
 
                 tutorial_canvas_context.drawImage(propimg, 0, 0, propimg.width, propimg.height, 500, -400, propimg.width / 2, propimg.height / 2)
@@ -6647,6 +6655,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl4()
                     pmarinedisp = 0
                 }
+            }else{
+                level3basemusic.pause()
             }
             if (level == 4) {
 
@@ -8311,7 +8321,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     }
 
-    let wind = Math.random() - .5
+    let wind =( Math.random() - .5)*2
     let draft = Math.random() - .5
 
     class Snowflake {
@@ -9248,6 +9258,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             } else {
 
+                lvl1basemusic.play()
                 targoymusic.pause()
                 for (let t = 0; t < this.beams.length; t++) {
                     tutorial_canvas_context.drawImage(rimgs[0], 0, 0, rimgs[0].width, rimgs[0].height, this.beams[t].x - (24 * (this.beams[t].radius * .06666666666)), this.beams[t].y - (24 * (this.beams[t].radius * .06666666666)), 48 * (this.beams[t].radius * .06666666666), 48 * (this.beams[t].radius * .06666666666))
@@ -18405,7 +18416,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
         for (let t = 0; t < 3500; t++) {
-            const fruit = new Fruit(-12000 + (Math.random() * (24000)), (heighttrap - 10700) + (Math.random() * Math.abs(heighttrap - 10700)), 60, 60, "red")
+            const fruit = new Fruit(-12000 + (Math.random() * (23600)), (heighttrap - 10700) + (Math.random() * Math.abs(heighttrap - 10700)), 60, 60, "red")
             let wet = 0
             for (let s = 0; s < floors.length; s++) {
                 if (squarecircleedges(floors[s], fruit.body)) {
@@ -18662,13 +18673,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         ungrapplable.push(wall1)
         // ungrapplable.push(wall1)
 
-        const wall2 = new Rectangle(6900, -30000, 30033, 50, "#FFFFFF05")
+        const wall2 = new Rectangle(6500, -30000, 31033, 50, "#FFFFFF05")
         walls.push(wall2)
         floors.push(wall2)
         roofs.push(wall2)
         ungrapplable.push(wall2)
 
-        for (let t = 0; t < 10000; t++) {
+        for (let t = 0; t < 5000; t++) {
             let atom = new Atomdebris(-2150 + (Math.random() * 13700), -5000 + (Math.random() * 6000), "purple")
             debris.push(atom)
         }
@@ -18911,6 +18922,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         const drift2 = new Snowfloor(700, -520, 20, 720)
 
         snowfloors.push(drift2)
+
+        const drift3 = new Snowfloor(-300, -720, 20, 720)
+
+        snowfloors.push(drift3)
+
+        const drift4 = new Snowfloor(300, -1120, 20, 720)
+
+        snowfloors.push(drift4)
 
 
         for (let t = 0; t < 900; t++) {
