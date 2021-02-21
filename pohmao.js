@@ -8321,7 +8321,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.anchor = {}
             this.anchor.xdif = 0
             this.anchor.ydif = 0
-            this.type = Math.floor(Math.random() * 49)
+            this.type = Math.floor(Math.random() * 70)
             this.draft = 1
 
         }
@@ -8387,7 +8387,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             } else {
                 const sheetwidth = snowflakeimg2.width
                 const sheetheight = snowflakeimg2.height
-                const cols = 29
+                const cols = 50
                 const rows = 1
                 const width = sheetwidth / cols
                 const height = sheetheight / rows
