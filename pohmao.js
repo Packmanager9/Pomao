@@ -6861,7 +6861,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             for (let t = 0; t < floors.length; t++) {
 
                 let linkfloorer = new LineOP(floors[t],pomao.body)
-                if(linkfloorer.hypotenuse() >  pomao.tongue.radius +(Math.max(floors[t].width, floors[t].height)*2) + (Math.abs(pomao.tonguey))+Math.abs(pomao.tonguex) + 650){  //finally
+                if(linkfloorer.hypotenuse() >  pomao.tongue.radius +(Math.max(floors[t].width, floors[t].height)*2) + (Math.abs(pomao.tonguey))+Math.abs(pomao.tonguex) + 735){  //finally
                     continue
                 }
 
