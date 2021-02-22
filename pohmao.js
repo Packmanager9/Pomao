@@ -5667,12 +5667,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             for (let t = 0; t < floors.length; t++) {
 
-                let linkfloorer = new LineOP(floors[t],pomao.body)
-                if(linkfloorer.hypotenuse() >  pomao.tongue.radius +(Math.max(floors[t].width, floors[t].height)*2) + (Math.abs(pomao.tonguey))+Math.abs(pomao.tonguex)){
-                    continue
-                }
-
-
                 if (level == 9 || level == 10) {
                     if (level == 10) {
                         if (t < ((Math.round((2100 + this.body.x) / 5)) - 60) % floors.length) {
@@ -5691,6 +5685,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                 }
+                let linkfloorer = new LineOP(floors[t],pomao.body)
+                if(linkfloorer.hypotenuse() >  pomao.tongue.radius +(Math.max(floors[t].width, floors[t].height)*2) + (Math.abs(pomao.tonguey))+Math.abs(pomao.tonguex)){
+                    continue
+                }
+
+
 
 
 
