@@ -18954,7 +18954,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             if (wet == 0) {
-                // fruits.push(fruit)
+                fruits.push(fruit)
             }
         }
 
