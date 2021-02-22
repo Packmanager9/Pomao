@@ -6860,6 +6860,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             for (let t = 0; t < floors.length; t++) {
 
+                let linkfloorer = new LineOP(floors[t],pomao.body)
+                if(linkfloorer.hypotenuse() >  pomao.tongue.radius +(Math.max(floors[t].width, floors[t].height)*2) + (Math.abs(pomao.tonguey))+Math.abs(pomao.tonguex) + 650){  //finally
+                    continue
+                }
+
+
                 //add a thing that makes the floors only get drawn if they are in the screen
                 if (invisblocks.includes(floors[t])) {
 
