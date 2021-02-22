@@ -7639,11 +7639,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
                             pomao.eggs.push(seepx)  //seemingly busted, gives egg on egg  // fixed
                         }
-                        pomao.hits += 1
                         if (pomao.hits > 9) {
                             pomao.hits = 9
                         }
                     }
+                    pomao.hits += 1  //was inside of egglength lol
                     worms.splice(t, 1)
 
                 }
@@ -10821,7 +10821,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.angle = Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
             // console.log(this)
 
-            this.joints[this.joints.length - 2].radius = 20
+            this.joints[this.joints.length - 2].radius = 23  //20
             this.joints[this.joints.length - 2].color = "orange"
 
             this.bopped = 0
