@@ -5666,6 +5666,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     } else {
 
             for (let t = 0; t < floors.length; t++) {
+
+                let linkfloorer = new LineOP(floors[t],pomao.body)
+                if(linkfloorer.hypotenuse() > Math.max(Math.max(floors[t].width, floors[t].height)*2, (Math.abs(pomao.tongueymom)+Math.abs(pomao.tonguexmom)))){
+                    continue
+                }
+
+
                 if (level == 9 || level == 10) {
                     if (level == 10) {
                         if (t < ((Math.round((2100 + this.body.x) / 5)) - 60) % floors.length) {
@@ -7089,7 +7096,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         let link = new Line(floors[t].x + 1.5, floors[t].y + 1.5, floors[t - 1].x + 1.5, floors[t - 1].y + 1.5, "blue", 3)
                                         link.draw()
                                     }
-                                    // if(Math.abs(floors[t].x-pomao.body.x) > 600){
+                                    // if(Math.abs(floors[t].x-pomao.body.x) > 650){
                                     //     floors[t].draw()
                                     // }
                                 } else if (level == 10) {
@@ -7101,9 +7108,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         let link = new Line(floors[t].x + 1.5, floors[t].y, floors[t - 1].x + 1.5, floors[t - 1].y, "white", 5)
                                         link.draw()
                                     }
-                                    // if(Math.abs(floors[t].x-pomao.body.x) > 600){
+                                    if(Math.abs(floors[t].x-pomao.body.x) > 650){
                                     floors[t].draw()
-                                    // }
+                                    }
                                 }
                             }
 
@@ -15731,7 +15738,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         return color;
     }
     function drawFractal() {
-
         if (pomao.tripping > 0) {
             // if(Math.random()<.5){
             // //////console.time("frac")
@@ -18923,13 +18929,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         snowfloors.push(drift2)
 
-        const drift3 = new Snowfloor(-300, -720, 20, 720)
+        // const drift3 = new Snowfloor(-300, -720, 20, 720)
 
-        snowfloors.push(drift3)
+        // snowfloors.push(drift3)
 
-        const drift4 = new Snowfloor(300, -1120, 20, 720)
+        // const drift4 = new Snowfloor(300, -1120, 20, 720)
 
-        snowfloors.push(drift4)
+        // snowfloors.push(drift4)
 
 
         for (let t = 0; t < 900; t++) {
@@ -18948,7 +18954,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             if (wet == 0) {
-                fruits.push(fruit)
+                // fruits.push(fruit)
             }
         }
 
