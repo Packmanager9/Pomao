@@ -8506,8 +8506,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 point.liner = link.hypotenuse()
                 point.y = (Math.sin(point.angle) * point.liner) + this.body.y
                 point.x = (Math.cos(point.angle) * point.liner) + this.body.x
-                point.y += (point.y-this.body.y)/(link.hypotenuse()*10000)
-                point.x += (point.x-this.body.x)/(link.hypotenuse()*10000)
+                point.y += (point.y-this.body.y)/((link.hypotenuse()*link.hypotenuse())*.5)
+                point.x += (point.x-this.body.x)/((link.hypotenuse()*link.hypotenuse())*.5)
                 // if(point.y > this.body.y){
                     point.y += .5
                 // }
@@ -8527,15 +8527,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.flakes = []
             for(let t = 0;t<this.tips.length;t++){
                 this.castBetween(this.body, this.tips[t])
-                let link = new LineOP(this.body, this.tips[t], "white", 20)
+                let link = new LineOP(this.body, this.tips[t], "white", 50)
                 link.draw()
                 this.tips[t].draw()
             }
-            let tonguelink = new LineOP(pomao.body, pomao.tongue)
+
+            let tipshape = new Shape(this.tips)
+            this.flakes.push(tipshape)
+            // let tonguelink = new LineOP(pomao.body, pomao.tongue)
             // if(tonguelink.hypotenuse() > 20){
                 for(let t = 0 ;t<this.flakes.length;t++){
                 
-                    if ((this.flakes[t].isPointInside(pomao.tongue) || ((pomao.tonguebox.isInsideOfShape(this.flakes[t]) || this.flakes[t].isPointInside(pomao.tongue))))) {
+                    if ((this.flakes[t].isPointInside(pomao.tongue)  || this.flakes[t].isPointInside(pomao.body) || ((pomao.tonguebox.isInsideOfShape(this.flakes[t]) || this.flakes[t].isPointInside(pomao.tongue))))) {
                         if (pomao.tongueymom < 0) {
                             if (Math.abs(pomao.tonguey) > 1) {
                                 pomao.body.symom += pomao.tongueymom * 1.1
