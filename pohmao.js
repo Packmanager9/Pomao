@@ -8468,6 +8468,113 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     }
 
+    class Snowclone {
+        constructor(x,y, size, num = 6){
+            this.body = new Bosscircle(x,y, size, "transparent")
+            this.tips = []
+            this.tipnum = num
+            this.angler = 0
+            this.size = size
+            for(let t =0;t<this.tipnum;t++){
+                let tip = new Bosscircle(this.body.x+(Math.cos(this.angler)*this.size), this.body.y+(Math.sin(this.angler)*this.size), 25, "white")
+                this.angler+=(Math.PI*2)/this.tipnum
+                this.tips.push(tip)
+            }
+            this.flakes = []
+
+        }
+        castBetween(from, to, granularity = 10, radius = 1, target) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
+            let limit = new LineOP(from, to).hypotenuse() / (to.radius * 2)
+            radius = to.radius
+            let shape_array = []
+            for (let t = 0; t < limit; t++) {
+                let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "gray")
+                circ.target = target
+                // circ.draw()
+                shape_array.push(circ)
+            }
+            this.flakes.push((new Shape(shape_array)))
+            return true;
+        }
+        collideSnowheight(point){
+
+            let link = new LineOP(point, this.body)
+
+            point.angle = link.angle()
+            if (link.hypotenuse() < this.size) {
+                point.angle += (this.size - link.hypotenuse()) / (this.size*10)
+                point.liner = link.hypotenuse()
+                point.y = (Math.sin(point.angle) * point.liner) + this.body.y
+                point.x = (Math.cos(point.angle) * point.liner) + this.body.x
+                point.y += (point.y-this.body.y)/(link.hypotenuse()*10000)
+                point.x += (point.x-this.body.x)/(link.hypotenuse()*10000)
+                // if(point.y > this.body.y){
+                    point.y += .5
+                // }
+            }
+
+
+            return false
+        }
+        draw(){
+            this.tips = []
+            this.angler +=.01
+            for(let t =0;t<this.tipnum;t++){
+                let tip = new Bosscircle(this.body.x+(Math.cos(this.angler)*this.size), this.body.y+(Math.sin(this.angler)*this.size), 25, "white")
+                this.angler+=(Math.PI*2)/this.tipnum
+                this.tips.push(tip)
+            }
+            this.flakes = []
+            for(let t = 0;t<this.tips.length;t++){
+                this.castBetween(this.body, this.tips[t])
+                let link = new LineOP(this.body, this.tips[t], "white", 20)
+                link.draw()
+                this.tips[t].draw()
+            }
+            let tonguelink = new LineOP(pomao.body, pomao.tongue)
+            // if(tonguelink.hypotenuse() > 20){
+                for(let t = 0 ;t<this.flakes.length;t++){
+                
+                    if ((this.flakes[t].isPointInside(pomao.tongue) || ((pomao.tonguebox.isInsideOfShape(this.flakes[t]) || this.flakes[t].isPointInside(pomao.tongue))))) {
+                        if (pomao.tongueymom < 0) {
+                            if (Math.abs(pomao.tonguey) > 1) {
+                                pomao.body.symom += pomao.tongueymom * 1.1
+                            }
+                            if (Math.abs(pomao.tonguex) > 15) {
+                                if (pomao.dir == -1) {
+                                    pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
+                                } else {
+                                    pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
+                                }
+                            }
+                        } else {
+                            if (Math.abs(pomao.tonguey) > 1) {
+                                pomao.body.symom -= pomao.tongueymom * 1.1
+                            }
+                            if (Math.abs(pomao.tonguex) > 15) {
+                                if (pomao.dir == -1) {
+                                    pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
+                                } else {
+                                    pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
+                                }
+                            }
+    
+                        }
+                        if (pomao.body.ymom > 0) {
+                            pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                        }
+                        pomao.body.ymom = 0
+                        pomao.body.xmom *= .975
+                        pomao.dry = 1
+                        pomao.body.symom -= .0005
+                        pomao.tongueymom *= .49
+                        pomao.tonguexmom *= .49
+                    }
+                }
+            // }
+        }
+    }
+
     class Atomdebris {
         constructor(x, y, color) {
             this.body = new Circle(x, y, 3, color, (Math.random() - .5) * 5, (Math.random() - .5) * 5)
@@ -18943,6 +19050,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         // snowfloors.push(drift4)
 
+        let snokloan = new Snowclone(-300,-700, 500, 6)
+        snowfloors.push(snokloan)
 
         for (let t = 0; t < 900; t++) {
             const fruit = new Fruit(-2050 + (Math.random() * 9000), -8000 + (Math.random() * 7900), 60, 60, "red")
