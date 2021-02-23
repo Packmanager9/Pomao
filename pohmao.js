@@ -6908,7 +6908,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (level == 10) {
                 for (let t = 0; t < snowfloors.length; t++) {
-                    snowfloors[t].draw()
+                    // snowfloors[t].draw()
                     for (let k = 0; k < snows.length; k++) {
                         if (snowfloors[t].collideSnowheight(snows[k].body)) {
                             snows[k].marked = 1
@@ -7204,6 +7204,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
+
+            if (level == 10) {
+                for (let t = 0; t < snowfloors.length; t++) {
+                    snowfloors[t].draw()
+                }
+            }
+        
             // floor.draw()
 
             for (let t = 0; t < switches.length; t++) {
@@ -7217,6 +7224,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             for (let t = 0; t < pomao.thrown.length; t++) {
                 pomao.thrown[t].draw()
             }
+
 
 
 
@@ -8727,6 +8735,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     pomao.grounded = 0
                                     pomao.jumping = 0
                                     pomao.hng = 0
+                                    pomao.pounding = 0
                                 // }
                             } else {
                                 pomao.dry = 0
