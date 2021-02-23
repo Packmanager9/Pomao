@@ -5307,24 +5307,41 @@ window.addEventListener('DOMContentLoaded', (event) => {
         constructor(shapes) {
             this.shapes = shapes
         }
-        isPointInsideTargetedSnow(point){
+        isPointInsideTargetedSnow(point) {
             let cold = 0
-            let pointer = new Bosscircle(0,0, 0, "transparent")
+            let pointer = new Bosscircle(0, 0, 0, "red")
             let count = 0
             for (let t = 0; t < this.shapes.length; t++) {
                 if (this.shapes[t].repelCheck(point)) {
                     count++
-                    pointer.x+=this.shapes[t].x
-                    pointer.y+=this.shapes[t].y
-                    pointer.radius = this.shapes[t].radius
+                    pointer.x += this.shapes[t].x
+                    pointer.y += this.shapes[t].y
                     cold = 1
+                    if (this.shapes[t].radius > pointer.radius && pointer.radius != 0) {
+                        pointer.x = this.shapes[t].x
+                        pointer.y = this.shapes[t].y
+                        count = 1
+                        pointer.radius = this.shapes[t].radius
+                        break
+                    } else {
+                        pointer.radius = this.shapes[t].radius
+                    }
                 }
             }
-            pointer.x/=count
-            pointer.y/=count
-            if(cold == 0){
+            pointer.x /= count
+            pointer.y /= count
+            if (cold == 0) {
                 return false
-            }else{
+            } else {
+                // pointer.draw()
+                if (pomao.body.y - (pomao.body.radius * .5) > pointer.y) {
+                    pointer.color = "blue"
+                    // pointer.draw()
+                    pointer.marked = false
+                    return pointer
+                    // pointer.radius *= 1.05
+                }
+                pointer.marked = true
                 return pointer
             }
 
@@ -7210,7 +7227,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     snowfloors[t].draw()
                 }
             }
-        
+
             // floor.draw()
 
             for (let t = 0; t < switches.length; t++) {
@@ -8535,9 +8552,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     class Snowclone {
-        constructor(x, y, size, num = 6) {
-            this.body = new Bosscircle(x, y, 150, "white")
-            
+        constructor(x, y, size, num = 6,) {
+            this.body = new Bosscircle(x, y, 140, "white")
+
             this.tips = [this.body]
             this.tipnum = num
             this.angler = 0
@@ -8622,7 +8639,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         let link = new LineOP(pomao.body, this.body)
 
                         pomao.body.angle = link.angle()
-                        if (link.hypotenuse() <= (this.tips[0].radius*2) + this.size + pomao.body.radius + tonguelink.hypotenuse()) {
+                        if (link.hypotenuse() <= (this.tips[0].radius * 2) + this.size + pomao.body.radius + tonguelink.hypotenuse()) {
                             pomao.body.angle += .01 * this.dir
                             pomao.body.liner = link.hypotenuse()
                             let storage = {}
@@ -8648,8 +8665,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             //         pomao.body.wmovecut()
                             //         pomao.body.radius = storage.rad 
                             //     }
+                                if (base.marked == true) {
                             pomao.body.y = (Math.sin(pomao.body.angle) * pomao.body.liner) + this.body.y
                             pomao.body.x = (Math.cos(pomao.body.angle) * pomao.body.liner) + this.body.x
+                                }
                             for (let t = 1; t < pomao.eggs.length; t++) {
                                 if (pomao.eggs[t].marked == 0) {
                                     pomao.eggs[t].steer()
@@ -8662,13 +8681,44 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             console.log(baselink.angle())
                             let basehyp = baselink.hypotenuse() * 1
                             if (basehyp < pomao.body.radius + base.radius) {
-                                    pomao.body.radius = storage.rad
+                                pomao.body.radius = storage.rad
                                 // if (baselink.angle() > 0) {
+                                if (base.marked == false) {
+                                    let crstorage = {}
+                                    crstorage.x = pomao.body.x - base.x
+                                    crstorage.y = pomao.body.y - base.y
+                                    let dis = pomao.body.radius + base.radius + .001
+                                    let rat = dis / basehyp
+                                    // tutorial_canvas_context.translate((pomao.body.x - (base.x - crstorage.x)), (pomao.body.y - (base.y - crstorage.y)))
+                                    crstorage.x *= rat
+                                    crstorage.y *= rat
+                                    pomao.body.wxmom = -(pomao.body.x - (base.x + crstorage.x)) * 1.01
+                                    pomao.body.wymom = -(pomao.body.y - (base.y + crstorage.y)) * 1.01
+                                    if (pomao.body.repelCheck(pomao.tongue) && (Math.abs(pomao.tongueymom) + Math.abs(pomao.body.tonguexmom)) < 10) {
+                                        if (pomao.hng < .1) {
+                                            pomao.tonguey = 0
+                                            pomao.tonguex = 0
+                                            pomao.tongueymom = 0
+                                            pomao.tonguexmom = 0
+                                            pomao.tongue.x = pomao.body.x
+                                            pomao.tongue.y = pomao.body.y
+                                            pomao.body.wmovecut()
+                                            pomao.body.radius = storage.rad
+                                            pomao.tonguey = 0
+                                            pomao.tonguex = 0
+                                            pomao.tongueymom = 0
+                                            pomao.tonguexmom = 0
+                                            pomao.tongue.x = pomao.body.x
+                                            pomao.tongue.y = pomao.body.y
+                                            pomao.tonguebox = new Shape([])
+                                        }
+                                    }
+                                }else{
 
                                     if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
                                     } else {
                                         pomao.dry = 1
-                                        pomao.grounded = 1
+                                        pomao.grounded = 0
                                         pomao.jumping = 0
 
                                         // if (liner.hypotenuse() < (this.flakes[t].isPointInsideTargetedShape(pomao.body).radius + pomao.body.radius)) {
@@ -8709,34 +8759,39 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     crstorage.y *= rat
                                     pomao.body.wxmom = -(pomao.body.x - (base.x + crstorage.x)) * 1.01
                                     pomao.body.wymom = -(pomao.body.y - (base.y + crstorage.y)) * 1.01
-                                    if(pomao.body.repelCheck(pomao.tongue)  && (Math.abs(pomao.tongueymom) + Math.abs(pomao.body.tonguexmom)) < 10){
-                                    pomao.tonguey = 0
-                                    pomao.tonguex = 0
-                                    pomao.tongueymom = 0
-                                    pomao.tonguexmom = 0
-                                    pomao.tongue.x = pomao.body.x
-                                    pomao.tongue.y = pomao.body.y
-                                    pomao.body.wmovecut()
-                                    pomao.body.radius = storage.rad
-                                    pomao.tonguey = 0
-                                    pomao.tonguex = 0
-                                    pomao.tongueymom = 0
-                                    pomao.tonguexmom = 0
-                                    pomao.tongue.x = pomao.body.x
-                                    pomao.tongue.y = pomao.body.y
-                                    pomao.tonguebox = new Shape([])
-                                    }else{
-                                        pomao.tongue.x+=pomao.body.wxmom
-                                        pomao.tongue.y+=pomao.body.wymom
-                                    pomao.body.wmovecut()
+                                    if (pomao.body.repelCheck(pomao.tongue) && (Math.abs(pomao.tongueymom) + Math.abs(pomao.body.tonguexmom)) < 10) {
+                                        if (pomao.hng < .1) {
+                                            pomao.tonguey = 0
+                                            pomao.tonguex = 0
+                                            pomao.tongueymom = 0
+                                            pomao.tonguexmom = 0
+                                            pomao.tongue.x = pomao.body.x
+                                            pomao.tongue.y = pomao.body.y
+                                            pomao.body.wmovecut()
+                                            pomao.body.radius = storage.rad
+                                            pomao.tonguey = 0
+                                            pomao.tonguex = 0
+                                            pomao.tongueymom = 0
+                                            pomao.tonguexmom = 0
+                                            pomao.tongue.x = pomao.body.x
+                                            pomao.tongue.y = pomao.body.y
+                                            pomao.tonguebox = new Shape([])
+                                        }
+                                    } else {
+                                        pomao.tongue.x += pomao.body.wxmom
+                                        pomao.tongue.y += pomao.body.wymom
+                                        pomao.body.wmovecut()
                                     }
-                                // } else {
-                                    pomao.dry = 0
-                                    pomao.grounded = 0
-                                    pomao.jumping = 0
-                                    pomao.hng = 0
-                                    pomao.pounding = 0
-                                // }
+                                    // } else {
+                                    if (pomao.body.y < base.y) {
+                                        pomao.dry = 0
+                                        pomao.grounded = 0
+                                        pomao.jumping = 0
+                                        pomao.hng = 0
+                                        pomao.pounding = 0
+                                    }
+                                    // }
+                                }
                             } else {
                                 pomao.dry = 0
                                 pomao.grounded = 0
@@ -8747,53 +8802,54 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
                         }
+
                     }
                     // }else{
-                        if(pomao.body.repelCheck(pomao.tongue)){
+                    if (pomao.body.repelCheck(pomao.tongue)) {
 
-                        }else{
-                            if ((this.flakes[t].isPointInside(pomao.tongue) || ((pomao.tonguebox.isInsideOfShape(this.flakes[t]) || this.flakes[t].isPointInside(pomao.tongue))))) {
-                                if (pomao.tongueymom < 0) {
-                                    if (Math.abs(pomao.tonguey) > 1) {
-                                        pomao.body.symom += pomao.tongueymom * 1.1
-                                    }
-                                    if (Math.abs(pomao.tonguex) > 15) {
-                                        if (pomao.dir == -1) {
-                                            pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
-                                        } else {
-                                            pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
-                                        }
-                                    }
-                                } else {
-                                    if (Math.abs(pomao.tonguey) > 1) {
-                                        pomao.body.symom -= pomao.tongueymom * 1.1
-                                    }
-                                    if (Math.abs(pomao.tonguex) > 15) {
-                                        if (pomao.dir == -1) {
-                                            pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
-                                        } else {
-                                            pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
-                                        }
-                                    }
-        
+                    } else {
+                        if ((this.flakes[t].isPointInside(pomao.tongue) || ((pomao.tonguebox.isInsideOfShape(this.flakes[t]) || this.flakes[t].isPointInside(pomao.tongue))))) {
+                            if (pomao.tongueymom < 0) {
+                                if (Math.abs(pomao.tonguey) > 1) {
+                                    pomao.body.symom += pomao.tongueymom * 1.1
                                 }
-                                if (pomao.body.ymom > 0) {
-                                    pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                                if (Math.abs(pomao.tonguex) > 15) {
+                                    if (pomao.dir == -1) {
+                                        pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
+                                    } else {
+                                        pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
+                                    }
                                 }
-                                pomao.body.ymom = 0
-                                pomao.body.xmom *= .975
-                                pomao.dry = 1
-                                pomao.body.symom -= .0005
-                                pomao.tongueymom *= .49
-                                pomao.tonguexmom *= .49
+                            } else {
+                                if (Math.abs(pomao.tonguey) > 1) {
+                                    pomao.body.symom -= pomao.tongueymom * 1.1
+                                }
+                                if (Math.abs(pomao.tonguex) > 15) {
+                                    if (pomao.dir == -1) {
+                                        pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
+                                    } else {
+                                        pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
+                                    }
+                                }
+
                             }
+                            if (pomao.body.ymom > 0) {
+                                pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                            }
+                            pomao.body.ymom = 0
+                            pomao.body.xmom *= .975
+                            pomao.dry = 1
+                            pomao.body.symom -= .0005
+                            pomao.tongueymom *= .79  //49
+                            pomao.tonguexmom *= .79 //49
                         }
-                        // }
-                    // }
                     }
+                    // }
+                    // }
                 }
+            }
 
-                    // if (tonguelink.hypotenuse() > 20) {
+            // if (tonguelink.hypotenuse() > 20) {
 
             // pomao.body.wxmom = 0
             // pomao.body.wymom = 0
@@ -19277,6 +19333,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // snowfloors.push(drift4)
 
         let snokloan = new Snowclone(-300, -700, 500, 6)
+        snokloan.dir = .25
         snowfloors.push(snokloan)
         // let snokloon2 = new Snowclone(-300, -700, 100, 6)
         // for (let t = 0; t < 10; t++) {
