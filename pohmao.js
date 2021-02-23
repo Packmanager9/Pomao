@@ -5043,6 +5043,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.ymom = ymom
             this.sxmom = 0
             this.symom = 0
+            this.wxmom = 0
+            this.wymom = 0
             this.xrepel = 0
             this.yrepel = 0
             this.lens = 0
@@ -5103,7 +5105,41 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
         }
+        wmove() {
+            this.x += this.wxmom
+
+            if (Math.abs(this.wymom) <= 3.1) {
+                this.y += this.wymom
+                if (this == pomao.body) {
+                    tutorial_canvas_context.translate(-this.wxmom, -this.wymom)
+                }
+            } else {
+
+                this.y += this.wymom
+                if (this == pomao.body) {
+                    tutorial_canvas_context.translate(-this.wxmom, -this.wymom)
+                }
+                // this.y += (this.symom/(Math.abs(this.symom)))*3.1
+                // if (this == pomao.body) {
+                //     tutorial_canvas_context.translate(-this.sxmom, -(this.symom/(Math.abs(this.symom)))*3.1)
+                // }
+            }
+
+            pomao.body.wxmom *= .95
+            pomao.body.wymom *= .95
+        }
+        wmovecut() {
+            this.x += this.wxmom
+
+            this.y += this.wymom
+            if (this == pomao.body) {
+                tutorial_canvas_context.translate(-this.wxmom, -this.wymom)
+            }
+            pomao.body.wxmom = 0
+            pomao.body.wymom = 0
+        }
         smove() {
+            this.wmove()
             this.x += this.sxmom
             if (Math.abs(this.symom) <= 3.1) {
                 this.y += this.symom
@@ -8482,11 +8518,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             this.force = 0
             this.flakes = []
-            this.dir = 1
+            this.dir = .5
 
         }
         castBetween(from, to, granularity = 10, radius = 1, target) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
-            let limit = new LineOP(from, to).hypotenuse() / (to.radius * 3)
+            let limit = new LineOP(from, to).hypotenuse() / (to.radius * 1)
             radius = to.radius
             let shape_array = []
             for (let t = 0; t < limit; t++) {
@@ -8504,7 +8540,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             point.angle = link.angle()
             if (link.hypotenuse() < this.size) {
-                point.angle += (this.size - link.hypotenuse()) / (this.size * 10)
+                point.angle += ((this.size - link.hypotenuse()) / (this.size * 10)) * this.dir
                 point.liner = link.hypotenuse()
                 point.y = (Math.sin(point.angle) * point.liner) + this.body.y
                 point.x = (Math.cos(point.angle) * point.liner) + this.body.x
@@ -8541,121 +8577,165 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.flakes.push(tipshape)
             let tonguelink = new LineOP(pomao.body, pomao.tongue)
             let bodylink = new LineOP(this.body, pomao.body)
-            if ((bodylink.hypotenuse() + pomao.body.radius) - (tonguelink.hypotenuse() + pomao.tongue.radius) <= this.size *1.5) {
+            if ((bodylink.hypotenuse() + pomao.body.radius) - (tonguelink.hypotenuse() + pomao.tongue.radius) <= this.size * 1.5) {
                 for (let t = 0; t < this.flakes.length; t++) {
                     if (this.flakes[t].isPointInside(pomao.body)) {
-                        if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
-                        } else {
-                            pomao.dry = 1
-                            pomao.grounded = 1
-                            pomao.jumping = 0
 
-                            // if (liner.hypotenuse() < (this.flakes[t].isPointInsideTargetedShape(pomao.body).radius + pomao.body.radius)) {
-                            // pomao.body.y -= 1
-                            // tutorial_canvas_context.translate(0, 1)
-
-                            // if(this.flakes[t].isPointInsideTargetedShape(pomao.body).x >= pomao.body.x){
-                            //     pomao.body.x -= 4
-                            //     tutorial_canvas_context.translate(4, 0)
-                            // }else{
-                            //     pomao.body.x += 4
-                            //     tutorial_canvas_context.translate(-4, 0)
-
-                            // }
-
-
-                            // if (!this.flakes[t].isPointInside(pomao.body)) {
-                            //     // pomao.body.y += 6
-                            //     // tutorial_canvas_context.translate(0, -6)
-                            // }
-                            // // }
-                            // if (pomao.body.ymom > 0) {
-                            //     pomao.body.ymom = 0
-                            // }
-                            if (pomao.body.symom < 0) {
-                                pomao.body.symom = 0
-                            }
-                        }
 
 
 
                         let link = new LineOP(pomao.body, this.body)
 
                         pomao.body.angle = link.angle()
-                        if (link.hypotenuse()  <= this.size  + pomao.body.radius + tonguelink.hypotenuse()) {
+                        if (link.hypotenuse() <= this.size + pomao.body.radius + tonguelink.hypotenuse()) {
                             pomao.body.angle += .01 * this.dir
                             pomao.body.liner = link.hypotenuse()
                             let storage = {}
                             storage.x = pomao.body.x
                             storage.y = pomao.body.y
-                            if(this.flakes[t].isPointInsideTargetedShape(pomao.body).y >= pomao.body.y-pomao.body.radius){
-                                pomao.body.y = (Math.sin(pomao.body.angle) * pomao.body.liner) + this.body.y
-                                pomao.body.x = (Math.cos(pomao.body.angle) * pomao.body.liner) + this.body.x
-                                for (let t = 1; t < pomao.eggs.length; t++) {
-                                    if (pomao.eggs[t].marked == 0) {
-                                        pomao.eggs[t].steer()
-                                        pomao.eggs[t].steery()
-                                    }
-                                }
-                                tutorial_canvas_context.translate(storage.x - pomao.body.x, storage.y - pomao.body.y)
-                            }else{
-                                pomao.body.liner = link.hypotenuse()
-                                if((( (Math.sin(pomao.body.angle) * pomao.body.liner) + this.body.y) - storage.y) > 0){
-                                    pomao.body.symom += (( (Math.sin(pomao.body.angle) * pomao.body.liner) + this.body.y) - storage.y)
-                                    pomao.body.sxmom += (((Math.cos(pomao.body.angle) * pomao.body.liner) + this.body.x) - storage.x)
-                                    pomao.body.smove()
-                                }else{
-                                    pomao.body.sxmom += (((Math.cos(pomao.body.angle) * pomao.body.liner) + this.body.x) - storage.x)
-                                    pomao.body.smove()
+                            storage.rad = pomao.body.radius
+                            // pomao.body.radius *= 1.1
+                            let base = this.flakes[t].isPointInsideTargetedShape(pomao.body)
+                            // if(base.y >= pomao.body.y-pomao.body.radius){
+                            //     let baselink = new LineOP(base, pomao.body)
+                            //     let basehyp = baselink.hypotenuse()
+                            //     if(basehyp < pomao.body.radius + base.radius){
+                            //         // console.log("hiff")
+                            //         let crstorage = {}
+                            //         crstorage.x = pomao.body.x-base.x
+                            //         crstorage.y = pomao.body.y-base.y
+                            //         let dis = pomao.body.radius + base.radius
+                            //         let rat = dis/basehyp 
+                            //         // tutorial_canvas_context.translate((pomao.body.x - (base.x - crstorage.x)), (pomao.body.y - (base.y - crstorage.y)))
+                            //         crstorage.x*=rat
+                            //         crstorage.y*=rat
+                            //         pomao.body.wxmom = -(pomao.body.x - (base.x + crstorage.x))
+                            //         pomao.body.wymom =  -(pomao.body.y - (base.y + crstorage.y))
+                            //         pomao.body.wmovecut()
+                            //         pomao.body.radius = storage.rad 
+                            //     }
+                            pomao.body.y = (Math.sin(pomao.body.angle) * pomao.body.liner) + this.body.y
+                            pomao.body.x = (Math.cos(pomao.body.angle) * pomao.body.liner) + this.body.x
+                            for (let t = 1; t < pomao.eggs.length; t++) {
+                                if (pomao.eggs[t].marked == 0) {
+                                    pomao.eggs[t].steer()
+                                    pomao.eggs[t].steery()
                                 }
                             }
-                        }
+                            tutorial_canvas_context.translate(storage.x - pomao.body.x, storage.y - pomao.body.y)
+                            // }else{
+                            let baselink = new LineOP(base, pomao.body)
+                            console.log(baselink.angle())
+                            let basehyp = baselink.hypotenuse() * 1
+                            if (basehyp < pomao.body.radius + base.radius) {
+                                if (baselink.angle() > 0) {
 
+                                    if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
+                                    } else {
+                                        pomao.dry = 1
+                                        pomao.grounded = 1
+                                        pomao.jumping = 0
+
+                                        // if (liner.hypotenuse() < (this.flakes[t].isPointInsideTargetedShape(pomao.body).radius + pomao.body.radius)) {
+                                        // pomao.body.y -= 1
+                                        // tutorial_canvas_context.translate(0, 1)
+
+                                        // if(this.flakes[t].isPointInsideTargetedShape(pomao.body).x >= pomao.body.x){
+                                        //     pomao.body.x -= 4
+                                        //     tutorial_canvas_context.translate(4, 0)
+                                        // }else{
+                                        //     pomao.body.x += 4
+                                        //     tutorial_canvas_context.translate(-4, 0)
+
+                                        // }
+
+
+                                        // if (!this.flakes[t].isPointInside(pomao.body)) {
+                                        //     // pomao.body.y += 6
+                                        //     // tutorial_canvas_context.translate(0, -6)
+                                        // }
+                                        // // }
+                                        if (pomao.body.ymom > 0) {
+                                            pomao.body.ymom = 0
+                                        }
+                                        if (pomao.body.symom < 0) {
+                                            pomao.body.symom = 0
+                                        }
+                                        pomao.body.sxmom = 0
+                                    }
+                                    // console.log("hiff")
+                                    let crstorage = {}
+                                    crstorage.x = pomao.body.x - base.x
+                                    crstorage.y = pomao.body.y - base.y
+                                    let dis = pomao.body.radius + base.radius + 1
+                                    let rat = dis / basehyp
+                                    // tutorial_canvas_context.translate((pomao.body.x - (base.x - crstorage.x)), (pomao.body.y - (base.y - crstorage.y)))
+                                    crstorage.x *= rat
+                                    crstorage.y *= rat
+                                    pomao.body.wxmom = -(pomao.body.x - (base.x + crstorage.x)) * 1.1
+                                    pomao.body.wymom = -(pomao.body.y - (base.y + crstorage.y)) * 1.1
+                                    pomao.body.wmovecut()
+                                    pomao.body.radius = storage.rad
+                                } else {
+                                    pomao.dry = 0
+                                    pomao.grounded = 0
+                                    pomao.jumping = 1
+                                }
+                            } else {
+                                pomao.dry = 0
+                                pomao.grounded = 0
+                                pomao.jumping = 1
+                            }
+                            pomao.body.radius = storage.rad
+
+
+
+                        }
 
                     }
 
 
-
-
                     // if (tonguelink.hypotenuse() > 20) {
-                        if ((this.flakes[t].isPointInside(pomao.tongue) || ((pomao.tonguebox.isInsideOfShape(this.flakes[t]) || this.flakes[t].isPointInside(pomao.tongue))))) {
-                            if (pomao.tongueymom < 0) {
-                                if (Math.abs(pomao.tonguey) > 1) {
-                                    pomao.body.symom += pomao.tongueymom * 1.1
+                    if ((this.flakes[t].isPointInside(pomao.tongue) || ((pomao.tonguebox.isInsideOfShape(this.flakes[t]) || this.flakes[t].isPointInside(pomao.tongue))))) {
+                        if (pomao.tongueymom < 0) {
+                            if (Math.abs(pomao.tonguey) > 1) {
+                                pomao.body.symom += pomao.tongueymom * 1.1
+                            }
+                            if (Math.abs(pomao.tonguex) > 15) {
+                                if (pomao.dir == -1) {
+                                    pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
+                                } else {
+                                    pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
                                 }
-                                if (Math.abs(pomao.tonguex) > 15) {
-                                    if (pomao.dir == -1) {
-                                        pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
-                                    } else {
-                                        pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
-                                    }
+                            }
+                        } else {
+                            if (Math.abs(pomao.tonguey) > 1) {
+                                pomao.body.symom -= pomao.tongueymom * 1.1
+                            }
+                            if (Math.abs(pomao.tonguex) > 15) {
+                                if (pomao.dir == -1) {
+                                    pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
+                                } else {
+                                    pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
                                 }
-                            } else {
-                                if (Math.abs(pomao.tonguey) > 1) {
-                                    pomao.body.symom -= pomao.tongueymom * 1.1
-                                }
-                                if (Math.abs(pomao.tonguex) > 15) {
-                                    if (pomao.dir == -1) {
-                                        pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
-                                    } else {
-                                        pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
-                                    }
-                                }
+                            }
 
-                            }
-                            if (pomao.body.ymom > 0) {
-                                pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
-                            }
-                            pomao.body.ymom = 0
-                            pomao.body.xmom *= .975
-                            pomao.dry = 1
-                            pomao.body.symom -= .0005
-                            pomao.tongueymom *= .49
-                            pomao.tonguexmom *= .49
                         }
+                        if (pomao.body.ymom > 0) {
+                            pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                        }
+                        pomao.body.ymom = 0
+                        pomao.body.xmom *= .975
+                        pomao.dry = 1
+                        pomao.body.symom -= .0005
+                        pomao.tongueymom *= .49
+                        pomao.tonguexmom *= .49
+                    }
                     // }
                 }
             }
+            // pomao.body.wxmom = 0
+            // pomao.body.wymom = 0
 
         }
     }
@@ -19138,7 +19218,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let snokloan = new Snowclone(-300, -700, 500, 6)
         snowfloors.push(snokloan)
         let snokloon2 = new Snowclone(-300, -700, 100, 6)
-        for(let t = 0;t<10;t++){
+        for (let t = 0; t < 10; t++) {
             snokloon2.draw()
         }
         snokloon2.dir *= 4
