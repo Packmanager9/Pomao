@@ -740,12 +740,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.height = []
             this.x = x
             this.y = y
-            this.hend = y +h
+            this.hend = y + h
             this.end = x + w
             let angler = 0
             for (let t = 0; t < Math.ceil(w / 5); t++) {
-                angler+= Math.PI/3
-                let block = new Rectangle(x + (t * 5), y, h+(Math.cos(angler)*5), 5.1, "white")
+                angler += Math.PI / 3
+                let block = new Rectangle(x + (t * 5), y, h + (Math.cos(angler) * 5), 5.1, "white")
                 block.accum = 0
                 block.ysto = block.y
                 block.waggle = block.y
@@ -770,24 +770,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (point.y > this.snowheight && point.x < this.end && point.x > this.x && point.y < this.hend) {
                 const t = (Math.round(((point.x) - (this.x)) / 5)) % this.bodies.length
                 if (t > 10 && t < this.bodies.length - 11) {
-                if (this.bodies[t].y <= point.y || this.bodies[t + 1].y <= point.y || this.bodies[t - 1].y <= point.y) {
-                    let value = 0
-                    for (let n = t - 10; n < (t + 10); n++) {
-                        value += (Math.PI / 20)
-                        let bump = (point.ymom * Math.sin(value)) * 5
-                        if (bump < point.ymom * 5.01) {
-                            bump *= 1.01
-                        }
-                            if (this.bodies[t].y >  this.y-90) {
+                    if (this.bodies[t].y <= point.y || this.bodies[t + 1].y <= point.y || this.bodies[t - 1].y <= point.y) {
+                        let value = 0
+                        for (let n = t - 10; n < (t + 10); n++) {
+                            value += (Math.PI / 20)
+                            let bump = (point.ymom * Math.sin(value)) * 5
+                            if (bump < point.ymom * 5.01) {
+                                bump *= 1.01
+                            }
+                            if (this.bodies[t].y > this.y - 90) {
                                 this.bodies[n].waggle -= bump / 8
-                                if(this.bodies[n].waggle < this.snowheight){
+                                if (this.bodies[n].waggle < this.snowheight) {
                                     this.snowheight = this.bodies[n].waggle
                                 }
                             }
+                        }
+                        return true
                     }
-                    return true
                 }
-            }
             }
             return false
         }
@@ -4659,9 +4659,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.splice = 0
         }
 
-        snowThing(point){
-            let linkcheck = new LineOP(this,point)
-            if(linkcheck.hypotenuse() < point.radius*2){
+        snowThing(point) {
+            let linkcheck = new LineOP(this, point)
+            if (linkcheck.hypotenuse() < point.radius * 2) {
                 return true
             }
             return false
@@ -5426,86 +5426,86 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             this.tonguebox = new Shape(this.tongueray)
         }
-        tongueFix(){
+        tongueFix() {
 
-            if(level == 10 || level == 9 || level == 7){
-            for (let t = 0; t < floors.length; t++) {
-                if (level == 9 || level == 10) {
-                    if (level == 10) {
-                        if (t < ((Math.round((2100 + this.body.x) / 5)) - 60) % floors.length) {
-                            t = ((Math.round((2100 + this.body.x) / 5)) - 60) % floors.length
+            if (level == 10 || level == 9 || level == 7) {
+                for (let t = 0; t < floors.length; t++) {
+                    if (level == 9 || level == 10) {
+                        if (level == 10) {
+                            if (t < ((Math.round((2100 + this.body.x) / 5)) - 60) % floors.length) {
+                                t = ((Math.round((2100 + this.body.x) / 5)) - 60) % floors.length
+                            }
+                            if (t > ((Math.round((2100 + this.body.x) / 5)) + 60) % floors.length && t < 1860) {
+                                t = 1860
+                            }
                         }
-                        if (t > ((Math.round((2100 + this.body.x) / 5)) + 60) % floors.length && t < 1860) {
-                            t = 1860
+                        if (level == 9) {
+                            if (t < ((Math.round((2100 + this.body.x) / 3)) - 90) % floors.length) {
+                                t = ((Math.round((2100 + this.body.x) / 3)) - 90) % floors.length
+                            }
+                            if (t > ((Math.round((2100 + this.body.x) / 3)) + 90) % floors.length) {
+                                break
+                            }
                         }
                     }
-                    if (level == 9) {
-                        if (t < ((Math.round((2100 + this.body.x) / 3)) - 90) % floors.length) {
-                            t = ((Math.round((2100 + this.body.x) / 3)) - 90) % floors.length
-                        }
-                        if (t > ((Math.round((2100 + this.body.x) / 3)) + 90) % floors.length) {
-                            break
-                        }
-                    }
-                }
 
 
 
-                // console.log(floors[t].isPointInside(pomao.tongue) )
+                    // console.log(floors[t].isPointInside(pomao.tongue) )
 
-                if(level == 10 || level == 9 || level == 7){
-                    if (floors[t].snowThing(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t]) && !this.body.repelCheck(this.tongue)) { //
-                        //   console.log("snowfail?")  //hits this on thin floors?  while clipping?
-                        if (!ungrapplable.includes(floors[t])) {
-                            // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
-                            // this.body.y = floors[t].y-this.body.radius
-                            if (this.tongueymom < 0) {
-                                if (Math.abs(this.tonguey) > 1) {
-                                    this.body.symom += this.tongueymom * 1.1
-                                }
-                                if (Math.abs(this.tonguex) > 15) {
-                                    if (this.dir == -1) {
-                                        this.body.sxmom -= Math.abs(this.tonguexmom * 3)
-                                    } else {
-                                        this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                    if (level == 10 || level == 9 || level == 7) {
+                        if (floors[t].snowThing(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t]) && !this.body.repelCheck(this.tongue)) { //
+                            //   console.log("snowfail?")  //hits this on thin floors?  while clipping?
+                            if (!ungrapplable.includes(floors[t])) {
+                                // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
+                                // this.body.y = floors[t].y-this.body.radius
+                                if (this.tongueymom < 0) {
+                                    if (Math.abs(this.tonguey) > 1) {
+                                        this.body.symom += this.tongueymom * 1.1
                                     }
-                                }
-                                this.tongueymom *= .49
-                                this.tonguexmom *= .49
-                            } else {
-                                if (Math.abs(this.tonguey) > 1) {
-                                    this.body.symom -= this.tongueymom * 1.1
-                                }
-                                if (Math.abs(this.tonguex) > 15) {
-                                    if (this.dir == -1) {
-                                        this.body.sxmom -= Math.abs(this.tonguexmom * 3)
-                                    } else {
-                                        this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                    if (Math.abs(this.tonguex) > 15) {
+                                        if (this.dir == -1) {
+                                            this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                        } else {
+                                            this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                        }
                                     }
-                                }
-                                if (!roofs.includes(floors[t]) || (1 == 1)) {
-    
-                                    // if (pomao.body.x < floors[t].x || (1 == 1)) {
+                                    this.tongueymom *= .49
+                                    this.tonguexmom *= .49
+                                } else {
+                                    if (Math.abs(this.tonguey) > 1) {
+                                        this.body.symom -= this.tongueymom * 1.1
+                                    }
+                                    if (Math.abs(this.tonguex) > 15) {
+                                        if (this.dir == -1) {
+                                            this.body.sxmom -= Math.abs(this.tonguexmom * 3)
+                                        } else {
+                                            this.body.sxmom += Math.abs(this.tonguexmom * 3)
+                                        }
+                                    }
+                                    if (!roofs.includes(floors[t]) || (1 == 1)) {
+
+                                        // if (pomao.body.x < floors[t].x || (1 == 1)) {
                                         this.tongueymom *= .49
                                         this.tonguexmom *= .49
-                                    // }
+                                        // }
+                                    }
                                 }
+                                if (pomao.body.ymom > 0) {
+                                    pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                                }
+                                pomao.body.ymom = 0
+                                pomao.body.xmom *= .975
+                                // this.hng = 0  // infinite flutter?
+                                this.grounded = 2   // infinite flutter on walls
+                                break
                             }
-                            if (pomao.body.ymom > 0) {
-                                pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
-                            }
-                            pomao.body.ymom = 0
-                            pomao.body.xmom *= .975
-                            // this.hng = 0  // infinite flutter?
-                            this.grounded = 2   // infinite flutter on walls
-                            break
                         }
+
+
                     }
-
-
                 }
             }
-        }
         }
         gravity() {
 
@@ -5685,8 +5685,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                 }
-                let linkfloorer = new LineOP(floors[t],pomao.body)
-                if(linkfloorer.hypotenuse() >  pomao.tongue.radius +(Math.max(floors[t].width, floors[t].height)*2) + (Math.abs(pomao.tonguey))+Math.abs(pomao.tonguex)){
+                let linkfloorer = new LineOP(floors[t], pomao.body)
+                if (linkfloorer.hypotenuse() > pomao.tongue.radius + (Math.max(floors[t].width, floors[t].height) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)) {
                     continue
                 }
 
@@ -6328,10 +6328,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
             } else {
-            this.tongueFix()
+                this.tongueFix()
             }
             this.wingcheck = 0
-            
+
         }
         draw() {
             this.eggmake--
@@ -6662,7 +6662,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl4()
                     pmarinedisp = 0
                 }
-            }else{
+            } else {
                 level3basemusic.pause()
             }
             if (level == 4) {
@@ -6848,11 +6848,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 floors[t].clean()
             }
 
-            if(level == 10){
-                for(let t =0;t<snowfloors.length;t++){
+            if (level == 10) {
+                for (let t = 0; t < snowfloors.length; t++) {
                     snowfloors[t].draw()
-                    for(let k = 0;k<snows.length;k++){
-                        if(snowfloors[t].collideSnowheight(snows[k].body)){
+                    for (let k = 0; k < snows.length; k++) {
+                        if (snowfloors[t].collideSnowheight(snows[k].body)) {
                             snows[k].marked = 1
                         }
                     }
@@ -6860,8 +6860,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             for (let t = 0; t < floors.length; t++) {
 
-                let linkfloorer = new LineOP(floors[t],pomao.body)
-                if(linkfloorer.hypotenuse() >  pomao.tongue.radius +(Math.max(floors[t].width, floors[t].height)*2) + (Math.abs(pomao.tonguey))+Math.abs(pomao.tonguex) + 735){  //finally
+                let linkfloorer = new LineOP(floors[t], pomao.body)
+                if (linkfloorer.hypotenuse() > pomao.tongue.radius + (Math.max(floors[t].width, floors[t].height) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex) + 735) {  //finally
                     continue
                 }
 
@@ -7114,8 +7114,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         let link = new Line(floors[t].x + 1.5, floors[t].y, floors[t - 1].x + 1.5, floors[t - 1].y, "white", 5)
                                         link.draw()
                                     }
-                                    if(Math.abs(floors[t].x-pomao.body.x) > 650){
-                                    floors[t].draw()
+                                    if (Math.abs(floors[t].x - pomao.body.x) > 650) {
+                                        floors[t].draw()
                                     }
                                 }
                             }
@@ -8334,7 +8334,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     }
 
-    let wind =( Math.random() - .5)*2
+    let wind = (Math.random() - .5) * 2
     let draft = Math.random() - .5
 
     class Snowflake {
@@ -8469,23 +8469,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     class Snowclone {
-        constructor(x,y, size, num = 6){
-            this.body = new Bosscircle(x,y, size, "transparent")
+        constructor(x, y, size, num = 6) {
+            this.body = new Bosscircle(x, y, size, "transparent")
             this.tips = []
             this.tipnum = num
             this.angler = 0
             this.size = size
-            for(let t =0;t<this.tipnum;t++){
-                let tip = new Bosscircle(this.body.x+(Math.cos(this.angler)*this.size), this.body.y+(Math.sin(this.angler)*this.size), 25, "white")
-                this.angler+=(Math.PI*2)/this.tipnum
+            for (let t = 0; t < this.tipnum; t++) {
+                let tip = new Bosscircle(this.body.x + (Math.cos(this.angler) * this.size), this.body.y + (Math.sin(this.angler) * this.size), 25, "white")
+                this.angler += (Math.PI * 2) / this.tipnum
                 this.tips.push(tip)
             }
             this.force = 0
             this.flakes = []
+            this.dir = 1
 
         }
         castBetween(from, to, granularity = 10, radius = 1, target) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
-            let limit = new LineOP(from, to).hypotenuse() / (to.radius * 2)
+            let limit = new LineOP(from, to).hypotenuse() / (to.radius * 3)
             radius = to.radius
             let shape_array = []
             for (let t = 0; t < limit; t++) {
@@ -8497,39 +8498,39 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.flakes.push((new Shape(shape_array)))
             return true;
         }
-        collideSnowheight(point){
+        collideSnowheight(point) {
 
             let link = new LineOP(point, this.body)
 
             point.angle = link.angle()
             if (link.hypotenuse() < this.size) {
-                point.angle += (this.size - link.hypotenuse()) / (this.size*10)
+                point.angle += (this.size - link.hypotenuse()) / (this.size * 10)
                 point.liner = link.hypotenuse()
                 point.y = (Math.sin(point.angle) * point.liner) + this.body.y
                 point.x = (Math.cos(point.angle) * point.liner) + this.body.x
-                point.y += (point.y-this.body.y)/((link.hypotenuse()*link.hypotenuse())*.5)
-                point.x += (point.x-this.body.x)/((link.hypotenuse()*link.hypotenuse())*.5)
-                if(point.y > this.body.y){
+                point.y += (point.y - this.body.y) / ((link.hypotenuse() * link.hypotenuse()) * .5)
+                point.x += (point.x - this.body.x) / ((link.hypotenuse() * link.hypotenuse()) * .5)
+                if (point.y > this.body.y) {
                     point.y += this.force
                 }
 
-            this.force+=.01
+                this.force += .01
             }
 
 
             return false
         }
-        draw(){
+        draw() {
             this.force = 0
             this.tips = []
-            this.angler +=.01
-            for(let t =0;t<this.tipnum;t++){
-                let tip = new Bosscircle(this.body.x+(Math.cos(this.angler)*this.size), this.body.y+(Math.sin(this.angler)*this.size), 25, "white")
-                this.angler+=(Math.PI*2)/this.tipnum
+            this.angler += .01 * this.dir
+            for (let t = 0; t < this.tipnum; t++) {
+                let tip = new Bosscircle(this.body.x + (Math.cos(this.angler) * this.size), this.body.y + (Math.sin(this.angler) * this.size), 25, "white")
+                this.angler += (Math.PI * 2) / this.tipnum
                 this.tips.push(tip)
             }
             this.flakes = []
-            for(let t = 0;t<this.tips.length;t++){
+            for (let t = 0; t < this.tips.length; t++) {
                 this.castBetween(this.body, this.tips[t])
                 let link = new LineOP(this.body, this.tips[t], "white", 50)
                 link.draw()
@@ -8538,47 +8539,124 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             let tipshape = new Shape(this.tips)
             this.flakes.push(tipshape)
-            // let tonguelink = new LineOP(pomao.body, pomao.tongue)
-            // if(tonguelink.hypotenuse() > 20){
-                for(let t = 0 ;t<this.flakes.length;t++){
-                
-                    if ((this.flakes[t].isPointInside(pomao.tongue)  || this.flakes[t].isPointInside(pomao.body) || ((pomao.tonguebox.isInsideOfShape(this.flakes[t]) || this.flakes[t].isPointInside(pomao.tongue))))) {
-                        if (pomao.tongueymom < 0) {
-                            if (Math.abs(pomao.tonguey) > 1) {
-                                pomao.body.symom += pomao.tongueymom * 1.1
-                            }
-                            if (Math.abs(pomao.tonguex) > 15) {
-                                if (pomao.dir == -1) {
-                                    pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
-                                } else {
-                                    pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
-                                }
-                            }
+            let tonguelink = new LineOP(pomao.body, pomao.tongue)
+            let bodylink = new LineOP(this.body, pomao.body)
+            if ((bodylink.hypotenuse() + pomao.body.radius) - (tonguelink.hypotenuse() + pomao.tongue.radius) <= this.size *1.5) {
+                for (let t = 0; t < this.flakes.length; t++) {
+                    if (this.flakes[t].isPointInside(pomao.body)) {
+                        if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
                         } else {
-                            if (Math.abs(pomao.tonguey) > 1) {
-                                pomao.body.symom -= pomao.tongueymom * 1.1
+                            pomao.dry = 1
+                            pomao.grounded = 1
+                            pomao.jumping = 0
+
+                            // if (liner.hypotenuse() < (this.flakes[t].isPointInsideTargetedShape(pomao.body).radius + pomao.body.radius)) {
+                            // pomao.body.y -= 1
+                            // tutorial_canvas_context.translate(0, 1)
+
+                            // if(this.flakes[t].isPointInsideTargetedShape(pomao.body).x >= pomao.body.x){
+                            //     pomao.body.x -= 4
+                            //     tutorial_canvas_context.translate(4, 0)
+                            // }else{
+                            //     pomao.body.x += 4
+                            //     tutorial_canvas_context.translate(-4, 0)
+
+                            // }
+
+
+                            // if (!this.flakes[t].isPointInside(pomao.body)) {
+                            //     // pomao.body.y += 6
+                            //     // tutorial_canvas_context.translate(0, -6)
+                            // }
+                            // // }
+                            // if (pomao.body.ymom > 0) {
+                            //     pomao.body.ymom = 0
+                            // }
+                            if (pomao.body.symom < 0) {
+                                pomao.body.symom = 0
                             }
-                            if (Math.abs(pomao.tonguex) > 15) {
-                                if (pomao.dir == -1) {
-                                    pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
-                                } else {
-                                    pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
+                        }
+
+
+
+                        let link = new LineOP(pomao.body, this.body)
+
+                        pomao.body.angle = link.angle()
+                        if (link.hypotenuse()  <= this.size  + pomao.body.radius + tonguelink.hypotenuse()) {
+                            pomao.body.angle += .01 * this.dir
+                            pomao.body.liner = link.hypotenuse()
+                            let storage = {}
+                            storage.x = pomao.body.x
+                            storage.y = pomao.body.y
+                            if(this.flakes[t].isPointInsideTargetedShape(pomao.body).y >= pomao.body.y-pomao.body.radius){
+                                pomao.body.y = (Math.sin(pomao.body.angle) * pomao.body.liner) + this.body.y
+                                pomao.body.x = (Math.cos(pomao.body.angle) * pomao.body.liner) + this.body.x
+                                for (let t = 1; t < pomao.eggs.length; t++) {
+                                    if (pomao.eggs[t].marked == 0) {
+                                        pomao.eggs[t].steer()
+                                        pomao.eggs[t].steery()
+                                    }
+                                }
+                                tutorial_canvas_context.translate(storage.x - pomao.body.x, storage.y - pomao.body.y)
+                            }else{
+                                pomao.body.liner = link.hypotenuse()
+                                if((( (Math.sin(pomao.body.angle) * pomao.body.liner) + this.body.y) - storage.y) > 0){
+                                    pomao.body.symom += (( (Math.sin(pomao.body.angle) * pomao.body.liner) + this.body.y) - storage.y)
+                                    pomao.body.sxmom += (((Math.cos(pomao.body.angle) * pomao.body.liner) + this.body.x) - storage.x)
+                                    pomao.body.smove()
+                                }else{
+                                    pomao.body.sxmom += (((Math.cos(pomao.body.angle) * pomao.body.liner) + this.body.x) - storage.x)
+                                    pomao.body.smove()
                                 }
                             }
-    
                         }
-                        if (pomao.body.ymom > 0) {
-                            pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
-                        }
-                        pomao.body.ymom = 0
-                        pomao.body.xmom *= .975
-                        pomao.dry = 1
-                        pomao.body.symom -= .0005
-                        pomao.tongueymom *= .49
-                        pomao.tonguexmom *= .49
+
+
                     }
+
+
+
+
+                    // if (tonguelink.hypotenuse() > 20) {
+                        if ((this.flakes[t].isPointInside(pomao.tongue) || ((pomao.tonguebox.isInsideOfShape(this.flakes[t]) || this.flakes[t].isPointInside(pomao.tongue))))) {
+                            if (pomao.tongueymom < 0) {
+                                if (Math.abs(pomao.tonguey) > 1) {
+                                    pomao.body.symom += pomao.tongueymom * 1.1
+                                }
+                                if (Math.abs(pomao.tonguex) > 15) {
+                                    if (pomao.dir == -1) {
+                                        pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
+                                    } else {
+                                        pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
+                                    }
+                                }
+                            } else {
+                                if (Math.abs(pomao.tonguey) > 1) {
+                                    pomao.body.symom -= pomao.tongueymom * 1.1
+                                }
+                                if (Math.abs(pomao.tonguex) > 15) {
+                                    if (pomao.dir == -1) {
+                                        pomao.body.sxmom -= Math.abs(pomao.tonguexmom * 3)
+                                    } else {
+                                        pomao.body.sxmom += Math.abs(pomao.tonguexmom * 3)
+                                    }
+                                }
+
+                            }
+                            if (pomao.body.ymom > 0) {
+                                pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
+                            }
+                            pomao.body.ymom = 0
+                            pomao.body.xmom *= .975
+                            pomao.dry = 1
+                            pomao.body.symom -= .0005
+                            pomao.tongueymom *= .49
+                            pomao.tonguexmom *= .49
+                        }
+                    // }
                 }
-            // }
+            }
+
         }
     }
 
@@ -18953,17 +19031,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let clickersin = 0
         let clickertan = 0
         // for (let t = 0; t < 1861; t++) {
-            // clickercos += (Math.PI * 2 * 310) / 3000
-            // clickersin += (Math.PI * 2 * 370) / 3000
-            // clickertan += (Math.PI * 2 * 410) / 3000
-            let driftfloor = new Snowfloor(-2100, 0, 400, (1861 * 5))  //snowfloor
+        // clickercos += (Math.PI * 2 * 310) / 3000
+        // clickersin += (Math.PI * 2 * 370) / 3000
+        // clickertan += (Math.PI * 2 * 410) / 3000
+        let driftfloor = new Snowfloor(-2100, 0, 400, (1861 * 5))  //snowfloor
 
         snowfloors.push(driftfloor)
 
-            // floor.waggle = floor.y //+(Math.sin(clickercos)*.2)+(Math.cos(clickersin)*.3)+(Math.sin(clickertan)*.5)
-            // walls.push(floor)
-            // floors.push(floor)
-            // roofs.push(floor)
+        // floor.waggle = floor.y //+(Math.sin(clickercos)*.2)+(Math.cos(clickersin)*.3)+(Math.sin(clickertan)*.5)
+        // walls.push(floor)
+        // floors.push(floor)
+        // roofs.push(floor)
         // }
 
 
@@ -19057,8 +19135,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         // snowfloors.push(drift4)
 
-        let snokloan = new Snowclone(-300,-700, 500, 6)
+        let snokloan = new Snowclone(-300, -700, 500, 6)
         snowfloors.push(snokloan)
+        let snokloon2 = new Snowclone(-300, -700, 100, 6)
+        for(let t = 0;t<10;t++){
+            snokloon2.draw()
+        }
+        snokloon2.dir *= 4
+        snowfloors.push(snokloon2)
 
         for (let t = 0; t < 900; t++) {
             const fruit = new Fruit(-2050 + (Math.random() * 9000), -8000 + (Math.random() * 7900), 60, 60, "red")
