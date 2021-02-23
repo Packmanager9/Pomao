@@ -8480,6 +8480,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.angler+=(Math.PI*2)/this.tipnum
                 this.tips.push(tip)
             }
+            this.force = 0
             this.flakes = []
 
         }
@@ -8508,15 +8509,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 point.x = (Math.cos(point.angle) * point.liner) + this.body.x
                 point.y += (point.y-this.body.y)/((link.hypotenuse()*link.hypotenuse())*.5)
                 point.x += (point.x-this.body.x)/((link.hypotenuse()*link.hypotenuse())*.5)
-                // if(point.y > this.body.y){
-                    point.y += .5
-                // }
+                if(point.y > this.body.y){
+                    point.y += this.force
+                }
+
+            this.force+=.01
             }
 
 
             return false
         }
         draw(){
+            this.force = 0
             this.tips = []
             this.angler +=.01
             for(let t =0;t<this.tipnum;t++){
