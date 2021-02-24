@@ -7303,7 +7303,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (level == 10) {
                 for (let t = 0; t < snowfloors.length; t++) {
+                    if(snowfloors[t].snowtype == 1){
+                        let link = new LineOP(snowfloors[t].body, pomao.body)
+                        if(link.hypotenuse() < snowfloors[t].size + 66 + 735){
+                            snowfloors[t].draw()
+                        }
+                    }else{
                     snowfloors[t].draw()
+                    }
                 }
             }
 
@@ -8640,6 +8647,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Snowclone {
         constructor(x, y, size, num = 6,) {
+            this.snowtype = 1
             this.body = new Bosscircle(x, y, 1, "white")
             this.body.angle = this.angler
 
@@ -19396,7 +19404,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         // snowfloors.push(drift4)
 
-        let snokloan = new Snowclone(-300, -700, 500, 6)
+        const snokloan = new Snowclone(-300, -700, 500, 6)
         snokloan.dir = .25
         snowfloors.push(snokloan)
         // let snokloon2 = new Snowclone(-300, -700, 100, 6)
@@ -19405,6 +19413,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // }
         // snokloon2.dir *= 4
         // snowfloors.push(snokloon2)
+
+        const snokloan3 =  new Snowclone(-300, -700, 500, 6)
 
         for (let t = 0; t < 900; t++) {
             const fruit = new Fruit(-2050 + (Math.random() * 9000), -8000 + (Math.random() * 7900), 60, 60, "red")
