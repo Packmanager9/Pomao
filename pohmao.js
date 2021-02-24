@@ -5141,6 +5141,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         smove() {
             this.wmove()
             // this.x += this.sxmom
+            if(this.symom != 0){
             if (Math.abs(this.symom) <= 3.1) {
                 this.y += this.symom
                 if (this == pomao.body) {
@@ -5152,17 +5153,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (this == pomao.body) {
                     tutorial_canvas_context.translate(0, -this.symom)
                 }
+            //     this.y += 3.1 * (Math.abs(this.symom)/this.symom)
+            //     if (this == pomao.body) {
+            //         tutorial_canvas_context.translate(0, -3.1 * (Math.abs(this.symom)/this.symom))
+            //     }
             }
-            if (Math.abs(this.sxmom) <= 3.1) {
-                this.x += this.sxmom
-                if (this == pomao.body) {
-                    tutorial_canvas_context.translate(-this.sxmom, 0)
-                }
-            } else {
-
-                this.x += this.sxmom
-                if (this == pomao.body) {
-                    tutorial_canvas_context.translate(-this.sxmom, 0)
+        }
+            if(this.sxmom != 0){
+                if (Math.abs(this.sxmom) <= 3.1) {
+                    this.x += 3.1 * (Math.abs(this.sxmom)/this.sxmom)
+                    if (this == pomao.body) {
+                        tutorial_canvas_context.translate(-3.1 * (Math.abs(this.sxmom)/this.sxmom), 0)
+                    }
+                } else {
+    
+                    this.x += this.sxmom
+                    if (this == pomao.body) {
+                        tutorial_canvas_context.translate(-this.sxmom, 0)
+                    }
                 }
             }
 
@@ -8588,7 +8596,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Snowclone {
         constructor(x, y, size, num = 6,) {
-            this.body = new Bosscircle(x, y, 140, "white")
+            this.body = new Bosscircle(x, y, 70, "white")
 
             this.tips = []
             this.tipnum = num
