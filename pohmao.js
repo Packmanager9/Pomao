@@ -5310,29 +5310,44 @@ window.addEventListener('DOMContentLoaded', (event) => {
         isPointInsideTargetedSnow(point) {
             let cold = 0
             let pointer = new Bosscircle(0, 0, 0, "red")
+            let pointerbig = new Bosscircle(0, 0, 0, "red")
             let count = 0
+            let smackcold = 0
             for (let t = 0; t < this.shapes.length; t++) {
                 if (this.shapes[t].repelCheck(point)) {
-                    count++
                     pointer.x += this.shapes[t].x
                     pointer.y += this.shapes[t].y
-                    cold = 1
-                    if (this.shapes[t].radius > pointer.radius && pointer.radius != 0) {
-                        pointer.x = this.shapes[t].x
-                        pointer.y = this.shapes[t].y
+                    if(this.shapes[t].radius == 140){
+                        pointerbig.x = this.shapes[t].x
+                        pointerbig.y = this.shapes[t].y
                         count = 1
-                        pointer.radius = this.shapes[t].radius
-                        break
-                    } else {
+                        cold = 2
+                        smackcold = 1
+                        pointerbig.radius = this.shapes[t].radius
+                        // break
+                    }else  if (this.shapes[t].radius > pointer.radius && pointer.radius != 0) {
+                        pointerbig.x = this.shapes[t].x
+                        pointerbig.y = this.shapes[t].y
+                        count = 1
+                        cold = 2
+                        smackcold = 1
+                        pointerbig.radius = this.shapes[t].radius
+                        // break
+                    }else {
+                        count++
+                        cold = 1
                         pointer.radius = this.shapes[t].radius
                     }
                 }
+            }
+            if(smackcold == 1){
+                cold = 2
             }
             pointer.x /= count
             pointer.y /= count
             if (cold == 0) {
                 return false
-            } else {
+            } else if(cold == 1) {
                 // pointer.draw()
                 if (pomao.body.y - (pomao.body.radius * .5) > pointer.y) {
                     pointer.color = "blue"
@@ -5343,6 +5358,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 pointer.marked = true
                 return pointer
+            }else{
+
+                // pointerbig.draw()
+                if (pomao.body.y - (pomao.body.radius * .5) > pointerbig.y) {
+                    pointerbig.color = "blue"
+                    // pointerbig.draw()
+                    pointerbig.marked = false
+                    return pointerbig
+                    // pointer.radius *= 1.05
+                }
+                return pointerbig
             }
 
         }
@@ -8555,7 +8581,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         constructor(x, y, size, num = 6,) {
             this.body = new Bosscircle(x, y, 140, "white")
 
-            this.tips = [this.body]
+            this.tips = []
             this.tipnum = num
             this.angler = 0
             this.size = size
@@ -8565,6 +8591,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.angler += (Math.PI * 2) / this.tipnum
                 this.tips.push(tip)
             }
+            this.tips.push(this.body)
             this.force = 0
             this.flakes = []
             this.dir = .5
@@ -8607,13 +8634,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         draw() {
             this.force = 0
-            this.tips = [this.body]
+            this.tips = []
             this.angler += .01 * this.dir
             for (let t = 0; t < this.tipnum; t++) {
                 let tip = new Bosscircle(this.body.x + (Math.cos(this.angler) * this.size), this.body.y + (Math.sin(this.angler) * this.size), 33, "white")
                 this.angler += (Math.PI * 2) / this.tipnum
                 this.tips.push(tip)
             }
+            this.tips.push(this.body)
             this.flakes = []
             this.flakemake = [...this.tips]
             for (let t = 0; t < this.tips.length; t++) {
@@ -8688,6 +8716,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     crstorage.x = pomao.body.x - base.x
                                     crstorage.y = pomao.body.y - base.y
                                     let dis = pomao.body.radius + base.radius + .001
+                                    if(base.radius == this.body.radius){    
+                                        dis+=6.2
+                                    }
                                     let rat = dis / basehyp
                                     // tutorial_canvas_context.translate((pomao.body.x - (base.x - crstorage.x)), (pomao.body.y - (base.y - crstorage.y)))
                                     crstorage.x *= rat
@@ -8753,6 +8784,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     crstorage.x = pomao.body.x - base.x
                                     crstorage.y = pomao.body.y - base.y
                                     let dis = pomao.body.radius + base.radius + .001
+                                    if(base.radius == this.body.radius){    
+                                        dis+=6.2
+                                    }
                                     let rat = dis / basehyp
                                     // tutorial_canvas_context.translate((pomao.body.x - (base.x - crstorage.x)), (pomao.body.y - (base.y - crstorage.y)))
                                     crstorage.x *= rat
