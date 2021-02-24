@@ -8719,6 +8719,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     if(base.radius == this.body.radius){    
                                         dis+=6.2
                                     }
+                                    if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
+                                        if(pomao.body.ymom > 0){
+                                            dis+=(Math.abs(pomao.body.ymom*Math.sin(baselink.angle())))*.5
+                                        }
+                                    }
                                     let rat = dis / basehyp
                                     // tutorial_canvas_context.translate((pomao.body.x - (base.x - crstorage.x)), (pomao.body.y - (base.y - crstorage.y)))
                                     crstorage.x *= rat
@@ -8747,7 +8752,39 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }else{
 
                                     if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
-                                    } else {
+                                        if(this.body.repelCheck(pomao.body)) {
+                                            pomao.dry = 1
+                                            pomao.grounded = 0
+                                            pomao.jumping = 0
+    
+                                            // if (liner.hypotenuse() < (this.flakes[t].isPointInsideTargetedShape(pomao.body).radius + pomao.body.radius)) {
+                                            // pomao.body.y -= 1
+                                            // tutorial_canvas_context.translate(0, 1)
+    
+                                            // if(this.flakes[t].isPointInsideTargetedShape(pomao.body).x >= pomao.body.x){
+                                            //     pomao.body.x -= 4
+                                            //     tutorial_canvas_context.translate(4, 0)
+                                            // }else{
+                                            //     pomao.body.x += 4
+                                            //     tutorial_canvas_context.translate(-4, 0)
+    
+                                            // }
+    
+    
+                                            // if (!this.flakes[t].isPointInside(pomao.body)) {
+                                            //     // pomao.body.y += 6
+                                            //     // tutorial_canvas_context.translate(0, -6)
+                                            // }
+                                            // // }
+                                            if (pomao.body.ymom > 1) {
+                                                pomao.body.ymom = 1
+                                            }
+                                            if (pomao.body.symom < 0) {
+                                                pomao.body.symom = 0
+                                            }
+                                            pomao.body.sxmom = 0
+                                        }
+                                    } else if(!this.body.repelCheck(pomao.body)) {
                                         pomao.dry = 1
                                         pomao.grounded = 0
                                         pomao.jumping = 0
@@ -8786,6 +8823,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     let dis = pomao.body.radius + base.radius + .001
                                     if(base.radius == this.body.radius){    
                                         dis+=6.2
+                                    }
+                                    if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
+                                        if(pomao.body.ymom > 0){
+                                            dis+=(Math.abs(pomao.body.ymom*Math.sin(baselink.angle())))*.5
+                                        }
                                     }
                                     let rat = dis / basehyp
                                     // tutorial_canvas_context.translate((pomao.body.x - (base.x - crstorage.x)), (pomao.body.y - (base.y - crstorage.y)))
