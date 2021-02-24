@@ -5140,22 +5140,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         smove() {
             this.wmove()
-            this.x += this.sxmom
+            // this.x += this.sxmom
             if (Math.abs(this.symom) <= 3.1) {
                 this.y += this.symom
                 if (this == pomao.body) {
-                    tutorial_canvas_context.translate(-this.sxmom, -this.symom)
+                    tutorial_canvas_context.translate(0, -this.symom)
                 }
             } else {
 
                 this.y += this.symom
                 if (this == pomao.body) {
-                    tutorial_canvas_context.translate(-this.sxmom, -this.symom)
+                    tutorial_canvas_context.translate(0, -this.symom)
                 }
-                // this.y += (this.symom/(Math.abs(this.symom)))*3.1
-                // if (this == pomao.body) {
-                //     tutorial_canvas_context.translate(-this.sxmom, -(this.symom/(Math.abs(this.symom)))*3.1)
-                // }
+            }
+            if (Math.abs(this.sxmom) <= 3.1) {
+                this.x += this.sxmom
+                if (this == pomao.body) {
+                    tutorial_canvas_context.translate(-this.sxmom, 0)
+                }
+            } else {
+
+                this.x += this.sxmom
+                if (this == pomao.body) {
+                    tutorial_canvas_context.translate(-this.sxmom, 0)
+                }
             }
 
             for (let t = 0; t < blocks.length; t++) {
@@ -5368,7 +5376,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     return pointerbig
                     // pointer.radius *= 1.05
                 }
-                pointer.marked = true
+                pointerbig.marked = true
                 return pointerbig
             }
 
@@ -8707,7 +8715,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.translate(storage.x - pomao.body.x, storage.y - pomao.body.y)
                             // }else{
                             let baselink = new LineOP(base, pomao.body)
-                            console.log(baselink.angle())
+                            // console.log(baselink.angle())
                             let basehyp = baselink.hypotenuse() * 1
                             if (basehyp < pomao.body.radius + base.radius) {
                                 pomao.body.radius = storage.rad
@@ -8718,10 +8726,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     crstorage.y = pomao.body.y - base.y
                                     let dis = pomao.body.radius + base.radius + .001
                                     if(base.radius == this.body.radius){    
-                                        dis+=6.2
+                                        dis+=3.1
+                                        if(tonguelink.hypotenuse() > 20){
+                                            dis+=3.1
+                                        }
                                     }
                                     if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
                                         if(pomao.body.ymom > 0){
+                                            console.log((Math.abs(pomao.body.ymom*Math.sin(baselink.angle())))*.5)
                                             dis+=(Math.abs(pomao.body.ymom*Math.sin(baselink.angle())))*.5
                                         }
                                     }
@@ -8823,10 +8835,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     crstorage.y = pomao.body.y - base.y
                                     let dis = pomao.body.radius + base.radius + .001
                                     if(base.radius == this.body.radius){    
-                                        dis+=6.2
+                                        dis+=3.1
+                                        if(tonguelink.hypotenuse() > 20){
+                                            dis+=3.1
+                                        }
                                     }
                                     if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
                                         if(pomao.body.ymom > 0){
+                                            console.log((Math.abs(pomao.body.ymom*Math.sin(baselink.angle())))*.5)
                                             dis+=(Math.abs(pomao.body.ymom*Math.sin(baselink.angle())))*.5
                                         }
                                     }
