@@ -620,8 +620,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     // tutorial_canvas_context.scale(.075,.075)
     // tutorial_canvas_context.scale(.1,.1)
-    // tutorial_canvas_context.scale(.5,.5)
+    // tutorial_canvas_context.scale(.25,.25)
     // tutorial_canvas_context.translate(3300,19750) //lvl4
+    // tutorial_canvas_context.translate(1280*1.5,720*1.5) //lvl10
     // tutorial_canvas_context.translate(2000,8000) //lvl4
     // tutorial_canvas_context.translate(3300,9000)//lvl6
     // tutorial_canvas_context.translate(640,360)
@@ -8525,7 +8526,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (Math.random() < .01) {
                 this.draft = 1
             }
-
+            if (this.body.radius < 4) {
+                this.marked = 1
+            }
+            if (this.body.y > 360) {
+                this.marked = 1
+            }
         }
         draw() {
             this.body.fmove()
@@ -8625,6 +8631,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.marked = 1
             }
 
+            if (this.body.y > 360) {
+                this.marked = 1
+            }
         }
 
     }
@@ -15260,7 +15269,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     //abracadabra
-    loadlvl1()
+    // loadlvl1()
     // loadlvl2()
     // loadlvl3()
     // loadlvl4()
@@ -15269,7 +15278,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // loadlvl7()
     // loadlvl8()
     // loadlvl9()
-    // loadlvl10()
+    loadlvl10()
 
     // for(let t=0;t<10;t++){
     //     chafer.draw()
