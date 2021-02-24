@@ -19414,7 +19414,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // snokloon2.dir *= 4
         // snowfloors.push(snokloon2)
 
-        const snokloan3 =  new Snowclone(-300, -700, 500, 6)
+        const snokloan3 =  new Snowclone(1300, -1100, 200, 6)
+        snowfloors.push(snokloan3)
+
+
+        const snokloan4 =  new Snowclone(2200, -1100, 200, 6)
+        snokloan4.dir = -.5
+        snowfloors.push(snokloan4)
 
         for (let t = 0; t < 900; t++) {
             const fruit = new Fruit(-2050 + (Math.random() * 9000), -8000 + (Math.random() * 7900), 60, 60, "red")
