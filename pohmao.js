@@ -5326,14 +5326,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
         isPointInsideTargetedSnow(point) {
             let cold = 0
             let pointer = new Bosscircle(0, 0, 0, "red")
+            pointer.angle = 0
             let pointerbig = new Bosscircle(0, 0, 0, "red")
             let count = 0
             let smackcold = 0
+            let angles = []
+            let sto = {}
             for (let t = 0; t < this.shapes.length; t++) {
                 if (this.shapes[t].repelCheck(point)) {
+                    if(count == 0){
+                        sto = this.shapes[t]
+                    }
+                    angles.push(Math.round(this.shapes[t].angle*100)/100)
+                    pointer.angle +=( Math.round(this.shapes[t].angle*100)/100)
                     pointer.x += this.shapes[t].x
                     pointer.y += this.shapes[t].y
-                    if(this.shapes[t].radius == 140){
+                    if(this.shapes[t].radius == 140){ //defunct
                         pointerbig.x = this.shapes[t].x
                         pointerbig.y = this.shapes[t].y
                         count = 1
@@ -5361,9 +5369,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             pointer.x /= count
             pointer.y /= count
+            pointer.angle /= count
+            pointer.angle = ( Math.round(pointer.angle*100)/100)
+            // console.log(angles)
             if (cold == 0) {
+                if(angles.includes(pointer.angle)){
+    
+                }else if(angles.length > 0){
+                    sto.color = "green"
+                    // sto.draw()
+                    sto.marked = true
+                    return sto
+                }
                 return false
             } else if(cold == 1) {
+                if(angles.includes(pointer.angle)){
+    
+                }else if(angles.length > 0){
+                    sto.color = "green"
+                    // sto.draw()
+                    sto.marked = true
+                    return sto
+                }
                 // pointer.draw()
                 if (pomao.body.y - (pomao.body.radius * .5) > pointer.y) {
                     pointer.color = "blue"
@@ -5376,6 +5403,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 return pointer
             }else{
 
+                if(angles.includes(pointer.angle)){
+    
+                }else if(angles.length > 0){
+                    sto.color = "green"
+                    // sto.draw()
+                    sto.marked = true
+                    return sto
+                }
                 // pointerbig.draw()
                 if (pomao.body.y - (pomao.body.radius * .5) > pointerbig.y) {
                     pointerbig.color = "blue"
@@ -8596,7 +8631,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Snowclone {
         constructor(x, y, size, num = 6,) {
-            this.body = new Bosscircle(x, y, 70, "white")
+            this.body = new Bosscircle(x, y, 1, "white")
+            this.body.angle = this.angler
 
             this.tips = []
             this.tipnum = num
@@ -8605,32 +8641,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.flakemake = []
             for (let t = 0; t < this.tipnum; t++) {
                 let tip = new Bosscircle(this.body.x + (Math.cos(this.angler) * this.size), this.body.y + (Math.sin(this.angler) * this.size), 33, "white")
+                tip.angle = this.angler
                 this.angler += (Math.PI * 2) / this.tipnum
                 this.tips.push(tip)
             }
+            this.angler%= Math.PI*2
             this.tips.push(this.body)
             this.force = 0
             this.flakes = []
             this.dir = .5
 
         }
-        castBetween(from, to, granularity = 10, radius = 1, target) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
+        castBetween(from, to, granularity = 10, radius = 1, target) { 
             let limit = new LineOP(from, to).hypotenuse() / (to.radius * .5)
             radius = to.radius
             let shape_array = []
             for (let t = 0; t < limit; t++) {
-                let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "gray")
+                let circ = new Bosscircle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "gray")
                 circ.target = target
-                // circ.draw()
-                this.flakemake.push(circ)
+                circ.angle = to.angle
+                shape_array.push(circ)
             }
-            // this.flakes.push((new Shape(shape_array)))
+            this.flakes.push(new Shape(shape_array))
             return true;
         }
         collideSnowheight(point) {
-
             let link = new LineOP(point, this.body)
-
             point.angle = link.angle()
             if (link.hypotenuse() < this.size) {
                 point.angle += ((this.size - link.hypotenuse()) / (this.size * 10)) * this.dir
@@ -8642,47 +8678,40 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (point.y > this.body.y) {
                     point.y += this.force
                 }
-
                 this.force += .01
             }
-
-
             return false
         }
         draw() {
             this.force = 0
             this.tips = []
             this.angler += .01 * this.dir
+            this.body.angle = this.angler
             for (let t = 0; t < this.tipnum; t++) {
                 let tip = new Bosscircle(this.body.x + (Math.cos(this.angler) * this.size), this.body.y + (Math.sin(this.angler) * this.size), 33, "white")
+                tip.angle = this.angler
                 this.angler += (Math.PI * 2) / this.tipnum
                 this.tips.push(tip)
             }
+
+            this.angler%= Math.PI*2
             this.tips.push(this.body)
             this.flakes = []
             this.flakemake = [...this.tips]
+            this.flakes = [new Shape(this.flakemake)]
             for (let t = 0; t < this.tips.length; t++) {
                 this.castBetween(this.body, this.tips[t])
                 let link = new LineOP(this.body, this.tips[t], "white", 66)
                 link.draw()
                 this.tips[t].draw()
             }
-            this.flakes = [new Shape(this.flakemake)]
-            // let tipshape = new Shape(this.tips)
-            // this.flakes.push(tipshape)
             let tonguelink = new LineOP(pomao.body, pomao.tongue)
             let bodylink = new LineOP(this.body, pomao.body)
             if ((bodylink.hypotenuse() + pomao.body.radius) - (tonguelink.hypotenuse() + pomao.tongue.radius) <= this.size * 1.5) {
                 for (let t = 0; t < this.flakes.length; t++) {
-
                     let base = this.flakes[t].isPointInsideTargetedSnow(pomao.body)
                     if (typeof base != "boolean") {
-
-
-
-
                         let link = new LineOP(pomao.body, this.body)
-
                         pomao.body.angle = link.angle()
                         if (link.hypotenuse() <= (this.tips[0].radius * 2) + this.size + pomao.body.radius + tonguelink.hypotenuse()) {
                             pomao.body.angle += .01 * this.dir
@@ -8692,24 +8721,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             storage.y = pomao.body.y
                             storage.rad = pomao.body.radius
                             pomao.body.radius *= 1.1
-                            // if(base.y >= pomao.body.y-pomao.body.radius){
-                            //     let baselink = new LineOP(base, pomao.body)
-                            //     let basehyp = baselink.hypotenuse()
-                            //     if(basehyp < pomao.body.radius + base.radius){
-                            //         // console.log("hiff")
-                            //         let crstorage = {}
-                            //         crstorage.x = pomao.body.x-base.x
-                            //         crstorage.y = pomao.body.y-base.y
-                            //         let dis = pomao.body.radius + base.radius
-                            //         let rat = dis/basehyp 
-                            //         // tutorial_canvas_context.translate((pomao.body.x - (base.x - crstorage.x)), (pomao.body.y - (base.y - crstorage.y)))
-                            //         crstorage.x*=rat
-                            //         crstorage.y*=rat
-                            //         pomao.body.wxmom = -(pomao.body.x - (base.x + crstorage.x))
-                            //         pomao.body.wymom =  -(pomao.body.y - (base.y + crstorage.y))
-                            //         pomao.body.wmovecut()
-                            //         pomao.body.radius = storage.rad 
-                            //     }
                                 if (base.marked == true) {
                             pomao.body.y = (Math.sin(pomao.body.angle) * pomao.body.liner) + this.body.y
                             pomao.body.x = (Math.cos(pomao.body.angle) * pomao.body.liner) + this.body.x
@@ -8721,13 +8732,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                             }
                             tutorial_canvas_context.translate(storage.x - pomao.body.x, storage.y - pomao.body.y)
-                            // }else{
                             let baselink = new LineOP(base, pomao.body)
-                            // console.log(baselink.angle())
                             let basehyp = baselink.hypotenuse() * 1
                             if (basehyp < pomao.body.radius + base.radius) {
                                 pomao.body.radius = storage.rad
-                                // if (baselink.angle() > 0) {
                                 if (base.marked == false) {
                                     let crstorage = {}
                                     crstorage.x = pomao.body.x - base.x
@@ -8746,7 +8754,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                     }
                                     let rat = dis / basehyp
-                                    // tutorial_canvas_context.translate((pomao.body.x - (base.x - crstorage.x)), (pomao.body.y - (base.y - crstorage.y)))
                                     crstorage.x *= rat
                                     crstorage.y *= rat
                                     pomao.body.wxmom = -(pomao.body.x - (base.x + crstorage.x)) * 1.01
@@ -8777,26 +8784,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             pomao.dry = 1
                                             pomao.grounded = 0
                                             pomao.jumping = 0
-    
-                                            // if (liner.hypotenuse() < (this.flakes[t].isPointInsideTargetedShape(pomao.body).radius + pomao.body.radius)) {
-                                            // pomao.body.y -= 1
-                                            // tutorial_canvas_context.translate(0, 1)
-    
-                                            // if(this.flakes[t].isPointInsideTargetedShape(pomao.body).x >= pomao.body.x){
-                                            //     pomao.body.x -= 4
-                                            //     tutorial_canvas_context.translate(4, 0)
-                                            // }else{
-                                            //     pomao.body.x += 4
-                                            //     tutorial_canvas_context.translate(-4, 0)
-    
-                                            // }
-    
-    
-                                            // if (!this.flakes[t].isPointInside(pomao.body)) {
-                                            //     // pomao.body.y += 6
-                                            //     // tutorial_canvas_context.translate(0, -6)
-                                            // }
-                                            // // }
                                             if (pomao.body.ymom > 1) {
                                                 pomao.body.ymom = 1
                                             }
@@ -8809,26 +8796,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         pomao.dry = 1
                                         pomao.grounded = 0
                                         pomao.jumping = 0
-
-                                        // if (liner.hypotenuse() < (this.flakes[t].isPointInsideTargetedShape(pomao.body).radius + pomao.body.radius)) {
-                                        // pomao.body.y -= 1
-                                        // tutorial_canvas_context.translate(0, 1)
-
-                                        // if(this.flakes[t].isPointInsideTargetedShape(pomao.body).x >= pomao.body.x){
-                                        //     pomao.body.x -= 4
-                                        //     tutorial_canvas_context.translate(4, 0)
-                                        // }else{
-                                        //     pomao.body.x += 4
-                                        //     tutorial_canvas_context.translate(-4, 0)
-
-                                        // }
-
-
-                                        // if (!this.flakes[t].isPointInside(pomao.body)) {
-                                        //     // pomao.body.y += 6
-                                        //     // tutorial_canvas_context.translate(0, -6)
-                                        // }
-                                        // // }
                                         if (pomao.body.ymom > 1) {
                                             pomao.body.ymom = 1
                                         }
@@ -8837,7 +8804,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                         pomao.body.sxmom = 0
                                     }
-                                    // console.log("hiff")
                                     let crstorage = {}
                                     crstorage.x = pomao.body.x - base.x
                                     crstorage.y = pomao.body.y - base.y
@@ -8855,7 +8821,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                     }
                                     let rat = dis / basehyp
-                                    // tutorial_canvas_context.translate((pomao.body.x - (base.x - crstorage.x)), (pomao.body.y - (base.y - crstorage.y)))
                                     crstorage.x *= rat
                                     crstorage.y *= rat
                                     pomao.body.wxmom = -(pomao.body.x - (base.x + crstorage.x)) * 1.01
@@ -8883,7 +8848,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         pomao.tongue.y += pomao.body.wymom
                                         pomao.body.wmovecut()
                                     }
-                                    // } else {
                                     if (pomao.body.y < base.y) {
                                         pomao.dry = 0
                                         pomao.grounded = 0
@@ -8891,7 +8855,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         pomao.hng = 0
                                         pomao.pounding = 0
                                     }
-                                    // }
                                 }
                             } else {
                                 pomao.dry = 0
@@ -8899,13 +8862,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.jumping = 1
                             }
                             pomao.body.radius = storage.rad
-
-
-
                         }
-
                     }
-                    // }else{
                     if (pomao.body.repelCheck(pomao.tongue)) {
 
                     } else {
@@ -8941,20 +8899,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom *= .975
                             pomao.dry = 1
                             pomao.body.symom -= .0005
-                            pomao.tongueymom *= .79  //49
-                            pomao.tonguexmom *= .79 //49
+                            pomao.tongueymom *= .79 
+                            pomao.tonguexmom *= .79 
                         }
                     }
-                    // }
-                    // }
                 }
             }
-
-            // if (tonguelink.hypotenuse() > 20) {
-
-            // pomao.body.wxmom = 0
-            // pomao.body.wymom = 0
-
         }
     }
 
