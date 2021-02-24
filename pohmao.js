@@ -8749,8 +8749,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                     if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
                                         if(pomao.body.ymom > 0){
-                                            console.log((Math.abs(pomao.body.ymom*Math.sin(baselink.angle())))*.5)
                                             dis+=(Math.abs(pomao.body.ymom*Math.sin(baselink.angle())))*.5
+                                            if (pomao.body.ymom > 1) {
+                                                pomao.body.ymom *= .98
+                                            }
                                         }
                                     }
                                     let rat = dis / basehyp
@@ -8816,8 +8818,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                     if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
                                         if(pomao.body.ymom > 0){
-                                            console.log((Math.abs(pomao.body.ymom*Math.sin(baselink.angle())))*.5)
                                             dis+=(Math.abs(pomao.body.ymom*Math.sin(baselink.angle())))*.5
+                                            if (pomao.body.ymom > 1) {
+                                                pomao.body.ymom *= .98
+                                            }
                                         }
                                     }
                                     let rat = dis / basehyp
