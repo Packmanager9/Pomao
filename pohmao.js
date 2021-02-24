@@ -5368,6 +5368,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     return pointerbig
                     // pointer.radius *= 1.05
                 }
+                pointer.marked = true
                 return pointerbig
             }
 
