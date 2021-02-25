@@ -190,6 +190,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let blocks = []
     let nails = []
     // letpomao.grounded= 0
+    // const snowflakeimg3 = new Image()
+    // snowflakeimg3.src = "snowflakes3.png"
     const snowflakeimg2 = new Image()
     snowflakeimg2.src = "snowflakes2.png"
     const snowflakeimg = new Image()
@@ -735,7 +737,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 
     class Snowfloor {
-        constructor(x, y, h, w) {
+        constructor(x, y, h, w, disp = 0) {
             this.bodies = []
             this.snowheight = y
             this.height = []
@@ -743,13 +745,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.y = y
             this.hend = y + h
             this.end = x + w
+            this.width = w
+            this.heightx = h
             let angler = 0
+            this.disp = disp
             for (let t = 0; t < Math.ceil(w / 5); t++) {
                 angler += Math.PI / 3
                 let block = new Rectangle(x + (t * 5), y, h + (Math.cos(angler) * 5), 5.1, "white")
                 block.accum = 0
-                block.ysto = block.y
-                block.waggle = block.y
+                block.ysto = block.y+(this.disp*t)
+                block.waggle = block.y+(this.disp*t)
                 this.height.push(block.height)
                 this.bodies.push(block)
                 floors.push(block)
@@ -758,9 +763,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
         draw() {
+            
+            let linkfloorer = new LineOP(this.bodies[0], pomao.body)
+            if (linkfloorer.hypotenuse() > pomao.tongue.radius + (Math.max(this.width, this.heightx) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)) {
+                return 0
+            }
             for (let t = 0; t < this.bodies.length; t++) {
                 this.bodies[t].y = this.bodies[t].waggle
-                this.bodies[t].height = this.height[t] + Math.abs(this.bodies[t].waggle - this.bodies[t].ysto)
+                this.bodies[t].height = this.height[t] + Math.abs(this.bodies[t].waggle - this.bodies[t].ysto) //+ (this.disp*t)
                 if (t > 0) {
                     let link = new Line(this.bodies[t].x + 1.5, this.bodies[t].waggle, this.bodies[t - 1].x + 1.5, this.bodies[t - 1].waggle, "white", 5)
                     link.draw()
@@ -779,7 +789,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             if (bump < point.ymom * 5.01) {
                                 bump *= 1.01
                             }
-                            if (this.bodies[t].y > this.y - 90) {
+                            if(this.disp == 0){
+
+                            if (this.bodies[t].y > (this.y) - 90) {
+                                this.bodies[n].waggle -= bump / 8
+                                if (this.bodies[n].waggle < this.snowheight) {
+                                    this.snowheight = this.bodies[n].waggle
+                                }
+                            }
+                            }
+                            if (this.bodies[t].y > this.bodies[n].ysto - 90) {
                                 this.bodies[n].waggle -= bump / 8
                                 if (this.bodies[n].waggle < this.snowheight) {
                                     this.snowheight = this.bodies[n].waggle
@@ -7307,6 +7326,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         let link = new LineOP(snowfloors[t].body, pomao.body)
                         if(link.hypotenuse() < snowfloors[t].size + 66 + 735){
                             snowfloors[t].draw()
+                        }else{
+                            snowfloors[t].spin()
                         }
                     }else{
                     snowfloors[t].draw()
@@ -8581,7 +8602,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 const srcx = Math.floor(this.type) * width
                 const srcy = 0
                 tutorial_canvas_context.drawImage(snowflakeimg, srcx, srcy, width, height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
-            } else {
+            } else  if (this.type < 70) {
                 const sheetwidth = snowflakeimg2.width
                 const sheetheight = snowflakeimg2.height
                 const cols = 50
@@ -8592,6 +8613,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 const srcy = 0
                 tutorial_canvas_context.drawImage(snowflakeimg2, srcx, srcy, width, height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
             }
+            //else{
+            //     const sheetwidth = snowflakeimg3.width
+            //     const sheetheight = snowflakeimg3.height
+            //     const cols = 60
+            //     const rows = 1
+            //     const width = sheetwidth / cols
+            //     const height = sheetheight / rows
+            //     const srcx = Math.floor(this.type - 70) * width
+            //     const srcy = 0
+            //     tutorial_canvas_context.drawImage(snowflakeimg3, srcx, srcy, width, height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
+            // }
             this.colide()
 
             if (this.body.radius < 4) {
@@ -8646,10 +8678,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     class Snowclone {
-        constructor(x, y, size, num = 6,) {
+        constructor(x, y, size, num = 6, ballwidth = 33) {
             this.snowtype = 1
             this.body = new Bosscircle(x, y, 1, "white")
             this.body.angle = this.angler
+            this.ballwidth = ballwidth
 
             this.tips = []
             this.tipnum = num
@@ -8657,7 +8690,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.size = size
             this.flakemake = []
             for (let t = 0; t < this.tipnum; t++) {
-                let tip = new Bosscircle(this.body.x + (Math.cos(this.angler) * this.size), this.body.y + (Math.sin(this.angler) * this.size), 33, "white")
+                let tip = new Bosscircle(this.body.x + (Math.cos(this.angler) * this.size), this.body.y + (Math.sin(this.angler) * this.size), this.ballwidth, "white")
                 tip.angle = this.angler
                 this.angler += (Math.PI * 2) / this.tipnum
                 this.tips.push(tip)
@@ -8668,6 +8701,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.flakes = []
             this.dir = .5
 
+        }
+        spin(){
+            this.angler += .01 * this.dir
+            this.angler%= Math.PI*2
         }
         castBetween(from, to, granularity = 10, radius = 1, target) { 
             let limit = new LineOP(from, to).hypotenuse() / (to.radius * .5)
@@ -8705,7 +8742,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.angler += .01 * this.dir
             this.body.angle = this.angler
             for (let t = 0; t < this.tipnum; t++) {
-                let tip = new Bosscircle(this.body.x + (Math.cos(this.angler) * this.size), this.body.y + (Math.sin(this.angler) * this.size), 33, "white")
+                let tip = new Bosscircle(this.body.x + (Math.cos(this.angler) * this.size), this.body.y + (Math.sin(this.angler) * this.size), this.ballwidth, "white")
                 tip.angle = this.angler
                 this.angler += (Math.PI * 2) / this.tipnum
                 this.tips.push(tip)
@@ -8718,7 +8755,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.flakes = [new Shape(this.flakemake)]
             for (let t = 0; t < this.tips.length; t++) {
                 this.castBetween(this.body, this.tips[t])
-                let link = new LineOP(this.body, this.tips[t], "white", 66)
+                let link = new LineOP(this.body, this.tips[t], "white", this.ballwidth*2)
                 link.draw()
                 this.tips[t].draw()
             }
@@ -19303,9 +19340,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // clickercos += (Math.PI * 2 * 310) / 3000
         // clickersin += (Math.PI * 2 * 370) / 3000
         // clickertan += (Math.PI * 2 * 410) / 3000
-        let driftfloor = new Snowfloor(-2100, 0, 400, (1861 * 5))  //snowfloor
+        // for(let t = 0;t<10;t++){
+            let driftfloor = new Snowfloor(-2100+(0*(1861 * 5)), 0, 400, (1861 * 5))  //snowfloor
 
-        snowfloors.push(driftfloor)
+            snowfloors.push(driftfloor)
+        // }
+        let driftfloor2 = new Snowfloor(-2100+(1*(1861 * 5)), 0, 400, (1861 * 5))  //snowfloor
+
+        snowfloors.push(driftfloor2)
+    // }
 
         // floor.waggle = floor.y //+(Math.sin(clickercos)*.2)+(Math.cos(clickersin)*.3)+(Math.sin(clickertan)*.5)
         // walls.push(floor)
@@ -19336,7 +19379,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         ungrapplable.push(wall1)
         // ungrapplable.push(wall1)
 
-        const wall2 = new Rectangle(6900, -30000, 30033, 50, "#FFFFFF35")
+        const wall2 = new Rectangle(67000, -30000, 30033, 50, "#FFFFFF35")
         walls.push(wall2)
         floors.push(wall2)
         roofs.push(wall2)
@@ -19421,6 +19464,43 @@ window.addEventListener('DOMContentLoaded', (event) => {
         const snokloan4 =  new Snowclone(2200, -1100, 200, 6)
         snokloan4.dir = -.5
         snowfloors.push(snokloan4)
+
+
+        const snokloan5 =  new Snowclone(2900, -1700, 200, 6, 10)
+        snokloan5.dir = 0
+        snowfloors.push(snokloan5)
+
+
+        const snokloan6 =  new Snowclone(4400, -1200, 800, 6, 22)
+        snokloan6.dir = .75
+        snowfloors.push(snokloan6)
+
+
+        const drift3 = new Snowfloor(2550, -1100, 20, 1000, -1)
+
+        snowfloors.push(drift3)
+
+
+
+        const drift4 = new Snowfloor(5300, -1500, 50, 1100, -.1)
+        snowfloors.push(drift4)
+        const drift5 = new Snowfloor(5300, -1500, 1100, 50)
+        snowfloors.push(drift5)
+
+
+        const drift6 = new Snowfloor(6400, -1522, 50, 1100, -.2)
+        snowfloors.push(drift6)
+
+
+        const drift7 = new Snowfloor(7500, -1566, 50, 1100, -.4)
+        snowfloors.push(drift7)
+
+        const drift8 = new Snowfloor(8600, -1654, 50, 1100, -.8)
+        snowfloors.push(drift8)
+
+        const drift9 = new Snowfloor(9700, -1830, 50, 1100, -1.6)
+        snowfloors.push(drift9)
+
 
         for (let t = 0; t < 900; t++) {
             const fruit = new Fruit(-2050 + (Math.random() * 9000), -8000 + (Math.random() * 7900), 60, 60, "red")
