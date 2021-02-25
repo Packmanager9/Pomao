@@ -749,17 +749,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.heightx = h
             let angler = 0
             this.disp = disp
+            let accum = 0
             for (let t = 0; t < Math.ceil(w / 5); t++) {
                 angler += Math.PI / 3
                 let block = new Rectangle(x + (t * 5), y, h + (Math.cos(angler) * 5), 5.1, "white")
                 block.accum = 0
-                block.ysto = block.y+(this.disp*t)
-                block.waggle = block.y+(this.disp*t)
+                accum+=(this.disp)
+                block.ysto = block.y+accum
+                block.waggle = block.y+accum
                 this.height.push(block.height)
                 this.bodies.push(block)
                 floors.push(block)
                 walls.push(block)
                 roofs.push(block)
+                if(this.disp != 0){
+                // this.disp+=.000002*-t
+                if(t%220 == 219){
+                    this.disp*=2
+                }
+                }
             }
         }
         draw() {
@@ -798,7 +806,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                             }
                             }
-                            if (this.bodies[t].y > this.bodies[n].ysto - 90) {
+                            if (this.bodies[t].y > this.bodies[n].ysto - 90 && this.bodies[n].y > this.bodies[n].ysto - 110) {  //t for n // sum?
                                 this.bodies[n].waggle -= bump / 8
                                 if (this.bodies[n].waggle < this.snowheight) {
                                     this.snowheight = this.bodies[n].waggle
@@ -6056,6 +6064,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         pomao.grounded = 1
                                         floors[t].active = 1
                                         pomao.body.symom = 0
+                                        pomao.body.sxmom = 0
                                         pomao.dry = 1
                                         this.pounding = 0
                                     }
@@ -6067,6 +6076,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         pomao.grounded = 1
                                         floors[t].active = 1
                                         pomao.body.symom = 0
+                                        pomao.body.sxmom = 0
                                         pomao.dry = 1
                                         this.pounding = 0
                                     }
@@ -6075,7 +6085,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                         }
                     }
-                    if (squarecirclefeet(floors[t], this.body)) { // problem?
+                    if (squarecirclefeet(floors[t], this.body)) { // problem?  // yes sxmom not reset in snow
+                        // console.log("top")
                         if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
                             // console.log("4369")  //hits this on thin floors?
                             if (!ungrapplable.includes(floors[t])) {
@@ -6196,7 +6207,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
 
 
-                            if (Math.abs(this.body.y - floors[t].y) <= this.body.radius) {
+                            if (Math.abs(this.body.y - floors[t].y) <= this.body.radius) {  ///sxmom not reset in snow
+                                // console.log("testerxmom")
 
                                 tutorial_canvas_context.translate(0, this.body.y - (floors[t].y - this.body.radius))
                                 this.body.y = floors[t].y - this.body.radius
@@ -6225,6 +6237,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     pomao.body.symom = 0
                                     pomao.body.ymom = 0
                                     pomao.body.sxmom = 0
+                                    // console.log(this.body.radius*.65, floors[t].x-this.body.x)
                                 }
                                 break
                             }
@@ -19482,24 +19495,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-        const drift4 = new Snowfloor(5300, -1500, 50, 1100, -.1)
-        snowfloors.push(drift4)
+        // const drift4 = new Snowfloor(5300, -1500, 50, 1100, -.1)
+        // snowfloors.push(drift4)
         const drift5 = new Snowfloor(5300, -1500, 1100, 50)
         snowfloors.push(drift5)
 
 
-        const drift6 = new Snowfloor(6400, -1522, 50, 1100, -.2)
-        snowfloors.push(drift6)
+        // const drift6 = new Snowfloor(6400, -1522, 50, 1100, -.2)
+        // snowfloors.push(drift6)
 
 
-        const drift7 = new Snowfloor(7500, -1566, 50, 1100, -.4)
-        snowfloors.push(drift7)
+        // const drift7 = new Snowfloor(7500, -1566, 50, 1100, -.4)
+        // snowfloors.push(drift7)
 
-        const drift8 = new Snowfloor(8600, -1654, 50, 1100, -.8)
-        snowfloors.push(drift8)
+        // const drift8 = new Snowfloor(8600, -1654, 50, 1100, -.8)
+        // snowfloors.push(drift8)
 
-        const drift9 = new Snowfloor(9700, -1830, 50, 1100, -1.6)
-        snowfloors.push(drift9)
+        // const drift9 = new Snowfloor(9700, -1830, 50, 1100, -1.6)
+        // snowfloors.push(drift9)
+
+        const bigdrift = new Snowfloor(5300, -1500, 50, 5500, -.1)
+        snowfloors.push(bigdrift)
 
 
         for (let t = 0; t < 900; t++) {
