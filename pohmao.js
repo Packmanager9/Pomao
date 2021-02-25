@@ -8545,8 +8545,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Snowflake {
         constructor(x, y) {
-            this.body = new Bosscircle(x, y, 9, "red", 0, 1)
+            this.body = new Bosscircle(x, y, 9+Math.random(), "red", 0, 1)
 
+            this.loopoffset = Math.random() * Math.PI * 2
             this.anchor = {}
             this.anchor.xdif = 0
             this.anchor.ydif = 0
@@ -8617,7 +8618,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 const height = sheetheight / rows
                 const srcx = Math.floor(this.type) * width
                 const srcy = 0
-                tutorial_canvas_context.drawImage(snowflakeimg, srcx, srcy, width, height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
+                if (pomao.tripping <= 0) {
+                    tutorial_canvas_context.drawImage(snowflakeimg, srcx, srcy, width, height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
+                } else {
+                    tutorial_canvas_context.drawImage(snowflakeimg, srcx, srcy, width, height, this.body.x - this.body.radius + (Math.sin(pomao.timeloop + this.loopoffset) * 3), this.body.y - this.body.radius + (Math.cos((pomao.timeloop / 10) + this.loopoffset) * 3), (this.body.radius * 2) + (Math.sin((pomao.timeloop / 10) + this.loopoffset) * 6), (this.body.radius * 2) + (Math.cos(pomao.timeloop + this.loopoffset) * 6))
+                }
             } else  if (this.type < 70) {
                 const sheetwidth = snowflakeimg2.width
                 const sheetheight = snowflakeimg2.height
@@ -8627,7 +8632,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 const height = sheetheight / rows
                 const srcx = Math.floor(this.type - 20) * width
                 const srcy = 0
-                tutorial_canvas_context.drawImage(snowflakeimg2, srcx, srcy, width, height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
+                
+                if (pomao.tripping <= 0) {
+                    tutorial_canvas_context.drawImage(snowflakeimg2, srcx, srcy, width, height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
+                } else {
+                    tutorial_canvas_context.drawImage(snowflakeimg2, srcx, srcy, width, height, this.body.x - this.body.radius + (Math.sin(pomao.timeloop + this.loopoffset) * 3), this.body.y - this.body.radius + (Math.cos((pomao.timeloop / 10) + this.loopoffset) * 3), (this.body.radius * 2) + (Math.sin((pomao.timeloop / 10) + this.loopoffset) * 6), (this.body.radius * 2) + (Math.cos(pomao.timeloop + this.loopoffset) * 6))
+                }
             }
             //else{
             //     const sheetwidth = snowflakeimg3.width
