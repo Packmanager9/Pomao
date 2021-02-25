@@ -791,25 +791,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (t > 10 && t < this.bodies.length - 11) {
                     if (this.bodies[t].y <= point.y || this.bodies[t + 1].y <= point.y || this.bodies[t - 1].y <= point.y) {
                         let value = 0
-                        for (let n = t - 10; n < (t + 10); n++) {
-                            value += (Math.PI / 20)
-                            let bump = (point.ymom * Math.sin(value)) * 5
-                            if (bump < point.ymom * 5.01) {
-                                bump *= 1.01
-                            }
-                            if(this.disp == 0){
 
-                            if (this.bodies[t].y > (this.y) - 90) {
-                                this.bodies[n].waggle -= bump / 8
-                                if (this.bodies[n].waggle < this.snowheight) {
-                                    this.snowheight = this.bodies[n].waggle
+                        if (this.bodies[t].y > this.bodies[t].ysto - 90){
+                            for (let n = t - 10; n < (t + 10); n++) {
+                                value += (Math.PI / 20)
+                                let bump = (point.ymom * Math.sin(value)) * 5
+                                if (bump < point.ymom * 5.01) {
+                                    bump *= 1.01
                                 }
-                            }
-                            }
-                            if (this.bodies[t].y > this.bodies[n].ysto - 90 && this.bodies[n].y > this.bodies[n].ysto - 110) {  //t for n // sum?
-                                this.bodies[n].waggle -= bump / 8
-                                if (this.bodies[n].waggle < this.snowheight) {
-                                    this.snowheight = this.bodies[n].waggle
+                                if(this.disp == 0){
+    
+                                if (this.bodies[t].y > (this.y) - 90) {
+                                    this.bodies[n].waggle -= bump / 8
+                                    if (this.bodies[n].waggle < this.snowheight) {
+                                        this.snowheight = this.bodies[n].waggle
+                                    }
+                                }
+                                }
+                                if (this.bodies[t].y > this.bodies[n].ysto - 90 && this.bodies[n].y > this.bodies[n].ysto - 110) {  //t for n // sum?
+                                    this.bodies[n].waggle -= bump / 8
+                                    if (this.bodies[n].waggle < this.snowheight) {
+                                        this.snowheight = this.bodies[n].waggle
+                                    }
                                 }
                             }
                         }
@@ -8537,7 +8540,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     }
 
-    let wind = (Math.random() - .5) * 2
+    let wind = (Math.random() - .5) * 8
     let draft = Math.random() - .5
 
     class Snowflake {
@@ -19514,7 +19517,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // const drift9 = new Snowfloor(9700, -1830, 50, 1100, -1.6)
         // snowfloors.push(drift9)
 
-        const bigdrift = new Snowfloor(5300, -1500, 50, 5500, -.1)
+        const bigdrift = new Snowfloor(5300, -1500, 50, 6600, -.1)
         snowfloors.push(bigdrift)
 
 
