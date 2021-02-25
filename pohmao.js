@@ -8540,7 +8540,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     }
 
-    let wind = (Math.random() - .5) * 8
+    let wind = (Math.random() - .5) * 2
     let draft = Math.random() - .5
 
     class Snowflake {
