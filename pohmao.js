@@ -773,7 +773,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
             
             let linkfloorer = new LineOP(this.bodies[0], pomao.body)
-            if (linkfloorer.hypotenuse() > pomao.tongue.radius + (Math.max(this.width, this.heightx) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)) {
+            if (linkfloorer.hypotenuse() > 735 + pomao.tongue.radius + (Math.max(this.width, this.heightx) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)) {
                 return 0
             }
             for (let t = 0; t < this.bodies.length; t++) {
@@ -19530,6 +19530,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
         const bigdrift = new Snowfloor(5300, -1500, 50, 6600, -.1)
         snowfloors.push(bigdrift)
 
+        const snokloan7 =  new Snowclone(12890, -2815, 900, 8, 40)
+        snokloan7.dir = .75
+        snowfloors.push(snokloan7)
+
+        const snokloan8 =  new Snowclone(12890, -4315, 600, 8, 33)
+        snokloan8.dir = -.75
+        snowfloors.push(snokloan8)
+
+        for(let t = 0;t < 10; t++){
+            const drift4 = new Snowfloor(13890 +((t%2) * 200) + (t*10), -2815-(t*(1500/8)), 20, 200, (Math.random()-.5)*1.8)
+
+            snowfloors.push(drift4)
+        }
+
 
         for (let t = 0; t < 900; t++) {
             const fruit = new Fruit(-2050 + (Math.random() * 9000), -8000 + (Math.random() * 7900), 60, 60, "red")
@@ -19563,7 +19577,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         // let spinny3 = new BigSeeSaw(1600, -1401, 10)
         // spinnys.push(spinny3)
-        snowfloor = new Shape(floormpf)
+        // snowfloor = new Shape(floormpf)
     }
 
     function getTextWidth(text, font) {
