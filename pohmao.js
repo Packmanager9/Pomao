@@ -732,7 +732,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
 
-        console.log(pomao.checkPomao(tip))
 
     });
 
@@ -3182,7 +3181,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.body.radius *= .9
                 this.marked = 2
                 pomao.diry = 1
-            } else if (this.bodydraw.repelCheck(pomao.body) && !this.bodydraw.repelCheck(pomao.tongue)) {
+            // } else if (this.bodydraw.repelCheck(pomao.body) && !this.bodydraw.repelCheck(pomao.tongue)) {
+            }else if(pomao.checkRepelPomao(this.bodydraw) && !this.bodydraw.repelCheck(pomao.tongue)) {
                 if (this.body.x > pomao.body.x) {
                     this.bump = 1
                 } else {
@@ -3316,7 +3316,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.move()
                 this.bodydraw = new Circlec(this.body.x, this.body.y, this.body.radius + 7, "#AA00DD")
                 this.bodydrawhuge = new Circlec(this.body.x, this.body.y, this.body.radius + 17, "#AA00DD")
-                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, rimgs[0].width, rimgs[0].height, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 52 * (this.body.radius * .06666666666), 52 * (this.body.radius * .06666666666))
+                // tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, rimgs[0].width, rimgs[0].height, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 52 * (this.body.radius * .06666666666), 52 * (this.body.radius * .06666666666))
+
+                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, rimgs[0].width, rimgs[0].height, this.bodydraw.x - this.bodydraw.radius, this.body.y - this.bodydraw.radius, this.bodydraw.radius*2, this.bodydraw.radius*2)
 
             }
         }
@@ -7170,10 +7172,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
               ]
 
         }
-        checkPomao(point){
+        checkInsidePomao(point){
             let link = new LineOP(this.body, point)
             let angle = link.angle()
             let dis = link.hypotenuse()
+            if(this.dir == 1){
+                for(let t = 0;t<this.pomarray.length-1;t++){
+                    if (angle > this.pomarray[t].angle && angle < this.pomarray[t+1].angle) {
+                        if (dis < ((this.pomarray[t].length+this.pomarray[t+1].length)*.5) * (this.body.radius/50)) {
+                            return true
+                        }
+                    } 
+                }
+            }else{
+                for(let t = 0;t<this.pomarrayleft.length-1;t++){
+                    if (angle > this.pomarrayleft[t].angle && angle < this.pomarrayleft[t+1].angle) {
+                        if (dis < ((this.pomarrayleft[t].length+this.pomarrayleft[t+1].length)*.5) * (this.body.radius/50)) {
+                            return true
+                        }
+                    } 
+                }
+            }
+        }
+        checkRepelPomao(point){
+            let link = new LineOP(this.body, point)
+            let angle = link.angle()
+            let dis = link.hypotenuse()-point.radius
             if(this.dir == 1){
                 for(let t = 0;t<this.pomarray.length-1;t++){
                     if (angle > this.pomarray[t].angle && angle < this.pomarray[t+1].angle) {
@@ -11934,7 +11958,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 this.ray[t].collided = 1
                                 }
                                 if (this.obstaclesstorage[q] == pomao.body) {
-                                    if(pomao.checkPomao(this.ray[t]) == true){
+                                    if(pomao.checkInsidePomao(this.ray[t]) == true){
                                         this.ray[t].collided = 1
                                         this.shook = 1
                                         this.body.color = "red"
