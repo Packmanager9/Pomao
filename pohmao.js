@@ -18051,12 +18051,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.cutscene = 0
         level = 4
 
-        tutorial_canvas_context.translate(pomao.body.x-640, pomao.body.y+17360)
-        pomao.body.x = 640
-        pomao.body.y = -17360
-        // tutorial_canvas_context.translate(pomao.body.x, pomao.body.y+18000)//+18000)
-        // pomao.body.x = 0
-        // pomao.body.y = 0//-18000
+        // tutorial_canvas_context.translate(pomao.body.x-640, pomao.body.y+17360)
+        // pomao.body.x = 640
+        // pomao.body.y = -17360
+        tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)//+18000)
+        pomao.body.x = 0
+        pomao.body.y = 0//-18000
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
