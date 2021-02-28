@@ -1811,7 +1811,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
 
-            if (this.anchor.repelCheck(pomao.body)) {
+            if(pomao.checkRepelPomao(this.anchor)){
+            // if (this.anchor.repelCheck(pomao.body)) {
                 if (this.anchor.x > pomao.body.x) {
                     this.bump = 1
                 } else {
@@ -2390,6 +2391,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 //     }
                 // }
             } else if (this.anchor.repelCheck(pomao.body)) {
+                if(pomao.checkRepelPomao(this.anchor)) {
                 if (this.anchor.x > pomao.body.x) {
                     this.bump = 1
                 } else {
@@ -2418,6 +2420,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                 }
+            }
                 //   }
             }
 
@@ -10307,7 +10310,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
-            if (this.body.repelCheck(pomao.body) || this.bodydraw.isPointInside(pomao.body)) {
+            if (pomao.checkRepelPomao(this.body) || this.bodydraw.isPointInside(pomao.body)) {
                 if (this.body.x > pomao.body.x) {
                     this.bump = 1
                 } else {
@@ -12164,7 +12167,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
                 for (let f = 0; f < this.legs.length; f++) {
-                    if (this.legs[f].anchor.repelCheck(pomao.body)) {
+                    if (pomao.checkRepelPomao(this.legs[f].anchor)) {
                         if (this.legs[f].anchor.x > pomao.body.x) {
                             this.bump = 1
                         } else {
