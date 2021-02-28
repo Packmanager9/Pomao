@@ -6566,6 +6566,35 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     "length": 997.231482725183
                 }
             ]
+
+
+            for(let t = 0;t<10;t++){
+                let pomarray2 = []
+                for (let t = 0; t < this.pomarray.length - 1; t++) {
+                  let obj = {}
+                  obj.angle = (this.pomarray[t].angle + this.pomarray[t + 1].angle) * .5
+                  obj.length = (this.pomarray[t].length + this.pomarray[t + 1].length) * .5
+                  pomarray2.push(this.pomarray[t])
+                  pomarray2.push(obj)
+                }
+                this.pomarray = [...pomarray2]
+            }
+
+            for(let t = 0;t<10;t++){
+                let pomarray2 = []
+                for (let t = 0; t < this.pomarrayleft.length - 1; t++) {
+                  let obj = {}
+                  obj.angle = (this.pomarrayleft[t].angle + this.pomarrayleft[t + 1].angle) * .5
+                  obj.length = (this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5
+                  pomarray2.push(this.pomarrayleft[t])
+                  pomarray2.push(obj)
+                }
+                this.pomarrayleft = [...pomarray2]
+            }
+
+
+            console.log(this.pomarray, this.pomarrayleft)
+
             this.angleincrement = (Math.PI*2)/this.pomarray.length
             this.angleincrementleft = (Math.PI*2)/this.pomarrayleft.length
 
@@ -7980,7 +8009,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
+
             if (level == 8) {
+
+                door.x = 1200
+                door.y = 100 - door.height
+                door.height = 400
+                door.draw()
+                if (door.isPointInside(pomao.body)) {
+                    loadlvl9()
+                }
                 floors.splice(0, floors.length)
                 for (let t = 0; t < floormpf.length; t++) {
                     floors.push(floormpf[t])
@@ -8019,8 +8057,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
 
+                door.color = "white"
+                door.x = 6200
+                door.y = 100 - door.height
+                door.height = 400
+                door.draw()
+                if (door.isPointInside(pomao.body)) {
+                    loadlvl10()
+                }
 
             } else {
+                door.color = "#090909"
                 lvl9basemusic.pause()
             }
 
