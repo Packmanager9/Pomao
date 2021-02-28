@@ -753,24 +753,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 angler += Math.PI / 3
                 let block = new Rectangle(x + (t * 5), y, h + (Math.cos(angler) * 5), 5.1, "white")
                 block.accum = 0
-                accum+=(this.disp)
-                block.ysto = block.y+accum
-                block.waggle = block.y+accum
+                accum += (this.disp)
+                block.ysto = block.y + accum
+                block.waggle = block.y + accum
                 this.height.push(block.height)
                 this.bodies.push(block)
                 floors.push(block)
                 walls.push(block)
                 roofs.push(block)
-                if(this.disp != 0){
-                // this.disp+=.000002*-t
-                if(t%220 == 219){
-                    this.disp*=2
-                }
+                if (this.disp != 0) {
+                    // this.disp+=.000002*-t
+                    if (t % 220 == 219) {
+                        this.disp *= 2
+                    }
                 }
             }
         }
         draw() {
-            
+
             let linkfloorer = new LineOP(this.bodies[0], pomao.body)
             if (linkfloorer.hypotenuse() > 735 + pomao.tongue.radius + (Math.max(this.width, this.heightx) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)) {
                 return 0
@@ -791,21 +791,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.bodies[t].y <= point.y || this.bodies[t + 1].y <= point.y || this.bodies[t - 1].y <= point.y) {
                         let value = 0
 
-                        if (this.bodies[t].y > this.bodies[t].ysto - 90){
+                        if (this.bodies[t].y > this.bodies[t].ysto - 90) {
                             for (let n = t - 10; n < (t + 10); n++) {
                                 value += (Math.PI / 20)
                                 let bump = (point.ymom * Math.sin(value)) * 5
                                 if (bump < point.ymom * 5.01) {
                                     bump *= 1.01
                                 }
-                                if(this.disp == 0){
-    
-                                if (this.bodies[t].y > (this.y) - 90) {
-                                    this.bodies[n].waggle -= bump / 8
-                                    if (this.bodies[n].waggle < this.snowheight) {
-                                        this.snowheight = this.bodies[n].waggle
+                                if (this.disp == 0) {
+
+                                    if (this.bodies[t].y > (this.y) - 90) {
+                                        this.bodies[n].waggle -= bump / 8
+                                        if (this.bodies[n].waggle < this.snowheight) {
+                                            this.snowheight = this.bodies[n].waggle
+                                        }
                                     }
-                                }
                                 }
                                 if (this.bodies[t].y > this.bodies[n].ysto - 90 && this.bodies[n].y > this.bodies[n].ysto - 110) {  //t for n // sum?
                                     this.bodies[n].waggle -= bump / 8
@@ -3181,8 +3181,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.body.radius *= .9
                 this.marked = 2
                 pomao.diry = 1
-            // } else if (this.bodydraw.repelCheck(pomao.body) && !this.bodydraw.repelCheck(pomao.tongue)) {
-            }else if(pomao.checkRepelPomao(this.bodydraw) && !this.bodydraw.repelCheck(pomao.tongue)) {
+                // } else if (this.bodydraw.repelCheck(pomao.body) && !this.bodydraw.repelCheck(pomao.tongue)) {
+            } else if (pomao.checkRepelPomao(this.bodydraw) && !this.bodydraw.repelCheck(pomao.tongue)) {
                 if (this.body.x > pomao.body.x) {
                     this.bump = 1
                 } else {
@@ -3196,13 +3196,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.disabled = 1
                             pomao.hits--
                             pomao.body.ymom = -1.8
-                            this.body.xmom = -pomao.body.xmom
+                            this.body.xmom =  -pomao.body.xmom*.9 // wasn't .9
                         }
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
                             pomao.body.xmom = -1.8 * (this.bump)
                             pomao.body.ymom = -1.8
-                            this.body.xmom = -pomao.body.xmom
+                            this.body.xmom = -pomao.body.xmom*.9// wasn't .9 new hitbox on pomao
                         }
                     }
                 }
@@ -3318,7 +3318,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.bodydrawhuge = new Circlec(this.body.x, this.body.y, this.body.radius + 17, "#AA00DD")
                 // tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, rimgs[0].width, rimgs[0].height, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 52 * (this.body.radius * .06666666666), 52 * (this.body.radius * .06666666666))
 
-                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, rimgs[0].width, rimgs[0].height, this.bodydraw.x - this.bodydraw.radius, this.body.y - this.bodydraw.radius, this.bodydraw.radius*2, this.bodydraw.radius*2)
+                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, rimgs[0].width, rimgs[0].height, this.bodydraw.x - this.bodydraw.radius, this.body.y - this.bodydraw.radius, this.bodydraw.radius * 2, this.bodydraw.radius * 2)
 
             }
         }
@@ -5174,32 +5174,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
         smove() {
             this.wmove()
             // this.x += this.sxmom
-            if(this.symom != 0){
-            if (Math.abs(this.symom) <= 3.1) {
-                this.y += this.symom
-                if (this == pomao.body) {
-                    tutorial_canvas_context.translate(0, -this.symom)
-                }
-            } else {
-
-                this.y += this.symom
-                if (this == pomao.body) {
-                    tutorial_canvas_context.translate(0, -this.symom)
-                }
-            //     this.y += 3.1 * (Math.abs(this.symom)/this.symom)
-            //     if (this == pomao.body) {
-            //         tutorial_canvas_context.translate(0, -3.1 * (Math.abs(this.symom)/this.symom))
-            //     }
-            }
-        }
-            if(this.sxmom != 0){
-                if (Math.abs(this.sxmom) <= 3.1) {
-                    this.x += 3.1 * (Math.abs(this.sxmom)/this.sxmom)
+            if (this.symom != 0) {
+                if (Math.abs(this.symom) <= 3.1) {
+                    this.y += this.symom
                     if (this == pomao.body) {
-                        tutorial_canvas_context.translate(-3.1 * (Math.abs(this.sxmom)/this.sxmom), 0)
+                        tutorial_canvas_context.translate(0, -this.symom)
                     }
                 } else {
-    
+
+                    this.y += this.symom
+                    if (this == pomao.body) {
+                        tutorial_canvas_context.translate(0, -this.symom)
+                    }
+                    //     this.y += 3.1 * (Math.abs(this.symom)/this.symom)
+                    //     if (this == pomao.body) {
+                    //         tutorial_canvas_context.translate(0, -3.1 * (Math.abs(this.symom)/this.symom))
+                    //     }
+                }
+            }
+            if (this.sxmom != 0) {
+                if (Math.abs(this.sxmom) <= 3.1) {
+                    this.x += 3.1 * (Math.abs(this.sxmom) / this.sxmom)
+                    if (this == pomao.body) {
+                        tutorial_canvas_context.translate(-3.1 * (Math.abs(this.sxmom) / this.sxmom), 0)
+                    }
+                } else {
+
                     this.x += this.sxmom
                     if (this == pomao.body) {
                         tutorial_canvas_context.translate(-this.sxmom, 0)
@@ -5367,14 +5367,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let sto = {}
             for (let t = 0; t < this.shapes.length; t++) {
                 if (this.shapes[t].repelCheck(point)) {
-                    if(count == 0){
+                    if (count == 0) {
                         sto = this.shapes[t]
                     }
-                    angles.push(Math.round(this.shapes[t].angle*100)/100)
-                    pointer.angle +=( Math.round(this.shapes[t].angle*100)/100)
+                    angles.push(Math.round(this.shapes[t].angle * 100) / 100)
+                    pointer.angle += (Math.round(this.shapes[t].angle * 100) / 100)
                     pointer.x += this.shapes[t].x
                     pointer.y += this.shapes[t].y
-                    if(this.shapes[t].radius == 140){ //defunct
+                    if (this.shapes[t].radius == 140) { //defunct
                         pointerbig.x = this.shapes[t].x
                         pointerbig.y = this.shapes[t].y
                         count = 1
@@ -5382,7 +5382,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         smackcold = 1
                         pointerbig.radius = this.shapes[t].radius
                         // break
-                    }else  if (this.shapes[t].radius > pointer.radius && pointer.radius != 0) {
+                    } else if (this.shapes[t].radius > pointer.radius && pointer.radius != 0) {
                         pointerbig.x = this.shapes[t].x
                         pointerbig.y = this.shapes[t].y
                         count = 1
@@ -5390,35 +5390,35 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         smackcold = 1
                         pointerbig.radius = this.shapes[t].radius
                         // break
-                    }else {
+                    } else {
                         count++
                         cold = 1
                         pointer.radius = this.shapes[t].radius
                     }
                 }
             }
-            if(smackcold == 1){
+            if (smackcold == 1) {
                 cold = 2
             }
             pointer.x /= count
             pointer.y /= count
             pointer.angle /= count
-            pointer.angle = ( Math.round(pointer.angle*100)/100)
+            pointer.angle = (Math.round(pointer.angle * 100) / 100)
             // console.log(angles)
             if (cold == 0) {
-                if(angles.includes(pointer.angle)){
-    
-                }else if(angles.length > 0){
+                if (angles.includes(pointer.angle)) {
+
+                } else if (angles.length > 0) {
                     sto.color = "green"
                     // sto.draw()
                     sto.marked = true
                     return sto
                 }
                 return false
-            } else if(cold == 1) {
-                if(angles.includes(pointer.angle)){
-    
-                }else if(angles.length > 0){
+            } else if (cold == 1) {
+                if (angles.includes(pointer.angle)) {
+
+                } else if (angles.length > 0) {
                     sto.color = "green"
                     // sto.draw()
                     sto.marked = true
@@ -5434,11 +5434,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 pointer.marked = true
                 return pointer
-            }else{
+            } else {
 
-                if(angles.includes(pointer.angle)){
-    
-                }else if(angles.length > 0){
+                if (angles.includes(pointer.angle)) {
+
+                } else if (angles.length > 0) {
                     sto.color = "green"
                     // sto.draw()
                     sto.marked = true
@@ -5596,1626 +5596,1074 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.electron2 = new CircleF(this.body.x, this.body.y, 3, "gray", 0, -1)
             this.pomarray = [
                 {
-                    "angle": -1.0679663391047056,
-                    "length": 57.12705649475433
+                    "angle": -3.0900024820325203,
+                    "length": 842.6071008397848
                 },
                 {
-                    "angle": -1.035519168903954,
-                    "length": 57.019794150573716
+                    "angle": -3.0392171780123785,
+                    "length": 711.7980972863734
                 },
                 {
-                    "angle": -0.9958844112315666,
-                    "length": 56.52901441667835
+                    "angle": -2.9864134810096097,
+                    "length": 636.9785562444595
                 },
                 {
-                    "angle": -0.942711158345535,
-                    "length": 55.90170162625488
+                    "angle": -2.9358334225802794,
+                    "length": 614.3520057488349
                 },
                 {
-                    "angle": -0.9036761082701067,
-                    "length": 55.58504408601675
+                    "angle": -2.8844451529222184,
+                    "length": 661.7218921853346
                 },
                 {
-                    "angle": -0.8553600011012132,
-                    "length": 54.97577943410592
+                    "angle": -2.8336751272063228,
+                    "length": 993.7168833971955
                 },
                 {
-                    "angle": -0.7974133432449845,
-                    "length": 53.95025264959157
+                    "angle": -2.781301952481093,
+                    "length": 1171.4495818282012
                 },
                 {
-                    "angle": -0.7357301478333739,
-                    "length": 53.093887728706434
+                    "angle": -2.731095455469834,
+                    "length": 1441.9872287680628
                 },
                 {
-                    "angle": -0.6920808592232297,
-                    "length": 52.00249447122613
+                    "angle": -2.6797528311626158,
+                    "length": 1631.6425505639054
                 },
                 {
-                    "angle": -0.657882743812684,
-                    "length": 51.59205408709363
+                    "angle": -2.6271034825260573,
+                    "length": 1841.0023240997107
                 },
                 {
-                    "angle": -0.6245209169538418,
-                    "length": 50.64402182423419
+                    "angle": -2.5769097656370232,
+                    "length": 2002.0044637157116
                 },
                 {
-                    "angle": -0.5837949969909209,
-                    "length": 49.433390789538954
+                    "angle": -2.524802808994127,
+                    "length": 2171.362869620556
                 },
                 {
-                    "angle": -0.5576428057414629,
-                    "length": 48.610302885227725
+                    "angle": -2.473706724279335,
+                    "length": 2343.954666495556
                 },
                 {
-                    "angle": -0.5073924394792875,
-                    "length": 47.391162477417126
+                    "angle": -2.4200094355232338,
+                    "length": 2526.117456066946
                 },
                 {
-                    "angle": -0.47045239488846974,
-                    "length": 46.468776665535124
+                    "angle": -2.36909261256157,
+                    "length": 2668.253155088518
                 },
                 {
-                    "angle": -0.44256582374115516,
-                    "length": 45.38420874674552
+                    "angle": -2.31631566609945,
+                    "length": 2778.2611177922226
                 },
                 {
-                    "angle": -0.4046710766361241,
-                    "length": 43.31059725057743
+                    "angle": -2.2614019791774393,
+                    "length": 2936.737915082136
                 },
                 {
-                    "angle": -0.3056523880806368,
-                    "length": 40.87361409556873
+                    "angle": -2.2112901476824587,
+                    "length": 3021.4888102246914
                 },
                 {
-                    "angle": -0.26184514002817805,
-                    "length": 39.02283627939628
+                    "angle": -2.160696037505721,
+                    "length": 3107.1283526516636
                 },
                 {
-                    "angle": -0.20975568431980016,
-                    "length": 37.851767260469536
+                    "angle": -2.1104069021476524,
+                    "length": 3245.3653981210664
                 },
                 {
-                    "angle": -0.15934909069569755,
-                    "length": 36.50017919272136
+                    "angle": -2.0602508494318093,
+                    "length": 3209.3904193306807
                 },
                 {
-                    "angle": -0.11595165041471968,
-                    "length": 35.22742260414086
+                    "angle": -2.0064523875657216,
+                    "length": 3041.689826641232
                 },
                 {
-                    "angle": -0.07000028771525987,
-                    "length": 34.04952871948161
+                    "angle": -1.955659478691034,
+                    "length": 2910.189504919166
                 },
                 {
-                    "angle": -0.0200596814427396,
-                    "length": 32.06893664770802
+                    "angle": -1.9022140109425818,
+                    "length": 2796.0286274697282
                 },
                 {
-                    "angle": 0.01900104704233982,
-                    "length": 30.70083918671588
+                    "angle": -1.8470044583786287,
+                    "length": 2700.8645311929286
                 },
                 {
-                    "angle": 0.059282795755874404,
-                    "length": 29.580605302762805
+                    "angle": -1.79331531448391,
+                    "length": 2627.990608844906
                 },
                 {
-                    "angle": 0.10189516206114842,
-                    "length": 28.737588247938092
+                    "angle": -1.7362238559220897,
+                    "length": 2569.683492243348
                 },
                 {
-                    "angle": 0.1463580221085145,
-                    "length": 28.356541563814556
+                    "angle": -1.6823471532460736,
+                    "length": 2531.368870256061
                 },
                 {
-                    "angle": 0.19570020371329094,
-                    "length": 27.119205330548965
+                    "angle": -1.618229745463697,
+                    "length": 2505.6332707550027
                 },
                 {
-                    "angle": 0.26017408978136786,
-                    "length": 26.664303577300707
+                    "angle": -1.5499713958590675,
+                    "length": 2501.084507908905
                 },
                 {
-                    "angle": 0.31258810203479365,
-                    "length": 25.616330109342098
+                    "angle": -1.4966669683011042,
+                    "length": 2513.788389649475
                 },
                 {
-                    "angle": 0.3867033509698719,
-                    "length": 25.16557338005537
+                    "angle": -1.444887999344592,
+                    "length": 2540.0549191213795
                 },
                 {
-                    "angle": 0.45366600612849983,
-                    "length": 24.56127215340277
+                    "angle": -1.3903586618258141,
+                    "length": 2583.1942120195017
                 },
                 {
-                    "angle": 0.5249404647670594,
-                    "length": 24.079440086272868
+                    "angle": -1.340339972981263,
+                    "length": 2637.621975956077
                 },
                 {
-                    "angle": 0.6080875268757552,
-                    "length": 23.735169927365657
+                    "angle": -1.28722802932911,
+                    "length": 2712.316461799259
                 },
                 {
-                    "angle": 0.7290326302073745,
-                    "length": 23.56712406088265
+                    "angle": -1.2355562128285356,
+                    "length": 2803.4395905282
                 },
                 {
-                    "angle": 0.8191002695183289,
-                    "length": 24.23675597094827
+                    "angle": -1.181284679948892,
+                    "length": 2921.2431168533512
                 },
                 {
-                    "angle": 0.9265649272715234,
-                    "length": 24.604929046557633
+                    "angle": -1.1300671666688695,
+                    "length": 3056.1852464224794
                 },
                 {
-                    "angle": 1.006421567626255,
-                    "length": 25.282734591430255
+                    "angle": -1.0786317869981805,
+                    "length": 3218.70028978592
                 },
                 {
-                    "angle": 1.0784644631728766,
-                    "length": 25.968266713050085
+                    "angle": -1.0271344756720624,
+                    "length": 3228.1530473507155
                 },
                 {
-                    "angle": 1.1177100929614256,
-                    "length": 26.631063622775365
+                    "angle": -0.9740760045706093,
+                    "length": 3132.988634953639
                 },
                 {
-                    "angle": 1.194748190697128,
-                    "length": 27.06293052461558
+                    "angle": -0.9217978898763471,
+                    "length": 3071.676886415633
                 },
                 {
-                    "angle": 1.2591503136389355,
-                    "length": 27.546964920885102
+                    "angle": -0.8657554822466478,
+                    "length": 3009.26870731487
                 },
                 {
-                    "angle": 1.3191442622046936,
-                    "length": 28.770774118924837
+                    "angle": -0.8152188751019344,
+                    "length": 2926.933507591617
                 },
                 {
-                    "angle": 1.387987044000915,
-                    "length": 36.67887294589298
+                    "angle": -0.7624007527783836,
+                    "length": 2849.3900081778556
                 },
                 {
-                    "angle": 1.3962835403295961,
-                    "length": 38.40359992467503
+                    "angle": -0.7086215199670778,
+                    "length": 2692.846094577413
                 },
                 {
-                    "angle": 1.4030809996935747,
-                    "length": 39.944567624781854
+                    "angle": -0.6549065072027261,
+                    "length": 2533.532179980364
                 },
                 {
-                    "angle": 1.4200877190797834,
-                    "length": 41.73213058055544
+                    "angle": -0.603289571976316,
+                    "length": 2419.3242835105775
                 },
                 {
-                    "angle": 1.4595228161774394,
-                    "length": 43.15096187335373
+                    "angle": -0.5518998082866706,
+                    "length": 2313.2561390686897
                 },
                 {
-                    "angle": 1.5034218027362527,
-                    "length": 44.13527531631973
+                    "angle": -0.5010306587602077,
+                    "length": 2180.405643081758
                 },
                 {
-                    "angle": 1.5542323094932824,
-                    "length": 44.57250545633784
+                    "angle": -0.4501810182395141,
+                    "length": 2063.9012632955128
                 },
                 {
-                    "angle": 1.5932019076704873,
-                    "length": 44.57757971973746
+                    "angle": -0.393223942660539,
+                    "length": 1894.057948321235
                 },
                 {
-                    "angle": 1.6320568514858038,
-                    "length": 44.23792096984967
+                    "angle": -0.33879755972622005,
+                    "length": 1756.8387373877922
                 },
                 {
-                    "angle": 1.6652468345362998,
-                    "length": 42.57909348035219
+                    "angle": -0.28869600296870723,
+                    "length": 1668.381536392044
                 },
                 {
-                    "angle": 1.7018302787233168,
-                    "length": 40.86857184550108
+                    "angle": -0.2377141567864178,
+                    "length": 1573.9203915882972
                 },
                 {
-                    "angle": 1.7370728762816714,
-                    "length": 38.34393836779076
+                    "angle": -0.18445250405077204,
+                    "length": 1423.3618544031197
                 },
                 {
-                    "angle": 1.790966938513344,
-                    "length": 35.27735417390439
+                    "angle": -0.13444414619250972,
+                    "length": 1294.5140864540008
                 },
                 {
-                    "angle": 1.8309084197688568,
-                    "length": 35.72787597112123
+                    "angle": -0.0839432369934708,
+                    "length": 1187.9510239721421
                 },
                 {
-                    "angle": 1.845215325336684,
-                    "length": 38.386827939831235
+                    "angle": -0.03093684961144852,
+                    "length": 1074.767495660868
                 },
                 {
-                    "angle": 1.8316322525870294,
-                    "length": 40.66992113456907
+                    "angle": 0.022023985571814616,
+                    "length": 963.5506732130889
                 },
                 {
-                    "angle": 1.8261988859270082,
-                    "length": 42.840163701823585
+                    "angle": 0.07503083858795291,
+                    "length": 890.34369653475
                 },
                 {
-                    "angle": 1.849323984558791,
-                    "length": 44.79670460233012
+                    "angle": 0.12865429706753992,
+                    "length": 810.3864279534318
                 },
                 {
-                    "angle": 1.8758840307035014,
-                    "length": 46.408736804020045
+                    "angle": 0.17973656145765743,
+                    "length": 755.1160594393732
                 },
                 {
-                    "angle": 1.9203996658312208,
-                    "length": 47.85994077007871
+                    "angle": 0.23127406347510263,
+                    "length": 706.94122585078
                 },
                 {
-                    "angle": 1.9790937911554833,
-                    "length": 47.797513780102754
+                    "angle": 0.282109425590053,
+                    "length": 671.5463459445746
                 },
                 {
-                    "angle": 2.014474978602755,
-                    "length": 46.92193557456806
+                    "angle": 0.3338382610056162,
+                    "length": 635.1143539692857
                 },
                 {
-                    "angle": 2.0544492146252837,
-                    "length": 45.99416516508045
+                    "angle": 0.38778931978909664,
+                    "length": 601.306914901943
                 },
                 {
-                    "angle": 2.0938836088062014,
-                    "length": 44.83663362903282
+                    "angle": 0.44025044466941005,
+                    "length": 583.8736032343586
                 },
                 {
-                    "angle": 2.1114933615299103,
-                    "length": 43.51464050719887
+                    "angle": 0.4941993434605133,
+                    "length": 575.8158338285284
                 },
                 {
-                    "angle": 2.132764990690985,
-                    "length": 42.0349465542161
+                    "angle": 0.5491581447539602,
+                    "length": 563.3610157729709
                 },
                 {
-                    "angle": 2.1542913931492134,
-                    "length": 40.215089369728844
+                    "angle": 0.6046067533442996,
+                    "length": 554.2780565882567
                 },
                 {
-                    "angle": 2.198068218855361,
-                    "length": 39.426026397410475
+                    "angle": 0.6562025769033171,
+                    "length": 556.7619833970675
                 },
                 {
-                    "angle": 2.2906578271136055,
-                    "length": 39.44880236792358
+                    "angle": 0.7085511821153687,
+                    "length": 556.7115173508646
                 },
                 {
-                    "angle": 2.350633964427519,
-                    "length": 40.89588793500077
+                    "angle": 0.7639297288018813,
+                    "length": 566.6059825589182
                 },
                 {
-                    "angle": 2.4233869175173375,
-                    "length": 41.632780301947676
+                    "angle": 0.8170516076819963,
+                    "length": 576.0560390353785
                 },
                 {
-                    "angle": 2.4663916658360647,
-                    "length": 41.952586340612314
+                    "angle": 0.8708792558546752,
+                    "length": 593.1579815126606
                 },
                 {
-                    "angle": 2.507085591822042,
-                    "length": 42.59364779867538
+                    "angle": 0.9253850900369438,
+                    "length": 618.207773323229
                 },
                 {
-                    "angle": 2.5649670102259767,
-                    "length": 42.633055323246445
+                    "angle": 0.9785656386631345,
+                    "length": 635.6227161027491
                 },
                 {
-                    "angle": 2.61415953400457,
-                    "length": 42.40615084180895
+                    "angle": 1.031645311377938,
+                    "length": 675.6658563186647
                 },
                 {
-                    "angle": 2.652630747204031,
-                    "length": 41.869812111048965
+                    "angle": 1.0873874355152848,
+                    "length": 723.2475410915213
                 },
                 {
-                    "angle": 2.6965667691295576,
-                    "length": 41.874139131488924
+                    "angle": 1.1387523975385965,
+                    "length": 762.91072909371
                 },
                 {
-                    "angle": 2.7282191174965966,
-                    "length": 41.62307782329136
+                    "angle": 1.1890435271751802,
+                    "length": 799.6826050973614
                 },
                 {
-                    "angle": 2.7495935482764597,
-                    "length": 41.151403164256045
+                    "angle": 1.2409448483243457,
+                    "length": 821.7677111030207
                 },
                 {
-                    "angle": 2.771691839333203,
-                    "length": 40.788774880768294
+                    "angle": 1.2933807230491594,
+                    "length": 835.0376960850554
                 },
                 {
-                    "angle": 2.804166405361469,
-                    "length": 40.29434442449026
+                    "angle": 1.3454974980362069,
+                    "length": 841.7030881048413
                 },
                 {
-                    "angle": 2.850475831893571,
-                    "length": 39.322521558894294
+                    "angle": 1.3992788365438618,
+                    "length": 917.3733254219987
                 },
                 {
-                    "angle": 2.8920689236757395,
-                    "length": 38.697148150540826
+                    "angle": 1.4506687212318976,
+                    "length": 1827.7876862705598
                 },
                 {
-                    "angle": 2.9403396805895103,
-                    "length": 37.59737911942761
+                    "angle": 1.5039984926214207,
+                    "length": 2004.2965968454519
                 },
                 {
-                    "angle": 2.98472234795564,
-                    "length": 36.77184687938973
+                    "angle": 1.5556885136391267,
+                    "length": 2028.7688527883292
                 },
                 {
-                    "angle": 3.034570421746232,
-                    "length": 35.764529720894664
+                    "angle": 1.6063967944478499,
+                    "length": 2088.4230398226646
                 },
                 {
-                    "angle": 3.103779391292977,
-                    "length": 33.581301883877664
+                    "angle": 1.6584500544374525,
+                    "length": 2031.9323431791418
                 },
                 {
-                    "angle": 3.13887037280022,
-                    "length": 31.562632211094613
+                    "angle": 1.7094435084179394,
+                    "length": 1791.264011037434
                 },
                 {
-                    "angle": -3.107839032841043,
-                    "length": 29.825597650560944
+                    "angle": 1.7609272816479649,
+                    "length": 1331.2000438310206
                 },
                 {
-                    "angle": -3.0737250819210993,
-                    "length": 28.339991812336468
+                    "angle": 1.8127226104517642,
+                    "length": 1161.2795546806447
                 },
                 {
-                    "angle": -3.031087266963155,
-                    "length": 26.424205698544657
+                    "angle": 1.8627704219273011,
+                    "length": 1216.3950152421603
                 },
                 {
-                    "angle": -2.948404242866869,
-                    "length": 24.761431313098644
+                    "angle": 1.913414757519883,
+                    "length": 2333.5566812457546
                 },
                 {
-                    "angle": -2.887309747425591,
-                    "length": 27.32529896851487
+                    "angle": 1.963660139081041,
+                    "length": 2362.4716713573434
                 },
                 {
-                    "angle": -2.8781576064846286,
-                    "length": 29.22706405435108
+                    "angle": 2.014253081958968,
+                    "length": 2274.605719452098
                 },
                 {
-                    "angle": -2.837706778333616,
-                    "length": 31.6698484332365
+                    "angle": 2.065026221426755,
+                    "length": 2088.9737368466012
                 },
                 {
-                    "angle": -2.8007632831567153,
-                    "length": 33.281637180572616
+                    "angle": 2.1164139421161234,
+                    "length": 1797.9861213304102
                 },
                 {
-                    "angle": -2.7698992566113834,
-                    "length": 33.88274442567228
+                    "angle": 2.1717729019930436,
+                    "length": 1514.4161449863022
                 },
                 {
-                    "angle": -2.768024507138647,
-                    "length": 35.54387433123149
+                    "angle": 2.223224086210891,
+                    "length": 1549.813527673672
                 },
                 {
-                    "angle": -2.7504007112718245,
-                    "length": 38.0390236579903
+                    "angle": 2.274319798803,
+                    "length": 1573.7614479542972
                 },
                 {
-                    "angle": -2.7083714506567675,
-                    "length": 40.36865674161296
+                    "angle": 2.3254452924597784,
+                    "length": 1625.7696996546583
                 },
                 {
-                    "angle": -2.677720376311294,
-                    "length": 41.520428742178964
+                    "angle": 2.376947145839857,
+                    "length": 1696.1245593978674
                 },
                 {
-                    "angle": -2.640991001604003,
-                    "length": 42.82374825100233
+                    "angle": 2.428165777144579,
+                    "length": 1733.7370209885994
                 },
                 {
-                    "angle": -2.6059790717658275,
-                    "length": 44.74402288718847
+                    "angle": 2.481553838496098,
+                    "length": 1778.1765819765278
                 },
                 {
-                    "angle": -2.577545854301866,
-                    "length": 45.53063497722368
+                    "angle": 2.5324049771051538,
+                    "length": 1783.7179315710673
                 },
                 {
-                    "angle": -2.549959551043718,
-                    "length": 46.35715513019028
+                    "angle": 2.5828162552763403,
+                    "length": 1807.7397730972734
                 },
                 {
-                    "angle": -2.5086397123945785,
-                    "length": 47.72246687955465
+                    "angle": 2.6376626729809476,
+                    "length": 1782.9235605481663
                 },
                 {
-                    "angle": -2.4630686508057877,
-                    "length": 48.64625633554459
+                    "angle": 2.688396767607974,
+                    "length": 1726.678378630022
                 },
                 {
-                    "angle": -2.419969925642641,
-                    "length": 49.65275332886978
+                    "angle": 2.743257458565758,
+                    "length": 1657.4363720776164
                 },
                 {
-                    "angle": -2.3851808777115235,
-                    "length": 50.76546200032748
+                    "angle": 2.7940877541480247,
+                    "length": 1592.794274246844
                 },
                 {
-                    "angle": -2.3426606844314923,
-                    "length": 51.84084504721466
+                    "angle": 2.8449544469718453,
+                    "length": 1539.617986006895
                 },
                 {
-                    "angle": -2.2977798789825163,
-                    "length": 52.89491012084011
+                    "angle": 2.8951938875276824,
+                    "length": 1476.3267997934017
                 },
                 {
-                    "angle": -2.257780397307508,
-                    "length": 53.8154739841023
+                    "angle": 2.94757483429578,
+                    "length": 1366.8568774082814
                 },
                 {
-                    "angle": -2.22896083389497,
-                    "length": 54.82597161903154
+                    "angle": 2.9985409918048065,
+                    "length": 1246.621762840834
                 },
                 {
-                    "angle": -2.18442514073037,
-                    "length": 55.85384035460031
+                    "angle": 3.0494937955340284,
+                    "length": 1123.6036556435865
                 },
                 {
-                    "angle": -2.1378505187569905,
-                    "length": 56.53152991153684
-                },
-                {
-                    "angle": -2.104643018344297,
-                    "length": 57.34967115728302
-                },
-                {
-                    "angle": -2.0725142665113845,
-                    "length": 57.23474457304784
-                },
-                {
-                    "angle": -2.038817175301153,
-                    "length": 56.323841396159175
-                },
-                {
-                    "angle": -2.0022706801611427,
-                    "length": 55.338723085832775
-                },
-                {
-                    "angle": -1.9668356905493678,
-                    "length": 54.48422847205905
-                },
-                {
-                    "angle": -1.9304072132033185,
-                    "length": 53.88011365218563
-                },
-                {
-                    "angle": -1.8969553849661926,
-                    "length": 53.24044570593064
-                },
-                {
-                    "angle": -1.8460245975653609,
-                    "length": 52.40600401742026
-                },
-                {
-                    "angle": -1.7993500506345261,
-                    "length": 51.780146805709734
-                },
-                {
-                    "angle": -1.7491658794235352,
-                    "length": 51.24667422635243
-                },
-                {
-                    "angle": -1.7110275827722212,
-                    "length": 50.845489109059486
-                },
-                {
-                    "angle": -1.668298268502801,
-                    "length": 50.58663827169775
-                },
-                {
-                    "angle": -1.607457228510026,
-                    "length": 50.552217345920376
-                },
-                {
-                    "angle": -1.552653261230804,
-                    "length": 50.52656521926384
-                },
-                {
-                    "angle": -1.5216069175652878,
-                    "length": 50.579428115648845
-                },
-                {
-                    "angle": -1.4732891949870972,
-                    "length": 50.59712011441214
-                },
-                {
-                    "angle": -1.4417451232146956,
-                    "length": 51.03376439483953
-                },
-                {
-                    "angle": -1.399578137798293,
-                    "length": 51.27845263815049
-                },
-                {
-                    "angle": -1.3577224816995244,
-                    "length": 51.69777419217967
-                },
-                {
-                    "angle": -1.3175644913340354,
-                    "length": 52.268536688281756
-                },
-                {
-                    "angle": -1.27422351251897,
-                    "length": 53.091220090430625
-                },
-                {
-                    "angle": -1.2312209715564773,
-                    "length": 53.848401423273884
-                },
-                {
-                    "angle": -1.2075313645348478,
-                    "length": 54.318165220269265
-                },
-                {
-                    "angle": -1.1938063135948604,
-                    "length": 54.87428640535591
-                },
-                {
-                    "angle": -1.155771698574184,
-                    "length": 55.578988182444355
-                },
-                {
-                    "angle": -1.118673480692207,
-                    "length": 56.541923039324764
-                },
-                {
-                    "angle": -1.0679663391047056,
-                    "length": 57.12705649475433
+                    "angle": 3.100608769042309,
+                    "length": 1017.625220196438
                 }
             ]
-            this.pomarrayleft  = [
+            this.pomarrayleft = [
                 {
-                  "angle": -1.0703983472026475,
-                  "length": 57.768002519082295
+                    "angle": -3.127411769756162,
+                    "length": 1078.2106881571235
                 },
                 {
-                  "angle": -1.0360794520962808,
-                  "length": 57.21273502418902
+                    "angle": -3.0771016485706926,
+                    "length": 1137.362238745729
                 },
                 {
-                  "angle": -1.0125727671548552,
-                  "length": 56.646800358277886
+                    "angle": -3.026025692309955,
+                    "length": 1236.4692576027592
                 },
                 {
-                  "angle": -0.9896011579402876,
-                  "length": 55.7993749949928
+                    "angle": -2.9754242903904986,
+                    "length": 1390.5597063995083
                 },
                 {
-                  "angle": -0.9634635053449735,
-                  "length": 55.56838066736524
+                    "angle": -2.923605611542274,
+                    "length": 1512.8581265616813
                 },
                 {
-                  "angle": -0.9328121169546437,
-                  "length": 55.03194252027041
+                    "angle": -2.8732902188991405,
+                    "length": 1637.7391706992057
                 },
                 {
-                  "angle": -0.896940923553464,
-                  "length": 54.433056798965346
+                    "angle": -2.8226734806080565,
+                    "length": 1761.2957837963477
                 },
                 {
-                  "angle": -0.8516706711679892,
-                  "length": 53.66292231382911
+                    "angle": -2.7708868709479977,
+                    "length": 1863.2112421990023
                 },
                 {
-                  "angle": -0.8212246556607755,
-                  "length": 52.82329247227165
+                    "angle": -2.7190537864313664,
+                    "length": 2004.2293023061939
                 },
                 {
-                  "angle": -0.7911008224746369,
-                  "length": 52.11904420526175
+                    "angle": -2.6688362534694883,
+                    "length": 2154.1270884157275
                 },
                 {
-                  "angle": -0.768177906009479,
-                  "length": 51.45848449874352
+                    "angle": -2.6182969207826745,
+                    "length": 2287.240950775158
                 },
                 {
-                  "angle": -0.741244173824833,
-                  "length": 50.85021803557427
+                    "angle": -2.5675385296700437,
+                    "length": 2440.4244592238683
                 },
                 {
-                  "angle": -0.7205975678519265,
-                  "length": 49.98300469304476
+                    "angle": -2.516987080578789,
+                    "length": 2577.3083098317147
                 },
                 {
-                  "angle": -0.6820693400528564,
-                  "length": 48.86649304901191
+                    "angle": -2.466835229165751,
+                    "length": 2671.640319931612
                 },
                 {
-                  "angle": -0.6542945564638118,
-                  "length": 48.00467761831564
+                    "angle": -2.415678887684283,
+                    "length": 2778.954873027804
                 },
                 {
-                  "angle": -0.6259611961529034,
-                  "length": 47.00223722358217
+                    "angle": -2.3654655703689027,
+                    "length": 2914.4357440520544
                 },
                 {
-                  "angle": -0.5870649108255985,
-                  "length": 45.75065942976999
+                    "angle": -2.312812617132903,
+                    "length": 2940.448842909478
                 },
                 {
-                  "angle": -0.5509387128819839,
-                  "length": 44.64502296040255
+                    "angle": -2.262306403983799,
+                    "length": 3011.5182513953187
                 },
                 {
-                  "angle": -0.5264993036368174,
-                  "length": 43.66053915333251
+                    "angle": -2.21168074641381,
+                    "length": 3077.1848588085268
                 },
                 {
-                  "angle": -0.5049509878774612,
-                  "length": 42.7135310343899
+                    "angle": -2.1605035485316977,
+                    "length": 3156.406195073214
                 },
                 {
-                  "angle": -0.48350965475505486,
-                  "length": 41.587534815893214
+                    "angle": -2.1101385928879868,
+                    "length": 3230.438608694123
                 },
                 {
-                  "angle": -0.46401987335365236,
-                  "length": 40.392123065787224
+                    "angle": -2.0596951740595646,
+                    "length": 3156.3784642696846
                 },
                 {
-                  "angle": -0.44035743479685163,
-                  "length": 39.59193850235507
+                    "angle": -2.008998479258629,
+                    "length": 3014.160182523774
                 },
                 {
-                  "angle": -0.4187387589471005,
-                  "length": 37.93960759264782
+                    "angle": -1.9581116359601003,
+                    "length": 2910.4413125038263
                 },
                 {
-                  "angle": -0.40219132381403194,
-                  "length": 36.691872758560336
+                    "angle": -1.907822248088823,
+                    "length": 2814.4010550380335
                 },
                 {
-                  "angle": -0.3803331777253878,
-                  "length": 35.13240613129543
+                    "angle": -1.8572280340723162,
+                    "length": 2724.0925406814204
                 },
                 {
-                  "angle": -0.3461791386384159,
-                  "length": 33.499005531527004
+                    "angle": -1.8046854953486573,
+                    "length": 2661.0140480520204
                 },
                 {
-                  "angle": -0.3222517662345797,
-                  "length": 32.53984410550512
+                    "angle": -1.7522570600900247,
+                    "length": 2618.7597769380664
                 },
                 {
-                  "angle": -0.29535934879110065,
-                  "length": 31.372568367772878
+                    "angle": -1.702185575801875,
+                    "length": 2595.269969892688
                 },
                 {
-                  "angle": -0.2803166805476215,
-                  "length": 29.90474105320848
+                    "angle": -1.6502688764323794,
+                    "length": 2606.5227611828595
                 },
                 {
-                  "angle": -0.25822345233829225,
-                  "length": 29.40054368587852
+                    "angle": -1.5979333040637673,
+                    "length": 2597.257766733237
                 },
                 {
-                  "angle": -0.25711350058432614,
-                  "length": 28.70127270374052
+                    "angle": -1.547077178021175,
+                    "length": 2596.806259322213
                 },
                 {
-                  "angle": -0.25676625182147855,
-                  "length": 27.167200422051575
+                    "angle": -1.4954779319774714,
+                    "length": 2592.3833317042445
                 },
                 {
-                  "angle": -0.2491210321121329,
-                  "length": 26.48720586495724
+                    "angle": -1.4428715653422803,
+                    "length": 2576.587096083269
                 },
                 {
-                  "angle": -0.24044193143591414,
-                  "length": 25.976966694147823
+                    "angle": -1.3922770487755614,
+                    "length": 2592.056842212798
                 },
                 {
-                  "angle": -0.20253915772002554,
-                  "length": 24.933891747661466
+                    "angle": -1.3418484838705775,
+                    "length": 2682.9204552555457
                 },
                 {
-                  "angle": -0.17885724400067793,
-                  "length": 24.820157372673343
+                    "angle": -1.2900902256443207,
+                    "length": 2787.5166116142645
                 },
                 {
-                  "angle": -0.14273845814291908,
-                  "length": 25.092690402710744
+                    "angle": -1.2391826596302224,
+                    "length": 2878.710231921694
                 },
                 {
-                  "angle": -0.1301250177201032,
-                  "length": 25.847421004431713
+                    "angle": -1.1882561308123871,
+                    "length": 3008.4931312371045
                 },
                 {
-                  "angle": -0.10237419571091214,
-                  "length": 26.351245964722597
+                    "angle": -1.137647077924563,
+                    "length": 3143.019115247822
                 },
                 {
-                  "angle": -0.0857543316771824,
-                  "length": 27.090951436627854
+                    "angle": -1.0871186861169617,
+                    "length": 3303.775696873723
                 },
                 {
-                  "angle": -0.06009963902798297,
-                  "length": 27.96533806129785
+                    "angle": -1.0354736129359698,
+                    "length": 3341.7923977852333
                 },
                 {
-                  "angle": -0.039093608049585234,
-                  "length": 29.024518633334345
+                    "angle": -0.98500579958961,
+                    "length": 3194.8506556631182
                 },
                 {
-                  "angle": -0.01040115366299473,
-                  "length": 30.571958554041096
+                    "angle": -0.9344768144997845,
+                    "length": 3010.9234768354945
                 },
                 {
-                  "angle": 0.022444768381260596,
-                  "length": 31.50324274617731
+                    "angle": -0.8835306545737108,
+                    "length": 2942.187966518468
                 },
                 {
-                  "angle": 0.06878005552399957,
-                  "length": 33.17061509681773
+                    "angle": -0.8326929557933133,
+                    "length": 2869.0562328100787
                 },
                 {
-                  "angle": 0.09912269963643572,
-                  "length": 34.19126225432166
+                    "angle": -0.7806171545948313,
+                    "length": 2715.5039824939013
                 },
                 {
-                  "angle": 0.12243678515297819,
-                  "length": 35.21439862304011
+                    "angle": -0.7290408995220169,
+                    "length": 2523.4058318818134
                 },
                 {
-                  "angle": 0.15224227716224312,
-                  "length": 36.065582034573126
+                    "angle": -0.678893382358401,
+                    "length": 2373.5357673991384
                 },
                 {
-                  "angle": 0.16986038601896333,
-                  "length": 36.87998306908554
+                    "angle": -0.6275005156285277,
+                    "length": 2207.333249735879
                 },
                 {
-                  "angle": 0.19739945505085005,
-                  "length": 37.644332939339954
+                    "angle": -0.5761336665583278,
+                    "length": 2086.4210784077877
                 },
                 {
-                  "angle": 0.22476686918219782,
-                  "length": 38.589426346263366
+                    "angle": -0.5259071524748967,
+                    "length": 1961.487106382905
                 },
                 {
-                  "angle": 0.2494298739324619,
-                  "length": 38.820105062520454
+                    "angle": -0.4756503922103153,
+                    "length": 1816.173159093887
                 },
                 {
-                  "angle": 0.2890321113410139,
-                  "length": 39.536042550469375
+                    "angle": -0.4237145655085014,
+                    "length": 1520.767570226235
                 },
                 {
-                  "angle": 0.32664056394715696,
-                  "length": 40.011689136260244
+                    "angle": -0.37367143586804413,
+                    "length": 1259.4550411224482
                 },
                 {
-                  "angle": 0.3550942029256671,
-                  "length": 40.4175980296862
+                    "angle": -0.3228855600430013,
+                    "length": 1080.5778367042803
                 },
                 {
-                  "angle": 0.3954972692413668,
-                  "length": 41.10174704995582
+                    "angle": -0.27274562968208443,
+                    "length": 790.2736423838796
                 },
                 {
-                  "angle": 0.42353937822170773,
-                  "length": 41.66769644906094
+                    "angle": -0.2223266367011554,
+                    "length": 626.0660562157864
                 },
                 {
-                  "angle": 0.4397591343657481,
-                  "length": 41.98017505810439
+                    "angle": -0.16678195444069532,
+                    "length": 602.081382322358
                 },
                 {
-                  "angle": 0.46794639521169806,
-                  "length": 41.773626924924244
+                    "angle": -0.11463031287666091,
+                    "length": 629.0569596934365
                 },
                 {
-                  "angle": 0.49708840001999194,
-                  "length": 41.997621589086826
+                    "angle": -0.06393412603678986,
+                    "length": 742.2322680235375
                 },
                 {
-                  "angle": 0.5268662979107269,
-                  "length": 41.94718035828693
+                    "angle": -0.012316321942961833,
+                    "length": 866.3297502994683
                 },
                 {
-                  "angle": 0.5479439771200206,
-                  "length": 42.82426456044423
+                    "angle": 0.037998607719853694,
+                    "length": 989.9905408323539
                 },
                 {
-                  "angle": 0.5793299797697948,
-                  "length": 42.574187298178956
+                    "angle": 0.08961308750587366,
+                    "length": 1119.049391626162
                 },
                 {
-                  "angle": 0.6164647001977634,
-                  "length": 42.691068858119145
+                    "angle": 0.14003339012531266,
+                    "length": 1261.3028378702002
                 },
                 {
-                  "angle": 0.6415739791019485,
-                  "length": 42.242728282415754
+                    "angle": 0.19230789361857067,
+                    "length": 1354.3175487744884
                 },
                 {
-                  "angle": 0.6755783349846434,
-                  "length": 42.25391442011772
+                    "angle": 0.2426860313199931,
+                    "length": 1477.1166109669866
                 },
                 {
-                  "angle": 0.7201058211133022,
-                  "length": 41.64838225344511
+                    "angle": 0.29413406725269176,
+                    "length": 1561.757445623938
                 },
                 {
-                  "angle": 0.7517278042540428,
-                  "length": 41.320661135823
+                    "angle": 0.3461167379944047,
+                    "length": 1635.2928684855142
                 },
                 {
-                  "angle": 0.7810881404879703,
-                  "length": 40.76066456907159
+                    "angle": 0.39686473189681215,
+                    "length": 1710.2917607021518
                 },
                 {
-                  "angle": 0.8086035788371367,
-                  "length": 40.21150192030734
+                    "angle": 0.4489510974719858,
+                    "length": 1762.7953168845852
                 },
                 {
-                  "angle": 0.8483055008431916,
-                  "length": 39.99140574125545
+                    "angle": 0.4997050871048781,
+                    "length": 1816.0090387452074
                 },
                 {
-                  "angle": 0.8852064288142399,
-                  "length": 39.75660594321574
+                    "angle": 0.5502655464261379,
+                    "length": 1847.9508946466522
                 },
                 {
-                  "angle": 0.9268356798194678,
-                  "length": 39.43546406380106
+                    "angle": 0.6018256113592149,
+                    "length": 1846.175576635651
                 },
                 {
-                  "angle": 0.9338082743560434,
-                  "length": 39.68005150889679
+                    "angle": 0.6530985904099822,
+                    "length": 1838.9436341953697
                 },
                 {
-                  "angle": 0.9594404330835471,
-                  "length": 40.14198267964969
+                    "angle": 0.7052430300619456,
+                    "length": 1787.5393160725507
                 },
                 {
-                  "angle": 0.9720009230262742,
-                  "length": 40.69612809343662
+                    "angle": 0.755838722802763,
+                    "length": 1731.150548986232
                 },
                 {
-                  "angle": 1.0098795339250815,
-                  "length": 41.667630440145565
+                    "angle": 0.8067134610556763,
+                    "length": 1674.9303730190295
                 },
                 {
-                  "angle": 1.0326005953952693,
-                  "length": 42.5384442992196
+                    "angle": 0.8585169800022312,
+                    "length": 1614.154766007705
                 },
                 {
-                  "angle": 1.0700216932237052,
-                  "length": 43.665550673989145
+                    "angle": 0.9098218547361074,
+                    "length": 1592.1713387132186
                 },
                 {
-                  "angle": 1.0888920707215985,
-                  "length": 44.899338021661436
+                    "angle": 0.9610343863595476,
+                    "length": 1656.606947503169
                 },
                 {
-                  "angle": 1.1071864157777849,
-                  "length": 46.159078003234114
+                    "angle": 1.0112517273086032,
+                    "length": 1775.2894670951791
                 },
                 {
-                  "angle": 1.1307781231207796,
-                  "length": 46.861490214907604
+                    "angle": 1.0618212063041776,
+                    "length": 1989.0179855609458
                 },
                 {
-                  "angle": 1.1543618988148976,
-                  "length": 47.06786673320845
+                    "angle": 1.1156849594624938,
+                    "length": 2177.1928731322405
                 },
                 {
-                  "angle": 1.187215222002708,
-                  "length": 47.32670701392295
+                    "angle": 1.1663399723699939,
+                    "length": 2287.4840961790323
                 },
                 {
-                  "angle": 1.2287934309443844,
-                  "length": 47.50516827539621
+                    "angle": 1.2171561963039412,
+                    "length": 2336.2514293289423
                 },
                 {
-                  "angle": 1.2665409940701475,
-                  "length": 47.138486884450906
+                    "angle": 1.269015616272444,
+                    "length": 2283.0395341634867
                 },
                 {
-                  "angle": 1.281170941549643,
-                  "length": 46.78038306019784
+                    "angle": 1.3191350047433268,
+                    "length": 1984.21725959779
                 },
                 {
-                  "angle": 1.3006405291095415,
-                  "length": 45.93564013267493
+                    "angle": 1.3697494104368375,
+                    "length": 1602.3777513981331
                 },
                 {
-                  "angle": 1.3124901920739402,
-                  "length": 44.35915001554574
+                    "angle": 1.4203838141409748,
+                    "length": 1625.0718342650362
                 },
                 {
-                  "angle": 1.3299407819787918,
-                  "length": 42.830064116638205
+                    "angle": 1.4705347134049662,
+                    "length": 1759.384577236211
                 },
                 {
-                  "angle": 1.3312274080861208,
-                  "length": 41.646430956223945
+                    "angle": 1.5214125243908168,
+                    "length": 1870.866188548811
                 },
                 {
-                  "angle": 1.3232970049245045,
-                  "length": 39.917127078835314
+                    "angle": 1.5719649782657066,
+                    "length": 1888.7193907047185
                 },
                 {
-                  "angle": 1.3231219306489808,
-                  "length": 38.729472871597935
+                    "angle": 1.6220326109467527,
+                    "length": 1879.5488488102128
                 },
                 {
-                  "angle": 1.3271976783615416,
-                  "length": 36.65966508238689
+                    "angle": 1.6729343817691562,
+                    "length": 1787.640785990996
                 },
                 {
-                  "angle": 1.3079273005972798,
-                  "length": 35.08004702719947
+                    "angle": 1.7239336401201633,
+                    "length": 1673.7574330568896
                 },
                 {
-                  "angle": 1.3359017060115146,
-                  "length": 34.01052450077519
+                    "angle": 1.7748055420949795,
+                    "length": 1262.9886059475248
                 },
                 {
-                  "angle": 1.374807463610936,
-                  "length": 34.305182649831785
+                    "angle": 1.825907036654489,
+                    "length": 1022.7421966195834
                 },
                 {
-                  "angle": 1.389172872468267,
-                  "length": 35.84743239806111
+                    "angle": 1.8775152777933413,
+                    "length": 876.2208143568714
                 },
                 {
-                  "angle": 1.4166169800590775,
-                  "length": 37.116839646252146
+                    "angle": 1.9307537790615477,
+                    "length": 760.9355929017183
                 },
                 {
-                  "angle": 1.4320296821289382,
-                  "length": 38.610202020073295
+                    "angle": 1.9810647146032265,
+                    "length": 705.4544661141117
                 },
                 {
-                  "angle": 1.4428835361801757,
-                  "length": 40.63509590675982
+                    "angle": 2.031527997422867,
+                    "length": 675.8722517276765
                 },
                 {
-                  "angle": 1.4644655157199422,
-                  "length": 41.85591962171922
+                    "angle": 2.0822937216484987,
+                    "length": 660.7327858901699
                 },
                 {
-                  "angle": 1.4975732963338826,
-                  "length": 42.801401357501796
+                    "angle": 2.137146431081851,
+                    "length": 654.3281609202386
                 },
                 {
-                  "angle": 1.5256709819816894,
-                  "length": 43.712459338194435
+                    "angle": 2.189216866334204,
+                    "length": 641.1418626928935
                 },
                 {
-                  "angle": 1.5625215673667994,
-                  "length": 44.84605971649305
+                    "angle": 2.23928039844635,
+                    "length": 621.0045892382623
                 },
                 {
-                  "angle": 1.5907932815300585,
-                  "length": 44.85349205151074
+                    "angle": 2.298285787312431,
+                    "length": 589.6307377934572
                 },
                 {
-                  "angle": 1.621397391206517,
-                  "length": 44.85506210097716
+                    "angle": 2.3487216987116533,
+                    "length": 577.2089324999251
                 },
                 {
-                  "angle": 1.6531180027828865,
-                  "length": 44.55948983584455
+                    "angle": 2.4024167760178923,
+                    "length": 569.482211899769
                 },
                 {
-                  "angle": 1.6899980780298656,
-                  "length": 43.832125685280936
+                    "angle": 2.455083479386079,
+                    "length": 564.1930066061323
                 },
                 {
-                  "angle": 1.7309336586716029,
-                  "length": 42.596561833696946
+                    "angle": 2.5051476974914655,
+                    "length": 565.628050510888
                 },
                 {
-                  "angle": 1.737751806525166,
-                  "length": 40.87221466194386
+                    "angle": 2.5559545982763705,
+                    "length": 572.1457435513148
                 },
                 {
-                  "angle": 1.7597709139267852,
-                  "length": 39.35530989870373
+                    "angle": 2.6060134755709217,
+                    "length": 585.3972298885346
                 },
                 {
-                  "angle": 1.7650326974743005,
-                  "length": 37.48854744932292
+                    "angle": 2.6574292201604655,
+                    "length": 591.4749930525431
                 },
                 {
-                  "angle": 1.7805533259400814,
-                  "length": 36.218057387018966
+                    "angle": 2.70937294873381,
+                    "length": 596.2067954922677
                 },
                 {
-                  "angle": 1.790515923513212,
-                  "length": 34.6005880727237
+                    "angle": 2.761785973825037,
+                    "length": 609.0131305575487
                 },
                 {
-                  "angle": 1.7990322754076815,
-                  "length": 33.33076542302376
+                    "angle": 2.81425298063536,
+                    "length": 639.1954037929536
                 },
                 {
-                  "angle": 1.8093091871868103,
-                  "length": 32.1186354584075
+                    "angle": 2.864409950846538,
+                    "length": 678.0836799335666
                 },
                 {
-                  "angle": 1.8232341482684613,
-                  "length": 30.381646379500303
+                    "angle": 2.915929902352013,
+                    "length": 699.534228346427
                 },
                 {
-                  "angle": 1.855751766992402,
-                  "length": 28.071855172784147
+                    "angle": 2.968969251151705,
+                    "length": 745.4786960005877
                 },
                 {
-                  "angle": 1.8926823397417165,
-                  "length": 27.357402980327464
+                    "angle": 3.0204698923751563,
+                    "length": 816.3948018170195
                 },
                 {
-                  "angle": 1.930886609865441,
-                  "length": 27.238331651619195
+                    "angle": 3.0711543030881443,
+                    "length": 886.9942358779954
                 },
                 {
-                  "angle": 1.9790515978615744,
-                  "length": 26.90237306157204
-                },
-                {
-                  "angle": 2.0289904069164533,
-                  "length": 26.586883989920043
-                },
-                {
-                  "angle": 2.088343216556931,
-                  "length": 26.11012004741389
-                },
-                {
-                  "angle": 2.1387354035155948,
-                  "length": 25.315674263277472
-                },
-                {
-                  "angle": 2.241711330247105,
-                  "length": 24.648792414994116
-                },
-                {
-                  "angle": 2.344884268238008,
-                  "length": 24.372978764632112
-                },
-                {
-                  "angle": 2.4020704249218388,
-                  "length": 24.22455395424787
-                },
-                {
-                  "angle": 2.4216884292770753,
-                  "length": 23.80318427963238
-                },
-                {
-                  "angle": 2.4655453681782076,
-                  "length": 23.62422203746164
-                },
-                {
-                  "angle": 2.5215129754795904,
-                  "length": 23.5920937529043
-                },
-                {
-                  "angle": 2.5745075407074953,
-                  "length": 23.54761720132101
-                },
-                {
-                  "angle": 2.6657907584876526,
-                  "length": 23.801555143316516
-                },
-                {
-                  "angle": 2.689472858406094,
-                  "length": 23.91459181415997
-                },
-                {
-                  "angle": 2.7488398276114654,
-                  "length": 25.007200690632125
-                },
-                {
-                  "angle": 2.795220536304944,
-                  "length": 25.40820327316856
-                },
-                {
-                  "angle": 2.8404070519104083,
-                  "length": 26.058965569522467
-                },
-                {
-                  "angle": 2.8787496010551044,
-                  "length": 26.453864178502204
-                },
-                {
-                  "angle": 2.8971854739041296,
-                  "length": 26.871242612596312
-                },
-                {
-                  "angle": 2.959743902134201,
-                  "length": 27.73386070673101
-                },
-                {
-                  "angle": 2.9817104861232115,
-                  "length": 28.413169033929492
-                },
-                {
-                  "angle": 3.0127955769840944,
-                  "length": 28.946801875337563
-                },
-                {
-                  "angle": 3.0452128483222305,
-                  "length": 29.478214378389215
-                },
-                {
-                  "angle": 3.0815481948740926,
-                  "length": 30.216953260664887
-                },
-                {
-                  "angle": 3.1141295352821707,
-                  "length": 30.98277544864649
-                },
-                {
-                  "angle": 3.1349280366189336,
-                  "length": 31.414767803557865
-                },
-                {
-                  "angle": -3.1274260476108444,
-                  "length": 31.932105889446532
-                },
-                {
-                  "angle": -3.095363660568118,
-                  "length": 32.4588953213943
-                },
-                {
-                  "angle": -3.073640694393197,
-                  "length": 33.505448895032934
-                },
-                {
-                  "angle": -3.056795481104882,
-                  "length": 33.936000364939005
-                },
-                {
-                  "angle": -3.032378996945164,
-                  "length": 34.777520629681845
-                },
-                {
-                  "angle": -3.021015715364391,
-                  "length": 35.11196657724897
-                },
-                {
-                  "angle": -2.9974267900249267,
-                  "length": 35.748977164930466
-                },
-                {
-                  "angle": -2.980057740056471,
-                  "length": 36.60624755115633
-                },
-                {
-                  "angle": -2.9463562720939462,
-                  "length": 37.0372346102204
-                },
-                {
-                  "angle": -2.920425670689461,
-                  "length": 37.68992023041621
-                },
-                {
-                  "angle": -2.9034011010701537,
-                  "length": 38.13448715737535
-                },
-                {
-                  "angle": -2.8870293915544263,
-                  "length": 38.63087592352061
-                },
-                {
-                  "angle": -2.8616184319631577,
-                  "length": 39.544451714903964
-                },
-                {
-                  "angle": -2.8402689352125714,
-                  "length": 39.99905529250787
-                },
-                {
-                  "angle": -2.8081476027545738,
-                  "length": 40.64743734049931
-                },
-                {
-                  "angle": -2.7892579546054357,
-                  "length": 41.30038217631596
-                },
-                {
-                  "angle": -2.774764841661884,
-                  "length": 41.957871797199935
-                },
-                {
-                  "angle": -2.7563183604649906,
-                  "length": 42.26459457805503
-                },
-                {
-                  "angle": -2.7368317305232934,
-                  "length": 43.07600272362683
-                },
-                {
-                  "angle": -2.7180479468956658,
-                  "length": 43.433163197921196
-                },
-                {
-                  "angle": -2.702831932465049,
-                  "length": 43.84784613077623
-                },
-                {
-                  "angle": -2.6824385982925865,
-                  "length": 44.39583849166626
-                },
-                {
-                  "angle": -2.652077520418567,
-                  "length": 45.604143450008685
-                },
-                {
-                  "angle": -2.6342548019281784,
-                  "length": 45.98880109076737
-                },
-                {
-                  "angle": -2.6105950308711674,
-                  "length": 46.614856385740296
-                },
-                {
-                  "angle": -2.5863949259057306,
-                  "length": 47.30086672089262
-                },
-                {
-                  "angle": -2.556808243198228,
-                  "length": 48.20652240781166
-                },
-                {
-                  "angle": -2.531722609411556,
-                  "length": 48.97333050806306
-                },
-                {
-                  "angle": -2.5145967721792895,
-                  "length": 49.379853686248246
-                },
-                {
-                  "angle": -2.489408252477017,
-                  "length": 50.31392989336283
-                },
-                {
-                  "angle": -2.462386880658064,
-                  "length": 50.993447012971785
-                },
-                {
-                  "angle": -2.449374218695361,
-                  "length": 51.404273425334125
-                },
-                {
-                  "angle": -2.428836103618226,
-                  "length": 52.15409635455048
-                },
-                {
-                  "angle": -2.4052882931710577,
-                  "length": 52.97530776729349
-                },
-                {
-                  "angle": -2.378154532740814,
-                  "length": 53.18394406648047
-                },
-                {
-                  "angle": -2.3615002810940355,
-                  "length": 53.61989179241051
-                },
-                {
-                  "angle": -2.336469447972865,
-                  "length": 53.94396412090634
-                },
-                {
-                  "angle": -2.3100103033429393,
-                  "length": 54.695035699069436
-                },
-                {
-                  "angle": -2.275413792345114,
-                  "length": 55.1723852639063
-                },
-                {
-                  "angle": -2.2500065951590624,
-                  "length": 55.14454666984073
-                },
-                {
-                  "angle": -2.2181252159066953,
-                  "length": 55.760099352195084
-                },
-                {
-                  "angle": -2.179157357798051,
-                  "length": 56.05085507573571
-                },
-                {
-                  "angle": -2.1506496037572,
-                  "length": 56.55530062675539
-                },
-                {
-                  "angle": -2.1243245082493294,
-                  "length": 56.42119992818393
-                },
-                {
-                  "angle": -2.096752734216283,
-                  "length": 56.87260736876079
-                },
-                {
-                  "angle": -2.071091804369019,
-                  "length": 57.29999714688471
-                },
-                {
-                  "angle": -2.047289163760314,
-                  "length": 56.33190458089495
-                },
-                {
-                  "angle": -2.0251083000674637,
-                  "length": 55.876541761531406
-                },
-                {
-                  "angle": -2.0051176706681044,
-                  "length": 55.347274917774904
-                },
-                {
-                  "angle": -1.9930087928162068,
-                  "length": 55.09439520459735
-                },
-                {
-                  "angle": -1.9776938579654109,
-                  "length": 54.72432901298753
-                },
-                {
-                  "angle": -1.9721216633386776,
-                  "length": 54.59407917096007
-                },
-                {
-                  "angle": -1.9573711075718723,
-                  "length": 54.316019474917255
-                },
-                {
-                  "angle": -1.9426166038939305,
-                  "length": 53.997603493799154
-                },
-                {
-                  "angle": -1.920317705740611,
-                  "length": 53.819746258686926
-                },
-                {
-                  "angle": -1.905237914325372,
-                  "length": 53.47620640308389
-                },
-                {
-                  "angle": -1.883571164506867,
-                  "length": 52.8213157371906
-                },
-                {
-                  "angle": -1.8677433427640526,
-                  "length": 52.815428121283595
-                },
-                {
-                  "angle": -1.8476365058325868,
-                  "length": 52.50303366447699
-                },
-                {
-                  "angle": -1.827832914047251,
-                  "length": 52.219457611871206
-                },
-                {
-                  "angle": -1.8061203315886474,
-                  "length": 52.087147334415846
-                },
-                {
-                  "angle": -1.792512382897296,
-                  "length": 51.92255076018926
-                },
-                {
-                  "angle": -1.774401221673304,
-                  "length": 51.71989008953257
-                },
-                {
-                  "angle": -1.743383989575095,
-                  "length": 51.451901125610945
-                },
-                {
-                  "angle": -1.7221875246609077,
-                  "length": 51.27397554970223
-                },
-                {
-                  "angle": -1.699079813923651,
-                  "length": 51.10746780025737
-                },
-                {
-                  "angle": -1.675869623627107,
-                  "length": 50.816989801484866
-                },
-                {
-                  "angle": -1.6554637866749873,
-                  "length": 50.718408787604005
-                },
-                {
-                  "angle": -1.6317070049374984,
-                  "length": 50.63062147580002
-                },
-                {
-                  "angle": -1.6188985955220176,
-                  "length": 50.59525098029218
-                },
-                {
-                  "angle": -1.6017819604636807,
-                  "length": 50.56099801045469
-                },
-                {
-                  "angle": -1.5897315554196656,
-                  "length": 50.54578905100123
-                },
-                {
-                  "angle": -1.573408810378061,
-                  "length": 50.53690036412857
-                },
-                {
-                  "angle": -1.5532365560463255,
-                  "length": 50.544520293964304
-                },
-                {
-                  "angle": -1.537436842602595,
-                  "length": 50.66492275548515
-                },
-                {
-                  "angle": -1.5225433313371848,
-                  "length": 50.6480173073821
-                },
-                {
-                  "angle": -1.5022133560459214,
-                  "length": 50.70827514119557
-                },
-                {
-                  "angle": -1.4829309619636526,
-                  "length": 50.95125325276616
-                },
-                {
-                  "angle": -1.4584163205313514,
-                  "length": 50.925147672532724
-                },
-                {
-                  "angle": -1.434400126123704,
-                  "length": 51.07830464324308
-                },
-                {
-                  "angle": -1.412482419714078,
-                  "length": 51.24475334747155
-                },
-                {
-                  "angle": -1.3882676453897955,
-                  "length": 51.458753447678006
-                },
-                {
-                  "angle": -1.3710505218950524,
-                  "length": 51.63047873834497
-                },
-                {
-                  "angle": -1.3585803317924656,
-                  "length": 51.76518308737088
-                },
-                {
-                  "angle": -1.3539229572709408,
-                  "length": 51.81774290249811
-                },
-                {
-                  "angle": -1.3365939315607327,
-                  "length": 51.92458862271242
-                },
-                {
-                  "angle": -1.3199775912381693,
-                  "length": 52.13847112137664
-                },
-                {
-                  "angle": -1.3100889853501816,
-                  "length": 52.27346483639521
-                },
-                {
-                  "angle": -1.3018618547364125,
-                  "length": 52.39022400768273
-                },
-                {
-                  "angle": -1.2935572741058374,
-                  "length": 52.512225295653515
-                },
-                {
-                  "angle": -1.2716194345999035,
-                  "length": 52.8548791955038
-                },
-                {
-                  "angle": -1.2529860067904584,
-                  "length": 53.16966802134781
-                },
-                {
-                  "angle": -1.2261672201076013,
-                  "length": 53.662335476466765
-                },
-                {
-                  "angle": -1.208644815139056,
-                  "length": 54.01031994234985
-                },
-                {
-                  "angle": -1.1992103257543365,
-                  "length": 54.20648308108659
-                },
-                {
-                  "angle": -1.1876339592796759,
-                  "length": 54.45578635046975
-                },
-                {
-                  "angle": -1.1617912561456267,
-                  "length": 54.990478675220466
-                },
-                {
-                  "angle": -1.1254226274673602,
-                  "length": 55.90859455983851
-                },
-                {
-                  "angle": -1.1113154270056733,
-                  "length": 56.51816987207639
-                },
-                {
-                  "angle": -1.0677121537399401,
-                  "length": 57.202102026986196
+                    "angle": 3.121601802791772,
+                    "length": 997.231482725183
                 }
-              ]
+            ]
+            this.angleincrement = (Math.PI*2)/this.pomarray.length
+            this.angleincrementleft = (Math.PI*2)/this.pomarrayleft.length
+
+
+  let zero = Math.PI
+  this.angleincrement = (Math.PI*2)/this.pomarray.length
+
+
+  for (let t = 0; t < this.pomarray.length; t++) {
+    this.pomarray[t].angle = zero
+    this.pomarray[t].length = Math.sqrt(this.pomarray[t].length)
+    zero+=this.angleincrement
+  }
+
+  zero = Math.PI
+  this.angleincrementleft = (Math.PI*2)/this.pomarrayleft.length
+
+
+  for (let t = 0; t < this.pomarrayleft.length; t++) {
+    this.pomarrayleft[t].angle = zero
+    this.pomarrayleft[t].length = Math.sqrt(this.pomarrayleft[t].length)
+    zero+=this.angleincrementleft
+  }
+
+
 
         }
-        checkInsidePomao(point){
-            let link = new LineOP(this.body, point)
-            let angle = link.angle()
-            let dis = link.hypotenuse()
-            if(this.dir == 1){
-                for(let t = 0;t<this.pomarray.length-1;t++){
-                    if (angle > this.pomarray[t].angle && angle < this.pomarray[t+1].angle) {
-                        if (dis < ((this.pomarray[t].length+this.pomarray[t+1].length)*.5) * (this.body.radius/50)) {
-                            return true
-                        }
-                    } 
+        checkInsidePomao(point) {
+            if (this.dir == 1) {
+                let link = new LineOP(this.body, point)
+                let angle = link.angle()+Math.PI
+                let dis = link.hypotenuse()
+                let t = Math.floor((angle)/this.angleincrement)
+                t%=this.pomarray.length-1
+                angle-=Math.PI
+                if(angle < 0){
+                  angle+=Math.PI
                 }
-            }else{
-                for(let t = 0;t<this.pomarrayleft.length-1;t++){
-                    if (angle > this.pomarrayleft[t].angle && angle < this.pomarrayleft[t+1].angle) {
-                        if (dis < ((this.pomarrayleft[t].length+this.pomarrayleft[t+1].length)*.5) * (this.body.radius/50)) {
-                            return true
-                        }
-                    } 
+    
+                if (angle > (this.pomarray[t].angle%Math.PI) && angle < (this.pomarray[t+1].angle%Math.PI)) {
+                    if (dis < ((this.pomarray[t].length+this.pomarray[t+1].length)*.5) * ((this.body.radius)/50)) {
+                      return true
+                    }
+                } 
+            } else {
+                let link = new LineOP(this.body, point)
+                let angle = link.angle()+Math.PI
+                let dis = link.hypotenuse()
+                let t = Math.floor((angle)/this.angleincrementleft)
+                t%=this.pomarrayleft.length-1
+                angle-=Math.PI
+                if(angle < 0){
+                  angle+=Math.PI
                 }
+                if (angle > (this.pomarrayleft[t].angle%Math.PI) && angle < (this.pomarrayleft[t+1].angle%Math.PI)) {
+                    if (dis < ((this.pomarrayleft[t].length+this.pomarrayleft[t+1].length)*.5) * ((this.body.radius)/50)) {
+                      return true
+                    }
+                } 
             }
-        }
-        checkRepelPomao(point){
-            let link = new LineOP(this.body, point)
-            let angle = link.angle()
-            let dis = link.hypotenuse()-point.radius
-            if(this.dir == 1){
-                for(let t = 0;t<this.pomarray.length-1;t++){
-                    if (angle > this.pomarray[t].angle && angle < this.pomarray[t+1].angle) {
-                        if (dis < ((this.pomarray[t].length+this.pomarray[t+1].length)*.5) * (this.body.radius/50)) {
-                            return true
-                        }
-                    } 
+            return false
+          }
+          checkRepelPomao(point) {
+            if (this.dir == 1) {
+                let link = new LineOP(this.body, point)
+                let angle = link.angle()+Math.PI
+                let dis = link.hypotenuse()-point.radius
+                let t = Math.floor((angle)/this.angleincrement)
+                t%=this.pomarray.length-1
+                angle-=Math.PI
+                if(angle < 0){
+                  angle+=Math.PI
                 }
-            }else{
-                for(let t = 0;t<this.pomarrayleft.length-1;t++){
-                    if (angle > this.pomarrayleft[t].angle && angle < this.pomarrayleft[t+1].angle) {
-                        if (dis < ((this.pomarrayleft[t].length+this.pomarrayleft[t+1].length)*.5) * (this.body.radius/50)) {
-                            return true
-                        }
-                    } 
+    
+                if (angle > (this.pomarray[t].angle%Math.PI) && angle < (this.pomarray[t+1].angle%Math.PI)) {
+                    if (dis < ((this.pomarray[t].length+this.pomarray[t+1].length)*.5) * ((this.body.radius)/50)) {
+                      return true
+                    }
+                } 
+            } else {
+                let link = new LineOP(this.body, point)
+                let angle = link.angle()+Math.PI
+                let dis = link.hypotenuse()-point.radius
+                let t = Math.floor((angle)/this.angleincrementleft)
+                t%=this.pomarrayleft.length-1
+                angle-=Math.PI
+                if(angle < 0){
+                  angle+=Math.PI
                 }
+    
+                if (angle > (this.pomarrayleft[t].angle%Math.PI) && angle < (this.pomarrayleft[t+1].angle%Math.PI)) {
+                    if (dis < ((this.pomarrayleft[t].length+this.pomarrayleft[t+1].length)*.5) * ((this.body.radius)/50)) {
+                      return true
+                    }
+                } 
             }
-        }
+            return false
+          }
         tonguecast() {
 
             this.tongueray = []
@@ -8960,15 +8408,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (level == 10) {
                 for (let t = 0; t < snowfloors.length; t++) {
-                    if(snowfloors[t].snowtype == 1){
+                    if (snowfloors[t].snowtype == 1) {
                         let link = new LineOP(snowfloors[t].body, pomao.body)
-                        if(link.hypotenuse() < snowfloors[t].size + 66 + 735){
+                        if (link.hypotenuse() < snowfloors[t].size + 66 + 735) {
                             snowfloors[t].draw()
-                        }else{
+                        } else {
                             snowfloors[t].spin()
                         }
-                    }else{
-                    snowfloors[t].draw()
+                    } else {
+                        snowfloors[t].draw()
                     }
                 }
             }
@@ -10167,7 +9615,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Snowflake {
         constructor(x, y) {
-            this.body = new Bosscircle(x, y, 9+Math.random(), "red", 0, 1)
+            this.body = new Bosscircle(x, y, 9 + Math.random(), "red", 0, 1)
 
             this.loopoffset = Math.random() * Math.PI * 2
             this.anchor = {}
@@ -10245,7 +9693,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 } else {
                     tutorial_canvas_context.drawImage(snowflakeimg, srcx, srcy, width, height, this.body.x - this.body.radius + (Math.sin(pomao.timeloop + this.loopoffset) * 3), this.body.y - this.body.radius + (Math.cos((pomao.timeloop / 10) + this.loopoffset) * 3), (this.body.radius * 2) + (Math.sin((pomao.timeloop / 10) + this.loopoffset) * 6), (this.body.radius * 2) + (Math.cos(pomao.timeloop + this.loopoffset) * 6))
                 }
-            } else  if (this.type < 70) {
+            } else if (this.type < 70) {
                 const sheetwidth = snowflakeimg2.width
                 const sheetheight = snowflakeimg2.height
                 const cols = 50
@@ -10254,7 +9702,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 const height = sheetheight / rows
                 const srcx = Math.floor(this.type - 20) * width
                 const srcy = 0
-                
+
                 if (pomao.tripping <= 0) {
                     tutorial_canvas_context.drawImage(snowflakeimg2, srcx, srcy, width, height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
                 } else {
@@ -10343,18 +9791,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.angler += (Math.PI * 2) / this.tipnum
                 this.tips.push(tip)
             }
-            this.angler%= Math.PI*2
+            this.angler %= Math.PI * 2
             this.tips.push(this.body)
             this.force = 0
             this.flakes = []
             this.dir = .5
 
         }
-        spin(){
+        spin() {
             this.angler += .01 * this.dir
-            this.angler%= Math.PI*2
+            this.angler %= Math.PI * 2
         }
-        castBetween(from, to, granularity = 10, radius = 1, target) { 
+        castBetween(from, to, granularity = 10, radius = 1, target) {
             let limit = new LineOP(from, to).hypotenuse() / (to.radius * .5)
             radius = to.radius
             let shape_array = []
@@ -10396,14 +9844,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.tips.push(tip)
             }
 
-            this.angler%= Math.PI*2
+            this.angler %= Math.PI * 2
             this.tips.push(this.body)
             this.flakes = []
             this.flakemake = [...this.tips]
             this.flakes = [new Shape(this.flakemake)]
             for (let t = 0; t < this.tips.length; t++) {
                 this.castBetween(this.body, this.tips[t])
-                let link = new LineOP(this.body, this.tips[t], "white", this.ballwidth*2)
+                let link = new LineOP(this.body, this.tips[t], "white", this.ballwidth * 2)
                 link.draw()
                 this.tips[t].draw()
             }
@@ -10423,10 +9871,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             storage.y = pomao.body.y
                             storage.rad = pomao.body.radius
                             pomao.body.radius *= 1.1
-                                if (base.marked == true) {
-                            pomao.body.y = (Math.sin(pomao.body.angle) * pomao.body.liner) + this.body.y
-                            pomao.body.x = (Math.cos(pomao.body.angle) * pomao.body.liner) + this.body.x
-                                }
+                            if (base.marked == true) {
+                                pomao.body.y = (Math.sin(pomao.body.angle) * pomao.body.liner) + this.body.y
+                                pomao.body.x = (Math.cos(pomao.body.angle) * pomao.body.liner) + this.body.x
+                            }
                             for (let t = 1; t < pomao.eggs.length; t++) {
                                 if (pomao.eggs[t].marked == 0) {
                                     pomao.eggs[t].steer()
@@ -10443,15 +9891,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     crstorage.x = pomao.body.x - base.x
                                     crstorage.y = pomao.body.y - base.y
                                     let dis = pomao.body.radius + base.radius + .001
-                                    if(base.radius == this.body.radius){    
-                                        dis+=3.1
-                                        if(tonguelink.hypotenuse() > 20){
-                                            dis+=3.1
+                                    if (base.radius == this.body.radius) {
+                                        dis += 3.1
+                                        if (tonguelink.hypotenuse() > 20) {
+                                            dis += 3.1
                                         }
                                     }
                                     if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
-                                        if(pomao.body.ymom > 0){
-                                            dis+=(Math.abs(pomao.body.ymom*Math.sin(baselink.angle())))*.5
+                                        if (pomao.body.ymom > 0) {
+                                            dis += (Math.abs(pomao.body.ymom * Math.sin(baselink.angle()))) * .5
                                             if (pomao.body.ymom > 1) {
                                                 pomao.body.ymom *= .98
                                             }
@@ -10481,10 +9929,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             pomao.tonguebox = new Shape([])
                                         }
                                     }
-                                }else{
+                                } else {
 
                                     if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
-                                        if(this.body.repelCheck(pomao.body)) {
+                                        if (this.body.repelCheck(pomao.body)) {
                                             pomao.dry = 1
                                             pomao.grounded = 0
                                             pomao.jumping = 0
@@ -10496,7 +9944,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             }
                                             pomao.body.sxmom = 0
                                         }
-                                    } else if(!this.body.repelCheck(pomao.body)) {
+                                    } else if (!this.body.repelCheck(pomao.body)) {
                                         pomao.dry = 1
                                         pomao.grounded = 0
                                         pomao.jumping = 0
@@ -10512,15 +9960,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     crstorage.x = pomao.body.x - base.x
                                     crstorage.y = pomao.body.y - base.y
                                     let dis = pomao.body.radius + base.radius + .001
-                                    if(base.radius == this.body.radius){    
-                                        dis+=3.1
-                                        if(tonguelink.hypotenuse() > 20){
-                                            dis+=3.1
+                                    if (base.radius == this.body.radius) {
+                                        dis += 3.1
+                                        if (tonguelink.hypotenuse() > 20) {
+                                            dis += 3.1
                                         }
                                     }
                                     if (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) {
-                                        if(pomao.body.ymom > 0){
-                                            dis+=(Math.abs(pomao.body.ymom*Math.sin(baselink.angle())))*.5
+                                        if (pomao.body.ymom > 0) {
+                                            dis += (Math.abs(pomao.body.ymom * Math.sin(baselink.angle()))) * .5
                                             if (pomao.body.ymom > 1) {
                                                 pomao.body.ymom *= .98
                                             }
@@ -10605,8 +10053,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom *= .975
                             pomao.dry = 1
                             pomao.body.symom -= .0005
-                            pomao.tongueymom *= .79 
-                            pomao.tonguexmom *= .79 
+                            pomao.tongueymom *= .79
+                            pomao.tonguexmom *= .79
                         }
                     }
                 }
@@ -11927,7 +11375,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.currentangle = this.gapangle / 2
             for (let k = 0; k < this.raymake; k++) {
                 this.currentangle += (this.gapangle / Math.ceil(this.raymake / 2))
-                const ray = new Circle(this.body.x, this.body.y, 1, "white", ((this.rayrange * (Math.cos(this.globalangle + this.currentangle)))) / this.rayrange * 5.5, ((this.rayrange * (Math.sin(this.globalangle + this.currentangle)))) / this.rayrange * 5.5)
+                const ray = new Circle(this.body.x, this.body.y, 1, "white", ((this.rayrange * (Math.cos(this.globalangle + this.currentangle)))) / this.rayrange *5.5, ((this.rayrange * (Math.sin(this.globalangle + this.currentangle)))) / this.rayrange * 5.5)
                 ray.collided = 0
                 ray.lifespan = this.rayrange - 1
                 this.ray.push(ray)
@@ -11953,12 +11401,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         for (let q = 0; q < this.obstaclesstorage.length; q++) {
 
                             if (this.obstaclesstorage[q].isPointInside(this.ray[t])) {
-                                
+
                                 if (this.obstaclesstorage[q] !== pomao.body) {
-                                this.ray[t].collided = 1
+                                    this.ray[t].collided = 1
                                 }
                                 if (this.obstaclesstorage[q] == pomao.body) {
-                                    if(pomao.checkInsidePomao(this.ray[t]) == true){
+                                    if (pomao.checkInsidePomao(this.ray[t]) == true) {
                                         this.ray[t].collided = 1
                                         this.shook = 1
                                         this.body.color = "red"
@@ -11977,10 +11425,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                                         pomao.hits--
                                                         //  pomao.body.ymom = -1.8
                                                         this.body.xmom = -pomao.body.xmom * 2.5
-    
                                                     }
-    
-    
                                                     this.beamdisp += (Math.random()) * .02
                                                 }
                                             }
@@ -20996,14 +20441,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // clickersin += (Math.PI * 2 * 370) / 3000
         // clickertan += (Math.PI * 2 * 410) / 3000
         // for(let t = 0;t<10;t++){
-            let driftfloor = new Snowfloor(-2100+(0*(1861 * 5)), 0, 400, (1861 * 5))  //snowfloor
+        let driftfloor = new Snowfloor(-2100 + (0 * (1861 * 5)), 0, 400, (1861 * 5))  //snowfloor
 
-            snowfloors.push(driftfloor)
+        snowfloors.push(driftfloor)
         // }
-        let driftfloor2 = new Snowfloor(-2100+(1*(1861 * 5)), 0, 400, (1861 * 5))  //snowfloor
+        let driftfloor2 = new Snowfloor(-2100 + (1 * (1861 * 5)), 0, 400, (1861 * 5))  //snowfloor
 
         snowfloors.push(driftfloor2)
-    // }
+        // }
 
         // floor.waggle = floor.y //+(Math.sin(clickercos)*.2)+(Math.cos(clickersin)*.3)+(Math.sin(clickertan)*.5)
         // walls.push(floor)
@@ -21112,21 +20557,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // snokloon2.dir *= 4
         // snowfloors.push(snokloon2)
 
-        const snokloan3 =  new Snowclone(1300, -1100, 200, 6)
+        const snokloan3 = new Snowclone(1300, -1100, 200, 6)
         snowfloors.push(snokloan3)
 
 
-        const snokloan4 =  new Snowclone(2200, -1100, 200, 6)
+        const snokloan4 = new Snowclone(2200, -1100, 200, 6)
         snokloan4.dir = -.5
         snowfloors.push(snokloan4)
 
 
-        const snokloan5 =  new Snowclone(2900, -1700, 200, 6, 10)
+        const snokloan5 = new Snowclone(2900, -1700, 200, 6, 10)
         snokloan5.dir = 0
         snowfloors.push(snokloan5)
 
 
-        const snokloan6 =  new Snowclone(4400, -1200, 800, 6, 22)
+        const snokloan6 = new Snowclone(4400, -1200, 800, 6, 22)
         snokloan6.dir = .75
         snowfloors.push(snokloan6)
 
@@ -21159,16 +20604,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
         const bigdrift = new Snowfloor(5300, -1500, 50, 6600, -.1)
         snowfloors.push(bigdrift)
 
-        const snokloan7 =  new Snowclone(12890, -2815, 900, 8, 40)
+        const snokloan7 = new Snowclone(12890, -2815, 900, 8, 40)
         snokloan7.dir = .75
         snowfloors.push(snokloan7)
 
-        const snokloan8 =  new Snowclone(12890, -4315, 600, 8, 33)
+        const snokloan8 = new Snowclone(12890, -4315, 600, 8, 33)
         snokloan8.dir = -.75
         snowfloors.push(snokloan8)
 
-        for(let t = 0;t < 10; t++){
-            const drift4 = new Snowfloor(13890 +((t%2) * 200) + (t*10), -2815-(t*(1500/8)), 20, 200, (Math.random()-.5)*1.8)
+        for (let t = 0; t < 10; t++) {
+            const drift4 = new Snowfloor(13890 + ((t % 2) * 200) + (t * 10), -2815 - (t * (1500 / 8)), 20, 200, (Math.random() - .5) * 1.8)
 
             snowfloors.push(drift4)
         }
