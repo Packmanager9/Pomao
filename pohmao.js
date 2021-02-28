@@ -20620,7 +20620,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
         for (let t = 0; t < 900; t++) {
-            const fruit = new Fruit(-2050 + (Math.random() * 9000), -8000 + (Math.random() * 7900), 60, 60, "red")
+            const fruit = new Fruit(-2050 + (Math.random() * 11000), -8000 + (Math.random() * 7900), 60, 60, "red")
             let wet = 0
             // for (let s = 0; s < floors.length; s++) {
             //     if (squarecircleedges(floors[s], fruit.body)) {
