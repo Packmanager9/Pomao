@@ -9174,13 +9174,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
 
                         tutorial_canvas_context.translate(3, 0)
-                        for (let t = 0; t < fruits.length; t++) {
-                            if (this.body.repelCheck(fruits[t].body) || fruits[t].body.repelCheck(this.tongue)) {
-                                fruits[t].x -= 2.9
-                                // fruits[t].x+=this.body.xmom
-                                // fruits[t].y+=this.body.ymom
-                            }
-                        }
+                        // for (let t = 0; t < fruits.length; t++) {
+                        //     if (this.body.repelCheck(fruits[t].body) || fruits[t].body.repelCheck(this.tongue)) {
+                        //         fruits[t].x -= 2.9
+                        //         // fruits[t].x+=this.body.xmom
+                        //         // fruits[t].y+=this.body.ymom
+                        //     }
+                        // }
 
                     }
 
@@ -9206,13 +9206,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
 
                         tutorial_canvas_context.translate(-3, 0)
-                        for (let t = 0; t < fruits.length; t++) {
-                            if (this.body.repelCheck(fruits[t].body) || fruits[t].body.repelCheck(this.tongue)) {
-                                fruits[t].x += 2.9
-                                // fruits[t].x+=this.body.xmom
-                                // fruits[t].y+=this.body.ymom
-                            }
-                        }
+                        // for (let t = 0; t < fruits.length; t++) {
+                        //     if (this.body.repelCheck(fruits[t].body) || fruits[t].body.repelCheck(this.tongue)) {
+                        //         fruits[t].x += 2.9
+                        //         // fruits[t].x+=this.body.xmom
+                        //         // fruits[t].y+=this.body.ymom
+                        //     }
+                        // }
                     }
                     for (let t = 0; t < blocks.length; t++) {
                         if (blocks[t].marked == -1) {
