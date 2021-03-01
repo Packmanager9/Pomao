@@ -20754,9 +20754,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if(jellys.includes(floors[t])){
                 floors[t].jelly = 1
             }
-            if(jellys.includes(floors[t])){
-                floors[t].jelly = 1
-            }
             if(ungrapplable.includes(floors[t])){
                 floors[t].ungrapplable = 1
             }
@@ -20768,9 +20765,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             floors[t].floor = 1
         }
-
-    }
-
-
+    }ssss
 })
 
