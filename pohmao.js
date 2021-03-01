@@ -6012,7 +6012,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 },
                 {
                     "angle": 2.3254452924597784,
-                    "length": 1625.7696996546583
+                    "length": 1625.7696896546583
                 },
                 {
                     "angle": 2.376947145839857,
@@ -9205,6 +9205,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
 
                         tutorial_canvas_context.translate(-3, 0)
+                        
                         // for (let t = 0; t < fruits.length; t++) {
                         //     if (this.body.repelCheck(fruits[t].body) || fruits[t].body.repelCheck(this.tongue)) {
                         //         fruits[t].x += 2.9
@@ -9212,6 +9213,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         //         // fruits[t].y+=this.body.ymom
                         //     }
                         // }
+
                     }
                     for (let t = 0; t < blocks.length; t++) {
                         if (blocks[t].marked == -1) {
@@ -20765,6 +20767,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             floors[t].floor = 1
         }
-    }ssss
+    }
 })
 
