@@ -1811,8 +1811,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
 
-            if(pomao.checkRepelPomao(this.anchor)){
-            // if (this.anchor.repelCheck(pomao.body)) {
+            if (pomao.checkRepelPomao(this.anchor)) {
+                // if (this.anchor.repelCheck(pomao.body)) {
                 if (this.anchor.x > pomao.body.x) {
                     this.bump = 1
                 } else {
@@ -2391,36 +2391,36 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 //     }
                 // }
             } else if (this.anchor.repelCheck(pomao.body)) {
-                if(pomao.checkRepelPomao(this.anchor)) {
-                if (this.anchor.x > pomao.body.x) {
-                    this.bump = 1
-                } else {
-                    this.bump = -1
-                }
-                //   if(pomao.body.ymom == 0){
-                if (blockedlick == 0) {
+                if (pomao.checkRepelPomao(this.anchor)) {
+                    if (this.anchor.x > pomao.body.x) {
+                        this.bump = 1
+                    } else {
+                        this.bump = -1
+                    }
+                    //   if(pomao.body.ymom == 0){
+                    if (blockedlick == 0) {
 
-                    if (this.body.radius >= 1) {
-                        if (pomao.disabled != 1) {
-                            if (pomao.pounding != 10) {
-                                pomao.body.xmom = -3 * (this.bump)
-                                pomao.disabled = 1
-                                pomao.hits -= 3
-                                pomao.body.ymom = -1.8
-                                this.anchor.xmom += -pomao.body.xmom * 5
-                                this.body.xmom += -pomao.body.xmom * 5
-                            }
-                        } else {
-                            if (this.bump * pomao.body.xmom > 0) {
-                                pomao.body.xmom = -1.8 * (this.bump)
-                                pomao.body.ymom = -1.8
-                                this.anchor.xmom += -pomao.body.xmom * 5
-                                this.body.xmom += -pomao.body.xmom * 5
+                        if (this.body.radius >= 1) {
+                            if (pomao.disabled != 1) {
+                                if (pomao.pounding != 10) {
+                                    pomao.body.xmom = -3 * (this.bump)
+                                    pomao.disabled = 1
+                                    pomao.hits -= 3
+                                    pomao.body.ymom = -1.8
+                                    this.anchor.xmom += -pomao.body.xmom * 5
+                                    this.body.xmom += -pomao.body.xmom * 5
+                                }
+                            } else {
+                                if (this.bump * pomao.body.xmom > 0) {
+                                    pomao.body.xmom = -1.8 * (this.bump)
+                                    pomao.body.ymom = -1.8
+                                    this.anchor.xmom += -pomao.body.xmom * 5
+                                    this.body.xmom += -pomao.body.xmom * 5
+                                }
                             }
                         }
                     }
                 }
-            }
                 //   }
             }
 
@@ -3199,13 +3199,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.disabled = 1
                             pomao.hits--
                             pomao.body.ymom = -1.8
-                            this.body.xmom =  -pomao.body.xmom*.9 // wasn't .9
+                            this.body.xmom = -pomao.body.xmom * .9 // wasn't .9
                         }
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
                             pomao.body.xmom = -1.8 * (this.bump)
                             pomao.body.ymom = -1.8
-                            this.body.xmom = -pomao.body.xmom*.9// wasn't .9 new hitbox on pomao
+                            this.body.xmom = -pomao.body.xmom * .9// wasn't .9 new hitbox on pomao
                         }
                     }
                 }
@@ -6571,26 +6571,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
             ]
 
 
-            for(let t = 0;t<10;t++){
+            for (let t = 0; t < 10; t++) {
                 let pomarray2 = []
                 for (let t = 0; t < this.pomarray.length - 1; t++) {
-                  let obj = {}
-                  obj.angle = (this.pomarray[t].angle + this.pomarray[t + 1].angle) * .5
-                  obj.length = (this.pomarray[t].length + this.pomarray[t + 1].length) * .5
-                  pomarray2.push(this.pomarray[t])
-                  pomarray2.push(obj)
+                    let obj = {}
+                    obj.angle = (this.pomarray[t].angle + this.pomarray[t + 1].angle) * .5
+                    obj.length = (this.pomarray[t].length + this.pomarray[t + 1].length) * .5
+                    pomarray2.push(this.pomarray[t])
+                    pomarray2.push(obj)
                 }
                 this.pomarray = [...pomarray2]
             }
 
-            for(let t = 0;t<10;t++){
+            for (let t = 0; t < 10; t++) {
                 let pomarray2 = []
                 for (let t = 0; t < this.pomarrayleft.length - 1; t++) {
-                  let obj = {}
-                  obj.angle = (this.pomarrayleft[t].angle + this.pomarrayleft[t + 1].angle) * .5
-                  obj.length = (this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5
-                  pomarray2.push(this.pomarrayleft[t])
-                  pomarray2.push(obj)
+                    let obj = {}
+                    obj.angle = (this.pomarrayleft[t].angle + this.pomarrayleft[t + 1].angle) * .5
+                    obj.length = (this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5
+                    pomarray2.push(this.pomarrayleft[t])
+                    pomarray2.push(obj)
                 }
                 this.pomarrayleft = [...pomarray2]
             }
@@ -6598,29 +6598,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             console.log(this.pomarray, this.pomarrayleft)
 
-            this.angleincrement = (Math.PI*2)/this.pomarray.length
-            this.angleincrementleft = (Math.PI*2)/this.pomarrayleft.length
+            this.angleincrement = (Math.PI * 2) / this.pomarray.length
+            this.angleincrementleft = (Math.PI * 2) / this.pomarrayleft.length
 
 
-  let zero = Math.PI
-  this.angleincrement = (Math.PI*2)/this.pomarray.length
+            let zero = Math.PI
+            this.angleincrement = (Math.PI * 2) / this.pomarray.length
 
 
-  for (let t = 0; t < this.pomarray.length; t++) {
-    this.pomarray[t].angle = zero
-    this.pomarray[t].length = Math.sqrt(this.pomarray[t].length)
-    zero+=this.angleincrement
-  }
+            for (let t = 0; t < this.pomarray.length; t++) {
+                this.pomarray[t].angle = zero
+                this.pomarray[t].length = Math.sqrt(this.pomarray[t].length)
+                zero += this.angleincrement
+            }
 
-  zero = Math.PI
-  this.angleincrementleft = (Math.PI*2)/this.pomarrayleft.length
+            zero = Math.PI
+            this.angleincrementleft = (Math.PI * 2) / this.pomarrayleft.length
 
 
-  for (let t = 0; t < this.pomarrayleft.length; t++) {
-    this.pomarrayleft[t].angle = zero
-    this.pomarrayleft[t].length = Math.sqrt(this.pomarrayleft[t].length)
-    zero+=this.angleincrementleft
-  }
+            for (let t = 0; t < this.pomarrayleft.length; t++) {
+                this.pomarrayleft[t].angle = zero
+                this.pomarrayleft[t].length = Math.sqrt(this.pomarrayleft[t].length)
+                zero += this.angleincrementleft
+            }
 
 
 
@@ -6628,74 +6628,74 @@ window.addEventListener('DOMContentLoaded', (event) => {
         checkInsidePomao(point) {
             if (this.dir == 1) {
                 let link = new LineOP(this.body, point)
-                let angle = link.angle()+Math.PI
+                let angle = link.angle() + Math.PI
                 let dis = link.hypotenuse()
-                let t = Math.floor((angle)/this.angleincrement)
-                t%=this.pomarray.length-1
-                angle-=Math.PI
-                if(angle < 0){
-                  angle+=Math.PI
+                let t = Math.floor((angle) / this.angleincrement)
+                t %= this.pomarray.length - 1
+                angle -= Math.PI
+                if (angle < 0) {
+                    angle += Math.PI
                 }
-    
-                if (angle > (this.pomarray[t].angle%Math.PI) && angle < (this.pomarray[t+1].angle%Math.PI)) {
-                    if (dis < ((this.pomarray[t].length+this.pomarray[t+1].length)*.5) * ((this.body.radius)/50)) {
-                      return true
+
+                if (angle > (this.pomarray[t].angle % Math.PI) && angle < (this.pomarray[t + 1].angle % Math.PI)) {
+                    if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) / 50)) {
+                        return true
                     }
-                } 
+                }
             } else {
                 let link = new LineOP(this.body, point)
-                let angle = link.angle()+Math.PI
+                let angle = link.angle() + Math.PI
                 let dis = link.hypotenuse()
-                let t = Math.floor((angle)/this.angleincrementleft)
-                t%=this.pomarrayleft.length-1
-                angle-=Math.PI
-                if(angle < 0){
-                  angle+=Math.PI
+                let t = Math.floor((angle) / this.angleincrementleft)
+                t %= this.pomarrayleft.length - 1
+                angle -= Math.PI
+                if (angle < 0) {
+                    angle += Math.PI
                 }
-                if (angle > (this.pomarrayleft[t].angle%Math.PI) && angle < (this.pomarrayleft[t+1].angle%Math.PI)) {
-                    if (dis < ((this.pomarrayleft[t].length+this.pomarrayleft[t+1].length)*.5) * ((this.body.radius)/50)) {
-                      return true
+                if (angle > (this.pomarrayleft[t].angle % Math.PI) && angle < (this.pomarrayleft[t + 1].angle % Math.PI)) {
+                    if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) / 50)) {
+                        return true
                     }
-                } 
+                }
             }
             return false
-          }
-          checkRepelPomao(point) {
+        }
+        checkRepelPomao(point) {
             if (this.dir == 1) {
                 let link = new LineOP(this.body, point)
-                let angle = link.angle()+Math.PI
-                let dis = link.hypotenuse()-point.radius
-                let t = Math.floor((angle)/this.angleincrement)
-                t%=this.pomarray.length-1
-                angle-=Math.PI
-                if(angle < 0){
-                  angle+=Math.PI
+                let angle = link.angle() + Math.PI
+                let dis = link.hypotenuse() - point.radius
+                let t = Math.floor((angle) / this.angleincrement)
+                t %= this.pomarray.length - 1
+                angle -= Math.PI
+                if (angle < 0) {
+                    angle += Math.PI
                 }
-    
-                if (angle > (this.pomarray[t].angle%Math.PI) && angle < (this.pomarray[t+1].angle%Math.PI)) {
-                    if (dis < ((this.pomarray[t].length+this.pomarray[t+1].length)*.5) * ((this.body.radius)/50)) {
-                      return true
+
+                if (angle > (this.pomarray[t].angle % Math.PI) && angle < (this.pomarray[t + 1].angle % Math.PI)) {
+                    if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) / 50)) {
+                        return true
                     }
-                } 
+                }
             } else {
                 let link = new LineOP(this.body, point)
-                let angle = link.angle()+Math.PI
-                let dis = link.hypotenuse()-point.radius
-                let t = Math.floor((angle)/this.angleincrementleft)
-                t%=this.pomarrayleft.length-1
-                angle-=Math.PI
-                if(angle < 0){
-                  angle+=Math.PI
+                let angle = link.angle() + Math.PI
+                let dis = link.hypotenuse() - point.radius
+                let t = Math.floor((angle) / this.angleincrementleft)
+                t %= this.pomarrayleft.length - 1
+                angle -= Math.PI
+                if (angle < 0) {
+                    angle += Math.PI
                 }
-    
-                if (angle > (this.pomarrayleft[t].angle%Math.PI) && angle < (this.pomarrayleft[t+1].angle%Math.PI)) {
-                    if (dis < ((this.pomarrayleft[t].length+this.pomarrayleft[t+1].length)*.5) * ((this.body.radius)/50)) {
-                      return true
+
+                if (angle > (this.pomarrayleft[t].angle % Math.PI) && angle < (this.pomarrayleft[t + 1].angle % Math.PI)) {
+                    if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) / 50)) {
+                        return true
                     }
-                } 
+                }
             }
             return false
-          }
+        }
         tonguecast() {
 
             this.tongueray = []
@@ -11425,7 +11425,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.currentangle = this.gapangle / 2
             for (let k = 0; k < this.raymake; k++) {
                 this.currentangle += (this.gapangle / Math.ceil(this.raymake / 2))
-                const ray = new Circle(this.body.x, this.body.y, 1, "white", ((this.rayrange * (Math.cos(this.globalangle + this.currentangle)))) / this.rayrange *5.5, ((this.rayrange * (Math.sin(this.globalangle + this.currentangle)))) / this.rayrange * 5.5)
+                const ray = new Circle(this.body.x, this.body.y, 1, "white", ((this.rayrange * (Math.cos(this.globalangle + this.currentangle)))) / this.rayrange * 5.5, ((this.rayrange * (Math.sin(this.globalangle + this.currentangle)))) / this.rayrange * 5.5)
                 ray.collided = 0
                 ray.lifespan = this.rayrange - 1
                 this.ray.push(ray)
