@@ -6742,7 +6742,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (level == 10 || level == 9 || level == 7) {
                         if (floors[t].snowThing(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t]) && !this.body.repelCheck(this.tongue)) { //
                             //   console.log("snowfail?")  //hits this on thin floors?  while clipping?
-                            if (!ungrapplable.includes(floors[t])) {
+                            if (floors[t].ungrapplable != 1) {
                                 // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                                 // this.body.y = floors[t].y-this.body.radius
                                 if (this.tongueymom < 0) {
@@ -6769,7 +6769,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                         }
                                     }
-                                    if (!roofs.includes(floors[t]) || (1 == 1)) {
+                                    if (floors[t].roof != 1 || (1 == 1)) {
 
                                         // if (pomao.body.x < floors[t].x || (1 == 1)) {
                                         this.tongueymom *= .49
@@ -6984,7 +6984,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
                     //   console.log("43dss")  //hits this on thin floors?  while clipping?
-                    if (!ungrapplable.includes(floors[t])) {
+                    if (floors[t].ungrapplable != 1) {
                         // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                         // this.body.y = floors[t].y-this.body.radius
                         if (this.tongueymom < 0) {
@@ -7011,13 +7011,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                 }
                             }
-                            if (!roofs.includes(floors[t]) || (1 == 1)) {
+                            // if (!roofs.includes(floors[t]) || (1 == 1)) {
 
                                 if (pomao.body.x < floors[t].x || (1 == 1)) {
                                     this.tongueymom *= .49
                                     this.tonguexmom *= .49
                                 }
-                            }
+                            // }
                         }
                         if (pomao.body.ymom > 0) {
                             pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
@@ -7030,7 +7030,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
 
-                if (t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(floors[t])) {
+                if (t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && floors[t].wall != 1) {
 
                 } else {
 
@@ -7074,11 +7074,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     }
 
-                    if (walls.includes(floors[t]) && squarecirclefacetopbottom(floors[t], this.body) && typeof floors[t].waggle != "number") {
+                    if (floors[t].wall == 1 && squarecirclefacetopbottom(floors[t], this.body) && typeof floors[t].waggle != "number") {
                         pomao.grounded = 1
                         floors[t].active = 1
 
-                        if (blocks.includes(floors[t])) {
+                        if(floors[t].block == 1) {
                             if (this.pounding == 10) {
                                 floors[t].ymom = this.body.radius
                                 if (floors[t].isBlocked == false) {
@@ -7100,7 +7100,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                             floors[t].active = 1
 
-                            if (blocks.includes(floors[t])) {
+                            if(floors[t].block == 1) {
                                 if (this.pounding == 10) {
                                     floors[t].ymom = this.body.radius
                                     if (floors[t].isBlocked == false) {
@@ -7124,7 +7124,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 this.body.y = floors[t].y - (this.body.radius)
                                 pomao.grounded = 1
                                 floors[t].active = 1
-                                if (blocks.includes(floors[t])) {
+                                if(floors[t].block == 1) {
                                     if (this.pounding == 10) {
                                         floors[t].ymom = this.body.radius
                                         if (floors[t].isBlocked == false) {
@@ -7194,7 +7194,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         // console.log("top")
                         if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
                             // console.log("4369")  //hits this on thin floors?
-                            if (!ungrapplable.includes(floors[t])) {
+                            if (floors[t].ungrapplable != 1) {
                                 // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                                 // this.body.y = floors[t].y-this.body.radius
                                 if (this.tongueymom < 0) {
@@ -7221,13 +7221,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                         }
                                     }
-                                    if (!roofs.includes(floors[t]) || (1 == 1)) {
+                                    // if (!roofs.includes(floors[t]) || (1 == 1)) {
 
                                         if (pomao.body.x < floors[t].x || (1 == 1)) {
                                             this.tongueymom *= .49
                                             this.tonguexmom *= .49
                                         }
-                                    }
+                                    // }
                                 }
                                 if (pomao.body.ymom > 0) {
                                     pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
@@ -7239,7 +7239,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 break
                             }
                         }
-                        if (jellys.includes(floors[t])) {
+                        if (floors[t].jelly == 1) {
                             if (this.body.ymom > 0) {
                                 this.body.ymom *= .9
                             } else {
@@ -7264,8 +7264,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                             }
                         } else {
-                            if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
-                                if (!ungrapplable.includes(floors[t])) {
+                            if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) { 
+                            if (floors[t].ungrapplable != 1) {
                                     // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                                     // this.body.y = floors[t].y-this.body.radius
                                     if (this.tongueymom < 0) {
@@ -7292,13 +7292,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                                 this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                             }
                                         }
-                                        if (!roofs.includes(floors[t]) || (1 == 1)) {
+                                        // if (!roofs.includes(floors[t]) || (1 == 1)) {
 
                                             if (pomao.body.x < floors[t].x || (1 == 1)) {
                                                 this.tongueymom *= .49
                                                 this.tonguexmom *= .49
                                             }
-                                        }
+                                        // }
                                     }
                                     if (pomao.body.ymom > 0) {
                                         pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
@@ -7386,13 +7386,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                     }
                                 }
-                                if (!roofs.includes(floors[t]) || (1 == 1)) {
+                                // if (!roofs.includes(floors[t]) || (1 == 1)) {
 
                                     if (pomao.body.x < floors[t].x || (1 == 1)) {
                                         this.tongueymom *= .49
                                         this.tonguexmom *= .49
                                     }
-                                }
+                                // }
                             }
                             if (pomao.body.ymom > 0) {
                                 pomao.body.ymomstorage = pomao.body.ymom + pomao.body.symom
@@ -8179,10 +8179,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (invisblocks.includes(floors[t])) {
 
                 } else {
-                    if (!jellys.includes(floors[t])) {
+                    if (floors[t].jelly != 1) {
 
-                        if (!nails.includes(floors[t]) && !ungrapplable.includes(floors[t])) {
-                            if (walls.includes(floors[t])) {
+                        if (!nails.includes(floors[t]) && floors[t].ungrapplable != 1) {
+                            if (floors[t].wall == 1) {
 
                                 if (floors[t].width < 100) {
                                     if (invisblocks.includes(floors[t])) {
@@ -8428,8 +8428,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                 }
                             }
-
-                            if (blocks.includes(floors[t])) {
+                            if(floors[t].block == 1) {
                                 tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                             }
                         } else {
@@ -8438,11 +8437,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 tutorial_canvas_context.drawImage(nailimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                             } else {
 
-                                if (blocks.includes(floors[t])) {
+                                if(floors[t].block == 1) {
                                     tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }
                             }
-                            if (ungrapplable.includes(floors[t])) {
+                            if (floors[t].ungrapplable == 1) {
                                 floors[t].draw()
                             }
                         }
@@ -18205,6 +18204,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         fruits.push(cake2)
 
         floormpf = [...floors]
+        markRectangles()
     }
 
     function loadlvl2() {
@@ -18388,7 +18388,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
         floormpf = [...floors]
+
+        markRectangles()
     }
+
     function loadlvl3() {
 
         pomao.tonguex = 0
@@ -18535,6 +18538,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         door = new Rectangle(-10000, -10000, 20000, 9500, "#090909")
 
         floormpf = [...floors]
+
+        markRectangles()
     }
 
     function loadlvl4() {
@@ -19078,6 +19083,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         boss.obstacles = [...beamrocks]
         boss.obstacles.push(wall2)
         boss.obstacles.push(pomao.body)
+
+        markRectangles()
     }
 
     function loadlvl5() {
@@ -19348,6 +19355,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
 
+
+
+        markRectangles()
     }
 
 
@@ -19717,6 +19727,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // let spinny4 = new BigSeeSaw(12700-1200, -8400,10)
         // spinnys.push(spinny4)
 
+
+        markRectangles()
     }
 
     function loadlvl7() {
@@ -20102,6 +20114,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
         floormpf = [...floors]
+
+
+        markRectangles()
     }
 
 
@@ -20234,6 +20249,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         // let spinny3 = new BigSeeSaw(1600, -1401, 10)
         // spinnys.push(spinny3)
+
+        markRectangles()
     }
 
     function loadlvl9() {
@@ -20417,6 +20434,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         // let spinny3 = new BigSeeSaw(1600, -1401, 10)
         // spinnys.push(spinny3)
+
+        markRectangles()
     }
 
     function loadlvl10() {
@@ -20702,6 +20721,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // let spinny3 = new BigSeeSaw(1600, -1401, 10)
         // spinnys.push(spinny3)
         // snowfloor = new Shape(floormpf)
+        markRectangles()
     }
 
     function getTextWidth(text, font) {
@@ -20722,5 +20742,35 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         return (new Shape(shape_array))
     }
+
+    function markRectangles(){
+        for(let t = 0;t<floors.length;t++){
+            if(walls.includes(floors[t])){
+                floors[t].wall = 1
+            }
+            if(roofs.includes(floors[t])){
+                floors[t].roof = 1
+            }
+            if(jellys.includes(floors[t])){
+                floors[t].jelly = 1
+            }
+            if(jellys.includes(floors[t])){
+                floors[t].jelly = 1
+            }
+            if(ungrapplable.includes(floors[t])){
+                floors[t].ungrapplable = 1
+            }
+            if(blocks.includes(floors[t])){
+                floors[t].block = 1
+            }
+            if(nails.includes(floors[t])){
+                floors[t].nail = 1
+            }
+            floors[t].floor = 1
+        }
+
+    }
+
+
 })
 
