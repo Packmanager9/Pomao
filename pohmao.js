@@ -6516,8 +6516,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             return false
         }
-
-
         checkRepelPomao(point) {
             let link = new LineOP(this.body, point)
             let angle = link.angle() + Math.PI
