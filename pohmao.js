@@ -772,7 +772,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
 
             let linkfloorer = new LineOP(this.bodies[0], pomao.body)
-            if (linkfloorer.hypotenuse() > 735 + pomao.tongue.radius + (Math.max(this.width, this.heightx) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)) {
+            if (linkfloorer.squareDistance() > ((735 + pomao.tongue.radius + (Math.max(this.width, this.heightx) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex))*(735 + pomao.tongue.radius + (Math.max(this.width, this.heightx) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)))) {
                 return 0
             }
             for (let t = 0; t < this.bodies.length; t++) {
@@ -958,14 +958,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
 
-            if (link.hypotenuse() < this.length - 5) {
+            const lsqr = link.squareDistance()
+            if (lsqr < ((this.length + 5)*(this.length + 5))) {
                 this.body.sxmom += xvec
                 this.body.symom += yvec
                 this.anchor.sxmom -= xvec
                 this.anchor.symom -= yvec
 
 
-            } else if (link.hypotenuse() > this.length + 5) {
+            } else if (lsqr > ((this.length + 5)*(this.length + 5))) {
 
                 this.body.sxmom -= xvec
                 this.body.symom -= yvec
@@ -1536,7 +1537,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         }
         balance() {
-            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "green", 5)
+            this.beam = new LineOP(this.body, this.anchor, "green", 5)
             let xmomentumaverage
             let ymomentumaverage
             if (this.anchor != pin2) {
@@ -1559,15 +1560,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.anchor.xmom = ((this.anchor.xmom) + xmomentumaverage) / 2
                 this.anchor.ymom = ((this.anchor.ymom) + ymomentumaverage) / 2
             }
-            if (this.beam.hypotenuse() != 0) {
-                if (this.beam.hypotenuse() < this.length) {
+            if (this.beam.squareDistance() != 0) {
+                if (this.beam.squareDistance() < (this.length*this.length)) {
                     if (this.body != pin) {
                         this.body.xmom += (this.body.x - this.anchor.x) / (this.length) / 30
                         this.body.ymom += (this.body.y - this.anchor.y) / (this.length) / 30
                     }
                     this.anchor.xmom -= (this.body.x - this.anchor.x) / (this.length) / 30
                     this.anchor.ymom -= (this.body.y - this.anchor.y) / (this.length) / 30
-                } else if (this.beam.hypotenuse() > this.length) {
+                } else if (this.beam.squareDistance() > (this.length*this.length)) {
 
                     if (this.body != pin) {
                         this.body.xmom -= (this.body.x - this.anchor.x) / (this.length) / 30
@@ -1658,15 +1659,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.anchor.xmom = ((this.anchor.xmom) + xmomentumaverage) / 2
             this.anchor.ymom = ((this.anchor.ymom) + ymomentumaverage) / 2
 
-            if (this.beam.hypotenuse() != 0) {
-                if (this.beam.hypotenuse() < this.length - 2) {
+            if (this.beam.squareDistance() != 0) {
+                if (this.beam.squareDistance() < ((this.length + 2)*(this.length + 2))) {
                     if (this.body != pin) {
                         this.body.xmom += (this.body.x - this.anchor.x) / (this.length) / 10
                         this.body.ymom += (this.body.y - this.anchor.y) / (this.length) / 10
                     }
                     this.anchor.xmom -= (this.body.x - this.anchor.x) / (this.length) / 10
                     this.anchor.ymom -= (this.body.y - this.anchor.y) / (this.length) / 10
-                } else if (this.beam.hypotenuse() > this.length + 2) {
+                } else if (this.beam.squareDistance() > ((this.length + 2)*(this.length + 2))) {
 
                     this.body.xmom -= (this.body.x - this.anchor.x) / (this.length) / 1.6
                     this.body.ymom -= (this.body.y - this.anchor.y) / (this.length) / 1.6
@@ -1984,52 +1985,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
 
-
-            // if (this.anchor.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.anchor)) {
-            //     if (t < this.worm.segments.length - 2) {
-            //         if (blockedlick == 0) {
-            //             if (Math.abs(pomao.tonguex) + Math.abs(pomao.tonguey) > 7) {
-            //                 this.anchor.marked = 1
-            //                 if (this.anchor.xdif + this.anchor.ydif == 0) {
-            //                     this.anchor.xdif = pomao.tongue.x - this.anchor.x
-            //                     this.anchor.ydif = pomao.tongue.y - this.anchor.y
-            //                     const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red", 1)
-            //                     const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x - this.anchor.xdif, pomao.tongue.y - this.anchor.ydif, "red", 1)
-            //                     if (link2.hypotenuse() > link1.hypotenuse() - 10) {
-            //                         this.anchor.xdif = .001
-            //                         this.anchor.ydif = 0
-            //                     }
-            //                 }
-            //             }
-            //         }
-            //     } else {
-            //     }
-
-            // }
-
-            // if (this.anchor.repelCheck(pomao.body) && (this.anchor.repelCheck(pomao.tongue) || (this.anchor.marked == 1 || this.anchor.marked == 2))) {
-            //     // if (Math.abs(pomao.tonguex) + Math.abs(pomao.tonguey) < 14) {
-            //     //     if (this.worm.licked == 0) {
-
-            //     //         for (let t = 0; t < this.worm.segments.length; t++) {
-            //     //             // console.log(this.worm.segments[t].anchor.marked )
-            //     //             if (this.worm.segments[t].anchor.marked == 1) {
-            //     //                 this.worm.licked = 1
-            //     //             }
-            //     //         }
-
-            //     //     }
-            //     //     if (this.worm.licked == 1) {
-
-            //     //         this.anchor.marked = 2
-            //     //         pomao.diry = 1
-            //     //         if (typeof this.anchor.timer != "number") {
-            //     //             this.anchor.timer = this.worm.joints.length * 3
-            //     //         }
-            //     //     }
-            //     // }
-            // } else 
-
             if (this.anchor.repelCheck(pomao.body)) {
                 if (this.anchor.x > pomao.body.x) {
                     this.bump = 1
@@ -2174,19 +2129,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
         dmove() {
-            // this.body.ymom*=.99
-            // this.body.xmom*=.99
-            // this.anchor.ymom*=.99
-            // this.anchor.xmom*=.99
             let blockedlick = 0
             let blockedlick2 = 0
-            // for (let t = this.worm.joints.length - 2; t < this.worm.joints.length; t++) {
-            // // if(t!=this.worm.joints.indexOf(this)){
-            // if (this.worm.joints[t].marked > 1) {
-            //     blockedlick2 = 2
-            // }
-            // // }
-            // }
             for (let t = this.worm.joints.length - 2; t < this.worm.joints.length; t++) {
                 if (t != this.worm.joints.indexOf(this)) {
                     if (this.worm.joints[t].marked > 0) {
@@ -2200,78 +2144,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                 }
-            }
-            if (this.anchor.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.anchor)) {
-                // if (blockedlick == 0) {
-                //     if (Math.abs(pomao.tonguex) + Math.abs(pomao.tonguey) > 7) {
-                //         if (this.anchor == this.worm.joints[this.worm.joints.length - 2]) {
-                //             this.anchor.marked = 1
-                //             if (this.anchor.xdif + this.anchor.ydif == 0) {
-                //                 this.anchor.xdif = pomao.tongue.x - this.anchor.x
-                //                 this.anchor.ydif = pomao.tongue.y - this.anchor.y
-                //                 const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red", 1)
-                //                 const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x - this.anchor.xdif, pomao.tongue.y - this.anchor.ydif, "red", 1)
-                //                 if (link2.hypotenuse() > link1.hypotenuse() - 10) {
-                //                     this.anchor.xdif = .001
-                //                     this.anchor.ydif = 0
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
-            }
-            if (this.anchor.repelCheck(pomao.body) && (this.anchor.repelCheck(pomao.tongue) || (this.anchor.marked == 1 || this.anchor.marked == 2))) {
-                // if (Math.abs(pomao.tonguex) + Math.abs(pomao.tonguey) < 14) {
-                //     if (this.worm.licked == 0) {
-
-                //         for (let t = 0; t < this.worm.segments.length; t++) {
-                //             // console.log(this.worm.segments[t].anchor.marked )
-                //             if (this.worm.segments[t].anchor.marked == 1) {
-                //                 this.worm.licked = 1
-                //             }
-                //         }
-
-                //     }
-                //     if (this.worm.licked == 1) {
-
-                //         this.anchor.marked = 2
-                //         pomao.diry = 1
-                //         if (typeof this.anchor.timer != "number") {
-                //             this.anchor.timer = this.worm.joints.length * 3
-                //             this.anchor.index = 0
-                //         }
-                //     }
-                // }
-            } else if (this.anchor.repelCheck(pomao.body) && !this.anchor.repelCheck(pomao.tongue)) {
-                // if (this.anchor.x > pomao.body.x) {
-                //     this.bump = 1
-                // } else {
-                //     this.bump = -1
-                // }
-                // //   if(pomao.body.ymom == 0){
-                // if (blockedlick == 0) {
-
-                //     if (this.body.radius >= 15) {
-                //         if (pomao.disabled != 1) {
-                //             if (pomao.pounding != 10) {
-                //                 pomao.body.xmom = -3 * (this.bump)
-                //                 pomao.disabled = 1
-                //                 pomao.hits--
-                //                 pomao.body.ymom = -1.8
-                //                 this.anchor.xmom += -pomao.body.xmom * 5
-                //                 this.body.xmom += -pomao.body.xmom * 5
-                //             }
-                //         } else {
-                //             if (this.bump * pomao.body.xmom > 0) {
-                //                 pomao.body.xmom = -1.8 * (this.bump)
-                //                 pomao.body.ymom = -1.8
-                //                 this.anchor.xmom += -pomao.body.xmom * 5
-                //                 this.body.xmom += -pomao.body.xmom * 5
-                //             }
-                //         }
-                //     }
-                // }
-                //   }
             }
 
             if (this.anchor.marked == 1) {
@@ -3140,7 +3012,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
             const link = new Line(pomao.body.x, pomao.body.y, this.body.x, this.body.y, "red", 1)
-            if (link.hypotenuse() < 450) {
+            if (link.squareDistance() < (450*450)) {
                 if (this.type == 0) {
                     this.body.xmom += (pomao.body.x - this.body.x) / 1200
                     this.body.ymom += (pomao.body.y - this.body.y) / 1200
@@ -3167,7 +3039,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.yrepel = 0
 
 
-            if (this.linker.hypotenuse() < 300) {
+            if (this.linker.squareDistance() < 90000) {
                 if (this.bodydraw.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
                     this.marked = 1
                     this.body.radius *= .975
@@ -3231,7 +3103,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (let f = 0; f < swimmers.length; f++) {
                     if (this !== swimmers[f]) {
                         if (this.bodydraw.repelCheck(swimmers[f].bodydraw)) {
-                            const distance = ((new Line(swimmers[f].body.x, swimmers[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - (swimmers[f].bodydraw.radius + this.bodydraw.radius)
+                            const distance = ((new Line(swimmers[f].body.x, swimmers[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - ((swimmers[f].bodydraw.radius + this.bodydraw.radius))
                             const angleRadians = Math.atan2(swimmers[f].body.y - this.body.y, swimmers[f].body.x - this.body.x);
                             this.xrepel += (Math.cos(angleRadians) * distance) / 2
                             this.yrepel += (Math.sin(angleRadians) * distance) / 2
@@ -3469,7 +3341,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             for (let f = 0; f < boys.length; f++) {
                 if (this !== boys[f]) {
                     if (this.body.repelCheck(boys[f].body)) {
-                        const distance = ((new Line(boys[f].body.x, boys[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - (boys[f].body.radius + this.body.radius)
+                        const distance = ((new Line(boys[f].body.x, boys[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - ((boys[f].body.radius + this.body.radius))
                         const angleRadians = Math.atan2(boys[f].body.y - this.body.y, boys[f].body.x - this.body.x);
                         this.xrepel += (Math.cos(angleRadians) * distance) / 1.25
                         this.yrepel += (Math.sin(angleRadians) * distance) / 1.25
@@ -3816,8 +3688,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     pomao.dry = 1
                     pomao.grounded = 1
                     pomao.jumping = 0
-
-                    if (liner.hypotenuse() < (this.body.isPointInsideTargetedShape(pomao.body).radius + pomao.body.radius)) {
+                    const rad = this.body.isPointInsideTargetedShape(pomao.body).radius
+                    if (liner.squareDistance() < ((rad + pomao.body.radius)*(rad + pomao.body.radius))) {
                         pomao.body.y -= 3
                         if ((Math.min(this.electron.ymom, this.positron.ymom)) < 0) {
                             pomao.body.y += (Math.min(this.electron.ymom, this.positron.ymom) * .01)
@@ -3839,7 +3711,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
-            if (tonguelink.hypotenuse() > 20) {
+            if (tonguelink.squareDistance() > 400) {
 
                 if ((this.body.isPointInside(pomao.tongue) || ((pomao.tonguebox.isInsideOfShape(this.body) || this.body.isPointInside(pomao.tongue))))) {
                     if (pomao.tongueymom < 0) {
@@ -4077,7 +3949,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (let f = 0; f < boys.length; f++) {
                     if (this !== boys[f]) {
                         if (this.body.repelCheck(boys[f].body)) {
-                            const distance = ((new Line(boys[f].body.x, boys[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - (boys[f].body.radius + this.body.radius)
+                            const distance = ((new Line(boys[f].body.x, boys[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - ((boys[f].body.radius + this.body.radius))
                             const angleRadians = Math.atan2(boys[f].body.y - this.body.y, boys[f].body.x - this.body.x);
                             this.xrepel += (Math.cos(angleRadians) * distance) / 1.25
                             this.yrepel += (Math.sin(angleRadians) * distance) / 1.25
@@ -4205,7 +4077,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (let f = 0; f < boys.length; f++) {
                     if (this !== boys[f]) {
                         if (this.body.repelCheck(boys[f].body)) {
-                            const distance = ((new Line(boys[f].body.x, boys[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - (boys[f].body.radius + this.body.radius)
+                            const distance = ((new Line(boys[f].body.x, boys[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - ((boys[f].body.radius + this.body.radius))
                             const angleRadians = Math.atan2(boys[f].body.y - this.body.y, boys[f].body.x - this.body.x);
                             this.xrepel += (Math.cos(angleRadians) * distance) / 1.25
                             this.yrepel += (Math.sin(angleRadians) * distance) / 1.25
@@ -4669,6 +4541,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let ydif = this.object.y - this.target.y
             let hypotenuse = (xdif * xdif) + (ydif * ydif)
             return Math.sqrt(hypotenuse)
+        }
+        squareDistance() {
+            let xdif = this.object.x - this.target.x
+            let ydif = this.object.y - this.target.y
+            let hypotenuse = (xdif * xdif) + (ydif * ydif)
+            return (hypotenuse)
         }
         draw() {
             let linewidthstorage = tutorial_canvas_context.lineWidth
@@ -5256,6 +5134,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.y2 = y2
             this.color = color
             this.width = width
+        }
+        squareDistance() {
+            let xdif = this.x1 - this.x2
+            let ydif = this.y1 - this.y2
+            let hypotenuse = (xdif * xdif) + (ydif * ydif)
+            return (hypotenuse)
         }
         hypotenuse() {
             const xdif = this.x1 - this.x2
@@ -10264,7 +10148,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             for (let t = 0; t < this.emmiter.length; t++) {
                 let link = new LineOP(this.emmiter[t], this.body)
-                if (link.hypotenuse() > 100 + this.blastage) {
+                if (link.squareDistance() > ((100 + this.blastage)*(100 + this.blastage))) {
                     this.emmiter.splice(t, 1)
                 }
             }
@@ -10570,7 +10454,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (let f = 0; f < bats.length; f++) {
                     if (this !== bats[f]) {
                         if (this.bodydraw.repelCheck(bats[f].bodydraw)) {
-                            const distance = ((new Line(bats[f].body.x, bats[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - (bats[f].bodydraw.radius + this.bodydraw.radius)
+                            const distance = ((new Line(bats[f].body.x, bats[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - ((bats[f].bodydraw.radius + this.bodydraw.radius))
                             const angleRadians = Math.atan2(bats[f].body.y - this.body.y, bats[f].body.x - this.body.x);
                             this.xrepel += (Math.cos(angleRadians) * distance) / 2
                             this.yrepel += (Math.sin(angleRadians) * distance) / 2
@@ -10806,7 +10690,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (let f = 0; f < bats.length; f++) {
                     if (this !== bats[f]) {
                         if (this.bodydraw.repelCheck(bats[f].bodydraw)) {
-                            const distance = ((new Line(bats[f].body.x, bats[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - (bats[f].bodydraw.radius + this.bodydraw.radius)
+                            const distance = ((new Line(bats[f].body.x, bats[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - ((bats[f].bodydraw.radius + this.bodydraw.radius))
                             const angleRadians = Math.atan2(bats[f].body.y - this.body.y, bats[f].body.x - this.body.x);
                             this.xrepel += (Math.cos(angleRadians) * distance) / 2
                             this.yrepel += (Math.sin(angleRadians) * distance) / 2
@@ -10988,7 +10872,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.body3anchor.ymom *= .98
 
             if (this.body3anchor.repelCheck(this.body1anchor)) {
-                const distance = ((new Line(this.body1anchor.x, this.body1anchor.y, this.body3anchor.x, this.body3anchor.y, 1, "red")).hypotenuse()) - (this.body1anchor.radius + this.body3anchor.radius)
+                const distance = ((new Line(this.body1anchor.x, this.body1anchor.y, this.body3anchor.x, this.body3anchor.y, 1, "red")).hypotenuse()) - ((this.body1anchor.radius + this.body3anchor.radius))
                 const angleRadians = Math.atan2(this.body1anchor.y - this.body3anchor.y, this.body1anchor.x - this.body3anchor.x);
                 this.xrepel += (Math.cos(angleRadians) * distance) / 2
                 this.yrepel += (Math.sin(angleRadians) * distance) / 2
@@ -11444,7 +11328,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 for (let q = 0; q < this.obstacles.length; q++) {
                     let linker = new Line(this.body.x, this.body.y, this.obstacles[q].x, this.obstacles[q].y, "black", 2)
-                    if (linker.hypotenuse() < (this.obstacles[q].width + this.obstacles[q].height) + (this.rayrange * 5.5)) {
+                    const obsdist = ((this.obstacles[q].width + this.obstacles[q].height) + (this.rayrange * 5.5))*((this.obstacles[q].width + this.obstacles[q].height) + (this.rayrange * 5.5))
+                    if (linker.squareDistance() < obsdist) {
                         this.obstaclesstorage.push(this.obstacles[q])
                     }
                 }
@@ -11521,7 +11406,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.health > 0) {
                 if (this.shook == 1) {
                     let dist = new Line(this.body.x, this.body.y, pomao.body.x, pomao.body.y, "red", 1)
-                    if (dist.hypotenuse() > 340) {
+                    if (dist.squareDistance() > (340*340)) {
                         this.body.xmom -= (this.body.x - pomao.body.x) / 1700
                         this.body.ymom -= (this.body.y - pomao.body.y) / 1700
 
@@ -11880,8 +11765,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     for (let h = 0; h < orbs.length; h++) {
                         if (g != this.leg) {
                             let linker = new Line(this.tips[this.leg].x, this.tips[this.leg].y, orbs[h].body.x, orbs[h].body.y, "red", 2)
-                            if (linker.hypotenuse() < 500) {
-                                // linker.draw()
+                            if (linker.squareDistance() < (250000)) {
                                 if (orbs[h].body.repelCheck(this.tips[g])) {
                                     this.tipsOn.push(orbs[h].body)
                                     if (!orbs[h].companion.includes(this.tips[g])) {
@@ -11900,11 +11784,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.tipsOn[t].gravity = .1
                 }
 
+                const lsqr = link.hypotenuse()
                 if (!this.tipsOn.includes(orbs[t].body)) {
                     if (!orbs[t].body.mark.includes(this.leg)) {
-                        if (link.hypotenuse() < minimum) {
+                        if (lsqr < minimum) {
                             dummypin = orbs[t].body
-                            minimum = link.hypotenuse()
+                            minimum = lsqr
 
                             // mark = orbs[t].body
                         }
@@ -11954,54 +11839,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.tips[t].chmove()
                 }
             }
-
-            // for(let  t= 0; t<this.tips.length;t++){
-            //     for(let  k= 0; k<this.tips.length;k++){
-            //         if(t!=k){
-            //             if(this.tips[t].repelCheck(this.tips[k])){
-            //                 let distance = ((new Line(this.tips[k].x, this.tips[k].y, this.tips[t].x, this.tips[t].y, 1, "red")).hypotenuse())-(2*this.tips[k].radius+this.tips[t].radius)
-            //                 let angleRadians = Math.atan2(this.tips[k].y - this.tips[t].y, this.tips[k].x - this.tips[t].x);
-            //                 if(t == this.leg){
-
-            //                     // this.tips[t].xrepel += (Math.cos(angleRadians)*distance)/10
-            //                     // this.tips[t].yrepel += (Math.sin(angleRadians)*distance)/10
-
-            //                 }
-            //                 // this.tips[k].xrepel += -(Math.cos(angleRadians)*distance)/10
-            //                 // this.tips[k].yrepel += -(Math.sin(angleRadians)*distance)/10
-            //             }
-            //         }
-            //     }
-            // } //check later
             for (let t = 0; t < this.tips.length; t++) {
                 this.tips[t].x += this.tips[t].xrepel
                 this.tips[t].y += this.tips[t].yrepel
                 this.tips[t].xrepel = 0
                 this.tips[t].yrepel = 0
             }
-            // for(let t = 0;t<this.tips.length;t++){
-            //     if(this.tips[t].sxmom == 0 && this.tips[t].symom == 0){
-            //         this.tips.splice(t,1)
-            //     }
-            // }
         }
         draw() {
 
             if (this.dead == 0) {
-                // this.counter++
-                // if(this.counter%12 == 0){
-
-                // }
                 if (this.smack == 1) {
                     this.leg += 1
                     this.leg %= this.tips.length
                     this.smack = 0
-                    // //console.log(this.legshotclock)
                     this.legshotclock = 0
                 }
                 this.control()
                 this.walk()
-                // this.body.draw()
                 for (let t = 0; t < this.legs.length; t++) {
                     this.legs[t].balance()
                 }
@@ -12028,17 +11883,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if (t != k) {
                             let guide = new Line(this.joints[t].x, this.joints[t].y, this.joints[k].x, this.joints[k].y, "red", .1)
                             // guide.draw()
-                            if (guide.hypotenuse() == 0) {
+                            const gsqr = guide.squareDistance()
+                            if (gsqr == 0) {
 
                             } else {
 
                                 if (this.legs[0].health > 0) {
                                     if (!this.arms.includes(this.joints[k]) && !this.arms.includes(this.joints[t])) {
                                         //     if(!this.tips.includes(this.joints[k]) && !this.tips.includes(this.joints[t]) ){
-                                        this.joints[k].xmom -= ((this.joints[t].x - this.joints[k].x) / guide.hypotenuse()) / this.xforce
-                                        this.joints[k].ymom -= ((this.joints[t].y - this.joints[k].y) / guide.hypotenuse()) / this.yforce
-                                        this.joints[t].xmom += ((this.joints[t].x - this.joints[k].x) / guide.hypotenuse()) / this.xforce
-                                        this.joints[t].ymom += ((this.joints[t].y - this.joints[k].y) / guide.hypotenuse()) / this.yforce
+                                        this.joints[k].xmom -= ((this.joints[t].x - this.joints[k].x) / gsqr) / this.xforce
+                                        this.joints[k].ymom -= ((this.joints[t].y - this.joints[k].y) / gsqr) / this.yforce
+                                        this.joints[t].xmom += ((this.joints[t].x - this.joints[k].x) / gsqr) / this.xforce
+                                        this.joints[t].ymom += ((this.joints[t].y - this.joints[k].y) / gsqr) / this.yforce
                                         //     }
 
                                     }
@@ -12239,7 +12095,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         control() {
 
             let linker = new Line(pomao.body.x, pomao.body.y, this.body.x, this.body.y, "red", 10)
-            if (linker.hypotenuse() < 1500) {
+            if (linker.squareDistance() < (1500*1500)) {
                 if (pomao.body.x > 7925) {
                     spidermusic.play()
                     if (this.joints.length > 10) {
@@ -12277,9 +12133,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         balance() {
             this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
-
-            if (this.beam.hypotenuse() != 0) {
-                if (this.beam.hypotenuse() < this.length) {
+            const lengsqr =  (this.length*this.length)
+            const lsqr = this.beam.squareDistance()
+            if (lsqr != 0) {
+                if (lsqr < lengsqr) {
                     if (this.body != chafer.body) {
                         this.body.xmom += (this.body.x - this.anchor.x) / (this.length) / 300
                         this.body.ymom += (this.body.y - this.anchor.y) / (this.length) / 300
@@ -12292,7 +12149,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.anchor.xmom -= (this.body.x - this.anchor.x) / (this.length) / 300
                         this.anchor.ymom -= (this.body.y - this.anchor.y) / (this.length) / 300
                     }
-                } else if (this.beam.hypotenuse() > this.length) {
+                } else if (lsqr > lengsqr) {
 
                     if (this.body != chafer.body) {
                         this.body.xmom -= (this.body.x - this.anchor.x) / (this.length) / 300
@@ -14412,14 +14269,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
 
-            if (link.hypotenuse() < this.length - 5) {
+            const lsqr = link.squareDistance()
+            if (lsqr< this.length - 5) {
                 this.body.sxmom += xvec
                 this.body.symom += yvec
                 this.anchor.sxmom -= xvec
                 this.anchor.symom -= yvec
 
 
-            } else if (link.hypotenuse() > this.length + 5) {
+            } else if (lsqr > ((this.length + 5)*(this.length + 5))) {
 
                 this.body.sxmom -= xvec
                 this.body.symom -= yvec
@@ -15147,7 +15005,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             for (let f = 0; f < floppers.length; f++) {
                 if (this !== floppers[f]) {
                     if (this.lump.repelCheck(floppers[f].lump)) {
-                        const distance = ((new Line(floppers[f].lump.x, floppers[f].lump.y, this.lump.x, this.lump.y, 1, "red")).hypotenuse()) - (this.lump.radius * 2)
+                        const distance = ((new Line(floppers[f].lump.x, floppers[f].lump.y, this.lump.x, this.lump.y, 1, "red")).hypotenuse()) - ((this.lump.radius * 2))
                         const angleRadians = Math.atan2(floppers[f].lump.y - this.lump.y, floppers[f].lump.x - this.lump.x);
                         this.lump.xrepel += (Math.cos(angleRadians) * distance) / 2
                         this.lump.yrepel += (Math.sin(angleRadians) * distance) / 2
@@ -15650,7 +15508,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             for (let f = 0; f < floppers.length; f++) {
                 if (this !== floppers[f]) {
                     if (this.lump.repelCheck(floppers[f].lump)) {
-                        const distance = ((new Line(floppers[f].lump.x, floppers[f].lump.y, this.lump.x, this.lump.y, 1, "red")).hypotenuse()) - (this.lump.radius * 2)
+                        const distance = ((new Line(floppers[f].lump.x, floppers[f].lump.y, this.lump.x, this.lump.y, 1, "red")).hypotenuse()) - ((this.lump.radius * 2))
                         const angleRadians = Math.atan2(floppers[f].lump.y - this.lump.y, floppers[f].lump.x - this.lump.x);
                         this.lump.xrepel += (Math.cos(angleRadians) * distance) / 2
                         this.lump.yrepel += (Math.sin(angleRadians) * distance) / 2
@@ -19042,7 +18900,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let bang = 0
             for (let k = 0; k < beamrocks.length; k++) {
                 let link = new Line(bossrock.x, bossrock.y, beamrocks[k].x, beamrocks[k].y, "red", 2)
-                if (link.hypotenuse() < 245) {
+                if (link.squareDistance() < (245*245)) {
                     bang = 1
                 }
             }
@@ -19298,7 +19156,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let click = 0
             for (let k = 0; k < orbs.length; k++) {
                 let link = new Line(orb.body.x, orb.body.y, orbs[k].body.x, orbs[k].body.y, "green", 3)
-                if (link.hypotenuse() < 350) {
+                if (link.squareDistance() < (350*350)) {
                     click = 1
                 }
             }
@@ -19317,7 +19175,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     let link = new Line(orbs[t].body.x, orbs[t].body.y, orbs[k].body.x, orbs[k].body.y, "white", .3)
 
                     // //console.log(link)
-                    if (link.hypotenuse() < 685) {
+                    if (link.squareDistance() < (685*685)) {
                         links.push([t, k])
                     }
                 }
@@ -19921,8 +19779,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             safefloorx.type = 1
             let stopper = 0
             for (let k = 0; k < floors.length; k++) {
-                let link = (new LineOP(safefloorx, floors[k])).hypotenuse()
-                if (link < 300) {
+                let link = (new LineOP(safefloorx, floors[k])).squareDistance()
+                if (link < 90000) {
                     stopper = 1
                 }
             }
@@ -19989,40 +19847,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         let centerer = new Point(0, heighttrap - 3000)
         boss = new Rocketbox(centerer.x, centerer.y - 6300)
-        // for(let t= 0; t<200;t++){
-
-        //     const safefloorx = new Rectangle(-2000+(Math.random()*4000), (heighttrap-900) - (Math.random()*5000), 60, 60)
-        //     if(t%3 == 0){
-        //         let flopper = new Flopper(-2000+(Math.random()*4000),  (heighttrap-900) - (Math.random()*5000))
-        //         flopper.dead = 1
-        //         flopper.body.radius *= 1.4
-        //         flopper.lump.radius *= 1 + (Math.random() * .5)
-        //         flopper.gravity += .05 + (Math.random() * .5)
-        //         flopper.ratio = (Math.random() * .5) + .25
-        //         if(Math.random()<.1){
-        //             flopper.spin = .76// .5+(Math.random()*.5)
-        //         if(Math.random()<.5){
-        //             flopper.spin*=-1
-        //         }
-        //         }
-        //         floppers.push(flopper)
-        //     }
-        //     safefloorx.type = 1
-        //     let stopper = 0
-        //     for(let k=0;k<floors.length;k++){
-        //         let link = (new LineOP(safefloorx, floors[k])).hypotenuse()
-        //         if(link < 200){
-        //             stopper = 1
-        //         }
-        //     }
-
-
-        //     if(stopper == 0){
-        //         floors.push(safefloorx)
-        //         walls.push(safefloorx)
-        //         roofs.push(safefloorx)
-        //     }
-        // }
         const safewall1 = new Rectangle(-2050, heighttrap - 10700, 9500, 50)
         const safewall2 = new Rectangle(2050, heighttrap - 10700, 9500, 50)
         floors.push(safewall1)
@@ -20773,5 +20597,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             floors[t].floor = 1
         }
     }
+
+
+
+
 })
+
+
 
