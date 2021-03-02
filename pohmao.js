@@ -6637,11 +6637,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     angle += Math.PI
                 }
 
-                if (angle > (this.pomarray[t].angle % Math.PI) && angle < (this.pomarray[t + 1].angle % Math.PI)) {
+                // if (angle > (this.pomarray[t].angle % Math.PI) && angle < (this.pomarray[t + 1].angle % Math.PI)) {
                     if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) / 50)) {
                         return true
                     }
-                }
+                // }
             } else {
                 let link = new LineOP(this.body, point)
                 let angle = link.angle() + Math.PI
@@ -6652,11 +6652,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (angle < 0) {
                     angle += Math.PI
                 }
-                if (angle > (this.pomarrayleft[t].angle % Math.PI) && angle < (this.pomarrayleft[t + 1].angle % Math.PI)) {
+                // if (angle > (this.pomarrayleft[t].angle % Math.PI) && angle < (this.pomarrayleft[t + 1].angle % Math.PI)) {
                     if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) / 50)) {
                         return true
                     }
-                }
+                // }
             }
             return false
         }
@@ -6672,11 +6672,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     angle += Math.PI
                 }
 
-                if (angle > (this.pomarray[t].angle % Math.PI) && angle < (this.pomarray[t + 1].angle % Math.PI)) {
+                // if (angle > (this.pomarray[t].angle % Math.PI) && angle < (this.pomarray[t + 1].angle % Math.PI)) {
                     if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) / 50)) {
                         return true
                     }
-                }
+                // }
             } else {
                 let link = new LineOP(this.body, point)
                 let angle = link.angle() + Math.PI
@@ -6688,11 +6688,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     angle += Math.PI
                 }
 
-                if (angle > (this.pomarrayleft[t].angle % Math.PI) && angle < (this.pomarrayleft[t + 1].angle % Math.PI)) {
+                // if (angle > (this.pomarrayleft[t].angle % Math.PI) && angle < (this.pomarrayleft[t + 1].angle % Math.PI)) {
                     if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) / 50)) {
                         return true
                     }
-                }
+                // }
             }
             return false
         }
