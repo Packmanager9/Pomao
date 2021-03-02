@@ -2221,25 +2221,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
-            if (this.anchor.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.anchor)) {
-                // if (blockedlick == 0) {
-                //     if (Math.abs(pomao.tonguex) + Math.abs(pomao.tonguey) > 7) {
-                //         if (this.anchor == this.worm.joints[this.worm.joints.length - 2]) {
-                //             this.anchor.marked = 1
-                //             if (this.anchor.xdif + this.anchor.ydif == 0) {
-                //                 this.anchor.xdif = pomao.tongue.x - this.anchor.x
-                //                 this.anchor.ydif = pomao.tongue.y - this.anchor.y
-                //                 const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red", 1)
-                //                 const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x - this.anchor.xdif, pomao.tongue.y - this.anchor.ydif, "red", 1)
-                //                 if (link2.hypotenuse() > link1.hypotenuse() - 10) {
-                //                     this.anchor.xdif = .001
-                //                     this.anchor.ydif = 0
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
-            }
             if (this.anchor.repelCheck(pomao.body) && (this.anchor.repelCheck(pomao.tongue) || (this.anchor.marked == 1 || this.anchor.marked == 2))) {
                 // if (Math.abs(pomao.tonguex) + Math.abs(pomao.tonguey) < 14) {
                 //     if (this.worm.licked == 0) {
@@ -4388,7 +4369,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (keysPressed['q']) {
                 this.body.draw()
             }
-            if (this.linker.hypotenuse() < 300) {
+            if (this.linker.squareDistance() < (300*300)) {
                 if (this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
                     // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
                     // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
@@ -4580,7 +4561,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         snowThing(point) {
             let linkcheck = new LineOP(this, point)
-            if (linkcheck.hypotenuse() < point.radius * 2) {
+            if (linkcheck.squareDistance() < ((point.radius * 2)*(point.radius * 2))) {
                 return true
             }
             return false
@@ -6860,8 +6841,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                 }
-                let linkfloorer = new LineOP(floors[t], pomao.body)
-                if (linkfloorer.hypotenuse() > pomao.tongue.radius + (Math.max(floors[t].width, floors[t].height) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)) {
+                const linkfloorer = new LineOP(floors[t], pomao.body)
+                const rrad = ((pomao.tongue.radius + (Math.max(floors[t].width, floors[t].height) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)))
+                if (linkfloorer.squareDistance() > rrad*rrad) {
                     continue
                 }
 
@@ -7937,13 +7919,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (typeof debris[t].link == "undefined") {
                         let link = new LineOP(debris[t].body, pomao.body)
 
-                        if (link.hypotenuse() < 1200) {
+                        if (link.squareDistance() < (1200*1200)) {
                             debris[t].draw()
                         }
 
 
                     } else {
-                        if (debris[t].link.hypotenuse() < 900) {
+                        if (debris[t].link.squareDistance() < (900*900)) {
                             debris[t].draw()
                         }
                     }
@@ -8059,7 +8041,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             for (let t = 0; t < floors.length; t++) {
 
                 let linkfloorer = new LineOP(floors[t], pomao.body)
-                if (linkfloorer.hypotenuse() > pomao.tongue.radius + (Math.max(floors[t].width, floors[t].height) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex) + 735) {  //finally
+                if (linkfloorer.squareDistance() > ((pomao.tongue.radius + (Math.max(floors[t].width, floors[t].height) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex) + 735)*(pomao.tongue.radius + (Math.max(floors[t].width, floors[t].height) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex) + 735))) {  //finally
                     continue
                 }
 
@@ -8348,7 +8330,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (let t = 0; t < snowfloors.length; t++) {
                     if (snowfloors[t].snowtype == 1) {
                         let link = new LineOP(snowfloors[t].body, pomao.body)
-                        if (link.hypotenuse() < snowfloors[t].size + 66 + 735) {
+                        if (link.squareDistance() < ((snowfloors[t].size + 66 + 735)*(snowfloors[t].size + 66 + 735))) {
                             snowfloors[t].draw()
                         } else {
                             snowfloors[t].spin()
@@ -9758,13 +9740,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         collideSnowheight(point) {
             let link = new LineOP(point, this.body)
             point.angle = link.angle()
-            if (link.hypotenuse() < this.size) {
+            if (link.squareDistance() < (this.size*this.size)) {
                 point.angle += ((this.size - link.hypotenuse()) / (this.size * 10)) * this.dir
                 point.liner = link.hypotenuse()
                 point.y = (Math.sin(point.angle) * point.liner) + this.body.y
                 point.x = (Math.cos(point.angle) * point.liner) + this.body.x
-                point.y += (point.y - this.body.y) / ((link.hypotenuse() * link.hypotenuse()) * .5)
-                point.x += (point.x - this.body.x) / ((link.hypotenuse() * link.hypotenuse()) * .5)
+                const lhyp = 1/(point.liner*point.liner*.5)
+                point.y += (point.y - this.body.y) * lhyp
+                point.x += (point.x - this.body.x) * lhyp
                 if (point.y > this.body.y) {
                     point.y += this.force
                 }
@@ -9833,7 +9816,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     let dis = pomao.body.radius + base.radius + .001
                                     if (base.radius == this.body.radius) {
                                         dis += 3.1
-                                        if (tonguelink.hypotenuse() > 20) {
+                                        if (tonguelink.squareDistance() > 400) {
                                             dis += 3.1
                                         }
                                     }
@@ -9902,7 +9885,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     let dis = pomao.body.radius + base.radius + .001
                                     if (base.radius == this.body.radius) {
                                         dis += 3.1
-                                        if (tonguelink.hypotenuse() > 20) {
+                                        if (tonguelink.squareDistance() > 400) {
                                             dis += 3.1
                                         }
                                     }
@@ -10022,9 +10005,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
             // if (this.particle == 1) {
             this.angle = this.link.angle()
-            if (this.link.hypotenuse() < 250) {
-                this.angle += (250 - this.link.hypotenuse()) / 2500
+            if (this.link.squareDistance() < (250*250)) {
                 this.liner = this.link.hypotenuse()
+                this.angle += (250 - this.liner) / 2500
                 this.body.y = (Math.sin(this.angle) * this.liner) + pomao.body.y
                 this.body.x = (Math.cos(this.angle) * this.liner) + pomao.body.x
                 this.body.color = `rgb(${this.r},${this.g},${this.b})`
@@ -10048,9 +10031,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.g %= 256
                 this.b %= 256
 
-                if (this.link.hypotenuse() < 250) {
-                    // this.body.move()
-                }
+                // if (this.link.hypotenuse() < 250) {
+                //     // this.body.move()
+                // }
                 this.flapper++
                 if (this.flapper % this.flapmax == 0) {
                     this.flip *= -1
