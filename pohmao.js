@@ -3080,6 +3080,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.bopped = 0
             this.xrepelled = 0
             this.yrepelled = 0
+            this.linker = new LineOP(pomao.body, this.body)
         }
 
         pop() {
@@ -3166,52 +3167,53 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.yrepel = 0
 
 
-            if (this.bodydraw.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
-                this.marked = 1
-                this.body.radius *= .975
-                if (this.anchor.xdif + this.anchor.ydif == 0) {
-                    this.anchor.xdif = pomao.tongue.x - this.bodydraw.x
-                    this.anchor.ydif = pomao.tongue.y - this.bodydraw.y
-                    const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red", 1)
-                    const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x - this.anchor.xdif, pomao.tongue.y - this.anchor.ydif, "red", 1)
-                    if (link2.hypotenuse() > link1.hypotenuse() - 10) {
-                        this.anchor.xdif = .001
-                        this.anchor.ydif = 0
+            if (this.linker.hypotenuse() < 300) {
+                if (this.bodydraw.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
+                    this.marked = 1
+                    this.body.radius *= .975
+                    if (this.anchor.xdif + this.anchor.ydif == 0) {
+                        this.anchor.xdif = pomao.tongue.x - this.bodydraw.x
+                        this.anchor.ydif = pomao.tongue.y - this.bodydraw.y
+                        const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red", 1)
+                        const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x - this.anchor.xdif, pomao.tongue.y - this.anchor.ydif, "red", 1)
+                        if (link2.hypotenuse() > link1.hypotenuse() - 10) {
+                            this.anchor.xdif = .001
+                            this.anchor.ydif = 0
+                        }
                     }
                 }
-            }
-            if (this.bodydraw.repelCheck(pomao.body) && (this.bodydraw.repelCheck(pomao.tongue) || (this.marked == 1 || this.marked == 2))) {
-                this.body.radius *= .9
-                this.marked = 2
-                pomao.diry = 1
-                // } else if (this.bodydraw.repelCheck(pomao.body) && !this.bodydraw.repelCheck(pomao.tongue)) {
-            } else if (pomao.checkRepelPomao(this.bodydraw) && !this.bodydraw.repelCheck(pomao.tongue)) {
-                if (this.body.x > pomao.body.x) {
-                    this.bump = 1
-                } else {
-                    this.bump = -1
-                }
-                //   if(pomao.body.ymom == 0){
-                if (this.body.radius >= 15) {
-                    if (pomao.disabled != 1) {
-                        if (pomao.pounding != 10) {
-                            pomao.body.xmom = -3 * (this.bump)
-                            pomao.disabled = 1
-                            pomao.hits--
-                            pomao.body.ymom = -1.8
-                            this.body.xmom = -pomao.body.xmom * .9 // wasn't .9
-                        }
+                if (this.bodydraw.repelCheck(pomao.body) && (this.bodydraw.repelCheck(pomao.tongue) || (this.marked == 1 || this.marked == 2))) {
+                    this.body.radius *= .9
+                    this.marked = 2
+                    pomao.diry = 1
+                    // } else if (this.bodydraw.repelCheck(pomao.body) && !this.bodydraw.repelCheck(pomao.tongue)) {
+                } else if (pomao.checkRepelPomao(this.bodydraw) && !this.bodydraw.repelCheck(pomao.tongue)) {
+                    if (this.body.x > pomao.body.x) {
+                        this.bump = 1
                     } else {
-                        if (this.bump * pomao.body.xmom > 0) {
-                            pomao.body.xmom = -1.8 * (this.bump)
-                            pomao.body.ymom = -1.8
-                            this.body.xmom = -pomao.body.xmom * .9// wasn't .9 new hitbox on pomao
+                        this.bump = -1
+                    }
+                    //   if(pomao.body.ymom == 0){
+                    if (this.body.radius >= 15) {
+                        if (pomao.disabled != 1) {
+                            if (pomao.pounding != 10) {
+                                pomao.body.xmom = -3 * (this.bump)
+                                pomao.disabled = 1
+                                pomao.hits--
+                                pomao.body.ymom = -1.8
+                                this.body.xmom = -pomao.body.xmom * .9 // wasn't .9
+                            }
+                        } else {
+                            if (this.bump * pomao.body.xmom > 0) {
+                                pomao.body.xmom = -1.8 * (this.bump)
+                                pomao.body.ymom = -1.8
+                                this.body.xmom = -pomao.body.xmom * .9// wasn't .9 new hitbox on pomao
+                            }
                         }
                     }
+                    //   }
                 }
-                //   }
             }
-
             if (this.marked == 1) {
                 this.body.x -= ((this.body.x - pomao.tongue.x) / 1) + (this.anchor.xdif * .9)
                 this.body.y -= ((this.body.y - pomao.tongue.y) / 1) + (this.anchor.ydif * .9)
@@ -4446,6 +4448,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.type = Math.floor(Math.random() * 10)
             this.type2 = Math.floor(Math.random() * 10)
             this.loopoffset = Math.random() * Math.PI * 2
+            this.linker = new LineOP(pomao.body, this)
 
             if (this.type == 1) {
                 if (this.type2 == 4) {
@@ -4513,40 +4516,42 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (keysPressed['q']) {
                 this.body.draw()
             }
-            if (this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
-                // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
-                // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
-                // this.move()
-                this.marked = 1
-                this.width *= .995
-                this.height *= .995
-                if (this.anchor.xdif + this.anchor.ydif == 0) {
-                    this.anchor.xdif = pomao.tongue.x - this.body.x
-                    this.anchor.ydif = pomao.tongue.y - this.body.y
-                    const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red", 1)
-                    const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x - this.anchor.xdif, pomao.tongue.y - this.anchor.ydif, "red", 1)
-                    if (link2.hypotenuse() > link1.hypotenuse() - 10) {
-                        this.anchor.xdif = .001
-                        this.anchor.ydif = 0
+            if (this.linker.hypotenuse() < 300) {
+                if (this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
+                    // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
+                    // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
+                    // this.move()
+                    this.marked = 1
+                    this.width *= .995
+                    this.height *= .995
+                    if (this.anchor.xdif + this.anchor.ydif == 0) {
+                        this.anchor.xdif = pomao.tongue.x - this.body.x
+                        this.anchor.ydif = pomao.tongue.y - this.body.y
+                        const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red", 1)
+                        const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x - this.anchor.xdif, pomao.tongue.y - this.anchor.ydif, "red", 1)
+                        if (link2.hypotenuse() > link1.hypotenuse() - 10) {
+                            this.anchor.xdif = .001
+                            this.anchor.ydif = 0
+                        }
                     }
+                    // //////console.log(this)
                 }
-                // //////console.log(this)
-            }
-            this.body = new Circle(this.x + this.width / 2, this.y + this.height / 2, this.width / 2.5, "blue")
-            if (this.body.repelCheck(pomao.body)) {
-                // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
-                // this.y -= (((this.body.y-(this.height/2))-pomao.body.y)/100)
-                this.width *= .9
-                this.height *= .9
-                if (this.type == 11) {
-                    this.width *= .8
-                    this.height *= .8
+                this.body = new Circle(this.x + this.width / 2, this.y + this.height / 2, this.width / 2.5, "blue")
+                if (this.body.repelCheck(pomao.body)) {
+                    // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
+                    // this.y -= (((this.body.y-(this.height/2))-pomao.body.y)/100)
+                    this.width *= .9
+                    this.height *= .9
+                    if (this.type == 11) {
+                        this.width *= .8
+                        this.height *= .8
+                    }
+                    this.marked = 2
+                    pomao.diry = 1
+                    // //////console.log(pomao)
                 }
-                this.marked = 2
-                pomao.diry = 1
-                // //////console.log(pomao)
-            }
 
+            }
             if (this.marked == 1) {
                 ////console.log(this.anchor)
                 this.x -= ((this.body.x - pomao.tongue.x) / 1) + (this.anchor.xdif * .9)
@@ -6638,9 +6643,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
                 // if (angle > (this.pomarray[t].angle % Math.PI) && angle < (this.pomarray[t + 1].angle % Math.PI)) {
-                    if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) / 50)) {
-                        return true
-                    }
+                if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) / 50)) {
+                    return true
+                }
                 // }
             } else {
                 let link = new LineOP(this.body, point)
@@ -6653,9 +6658,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     angle += Math.PI
                 }
                 // if (angle > (this.pomarrayleft[t].angle % Math.PI) && angle < (this.pomarrayleft[t + 1].angle % Math.PI)) {
-                    if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) / 50)) {
-                        return true
-                    }
+                if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) / 50)) {
+                    return true
+                }
                 // }
             }
             return false
@@ -6673,9 +6678,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
                 // if (angle > (this.pomarray[t].angle % Math.PI) && angle < (this.pomarray[t + 1].angle % Math.PI)) {
-                    if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) / 50)) {
-                        return true
-                    }
+                if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) / 50)) {
+                    return true
+                }
                 // }
             } else {
                 let link = new LineOP(this.body, point)
@@ -6689,9 +6694,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
                 // if (angle > (this.pomarrayleft[t].angle % Math.PI) && angle < (this.pomarrayleft[t + 1].angle % Math.PI)) {
-                    if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) / 50)) {
-                        return true
-                    }
+                if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) / 50)) {
+                    return true
+                }
                 // }
             }
             return false
@@ -7013,10 +7018,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                             // if (!roofs.includes(floors[t]) || (1 == 1)) {
 
-                                if (pomao.body.x < floors[t].x || (1 == 1)) {
-                                    this.tongueymom *= .49
-                                    this.tonguexmom *= .49
-                                }
+                            if (pomao.body.x < floors[t].x || (1 == 1)) {
+                                this.tongueymom *= .49
+                                this.tonguexmom *= .49
+                            }
                             // }
                         }
                         if (pomao.body.ymom > 0) {
@@ -7078,7 +7083,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.grounded = 1
                         floors[t].active = 1
 
-                        if(floors[t].block == 1) {
+                        if (floors[t].block == 1) {
                             if (this.pounding == 10) {
                                 floors[t].ymom = this.body.radius
                                 if (floors[t].isBlocked == false) {
@@ -7100,7 +7105,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                             floors[t].active = 1
 
-                            if(floors[t].block == 1) {
+                            if (floors[t].block == 1) {
                                 if (this.pounding == 10) {
                                     floors[t].ymom = this.body.radius
                                     if (floors[t].isBlocked == false) {
@@ -7124,7 +7129,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 this.body.y = floors[t].y - (this.body.radius)
                                 pomao.grounded = 1
                                 floors[t].active = 1
-                                if(floors[t].block == 1) {
+                                if (floors[t].block == 1) {
                                     if (this.pounding == 10) {
                                         floors[t].ymom = this.body.radius
                                         if (floors[t].isBlocked == false) {
@@ -7223,10 +7228,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                     // if (!roofs.includes(floors[t]) || (1 == 1)) {
 
-                                        if (pomao.body.x < floors[t].x || (1 == 1)) {
-                                            this.tongueymom *= .49
-                                            this.tonguexmom *= .49
-                                        }
+                                    if (pomao.body.x < floors[t].x || (1 == 1)) {
+                                        this.tongueymom *= .49
+                                        this.tonguexmom *= .49
+                                    }
                                     // }
                                 }
                                 if (pomao.body.ymom > 0) {
@@ -7264,8 +7269,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                             }
                         } else {
-                            if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) { 
-                            if (floors[t].ungrapplable != 1) {
+                            if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
+                                if (floors[t].ungrapplable != 1) {
                                     // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                                     // this.body.y = floors[t].y-this.body.radius
                                     if (this.tongueymom < 0) {
@@ -7294,10 +7299,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                         // if (!roofs.includes(floors[t]) || (1 == 1)) {
 
-                                            if (pomao.body.x < floors[t].x || (1 == 1)) {
-                                                this.tongueymom *= .49
-                                                this.tonguexmom *= .49
-                                            }
+                                        if (pomao.body.x < floors[t].x || (1 == 1)) {
+                                            this.tongueymom *= .49
+                                            this.tonguexmom *= .49
+                                        }
                                         // }
                                     }
                                     if (pomao.body.ymom > 0) {
@@ -7388,10 +7393,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
                                 // if (!roofs.includes(floors[t]) || (1 == 1)) {
 
-                                    if (pomao.body.x < floors[t].x || (1 == 1)) {
-                                        this.tongueymom *= .49
-                                        this.tonguexmom *= .49
-                                    }
+                                if (pomao.body.x < floors[t].x || (1 == 1)) {
+                                    this.tongueymom *= .49
+                                    this.tonguexmom *= .49
+                                }
                                 // }
                             }
                             if (pomao.body.ymom > 0) {
@@ -8428,7 +8433,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                 }
                             }
-                            if(floors[t].block == 1) {
+                            if (floors[t].block == 1) {
                                 tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                             }
                         } else {
@@ -8437,7 +8442,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 tutorial_canvas_context.drawImage(nailimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                             } else {
 
-                                if(floors[t].block == 1) {
+                                if (floors[t].block == 1) {
                                     tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }
                             }
@@ -9205,7 +9210,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
 
                         tutorial_canvas_context.translate(-3, 0)
-                        
+
                         // for (let t = 0; t < fruits.length; t++) {
                         //     if (this.body.repelCheck(fruits[t].body) || fruits[t].body.repelCheck(this.tongue)) {
                         //         fruits[t].x += 2.9
@@ -20745,24 +20750,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
         return (new Shape(shape_array))
     }
 
-    function markRectangles(){
-        for(let t = 0;t<floors.length;t++){
-            if(walls.includes(floors[t])){
+    function markRectangles() {
+        for (let t = 0; t < floors.length; t++) {
+            if (walls.includes(floors[t])) {
                 floors[t].wall = 1
             }
-            if(roofs.includes(floors[t])){
+            if (roofs.includes(floors[t])) {
                 floors[t].roof = 1
             }
-            if(jellys.includes(floors[t])){
+            if (jellys.includes(floors[t])) {
                 floors[t].jelly = 1
             }
-            if(ungrapplable.includes(floors[t])){
+            if (ungrapplable.includes(floors[t])) {
                 floors[t].ungrapplable = 1
             }
-            if(blocks.includes(floors[t])){
+            if (blocks.includes(floors[t])) {
                 floors[t].block = 1
             }
-            if(nails.includes(floors[t])){
+            if (nails.includes(floors[t])) {
                 floors[t].nail = 1
             }
             floors[t].floor = 1
