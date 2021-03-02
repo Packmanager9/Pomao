@@ -6504,11 +6504,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 let dis = link.hypotenuse()  // get distance (could be a square check, rather than a function distance)
                 let t = Math.floor((angle) * this.angleincrement) // calculate the index of the angle 
                 t %= this.pomarray.length - 1 // get the index without a loop
-                angle -= Math.PI // rotate back to upright
-                if (angle < 0) {
-                    angle += Math.PI // flattened to prevent negatives
-                }
-                if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) / 50)) { // normalized to character size
+                if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) * .02)) { // normalized to character size
                     return true // collision
                 }
             } else { // same as above but for the other direction (this.dir = -1)
@@ -6517,11 +6513,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 let dis = link.hypotenuse()
                 let t = Math.floor((angle) * this.angleincrementleft)
                 t %= this.pomarrayleft.length - 1
-                angle -= Math.PI
-                if (angle < 0) {
-                    angle += Math.PI
-                }
-                if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) / 50)) {
+                if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) * .02)) {
                     return true
                 }
             }
@@ -6534,32 +6526,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 let dis = link.hypotenuse() - point.radius
                 let t = Math.floor((angle) * this.angleincrement)
                 t %= this.pomarray.length - 1
-                angle -= Math.PI
-                if (angle < 0) {
-                    angle += Math.PI
-                }
-
-                // if (angle > (this.pomarray[t].angle % Math.PI) && angle < (this.pomarray[t + 1].angle % Math.PI)) {
-                if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) / 50)) {
+                if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) * .02)) {
                     return true
                 }
-                // }
             } else {
                 let link = new LineOP(this.body, point)
                 let angle = link.angle() + Math.PI
                 let dis = link.hypotenuse() - point.radius
                 let t = Math.floor((angle) * this.angleincrementleft)
                 t %= this.pomarrayleft.length - 1
-                angle -= Math.PI
-                if (angle < 0) {
-                    angle += Math.PI
-                }
-
-                // if (angle > (this.pomarrayleft[t].angle % Math.PI) && angle < (this.pomarrayleft[t + 1].angle % Math.PI)) {
-                if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) / 50)) {
+                if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) * .02)) {
                     return true
                 }
-                // }
             }
             return false
         }
