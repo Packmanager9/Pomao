@@ -109,7 +109,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (var b = 0, t = c.buttons.length; b < t; b++) {
                     if (c.buttons[b].pressed) {
                         pressed.push(gamepadAPI.buttons[b]);
-                        //////console.log(gamepadAPI.buttons[b])
+                        // console.log(gamepadAPI.buttons[b])
                     }
                 }
             }
@@ -6466,7 +6466,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
-            console.log(this.pomarray, this.pomarrayleft)
+            // console.log(this.pomarray, this.pomarrayleft)
 
             this.angleincrement = (Math.PI * 2) / this.pomarray.length
             this.angleincrementleft = (Math.PI * 2) / this.pomarrayleft.length
@@ -8954,7 +8954,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
 
             //   if(gamepadAPI.buttonsStatus.includes('A')){
-            if (keysPressed['f'] || keysPressed['n'] || gamepadAPI.buttonsStatus.includes('DPad-Left')) {
+            if (keysPressed['f'] || keysPressed['n'] || gamepadAPI.buttonsStatus.includes('DPad-Left') || gamepadAPI.buttonsStatus.includes('Axis-Left')) {
                 // this.rooted = {}
                 if (this.jumping == 1) {
                     if (this.body.ymom > -3.5) {
@@ -19298,6 +19298,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(lvl6layer3)
         roofs.push(lvl6layer3)
 
+        door = new Rectangle(4550, 450, 200, 200, "#090909")
 
         const wormboss = new Wormboss(0, -10250)
         const wagglersubunit = new Wagglersubunit(wormboss.joints[2].x, wormboss.joints[2].y, wormboss.joints[2])
