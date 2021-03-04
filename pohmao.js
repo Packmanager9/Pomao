@@ -11416,7 +11416,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             } else {
                 this.bump = -1
             }
-            if (this.body.repelCheck(pomao.body)) {
+            if (pomao.checkRepelPomao(this.body)) {
                 if (this.body.radius >= 1) {
                     if (pomao.disabled != 1) {
                         if (pomao.pounding != 10) {
