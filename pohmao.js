@@ -659,8 +659,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         if (pomao.paused == 10) {
 
 
-            tutorialholo.box1 = new Rectangle(350, 410, 100, 130, "red")
-            tutorialholo.box2 = new Rectangle(570, 410, 100, 130, "blue")
+            tutorialholo.box1 = new Rectangle(340, 480, 100, 130, "red")
+            tutorialholo.box2 = new Rectangle(550, 480, 100, 130, "blue")
+            // tutorialholo.box1 = new Rectangle(350, 410, 100, 130, "red")
+
+            // tutorialholo.box1.draw()
+            // tutorialholo.box2.draw()
+            // tutorialholo.box2 = new Rectangle(570, 410, 100, 130, "blue")
 
             if (tutorialholo.box1.isPointInside(tip)) {
 
@@ -14420,8 +14425,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let trigger8 = new Circle(11000, 500, 1, "red")
             this.triggers.push(trigger8)
             this.chat = new Dialogue(this.body.x, this.body.y)
-            this.box1 = new Rectangle(this.chat.box.x + 50, this.chat.box.y + 50, 50, 50, "red")
-            this.box2 = new Rectangle(this.chat.box.x + 150, this.chat.box.y + 50, 50, 50, "blue")
+            this.box1 = new Rectangle(pomao.body.x + 50, pomao.body.y + 50, 50, 50, "red")
+            this.box2 = new Rectangle(pomao.body.x + 150, pomao.body.y + 50, 50, 50, "blue")
             this.controller = 0
             this.picked = 0
 
@@ -14514,7 +14519,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if (!this.chat.words.includes("Jomao: You can hold down on the left stick to pass through floors,")) {
                             this.chat = new Dialogue(this.body.x, this.body.y - 50)
                             this.chat.words.push("Jomao: You can hold down on the left stick to pass through floors,")
-                            this.chat.words.push("and you can press X to slam toward the ground")
+                            this.chat.words.push("and you can press X or the left-trigger to slam toward the ground")
                             this.chat.body.radius = 160
                             this.chat.timerbase = 200
                         }
@@ -14687,11 +14692,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.chat.complete == 1) {
                 if (triggerfinder.index == 0) {
                     if (this.picked < 1) {
-
-                        this.box1 = new Rectangle(this.chat.box.x + 350, this.chat.box.y + 50, 100, 130, "red")
-                        this.box2 = new Rectangle(this.chat.box.x + 570, this.chat.box.y + 50, 100, 130, "blue")
-                        this.box1.draw()
-                        this.box2.draw()
+                        if(this.chat.active > -1){
+                            this.box1 = new Rectangle(pomao.body.x - 300, pomao.body.y + 120, 100, 130, "red")
+                            this.box2 = new Rectangle(pomao.body.x - 90, pomao.body.y + 120, 100, 130, "blue")
+                            this.box1.draw()
+                            tutorial_canvas_context.font = "13px arial"
+                            tutorial_canvas_context.fillStyle = "white"
+                            tutorial_canvas_context.fillText('Controllery', this.box1.x+20, this.box1.y+50)
+                            this.box2.draw()
+                            tutorial_canvas_context.fillStyle = "white"
+                            tutorial_canvas_context.fillText('Keyboardy', this.box2.x+20, this.box2.y+50)
+                        }
                     } else {
 
                     }
