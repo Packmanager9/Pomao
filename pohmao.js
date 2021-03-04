@@ -194,59 +194,134 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // snowflakeimg3.src = "snowflakes3.png"
     const snowflakeimg2 = new Image()
     snowflakeimg2.src = "snowflakes2.png"
+    snowflakeimg2.onload = function () {
+        snowflakeimg2.decode()
+    }
     const snowflakeimg = new Image()
     snowflakeimg.src = "snowflakes.png"
+    snowflakeimg.onload = function () {
+        snowflakeimg.decode()
+    }
     const spikeenemyimg = new Image()
     spikeenemyimg.src = "spikeenemyimg.png"
+    spikeenemyimg.onload = function () {
+        spikeenemyimg.decode()
+    }
     const volcbg = new Image()
     volcbg.src = "vbg.png"
+    volcbg.onload = function () {
+        volcbg.decode()
+    }
     const redcircleimg = new Image()
     redcircleimg.src = "smallredcircle.png"
+    redcircleimg.onload = function () {
+        redcircleimg.decode()
+    }
     const bluecircleimg = new Image()
     bluecircleimg.src = "bluecircle.png"
+    bluecircleimg.onload = function () {
+        bluecircleimg.decode()
+    }
     const smallyellowcircle = new Image()
     smallyellowcircle.src = "smallyellowcircle.png"
+    smallyellowcircle.onload = function () {
+        smallyellowcircle.decode()
+    }
 
     const hilllump = new Image()
     hilllump.src = "hilllump.png"
+    hilllump.onload = function () {
+        hilllump.decode()
+    }
     const title = new Image()
     title.src = "tittle.png"
+    title.onload = function () {
+        title.decode()
+    }
     const crackfloorimg = new Image()
     crackfloorimg.src = "cracksheet.png"
+    crackfloorimg.onload = function () {
+        crackfloorimg.decode()
+    }
     const pomaodownpaint = new Image()
     pomaodownpaint.src = "pomaodownpaint.png"
+    pomaodownpaint.onload = function () {
+        pomaodownpaint.decode()
+    }
     const pomaodownpaintl = new Image()
     pomaodownpaintl.src = "pomaodownpaintl.png"
+    pomaodownpaintl.onload = function () {
+        pomaodownpaintl.decode()
+    }
     const pomaodownpaintb = new Image()
     pomaodownpaintb.src = "pomaodownpaintb.png"
+    pomaodownpaintb.onload = function () {
+        pomaodownpaintb.decode()
+    }
     const pomaodownpaintlb = new Image()
     pomaodownpaintlb.src = "pomaodownpaintlb.png"
+    pomaodownpaintlb.onload = function () {
+        pomaodownpaintlb.decode()
+    }
     const propimg = new Image()
     propimg.src = "propoganda.png"
+    propimg.onload = function () {
+        propimg.decode()
+    }
     const transfloor = new Image()
     transfloor.src = "hsemitrans.png"
+    transfloor.onload = function () {
+        transfloor.decode()
+    }
     const hillshadowbad = new Image()
     hillshadowbad.src = "hillshadow.png"
+    hillshadowbad.onload = function () {
+        hillshadowbad.decode()
+    }
     const hillshadow = new Image()
     hillshadow.src = "hillshadow2.png"
+    hillshadow.onload = function () {
+        hillshadow.decode()
+    }
     // const floorimg = new Image()
     // floorimg.src = "floor4.png"
     const floorimg = new Image()
     floorimg.src = "floorD.png"
+    floorimg.onload = function () {
+        floorimg.decode()
+    }
     const cloudimg = new Image()
     cloudimg.src = "cloudlist.png"
+    cloudimg.onload = function () {
+        cloudimg.decode()
+    }
     const batimg = new Image()
     batimg.src = "paintbat.png"
+    batimg.onload = function () {
+        batimg.decode()
+    }
     const blockimg = new Image()
     blockimg.src = "block.png"
+    blockimg.onload = function () {
+        blockimg.decode()
+    }
     const lvl2floorimg = new Image()
     lvl2floorimg.src = "floor5.png"
+    lvl2floorimg.onload = function () {
+        lvl2floorimg.decode()
+    }
     const lvl3floorimg = new Image()
     lvl3floorimg.src = "floor6.png"
+    lvl3floorimg.onload = function () {
+        lvl3floorimg.decode()
+    }
     // const lvl4floorimg = new Image()
     // lvl4floorimg.src = "floor7.png"
     const lvl4floorimg = new Image()
     lvl4floorimg.src = "floorpaintlvl4-3.png"
+    lvl4floorimg.onload = function () {
+        lvl4floorimg.decode()
+    }
     const lvl4fwallimg = new Image()
     lvl4fwallimg.src = "wallpaintlvl4.png"
     const lvl5floorimg = new Image()
@@ -777,7 +852,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
 
             let linkfloorer = new LineOP(this.bodies[0], pomao.body)
-            if (linkfloorer.squareDistance() > ((735 + pomao.tongue.radius + (Math.max(this.width, this.heightx) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex))*(735 + pomao.tongue.radius + (Math.max(this.width, this.heightx) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)))) {
+            if (linkfloorer.squareDistance() > ((735 + pomao.tongue.radius + (Math.max(this.width, this.heightx) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)) * (735 + pomao.tongue.radius + (Math.max(this.width, this.heightx) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)))) {
                 return 0
             }
             for (let t = 0; t < this.bodies.length; t++) {
@@ -964,14 +1039,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             const lsqr = link.squareDistance()
-            if (lsqr < ((this.length + 5)*(this.length + 5))) {
+            if (lsqr < ((this.length + 5) * (this.length + 5))) {
                 this.body.sxmom += xvec
                 this.body.symom += yvec
                 this.anchor.sxmom -= xvec
                 this.anchor.symom -= yvec
 
 
-            } else if (lsqr > ((this.length + 5)*(this.length + 5))) {
+            } else if (lsqr > ((this.length + 5) * (this.length + 5))) {
 
                 this.body.sxmom -= xvec
                 this.body.symom -= yvec
@@ -1566,14 +1641,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.anchor.ymom = ((this.anchor.ymom) + ymomentumaverage) / 2
             }
             if (this.beam.squareDistance() != 0) {
-                if (this.beam.squareDistance() < (this.length*this.length)) {
+                if (this.beam.squareDistance() < (this.length * this.length)) {
                     if (this.body != pin) {
                         this.body.xmom += (this.body.x - this.anchor.x) / (this.length) / 30
                         this.body.ymom += (this.body.y - this.anchor.y) / (this.length) / 30
                     }
                     this.anchor.xmom -= (this.body.x - this.anchor.x) / (this.length) / 30
                     this.anchor.ymom -= (this.body.y - this.anchor.y) / (this.length) / 30
-                } else if (this.beam.squareDistance() > (this.length*this.length)) {
+                } else if (this.beam.squareDistance() > (this.length * this.length)) {
 
                     if (this.body != pin) {
                         this.body.xmom -= (this.body.x - this.anchor.x) / (this.length) / 30
@@ -1665,14 +1740,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.anchor.ymom = ((this.anchor.ymom) + ymomentumaverage) / 2
 
             if (this.beam.squareDistance() != 0) {
-                if (this.beam.squareDistance() < ((this.length + 2)*(this.length + 2))) {
+                if (this.beam.squareDistance() < ((this.length + 2) * (this.length + 2))) {
                     if (this.body != pin) {
                         this.body.xmom += (this.body.x - this.anchor.x) / (this.length) / 10
                         this.body.ymom += (this.body.y - this.anchor.y) / (this.length) / 10
                     }
                     this.anchor.xmom -= (this.body.x - this.anchor.x) / (this.length) / 10
                     this.anchor.ymom -= (this.body.y - this.anchor.y) / (this.length) / 10
-                } else if (this.beam.squareDistance() > ((this.length + 2)*(this.length + 2))) {
+                } else if (this.beam.squareDistance() > ((this.length + 2) * (this.length + 2))) {
 
                     this.body.xmom -= (this.body.x - this.anchor.x) / (this.length) / 1.6
                     this.body.ymom -= (this.body.y - this.anchor.y) / (this.length) / 1.6
@@ -2998,7 +3073,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
             const link = new Line(pomao.body.x, pomao.body.y, this.body.x, this.body.y, "red", 1)
-            if (link.squareDistance() < (450*450)) {
+            if (link.squareDistance() < (450 * 450)) {
                 if (this.type == 0) {
                     this.body.xmom += (pomao.body.x - this.body.x) / 1200
                     this.body.ymom += (pomao.body.y - this.body.y) / 1200
@@ -3675,7 +3750,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     pomao.grounded = 1
                     pomao.jumping = 0
                     const rad = this.body.isPointInsideTargetedShape(pomao.body).radius
-                    if (liner.squareDistance() < ((rad + pomao.body.radius)*(rad + pomao.body.radius))) {
+                    if (liner.squareDistance() < ((rad + pomao.body.radius) * (rad + pomao.body.radius))) {
                         pomao.body.y -= 3
                         if ((Math.min(this.electron.ymom, this.positron.ymom)) < 0) {
                             pomao.body.y += (Math.min(this.electron.ymom, this.positron.ymom) * .01)
@@ -4374,7 +4449,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (keysPressed['q']) {
                 this.body.draw()
             }
-            if (this.linker.squareDistance() < (300*300)) {
+            if (this.linker.squareDistance() < (300 * 300)) {
                 if (this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
                     // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
                     // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
@@ -4566,7 +4641,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         snowThing(point) {
             let linkcheck = new LineOP(this, point)
-            if (linkcheck.squareDistance() < ((point.radius * 2)*(point.radius * 2))) {
+            if (linkcheck.squareDistance() < ((point.radius * 2) * (point.radius * 2))) {
                 return true
             }
             return false
@@ -6497,8 +6572,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 zero += this.angleincrementleft
             }
 
-            this.angleincrement = 1/this.angleincrement
-            this.angleincrementleft = 1/this.angleincrementleft
+            this.angleincrement = 1 / this.angleincrement
+            this.angleincrementleft = 1 / this.angleincrementleft
 
 
         }
@@ -6817,7 +6892,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 const linkfloorer = new LineOP(floors[t], pomao.body)
                 const rrad = ((pomao.tongue.radius + (Math.max(floors[t].width, floors[t].height) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex)))
-                if (linkfloorer.squareDistance() > rrad*rrad) {
+                if (linkfloorer.squareDistance() > rrad * rrad) {
                     continue
                 }
 
@@ -7893,13 +7968,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (typeof debris[t].link == "undefined") {
                         let link = new LineOP(debris[t].body, pomao.body)
 
-                        if (link.squareDistance() < (1200*1200)) {
+                        if (link.squareDistance() < (1200 * 1200)) {
                             debris[t].draw()
                         }
 
 
                     } else {
-                        if (debris[t].link.squareDistance() < (900*900)) {
+                        if (debris[t].link.squareDistance() < (900 * 900)) {
                             debris[t].draw()
                         }
                     }
@@ -8015,7 +8090,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             for (let t = 0; t < floors.length; t++) {
 
                 let linkfloorer = new LineOP(floors[t], pomao.body)
-                if (linkfloorer.squareDistance() > ((pomao.tongue.radius + (Math.max(floors[t].width, floors[t].height) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex) + 735)*(pomao.tongue.radius + (Math.max(floors[t].width, floors[t].height) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex) + 735))) {  //finally
+                if (linkfloorer.squareDistance() > ((pomao.tongue.radius + (Math.max(floors[t].width, floors[t].height) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex) + 735) * (pomao.tongue.radius + (Math.max(floors[t].width, floors[t].height) * 2) + (Math.abs(pomao.tonguey)) + Math.abs(pomao.tonguex) + 735))) {  //finally
                     continue
                 }
 
@@ -8304,7 +8379,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (let t = 0; t < snowfloors.length; t++) {
                     if (snowfloors[t].snowtype == 1) {
                         let link = new LineOP(snowfloors[t].body, pomao.body)
-                        if (link.squareDistance() < ((snowfloors[t].size + 66 + 735)*(snowfloors[t].size + 66 + 735))) {
+                        if (link.squareDistance() < ((snowfloors[t].size + 66 + 735) * (snowfloors[t].size + 66 + 735))) {
                             snowfloors[t].draw()
                         } else {
                             snowfloors[t].spin()
@@ -9714,12 +9789,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         collideSnowheight(point) {
             let link = new LineOP(point, this.body)
             point.angle = link.angle()
-            if (link.squareDistance() < (this.size*this.size)) {
+            if (link.squareDistance() < (this.size * this.size)) {
                 point.angle += ((this.size - link.hypotenuse()) / (this.size * 10)) * this.dir
                 point.liner = link.hypotenuse()
                 point.y = (Math.sin(point.angle) * point.liner) + this.body.y
                 point.x = (Math.cos(point.angle) * point.liner) + this.body.x
-                const lhyp = 1/(point.liner*point.liner*.5)
+                const lhyp = 1 / (point.liner * point.liner * .5)
                 point.y += (point.y - this.body.y) * lhyp
                 point.x += (point.x - this.body.x) * lhyp
                 if (point.y > this.body.y) {
@@ -9979,7 +10054,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
             // if (this.particle == 1) {
             this.angle = this.link.angle()
-            if (this.link.squareDistance() < (250*250)) {
+            if (this.link.squareDistance() < (250 * 250)) {
                 this.liner = this.link.hypotenuse()
                 this.angle += (250 - this.liner) / 2500
                 this.body.y = (Math.sin(this.angle) * this.liner) + pomao.body.y
@@ -10105,7 +10180,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             for (let t = 0; t < this.emmiter.length; t++) {
                 let link = new LineOP(this.emmiter[t], this.body)
-                if (link.squareDistance() > ((100 + this.blastage)*(100 + this.blastage))) {
+                if (link.squareDistance() > ((100 + this.blastage) * (100 + this.blastage))) {
                     this.emmiter.splice(t, 1)
                 }
             }
@@ -11285,7 +11360,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 for (let q = 0; q < this.obstacles.length; q++) {
                     let linker = new Line(this.body.x, this.body.y, this.obstacles[q].x, this.obstacles[q].y, "black", 2)
-                    const obsdist = ((this.obstacles[q].width + this.obstacles[q].height) + (this.rayrange * 5.5))*((this.obstacles[q].width + this.obstacles[q].height) + (this.rayrange * 5.5))
+                    const obsdist = ((this.obstacles[q].width + this.obstacles[q].height) + (this.rayrange * 5.5)) * ((this.obstacles[q].width + this.obstacles[q].height) + (this.rayrange * 5.5))
                     if (linker.squareDistance() < obsdist) {
                         this.obstaclesstorage.push(this.obstacles[q])
                     }
@@ -11363,7 +11438,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.health > 0) {
                 if (this.shook == 1) {
                     let dist = new Line(this.body.x, this.body.y, pomao.body.x, pomao.body.y, "red", 1)
-                    if (dist.squareDistance() > (340*340)) {
+                    if (dist.squareDistance() > (340 * 340)) {
                         this.body.xmom -= (this.body.x - pomao.body.x) / 1700
                         this.body.ymom -= (this.body.y - pomao.body.y) / 1700
 
@@ -12052,7 +12127,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         control() {
 
             let linker = new Line(pomao.body.x, pomao.body.y, this.body.x, this.body.y, "red", 10)
-            if (linker.squareDistance() < (1500*1500)) {
+            if (linker.squareDistance() < (1500 * 1500)) {
                 if (pomao.body.x > 7925) {
                     spidermusic.play()
                     if (this.joints.length > 10) {
@@ -12090,7 +12165,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         balance() {
             this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
-            const lengsqr =  (this.length*this.length)
+            const lengsqr = (this.length * this.length)
             const lsqr = this.beam.squareDistance()
             if (lsqr != 0) {
                 if (lsqr < lengsqr) {
@@ -14227,14 +14302,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             const lsqr = link.squareDistance()
-            if (lsqr< this.length - 5) {
+            if (lsqr < this.length - 5) {
                 this.body.sxmom += xvec
                 this.body.symom += yvec
                 this.anchor.sxmom -= xvec
                 this.anchor.symom -= yvec
 
 
-            } else if (lsqr > ((this.length + 5)*(this.length + 5))) {
+            } else if (lsqr > ((this.length + 5) * (this.length + 5))) {
 
                 this.body.sxmom -= xvec
                 this.body.symom -= yvec
@@ -14692,16 +14767,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.chat.complete == 1) {
                 if (triggerfinder.index == 0) {
                     if (this.picked < 1) {
-                        if(this.chat.active > -1){
+                        if (this.chat.active > -1) {
                             this.box1 = new Rectangle(pomao.body.x - 300, pomao.body.y + 120, 100, 130, "red")
                             this.box2 = new Rectangle(pomao.body.x - 90, pomao.body.y + 120, 100, 130, "blue")
                             this.box1.draw()
                             tutorial_canvas_context.font = "13px arial"
                             tutorial_canvas_context.fillStyle = "white"
-                            tutorial_canvas_context.fillText('Controllery', this.box1.x+20, this.box1.y+50)
+                            tutorial_canvas_context.fillText('Controllery', this.box1.x + 20, this.box1.y + 50)
                             this.box2.draw()
                             tutorial_canvas_context.fillStyle = "white"
-                            tutorial_canvas_context.fillText('Keyboardy', this.box2.x+20, this.box2.y+50)
+                            tutorial_canvas_context.fillText('Keyboardy', this.box2.x + 20, this.box2.y + 50)
                         }
                     } else {
 
@@ -18863,7 +18938,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let bang = 0
             for (let k = 0; k < beamrocks.length; k++) {
                 let link = new Line(bossrock.x, bossrock.y, beamrocks[k].x, beamrocks[k].y, "red", 2)
-                if (link.squareDistance() < (245*245)) {
+                if (link.squareDistance() < (245 * 245)) {
                     bang = 1
                 }
             }
@@ -19119,7 +19194,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let click = 0
             for (let k = 0; k < orbs.length; k++) {
                 let link = new Line(orb.body.x, orb.body.y, orbs[k].body.x, orbs[k].body.y, "green", 3)
-                if (link.squareDistance() < (350*350)) {
+                if (link.squareDistance() < (350 * 350)) {
                     click = 1
                 }
             }
@@ -19138,7 +19213,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     let link = new Line(orbs[t].body.x, orbs[t].body.y, orbs[k].body.x, orbs[k].body.y, "white", .3)
 
                     // //console.log(link)
-                    if (link.squareDistance() < (685*685)) {
+                    if (link.squareDistance() < (685 * 685)) {
                         links.push([t, k])
                     }
                 }
