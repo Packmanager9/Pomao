@@ -199,6 +199,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     const snowflakeimg = new Image()
     snowflakeimg.src = "snowflakes.png"
+    const bossflake = new Image()
+    bossflake.src = "flake37.png"
     snowflakeimg.onload = function () {
         snowflakeimg.decode()
     }
@@ -814,6 +816,98 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     });
+
+    class Snowboss {
+        constructor(x, y) {
+            this.ring1 = []
+            this.ring2 = []
+            this.center = new Point(x, y)
+            this.dis = 0
+            this.angle = 0
+            for (let t = 0; t < 600; t++) {
+                let circ = {}
+                circ.x = this.center.x + (Math.cos(this.angle) * this.dis)
+                circ.y = (Math.sin(this.angle) * this.dis)
+                circ.goal = {}
+                circ.goal.x = this.center.x + (Math.cos(this.angle) * this.dis)
+                circ.goal.y = (Math.sin(this.angle) * this.dis)
+                circ.radius = 10 * (Math.random() + .15)
+                circ.friction = .5
+                circ.xmom = 0
+                circ.ymom = 0
+                this.dis += 1
+                this.angle += .1
+                if(t%200 == 0){
+                    this.dis = 0
+                    this.angle = 0
+                }
+                this.ring1.push(circ)
+            }
+            for (let t = 0; t < 200; t++) {
+                let circ = {}
+                circ.x = this.center.x + (Math.cos(this.angle) * this.dis)
+                circ.y = (Math.sin(this.angle) * this.dis)
+                circ.goal = {}
+                circ.goal.x = this.center.x + (Math.cos(this.angle) * this.dis)
+                circ.goal.y = (Math.sin(this.angle) * this.dis)
+                circ.radius = 10 * (Math.random() + .15)
+                circ.friction = .92
+                circ.xmom = 0
+                circ.ymom = 0
+                // this.dis+=1
+                this.angle += .1
+                this.ring2.push(circ)
+            }
+        }
+        draw() {
+            this.navigate()
+            for (let t = 0; t < this.ring1.length; t++) {
+                tutorial_canvas_context.drawImage(bossflake, 0, 0, bossflake.width, bossflake.height, this.ring1[t].x - this.ring1[t].radius, this.ring1[t].y - this.ring1[t].radius, this.ring1[t].radius * 2, this.ring1[t].radius * 2)
+            }
+            for (let t = 0; t < this.ring2.length; t++) {
+                tutorial_canvas_context.drawImage(bossflake, 0, 0, bossflake.width, bossflake.height, this.ring2[t].x - this.ring2[t].radius, this.ring2[t].y - this.ring2[t].radius, this.ring2[t].radius * 2, this.ring2[t].radius * 2)
+            }
+        }
+
+        navigate() {
+            for (let t = 0; t < this.ring1.length; t++) {
+                this.ring1[t].xmom -= (this.ring1[t].x - this.ring1[t].goal.x) / 120 + ((Math.random() - .5) * 2)
+                this.ring1[t].ymom -= (this.ring1[t].y - this.ring1[t].goal.y) / 120 + ((Math.random() - .5) * 2)
+
+                    this.ring1[t].xmom -= (this.ring1[t].x - this.center.x) / 520 + ((Math.random() - .5) * 2)
+                    this.ring1[t].ymom -= (this.ring1[t].y - this.center.y) / 520 + ((Math.random() - .5) * 2)
+                
+            this.ring1[t].x += this.ring1[t].xmom
+            this.ring1[t].y += this.ring1[t].ymom
+             this.ring1[t].xmom *= this.ring1[t].friction
+             this.ring1[t].ymom *= this.ring1[t].friction
+            }
+            for (let t = 0; t < this.ring2.length; t++) {
+                this.ring2[t].xmom -= (this.ring2[t].x - this.ring2[t].goal.x) / 120 + ((Math.random() - .5) * 2)
+                this.ring2[t].ymom -= (this.ring2[t].y - this.ring2[t].goal.y) / 120 + ((Math.random() - .5) * 2)
+
+                    this.ring2[t].xmom -= (this.ring2[t].x - this.center.x) / 520 + ((Math.random() - .5) * 2)
+                    this.ring2[t].ymom -= (this.ring2[t].y - this.center.y) / 520 + ((Math.random() - .5) * 2)
+ 
+                this.ring2[t].x += this.ring2[t].xmom
+                this.ring2[t].y += this.ring2[t].ymom
+                this.ring2[t].xmom *= this.ring2[t].friction
+                this.ring2[t].ymom *= this.ring2[t].friction
+            }
+        }
+        swapgoal(point) {
+            let stox = this.goal.x
+            let stoy = this.goal.y
+            this.goal.x = point.goal.x
+            this.goal.y = point.goal.y
+            point.goal.x = stox
+            point.goal.y = stoy
+        }
+
+
+
+
+    }
 
     class Snowfloor {
         constructor(x, y, h, w, disp = 0) {
@@ -4646,7 +4740,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
             let linewidthstorage = tutorial_canvas_context.lineWidth
             tutorial_canvas_context.strokeStyle = this.color
-            tutorial_canvas_context.lineWidth = Math.min(this.object.radius*1.8, chafer.body.radius*.7)
+            tutorial_canvas_context.lineWidth = Math.min(this.object.radius * 1.8, chafer.body.radius * .7)
             tutorial_canvas_context.beginPath()
             tutorial_canvas_context.moveTo(this.object.x, this.object.y)
             tutorial_canvas_context.lineTo(this.target.x, this.target.y)
@@ -8530,6 +8624,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
                 if (level == 10) {
+                    // boss.draw()
                     // for(let t = 0;t<floors.length;t+=3){
                     level10basemusic.play()
                     for (let k = 0; k < snows.length; k++) {
@@ -11622,14 +11717,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if (k % 2 == 0) {
                             spring = new ChSpring(spring.anchor, "black")
                             spring.anchor.radius = rigradius
-                            spring.health = rigradius *  14 //10 //8
+                            spring.health = rigradius * 14 //10 //8
                             rigradius -= 2.4
                             this.legs.push(spring)
                             this.joints.push(spring.anchor)
                         } else {
                             spring = new ChSpring(spring.anchor, "red")
                             spring.anchor.radius = rigradius
-                            spring.health = rigradius *  14 //10 //8
+                            spring.health = rigradius * 14 //10 //8
                             rigradius -= 2.4
                             this.legs.push(spring)
                             this.joints.push(spring.anchor)
@@ -12176,11 +12271,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.body.xmom -= (this.body.x - pomao.body.x) / 45
                         this.body.ymom -= (this.body.y - pomao.body.y) / 45
 
-                        
-                while (Math.abs(this.body.xmom) + Math.abs(this.body.ymom) < 11) {
-                    this.body.xmom*= 1.05
-                    this.body.ymom*= 1.05
-                }
+
+                        while (Math.abs(this.body.xmom) + Math.abs(this.body.ymom) < 11) {
+                            this.body.xmom *= 1.05
+                            this.body.ymom *= 1.05
+                        }
 
 
                     }
@@ -20419,7 +20514,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         lavas.splice(0, lavas.length)
         pomao.thrown = []
 
-        boss = new Circle(0, 0, 0, "transparent")
+        // boss = new Circle(0, 0, 0, "transparent")
+        boss = new Snowboss(-1000, -400)
         //  pomao.eggmake = 161
         // boss = new Bossbeam()
 
