@@ -4621,6 +4621,40 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.closePath();
         }
     }
+    class LineCHOP {
+        constructor(object, target, color, width) {
+            this.object = object
+            this.target = target
+            this.color = color
+            this.width = width
+        }
+        angle() {
+            return Math.atan2(this.object.y - this.target.y, this.object.x - this.target.x)
+        }
+        hypotenuse() {
+            let xdif = this.object.x - this.target.x
+            let ydif = this.object.y - this.target.y
+            let hypotenuse = (xdif * xdif) + (ydif * ydif)
+            return Math.sqrt(hypotenuse)
+        }
+        squareDistance() {
+            let xdif = this.object.x - this.target.x
+            let ydif = this.object.y - this.target.y
+            let hypotenuse = (xdif * xdif) + (ydif * ydif)
+            return (hypotenuse)
+        }
+        draw() {
+            let linewidthstorage = tutorial_canvas_context.lineWidth
+            tutorial_canvas_context.strokeStyle = this.color
+            tutorial_canvas_context.lineWidth = Math.min(this.object.radius*1.8, chafer.body.radius*.7)
+            tutorial_canvas_context.beginPath()
+            tutorial_canvas_context.moveTo(this.object.x, this.object.y)
+            tutorial_canvas_context.lineTo(this.target.x, this.target.y)
+            tutorial_canvas_context.stroke()
+            tutorial_canvas_context.lineWidth = linewidthstorage
+            tutorial_canvas_context.closePath();
+        }
+    }
     class Rectangle {
         constructor(x, y, height, width, color) {
             this.wall = 0
@@ -11585,17 +11619,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
                     for (let k = 0; k < 8; k++) {
-                        spring = new ChSpring(spring.anchor)
-                        spring.anchor.radius = rigradius
-                        spring.health = rigradius * 10 //8
-                        rigradius -= 2.4
                         if (k % 2 == 0) {
-                            spring.anchor.color = "red"
+                            spring = new ChSpring(spring.anchor, "black")
+                            spring.anchor.radius = rigradius
+                            spring.health = rigradius *  14 //10 //8
+                            rigradius -= 2.4
+                            this.legs.push(spring)
+                            this.joints.push(spring.anchor)
                         } else {
-                            spring.anchor.color = "purple"
+                            spring = new ChSpring(spring.anchor, "red")
+                            spring.anchor.radius = rigradius
+                            spring.health = rigradius *  14 //10 //8
+                            rigradius -= 2.4
+                            this.legs.push(spring)
+                            this.joints.push(spring.anchor)
                         }
-                        this.legs.push(spring)
-                        this.joints.push(spring.anchor)
                     }
                     this.tips.push(spring.anchor)
                 } else {
@@ -11611,24 +11649,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
                     for (let k = 0; k < 8; k++) {
-                        spring = new ChSpring(spring.anchor)
-                        spring.anchor.radius = rigradius
                         if (k % 2 == 0) {
-                            spring.anchor.color = "red"
+                            spring = new ChSpring(spring.anchor, "purple")
+                            spring.anchor.radius = rigradius
+                            spring.health = rigradius * 14//10 // 8
+                            rigradius -= 2.4
+                            this.legs.push(spring)
+                            this.joints.push(spring.anchor)
                         } else {
-                            spring.anchor.color = "#090909"
+                            spring = new ChSpring(spring.anchor, "#FF0000")
+                            spring.anchor.radius = rigradius
+                            spring.health = rigradius * 10 // 8
+                            rigradius -= 2.4
+                            this.legs.push(spring)
+                            this.joints.push(spring.anchor)
                         }
-                        spring.health = rigradius * 10 // 8
-                        rigradius -= 2.4
-                        this.legs.push(spring)
-                        this.joints.push(spring.anchor)
                     }
                     this.arms.push(spring.anchor)
                 }
             }
             for (let t = 0; t < this.tips.length; t++) {
                 this.tips[t].radius = 24
-                this.tips[t].color = "green"
+                this.tips[t].color = "#FF0000"
             }
             for (let t = 0; t < this.arms.length; t++) {
                 this.arms[t].radius = 18
@@ -12133,11 +12175,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.joints.length > 10) {
                         this.body.xmom -= (this.body.x - pomao.body.x) / 45
                         this.body.ymom -= (this.body.y - pomao.body.y) / 45
+
+                        
+                while (Math.abs(this.body.xmom) + Math.abs(this.body.ymom) < 11) {
+                    this.body.xmom*= 1.05
+                    this.body.ymom*= 1.05
+                }
+
+
                     }
                     for (let t = 0; t < this.arms.length; t++) {
                         if (this.arms[t] != this.body) {
-                            this.arms[t].xmom -= (this.body.x - pomao.body.x) / 600  //700  //959
-                            this.arms[t].ymom -= (this.body.y - pomao.body.y) / 600
+                            this.arms[t].xmom -= (this.body.x - pomao.body.x) / 500 //600  //700  //959
+                            this.arms[t].ymom -= (this.body.y - pomao.body.y) / 500 //600
                             this.arms[t].xmom += 11 * (Math.random() - .5)
                             this.arms[t].ymom += 11 * (Math.random() - .5)
                         }
@@ -12148,23 +12198,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     class ChSpring {
-        constructor(body = 0) {
+        constructor(body = 0, color = body.color) {
             if (body == 0) {
                 this.body = new Circle(350, 350, 8, "red", 10, 10)
-                this.anchor = new Circle(this.body.x, this.body.y + 5, 3, "red")
-                this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+                this.anchor = new Circle(this.body.x, this.body.y + 5, 3, color)
+                this.beam = new LineCHOP(this.body, this.anchor, this.body.color, this.anchor.radius)
                 this.length = .01
             } else {
                 this.body = body
                 this.length = .1
-                this.anchor = new Circle(this.body.x - ((Math.random() - .5) * 10), this.body.y - ((Math.random() - .5) * 10), 8, "red")
-                this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+                this.anchor = new Circle(this.body.x - ((Math.random() - .5) * 10), this.body.y - ((Math.random() - .5) * 10), 8, color)
+                this.beam = new LineCHOP(this.body, this.anchor, this.body.color, this.anchor.radius)
             }
             this.health = 160
 
         }
         balance() {
-            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
+            // this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", 5)
             const lengsqr = (this.length * this.length)
             const lsqr = this.beam.squareDistance()
             if (lsqr != 0) {
@@ -12210,13 +12260,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.anchor.ymom = ((this.anchor.ymom) + ymomentumaverage) / 2
         }
         draw() {
-            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", this.anchor.radius)
+            // this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", this.anchor.radius)
             this.beam.draw()
             this.body.chdraw()
             this.anchor.chdraw()
         }
         xdraw() {
-            this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", this.anchor.radius)
+            // this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "yellow", this.anchor.radius)
             this.beam.draw()
             this.body.chdraw()
             // this.anchor.chdraw()
@@ -19016,6 +19066,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         beamrocks = []
         pomao.cutscene = 0
         level = 5
+
 
 
         tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
