@@ -493,6 +493,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     rebellionbossimg.src = 'eyepatchtwoscarqueen.png'
     const rebellionbossimgleft = new Image()
     rebellionbossimgleft.src = 'eyepatchlessqueen.png'
+    const peamaoimg = new Image()
+    peamaoimg.src = 'peamao.png'
+    const peamaoimgl = new Image()
+    peamaoimgl.src = 'peamaol.png'
 
     const pawmaoimg = new Image()
     pawmaoimg.src = 'pawmao.png'
@@ -1693,6 +1697,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.body = new Circle(350, 350, 5, "red", 10, 10)
                 this.anchor = new Circle(this.body.x, this.body.y + 5, 5, "red")
                 this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "green", 5)
+
+            // this.beam = new LineOP(this.body, this.anchor, "green", 5)
                 this.length = 1
             } else {
                 this.body = body
@@ -1702,6 +1708,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     objsprings.push(this.anchor)
                 }
                 this.beam = new Line(this.body.x, this.body.y, this.anchor.x, this.anchor.y, "green", 5)
+
+            // this.beam = new LineOP(this.body, this.anchor, "green", 5)
             }
             this.anchor.marked = 0
             this.anchor.xdif = 0
@@ -1711,7 +1719,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         }
         balance() {
-            this.beam = new LineOP(this.body, this.anchor, "green", 5)
             let xmomentumaverage
             let ymomentumaverage
             if (this.anchor != pin2) {
@@ -4522,6 +4529,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.type < 10) {
 
 
+                    // tutorial_canvas_context.drawImage(peamaoimg, 0, 0, peamaoimg.width, peamaoimg.height, this.x, this.y - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), 35, 40)
                 if (!keysPressed['q']) {
                     if (pomao.tripping <= 0) {
                         tutorial_canvas_context.drawImage(fruitsprites, srcx, srcy, width, height, this.x, this.y, this.width, this.height)
@@ -8084,6 +8092,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     tutorial_canvas_context.drawImage(rebellionbossimg, 0, 0, rebellionbossimg.width, rebellionbossimg.height, 100, -100 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), queenxpos, rebelqueenheight)
                 } else {
                     tutorial_canvas_context.drawImage(rebellionbossimgleft, 0, 0, rebellionbossimgleft.width, rebellionbossimgleft.height, 100, -100 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), queenxpos, rebelqueenheight)
+                }
+
+                let peamaoheight = 36 + (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9)
+
+                let peamaoxpos = -40
+                if (pomao.body.x > peamaoxpos + -400) {
+                    tutorial_canvas_context.drawImage(peamaoimg, 0, 0, peamaoimg.width, peamaoimg.height, -400, -390 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), peamaoxpos, peamaoheight)
+                } else {
+                    tutorial_canvas_context.drawImage(peamaoimgl, 0, 0, peamaoimg.width, peamaoimg.height, -400, -390 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), peamaoxpos, peamaoheight)
                 }
             }
 
@@ -11968,7 +11985,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             this.tipsOn.push(dummypin)
             // //console.log(this.tipsOn)
-            let link = new Line(this.tips[this.leg].x, this.tips[this.leg].y, dummypin.x, dummypin.y, "red", 2)
+            // let link = new Line(this.tips[this.leg].x, this.tips[this.leg].y, dummypin.x, dummypin.y, "red", 2)
             // link.draw()
             this.tips[this.leg].symom -= (this.tips[this.leg].y - dummypin.y) / 150  //350  //250
             this.tips[this.leg].sxmom -= (this.tips[this.leg].x - dummypin.x) / 150
@@ -16739,7 +16756,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 7) {
                             tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
                         } else if (level == 8) {
+                            tutorial_canvas_context.globalAlpha = 0.5;
                             tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 9) {
 
                             tutorial_canvas.style.background = `rgba(0, 0, 0,${1})` // "#8888CC"
@@ -20223,6 +20242,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //     floor.type = 1
         // }
 
+        let peamaofloor = new Rectangle(-2100, -354, 50, 2200)
+        floors.push(peamaofloor)
+        walls.push(peamaofloor)
+        roofs.push(peamaofloor)
+
 
         let rebellionleaderdiailogue = new Dialogue(105, -68)
         rebellionleaderdiailogue.words.push("???: What the...")
@@ -20241,6 +20265,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
         rebellionleaderdiailogue.words.push("Pomao: Oh.")
         rebellionleaderdiailogue.words.push("???: Welcome to the resistance I guess.")
         chats.push(rebellionleaderdiailogue)
+
+        // let peamaofruit = new Fruit(-394, -394, 60, 60, "red")
+        // fruits.push(peamaofruit)
+
+
+        let peachmaodialogue = new Dialogue(-380, -428)
+        peachmaodialogue.words.push("Peamao: Hey, I'm Peamao, when did you join up?")
+        peachmaodialogue.words.push("Pomao: I guess after I broke out of jail.")
+        peachmaodialogue.words.push("Peamao: That's cool, I've never been in jail.")
+        peachmaodialogue.words.push("Pomao: It's kinda cold.")
+        peachmaodialogue.words.push("Peamao: Oh.")
+        chats.push(peachmaodialogue)
 
 
 
