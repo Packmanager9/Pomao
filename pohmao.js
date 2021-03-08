@@ -502,6 +502,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const podmaoimgl = new Image()
     podmaoimgl.src = 'podmaol.png'
 
+    const treemaoimg = new Image()
+    treemaoimg.src = 'treemao.png'
+    const treemaoimgl = new Image()
+    treemaoimgl.src = 'treemaol.png'
+
     const pawmaoimg = new Image()
     pawmaoimg.src = 'pawmao.png'
 
@@ -8114,6 +8119,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     tutorial_canvas_context.drawImage(podmaoimg, 0, 0, podmaoimg.width, podmaoimg.height, -750, -434 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), podmaoxpos, podmaoheight)
                 } else {
                     tutorial_canvas_context.drawImage(podmaoimgl, 0, 0, podmaoimgl.width, podmaoimgl.height, -750, -434 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), podmaoxpos, podmaoheight)
+                }
+
+                let treemaoheight = 70 + (Math.sin(((pomao.timeloop * .5) + 5.14)) * 1.9)
+
+                let treemaoxpos = -77
+                if (pomao.body.x > peamaoxpos + -1080) {
+                    tutorial_canvas_context.drawImage(treemaoimg, 0, 0, treemaoimg.width, treemaoimg.height, -1050, -424 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * 1.9), treemaoxpos, treemaoheight)
+                } else {
+                    tutorial_canvas_context.drawImage(treemaoimgl, 0, 0, treemaoimgl.width, treemaoimgl.height, -1050, -424 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * 1.9), treemaoxpos, treemaoheight)
                 }
             }
 
@@ -20292,11 +20306,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
         chats.push(peachmaodialogue)
 
 
-        let podmaodialogue = new Dialogue(-730, -428)
+        let podmaodialogue = new Dialogue(-750, -428)
         podmaodialogue.words.push("Podmao: I'm Podmao, Peamao's twin brother.")
         podmaodialogue.words.push("Pomao: Hi.")
         podmaodialogue.words.push("Podmao: If you like him better, there's no accounting for taste.")
         chats.push(podmaodialogue)
+
+
+        let treemaodialogue = new Dialogue(-1050, -428)
+        treemaodialogue.words.push("Treemao: What-it-is my friend, I'm Treemao.")
+        treemaodialogue.words.push("Pomao: Hi Treemao, why do they call you that?")
+        treemaodialogue.words.push("Treemao: No clue.")
+        chats.push(treemaodialogue)
 
 
 
