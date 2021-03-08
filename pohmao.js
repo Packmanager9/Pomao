@@ -497,6 +497,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     peamaoimg.src = 'peamao.png'
     const peamaoimgl = new Image()
     peamaoimgl.src = 'peamaol.png'
+    const podmaoimg = new Image()
+    podmaoimg.src = 'podmao.png'
+    const podmaoimgl = new Image()
+    podmaoimgl.src = 'podmaol.png'
 
     const pawmaoimg = new Image()
     pawmaoimg.src = 'pawmao.png'
@@ -699,7 +703,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 
     const tutorial_canvas = document.getElementById("tutorial");
-    const tutorial_canvas_context = tutorial_canvas.getContext('2d');
+    const tutorial_canvas_context = tutorial_canvas.getContext('2d', { alpha: false });
 
     // tutorial_canvas_context.scale(.075,.075)
     // tutorial_canvas_context.scale(.1,.1)
@@ -8101,6 +8105,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     tutorial_canvas_context.drawImage(peamaoimg, 0, 0, peamaoimg.width, peamaoimg.height, -400, -390 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), peamaoxpos, peamaoheight)
                 } else {
                     tutorial_canvas_context.drawImage(peamaoimgl, 0, 0, peamaoimg.width, peamaoimg.height, -400, -390 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), peamaoxpos, peamaoheight)
+                }
+
+                let podmaoheight = 81 + (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9)
+
+                let podmaoxpos = -90
+                if (pomao.body.x > peamaoxpos + -780) {
+                    tutorial_canvas_context.drawImage(podmaoimg, 0, 0, podmaoimg.width, podmaoimg.height, -750, -434 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), podmaoxpos, podmaoheight)
+                } else {
+                    tutorial_canvas_context.drawImage(podmaoimgl, 0, 0, podmaoimgl.width, podmaoimgl.height, -750, -434 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * .9), podmaoxpos, podmaoheight)
                 }
             }
 
@@ -20277,6 +20290,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         peachmaodialogue.words.push("Pomao: It's kinda cold.")
         peachmaodialogue.words.push("Peamao: Oh.")
         chats.push(peachmaodialogue)
+
+
+        let podmaodialogue = new Dialogue(-730, -428)
+        podmaodialogue.words.push("Podmao: I'm Podmao, Peamao's twin brother.")
+        podmaodialogue.words.push("Pomao: Hi.")
+        podmaodialogue.words.push("Podmao: If you like him better, there's no accounting for taste.")
+        chats.push(podmaodialogue)
 
 
 
