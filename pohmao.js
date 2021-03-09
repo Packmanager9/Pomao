@@ -13,7 +13,7 @@
 let snowfloor = {}
 let lvl9rotationalvariable = 0
 let level = 1
-const zimgs = []
+// const zimgs = []
 let pmarinedisp = 0
 let jailswitch = 0
 let loader = 1
@@ -31,12 +31,12 @@ const magnets = []
 let floormpf = []
 // const gamepads
 
-for (let i = 1; i < 44; i++) {
-    zimgs.push(Object.assign(new Image(), { 'src': `z - ${i} copy-min.png` }));
-}
-for (let t = 42; t > 0; t--) {
-    zimgs.push(zimgs[t])
-}
+// for (let i = 1; i < 44; i++) {
+    // zimgs.push(Object.assign(new Image(), { 'src': `z - ${i} copy-min.png` }));
+// }
+// for (let t = 42; t > 0; t--) {
+    // zimgs.push(zimgs[t])
+// }
 // //console.log(zimgs)
 
 const rimgs = []
@@ -2709,9 +2709,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.runnery > 2) {
                         this.runnery = 0
                         this.sheet += this.runnerxd
-                        if (this.sheet >= zimgs.length - 1) {
-                            this.runnerxd *= -1
-                        }
+                        // if (this.sheet >= zimgs.length - 1) {
+                        //     this.runnerxd *= -1
+                        // }
 
                     }
                 }
@@ -2755,13 +2755,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
 
-            this.sheet %= zimgs.length - 1
-            if (this.sheet < 0) {
-                this.sheet = 0
-            }
-            if (this.sheet == 0) {
-                this.runnerxd *= -1
-            }
+            // this.sheet %= zimgs.length - 1
+            // if (this.sheet < 0) {
+            //     this.sheet = 0
+            // }
+            // if (this.sheet == 0) {
+            //     this.runnerxd *= -1
+            // }
         }
     }
 
@@ -17545,14 +17545,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         if (pomao.tripping > 0) {
             // if(Math.random()<.5){
             // //////console.time("frac")
-            const sheetwidtht = zimgs[0].width
-            const sheetheightt = zimgs[0].height
-            const colst = 3
-            const rowst = 3
-            const widtht = sheetwidtht / colst
-            const heightt = sheetheightt / rowst
-            const srcxt = Math.floor(fractal.runnerx % colst) * widtht
-            const srcyt = Math.floor(fractal.runnery % rowst) * heightt
+            // const sheetwidtht = zimgs[0].width
+            // const sheetheightt = zimgs[0].height
+            // const colst = 3
+            // const rowst = 3
+            // const widtht = sheetwidtht / colst
+            // const heightt = sheetheightt / rowst
+            // const srcxt = Math.floor(fractal.runnerx % colst) * widtht
+            // const srcyt = Math.floor(fractal.runnery % rowst) * heightt
 
             if (fractal.sheet < 0) {
                 fractal.sheet = 0
