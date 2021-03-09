@@ -1,4 +1,15 @@
 
+    let redx = 0
+    let greenx = 0
+    let bluex = 0
+    let blueflip = 0
+    let redflip = 0
+    let greenflip = 0
+    let counterfrac = {}
+    counterfrac.x = 0
+    counterfrac.y = 0
+    counterfrac.xmom = (Math.random()-.5)*.01
+    counterfrac.ymom = (Math.random()-.5)*.01
 let snowfloor = {}
 let lvl9rotationalvariable = 0
 let level = 1
@@ -4624,7 +4635,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
 
                     if (this.type2 == 9) {
+                        fractal_canvas_context.clearRect(0,0,fractal_canvas.width, fractal_canvas.height)
                         pomao.tripping = 820
+                        redx = Math.random()*10
+                        greenx = Math.random()*10
+                        bluex = Math.random()*10
+                        redflip = Math.floor(Math.random()*2)
+                        greenflip = Math.floor(Math.random()*2)
+                        blueflip = Math.floor(Math.random()*2)	
+                        counterfrac.x = 0
+                        counterfrac.y = 0
+                        counterfrac.xmom = (Math.random()-.5)*.1
+                        counterfrac.ymom = (Math.random()-.5)*.1
+                        punch = new Complex((1.6*(Math.random()-.5)), (1.6*(Math.random()-.5)))
                     }
                     if (this.type == 2) {
                         if (this.type2 == 1) {
@@ -17132,6 +17155,40 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             lvl9rotationalvariable++
+            // positionUpdate()
+
+            if(pomao.tripping == 410){
+                counterfrac.ymom*=-1
+                counterfrac.xmom*=-1
+            }
+        if(pomao.tripping%4 == 1){
+            FLEX_engine = fractal_canvas.getBoundingClientRect();
+            XS_engine = 320 + counterfrac.y
+            YS_engine = 180 + counterfrac.x
+            TIP_engine.x = XS_engine
+            TIP_engine.y = YS_engine
+            TIP_engine.body = TIP_engine
+            rect.color = "black"
+            rect.draw()
+
+    counterfrac.x += counterfrac.xmom*100
+    counterfrac.y += counterfrac.ymom *100
+    
+            
+            halfCanvasW = fractal_canvas.width * .5
+            halfCanvasH = fractal_canvas.height * .5
+            
+
+            imgOffset =  punch.imaginary - XS_engine/ halfCanvasW + 1
+            realOffset = punch.real * punch.imaginary + YS_engine/ halfCanvasH - 1
+            punch.x +=
+    
+            continued_stimulis()
+            }
+
+            // for(let t =0;t<3;t++){
+            //     tutorial_canvas_context.drawImage(tutorial_canvas, 0, 0, 1280, 720, pomao.body.x - 320, pomao.body.y - 180, 640, 360)
+            // }
         }, 11)
 
     }, 1);  //6969
@@ -17501,7 +17558,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 fractal.sheet = 0
             }
             // //console.log(fractal.sheet, zimgs[fractal.sheet%zimgs.length])
-            tutorial_canvas_context.drawImage(zimgs[fractal.sheet % zimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            // tutorial_canvas_context.drawImage(zimgs[fractal.sheet % zimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 640, 360, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            // tutorial_canvas_context.drawImage(tutorial_canvas, 0, 0, 1280, 720, pomao.body.x - 320, pomao.body.y - 180, 640, 360)
+            // tutorial_canvas_context.drawImage(fractal_canvas, 1, 0, 320, 180, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            // tutorial_canvas_context.drawImage(fractal_canvas, 2, 0, 320, 180, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            // tutorial_canvas_context.drawImage(fractal_canvas, 3, 0, 320, 180, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
             //tutorial_canvas_context.drawImage(zimgs[fractal.sheet], 0, 0, widtht*3, heightt*3, pomao.body.x-640, pomao.body.y-360, 1280, 720)
 
             //  //////console.timeEnd("frac")
@@ -20818,6 +20881,120 @@ window.addEventListener('DOMContentLoaded', (event) => {
         markRectangles()
     }
 
+
+    // loadlvl11()
+    function loadlvl11() {
+
+        pomao.tonguex = 0
+        pomao.tonguey = 0
+        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
+        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
+        springs = []
+        objsprings = []
+
+        // objsprings.push(pin2)
+
+        // let spring = new Spring(pin)
+        // springs.push(spring)
+        // for(let k = 0; k<33;k++){
+        //     spring = new Spring(spring.anchor)
+        //     if(k < 32){
+        //         springs.push(spring)
+        //     }else if(k == 32 ){
+        //         spring.anchor = pin2
+        //         springs.push(spring)
+        //     }
+        // }
+
+        beamrocks = []
+        pomao.cutscene = 0
+        level = 11
+
+
+        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
+        pomao.body.x = -1000
+        pomao.body.y = 0
+        spinnys.splice(0, spinnys.length)
+        ramps90 = []
+        swimmers = []
+        bats = []
+        floors.splice(0, floors.length)
+        ramps = []
+        boys.splice(0, boys.length)
+        deadboys.splice(0, deadboys.length)
+        fruits.splice(0, fruits.length)
+        walls.splice(0, walls.length)
+        invisblocks = []
+        ungrapplable = []
+        jellys = []
+        roofs.splice(0, roofs.length)
+        switches = []
+        blocks = []
+        nails = []
+        chats = []
+        orbs = []
+        links = []
+        worms.splice(0, worms.length)
+        debris.splice(0, debris.length)
+        magnets.splice(0, magnets.length)
+
+        floppers.splice(0, floppers.length)
+        lavas.splice(0, lavas.length)
+        snowfloors.splice(0, snowfloors.length)
+        pomao.thrown = []
+
+        boss = new Circle(0, 0, 0, "transparent")
+        //  pomao.eggmake = 161
+        // boss = new Bossbeam()
+
+        let magnet = new Magneato(-100, -500)
+        magnets.push(magnet)
+
+        let leaderblock = new Rectangle(112, -33, 68, 50)
+
+        walls.push(leaderblock)
+        floors.push(leaderblock)
+        roofs.push(leaderblock)
+
+        let floorlvl11 = new Rectangle(-2100, 33, 500, 22000)
+        floors.push(floorlvl11)
+        walls.push(floorlvl11)
+        roofs.push(floorlvl11)
+
+        let jelly = new Rectangle(-2100, -1000, 1033, 22000, "#00ffff88")
+
+        
+        floors.push(jelly)
+        jellys.push(jelly)
+
+
+        const wall1 = new Rectangle(-2100, -30000, 30033, 50, "cyan")
+        walls.push(wall1)
+        floors.push(wall1)
+        roofs.push(wall1)
+        // ungrapplable.push(wall1)
+
+        const wall2 = new Rectangle(11600, -30000, 30033, 50, "cyan")
+        walls.push(wall2)
+        floors.push(wall2)
+        roofs.push(wall2)
+
+        floormpf = [...floors]
+
+        // let spinny = new BigSeeSaw(-1200, -301, 5)
+        // spinnys.push(spinny)
+
+        // let spinny2 = new BigSeeSaw(-100, -701, 7.5)
+        // spinnys.push(spinny2)
+
+        // let spinny3 = new BigSeeSaw(1600, -1401, 10)
+        // spinnys.push(spinny3)
+
+        markRectangles()
+    }
+
+
+
     function getTextWidth(text, font) {
         // re-use canvas object for better performance
         var canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
@@ -20863,6 +21040,214 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
+    let speed = 1
+    class Complex {
+        constructor(r = 0, i = 0) {
+            this.imaginary = i
+            this.real = r
+        }
+        add(target) {
+            this.imaginary += target.imaginary
+            this.real += target.real
+            return this.clone()
+        }
+        subtract(target) {
+            this.imaginary -= target.imaginary
+            this.real -= target.real
+            return this.clone()
+        }
+        multiply(target) {
+            let loss = this.imaginary * target.imaginary
+            let igain1 = this.real * target.imaginary
+            let igain2 = this.imaginary * target.real
+            let gain = this.real * target.real
+            let out = new Complex(gain - loss, igain1 + igain2)
+            return out
+        }
+        clone() {
+            return new Complex(this.real, this.imaginary)
+        }
+        divide(target) {
+            let num1, num2;
+            num1 = this.clone()
+            num2 = target.clone()
+            var denom = num2.imaginary * num2.imaginary + num2.real * num2.real;
+            var real = (num1.real * num2.real + num1.imaginary * num2.imaginary) / denom;
+            var imaginary = (num2.real * num1.imaginary - num1.real * num2.imaginary) / denom;
+            return new Complex(real, imaginary)
+        }
+    }
+	
+	class Rectanglef {
+        constructor(x, y, height, width) {
+            this.x = x
+            this.y = y
+            this.height = height
+            this.width = width
+            this.complex = new Complex(x * domain - zoom, y * range - zoom)
+            this.color = 'rgb(0,0,0)'
+        }
+        draw() {
+            fractal_canvas_context.fillStyle = this.color
+            fractal_canvas_context.fillRect(this.x, this.y, this.width, this.height)
+        }
+    }
+	
+    const r = 8
+	const r2 = r*r;
+    let fractal_canvas = document.getElementById("frac");
+    // let redval = document.getElementById("red");
+    // let speedr = document.getElementById("speed");
+    // speedr.onclick = flipper
+    let fractal_canvas_context = fractal_canvas.getContext('2d');
+    fractal_canvas.addEventListener('pointermove', positionUpdate);
+	fractal_canvas.addEventListener('wheel', zoomUpdate);
+    
+    function flipper(){
+        speed*=-1
+    }
+	let halfCanvasW = fractal_canvas.width * 0.5
+	let halfCanvasH = fractal_canvas.height * 0.5
+	let imgOffset
+	let realOffset
+	
+	let TIP_engine = {}
+    TIP_engine.x = halfCanvasW
+    TIP_engine.y = halfCanvasH
+    fractal_canvas.style.background = "black"
+	
+	
+	let zoom = 3.5/2
+	let domain = zoom / halfCanvasW
+	let range = zoom / halfCanvasH
+	
+	let rect = new Rectanglef(0, 0, fractal_canvas.width, fractal_canvas.height, 0)
+	let punch = new Complex(-1.0, 0.0)
+	
+
+	
+	function positionUpdate(event) {
+        if(pomao.tripping%2 == 1){
+        FLEX_engine = fractal_canvas.getBoundingClientRect();
+        XS_engine = 160
+        YS_engine = 90
+        TIP_engine.x = XS_engine
+        TIP_engine.y = YS_engine
+        TIP_engine.body = TIP_engine
+        rect.color = "black"
+        rect.draw()
+		
+		halfCanvasW = fractal_canvas.width * .5
+		halfCanvasH = fractal_canvas.height * .5
+		
+		imgOffset =  punch.imaginary - XS_engine/ halfCanvasW + 1
+        realOffset = punch.real * punch.imaginary + YS_engine/ halfCanvasH - 1
+        // punch.x +=
+        redx*=.99
+        greenx*=.99
+        bluex*=.99
+        continued_stimulis()
+        }
+	}
+	
+	function zoomUpdate(event) {
+		return //Doesn't really add anything, so skipped
+		
+		event.preventDefault();
+
+		zoom += event.deltaY * -0.001;
+		
+		zoom = Math.min(Math.max(0.01, zoom), 3.5);
+		  
+		continued_stimulis()
+	}
+	
+    function continued_stimulis() {
+        // console.log('hit')
+		domain = zoom / halfCanvasW
+		range = zoom / halfCanvasH
+        
+		let X = 0
+		let Y = 0
+		const skip = 1
+        const skipP = skip * 4
+            const imageData = fractal_canvas_context.getImageData(0, 0, fractal_canvas.width, fractal_canvas.height);
+            const data = imageData.data;
+            if(speed == 1){
+                for (var i = 0; i < data.length; i += skipP) {
+                    X += skip;
+                    if(X >= fractal_canvas.width){
+                        X = 0
+                        Y += 1
+                    }
+                        let comp = new Rectanglef(X, Y, 1, 1)
+                        comp = calcSpot(comp)
+                        if(redflip == 0){
+                        data[i] = comp.r // red
+                        }else{
+                            data[i] = 255-comp.r // red
+                        }
+                        if(greenflip == 0){
+                        data[i + 1] = comp.g  // green
+                        }else{
+                            data[i + 1] = 255-comp.g  // green
+                        }
+                        if(blueflip == 0){
+                            data[i + 2] = comp.b // blue
+                        }else{
+                            // data[i + 2] = 255-comp.b // blue
+
+                            data[i + 2] = comp.b // blue
+                        }
+                        data[i + 3] = comp.a * 255
+                }
+            }else{
+            for (var i = 0; i < data.length; i += 8) {
+                X += 2;
+                if(X >= fractal_canvas.width){
+                    X = 0
+                    Y += 1
+                }
+                let comp = new Rectanglef(X, Y, 1, 1)
+                comp = calcSpot(comp)
+                data[i] = comp.r // red
+                data[i + 1] = comp.g  // green
+                data[i + 2] = comp.b // blue
+                data[i + 3] = 128//comp.a * 128
+            }
+            }
+    
+            fractal_canvas_context.clearRect(0,0,fractal_canvas.width, fractal_canvas.height)
+            // if(false){
+                fractal_canvas_context.putImageData(imageData, 0, 0);
+            // }
+        // }
+    }
+	
+    function calcSpot(spot) {
+        let iet = 0
+		let xtemp = (spot.complex.real * spot.complex.real) - (spot.complex.imaginary * spot.complex.imaginary);
+		
+        while (iet < 18 && xtemp < r2) {
+            iet++
+            spot.complex.imaginary = (2 * spot.complex.real * spot.complex.imaginary) + imgOffset
+            spot.complex.real = xtemp + realOffset
+            xtemp = (spot.complex.real * spot.complex.real) - (spot.complex.imaginary * spot.complex.imaginary)
+            // xtemp+=2
+            // if(Math.max(255 - (iet * greenx), 0)  == 0){
+            //     break
+            // }
+        }
+        spot.g = Math.max((iet * greenx)*255/(36*greenx), 0) + 1
+        spot.r =  Math.max(((iet * redx)*(225/(18*redx))), 0)
+        spot.b = Math.max((iet * bluex)*(255/(100*bluex)), 0) 
+        spot.a = Math.min((iet-1)/18, 1)
+        return spot
+    }
+
+    // window.setInterval(function () {
+    //     continued_stimulis
+    // }, 17)
 
 })
 
