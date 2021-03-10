@@ -4637,9 +4637,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.type2 == 9) {
                         fractal_canvas_context.clearRect(0,0,fractal_canvas.width, fractal_canvas.height)
                         pomao.tripping = 820
-                        redx = Math.random()*10
-                        greenx = Math.random()*10
-                        bluex = Math.random()*10
+                        redx = (Math.random()-.5)+.6
+                        greenx = (Math.random()-.5)+.6
+                        bluex = (Math.random()-.5)+.6
                         redflip = Math.floor(Math.random()*2)
                         greenflip = Math.floor(Math.random()*2)
                         blueflip = Math.floor(Math.random()*2)	
@@ -4647,7 +4647,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         counterfrac.y = 0
                         counterfrac.xmom = (Math.random()-.5)*.1
                         counterfrac.ymom = (Math.random()-.5)*.1
-                        punch = new Complex((1.6*(Math.random()-.5)), (1.6*(Math.random()-.5)))
+                        punch = new Complex((1.1*(Math.random()-.5)), (1.1*(Math.random()-.5)))
+                        // while(Math.abs(punch.imaginary) < .1){
+                        //     punch.imaginary*=1.1
+                        // }
+                        // while(Math.abs(punch.imaginary) > .7){
+                        //     punch.imaginary*=.9
+                        // }
+                        // while(Math.abs(punch.real) < .1){
+                        //     punch.real*=1.1
+                        // }
+                        // while(Math.abs(punch.real) > .7){
+                        //     punch.imaginary*=.9
+                        // }
                     }
                     if (this.type == 2) {
                         if (this.type2 == 1) {
@@ -17157,35 +17169,39 @@ window.addEventListener('DOMContentLoaded', (event) => {
             lvl9rotationalvariable++
             // positionUpdate()
 
-            if(pomao.tripping == 410){
-                counterfrac.ymom*=-1
-                counterfrac.xmom*=-1
-            }
-        if(pomao.tripping%4 == 1){
-            FLEX_engine = fractal_canvas.getBoundingClientRect();
-            XS_engine = 320 + counterfrac.y
-            YS_engine = 180 + counterfrac.x
-            TIP_engine.x = XS_engine
-            TIP_engine.y = YS_engine
-            TIP_engine.body = TIP_engine
-            rect.color = "black"
-            rect.draw()
+            if(pomao.tripping > 0){
 
-    counterfrac.x += counterfrac.xmom*100
-    counterfrac.y += counterfrac.ymom *100
+                if(pomao.tripping == 410){
+                    counterfrac.ymom*=-1
+                    counterfrac.xmom*=-1
+                }
+            if(pomao.tripping%5 == 0){
+                FLEX_engine = fractal_canvas.getBoundingClientRect();
+                XS_engine = 320 + counterfrac.y
+                YS_engine = 180 + counterfrac.x
+                TIP_engine.x = XS_engine
+                TIP_engine.y = YS_engine
+                TIP_engine.body = TIP_engine
+                rect.color = "black"
+                // rect.draw()
     
-            
-            halfCanvasW = fractal_canvas.width * .5
-            halfCanvasH = fractal_canvas.height * .5
-            
-
-            imgOffset =  punch.imaginary - XS_engine/ halfCanvasW + 1
-            realOffset = punch.real * punch.imaginary + YS_engine/ halfCanvasH - 1
-            punch.x +=
+        counterfrac.x += counterfrac.xmom*70
+        counterfrac.y += counterfrac.ymom *70
+        
+                
+                halfCanvasW = fractal_canvas.width * .5
+                halfCanvasH = fractal_canvas.height * .5
+                
     
-            continued_stimulis()
-            }
+                imgOffset =  punch.imaginary - XS_engine/ halfCanvasW + 1
+                realOffset = punch.real * punch.imaginary + YS_engine/ halfCanvasH - 1
+                punch.x +=
+        
+                continued_stimulis()
+                }
+    
 
+            }
             // for(let t =0;t<3;t++){
             //     tutorial_canvas_context.drawImage(tutorial_canvas, 0, 0, 1280, 720, pomao.body.x - 320, pomao.body.y - 180, 640, 360)
             // }
@@ -17560,7 +17576,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // //console.log(fractal.sheet, zimgs[fractal.sheet%zimgs.length])
             // tutorial_canvas_context.drawImage(zimgs[fractal.sheet % zimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
             
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 640, 360, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            tutorial_canvas_context.imageSmoothingEnabled = true
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 640, 360, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 639, pomao.body.y - 359, 1280, 720)
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 639, pomao.body.y - 360, 1280, 720)
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 359, 1280, 720)
+            
+            tutorial_canvas_context.globalAlpha = 0.5
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 639.5, pomao.body.y - 360.5, 1280, 720)
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 639.5, pomao.body.y - 360, 1280, 720)
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 360.5, 1280, 720)
+
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640.5, pomao.body.y - 359.5, 1280, 720)
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640.5, pomao.body.y - 360, 1280, 720)
+            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 359.5, 1280, 720)
+            tutorial_canvas_context.globalAlpha = 1
+            tutorial_canvas_context.imageSmoothingEnabled = false
             // tutorial_canvas_context.drawImage(tutorial_canvas, 0, 0, 1280, 720, pomao.body.x - 320, pomao.body.y - 180, 640, 360)
             // tutorial_canvas_context.drawImage(fractal_canvas, 1, 0, 320, 180, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
             // tutorial_canvas_context.drawImage(fractal_canvas, 2, 0, 320, 180, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
@@ -21040,7 +21074,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-    let speed = 1
+    let speed = -1
     class Complex {
         constructor(r = 0, i = 0) {
             this.imaginary = i
@@ -21129,8 +21163,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	function positionUpdate(event) {
         if(pomao.tripping%2 == 1){
         FLEX_engine = fractal_canvas.getBoundingClientRect();
-        XS_engine = 160
-        YS_engine = 90
+        XS_engine = 640
+        YS_engine = 360
         TIP_engine.x = XS_engine
         TIP_engine.y = YS_engine
         TIP_engine.body = TIP_engine
@@ -21143,9 +21177,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		imgOffset =  punch.imaginary - XS_engine/ halfCanvasW + 1
         realOffset = punch.real * punch.imaginary + YS_engine/ halfCanvasH - 1
         // punch.x +=
-        redx*=.99
-        greenx*=.99
-        bluex*=.99
+        // redx*=.99
+        // greenx*=0
+        // bluex*=.99
         continued_stimulis()
         }
 	}
@@ -21172,6 +21206,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		const skip = 1
         const skipP = skip * 4
             const imageData = fractal_canvas_context.getImageData(0, 0, fractal_canvas.width, fractal_canvas.height);
+            fractal_canvas_context.imageSmoothingEnabled = true
             const data = imageData.data;
             if(speed == 1){
                 for (var i = 0; i < data.length; i += skipP) {
@@ -21179,6 +21214,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if(X >= fractal_canvas.width){
                         X = 0
                         Y += 1
+                        // i+= (fractal_canvas.width*4)
                     }
                         let comp = new Rectanglef(X, Y, 1, 1)
                         comp = calcSpot(comp)
@@ -21195,9 +21231,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if(blueflip == 0){
                             data[i + 2] = comp.b // blue
                         }else{
-                            // data[i + 2] = 255-comp.b // blue
+                            data[i + 2] = 255-comp.b // blue
 
-                            data[i + 2] = comp.b // blue
+                            // data[i + 2] = comp.b // blue
                         }
                         data[i + 3] = comp.a * 255
                 }
@@ -21206,14 +21242,37 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 X += 2;
                 if(X >= fractal_canvas.width){
                     X = 0
-                    Y += 1
+                    Y += 2
+                    i+= (fractal_canvas.width*4)
                 }
                 let comp = new Rectanglef(X, Y, 1, 1)
                 comp = calcSpot(comp)
+                if(redflip == 0){
                 data[i] = comp.r // red
+                }else{
+                    // data[i] = 255-comp.r // redw
+                    data[i] = comp.r // red
+                }
+                if(greenflip == 0){
                 data[i + 1] = comp.g  // green
-                data[i + 2] = comp.b // blue
-                data[i + 3] = 128//comp.a * 128
+                }else{
+                    // data[i + 1] = 255-comp.g  // green
+                    data[i + 1] = comp.g  // green
+                }
+                if(blueflip == 0){
+                    data[i + 2] = comp.b // blue
+                }else{
+                    // data[i + 2] = 255-comp.b // blue
+
+                    data[i + 2] = comp.b // blue
+                }
+                if(comp.a > .1){
+
+                    data[i + 3] = 255
+                }else{
+
+                data[i + 3] = 0
+                }
             }
             }
     
@@ -21223,12 +21282,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // }
         // }
     }
-	
+    
+    let ietlength = 12
+    // let ietarr = [0,0,0,0, 0, 1, 2, 4, 8, 16, 32, 64, 128, 255]
+    let ietarr =[]
+    let x = 1
+    for(let t = 0;t<ietlength+1;t++){
+        ietarr.push(x)
+        if(t>ietlength-25){
+            x*=2
+            console.log(x)
+        }
+    }
+
+    let ietarrayred = [255,255,255,255, 255, 255, 255, 0, 0, 46, 139]
+    let ietarraygreen = [255,255,255,255, 0, 127, 255, 255, 0, 43, 0]
+    let ietarrayblue = [255,255,255,255, 0,0,0,0,255,95,255]
     function calcSpot(spot) {
         let iet = 0
 		let xtemp = (spot.complex.real * spot.complex.real) - (spot.complex.imaginary * spot.complex.imaginary);
 		
-        while (iet < 18 && xtemp < r2) {
+        while (iet < ietlength && xtemp < r2) {
             iet++
             spot.complex.imaginary = (2 * spot.complex.real * spot.complex.imaginary) + imgOffset
             spot.complex.real = xtemp + realOffset
@@ -21238,10 +21312,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     break
             // }
         }
-        spot.g = Math.max((iet * greenx)*255/(36*greenx), 0) + 1
-        spot.r =  Math.max(((iet * redx)*(225/(18*redx))), 0)
-        spot.b = Math.max((iet * bluex)*(255/(100*bluex)), 0) 
-        spot.a = Math.min((iet-1)/18, 1)
+        // let rat =255/30
+        spot.r =  Math.max(ietarrayred[iet] * 1, 0)
+        spot.g = Math.max(ietarraygreen[iet]  * 1, 0)
+        spot.b = Math.max((ietarrayblue[iet]  * 1), 0)
+        spot.a = Math.min((iet-1)*.6, 1)
         return spot
     }
 
