@@ -8385,6 +8385,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             if (Math.abs(floors[t].x - pomao.body.x) < 650) {
                                                 floors[t].draw()
                                             }
+                                        }else if (level == 11) {
+                                            tutorial_canvas_context.drawImage(lvl5walling, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }
                                     }
                                 } else {
@@ -8461,6 +8463,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         if (Math.abs(floors[t].x - pomao.body.x) < 650) {
                                             floors[t].draw()
                                         }
+                                    }else if (level == 11) {
+                                        tutorial_canvas_context.drawImage(lvl5floorimg, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }
                                 }
                             } else {
@@ -8553,6 +8557,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     if (Math.abs(floors[t].x - pomao.body.x) > 650) {
                                         floors[t].draw()
                                     }
+                                }else if (level == 11) {
+                                    tutorial_canvas_context.drawImage(lvl5floorimg, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }
                             }
                             if (floors[t].block == 1) {
@@ -16110,7 +16116,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //     window.removeEventListener("pointermove", continued_stimuli);
         // })
 
-        canvas.addEventListener('pointermove', continued_stimuli);
+        canvas.addEventListener('pointerdown', continued_stimuli);
         function continued_stimuli(e) {
             FLEX_engine = canvas.getBoundingClientRect();
             XS_engine = e.clientX - FLEX_engine.left;
@@ -20916,7 +20922,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
 
-    // loadlvl11()
+    loadlvl11()
     function loadlvl11() {
 
         pomao.tonguex = 0
@@ -20945,9 +20951,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         level = 11
 
 
-        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
-        pomao.body.x = -1000
-        pomao.body.y = 0
+        tutorial_canvas_context.translate(pomao.body.x + 2000, pomao.body.y+1500)
+        pomao.body.x = -2000
+        pomao.body.y = -1500
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -20981,23 +20987,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //  pomao.eggmake = 161
         // boss = new Bossbeam()
 
-        let magnet = new Magneato(-100, -500)
-        magnets.push(magnet)
-
-        let leaderblock = new Rectangle(112, -33, 68, 50)
-
-        walls.push(leaderblock)
-        floors.push(leaderblock)
-        roofs.push(leaderblock)
-
         let floorlvl11 = new Rectangle(-2100, 33, 500, 22000)
         floors.push(floorlvl11)
         walls.push(floorlvl11)
         roofs.push(floorlvl11)
 
         let jelly = new Rectangle(-2100, -1000, 1033, 22000, "#00ffff88")
-
-        
         floors.push(jelly)
         jellys.push(jelly)
 
@@ -21006,12 +21001,56 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(wall1)
         floors.push(wall1)
         roofs.push(wall1)
-        // ungrapplable.push(wall1)
 
         const wall2 = new Rectangle(11600, -30000, 30033, 50, "cyan")
         walls.push(wall2)
         floors.push(wall2)
         roofs.push(wall2)
+
+
+        for(let t = 0;t<127;t++){
+
+            const beach = new Rectangle(-2100+(t*12), -1400+(t*3), 30033, 13, "cyan")
+            walls.push(beach)
+            floors.push(beach)
+            roofs.push(beach)
+
+        }
+
+        let oceanwall1 = new Rectangle(1900, -1600, 1500, 25, "cyan")
+        walls.push(oceanwall1)
+        floors.push(oceanwall1)
+        roofs.push(oceanwall1)
+        let oceancap1 = new Rectangle(1850, -1600, 100, 125, "cyan")
+        walls.push(oceancap1)
+        floors.push(oceancap1)
+        roofs.push(oceancap1)
+        let oceanwall2 = new Rectangle(1900, -6600, 4900, 25, "cyan")
+        walls.push(oceanwall2)
+        floors.push(oceanwall2)
+        roofs.push(oceanwall2)
+        let oceancap2 = new Rectangle(1850, -1800, 100, 125, "cyan")
+        walls.push(oceancap2)
+        floors.push(oceancap2)
+        roofs.push(oceancap2)
+
+        let oceanwall3 = new Rectangle(2600, -1200, 1100, 25, "cyan")
+        walls.push(oceanwall3)
+        floors.push(oceanwall3)
+        roofs.push(oceanwall3)
+        let oceancap3 = new Rectangle(2550, -1200, 100, 125, "cyan")
+        walls.push(oceancap3)
+        floors.push(oceancap3)
+        roofs.push(oceancap3)
+        let oceanwall4 = new Rectangle(2600, -6200, 4900, 25, "cyan")
+        walls.push(oceanwall4)
+        floors.push(oceanwall4)
+        roofs.push(oceanwall4)
+        let oceancap4 = new Rectangle(2550, -1400, 100, 125, "cyan")
+        walls.push(oceancap4)
+        floors.push(oceancap4)
+        roofs.push(oceancap4)
+
 
         floormpf = [...floors]
 
@@ -21134,7 +21173,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // let speedr = document.getElementById("speed");
     // speedr.onclick = flipper
     let fractal_canvas_context = fractal_canvas.getContext('2d');
-    fractal_canvas.addEventListener('pointermove', positionUpdate);
+    fractal_canvas.addEventListener('pointerdown', positionUpdate);
 	fractal_canvas.addEventListener('wheel', zoomUpdate);
     
     function flipper(){
