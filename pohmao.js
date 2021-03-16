@@ -188,6 +188,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const floors = []
     let ramps = []
     const boys = []
+    const hookbots = []
     const deadboys = []
     const fruits = []
     const walls = []
@@ -1072,6 +1073,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         movenofric() {
             this.x += this.xmom * .1
             this.y += this.ymom * .1
+        }
+        movenofricfull() {
+            this.x += this.xmom
+            this.y += this.ymom
         }
         fmove() {
             this.x += this.xmom
@@ -6777,16 +6782,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             return false
         }
         checkRepelPomao(point) {
-            let link = new LineOP(this.body, point)
-            let angle = link.angle() + Math.PI
-            let dis = link.hypotenuse() - point.radius
+            let link = new LineOP(this.body, point) // line between objects
+            let angle = link.angle() + Math.PI // angle adjusted
+            let dis = link.hypotenuse() - point.radius // get distance (could be a square check, rather than a function distance)
             if (this.dir == 1) {
-                let t = Math.floor((angle) * this.angleincrement)
-                t %= this.pomarray.length - 1
-                if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) * .02)) {
-                    return true
+                let t = Math.floor((angle) * this.angleincrement) // calculate the index of the angle 
+                t %= this.pomarray.length - 1 // get the index without a loop
+                if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) * .02)) { // normalized to character size
+                    return true // collision
                 }
-            } else {
+            } else { // same as above but for the other direction (this.dir = -1)
                 let t = Math.floor((angle) * this.angleincrementleft)
                 t %= this.pomarrayleft.length - 1
                 if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) * .02)) {
@@ -6794,6 +6799,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             return false
+
+
+
+
+
+
+            // let link = new LineOP(this.body, point)
+            // let angle = link.angle() + Math.PI
+            // let dis = link.hypotenuse() - point.radius
+            // if (this.dir == 1) {
+            //     let t = Math.floor((angle) * this.angleincrement)
+            //     t %= this.pomarray.length - 1
+            //     if (dis < ((this.pomarray[t].length + this.pomarray[t + 1].length) * .5) * ((this.body.radius) * .02)) {
+            //         return true
+            //     }
+            // } else {
+            //     let t = Math.floor((angle) * this.angleincrementleft)
+            //     t %= this.pomarrayleft.length - 1
+            //     if (dis < ((this.pomarrayleft[t].length + this.pomarrayleft[t + 1].length) * .5) * ((this.body.radius) * .02)) {
+            //         return true
+            //     }
+            // }
+            // return false
         }
         tonguecast() {
 
@@ -7759,6 +7787,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.bodyloose = new Circle(this.body.x, this.body.y, 25, "yellow")
 
             this.blocked = 0
+            for (let t = 0; t < hookbots.length; t++) {
+                if (hookbots[t].center.x > this.body.x - (tutorial_canvas.width / 1) && hookbots[t].center.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+                    if (hookbots[t].center.y > this.body.y - (tutorial_canvas.height / 1.6) && hookbots[t].center.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                        hookbots[t].draw()
+                    }
+                }
+            }
             for (let t = 0; t < walls.length; t++) {
                 if (squarecircleface(walls[t], pomao.body)) {
                     if (!blocks.includes(walls[t])) {
@@ -8833,6 +8868,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             }
 
+            // for (let t = 0; t < hookbots.length; t++) {
+            //         if (hookbots[t].center.x > this.body.x - (tutorial_canvas.width / 1) && hookbots[t].center.x < this.body.x + (tutorial_canvas.width / 1.6)) {
+            //             if (hookbots[t].center.y > this.body.y - (tutorial_canvas.height / 1.6) && hookbots[t].center.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+            //                 hookbots[t].draw()
+            //             }
+            //         }
+            // }
+
             for (let t = 0; t < swimmers.length; t++) {
                 if (swimmers[t].body.x > this.body.x - (tutorial_canvas.width / 1.6) && swimmers[t].body.x < this.body.x + (tutorial_canvas.width / 1.6)) {
                     if (swimmers[t].body.y > this.body.y - (tutorial_canvas.height / 1.6) && swimmers[t].body.y < this.body.y + (tutorial_canvas.height / 1.6)) {
@@ -9253,8 +9296,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (this.jumping == 1) {
                     if (this.body.ymom > -3.5) {
                         if (this.runner > 21) {
-
-
                             this.pounding = 10
                             this.body.ymom = 17
                             this.timeloop = Math.PI
@@ -9273,7 +9314,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // this.rooted = {}
                 for (let t = 1; t < this.eggs.length; t++) {
                     if (this.eggs[t].marked == 0) {
-                        if (this.blocked == 0) {
+                        if (this.blocked == 0 || this.blocked == 2) {
                             this.eggs[t].steer()
                         }
                     }
@@ -9299,7 +9340,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (keysPressed['a']) {
                     // this.rooted = {}
                     this.dir = -1
-                    if (this.blocked !== 1) {
+                    if (this.blocked !== 1 && this.blocked !== 2) {
                         this.dir = -1
                         this.body.x -= 3
                         if (this.body.sxmom > 0) {
@@ -9331,7 +9372,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 } else if (keysPressed['d']) {
                     // this.rooted = {}
                     this.dir = 1
-                    if (this.blocked !== -1) {
+                    if (this.blocked !== -1  && this.blocked !== 2) {
                         this.body.x += 3
                         this.dir = 1
                         if (this.body.sxmom < 0) {
@@ -14580,12 +14621,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class Finger {
         constructor(center) {
             this.center = center
-
-            this.dis = 50
-            this.dis2 = 50
+            this.contact = 0
+            this.dis = 61
+            this.dis2 = 61
             this.angle = Math.PI / 4
             this.angle2 = Math.PI / 6
-
+            this.ytrack = 200
             this.tip1 = new Bosscircle(0, 0, 10, "yellow")
 
             this.tip2 = new Bosscircle(0, 0, 10, "orange")
@@ -14593,27 +14634,44 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             this.tip22 = new Bosscircle(0, 0, 10, "orange")
 
-            this.link1 = new Line(this.tip1.x, this.tip1.y, this.center.x, this.center.y, "red", 3)
-            this.link2 = new Line(this.tip2.x, this.tip2.y, this.center.x, this.center.y, "red", 3)
-            this.link12 = new Line(this.tip1.x, this.tip1.y, this.tip12.x, this.tip12.y, "red", 3)
-            this.link22 = new Line(this.tip2.x, this.tip2.y, this.tip22.x, this.tip22.y, "red", 3)
             this.tip12 = new Bosscircle(this.tip1.x + (Math.sin(0 + this.angle2) * this.dis2), this.tip1.y + (Math.cos(0 + this.angle2) * this.dis2), 10, "purple")
             this.tip22 = new Bosscircle(this.tip2.x + (Math.sin(0 - this.angle2) * this.dis2), this.tip2.y + (Math.cos(0 - this.angle2) * this.dis2), 10, "pink")
+            this.link1 = new LineOP(this.tip1, this.center, "red", 3)
+            this.link2 = new LineOP(this.tip2, this.center, "red", 3)
+            this.link12 = new LineOP(this.tip1, this.tip12, "red", 3)
+            this.link22 = new LineOP(this.tip2, this.tip22, "red", 3)
         }
+        clean(){
 
+        }
         draw() {
 
-            this.tip1 = new Bosscircle(this.center.x + (Math.sin(0 + this.angle) * this.dis), this.center.y + (Math.cos(0 + this.angle) * this.dis), 10, "yellow")
-            this.tip2 = new Bosscircle(this.center.x + (Math.sin(0 - this.angle) * this.dis), this.center.y + (Math.cos(0 - this.angle) * this.dis), 10, "orange")
-
-            this.tip12 = new Bosscircle(this.tip1.x + (Math.sin(0 - this.angle2) * this.dis2), this.tip1.y + (Math.cos(0 - this.angle2) * this.dis2), 10, "purple")
-            this.tip22 = new Bosscircle(this.tip2.x + (Math.sin(0 + this.angle2) * this.dis2), this.tip2.y + (Math.cos(0 + this.angle2) * this.dis2), 10, "pink")
+            this.contact--
+            // this.tip1 = new Bosscircle(this.center.x + (Math.sin(0 + this.angle) * this.dis), this.center.y + (Math.cos(0 + this.angle) * this.dis), 10, "yellow")
+            // this.tip2 = new Bosscircle(this.center.x + (Math.sin(0 - this.angle) * this.dis), this.center.y + (Math.cos(0 - this.angle) * this.dis), 10, "orange")
 
 
-            this.link1 = new Line(this.tip1.x, this.tip1.y, this.center.x, this.center.y, "red", 3)
-            this.link2 = new Line(this.tip2.x, this.tip2.y, this.center.x, this.center.y, "red", 3)
-            this.link12 = new Line(this.tip1.x, this.tip1.y, this.tip12.x, this.tip12.y, "red", 3)
-            this.link22 = new Line(this.tip2.x, this.tip2.y, this.tip22.x, this.tip22.y, "red", 3)
+            this.tip1.x = this.center.x + (Math.sin(0 + this.angle) * this.dis)
+            this.tip1.y  = this.center.y + (Math.cos(0 + this.angle) * this.dis)
+
+            this.tip2.x = this.center.x + (Math.sin(0 - this.angle) * this.dis)
+            this.tip2.y  = this.center.y + (Math.cos(0 - this.angle) * this.dis)
+
+
+            // this.tip12 = new Bosscircle(this.tip1.x + (Math.sin(0 - this.angle2) * this.dis2), this.tip1.y + (Math.cos(0 - this.angle2) * this.dis2), 11, "purple")
+            // this.tip22 = new Bosscircle(this.tip2.x + (Math.sin(0 + this.angle2) * this.dis2), this.tip2.y + (Math.cos(0 + this.angle2) * this.dis2), 11, "pink")
+
+
+            this.tip12.x = this.tip1.x + (Math.sin(0 - this.angle2) * this.dis2)
+            this.tip12.y  = this.tip1.y + (Math.cos(0 - this.angle2) * this.dis2)
+
+            this.tip22.x = this.tip2.x + (Math.sin(0 + this.angle2) * this.dis2)
+            this.tip22.y  = this.tip2.y + (Math.cos(0 + this.angle2) * this.dis2)
+
+            // this.link1 = new Line(this.tip1.x, this.tip1.y, this.center.x, this.center.y, "red", 3)
+            // this.link2 = new Line(this.tip2.x, this.tip2.y, this.center.x, this.center.y, "red", 3)
+            // this.link12 = new Line(this.tip1.x, this.tip1.y, this.tip12.x, this.tip12.y, "red", 3)
+            // this.link22 = new Line(this.tip2.x, this.tip2.y, this.tip22.x, this.tip22.y, "red", 3)
             this.link1.draw()
             this.link2.draw()
             this.link12.draw()
@@ -14622,8 +14680,159 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.tip2.draw()
             this.tip12.draw()
             this.tip22.draw()
+            this.center.draw()
 
+            this.chase()
 
+        }
+        chase(){
+            if(pomao.pounding > 0){
+                this.contact = 0
+            }
+            if(this.contact > 0){
+            for(let k = 0;k<10;k++){
+                for(let t = 1;t<pomao.eggs.length;t++){
+                    pomao.eggs[t].steer()
+                    pomao.eggs[t].steery()
+                }
+            }
+                pomao.blocked = 2
+                console.log(pomao)
+            }
+            let radsto = pomao.body.radius
+            pomao.body.radius *= .8
+            this.gapcheck = (this.center.x-pomao.body.x)
+            this.gapchecky = (this.center.y-pomao.body.y)
+            this.center.xmom = -(this.gapcheck)/50
+            if(this.contact <= 0){
+                this.center.ymom = -(this.center.y-(pomao.body.y-this.ytrack))/50
+            }else{
+                this.center.ymom =pomao.body.ymom*1.03
+                pomao.body.ymom = this.center.ymom
+            }
+            if(Math.abs(this.center.xmom) < 1.5){
+                // this.center.xmom *= 1.1
+            }
+            if(Math.abs(this.center.ymom) < 3){
+                // this.center.ymom *= 1.1
+            }
+            this.center.movenofricfull()
+            if(Math.abs(this.gapcheck) < 75){
+                if(this.angle < 2){
+                    if(this.contact <= 0){
+                    if(this.ytrack > 62 || Math.abs(this.gapchecky) > 140){
+                    this.angle += .02
+                    }else{
+                            this.angle -= .0215
+                    }
+                }else{
+                    if(!pomao.checkRepelPomao(this.tip12)  && !pomao.checkRepelPomao(this.tip22) ){
+                    // this.angle -= .0215
+                    }
+                }
+                }
+                if(this.angle2 > -1){
+                if(this.contact <= 0){
+                    if(this.ytrack > 62 || Math.abs(this.gapchecky) > 140){
+                    this.angle2 -= .02
+                    }else{
+                            this.angle2 += .0215
+                    }
+                }else{
+                    if(!pomao.checkRepelPomao(this.tip12)  && !pomao.checkRepelPomao(this.tip22) ){
+                    // this.angle2 += .0215
+                    }
+                }
+                }
+
+                    if(this.ytrack > 61){
+                        if(this.contact <= 0){
+                            this.ytrack-=3
+                        }
+                    }else{
+                        if(pomao.pounding <= 0){
+                        if(this.tip12.repelCheck(pomao.body) && this.tip22.repelCheck(pomao.body)){
+                            // if(pomao.checkRepelPomao(this.tip12)  && pomao.checkRepelPomao(this.tip22) ){
+                                // console.log("couls") 
+                                // this.ytrack += 18
+                                while(this.tip12.isPointInside(pomao.body) || this.tip22.isPointInside(pomao.body)){//pomao.checkRepelPomao(this.tip12) && pomao.checkRepelPomao(this.tip22) ){
+                                this.angle2 -= .0001
+                                this.angle += .0001
+                                this.tip12.x = this.tip1.x + (Math.sin(0 - this.angle2) * this.dis2)
+                                this.tip12.y  = this.tip1.y + (Math.cos(0 - this.angle2) * this.dis2)
+                    
+                                this.tip22.x = this.tip2.x + (Math.sin(0 + this.angle2) * this.dis2)
+                                this.tip22.y  = this.tip2.y + (Math.cos(0 + this.angle2) * this.dis2)
+                                if(pomao.pounding <= 0){
+                                if(Math.random()<.5){
+                                    pomao.body.xmom = 1
+                                    pomao.disabled = 1
+                                }else{
+                                    pomao.body.xmom = -1
+                                    pomao.disabled = 1
+                                }
+                            }
+                                this.center.ymom =  -3.4 // -(this.center.y-(pomao.body.y-(this.ytrack)))/50
+                                if(pomao.pounding <= 0){
+                                pomao.body.ymom = -3.4//Math.abs(this.center.ymom)*-1
+                                }
+                                }
+                                this.center.ymom =  -3.4 // -(this.center.y-(pomao.body.y-(this.ytrack)))/50
+                                if(pomao.pounding <= 0){
+                                pomao.body.ymom = -3.4 //Math.abs(this.center.ymom)*-1
+                                }
+                                // this.angle2 += .003
+                                // this.angle -= .003
+                                this.tip12.x = this.tip1.x + (Math.sin(0 - this.angle2) * this.dis2)
+                                this.tip12.y  = this.tip1.y + (Math.cos(0 - this.angle2) * this.dis2)
+                                this.tip22.x = this.tip2.x + (Math.sin(0 + this.angle2) * this.dis2)
+                                this.tip22.y  = this.tip2.y + (Math.cos(0 + this.angle2) * this.dis2)
+                                // this.ytrack += 18
+                                this.contact = 20
+                                // pomao.grounded = 1
+                        }else{
+                            this.angle2 += .0025
+                            // this.contact--
+                        }
+                    }
+                        if(this.angle2 >  Math.PI / 6){
+                            this.angle2 =  Math.PI / 6
+                        }
+                        // if(pomao.checkInsidePomao(this.tip12) ||pomao.checkInsidePomao(this.tip22) ){
+
+                            // if(this.tip12.repelCheck(pomao.body) || this.tip22.repelCheck(pomao.body)){
+                            if(pomao.checkRepelPomao(this.tip12) ||pomao.checkRepelPomao(this.tip22) ){
+                                // // console.log("should")
+                                // while(pomao.checkInsidePomao(this.tip12) && pomao.checkInsidePomao(this.tip22) ){
+                                //     this.angle += .001
+
+                                //     this.tip12.x = this.tip1.x + (Math.sin(0 - this.angle2) * this.dis2)
+                                //     this.tip12.y  = this.tip1.y + (Math.cos(0 - this.angle2) * this.dis2)
+                        
+                                //     this.tip22.x = this.tip2.x + (Math.sin(0 + this.angle2) * this.dis2)
+                                //     this.tip22.y  = this.tip2.y + (Math.cos(0 + this.angle2) * this.dis2)
+                                //     pomao.disabled = 1
+                                //     }
+                        }else{
+                            this.angle -= .0025
+                        }
+                        if(this.angle <  Math.PI / 4){
+                            this.angle = Math.PI / 4
+                        }
+                        // this.ytrack+=5
+                    }
+                
+            }else{
+                this.ytrack = 200
+            }
+            if(this.tip12.repelCheck(this.tip22)){
+                this.ytrack = 200
+            }
+            if(this.ytrack > 200){
+                this.ytrack = 200
+            }
+
+            pomao.body.radius = radsto
         }
     }
 
@@ -18738,7 +18947,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         markRectangles()
     }
-
+    // pomao.eggmake = 161
     function loadlvl4() {
 
         pomao.tonguex = 0
@@ -21051,6 +21260,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floors.push(oceancap4)
         roofs.push(oceancap4)
 
+        let center = new Bosscircle(-1000, -1300, 25, "#AA0000")
+
+
+        let fingerflyer = new Finger(center)
+
+        hookbots.push(fingerflyer)
 
         floormpf = [...floors]
 
