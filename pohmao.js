@@ -14640,6 +14640,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.link2 = new LineOP(this.tip2, this.center, "red", 3)
             this.link12 = new LineOP(this.tip1, this.tip12, "red", 3)
             this.link22 = new LineOP(this.tip2, this.tip22, "red", 3)
+            // this.link22 = new LineOP(this.center, this.wing1, "red", 3)
+            // this.link22 = new LineOP(this.center, this.wing2, "red", 3)
         }
         clean(){
 
