@@ -376,6 +376,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const spidermusic = new Audio('Mopao.mp3');
     const level10basemusic = new Audio('snow.mp3');
     const targoymusic = new Audio('pomo3.mp3');
+    const lvl6music = new Audio('mountainsong.mp3');
 
     const jailswitchimgl = new Image()
     jailswitchimgl.src = 'switchl.png'
@@ -6883,8 +6884,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                         }
                                     }
-                                    this.tongueymom *= .49
-                                    this.tonguexmom *= .49
+                                    if(pomao.body.y > floors[t].y+floors[t].height){
+                                        this.tongueymom *= .85
+                                        this.tonguexmom *= .85
+                                    }else{
+                                        this.tongueymom *= .49
+                                        this.tonguexmom *= .49
+                                    }
                                 } else {
                                     if (Math.abs(this.tonguey) > 1) {
                                         this.body.symom -= this.tongueymom * 1.1
@@ -6898,10 +6904,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                     if (floors[t].roof != 1 || (1 == 1)) {
 
-                                        // if (pomao.body.x < floors[t].x || (1 == 1)) {
-                                        this.tongueymom *= .49
-                                        this.tonguexmom *= .49
-                                        // }
+                                        if(pomao.body.y > floors[t].y+floors[t].height){
+                                            this.tongueymom *= .85
+                                            this.tonguexmom *= .85
+                                        }else{
+                                            this.tongueymom *= .49
+                                            this.tonguexmom *= .49
+                                        }
                                     }
                                 }
                                 if (pomao.body.ymom > 0) {
@@ -7126,8 +7135,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                 }
                             }
-                            this.tongueymom *= .49
-                            this.tonguexmom *= .49
+                            if(pomao.body.y > floors[t].y+floors[t].height){
+                                this.tongueymom *= .85
+                                this.tonguexmom *= .85
+                            }else{
+                                this.tongueymom *= .49
+                                this.tonguexmom *= .49
+                            }
                         } else {
                             if (Math.abs(this.tonguey) > 1) {
                                 this.body.symom -= this.tongueymom * 1.1
@@ -7141,10 +7155,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                             // if (!roofs.includes(floors[t]) || (1 == 1)) {
 
-                            if (pomao.body.x < floors[t].x || (1 == 1)) {
-                                this.tongueymom *= .49
-                                this.tonguexmom *= .49
-                            }
+                                if(pomao.body.y > floors[t].y+floors[t].height){
+                                    this.tongueymom *= .85
+                                    this.tonguexmom *= .85
+                                }else{
+                                    this.tongueymom *= .49
+                                    this.tonguexmom *= .49
+                                }
                             // }
                         }
                         if (pomao.body.ymom > 0) {
@@ -7336,8 +7353,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                         }
                                     }
-                                    this.tongueymom *= .49
-                                    this.tonguexmom *= .49
+                                    if(pomao.body.y > floors[t].y+floors[t].height){
+                                        this.tongueymom *= .85
+                                        this.tonguexmom *= .85
+                                    }else{
+                                        this.tongueymom *= .49
+                                        this.tonguexmom *= .49
+                                    }
                                 } else {
                                     if (Math.abs(this.tonguey) > 1) {
                                         this.body.symom -= this.tongueymom * 1.1
@@ -7351,7 +7373,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                     // if (!roofs.includes(floors[t]) || (1 == 1)) {
 
-                                    if (pomao.body.x < floors[t].x || (1 == 1)) {
+                                    if(pomao.body.y > floors[t].y+floors[t].height){
+                                        this.tongueymom *= .85
+                                        this.tonguexmom *= .85
+                                    }else{
                                         this.tongueymom *= .49
                                         this.tonguexmom *= .49
                                     }
@@ -7407,8 +7432,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                                 this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                             }
                                         }
-                                        this.tongueymom *= .49
-                                        this.tonguexmom *= .49
+                                        if(pomao.body.y > floors[t].y+floors[t].height){
+                                            this.tongueymom *= .85
+                                            this.tonguexmom *= .85
+                                        }else{
+                                            this.tongueymom *= .49
+                                            this.tonguexmom *= .49
+                                        }
                                     } else {
                                         if (Math.abs(this.tonguey) > 1) {
                                             this.body.symom -= this.tongueymom * 1.1
@@ -7422,10 +7452,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                         // if (!roofs.includes(floors[t]) || (1 == 1)) {
 
-                                        if (pomao.body.x < floors[t].x || (1 == 1)) {
-                                            this.tongueymom *= .49
-                                            this.tonguexmom *= .49
-                                        }
+                                            if(pomao.body.y > floors[t].y+floors[t].height){
+                                                this.tongueymom *= .85
+                                                this.tonguexmom *= .85
+                                            }else{
+                                                this.tongueymom *= .49
+                                                this.tonguexmom *= .49
+                                            }
                                         // }
                                     }
                                     if (pomao.body.ymom > 0) {
@@ -7501,8 +7534,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         this.body.sxmom += Math.abs(this.tonguexmom * 3)
                                     }
                                 }
-                                this.tongueymom *= .49
-                                this.tonguexmom *= .49
+                                if(pomao.body.y > floors[t].y+floors[t].height){
+                                    this.tongueymom *= .85
+                                    this.tonguexmom *= .85
+                                }else{
+                                    this.tongueymom *= .49
+                                    this.tonguexmom *= .49
+                                }
                             } else {
                                 if (Math.abs(this.tonguey) > 1) {
                                     this.body.symom -= this.tongueymom * 1.1
@@ -7517,8 +7555,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 // if (!roofs.includes(floors[t]) || (1 == 1)) {
 
                                 if (pomao.body.x < floors[t].x || (1 == 1)) {
-                                    this.tongueymom *= .49
-                                    this.tonguexmom *= .49
+                                    if(pomao.body.y > floors[t].y+floors[t].height){
+                                        this.tongueymom *= .85
+                                        this.tonguexmom *= .85
+                                    }else{
+                                        this.tongueymom *= .49
+                                        this.tonguexmom *= .49
+                                    }
                                 }
                                 // }
                             }
@@ -8138,12 +8181,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             if (level == 6) {
+                lvl6music.play()
                 door.x = -2100
                 door.y = -9170 - door.height
                 door.draw()
                 if (door.isPointInside(pomao.body)) {
                     loadlvl7()
                 }
+            }else{
+                lvl6music.pause()
             }
 
 
@@ -14306,6 +14352,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 lvl6bossmusic.playbackRate = .5 + (1 - (.5 * (this.health / this.maxhealth)));
                 lvl6bossmusic.play()
+                lvl6music.pause()
 
                 this.box = new Shape(this.joints)
                 this.yeet = 0
@@ -14774,17 +14821,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     pomao.disabled = 1
                                 }
                             }
-                                this.center.ymom =  -3.4 // -(this.center.y-(pomao.body.y-(this.ytrack)))/50
+                                this.center.ymom =  -3.45 // -(this.center.y-(pomao.body.y-(this.ytrack)))/50
                                 if(pomao.pounding <= 0){
                                 pomao.body.ymom = -3.4//Math.abs(this.center.ymom)*-1
+                                pomao.body.symom = 0
+                                pomao.body.sxmom = 0
                                 }
                                 }
-                                this.center.ymom =  -3.4 // -(this.center.y-(pomao.body.y-(this.ytrack)))/50
+                                this.center.ymom =  -3.45 // -(this.center.y-(pomao.body.y-(this.ytrack)))/50
                                 if(pomao.pounding <= 0){
                                 pomao.body.ymom = -3.4 //Math.abs(this.center.ymom)*-1
+                                pomao.body.symom = 0
+                                pomao.body.sxmom = 0
                                 }
                                 // this.angle2 += .003
                                 // this.angle -= .003
+                                // this.center.move()
                                 this.tip12.x = this.tip1.x + (Math.sin(0 - this.angle2) * this.dis2)
                                 this.tip12.y  = this.tip1.y + (Math.cos(0 - this.angle2) * this.dis2)
                                 this.tip22.x = this.tip2.x + (Math.sin(0 + this.angle2) * this.dis2)
