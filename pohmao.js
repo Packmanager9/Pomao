@@ -22,6 +22,7 @@ const spinnys = []
 let beamrocks = []
 let links = []
 const worms = []
+const seaweed = []
 const debris = []
 const snows = []
 const snowfloors = []
@@ -6888,8 +6889,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         this.tongueymom *= .85
                                         this.tonguexmom *= .85
                                     }else{
-                                        this.tongueymom *= .49
-                                        this.tonguexmom *= .49
+                                        if(floors[t].jelly != 1){
+                                            this.tongueymom *= .49
+                                            this.tonguexmom *= .49
+                                        }else{
+                                            this.tongueymom *= .861
+                                            this.tonguexmom *= .861
+                                        }
                                     }
                                 } else {
                                     if (Math.abs(this.tonguey) > 1) {
@@ -6908,8 +6914,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             this.tongueymom *= .85
                                             this.tonguexmom *= .85
                                         }else{
-                                            this.tongueymom *= .49
-                                            this.tonguexmom *= .49
+                                            if(floors[t].jelly != 1){
+                                                this.tongueymom *= .49
+                                                this.tonguexmom *= .49
+                                            }else{
+                                                this.tongueymom *= .861
+                                                this.tonguexmom *= .861
+                                            }
                                         }
                                     }
                                 }
@@ -7139,8 +7150,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 this.tongueymom *= .85
                                 this.tonguexmom *= .85
                             }else{
-                                this.tongueymom *= .49
-                                this.tonguexmom *= .49
+                                if(floors[t].jelly != 1){
+                                    this.tongueymom *= .49
+                                    this.tonguexmom *= .49
+                                }else{
+                                    this.tongueymom *= .861
+                                    this.tonguexmom *= .861
+                                }
                             }
                         } else {
                             if (Math.abs(this.tonguey) > 1) {
@@ -7159,8 +7175,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     this.tongueymom *= .85
                                     this.tonguexmom *= .85
                                 }else{
-                                    this.tongueymom *= .49
-                                    this.tonguexmom *= .49
+                                    if(floors[t].jelly != 1){
+                                        this.tongueymom *= .49
+                                        this.tonguexmom *= .49
+                                    }else{
+                                        this.tongueymom *= .861
+                                        this.tonguexmom *= .861
+                                    }
                                 }
                             // }
                         }
@@ -7357,8 +7378,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         this.tongueymom *= .85
                                         this.tonguexmom *= .85
                                     }else{
-                                        this.tongueymom *= .49
-                                        this.tonguexmom *= .49
+                                        if(floors[t].jelly != 1){
+                                            this.tongueymom *= .49
+                                            this.tonguexmom *= .49
+                                        }else{
+                                            this.tongueymom *= .861
+                                            this.tonguexmom *= .861
+                                        }
                                     }
                                 } else {
                                     if (Math.abs(this.tonguey) > 1) {
@@ -7436,8 +7462,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             this.tongueymom *= .85
                                             this.tonguexmom *= .85
                                         }else{
-                                            this.tongueymom *= .49
-                                            this.tonguexmom *= .49
+                                            if(floors[t].jelly != 1){
+                                                this.tongueymom *= .49
+                                                this.tonguexmom *= .49
+                                            }else{
+                                                this.tongueymom *= .861
+                                                this.tonguexmom *= .861
+                                            }
                                         }
                                     } else {
                                         if (Math.abs(this.tonguey) > 1) {
@@ -7456,8 +7487,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                                 this.tongueymom *= .85
                                                 this.tonguexmom *= .85
                                             }else{
-                                                this.tongueymom *= .49
-                                                this.tonguexmom *= .49
+                                                if(floors[t].jelly != 1){
+                                                    this.tongueymom *= .49
+                                                    this.tonguexmom *= .49
+                                                }else{
+                                                    this.tongueymom *= .861
+                                                    this.tonguexmom *= .861
+                                                }
                                             }
                                         // }
                                     }
@@ -7538,8 +7574,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     this.tongueymom *= .85
                                     this.tonguexmom *= .85
                                 }else{
-                                    this.tongueymom *= .49
-                                    this.tonguexmom *= .49
+                                    if(floors[t].jelly != 1){
+                                        this.tongueymom *= .49
+                                        this.tonguexmom *= .49
+                                    }else{
+                                        this.tongueymom *= .861
+                                        this.tonguexmom *= .861
+                                    }
                                 }
                             } else {
                                 if (Math.abs(this.tonguey) > 1) {
@@ -7559,8 +7600,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         this.tongueymom *= .85
                                         this.tonguexmom *= .85
                                     }else{
-                                        this.tongueymom *= .49
-                                        this.tonguexmom *= .49
+                                        if(floors[t].jelly != 1){
+                                            this.tongueymom *= .49
+                                            this.tonguexmom *= .49
+                                        }else{
+                                            this.tongueymom *= .861
+                                            this.tonguexmom *= .861
+                                        }
                                     }
                                 }
                                 // }
@@ -8980,6 +9026,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
+            for (let t = 0; t < seaweed.length; t++) {
+                if (seaweed[t].x > this.body.x - (tutorial_canvas.width / 1.7) && seaweed[t].x < this.body.x + (tutorial_canvas.width / 1.7)) {
+                        seaweed[t].draw()
+                }
+            }
             // for(let t = 0; t<swimmers.length; t++){
             //         swimmers[t].draw()
             // }
@@ -9881,6 +9932,83 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     }
+
+    class Flower{
+        constructor(x,y, length){
+            this.timer = 0
+            this.timemax = 1400
+            this.petals = []
+            this.num = 18
+            this.angle = Math.PI*1.5
+            this.dis = 100
+            this.rate = 100000
+            this.flipper = -1
+            this.x = x
+            for(let t = 0;t<this.num;t++){
+                let blob = new Circle(x, y, .0001, "transparent", Math.cos(this.angle)*10, Math.sin(this.angle)*10)
+                blob.angle = this.angle+.01
+                blob.color = `rgb(0,${(t*1.5)+100},0)`
+                blob.increment = t/700
+                blob.dis = (length/Math.max(1,t/3.7))
+                this.petals.push(blob)
+                this.angle+=(Math.PI*2)/this.num
+            }
+        }
+        draw(){
+            this.timer++
+            if(pomao.body.x > this.x){
+                if(this.timer%this.timemax < this.timemax*.5){
+                    this.flipper = -1
+                }else{
+                this.flipper = 1
+                }
+            }else{
+                if(this.timer%this.timemax < this.timemax*.5){
+                    this.flipper = 1
+                }else{
+                this.flipper = -1
+                }
+            }
+            this.petals[this.petals.length-1].radius = 2
+            this.petals[this.petals.length-1].color = "red"
+            if(this.flipper < 0){
+                for(let t = 1;t<this.petals.length;t++){
+                    this.petals[t].x = (Math.cos(this.petals[t].angle)*this.petals[t].dis) + this.petals[t-1].x
+                    this.petals[t].y = (Math.sin(this.petals[t].angle)*this.petals[t].dis) + this.petals[t-1].y
+                    if((this.petals[t].angle-this.petals[t-1].angle) < Math.PI/10){
+                        this.petals[t].angle+=this.petals[t].increment
+                        
+                    }else{
+                        this.flipper = 1
+                    }
+                 }
+                for(let t = 0;t<this.petals.length;t++){
+                    this.petals[t].draw()
+                }
+            }else{
+
+            for(let t = 1;t<this.petals.length;t++){
+                this.petals[t].x = (Math.cos(this.petals[t].angle)*this.petals[t].dis) + this.petals[t-1].x
+                this.petals[t].y = (Math.sin(this.petals[t].angle)*this.petals[t].dis) + this.petals[t-1].y
+                if((this.petals[t-1].angle-this.petals[t].angle) < (Math.PI/10)){
+                    this.petals[t].angle-=this.petals[t].increment
+                }else{
+                    this.flipper = -1
+                }
+             }
+            for(let t = 0;t<this.petals.length;t++){
+                this.petals[t].draw()
+            }
+            }
+            for(let t = 1;t<this.petals.length;t++){
+                let link = new LineOP(this.petals[t], this.petals[t-1], this.petals[t].color, this.petals[t-1].dis/2.5)
+                link.draw()
+        }
+        }
+
+    }
+
+
 
     let wind = (Math.random() - .5) * 2
     let draft = Math.random() - .5
@@ -18010,6 +18138,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
@@ -18707,6 +18837,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
@@ -18890,6 +19022,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
@@ -19060,6 +19194,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
@@ -19605,6 +19741,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
@@ -19878,6 +20016,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
@@ -20248,6 +20388,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
@@ -20603,6 +20745,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
@@ -20771,6 +20915,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
         snowfloors.splice(0, snowfloors.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
         pomao.thrown = []
 
         boss = new Circle(0, 0, 0, "transparent")
@@ -20952,6 +21098,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
 
         floppers.splice(0, floppers.length)
         snowfloors.splice(0, snowfloors.length)
@@ -21242,6 +21390,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
@@ -21256,6 +21406,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floors.push(floorlvl11)
         walls.push(floorlvl11)
         roofs.push(floorlvl11)
+
+        for(let t =0 ;t<100;t++){
+            let weed = new Flower(-500+(t*100), 33, 15+(Math.random()*15))
+            seaweed.push(weed)
+        }
 
         let jelly = new Rectangle(-2100, -1000, 1033, 22000, "#00ffff88")
         floors.push(jelly)
