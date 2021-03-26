@@ -5,6 +5,12 @@
     let blueflip = 0
     let redflip = 0
     let greenflip = 0
+    let greentic = 0
+    let redtic = 0
+    let bluetic = 0
+    let bluemom = Math.random()*2
+    let redmom = Math.random()*2
+    let greenmom = Math.random()*2
     let counterfrac = {}
     counterfrac.x = 0
     counterfrac.y = 0
@@ -8294,6 +8300,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             if (level == 9) {
+
+                redtic+=redmom
+                bluetic+=bluemom
+                greentic+=greenmom
+                for(let t = 0;t<floors.length;t++){
+
+                    let r = ((t+redtic)%255)
+                    let g =255- ((t+greentic)%255)
+                    let b = 255- ((t+bluetic)%255)
+
+                    floors[t].color = `rgb(${r},${g},${b})`
+                }
                 lvl9basemusic.play()
                 for (let t = 0; t < debris.length; t++) {
                     if (pomao.eggtimer % 500 == 0) {
@@ -8494,7 +8512,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             }
                                             // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                             if (t > 1) {
-                                                let link = new Line(floors[t].x + 5, floors[t].y - 5, floors[t - 1].x + 5, floors[t - 1].y - 5, "blue", 5)
+                                                let link = new Line(floors[t].x + 5, floors[t].y - 5, floors[t - 1].x + 5, floors[t - 1].y - 5, floors[t].color, 5)
                                                 link.draw()
                                             }
                                             // if(Math.abs(floors[t].x-pomao.body.x) > 600){
@@ -8572,7 +8590,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                         // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         if (t > 1) {
-                                            let link = new Line(floors[t].x + 5, floors[t].y - 5, floors[t - 1].x + 5, floors[t - 1].y - 5, "blue", 5)
+                                            let link = new Line(floors[t].x + 5, floors[t].y - 5, floors[t - 1].x + 5, floors[t - 1].y - 5, floors[t.color], 5)
                                             link.draw()
                                         }
                                         // if(Math.abs(floors[t].x-pomao.body.x) > 600){
@@ -8666,7 +8684,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                     // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     if (t > 1) {
-                                        let link = new Line(floors[t].x + 1.5, floors[t].y + 1.5, floors[t - 1].x + 1.5, floors[t - 1].y + 1.5, "blue", 3)
+                                        let link = new Line(floors[t].x + 1.5, floors[t].y + 1.5, floors[t - 1].x + 1.5, floors[t - 1].y + 1.5, floors[t].color, 3)
                                         link.draw()
                                     }
                                     // if(Math.abs(floors[t].x-pomao.body.x) > 650){
@@ -17234,7 +17252,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                     if (pomao.hits > -1) {
                         // tutorial_canvas_context.drawImage(jumpometer, 0, 0, 10, 1000, -2200, -350, 10, 1000)
-
+                        if(level == 9){
+                            staticer()
+                        }
                         drawFractal()
 
                         // swinger1move()
@@ -20930,7 +20950,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             clickercos += (Math.PI * 2 * 310) / 3000
             clickersin += (Math.PI * 2 * 370) / 3000
             clickertan += (Math.PI * 2 * 410) / 3000
-            let floor = new Rectangle(-2100 + (t * 3), 0, 30000000, 3.1, "blue")
+            let floor = new Rectangle(-2100 + (t * 3), 0, 30000000, 3.1, "red")
             floor.waggle = floor.y //+(Math.sin(clickercos)*.2)+(Math.cos(clickersin)*.3)+(Math.sin(clickertan)*.5)
             walls.push(floor)
             floors.push(floor)
@@ -21788,6 +21808,49 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // window.setInterval(function () {
     //     continued_stimulis
     // }, 17)
+
+
+    function eye(i){
+        if(static()){
+            return 1
+        }
+        return 0
+    }
+
+    let static_canvas =  document.getElementById("stat");
+    let static_canvas_context =  static_canvas.getContext('2d')
+    let staticcount = 0
+    function staticer() {
+        // static_canvas_context.clearRect(0, 0, static_canvas.width, static_canvas.height)  // refreshes the image
+        if(staticcount%4== 0){
+        static_canvas.fillStyle = "#FFFFFF00"
+        static_canvas_context.fillRect(0,0, static_canvas.width, static_canvas.height)
+
+            const imageData = static_canvas_context.getImageData(0, 0, static_canvas.width, static_canvas.height);
+            const data = imageData.data;
+
+            for (var i = 0; i < data.length; i += 4) {
+                data[i+3] = 0
+            }
+            for (var i = 0; i < data.length; i += Math.floor(4*(Math.random()*125))) {
+                data[i]  = eye(i) *255// red
+                data[i + 1] =  eye(i) *255//heater.heat[Math.round(obj)].count *255   // green
+                data[i + 2] = eye(i) *255//heater.heat[Math.round(obj)].count *255 // TIP_engine.y // blue
+                // if(data[i]+data[i+1]+data[i+2] <255){
+                    data[i+3] = 255
+                // }
+            }
+            static_canvas_context.putImageData(imageData, 0, 0);
+        }
+            staticcount++
+            tutorial_canvas_context.drawImage(static_canvas, pomao.body.x-640, pomao.body.y-360)
+    }
+    function static(){
+        if(Math.random()<.1){
+            return true
+        }
+        return false
+    }
 
 })
 
