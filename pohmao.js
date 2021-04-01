@@ -10597,6 +10597,157 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     }
 
+    class RadiatorBoss{
+
+        constructor() {
+            this.body = new Bosscircle(-700,-500, 50, "crimson", (Math.random() - .5) * 1, (Math.random() - .5) * 1)
+            this.emmiter = []
+            this.blastage = 0
+            this.counter=0
+            this.mod = 16
+        }
+        draw() {
+            this.counter++
+            if (this.counter%this.mod == 0) {
+                let alpha = new Radiator(this.body.x, this.body.y)
+                alpha.body.radius*=.2
+
+                let kut = 0
+                alpha.body.xmom = (this.body.x-pomao.body.x)/-100
+                alpha.body.ymom = (this.body.y-pomao.body.y)/-100
+                while (Math.abs(alpha.body.xmom) + Math.abs(alpha.body.ymom) < 2) {
+                    alpha.body.xmom *= 1.2
+                    alpha.body.ymom *= 1.2
+                    kut++
+                    if (kut > 1000) {
+                        break
+                    }
+                }
+                this.emmiter.push(alpha)
+            }
+            for (let t = 0; t < this.emmiter.length; t++) {
+                this.emmiter[t].body.fmove()
+                this.emmiter[t].body.x += this.body.xmom
+                this.emmiter[t].body.y += this.body.ymom
+                this.emmiter[t].draw()
+            }
+            for (let t = 0; t < this.emmiter.length; t++) {
+                let link = new LineOP(this.emmiter[t].body, this.body)
+                if (link.squareDistance() > ((100 + this.blastage) * (100 + this.blastage))) {
+                    // this.emmiter[t].blastage++
+                }
+            }
+            let holderemmiter = []
+            for(let t = 0;t<this.emmiter.length;t++){
+                for(let  k = 0;k<this.emmiter[t].emmiter.length;k++){
+                    holderemmiter.push(this.emmiter[t].emmiter[k])
+                }
+
+            }
+            this.bodydraw = new Shape(holderemmiter)
+
+            if (this.blastage == 0) {
+                for (let t = 0; t < pomao.thrown.length; t++) {
+                    if (this.body.repelCheck(pomao.thrown[t])) {
+                        this.blastage++
+                        this.body.radius *= 1.5
+                        let rotx = 0
+                        let roty = 0
+
+                        for (let g = 0; g < 60; g++) {
+                            const alpha = new Bosscircle(this.body.x, this.body.y, 3, "white", Math.cos(rotx) * 1.9, Math.sin(roty) * 1.9)
+                            rotx += 2 * Math.PI / 60
+                            roty += 2 * Math.PI / 60
+                            // this.emmiter.push(alpha)
+                        }
+                        pomao.thrown.splice(t, 1)
+                        break
+                    }
+                }
+            }
+            if (this.blastage > 0) {
+                this.blastage++
+                this.body.radius *= .985
+            }
+
+            if (this.blastage == 100) {
+                for (let t = 0; t < this.emmiter.length; t++) {
+                    this.emmiter[t].xmom *= -3
+                    this.emmiter[t].ymom *= -3
+                }
+                this.body.color = "magenta"
+            }
+            if (this.blastage == 110) {
+                for (let t = 0; t < this.emmiter.length; t++) {
+                    this.emmiter[t].xmom *= -5
+                    this.emmiter[t].ymom *= -5
+                }
+                this.blastage += 200
+                this.body.color = "blue"
+            }
+
+            if (this.blastage == 320) {
+                this.blastage = -100
+                debris.splice(debris.indexOf(this), 1)
+            }
+
+
+            if (pomao.checkRepelPomao(this.body) || this.bodydraw.isPointInside(pomao.body)) {
+                if (this.body.x > pomao.body.x) {
+                    this.bump = 1
+                } else {
+                    this.bump = -1
+                }
+                //   if(pomao.body.ymom == 0){
+                // if (this.body.radius >= 15) {
+                if (pomao.disabled != 1) {
+                    if (pomao.pounding != 10) {
+                        pomao.body.xmom = -3 * (this.bump)
+                        pomao.disabled = 1
+                        pomao.hits--
+                        pomao.body.ymom = -1.8
+                        this.body.xmom = -pomao.body.xmom
+                    }
+                } else {
+                    if (this.bump * pomao.body.xmom > 0) {
+                        pomao.body.xmom = -1.8 * (this.bump)
+                        pomao.body.ymom = -1.8
+                        this.body.xmom = -pomao.body.xmom
+                    }
+                }
+                // }
+                //   }
+            }
+
+
+            if (this.body.x > 7000) {
+                if (this.body.xmom > 0) {
+                    this.body.xmom *= -1
+                }
+            }
+            if (this.body.x < -2050) {
+                if (this.body.xmom < 0) {
+                    this.body.xmom *= -1
+                }
+            }
+            if (this.body.y < -5050) {
+                if (this.body.ymom < 0) {
+                    this.body.ymom *= -1
+                }
+            }
+            if (this.body.y + this.body.radius > floors[(Math.floor((2100 + this.body.x) / 3)) % floors.length].y) {
+                if (this.body.ymom > 0) {
+                    this.body.ymom *= -1
+                }
+            }
+
+            this.body.fmove()
+            this.body.draw()
+        }
+
+        
+    }
+
 
     class Radiator {
         constructor(x, y) {
@@ -10606,7 +10757,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         draw() {
             if (Math.random() < 1) {
-                let alpha = new Bosscircle(this.body.x, this.body.y, 3, "red", (Math.random() - .5) * 10, (Math.random() - .5) * 10)
+                let alpha = new Bosscircle(this.body.x, this.body.y, this.body.radius*.15, "red", (Math.random() - .5) * 10, (Math.random() - .5) * 10)
 
                 let kut = 0
                 while (Math.abs(alpha.xmom) + Math.abs(alpha.ymom) < 5) {
@@ -10627,7 +10778,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             for (let t = 0; t < this.emmiter.length; t++) {
                 let link = new LineOP(this.emmiter[t], this.body)
-                if (link.squareDistance() > ((100 + this.blastage) * (100 + this.blastage))) {
+                if (link.squareDistance() > (((this.body.radius*5) + this.blastage) * ((this.body.radius*5) + this.blastage))) {
                     this.emmiter.splice(t, 1)
                 }
             }
@@ -17254,6 +17405,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         // tutorial_canvas_context.drawImage(jumpometer, 0, 0, 10, 1000, -2200, -350, 10, 1000)
                         if (level == 9) {
                             staticer()
+                            boss.draw()
                         }
                         drawFractal()
 
@@ -20939,7 +21091,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         hookbots.splice(0, hookbots.length)
         pomao.thrown = []
 
-        boss = new Circle(0, 0, 0, "transparent")
+        boss = new RadiatorBoss()
         //  pomao.eggmake = 161
         // boss = new Bossbeam()
 
@@ -21025,6 +21177,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let radiator = new Radiator(-2050 + (Math.random() * 13700), -5000 + (Math.random() * 6000))
             debris.push(radiator)
         }
+
+        
 
 
 
