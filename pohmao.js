@@ -8,6 +8,8 @@ let greenflip = 0
 let greentic = 0
 let redtic = 0
 let bluetic = 0
+
+let pobocounter = Math.floor(Math.random()*100)
 let bluemom = Math.random() * 2
 let redmom = Math.random() * 2
 let greenmom = Math.random() * 2
@@ -562,8 +564,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const dessertimg = new Image()
     dessertimg.src = 'desertfloor2.png'
 
+    const lumaoimg = new Image()
+    lumaoimg.src = 'lumao.png'
+
+    const lumaolimg = new Image()
+    lumaolimg.src = 'lumaol.png'
+
     const pomaoimg = new Image()
     pomaoimg.src = 'rcpomaolpx.png'
+
+    const pobo1img = new Image()
+    pobo1img.src = 'pobo1.png'
+
+    const pobo2img = new Image()
+    pobo2img.src = 'pobo2.png'
+
+    const pobo3img = new Image()
+    pobo3img.src = 'pobo3.png'
     // const pomaoimgx = new Image()
     // pomaoimgx.src = 'pomaoimgx.png'
 
@@ -8100,6 +8117,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     tutorial_canvas_context.drawImage(jomaoimg, 0, 0, pawmaoimg.width, pawmaoimg.height, 1225, -1070 - (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 1.9), 70, jawheight)
                 }
 
+
+
+
+                if (pomao.body.x > 2500) {
+                let lumaoheight = 35 + (Math.sin(((pomao.timeloop * .75) + 3.14)) * 2)
+                tutorial_canvas_context.drawImage(lumaoimg, 0, 0, lumaoimg.width, lumaoimg.height, 2500, -782 -  (Math.sin(((pomao.timeloop * .75) + 3.14)) * 2), 35, lumaoheight)
+                }else{
+                    let lumaoheight = 35 + (Math.sin(((pomao.timeloop * .75) + 3.14)) * 2)
+                    tutorial_canvas_context.drawImage(lumaolimg, 0, 0, lumaolimg.width, lumaolimg.height, 2500, -782 -  (Math.sin(((pomao.timeloop * .75) + 3.14)) * 2), 35, lumaoheight)
+                }
+                if(Math.random()<.1){
+                    pobocounter = Math.floor(Math.random()*100)
+                }
+
+                let poboheight = 180 + (Math.sin(((pomao.timeloop * .5) + 4.14)) * .5)
+                if(pobocounter%3==0){
+                    tutorial_canvas_context.drawImage(pobo1img, 0, 0, pobo1img.width, pobo1img.height, 2700, -927 - (Math.sin(((pomao.timeloop * .5) + 4.14)) * .5), 180, poboheight)
+                }else if(pobocounter%3==1){
+                    tutorial_canvas_context.drawImage(pobo2img, 0, 0, pobo2img.width, pobo2img.height, 2700, -927 - (Math.sin(((pomao.timeloop * .5) + 4.14)) * .5), 180, poboheight)
+                }else if(pobocounter%3==2){
+                    tutorial_canvas_context.drawImage(pobo3img, 0, 0, pobo3img.width, pobo3img.height, 2700, -927 - (Math.sin(((pomao.timeloop * .5) + 4.14)) * .5), 180, poboheight)
+                }else{
+                    tutorial_canvas_context.drawImage(pobo1img, 0, 0, pobo1img.width, pobo1img.height, 2700, -927 - (Math.sin(((pomao.timeloop * .5) + 4.14)) * .5), 180, poboheight)
+                }
 
 
                 tutorial_canvas_context.drawImage(pomarinel, 0, 0, pomarine.width, pomarine.height, 5500 + pmarinedisp, -35, 70, 70)
@@ -17156,7 +17197,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     //abracadabra
-    loadlvl1()
+    // loadlvl1()
     // loadlvl2()
     // loadlvl3()
     // loadlvl4()
@@ -17166,7 +17207,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // loadlvl8()
     // loadlvl9()
     // loadlvl10()
-    // loadlvl11()
+    loadlvl11()
 
     // for(let t=0;t<10;t++){
     //     chafer.draw()
@@ -19116,6 +19157,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomarinedialogue.words.push("You're coming with me kid...")
         chats.push(pomarinedialogue)
 
+
+
+
+        let lumaodial = new Dialogue(2560, -782)
+        lumaodial.words.push("Lumao: Hello Pomao! I'm watching The Grubba Slubbas.")
+        lumaodial.words.push("Pomao: That's good.")
+        lumaodial.words.push("Lumao: Yes!")
+        chats.push(lumaodial)
 
 
         let jodialogue = new Dialogue(1225, -1070)
