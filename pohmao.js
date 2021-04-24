@@ -37,6 +37,7 @@ const snowfloors = []
 const lavas = []
 const floppers = []
 const magnets = []
+const assortedDraw = []
 let floormpf = []
 // const gamepads
 
@@ -4514,10 +4515,58 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //     this.y+=this.ymom
         // }
     }
+    class Fruitbox{
+        constructor(x,y){
+            this.body = new Rectangle(x,y, 60,60, "#FFFFFF25")
+            this.fruit = []
+            for(let t = 0;t<20;t++){
+                let fruit = new Fruit(x,y, 60, 60, "transparent")
+                fruit.locked = 1
+                this.fruit.push(fruit)
+                fruits.push(fruit)
+            }
+            this.broken = 0
+            floors.push(this.body)
+            roofs.push(this.body)
+            walls.push(this.body)
+            ungrapplable.push(this.body)
+        }
+        draw(){
+            // for(let t = 0;t<this.fruit.length;t++){
+            //     this.fruit[t].draw()
+            // }
+            // this.body.draw()
+            this.breakcheck()
+        }
+        breakcheck(){
+            for(let t = 0;t<pomao.thrown.length;t++){
+                if(this.body.doesPerimeterTouch(pomao.thrown[t]))
+                if(this.broken == 0){
+                    this.break()
+                    this.broken = 1
+                }
+            }
+        }
+        break(){
+            
+            for(let t = 0;t<this.fruit.length;t++){
+                this.fruit[t].locked = 2
+            }
+            roofs.splice(roofs.indexOf(this.body), 1)
+            walls.splice(walls.indexOf(this.body), 1)
+            floors.splice(floors.indexOf(this.body), 1)
+            ungrapplable.splice(ungrapplable.indexOf(this.body), 1)
+        }
+    }
 
     class Fruit {
         constructor(x, y, height, width, color) {
             this.anchor = {}
+            this.locked = 0
+            this.timer = 15
+            this.friction = .95
+            this.xmom = (Math.random()-.5)*25
+            this.ymom = (Math.random()-.5)*25
             this.anchor.xdif = 0
             this.anchor.ydif = 0
             this.squish = []
@@ -4527,8 +4576,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.height = height
             this.width = width
             this.color = color
-            this.xmom = 0
-            this.ymom = 0
+            // this.xmom = 0
+            // this.ymom = 0
             this.type = Math.floor(Math.random() * 10)
             this.type2 = Math.floor(Math.random() * 10)
             this.loopoffset = Math.random() * Math.PI * 2
@@ -4601,59 +4650,70 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (keysPressed['q']) {
                 this.body.draw()
             }
-            if (this.linker.squareDistance() < (300 * 300)) {
-                if (this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
-                    // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
-                    // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
-                    // this.move()
-                    this.marked = 1
-                    this.width *= .995
-                    this.height *= .995
-                    if (this.anchor.xdif + this.anchor.ydif == 0) {
-                        this.anchor.xdif = pomao.tongue.x - this.body.x
-                        this.anchor.ydif = pomao.tongue.y - this.body.y
-                        const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red", 1)
-                        const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x - this.anchor.xdif, pomao.tongue.y - this.anchor.ydif, "red", 1)
-                        if (link2.hypotenuse() > link1.hypotenuse() - 10) {
-                            this.anchor.xdif = .001
-                            this.anchor.ydif = 0
+            if(this.locked != 1){
+
+                if (this.linker.squareDistance() < (300 * 300)) {
+                    if (this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
+                        // this.x += pomao.tonguexmom -(((this.body.x-(this.width/2))-pomao.body.x)/100)
+                        // this.y += pomao.tongueymom -(((this.body.y-(this.height/2))-pomao.body.y)/100)
+                        // this.move()
+                        this.marked = 1
+                        this.width *= .995
+                        this.height *= .995
+                        if (this.anchor.xdif + this.anchor.ydif == 0) {
+                            this.anchor.xdif = pomao.tongue.x - this.body.x
+                            this.anchor.ydif = pomao.tongue.y - this.body.y
+                            const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red", 1)
+                            const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x - this.anchor.xdif, pomao.tongue.y - this.anchor.ydif, "red", 1)
+                            if (link2.hypotenuse() > link1.hypotenuse() - 10) {
+                                this.anchor.xdif = .001
+                                this.anchor.ydif = 0
+                            }
                         }
+                        // //////console.log(this)
                     }
-                    // //////console.log(this)
+                    this.body = new Circle(this.x + this.width / 2, this.y + this.height / 2, this.width / 2.5, "blue")
+                    if (this.body.repelCheck(pomao.body)) {
+                        // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
+                        // this.y -= (((this.body.y-(this.height/2))-pomao.body.y)/100)
+                        this.width *= .9
+                        this.height *= .9
+                        if (this.type == 11) {
+                            this.width *= .8
+                            this.height *= .8
+                        }
+                        this.marked = 2
+                        pomao.diry = 1
+                        // //////console.log(pomao)
+                    }
+    
                 }
-                this.body = new Circle(this.x + this.width / 2, this.y + this.height / 2, this.width / 2.5, "blue")
-                if (this.body.repelCheck(pomao.body)) {
-                    // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
-                    // this.y -= (((this.body.y-(this.height/2))-pomao.body.y)/100)
-                    this.width *= .9
-                    this.height *= .9
-                    if (this.type == 11) {
-                        this.width *= .8
-                        this.height *= .8
-                    }
+                if (this.marked == 1) {
+                    ////console.log(this.anchor)
+                    this.x -= ((this.body.x - pomao.tongue.x) / 1) + (this.anchor.xdif * .9)
+                    this.y -= ((this.body.y - pomao.tongue.y) / 1) + (this.anchor.ydif * .9)
+    
+                }
+                if (this.marked == 2) {
+                    this.x -= ((this.body.x - pomao.body.x) / 1.7)
+                    this.y -= ((this.body.y - pomao.body.y) / 1.7)
                     this.marked = 2
                     pomao.diry = 1
+    
+    
                     // //////console.log(pomao)
                 }
-
+    
+    
             }
-            if (this.marked == 1) {
-                ////console.log(this.anchor)
-                this.x -= ((this.body.x - pomao.tongue.x) / 1) + (this.anchor.xdif * .9)
-                this.y -= ((this.body.y - pomao.tongue.y) / 1) + (this.anchor.ydif * .9)
-
+            if(this.locked == 2 && this.timer > 0){
+                this.timer--
+                this.x+=this.xmom
+                this.y+=this.ymom
+                this.xmom*= this.friction 
+                this.ymom*= this.friction 
+                console.log(this)
             }
-            if (this.marked == 2) {
-                this.x -= ((this.body.x - pomao.body.x) / 1.7)
-                this.y -= ((this.body.y - pomao.body.y) / 1.7)
-                this.marked = 2
-                pomao.diry = 1
-
-
-                // //////console.log(pomao)
-            }
-
-
         }
         clean() {
             if (this.body.repelCheck(pomao.body)) {
@@ -6955,6 +7015,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 // this.hng = 0  // infinite flutter?
                                 this.grounded = 2   // infinite flutter on walls
                                 break
+                            }else{
+                                this.tongueymom *= .0049
+                                this.tonguexmom *= .0049
+                                this.tonguey*=.8
+                                this.tonguex*=.8
                             }
                         }
 
@@ -7216,7 +7281,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         // this.hng = 0  // infinite flutter?
                         this.grounded = 2   // infinite flutter on walls
                         break
+                    }else{
+                        this.tongueymom *= .0049
+                        this.tonguexmom *= .0049
+                        this.tonguey*=.8
+                        this.tonguex*=.8
                     }
+
                 }
 
                 if (t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && floors[t].wall != 1) {
@@ -7439,6 +7510,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 // this.hng = 0  // infiinite flutter?
                                 // this.grounded = 2
                                 break
+                            }else{
+                                this.tongueymom *= .0049
+                                this.tonguexmom *= .0049
+                                this.tonguey*=.8
+                                this.tonguex*=.8
                             }
                         }
                         if (floors[t].jelly == 1) {
@@ -7528,6 +7604,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     // this.hng = 0  // infiinite flutter?
                                     this.dry = 1
                                     break
+                                }else{
+                                    this.tongueymom *= .0049
+                                    this.tonguexmom *= .0049
+                                    this.tonguey*=.8
+                                    this.tonguex*=.8
                                 }
                             }
 
@@ -7642,6 +7723,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             // this.hng = 0  // infiinite flutter?
                             this.dry = 1
                             break
+                        }else{
+                            this.tongueymom *= .0049
+                            this.tonguexmom *= .0049
+                            this.tonguey*=.8
+                            this.tonguex*=.8
                         }
                     }
                 }
@@ -8947,7 +9033,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             } else {
                 level10basemusic.pause()
             }
-
+            for(let t = 0;t<assortedDraw.length;t++){
+                assortedDraw[t].draw()
+            }
 
             for (let t = 0; t < fruits.length; t++) {
                 if (fruits[t].x > this.body.x - ((tutorial_canvas.width / 2) + fruits[t].width) && fruits[t].x < this.body.x + ((tutorial_canvas.width / 2) + fruits[t].width)) {
@@ -19007,6 +19095,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         cake2.type2 = 11
         fruits.push(cake2)
 
+
+        for(let t = 0;t<40;t++){
+
+            let fruitboxtest = new Fruitbox(-2000+(t*300),-1000-(t*200))
+
+            assortedDraw.push(fruitboxtest)
+        }
         floormpf = [...floors]
         markRectangles()
     }
@@ -21700,7 +21795,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let fingerflyer = new Finger(center)
 
         hookbots.push(fingerflyer)
-
         floormpf = [...floors]
 
         // let spinny = new BigSeeSaw(-1200, -301, 5)
