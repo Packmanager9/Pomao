@@ -828,23 +828,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
             loadlvl8button = new Rectangle(640 + 200, 360, 50, 50, "teal")
             loadlvl9button = new Rectangle(640 + 300, 360, 50, 50, "blue")
             loadlvl10button = new Rectangle(640 + 400, 360, 50, 50, "white")
+            loadlvl11button = new Rectangle(640 + 500, 360, 50, 50, "#FF5500")
 
             if (loadlvl1button.isPointInside(tip)) {
                 loadlvl1()
             }
-
             if (loadlvl2button.isPointInside(tip)) {
                 loadlvl2()
             }
-
             if (loadlvl3button.isPointInside(tip)) {
                 loadlvl3()
             }
-
             if (loadlvl4button.isPointInside(tip)) {
                 loadlvl4()
             }
-
             if (loadlvl5button.isPointInside(tip)) {
                 loadlvl5()
             }
@@ -862,6 +859,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if (loadlvl10button.isPointInside(tip)) {
                 loadlvl10()
+            }
+            if (loadlvl11button.isPointInside(tip)) {
+                loadlvl11()
             }
         }
 
@@ -4517,6 +4517,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     class Fruitbox{
         constructor(x,y){
+            this.center = new Circle(x,y, 0 , "transparent")
             this.body = new Rectangle(x,y, 60,60, "#FFFFFF25")
             this.fruit = []
             for(let t = 0;t<20;t++){
@@ -4529,6 +4530,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             floors.push(this.body)
             roofs.push(this.body)
             walls.push(this.body)
+            this.angle = 0
+            this.speed = Math.random()*.01
             ungrapplable.push(this.body)
         }
         draw(){
@@ -4536,6 +4539,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     this.fruit[t].draw()
             // }
             // this.body.draw()
+            this.angle += this.speed
+            this.x = this.center.x +(Math.cos(this.angle)*200)
+            this.y = this.center.y +(Math.sin(this.angle)*200)
+
+            if(this.broken == 0){
+            for(let t = 0;t<this.fruit.length;t++){
+                this.fruit[t].x = this.x
+                this.fruit[t].y = this.y
+            }
+            this.body.x = this.x
+            this.body.y = this.y
+        }
+
             this.breakcheck()
         }
         breakcheck(){
@@ -11808,6 +11824,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let loadlvl8button
     let loadlvl9button
     let loadlvl10button
+    let loadlvl11button
 
     class Seed {
         constructor(target) {
@@ -17825,6 +17842,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl8button = new Rectangle(pomao.body.x + 200, pomao.body.y, 50, 50, "teal")
                     loadlvl9button = new Rectangle(pomao.body.x + 300, pomao.body.y, 50, 50, "blue")
                     loadlvl10button = new Rectangle(pomao.body.x + 400, pomao.body.y, 50, 50, "white")
+                    loadlvl11button = new Rectangle(pomao.body.x + 500, pomao.body.y, 50, 50, "#FF5500")
 
                     loadlvl1button.draw()
                     loadlvl2button.draw()
@@ -17836,6 +17854,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl8button.draw()
                     loadlvl9button.draw()
                     loadlvl10button.draw()
+                    loadlvl11button.draw()
                 }
 
                 // for(let t =0;t<ungrapplable.length;t++){
