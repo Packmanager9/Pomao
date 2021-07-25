@@ -21908,6 +21908,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floors.push(oceancap4)
         roofs.push(oceancap4)
 
+
+
+        let fruitangle = -3.14
+
+        for (let t = 0; t < 3000; t++) {
+            const fruit = new Fruit(t*60+200, (-1100 + -(Math.abs((Math.cos(fruitangle))*210)))+(-1*t), 60, 60, "red")
+            let wet = 0
+            fruitangle +=.299
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+        //  fruitangle = -3.14
+
+        // for (let t = 0; t < 50; t++) {
+        //     const fruit = new Fruit(t*60+4500, (-1100 + -(Math.abs((Math.cos(fruitangle))*210)))+(60*t), 60, 60, "red")
+        //     let wet = 0
+        //     // fruitangle +=.299
+        //     if (wet == 0) {
+        //         fruits.push(fruit)
+        //     }
+        // }
+
+
         let center = new Bosscircle(-1000, -1300, 25, "#AA0000")
 
 
