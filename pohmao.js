@@ -507,6 +507,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const pomomimg = new Image()
     pomomimg.src = 'pomom.png'
 
+    const grandpoimg = new Image()
+    grandpoimg.src = 'grandpo2.png'
+
+    const blurmaoimg = new Image()
+    blurmaoimg.src = 'blurmao.png'
+    const blurmaoimgl = new Image()
+    blurmaoimgl.src = 'blurmoal.png'
+
+    const grandpoimgl = new Image()
+    grandpoimgl.src = 'grandpo2l2.png'
+
+    const poatriceimg = new Image()
+    poatriceimg.src = 'poatrice.png'
+
+    const poatriceimgl = new Image()
+    poatriceimgl.src = 'poatricel.png'
+
+    const gramaoimg = new Image()
+    gramaoimg.src = 'gramao.png'
+
 
     const jomaoimg = new Image()
     jomaoimg.src = 'jomao.png'
@@ -1097,6 +1117,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.y += this.ymom
             this.ymom *= .98
             this.xmom *= .98
+        }
+        unmove() {
+            this.x -= this.xmom
+            this.y -= this.ymom
+        }
+        frmove() {
+            this.x += this.xmom
+            this.y += this.ymom
+            this.ymom *= .95
+            this.xmom *= .95
         }
         movenofric() {
             this.x += this.xmom * .1
@@ -8050,8 +8080,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             this.blocked = 0
             for (let t = 0; t < hookbots.length; t++) {
-                if (hookbots[t].center.x > this.body.x - (tutorial_canvas.width / 1) && hookbots[t].center.x < this.body.x + (tutorial_canvas.width / 1.6)) {
-                    if (hookbots[t].center.y > this.body.y - (tutorial_canvas.height / 1.6) && hookbots[t].center.y < this.body.y + (tutorial_canvas.height / 1.6)) {
+                if (hookbots[t].center.x > this.body.x - (tutorial_canvas.width / .7) && hookbots[t].center.x < this.body.x + (tutorial_canvas.width / .7)) {
+                    if (hookbots[t].center.y > this.body.y - (tutorial_canvas.height / .7) && hookbots[t].center.y < this.body.y + (tutorial_canvas.height / .7)) {
                         hookbots[t].draw()
                     }
                 }
@@ -8255,6 +8285,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 let momheight = 70 + (Math.sin(((pomao.timeloop * 1.3) + 3.14)) * 1.7)
                 tutorial_canvas_context.drawImage(pomomimg, 0, 0, pomomimg.width, pomomimg.height, 500, -590 - (Math.sin(((pomao.timeloop * 1.3) + 3.14)) * 1.9), 70, momheight)
 
+                let grandpoheight = 90 + (Math.sin(((pomao.timeloop * 1.4) + 3.14)) * 1.7)
+                if (pomao.body.x < 245) {
+                    tutorial_canvas_context.drawImage(grandpoimgl, 0, 0, grandpoimgl.width, grandpoimgl.height, 200, -610 - (Math.sin(((pomao.timeloop * 1.4) + 3.14)) * 1.9), 90, grandpoheight)
+                } else {
+                tutorial_canvas_context.drawImage(grandpoimg, 0, 0, grandpoimg.width, grandpoimg.height, 200, -610 - (Math.sin(((pomao.timeloop * 1.4) + 3.14)) * 1.9), 90, grandpoheight)
+            }
+                let gramaoheight = 65 + (Math.sin(((pomao.timeloop * 1.42) + 3.14)) * 1.7)
+                tutorial_canvas_context.drawImage(gramaoimg, 0, 0, gramaoimg.width, gramaoimg.height, -25, -285 - (Math.sin(((pomao.timeloop * 1.42) + 3.14)) * 1.9), 65, gramaoheight)
+
                 let pawheight = 70 + (Math.sin(((pomao.timeloop * .75) + 3.14)) * 2)
                 tutorial_canvas_context.drawImage(pawmaoimg, 0, 0, pawmaoimg.width, pawmaoimg.height, 2500, -3040 - (Math.sin(((pomao.timeloop * .75) + 3.14)) * 1.9), 70, pawheight)
 
@@ -8265,6 +8304,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 } else {
 
                     tutorial_canvas_context.drawImage(jomaoimg, 0, 0, pawmaoimg.width, pawmaoimg.height, 1225, -1070 - (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 1.9), 70, jawheight)
+                }
+
+
+                let jawheight2 = 70 + (Math.sin(((pomao.timeloop * 3.75) + 3.14)) * 2)
+                if (pomao.body.x < 1240) {
+                    tutorial_canvas_context.drawImage(blurmaoimgl, 0, 0, blurmaoimgl.width, blurmaoimgl.height, 1205+(Math.random()*4), -1570 - (Math.sin(((pomao.timeloop * 3.75) + 3.14)) * 1.9), 70, jawheight2)
+
+                } else {
+
+                    tutorial_canvas_context.drawImage(blurmaoimg, 0, 0, blurmaoimg.width, blurmaoimg.height, 1205+(Math.random()*4), -1570 - (Math.sin(((pomao.timeloop * 3.75) + 3.14)) * 1.9), 70, jawheight2)
+                }
+
+
+                let poatriceheight = 70 + (Math.sin(((pomao.timeloop * 2.75) + 3.14)) * 2)
+                let poatricex = 1270+(Math.sin(((pomao.timeloop * 3.75) + 3.14)) * 20)
+                let poatricey = -2070 - (Math.sin(((pomao.timeloop * 2.75) + 3.14)) * 1.9) - Math.abs(Math.cos((pomao.timeloop * 2.65) + 3.14)*50)
+
+
+                if (pomao.body.x < poatricex+33) {
+                    tutorial_canvas_context.drawImage(poatriceimgl, 0, 0, poatriceimgl.width, poatriceimgl.height, poatricex, poatricey, 70, poatriceheight)
+
+                } else {
+
+                    tutorial_canvas_context.drawImage(poatriceimg, 0, 0, poatriceimg.width, poatriceimg.height, poatricex, poatricey, 70, poatriceheight)
                 }
 
 
@@ -15210,6 +15273,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Finger {
         constructor(center) {
+            this.stoptime = 0
+            this.lockcenter = new Circle(center.x, center.y, 1, "red")
             this.center = center
             this.contact = 0
             this.dis = 61
@@ -15217,21 +15282,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.angle = Math.PI / 4
             this.angle2 = Math.PI / 6
             this.ytrack = 200
-            this.tip1 = new Bosscircle(0, 0, 10, "yellow")
+            this.tip1 = new Bosscircle(0, 0, 10, "#737373")
 
-            this.tip2 = new Bosscircle(0, 0, 10, "orange")
-            this.tip12 = new Bosscircle(0, 0, 10, "yellow")
+            this.tip2 = new Bosscircle(0, 0, 10, "#737373")
+            this.tip12 = new Bosscircle(0, 0, 10, "#737373")
 
-            this.tip22 = new Bosscircle(0, 0, 10, "orange")
+            this.tip22 = new Bosscircle(0, 0, 10, "#737373")
 
-            this.tip12 = new Bosscircle(this.tip1.x + (Math.sin(0 + this.angle2) * this.dis2), this.tip1.y + (Math.cos(0 + this.angle2) * this.dis2), 10, "purple")
-            this.tip22 = new Bosscircle(this.tip2.x + (Math.sin(0 - this.angle2) * this.dis2), this.tip2.y + (Math.cos(0 - this.angle2) * this.dis2), 10, "pink")
-            this.link1 = new LineOP(this.tip1, this.center, "red", 3)
-            this.link2 = new LineOP(this.tip2, this.center, "red", 3)
-            this.link12 = new LineOP(this.tip1, this.tip12, "red", 3)
-            this.link22 = new LineOP(this.tip2, this.tip22, "red", 3)
+            this.tip12 = new Bosscircle(this.tip1.x + (Math.sin(0 + this.angle2) * this.dis2), this.tip1.y + (Math.cos(0 + this.angle2) * this.dis2), 10, "#737373")
+            this.tip22 = new Bosscircle(this.tip2.x + (Math.sin(0 - this.angle2) * this.dis2), this.tip2.y + (Math.cos(0 - this.angle2) * this.dis2), 10, "#737373")
+            this.link1 = new LineOP(this.tip1, this.center, "Gray", 3)
+            this.link2 = new LineOP(this.tip2, this.center, "Gray", 3)
+            this.link12 = new LineOP(this.tip1, this.tip12, "Gray", 3)
+            this.link22 = new LineOP(this.tip2, this.tip22, "Gray", 3)
             // this.link22 = new LineOP(this.center, this.wing1, "red", 3)
             // this.link22 = new LineOP(this.center, this.wing2, "red", 3)
+
+            this.dislink = new LineOP(this.center, this.lockcenter, "#888888", 4)
         }
         clean() {
 
@@ -15239,6 +15306,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
 
             this.contact--
+
+            this.chase()
             // this.tip1 = new Bosscircle(this.center.x + (Math.sin(0 + this.angle) * this.dis), this.center.y + (Math.cos(0 + this.angle) * this.dis), 10, "yellow")
             // this.tip2 = new Bosscircle(this.center.x + (Math.sin(0 - this.angle) * this.dis), this.center.y + (Math.cos(0 - this.angle) * this.dis), 10, "orange")
 
@@ -15272,12 +15341,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.tip2.draw()
             this.tip12.draw()
             this.tip22.draw()
+            this.dislink.draw()
+
+            this.dislink.width = Math.max(Math.min(this.center.radius, (400000-this.dislink.squareDistance())/40000), 2)
             this.center.draw()
-
-            this.chase()
-
         }
         chase() {
+            // if(this.stoptime > 0){
+            //     this.stoptime--    
+            //     if(this.tip12.repelCheck(pomao.body) || this.tip22.repelCheck(pomao.body)) {
+            //         pomao.body.ymom = 0
+            //         pomao.body.symom = 0
+            //         pomao.blocked = 2
+            //     }
+            //     return
+            // }
+            if(this.dislink.squareDistance() > 600000){
+                this.center.unmove()
+                if(this.tip12.repelCheck(pomao.body) || this.tip22.repelCheck(pomao.body)) {
+                    pomao.body.ymom = 0
+                    pomao.body.symom = 0
+                }
+                this.stoptime = 10
+                return
+            }
             if (pomao.pounding > 0) {
                 this.contact = 0
             }
@@ -19320,9 +19407,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floors.push(lvl2midwayfloor1)
 
         let momdialogue = new Dialogue(505, -585)
-        momdialogue.words.push("Hello Pomao!")
-        momdialogue.words.push("Pa wants to talk to you.")
-        momdialogue.words.push("He is in his study in the tower.")
+        momdialogue.words.push("Pomom: Hello Pomao!")
+        momdialogue.words.push("Pomom: Pa wants to talk to you.")
+        momdialogue.words.push("Pomom: He is in his study in the tower.")
         chats.push(momdialogue)
 
         const momblock = new Rectangle(505, -585, 90, 60)
@@ -19330,6 +19417,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(momblock)
         roofs.push(momblock)
         invisblocks.push(momblock)
+
+
+        const grandpoblock = new Rectangle(211, -605, 90, 60)
+        floors.push(grandpoblock)
+        walls.push(grandpoblock)
+        roofs.push(grandpoblock)
+        invisblocks.push(grandpoblock)
+
+
+        const grandmoblock = new Rectangle(-40, -282, 60, 70)
+        floors.push(grandmoblock)
+        walls.push(grandmoblock)
+        roofs.push(grandmoblock)
+        invisblocks.push(grandmoblock)
 
 
 
@@ -19374,11 +19475,46 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-        let lumaodial = new Dialogue(2560, -782)
+        let grandpodialogue = new Dialogue(225, -605)
+        grandpodialogue.words.push("Grandpo: Pomao!")
+        grandpodialogue.words.push("Grandpo: Did you find anything cool today?")
+        grandpodialogue.words.push("Pomao: I saw some small animals.")
+        grandpodialogue.words.push("Grandpo: Good job Pomao!")
+        chats.push(grandpodialogue)
+
+
+        let grandmodialogue = new Dialogue(40, -265)
+        grandmodialogue.words.push("Gramao: Good morning Pomao.")
+        grandmodialogue.words.push("Pomao: Good morning Gramao!")
+        chats.push(grandmodialogue)
+
+        let lumaodial = new Dialogue(2540, -782)
+        lumaodial.body.radius = 65
         lumaodial.words.push("Lumao: Hello Pomao! I'm watching The Grubba Slubbas.")
         lumaodial.words.push("Pomao: That's good.")
         lumaodial.words.push("Lumao: Yes!")
         chats.push(lumaodial)
+        let pobodial = new Dialogue(2760, -889)
+        pobodial.body.radius = 120
+        pobodial.words.push("Pomao: Hi Pobo.")
+        pobodial.words.push("Pobo: Pobo.")
+        chats.push(pobodial)
+
+
+
+
+        const lumaoblock = new Rectangle(2510, -782, 30, 20)
+        floors.push(lumaoblock)
+        walls.push(lumaoblock)
+        roofs.push(lumaoblock)
+        invisblocks.push(lumaoblock)
+
+        const poboblock = new Rectangle(2730, -912, 160, 115)
+        floors.push(poboblock)
+        walls.push(poboblock)
+        roofs.push(poboblock)
+        invisblocks.push(poboblock)
+
 
 
         let jodialogue = new Dialogue(1225, -1070)
@@ -19386,6 +19522,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
         jodialogue.words.push("Jomao: I'd hug you but...")
         jodialogue.words.push("Jomao: Ya know, no arms.")
         chats.push(jodialogue)
+
+        let blurdial = new Dialogue(1245, -1570)
+        blurdial.timerbase = 45
+        blurdial.words.push("Blurmao: Pomao!")
+        blurdial.words.push("Blurmao: Did you see Lumao?")
+        blurdial.words.push("Blurmao: She's watching Pobo's belly again!")
+        blurdial.words.push("Pomao: Goo-!")
+        blurdial.words.push("Blurmao: Good morning, yeah no problem.")
+        blurdial.words.push("Pomao: -d Mor-")
+        blurdial.words.push("Blurmao: Yes, yes, good morning, but did you see mom in the kitchen?")
+        blurdial.words.push("Pomao: -nin-")
+        blurdial.words.push("Blurmao: I think Jomao is making things again...")
+        blurdial.words.push("Blurmao: Seems kinda risky.")
+        blurdial.words.push("Pomao: -g Bl-")
+        blurdial.words.push("Blurmao: Pawmao is fuming, something to do with the news.")
+        blurdial.words.push("Blurmao: Do you really think the king is going to do all of that?")
+        blurdial.words.push("Pomao: -ur-")
+        blurdial.words.push("Blurmao: I think we should leave while we can.")
+        blurdial.words.push("Blurmao: I'll pack a suitcase for you.")
+        blurdial.words.push("Pomao: -mao!")
+
+
+        chats.push(blurdial)
 
         const pawblock = new Rectangle(2505, -3035, 90, 60)
         floors.push(pawblock)
@@ -21913,12 +22072,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let fruitangle = -3.14
 
         for (let t = 0; t < 3000; t++) {
-            const fruit = new Fruit(t*60+200, (-1100 + -(Math.abs((Math.cos(fruitangle))*210)))+(-1*t), 60, 60, "red")
+            const fruit = new Fruit(t*60+200, (-1100 + -(Math.abs((Math.cos(fruitangle))*210)))+(0*t), 60, 60, "red")
             let wet = 0
             fruitangle +=.299
             if (wet == 0) {
                 fruits.push(fruit)
             }
+
+        // let fingerflyer = new Knocktapus(t*60+200, (-1100 + -(Math.abs((Math.cos(fruitangle))*210)))+(0*t), "Purple")
+
+        // boys.push(fingerflyer)
         }
         //  fruitangle = -3.14
 
@@ -21932,12 +22095,35 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // }
 
 
-        let center = new Bosscircle(-1000, -1300, 25, "#AA0000")
+        let center = new Bosscircle(-1000, -1500, 25, "#678990")
 
 
-        let fingerflyer = new Finger(center)
+        let fingerflyer = new Knocktapus(4200,-500, "#aa00FF")
+
+        swimmers.push(fingerflyer)
+
+        fingerflyer = new Knocktapus(3200,-500, "#0000FF")
+
+        swimmers.push(fingerflyer)
+
+        fingerflyer = new Knocktapus(2200,-500, "#FF00FF")
+
+        swimmers.push(fingerflyer)
+
+        fingerflyer = new Knocktapus(700,-500, "#FF0000")
+
+        swimmers.push(fingerflyer)
+
+        fingerflyer = new Knocktapus(100,-700, "#090909")
+
+        swimmers.push(fingerflyer)
+
+
+
+        fingerflyer = new Finger(center)
 
         hookbots.push(fingerflyer)
+
         floormpf = [...floors]
 
         // let spinny = new BigSeeSaw(-1200, -301, 5)
@@ -22036,6 +22222,220 @@ window.addEventListener('DOMContentLoaded', (event) => {
             return new Complex(real, imaginary)
         }
     }
+
+    class Knocktapus{
+        constructor(x,y,color){
+            this.marked = 0
+            this.anchor = {}
+            this.anchor.xdif = 0
+            this.anchor.ydif = 0
+            this.body = new Bosscircle(x,y, 10, color, 0,0)
+            this.legs = []
+            this.nodes = []
+            this.angle = Math.random()
+            this.pulse = 0
+            for(let t = 0;t<9;t++){
+                let leg = []
+                for(let k = 0;k<5;k++){
+                    let circ = new Bosscircle(this.body.x + (Math.cos(this.angle)*((k*11)+10)),this.body.y + (Math.sin(this.angle)*((k*11)+10)), (this.body.radius-3-(k*1.2)), color)
+                    circ.xdisp = circ.x-this.body.x
+                    circ.ydisp = circ.y-this.body.y
+                    circ.drag = 1-(k/5.1)
+                    leg.push(circ)
+                }
+                this.legs.push(leg)
+                this.angle += (Math.PI/4.5)
+            }
+        }
+        draw(){
+            for(let t =0;t<swimmers.length;t++){
+                let link = new LineOP(this.body, swimmers[t].body)
+                if(link.squareDistance() < 4600){
+                    if(Math.abs(this.body.x - swimmers[t].body.x) < 40){
+                        this.body.xmom += (this.body.x - swimmers[t].body.x)/10
+                    }
+                    if(Math.abs(this.body.y - swimmers[t].body.y) < 40){
+                        this.body.ymom += (this.body.y - swimmers[t].body.y)/10
+                    }
+                }
+            }
+            this.pulse++
+            this.body.move()
+            this.body.radius*=2
+            this.body.draw()
+            this.body.radius*=.5
+            if(pomao.body.y > -1000 && Math.abs(this.body.x-pomao.body.x) < 1000){
+                this.body.ymom-=(this.body.y-pomao.body.y)/3000
+                this.body.xmom-=(this.body.x-pomao.body.x)/3000
+
+                if(this.body.y < -950){
+                    if(this.marked ==0){
+                        this.body.ymom++
+                    }
+                }else{
+                    this.body.ymom-=(this.body.y-pomao.body.y)/1000
+                }
+            }else{
+                if(this.body.y < -950){
+                    if(this.marked ==0){
+                    this.body.ymom++
+                    }
+                }
+            }
+            if(this.body.y > 33-this.body.radius){
+                this.body.y = 33-this.body.radius
+            }
+
+            for(let t = 0;t<this.legs.length;t++){
+                for(let k = 0;k<this.legs[t].length;k++){
+                    if(this.pulse%101 < 50){
+                        this.legs[t][k].xdisp*=1.01
+                        this.legs[t][k].ydisp*=1.01
+                    }else  if(this.pulse%101 > 50){
+                        this.legs[t][k].xdisp/=1.01
+                        this.legs[t][k].ydisp/=1.01
+                    }
+
+                    if(this.legs[t][k].y > 33-this.legs[t][k].radius){
+                        this.legs[t][k].y = 33-this.legs[t][k].radius
+                    }
+                }
+            }
+            for(let t = 0;t<this.legs.length;t++){
+                for(let k = 0;k<this.legs[t].length;k++){
+                    this.legs[t][k].xmom += ((this.legs[t][k].xdisp-(this.legs[t][k].x-this.body.x))*this.legs[t][k].drag)/(3-(this.marked*.4))
+                    this.legs[t][k].ymom += ((this.legs[t][k].ydisp-(this.legs[t][k].y-this.body.y))*this.legs[t][k].drag)/(3-(this.marked*.4))
+                    if(this.marked == 0){
+                        this.legs[t][k].move()
+                    }else{
+                    this.legs[t][k].frmove()
+                    }
+
+                if(this.legs[t][k].y > 33-this.legs[t][k].radius){
+                    this.legs[t][k].y = 33-this.legs[t][k].radius
+                }
+                    this.legs[t][k].draw()
+                }
+            }
+
+            for(let t = 0;t<this.legs.length;t++){
+                for(let k = 1;k<this.legs[t].length;k++){
+                    let link = new LineOP(this.legs[t][k], this.legs[t][k-1], this.legs[t][k].color, this.legs[t][k].radius*1.8)
+                    link.draw()
+                }
+            }
+
+            this.body.radius*=2
+            if (this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
+                if (this.anchor.xdif + this.anchor.ydif == 0) {
+                    this.anchor.xdif = pomao.tongue.x - this.body.x
+                    this.anchor.ydif = pomao.tongue.y - this.body.y
+                    const link1 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x, pomao.tongue.y, "red", 1)
+                    const link2 = new Line(pomao.body.x, pomao.body.y, pomao.tongue.x - this.anchor.xdif, pomao.tongue.y - this.anchor.ydif, "red", 1)
+                    if (link2.hypotenuse() > link1.hypotenuse() - 10) {
+                        this.anchor.xdif = .001
+                        this.anchor.ydif = 0
+                    }
+                }
+                if(this.marked == 0){
+
+                    for(let t = 0;t<this.legs.length;t++){
+                        for(let k = 0;k<this.legs[t].length;k++){
+                            this.legs[t][k].xmom = 0
+                            this.legs[t][k].ymom =0
+                        }
+                    }
+                }
+                this.marked = 1
+                this.body.radius *= .995
+                for(let t = 0;t<this.legs.length;t++){
+                    for(let k = 0;k<this.legs[t].length;k++){
+                        this.legs[t][k].radius *= .99
+                        this.legs[t][k].xdisp*=.98
+                        this.legs[t][k].ydisp*=.98
+                        if(this.legs[t][k].drag > .1){
+                            this.legs[t][k].drag*= .9
+                        }
+                    }
+                }
+    
+            }
+            this.body.radius*=.5
+            if (this.marked == 1) {
+                this.body.xmom = 0
+                this.body.ymom = 0
+                this.body.x = pomao.tongue.x
+                this.body.y = pomao.tongue.y
+                // this.body.x -= ((this.body.x - pomao.tongue.x) / 1) + (this.anchor.xdif * .9)
+                // this.body.y -= (((this.body.y - pomao.tongue.y) / 1) + (this.anchor.ydif * .9)) + 10
+                this.anchor.xdif *= .95
+                this.anchor.ydif *= .95
+                if(this.body.radius < 9){
+                    this.marked = 2
+                }
+                if(pomao.body.repelCheck(this.body)){
+                pomao.diry = 1
+                }
+            }
+            if (this.marked == 2) {
+                this.body.xmom = 0
+                this.body.ymom = 0
+                // this.body.x -= ((this.body.x - pomao.body.x) / 1.1)
+                // this.body.y -= ((this.body.y - pomao.body.y) / 1.1)
+
+                this.body.x = pomao.body.x
+                this.body.y = pomao.body.y
+                this.marked = 2
+                pomao.diry = 1
+                if(this.body.radius < 7.7){
+                    this.out = 1
+                    
+                }
+
+            }
+
+
+            for(let t = 0;t<this.legs.length;t++){
+                for(let k = 0;k<this.legs[t].length;k++){
+                    if(this.marked ==0){
+                        if (this.legs[t][k].repelCheck(pomao.body)) {
+                            if (this.legs[t][k].x > pomao.body.x) {
+                                this.bump = 1
+                            } else {
+                                this.bump = -1
+                            }
+                            if (this.body.radius >= 10) {
+                                if (pomao.disabled != 1) {
+                                    if (pomao.pounding != 10) {
+                                        pomao.body.xmom = -3 * (this.bump)
+                                        pomao.disabled = 1
+                                        pomao.hits--
+                                        pomao.body.ymom = -1.8
+                                        this.body.xmom = -pomao.body.xmom
+                                    }
+                                } else {
+                                    if (this.bump * pomao.body.xmom > 0) {
+                                        pomao.body.xmom = -1.8 * (this.bump)
+                                        pomao.body.ymom = -1.8
+                                        this.body.xmom = -pomao.body.xmom
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        clean(){
+            if(this.out == 1){
+                swimmers.splice(swimmers.indexOf(this), 1)
+            }
+
+        }
+
+    }
+
+
 
     class Rectanglef {
         constructor(x, y, height, width) {
