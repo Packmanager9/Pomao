@@ -1119,8 +1119,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.xmom *= .98
         }
         unmove() {
-            this.x -= this.xmom
-            this.y -= this.ymom
+            this.x -= this.xmom*.01
+            this.y -= this.ymom*.01
         }
         frmove() {
             this.x += this.xmom
@@ -1135,6 +1135,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         movenofricfull() {
             this.x += this.xmom
             this.y += this.ymom
+        }
+        movenofricsub() {
+            this.x += this.xmom*.01
+            this.y += this.ymom*.01
         }
         fmove() {
             this.x += this.xmom
@@ -15274,11 +15278,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class Finger {
         constructor(center) {
             this.stoptime = 0
-            this.lockcenter = new Circle(center.x, center.y, 1, "red")
+            this.lockcenter = new Bosscircle(center.x, center.y, 10, "#109109")
             this.center = center
             this.contact = 0
-            this.dis = 61
-            this.dis2 = 61
+            this.dis = 55
+            this.dis2 = 55
             this.angle = Math.PI / 4
             this.angle2 = Math.PI / 6
             this.ytrack = 200
@@ -15299,12 +15303,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // this.link22 = new LineOP(this.center, this.wing2, "red", 3)
 
             this.dislink = new LineOP(this.center, this.lockcenter, "#888888", 4)
+            this.pomlink = new LineOP(this.center, pomao.body, "#888888", 4)
         }
         clean() {
 
         }
         draw() {
-
+            this.lockcenter.draw()
             this.contact--
 
             this.chase()
@@ -15356,8 +15361,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     }
             //     return
             // }
-            if(this.dislink.squareDistance() > 600000){
+            while(this.dislink.squareDistance() > 600000){
                 this.center.unmove()
+
+                // pomao.body.x-=this.center.xmom*.01
+                // pomao.body.y-=this.center.ymom*.01
                 if(this.tip12.repelCheck(pomao.body) || this.tip22.repelCheck(pomao.body)) {
                     pomao.body.ymom = 0
                     pomao.body.symom = 0
@@ -15382,12 +15390,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
             pomao.body.radius *= .8
             this.gapcheck = (this.center.x - pomao.body.x)
             this.gapchecky = (this.center.y - pomao.body.y)
-            this.center.xmom = -(this.gapcheck) / 50
+            this.center.xmom = -(this.gapcheck) / 35  // 50
             if (this.contact <= 0) {
-                this.center.ymom = -(this.center.y - (pomao.body.y - this.ytrack)) / 50
+                this.center.ymom = -(this.center.y - (pomao.body.y - (this.ytrack-5))) / 35 // 50
             } else {
                 this.center.ymom = pomao.body.ymom * 1.03
                 pomao.body.ymom = this.center.ymom
+            }
+            if(this.contact <= 0){
+                if(this.pomlink.squareDistance() < 40000){
+                    this.center.xmom *= 1.5
+                }
+                if(this.pomlink.squareDistance() < 40000){
+                    this.center.ymom *= 1.5
+                }
+                if(this.pomlink.squareDistance() < 10000){
+                    this.center.xmom *= 1.5
+                }
+                if(this.pomlink.squareDistance() < 10000){
+                    this.center.ymom *= 1.5
+                }
+                if(this.pomlink.squareDistance() < 4900){
+                    this.center.xmom *= 2.5
+                }
+                if(this.pomlink.squareDistance() < 4900){
+                    this.center.ymom *= 2.5
+                }
             }
             if (Math.abs(this.center.xmom) < 1.5) {
                 // this.center.xmom *= 1.1
@@ -15395,14 +15423,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (Math.abs(this.center.ymom) < 3) {
                 // this.center.ymom *= 1.1
             }
-            this.center.movenofricfull()
+            let j = 0
+            while(this.dislink.squareDistance() < 600000 && j < 100){
+            this.center.movenofricsub()
+            j++
+            }
             if (Math.abs(this.gapcheck) < 75) {
                 if (this.angle < 2) {
                     if (this.contact <= 0) {
-                        if (this.ytrack > 62 || Math.abs(this.gapchecky) > 140) {
+                        if (this.ytrack > 77 || Math.abs(this.gapchecky) > 140) {
                             this.angle += .02
                         } else {
-                            this.angle -= .0215
+                            this.angle -= .0415 // 415
                         }
                     } else {
                         if (!pomao.checkRepelPomao(this.tip12) && !pomao.checkRepelPomao(this.tip22)) {
@@ -15412,10 +15444,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 if (this.angle2 > -1) {
                     if (this.contact <= 0) {
-                        if (this.ytrack > 62 || Math.abs(this.gapchecky) > 140) {
+                        if (this.ytrack > 77 || Math.abs(this.gapchecky) > 140) {
                             this.angle2 -= .02
                         } else {
-                            this.angle2 += .0215
+                            this.angle2 += .0415  //215
                         }
                     } else {
                         if (!pomao.checkRepelPomao(this.tip12) && !pomao.checkRepelPomao(this.tip22)) {
@@ -15424,7 +15456,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
 
-                if (this.ytrack > 61) {
+                if (this.ytrack > 76) {
                     if (this.contact <= 0) {
                         this.ytrack -= 3
                     }
@@ -15516,6 +15548,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.ytrack = 200
             }
 
+            if(this.pomlink.squareDistance() > (75*75)){
+                if (this.angle < 2) {
+                    this.angle += .02 
+                }
+                if (this.angle2 > -1) {
+                this.angle2 -= .02
+                }
+            }
             pomao.body.radius = radsto
         }
     }
@@ -16993,7 +17033,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         canvas.style.background = style
         window.setInterval(function () {
             main()
-        }, 18)
+        }, 50)
         document.addEventListener('keydown', (event) => {
             keysPressed[event.key] = true;
         });
@@ -22095,7 +22135,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // }
 
 
-        let center = new Bosscircle(-1000, -1500, 25, "#678990")
 
 
         let fingerflyer = new Knocktapus(4200,-500, "#aa00FF")
@@ -22118,12 +22157,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         swimmers.push(fingerflyer)
 
+        fingerflyer = new Knocktapus(1000,-700, "#109909")
+
+        swimmers.push(fingerflyer)
+
+        fingerflyer = new Knocktapus(2100,-700, "#abc123")
+
+        swimmers.push(fingerflyer)
+
+        fingerflyer = new Knocktapus(3100,-700, "#980456")
+
+        swimmers.push(fingerflyer)
+
+        fingerflyer = new Knocktapus(4100,-700, "#ffaa99")
+
+        swimmers.push(fingerflyer)
 
 
-        fingerflyer = new Finger(center)
 
-        hookbots.push(fingerflyer)
+        for(let t = 0;t<15;t++){
 
+            let center = new Bosscircle(-1000+(t*1900), -1500, 25, "#678990")
+            fingerflyer = new Finger(center)
+            hookbots.push(fingerflyer)
+
+        }
         floormpf = [...floors]
 
         // let spinny = new BigSeeSaw(-1200, -301, 5)
@@ -22365,13 +22423,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.marked == 1) {
                 this.body.xmom = 0
                 this.body.ymom = 0
+                let xdrop = this.body.x - pomao.tongue.x
+                let ydrop = this.body.y - pomao.tongue.y
+
+                for(let t = 0;t<this.legs.length;t++){
+                    for(let k = 0;k<this.legs[t].length;k++){
+                        this.legs[t][k].x -= xdrop*.75
+                        this.legs[t][k].y -= ydrop*.75
+                        this.legs[t][k].xmom *= .975
+                        this.legs[t][k].ymom *= .975
+                    }
+                }
+
+
+
                 this.body.x = pomao.tongue.x
                 this.body.y = pomao.tongue.y
                 // this.body.x -= ((this.body.x - pomao.tongue.x) / 1) + (this.anchor.xdif * .9)
                 // this.body.y -= (((this.body.y - pomao.tongue.y) / 1) + (this.anchor.ydif * .9)) + 10
                 this.anchor.xdif *= .95
                 this.anchor.ydif *= .95
-                if(this.body.radius < 9){
+                if(this.body.radius < 8.5){
                     this.marked = 2
                 }
                 if(pomao.body.repelCheck(this.body)){
@@ -22383,6 +22455,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.body.ymom = 0
                 // this.body.x -= ((this.body.x - pomao.body.x) / 1.1)
                 // this.body.y -= ((this.body.y - pomao.body.y) / 1.1)
+
+
+                let xdrop = this.body.x - pomao.body.x
+                let ydrop = this.body.y - pomao.body.y
+
+                for(let t = 0;t<this.legs.length;t++){
+                    for(let k = 0;k<this.legs[t].length;k++){
+                        this.legs[t][k].x -= xdrop*.75
+                        this.legs[t][k].y -= ydrop*.75
+                        this.legs[t][k].xmom *= .975
+                        this.legs[t][k].ymom *= .975
+                    }
+                }
+
 
                 this.body.x = pomao.body.x
                 this.body.y = pomao.body.y
