@@ -22251,11 +22251,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             for(let t =0;t<swimmers.length;t++){
                 let link = new LineOP(this.body, swimmers[t].body)
                 if(link.squareDistance() < 4600){
-                    if(Math.abs(this.body.x - swimmers[t].body.x) < 40){
-                        this.body.xmom += (this.body.x - swimmers[t].body.x)/10
+                    if(Math.abs(this.body.x - swimmers[t].body.x) < 60){
+                        this.body.xmom += (this.body.x - swimmers[t].body.x)/11
                     }
-                    if(Math.abs(this.body.y - swimmers[t].body.y) < 40){
-                        this.body.ymom += (this.body.y - swimmers[t].body.y)/10
+                    if(Math.abs(this.body.y - swimmers[t].body.y) < 60){
+                        this.body.ymom += (this.body.y - swimmers[t].body.y)/11
                     }
                 }
             }
@@ -22319,6 +22319,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             for(let t = 0;t<this.legs.length;t++){
+                let link = new LineOP(this.legs[t][0], this.body, this.legs[t][0].color, this.body.radius*1.8)
                 for(let k = 1;k<this.legs[t].length;k++){
                     let link = new LineOP(this.legs[t][k], this.legs[t][k-1], this.legs[t][k].color, this.legs[t][k].radius*1.8)
                     link.draw()
