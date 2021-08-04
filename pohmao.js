@@ -1,4 +1,9 @@
 
+
+
+let imageData =  {}
+let data =  {}
+let pausefalse = false
 let redx = 0
 let greenx = 0
 let bluex = 0
@@ -8,6 +13,11 @@ let greenflip = 0
 let greentic = 0
 let redtic = 0
 let bluetic = 0
+
+let squaretable = {}
+for(let t = 0;t<10000000;t++){
+    squaretable[`${t}`] = Math.sqrt(t)
+}
 
 let pobocounter = Math.floor(Math.random()*100)
 let bluemom = Math.random() * 2
@@ -335,7 +345,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         lvl2floorimg.decode()
     }
     const lvl3floorimg = new Image()
-    lvl3floorimg.src = "floor6.png"
+    lvl3floorimg.src = "bricks.png"
     lvl3floorimg.onload = function () {
         lvl3floorimg.decode()
     }
@@ -729,6 +739,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             keysPressed[event.key] = true;
         }
+
+        // console.log(event.key)
+        // if(event.key == 'p'){
+        // }
     });
 
     document.addEventListener('keyup', (event) => {
@@ -763,12 +777,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             delete keysPressed[event.key];
         }
+
+        if(event.key == 'p'){
+            pausefalse = false
+        }
     });
 
     const tutorial_canvas = document.getElementById("tutorial");
     const tutorial_canvas_context = tutorial_canvas.getContext('2d', { alpha: false });
 
     // tutorial_canvas_context.scale(.075,.075)
+
     // tutorial_canvas_context.scale(.1,.1)
     // tutorial_canvas_context.scale(.25,.25)
     // tutorial_canvas_context.translate(3300,19750) //lvl4
@@ -851,37 +870,59 @@ window.addEventListener('DOMContentLoaded', (event) => {
             loadlvl11button = new Rectangle(640 + 500, 360, 50, 50, "#FF5500")
 
             if (loadlvl1button.isPointInside(tip)) {
+                pomao.paused = 10
+                pomao.pausetimer = 10
                 loadlvl1()
             }
             if (loadlvl2button.isPointInside(tip)) {
                 loadlvl2()
+                pomao.paused = 10
+                pomao.pausetimer = 10
             }
             if (loadlvl3button.isPointInside(tip)) {
                 loadlvl3()
+                pomao.paused = 10
+                pomao.pausetimer = 10
             }
             if (loadlvl4button.isPointInside(tip)) {
                 loadlvl4()
+                pomao.paused = 10
+                pomao.pausetimer = 10
             }
             if (loadlvl5button.isPointInside(tip)) {
                 loadlvl5()
+                pomao.paused = 10
+                pomao.pausetimer = 10
             }
             if (loadlvl6button.isPointInside(tip)) {
                 loadlvl6()
+                pomao.paused = 10
+                pomao.pausetimer = 10
             }
             if (loadlvl7button.isPointInside(tip)) {
                 loadlvl7()
+                pomao.paused = 10
+                pomao.pausetimer = 10
             }
             if (loadlvl8button.isPointInside(tip)) {
                 loadlvl8()
+                pomao.paused = 10
+                pomao.pausetimer = 10
             }
             if (loadlvl9button.isPointInside(tip)) {
                 loadlvl9()
+                pomao.paused = 10
+                pomao.pausetimer = 10
             }
             if (loadlvl10button.isPointInside(tip)) {
                 loadlvl10()
+                pomao.paused = 10
+                pomao.pausetimer = 10
             }
             if (loadlvl11button.isPointInside(tip)) {
                 loadlvl11()
+                pomao.paused = 10
+                pomao.pausetimer = 10
             }
         }
 
@@ -1024,8 +1065,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.bodies[t].y = this.bodies[t].waggle
                 this.bodies[t].height = this.height[t] + Math.abs(this.bodies[t].waggle - this.bodies[t].ysto) //+ (this.disp*t)
                 if (t > 0) {
+
+                    if(Math.abs(this.bodies[t].x-pomao.body.x)<700){
                     let link = new Line(this.bodies[t].x + 1.5, this.bodies[t].waggle, this.bodies[t - 1].x + 1.5, this.bodies[t - 1].waggle, "white", 5)
                     link.draw()
+                    }
                 }
             }
         }
@@ -3607,7 +3651,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             this.blocked = 0
             for (let t = 0; t < walls.length; t++) {
-                if (squarecircleface(walls[t], this.body)) {
+                if (squarecircleface(walls[t], this.body) ) {
 
                     if (this.body.x > walls[t].x) {
                         this.blocked = 1
@@ -3865,7 +3909,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (this.counter % 1 == 0) {
                 this.link = new LineOP(this.positron, this.electron)
-                this.linkhyp = this.link.hypotenuse()
+                this.linkhyp = this.link.m_hypotenuse()
                 this.positron.xmom -= (this.positron.x - this.electron.x) / (this.linkhyp * .5) * .10
                 this.electron.xmom -= (this.electron.x - this.positron.x) / (this.linkhyp * .5) * .10
                 this.positron.ymom -= (this.positron.y - this.electron.y) / (this.linkhyp * .10)
@@ -3916,7 +3960,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             this.counter++
             this.link = new LineOP(this.positron, this.electron)
-            this.linkhyp = this.link.hypotenuse()
+            this.linkhyp = this.link.m_hypotenuse()
             this.body = castBetween(this.positron, this.electron, this.linkhyp / (this.electron.radius * .4), this.electron.radius * .2)
             this.body.shapes.push(this.positron)
             this.body.shapes.push(this.electron)
@@ -4889,7 +4933,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let xdif = this.object.x - this.target.x
             let ydif = this.object.y - this.target.y
             let hypotenuse = (xdif * xdif) + (ydif * ydif)
-            return Math.sqrt(hypotenuse)
+            if(hypotenuse < 10000000-1){
+                return squaretable[`${Math.round(hypotenuse)}`]
+            }else{
+                return Math.sqrt(hypotenuse)
+            }
+        }
+        m_hypotenuse() {
+            let xdif = this.object.x - this.target.x
+            let ydif = this.object.y - this.target.y
+            let hypotenuse = (xdif * xdif) + (ydif * ydif)
+                return Math.sqrt(hypotenuse)
         }
         squareDistance() {
             let xdif = this.object.x - this.target.x
@@ -5351,11 +5405,37 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.yrepel = 0
             this.lens = 0
         }
+        steer(){
+            
+        }
+        steery(){
+            
+        }
         draw() {
             let dummy = new Circlec(this.x, this.y, this.radius, this.color)
             dummy.draw()
         }
         move() {
+            // if(cheats.warpspeed == 1){
+            //     for(let t = 0;t<3;t++){
+            //         this.x += this.xmom
+            //         this.y += this.ymom
+            //         if (this == pomao.body) {
+            //             for (let t = 1; t < pomao.eggs.length; t++) {
+            //                 //     for(let k = 0; pomao.eggs[t].pos.length; k++){
+            //                 if (Math.abs(this.sxmom) > 0) {
+            //                     pomao.eggs[t].steer()
+            //                 } else if (Math.abs(this.xmom) > 0) {
+            //                     pomao.eggs[t].steer()
+            //                 }
+            //                 //          break
+            //                 //         // ////////console.log(pomao.eggs[t].pos)
+            //                 //     }
+            //             }
+            //             tutorial_canvas_context.translate(-this.xmom, -this.ymom)
+            //         }
+            //         this.smove()}
+            // }
 
             this.x += this.xmom
             this.y += this.ymom
@@ -5609,6 +5689,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.body = new Circle(this.pomao.body.x - 575, this.pomao.body.y - 300, 27.5, "red")
         }
         draw() {
+            if(cheats.harmless == 1){
+                this.pomao.hits = 9
+            }
             this.body = new Circle(this.pomao.body.x - 575, this.pomao.body.y - 300, 27.5, "red")
             this.body.draw()
             tutorial_canvas_context.drawImage(healthbase, 0, 0, healthbase.width, healthbase.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
@@ -5618,6 +5701,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 const ray = new Circle(this.body.x + (Math.sin(a) * 28), this.body.y + (Math.cos(a) * 28), 6, "yellow")
                 this.rays.push(ray)
                 a += (Math.PI / 4.5)
+            }
+            if(pomao.hits > 9){
+                pomao.hits = 9
             }
             for (let t = 0; t < this.pomao.hits; t++) {
                 // this.rays[t].draw()
@@ -5889,7 +5975,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.eggtimer = 10
             this.egglock = 0
             this.body = new Circlex(640, 360, 32, "transparent")
+            if(cheats.megamao == 1){
+                this.body.radius = 64
+            }
             this.tongue = new Circlec(this.body.x, this.body.y, 6, "blue")
+            if(cheats.megamao == 1){
+                this.tongue.radius = 12
+            }
+            
             this.tonguex = 0
             this.tonguey = 0
             this.tonguexmom = 0
@@ -8049,6 +8142,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         }
         draw() {
+            if(cheats.ruthless == 1){
+                this.eggs.push(this.body)
+            }
             this.eggmake--
             if (this.eggmake > 0) {
                 if (this.eggmake % 10 == 0) {
@@ -8091,7 +8187,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             for (let t = 0; t < walls.length; t++) {
-                if (squarecircleface(walls[t], pomao.body)) {
+                if (squarecircleface(walls[t], pomao.body) && cheats.clip == 0) {
                     if (!blocks.includes(walls[t])) {
 
                         if (pomao.body.x > walls[t].x) {
@@ -8128,6 +8224,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.cutscene <= 0) {
                 this.control()
             }
+            
+            if(cheats.warpspeed == 1){
+                for(let t = 0;t<3;t++){
+                this.control()
+                }
+            }
             if (this.blocked == 0) {
 
                 this.body.move()
@@ -8147,6 +8249,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if (this.tongue.x < this.body.x) {
                 this.tonguexmom += .5
+            }
+            if(cheats.megamao == 1){
+            if (this.tongue.x > this.body.x) {
+                this.tonguexmom -= .5
+            }
+            if (this.tongue.x < this.body.x) {
+                this.tonguexmom += .5
+            }
+
+            if (this.tongue.y > this.body.y && ((!keysPressed['l'] && !keysPressed['j']) || this.tongue.y > this.body.y + 5)) {
+                this.tongueymom -= .5
+            }
+            if (this.tongue.y < this.body.y && ((!keysPressed['l'] && !keysPressed['j']) || this.tongue.y < this.body.y - 5)) {
+                this.tongueymom += .5
+            }
             }
             if (this.tongue.y > this.body.y && ((!keysPressed['l'] && !keysPressed['j']) || this.tongue.y > this.body.y + 5)) {
                 this.tongueymom -= .5
@@ -8203,18 +8320,39 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.width = 64 + (Math.sin(this.timeloopx) * 1)
             if (this.jumping == 1) {
                 if (this.body.ymom < 0) {
-                    this.height = 68 + this.pounding + Math.round((Math.abs(this.body.ymom) + Math.abs(this.hng) + Math.abs(this.body.symom)) * 1.9)
+                    this.height = 68 + this.pounding + Math.round((Math.min(Math.abs(this.body.ymom), 15) + Math.abs(Math.min(this.hng, .217)) + Math.abs(this.body.symom)) * 1.9)
                 } else {
                     this.height = 68 + this.pounding
                 }
             }
             if (this.jumping == 1) {
                 if (this.body.ymom < 0) {
-                    this.width = 60 - (this.pounding + ((Math.abs(this.body.ymom) + Math.abs(this.hng) + Math.abs(this.body.symom)) * 1.5))
+                    this.width = 60 - (this.pounding + ((Math.min(Math.abs(this.body.ymom), 15) + Math.abs(Math.min(this.hng, .217)) + Math.abs(this.body.symom)) * 1.5))
                 } else {
                     this.width = 60 - this.pounding
                 }
                 // this.width  = 60-this.pounding
+            }
+
+
+            if(cheats.megamao == 1){
+                this.height = 128 + (Math.sin(this.timeloop) * (6 + this.pounding))
+                this.width = 128 + (Math.sin(this.timeloopx) * 1)
+
+            if (this.jumping == 1) {
+                if (this.body.ymom < 0) {
+                    this.height = 136 + this.pounding + Math.round((Math.min(Math.abs(this.body.ymom), 15)  + Math.abs(Math.min(this.hng, .217)) + Math.abs(this.body.symom)) * 1.9)
+                } else {
+                    this.height = 136 + this.pounding
+                }
+            }
+            if (this.jumping == 1) {
+                if (this.body.ymom < 0) {
+                    this.width = 120 - (this.pounding + ((Math.min(Math.abs(this.body.ymom), 15) + Math.abs(Math.min(this.hng, .217)) + Math.abs(this.body.symom)) * 1.5))
+                } else {
+                    this.width = 120 - this.pounding
+                }
+            }
             }
 
             if (Math.abs(this.rattled < 3)) {
@@ -8576,15 +8714,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         debris[t].particle *= -1
                     }
                     if (typeof debris[t].link == "undefined") {
-                        let link = new LineOP(debris[t].body, pomao.body)
+                        // let link = new LineOP(debris[t].body, pomao.body)
 
-                        if (link.squareDistance() < (1200 * 1200)) {
+                        if (debris[t].linkx.squareDistance() + ((((debris[t].body.radius*5) + debris[t].blastage) * ((debris[t].body.radius*5) + debris[t].blastage))) < (740 * 740)) { //12001200
                             debris[t].draw()
                         }
 
 
                     } else {
-                        if (debris[t].link.squareDistance() < (900 * 900)) {
+                        if (debris[t].link.squareDistance() < (740 * 740)) { //900900
                             debris[t].draw()
                         }
                     }
@@ -8770,8 +8908,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             }
                                             // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                             if (t > 1) {
+
+                                        if(Math.abs(floors[t].x-pomao.body.x)<700){
                                                 let link = new Line(floors[t].x + 5, floors[t].y - 5, floors[t - 1].x + 5, floors[t - 1].y - 5, floors[t].color, 5)
                                                 link.draw()
+                                        }
                                             }
                                             // if(Math.abs(floors[t].x-pomao.body.x) > 600){
                                             //     floors[t].draw()
@@ -8848,8 +8989,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                         // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         if (t > 1) {
+
+                                        if(Math.abs(floors[t].x-pomao.body.x)<700){
                                             let link = new Line(floors[t].x + 5, floors[t].y - 5, floors[t - 1].x + 5, floors[t - 1].y - 5, floors[t.color], 5)
                                             link.draw()
+                                        }
                                         }
                                         // if(Math.abs(floors[t].x-pomao.body.x) > 600){
                                         //     floors[t].draw()
@@ -8942,8 +9086,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                     // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     if (t > 1) {
+                                        if(Math.abs(floors[t].x-pomao.body.x)<700){
                                         let link = new Line(floors[t].x + 1.5, floors[t].y + 1.5, floors[t - 1].x + 1.5, floors[t - 1].y + 1.5, floors[t].color, 3)
                                         link.draw()
+                                        }
                                     }
                                     // if(Math.abs(floors[t].x-pomao.body.x) > 650){
                                     //     floors[t].draw()
@@ -8954,8 +9100,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                     // tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     if (t > 1 && t < 1859) {
-                                        let link = new Line(floors[t].x + 1.5, floors[t].y, floors[t - 1].x + 1.5, floors[t - 1].y, "white", 5)
-                                        link.draw()
+                                        if(Math.abs(floors[t].x-pomao.body.x)<700){
+                                            let link = new Line(floors[t].x + 1.5, floors[t].y, floors[t - 1].x + 1.5, floors[t - 1].y, "white", 5)
+                                            link.draw()
+                                        }
                                     }
                                     if (Math.abs(floors[t].x - pomao.body.x) > 650) {
                                         floors[t].draw()
@@ -9087,26 +9235,37 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
+            if(cheats.megamao == 1){
+                this.tongue.radius = 12
+            }
             this.tongue.draw()
 
             this.link = new Line(this.body.x, 3 + this.body.y - (Math.sin(this.timeloop) * 1), this.tongue.x, this.tongue.y, "blue", 3) // radius 3 // this.tongue.radius*1.1
+
+            if(cheats.megamao == 1){
+                this.link.width = 6
+            }
             this.link.draw()
 
 
             if (level == 10) {
                 // //console.log(snows)
                 if (Math.random() < .2) {
-                    for (let t = 0; t < 2; t++) {
-                        let snow = new Snowflake((pomao.body.x - 5040) + Math.random() * 10080, (pomao.body.y - 360) - Math.random() * 360)
-                        snows.push(snow)
-                    }
+                    // for (let t = 0; t < 2; t++) {
+                    //     let snow = new Snowflake((pomao.body.x - 5040) + Math.random() * 10080, (pomao.body.y - 360) - Math.random() * 360)
+                    //     snows.push(snow)
+                    // }
                 } else {
                     let snow = new Snowflake((pomao.body.x - 5040) + Math.random() * 10080, (pomao.body.y - 360) - Math.random() * 360)
                     snows.push(snow)
                 }
                 for (let t = 0; t < snows.length; t++) {
                     if (Math.abs(snows[t].body.x - pomao.body.x) < 650) {
+                    if (Math.abs(snows[t].body.y - pomao.body.y) < 390) {
                         snows[t].draw()
+                    }else {
+                        snows[t].drift()
+                    }
                     } else {
                         snows[t].drift()
                     }
@@ -9259,14 +9418,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
             for (let t = 0; t < worms.length; t++) {
                 if (worms[t].boss == 1) {
                     if (pomao.body.y < -8570) {
-                        worms[t].draw()
+                        if(worms[t].gcdodge == 0){
+worms[t].draw()
+}
                     }
                 } else {
                     if (worms[t].dangler == 0) {
                         if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
                             if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .7) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .016)) {
                                 if (worms[t].layer == 0) {
-                                    worms[t].draw()
+                                    if(worms[t].gcdodge == 0){
+worms[t].draw()
+}
                                 }
                             }
                         }
@@ -9274,7 +9437,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
                             if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .5) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .5)) {  //.2
                                 if (worms[t].layer == 0) {
-                                    worms[t].draw()
+                                    if(worms[t].gcdodge == 0){
+worms[t].draw()
+}
                                 }
                             }
                         }
@@ -9294,7 +9459,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                         }
                     }
-                    worms.splice(t, 1)
+                    // worms.splice(t, 1)
+
+            worms[t].gcdodge = 1
 
                 }
             }
@@ -9498,13 +9665,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
             for (let t = 0; t < worms.length; t++) {
                 if (worms[t].boss == 1) {
                     // if (pomao.y < -9170) {
-                    //     // worms[t].draw() // maybe remove this?
+                    //     // 
+                    if(worms[t].gcdodge == 0){
+worms[t].draw()
+} // maybe remove this?
                     // }
                 } else {
                     if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
                         if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .7) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .016)) {
                             if (worms[t].layer == 1) {
-                                worms[t].draw()
+                                if(worms[t].gcdodge == 0){
+worms[t].draw()
+}
                             }
                         }
                     }
@@ -9522,7 +9694,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                     pomao.hits += 1  //was inside of egglength lol
-                    worms.splice(t, 1)
+                    // worms.splice(t, 1)
+
+            worms[t].gcdodge = 1
 
                 }
             }
@@ -9541,9 +9715,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         control() {
 
             if (gamepadAPI.buttonsStatus.includes('RB') || keysPressed['p']) {
-                if (this.pausetimer <= 0) {
-                    this.paused = -10
-                    this.pausetimer = 20
+                if (pausefalse == false) {
+                    if (this.pausetimer <= 0) {
+                        pausefalse = true
+                        this.paused = -10
+                        this.pausetimer = 30
+                    }
                 }
             }
             this.pausetimer--
@@ -9580,7 +9757,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 } else {
 
-                    if (pomao.runner > 37) {
+                    if (pomao.runner > 37  || cheats.nowear == 1) {
 
                         if (pomao.hng < .1) {
                             pomao.hng += .006
@@ -9589,7 +9766,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else {
                             pomao.hng += .001
                         }
-                        if (pomao.hng < .216) {
+                        if (pomao.hng < .216 || cheats.nowear == 1) {
                             pomao.body.ymom += -pomao.hng
                             ////////console.log(pomao.hng)
                         } else {
@@ -9614,20 +9791,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.runner = 0
                     }
                 } else {
-                    if (this.runner > 37) {
+   
+                    if (pomao.runner > 37  || cheats.nowear == 1) {
 
-                        if (this.hng < .1) {
-                            this.hng += .006
-                        } else if (this.hng < .2) {
-                            this.hng += .006
+                        if (pomao.hng < .1) {
+                            pomao.hng += .006
+                        } else if (pomao.hng < .2) {
+                            pomao.hng += .006
                         } else {
-                            this.hng += .001
+                            pomao.hng += .001
                         }
-                        if (this.hng < .216) {
-                            this.body.ymom += -this.hng
+                        if (pomao.hng < .216 || cheats.nowear == 1) {
+                            pomao.body.ymom += -pomao.hng
+                            ////////console.log(pomao.hng)
                         } else {
-                            // this.hng = -.05
-                            // this.runner = 0
+                            // pomao.hng = -.05
+                            // pomao.runner = 0
                         }
 
                     }
@@ -9915,6 +10094,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
 
+                    if(cheats.megamao == 1){
+                        this.tongueymom*=2
+                        this.tonguexmom*=2
+                    }
+
                     this.fired = 3
                 }
             } else if (gamepadAPI.axesStatus.length > 0) {
@@ -10017,7 +10201,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             this.bodyxtight = new Circle(this.body.x, this.body.y, 9, "red")
             this.bodytight = new Circle(this.body.x, this.body.y, 21, "yellow")
-            if (this.eggs[this.eggs.length - 1] != this.body) {
+            if (this.eggs[this.eggs.length - 1] != this.body || cheats.ruthless == 1) {
 
                 if (this.eggs.length > 1 && this.eggtimer > 10) {
                     if (keysPressed['m'] || (gamepadAPI.buttonsStatus.includes('Axis-Right') && (Math.abs(gamepadAPI.axesStatus[2]) + Math.abs(gamepadAPI.axesStatus[3]) > .3))) {
@@ -10062,8 +10246,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                         if (keysPressed['m']) {
                             if (this.xdir == -1) {
+                                if(cheats.ruthless == 0) {
                                 this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
                                 this.eggs[this.eggs.length - 1].y = this.body.y
+                                }
                                 this.eggs[this.eggs.length - 1].marked = 1
                                 this.eggs[this.eggs.length - 1].xmom = -12
                                 this.eggs[this.eggs.length - 1].ymom = -3
@@ -10072,8 +10258,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 this.dir = -1
                             }
                             if (this.xdir == 1) {
+
+                                if(cheats.ruthless == 0) {
                                 this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
                                 this.eggs[this.eggs.length - 1].y = this.body.y
+                                }
                                 this.eggs[this.eggs.length - 1].marked = 1
                                 this.eggs[this.eggs.length - 1].xmom = 12
                                 this.eggs[this.eggs.length - 1].ymom = -3
@@ -10082,8 +10271,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 this.dir = 1
                             }
                             if (this.ydir == 1) {
+                                if(cheats.ruthless == 0) {
                                 this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
                                 this.eggs[this.eggs.length - 1].y = this.body.y
+                                }
                                 this.eggs[this.eggs.length - 1].marked = 1
                                 this.eggs[this.eggs.length - 1].xmom += this.dir
                                 this.eggs[this.eggs.length - 1].ymom = 8
@@ -10091,8 +10282,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 // this.eggs.pop()
                             }
                             if (this.ydir == -1) {
+                                if(cheats.ruthless == 0) {
                                 this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
                                 this.eggs[this.eggs.length - 1].y = this.body.y
+                                }
                                 this.eggs[this.eggs.length - 1].marked = 1
                                 this.eggs[this.eggs.length - 1].xmom += this.dir
                                 this.eggs[this.eggs.length - 1].ymom = -8
@@ -10103,8 +10296,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 // this.eggs[this.eggs.length-1].x  = this.body.x
                                 // this.eggs[this.eggs.length-1].y  = this.body.y
                                 this.eggs[this.eggs.length - 1].marked = 1
+                                if(cheats.ruthless == 0) {
                                 this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
                                 this.eggs[this.eggs.length - 1].y = this.body.y
+                                }
                                 this.eggs[this.eggs.length - 1].xmom *= .8
                                 this.eggs[this.eggs.length - 1].ymom *= .8
                                 // this.thrown.push(this.eggs[this.eggs.length-1])
@@ -10115,8 +10310,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             if (this.xdir == 0 && this.ydir == 0) {
                                 if (this.dir == 1) {
 
+                                    if(cheats.ruthless == 0) {
                                     this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
                                     this.eggs[this.eggs.length - 1].y = this.body.y
+                                    }
                                     this.eggs[this.eggs.length - 1].marked = 1
                                     this.eggs[this.eggs.length - 1].xmom = 12
                                     this.eggs[this.eggs.length - 1].ymom = -.95
@@ -10124,8 +10321,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     // this.eggs.pop()
                                 } else {
 
+                                    if(cheats.ruthless == 0) {
                                     this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
                                     this.eggs[this.eggs.length - 1].y = this.body.y
+                                    }
                                     this.eggs[this.eggs.length - 1].marked = 1
                                     this.eggs[this.eggs.length - 1].xmom = -12
                                     this.eggs[this.eggs.length - 1].ymom = -.95
@@ -10148,8 +10347,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if (this.egglock == 3) {
 
                             if (Math.abs(gamepadAPI.axesStatus[3]) > .25 || Math.abs(gamepadAPI.axesStatus[2]) > .25) {
+
+                                if(cheats.ruthless == 0) {
                                 this.eggs[this.eggs.length - 1].x = this.body.x + (this.dir * 29)
                                 this.eggs[this.eggs.length - 1].y = this.body.y
+                                }
                                 this.eggs[this.eggs.length - 1].ymom = (gamepadAPI.axesStatus[3] * 14)
                                 this.eggs[this.eggs.length - 1].xmom = (gamepadAPI.axesStatus[2] * 14)
                             }
@@ -10458,7 +10660,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.body = new Bosscircle(x, y, 1, "white")
             this.body.angle = this.angler
             this.ballwidth = ballwidth
-
+            this.pomeasure = new LineOP(this.body, pomao.body)
             this.tips = []
             this.tipnum = num
             this.angler = 0
@@ -10521,11 +10723,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let link = new LineOP(point, this.body)
             point.angle = link.angle()
             if (link.squareDistance() < (this.size * this.size)) {
-                point.angle += ((this.size - link.hypotenuse()) / (this.size * 10)) * this.dir
-                point.liner = link.hypotenuse()
+                point.angle += (((this.size*this.size) - link.squareDistance()) / ((this.size*this.size) * 10)) * this.dir
+                point.liner = squaretable[`${Math.round(link.squareDistance())}`]
                 point.y = (Math.sin(point.angle) * point.liner) + this.body.y
                 point.x = (Math.cos(point.angle) * point.liner) + this.body.x
-                const lhyp = 1 / (point.liner * point.liner * .5)
+                const lhyp = 1 / (point.liner * point.liner*  .5)
                 point.y += (point.y - this.body.y) * lhyp
                 point.x += (point.x - this.body.x) * lhyp
                 if (point.y > this.body.y) {
@@ -10567,20 +10769,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
             shaper.breakin(this.flakemake)
             this.flakes = [shaper]
             //console.log(this)
-            for (let t = 0; t < this.tipnum; t++) {
-                // this.castBetween(this.body, this.tips[t])
-
-                
-                this.flakemake[t].arcXInc(this.steps[t][0]) // correct
-                this.flakemake[t].arcYInc(this.steps[t][1]) // correct
-
-
-                let link = new LineOP(this.body, this.tips[t], "white", this.ballwidth * 2)
-                link.draw()
-                this.tips[t].draw()
+                for (let t = 0; t < this.tipnum; t++) {
+                    // this.castBetween(this.body, this.tips[t])
+                    this.flakemake[t].arcXInc(this.steps[t][0]) // correct
+                    this.flakemake[t].arcYInc(this.steps[t][1]) // correct
+    
+                    if(this.pomeasure.squareDistance() < (this.tips[0].radius + this.size + (740)) *  (this.tips[0].radius + this.size + (740)) ){
+                    let link = new LineOP(this.body, this.tips[t], "white", this.ballwidth * 2)
+                    link.draw()
+                    this.tips[t].draw()
+                }
+    
             }
 
 
+            if(this.pomeasure.squareDistance() < (this.tips[0].radius + this.size + (740)) *  (this.tips[0].radius + this.size + (740)) ){
             let tonguelink = new LineOP(pomao.body, pomao.tongue)
             let bodylink = new LineOP(this.body, pomao.body)
             if ((bodylink.hypotenuse() + pomao.body.radius) - (tonguelink.hypotenuse() + pomao.tongue.radius) <= this.size * 1.5) {
@@ -10792,6 +10995,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // }
         }
     }
+    }
 
     class Atomdebris {
         constructor(x, y, color) {
@@ -10814,7 +11018,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // if (this.particle == 1) {
             this.angle = this.link.angle()
             if (this.link.squareDistance() < (250 * 250)) {
-                this.liner = this.link.hypotenuse()
+                this.liner = this.link.m_hypotenuse()
                 this.angle += (250 - this.liner) / 2500
                 this.body.y = (Math.sin(this.angle) * this.liner) + pomao.body.y
                 this.body.x = (Math.cos(this.angle) * this.liner) + pomao.body.x
@@ -11066,6 +11270,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.body = new Bosscircle(x, y, 20, "red", (Math.random() - .5) * 18, (Math.random() - .5) * 18)
             this.emmiter = []
             this.blastage = 0
+            this.linkx = new LineOP(this.body, pomao.body)
         }
         draw() {
             if (Math.random() < 1) {
@@ -11948,17 +12153,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.shocksl.length > 0) {
                 if (this.shocksr.length > 0) {
                     for (let n = 0; n < this.shocksl.length - 1; n++) {
+                        
+
+            if(cheats.megamao == 1){
+                const link2 = new Line(this.shocksl[n].x, this.shocksl[n].y + 68, this.shocksl[n + 1].x, this.shocksl[n + 1].y + 68, "#00FFFF88", this.shocksl[n].radius / 5)
+                const link = new Line(this.shocksr[n].x, this.shocksr[n].y + 68, this.shocksr[n + 1].x, this.shocksr[n + 1].y + 68, "#00FFFF88", this.shocksr[n].radius / 5)
+                link.draw()
+                link2.draw()
+            }else{
                         const link2 = new Line(this.shocksl[n].x, this.shocksl[n].y + 34, this.shocksl[n + 1].x, this.shocksl[n + 1].y + 34, "#00FFFF88", this.shocksl[n].radius / 10)
                         const link = new Line(this.shocksr[n].x, this.shocksr[n].y + 34, this.shocksr[n + 1].x, this.shocksr[n + 1].y + 34, "#00FFFF88", this.shocksr[n].radius / 10)
-
                         link.draw()
                         link2.draw()
+                    }
                     }
                 }
             }
         }
         shock() {
-            if (pomao.body.ymom > 10.2) {
+            if (pomao.body.ymom > 10.2 || cheats.shockandawe == 1) {
                 const shockright = new Circlec(this.center.x - 3, this.center.y + 2, this.center.radius, "yellow", 20.5, 2) // no +2 before
                 const shockleft = new Circlec(this.center.x + 3, this.center.y + 2, this.center.radius, "yellow", -20.5, 2)
                 // const shockrightxz = new Circlec(this.center.x-3, this.center.y-17, this.center.radius, "yellow", 20.5, 2)
@@ -11978,7 +12191,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
     }
+    class Cheatcodes{
+        constructor(){
+            this.megamao = 0
+            this.harmless = 0
+            this.ruthless = 0
+            this.nowear = 0
+            this.shockandawe = 0
+            this.clip = 0
+            this.warpspeed = 0
+            this.megg = 0
+        }
+        zoomout(){
+    tutorial_canvas_context.scale(.5,.5)
+    tutorial_canvas_context.translate(640,360)
+        }
+    }
 
+    let cheats = new Cheatcodes()
     const pomao = new Pomao()
 
     let loadlvl1button
@@ -12091,7 +12321,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 this.jiggle += .2
                 if (!keysPressed['q']) {
-                    tutorial_canvas_context.drawImage(seedegg, this.x - (this.width / 2), (this.y + 7) - (this.height / 2) + (7 * Math.cos(this.jiggle)), this.width, this.height)
+
+                    if(cheats.megg == 1){
+                    tutorial_canvas_context.drawImage(seedegg, this.x - (this.width ), (this.y + 7) - (this.height) + (7 * Math.cos(this.jiggle)), this.width*2, this.height*2)
+
+                    }else{
+                        tutorial_canvas_context.drawImage(seedegg, this.x - (this.width / 2), (this.y + 7) - (this.height / 2) + (7 * Math.cos(this.jiggle)), this.width, this.height)
+
+                    }
                 }
 
             } else {
@@ -12100,21 +12337,44 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 // this.newboll.draw()
                 if (this.hot == 0) {
+                    if(cheats.megg == 1){
+                        this.radius = 50
+                        tutorial_canvas_context.drawImage(seedegg, this.x - (this.width ), (this.y) - (this.height), this.width*2, this.height*2)
+                    }else{
                     tutorial_canvas_context.drawImage(seedegg, this.x - (this.width / 2), (this.y) - (this.height / 2), this.width, this.height)
+                    }
                 } else {
 
                     this.radius = 23
-                    if (this.xmom > 0) {
-                        if (pomao.body.isPointInside(this)) {
-                            tutorial_canvas_context.drawImage(seedeggfl, this.x - (this.width / 2), (this.y) - (this.height / 2), this.width / 10, this.height / 10)
+                    if(cheats.megg == 1){
+                        this.radius = 60
+                        if (this.xmom > 0) {
+                            if (pomao.body.isPointInside(this)) {
+                                tutorial_canvas_context.drawImage(seedeggfl, this.x - (this.width ), (this.y) - (this.height ), this.width*2 / 10, this.height*2 / 10)
+                            } else {
+                                tutorial_canvas_context.drawImage(seedeggfl, this.x - (this.width ), (this.y) - (this.height ), this.width*2, this.height*2)
+                            }
                         } else {
-                            tutorial_canvas_context.drawImage(seedeggfl, this.x - (this.width / 2), (this.y) - (this.height / 2), this.width, this.height)
+                            if (pomao.body.isPointInside(this)) {
+                                tutorial_canvas_context.drawImage(seedeggf, this.x - (this.width ), (this.y) - (this.height ), this.width*2 / 10, this.height*2 / 10)
+                            } else {
+                                tutorial_canvas_context.drawImage(seedeggf, this.x - (this.width ), (this.y) - (this.height ), this.width*2, this.height*2)
+                            }
                         }
-                    } else {
-                        if (pomao.body.isPointInside(this)) {
-                            tutorial_canvas_context.drawImage(seedeggf, this.x - (this.width / 2), (this.y) - (this.height / 2), this.width / 10, this.height / 10)
+                    }else{
+
+                        if (this.xmom > 0) {
+                            if (pomao.body.isPointInside(this)) {
+                                tutorial_canvas_context.drawImage(seedeggfl, this.x - (this.width / 2), (this.y) - (this.height / 2), this.width / 10, this.height / 10)
+                            } else {
+                                tutorial_canvas_context.drawImage(seedeggfl, this.x - (this.width / 2), (this.y) - (this.height / 2), this.width, this.height)
+                            }
                         } else {
-                            tutorial_canvas_context.drawImage(seedeggf, this.x - (this.width / 2), (this.y) - (this.height / 2), this.width, this.height)
+                            if (pomao.body.isPointInside(this)) {
+                                tutorial_canvas_context.drawImage(seedeggf, this.x - (this.width / 2), (this.y) - (this.height / 2), this.width / 10, this.height / 10)
+                            } else {
+                                tutorial_canvas_context.drawImage(seedeggf, this.x - (this.width / 2), (this.y) - (this.height / 2), this.width, this.height)
+                            }
                         }
                     }
                 }
@@ -13242,6 +13502,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Dangler {
         constructor(x, y) {
+
+            this.gcdodge = 0
             // this.beingEaten = 0
             this.physflick = Math.floor(Math.random() * 100)
             this.licked = 0
@@ -13648,6 +13910,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         constructor(x, y) {
             // this.beingEaten = 0
 
+            this.gcdodge = 0
             this.physflick = Math.floor(Math.random() * 100)
             this.licked = 0
             this.dangler = 1
@@ -14453,6 +14716,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Worm {
         constructor(x = 0, y = 0) {
+            this.gcdodge = 0
             this.physflick = Math.floor(Math.random() * 100)
             this.licked = 0
             this.beingEaten = 0
@@ -14501,6 +14765,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.bopped = 0
         }
         eggrepel() {
+            if(this.gcdodge  == 1){
+                return
+            }
             for (let t = 0; t < pomao.thrown.length; t++) {
                 for (let k = 0; k < this.joints.length; k++) {
                     if (this.joints[k].repelCheck(pomao.thrown[t])) {
@@ -14569,6 +14836,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
         draw() {
+            if(this.gcdodge  == 1){
+                return
+            }
             this.physflick++
             // if(this.physflick%2 == 0){
             this.box = new Shape(this.joints)
@@ -14744,6 +15014,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     class Wormboss {
         constructor(x = 0, y = 0) {
+            this.gcdodge = 1
             this.boss = 1
             this.licked = 0
             this.beingEaten = 0
@@ -14813,7 +15084,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.bopped = 0
         }
 
-        castBetween(from, to) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
+        castBetween(from, to) {
+            
+            if(this.gcdodge  == 1){
+                return
+            } //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
             let limit = new LineOP(from, to).hypotenuse() / (to.radius * 2)
             // //console.log(from, to, target)
             let radius = to.radius
@@ -14829,6 +15104,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         eggrepel() {
 
+            if(this.gcdodge  == 1){
+                return
+            }
 
             // pomao.eggmake = 100000 //x//
             // for (let k = 0; k < this.metashape.length; k++) {
@@ -14938,6 +15216,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
         draw() {
+            if(this.gcdodge  == 1){
+                return
+            }
             if (this.health <= 0) {
                 // this.health = 0
                 if (this.dead == 0) {
@@ -17034,12 +17315,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         window.setInterval(function () {
             main()
         }, 50)
-        document.addEventListener('keydown', (event) => {
-            keysPressed[event.key] = true;
-        });
-        document.addEventListener('keyup', (event) => {
-            delete keysPressed[event.key];
-        });
+        // document.addEventListener('keydown', (event) => {
+        //     keysPressed[event.key] = true;
+        // });
+        // document.addEventListener('keyup', (event) => {
+        //     delete keysPressed[event.key];
+        // });
         window.addEventListener('pointerdown', e => {
             // for(let t = 0;t<enemies.length;t++){
             //     enemies[t].type += 1
@@ -17786,7 +18067,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.draw()
 
 
-                        if (pomao.pounding > 0) {
+                        if (pomao.pounding > 0 || cheats.shockandawe == 1) {
                             shockfriendly.shock()
                         }
 
@@ -18047,9 +18328,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     gamepadAPI.update()
 
                     if (gamepadAPI.buttonsStatus.includes('RB') || keysPressed['p']) {
-                        if (pomao.pausetimer > 40) {
-                            pomao.paused = 10
-                            pomao.pausetimer = 10
+                        if(pausefalse == false){
+                            if (pomao.pausetimer > 60) {
+                                pomao.paused = 10
+                                pomao.pausetimer = 30
+                            }
                         }
                     }
 
@@ -22138,42 +22421,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
         let fingerflyer = new Knocktapus(4200,-500, "#aa00FF")
-
         swimmers.push(fingerflyer)
 
-        fingerflyer = new Knocktapus(3200,-500, "#0000FF")
+        for(let t = 0;t<4;t++){
 
+        fingerflyer = new Knocktapus(100+(t*3100),-700, "#0000FF")
+        swimmers.push(fingerflyer)
+        fingerflyer = new Knocktapus(100+(t*3100),-500, "#FF00FF")
+        swimmers.push(fingerflyer)
+        fingerflyer = new Knocktapus(1100+(t*3100),-600, "#FF0000")
+        swimmers.push(fingerflyer)
+        fingerflyer = new Knocktapus(1100+(t*3100),-400, "#090909")
+        swimmers.push(fingerflyer)
+        fingerflyer = new Knocktapus(2100+(t*3100),-370, "#109909")
+        swimmers.push(fingerflyer)
+        fingerflyer = new Knocktapus(2100+(t*3100),-200, "#99aa00")
+        swimmers.push(fingerflyer)
+        fingerflyer = new Knocktapus(3100+(t*3100),-100, "#980456")
+        swimmers.push(fingerflyer)
+        fingerflyer = new Knocktapus(3100+(t*3100),-800, "#00aa99")
         swimmers.push(fingerflyer)
 
-        fingerflyer = new Knocktapus(2200,-500, "#FF00FF")
-
-        swimmers.push(fingerflyer)
-
-        fingerflyer = new Knocktapus(700,-500, "#FF0000")
-
-        swimmers.push(fingerflyer)
-
-        fingerflyer = new Knocktapus(100,-700, "#090909")
-
-        swimmers.push(fingerflyer)
-
-        fingerflyer = new Knocktapus(1000,-700, "#109909")
-
-        swimmers.push(fingerflyer)
-
-        fingerflyer = new Knocktapus(2100,-700, "#abc123")
-
-        swimmers.push(fingerflyer)
-
-        fingerflyer = new Knocktapus(3100,-700, "#980456")
-
-        swimmers.push(fingerflyer)
-
-        fingerflyer = new Knocktapus(4100,-700, "#ffaa99")
-
-        swimmers.push(fingerflyer)
-
-
+        }
 
         for(let t = 0;t<15;t++){
 
@@ -22287,7 +22556,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.anchor = {}
             this.anchor.xdif = 0
             this.anchor.ydif = 0
+            this.lock = new Point(x,y)
             this.body = new Bosscircle(x,y, 10, color, 0,0)
+            this.ranger = new LineOP(this.lock, this.body)
             this.legs = []
             this.nodes = []
             this.angle = Math.random()
@@ -22295,7 +22566,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             for(let t = 0;t<9;t++){
                 let leg = []
                 for(let k = 0;k<5;k++){
-                    let circ = new Bosscircle(this.body.x + (Math.cos(this.angle)*((k*11)+10)),this.body.y + (Math.sin(this.angle)*((k*11)+10)), (this.body.radius-3-(k*1.2)), color)
+                    let circ = new Bosscircle(this.body.x + (Math.cos(this.angle)*((k*7)+10)),this.body.y + (Math.sin(this.angle)*((k*7)+10)), (this.body.radius-3-(k*1.2)), color)
                     circ.xdisp = circ.x-this.body.x
                     circ.ydisp = circ.y-this.body.y
                     circ.drag = 1-(k/5.1)
@@ -22318,6 +22589,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             this.pulse++
+            if(this.ranger.squareDistance()>1000000){
+                this.body.xmom *=-1.5
+                this.body.ymom *=-1.5
+            }
             this.body.move()
             this.body.radius*=2
             this.body.draw()
@@ -22617,9 +22892,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let Y = 0
         const skip = 1
         const skipP = skip * 4
-        const imageData = fractal_canvas_context.getImageData(0, 0, fractal_canvas.width, fractal_canvas.height);
+         imageData = fractal_canvas_context.getImageData(0, 0, fractal_canvas.width, fractal_canvas.height);
         fractal_canvas_context.imageSmoothingEnabled = true
-        const data = imageData.data;
+         data = imageData.data;
         if (speed == 1) {
             for (var i = 0; i < data.length; i += skipP) {
                 X += skip;
@@ -22629,7 +22904,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     // i+= (fractal_canvas.width*4)
                 }
                 let comp = new Rectanglef(X, Y, 1, 1)
-                comp = calcSpot(comp)
                 if (redflip == 0) {
                     data[i] = comp.r // red
                 } else {
@@ -22753,8 +23027,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             static_canvas.fillStyle = "#FFFFFF00"
             static_canvas_context.fillRect(0, 0, static_canvas.width, static_canvas.height)
 
-            const imageData = static_canvas_context.getImageData(0, 0, static_canvas.width, static_canvas.height);
-            const data = imageData.data;
+             imageData = static_canvas_context.getImageData(0, 0, static_canvas.width, static_canvas.height);
+             data = imageData.data;
 
             for (var i = 0; i < data.length; i += 4) {
                 data[i + 3] = 0
@@ -22764,13 +23038,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 data[i + 1] = eye(i) * 255//heater.heat[Math.round(obj)].count *255   // green
                 data[i + 2] = eye(i) * 255//heater.heat[Math.round(obj)].count *255 // TIP_engine.y // blue
                 // if(data[i]+data[i+1]+data[i+2] <255){
-                data[i + 3] = 255
+                data[i + 3] = 50
                 // }
             }
             static_canvas_context.putImageData(imageData, 0, 0);
         }
         staticcount++
-        tutorial_canvas_context.drawImage(static_canvas, pomao.body.x - 640, pomao.body.y - 360)
+
+        tutorial_canvas_context.drawImage(static_canvas, 0, 0, 128, 72, pomao.body.x - 640, pomao.body.y - 359.5, 1280, 720)
+        // tutorial_canvas_context.drawImage(static_canvas,128, 72,  pomao.body.x - 640, pomao.body.y - 360, 1280, 720 )
     }
     function static() {
         if (Math.random() < .1) {
