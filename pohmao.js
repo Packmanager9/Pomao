@@ -13,12 +13,48 @@ let greenflip = 0
 let greentic = 0
 let redtic = 0
 let bluetic = 0
-
 let squaretable = {}
 for(let t = 0;t<10000000;t++){
     squaretable[`${t}`] = Math.sqrt(t)
+    if(t > 999){
+        t+=9
+    }
 }
 
+function roughSizeOfObject(object) {
+
+    var objectList = [];
+    var stack = [object];
+    var bytes = 0;
+
+    while (stack.length) {
+        var value = stack.pop();
+
+        if (typeof value === 'boolean') {
+            bytes += 4;
+        }
+        else if (typeof value === 'string') {
+            bytes += value.length * 2;
+        }
+        else if (typeof value === 'number') {
+            bytes += 8;
+        }
+        else if
+            (
+            typeof value === 'object'
+            && objectList.indexOf(value) === -1
+        ) {
+            objectList.push(value);
+
+            for (var i in value) {
+                stack.push(value[i]);
+            }
+        }
+    }
+    return bytes;
+}
+
+console.log(roughSizeOfObject(squaretable), "Bytes")
 let pobocounter = Math.floor(Math.random()*100)
 let bluemom = Math.random() * 2
 let redmom = Math.random() * 2
@@ -4934,7 +4970,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let ydif = this.object.y - this.target.y
             let hypotenuse = (xdif * xdif) + (ydif * ydif)
             if(hypotenuse < 10000000-1){
+                if(hypotenuse > 1000){
+                    return squaretable[`${Math.round(10*Math.round((hypotenuse*.1)))}`]
+                }else{
                 return squaretable[`${Math.round(hypotenuse)}`]
+                }
             }else{
                 return Math.sqrt(hypotenuse)
             }
@@ -9419,17 +9459,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (worms[t].boss == 1) {
                     if (pomao.body.y < -8570) {
                         if(worms[t].gcdodge == 0){
-worms[t].draw()
-}
+                        worms[t].draw()
+                        }
                     }
                 } else {
                     if (worms[t].dangler == 0) {
-                        if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
-                            if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .7) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .016)) {
+                        if (worms[t].body.x > this.body.x - (tutorial_canvas.width / 1.1) && worms[t].body.x < this.body.x + (tutorial_canvas.width / 1.1)) {
+                            if (worms[t].body.y > this.body.y - (tutorial_canvas.height / 1.2) && worms[t].body.y < this.body.y + (tutorial_canvas.height / 1.2)) {
                                 if (worms[t].layer == 0) {
                                     if(worms[t].gcdodge == 0){
-worms[t].draw()
-}
+                                    worms[t].draw()
+                                    }
                                 }
                             }
                         }
@@ -9438,8 +9478,8 @@ worms[t].draw()
                             if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .5) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .5)) {  //.2
                                 if (worms[t].layer == 0) {
                                     if(worms[t].gcdodge == 0){
-worms[t].draw()
-}
+                                    worms[t].draw()
+                                    }
                                 }
                             }
                         }
@@ -10724,7 +10764,7 @@ worms[t].draw()
             point.angle = link.angle()
             if (link.squareDistance() < (this.size * this.size)) {
                 point.angle += (((this.size*this.size) - link.squareDistance()) / ((this.size*this.size) * 10)) * this.dir
-                point.liner = squaretable[`${Math.round(link.squareDistance())}`]
+                point.liner = squaretable[`${Math.round(10*Math.round(link.squareDistance()*.1))}`]
                 point.y = (Math.sin(point.angle) * point.liner) + this.body.y
                 point.x = (Math.cos(point.angle) * point.liner) + this.body.x
                 const lhyp = 1 / (point.liner * point.liner*  .5)
@@ -12161,8 +12201,18 @@ worms[t].draw()
                 link.draw()
                 link2.draw()
             }else{
-                        const link2 = new Line(this.shocksl[n].x, this.shocksl[n].y + 34, this.shocksl[n + 1].x, this.shocksl[n + 1].y + 34, "#00FFFF88", this.shocksl[n].radius / 10)
-                        const link = new Line(this.shocksr[n].x, this.shocksr[n].y + 34, this.shocksr[n + 1].x, this.shocksr[n + 1].y + 34, "#00FFFF88", this.shocksr[n].radius / 10)
+
+
+                            this.height = 64 + (Math.sin(pomao.timeloop) * (3 + pomao.pounding))
+                            if (pomao.jumping == 1) {
+                                if (pomao.body.ymom < 0) {
+                                    this.height = 68 + pomao.pounding + Math.round((Math.min(Math.abs(pomao.body.ymom), 15) + Math.abs(Math.min(pomao.hng, .217)) + Math.abs(pomao.body.symom)) * 1.9)
+                                } else {
+                                    this.height = 68 + pomao.pounding
+                                }
+                            }
+                        const link2 = new Line(this.shocksl[n].x, this.shocksl[n].y + this.height*.45, this.shocksl[n + 1].x, this.shocksl[n + 1].y + this.height*.45, "#00FFFF88", this.shocksl[n].radius / 10)
+                        const link = new Line(this.shocksr[n].x, this.shocksr[n].y + this.height*.45, this.shocksr[n + 1].x, this.shocksr[n + 1].y + this.height*.45, "#00FFFF88", this.shocksr[n].radius / 10)
                         link.draw()
                         link2.draw()
                     }
@@ -12209,6 +12259,7 @@ worms[t].draw()
     }
 
     let cheats = new Cheatcodes()
+    // cheats.zoomout()
     const pomao = new Pomao()
 
     let loadlvl1button
@@ -17821,6 +17872,7 @@ worms[t].draw()
     // loadlvl9()
     // loadlvl10()
     // loadlvl11()
+    // loadlvl12()
 
     // for(let t=0;t<10;t++){
     //     chafer.draw()
@@ -18433,7 +18485,9 @@ worms[t].draw()
             // for(let t =0;t<3;t++){
             //     tutorial_canvas_context.drawImage(tutorial_canvas, 0, 0, 1280, 720, pomao.body.x - 320, pomao.body.y - 180, 640, 360)
             // }
+            // console.log(roughSizeOfObject(pomao))
         }, 11)
+
 
     }, 1);  //6969
 
@@ -22451,6 +22505,11 @@ worms[t].draw()
             hookbots.push(fingerflyer)
 
         }
+
+
+// floors = [...cavelevelrects]
+// walls = [...cavelevelrects]
+// roofs = [...cavelevelrects]
         floormpf = [...floors]
 
         // let spinny = new BigSeeSaw(-1200, -301, 5)
@@ -22465,6 +22524,87 @@ worms[t].draw()
         markRectangles()
     }
 
+    function loadlvl12(){
+
+        pomao.tonguex = 0
+        pomao.tonguey = 0
+        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
+        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
+        springs = []
+        objsprings = []
+        
+
+        // objsprings.push(pin2)
+
+        // let spring = new Spring(pin)
+        // springs.push(spring)
+        // for(let k = 0; k<33;k++){
+        //     spring = new Spring(spring.anchor)
+        //     if(k < 32){
+        //         springs.push(spring)
+        //     }else if(k == 32 ){
+        //         spring.anchor = pin2
+        //         springs.push(spring)
+        //     }
+        // }
+
+        beamrocks = []
+        pomao.cutscene = 0
+        level = 11
+
+
+        pomao.body.x = 0
+        pomao.body.y = 0
+
+        tutorial_canvas_context.translate(pomao.body.x + 640, pomao.body.y + 360)
+        spinnys.splice(0, spinnys.length)
+        ramps90 = []
+        swimmers = []
+        bats = []
+        floors.splice(0, floors.length)
+        ramps = []
+        boys.splice(0, boys.length)
+        deadboys.splice(0, deadboys.length)
+        fruits.splice(0, fruits.length)
+        walls.splice(0, walls.length)
+        invisblocks = []
+        ungrapplable = []
+        jellys = []
+        roofs.splice(0, roofs.length)
+        switches = []
+        blocks = []
+        nails = []
+        chats = []
+        orbs = []
+        links = []
+        worms.splice(0, worms.length)
+        debris.splice(0, debris.length)
+        magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
+
+        floppers.splice(0, floppers.length)
+        lavas.splice(0, lavas.length)
+        snowfloors.splice(0, snowfloors.length)
+        pomao.thrown = []
+
+        boss = new Circle(0, 0, 0, "transparent")
+let cavelevelrects = []
+for(let t = 0;t<cavelevel.length;t++){
+    let rect = new Rectangle(cavelevel[t].x*5, cavelevel[t].y*5, cavelevel[t].height*5, cavelevel[t].width*5 )
+    cavelevelrects.push(rect)
+    floors.push(rect)
+    roofs.push(rect)
+    walls.push(rect)
+}
+
+let rect = new Rectangle(-1182, -2800, 300,300)
+cavelevelrects.push(rect)
+floors.push(rect)
+roofs.push(rect)
+walls.push(rect)
+
+    }
 
 
     function getTextWidth(text, font) {
