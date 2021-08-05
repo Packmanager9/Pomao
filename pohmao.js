@@ -2749,7 +2749,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 //   if(pomao.body.ymom == 0){
                 if (blockedlick == 0) {
 
-                    if (this.body.radius >= 15) {
+                    if (this.body.radius >= 1) { //wormhit
                         if (pomao.disabled != 1) {
                             if (pomao.pounding != 10) {
                                 pomao.body.xmom = -3 * (this.bump)
@@ -8669,7 +8669,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             if (level == 6) {
-                lvl6music.play()
+                if(pomao.body.y > -8570){
+                    lvl6music.play()
+                }
                 door.x = -2100
                 door.y = -9170 - door.height
                 door.draw()
@@ -9487,7 +9489,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             for (let t = 0; t < worms.length; t++) {
-                if (worms[t].marked == 1) {
+                if (worms[t].marked == 1 && worms[t].gcdodge == 0) { 
                     if (pomao.eggs.length < 16) {
                         if (worms[t].bopped !== 1) {
                             const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
@@ -9702,28 +9704,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
+//             for (let t = 0; t < worms.length; t++) {
+//                 if (worms[t].boss == 1) {
+//                     // if (pomao.y < -9170) {
+//                     //     // 
+//                     if(worms[t].gcdodge == 0){
+// worms[t].draw()
+// } // maybe remove this?
+//                     // }
+//                 } else {
+//                     if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
+//                         if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .7) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .016)) {
+//                             if (worms[t].layer == 1) {
+//                                 if(worms[t].gcdodge == 0){
+// worms[t].draw()
+// }
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
             for (let t = 0; t < worms.length; t++) {
-                if (worms[t].boss == 1) {
-                    // if (pomao.y < -9170) {
-                    //     // 
-                    if(worms[t].gcdodge == 0){
-worms[t].draw()
-} // maybe remove this?
-                    // }
-                } else {
-                    if (worms[t].body.x > this.body.x - (tutorial_canvas.width / .66) && worms[t].body.x < this.body.x + (tutorial_canvas.width / .66)) {
-                        if (worms[t].body.y > this.body.y - (tutorial_canvas.height / .7) && worms[t].body.y < this.body.y + (tutorial_canvas.height / .016)) {
-                            if (worms[t].layer == 1) {
-                                if(worms[t].gcdodge == 0){
-worms[t].draw()
-}
-                            }
-                        }
-                    }
-                }
-            }
-            for (let t = 0; t < worms.length; t++) {
-                if (worms[t].marked == 1) {
+                if (worms[t].marked == 1 && worms[t].gcdodge == 0) { //dgafff
                     if (pomao.eggs.length < 16) {
                         if (worms[t].bopped !== 1) {
                             const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
@@ -14364,6 +14366,7 @@ worms[t].draw()
     class Wagglersubunit {
         constructor(x, y, anchor) {
             // this.beingEaten = 0
+            this.gcdodge = 0
             this.boss = 1
             this.licked = 0
             this.dangler = 1
@@ -15065,7 +15068,7 @@ worms[t].draw()
     }
     class Wormboss {
         constructor(x = 0, y = 0) {
-            this.gcdodge = 1
+            this.gcdodge = 0
             this.boss = 1
             this.licked = 0
             this.beingEaten = 0
