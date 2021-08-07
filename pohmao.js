@@ -1,6 +1,6 @@
 
 
-
+let testscale = 1
 let imageData =  {}
 let data =  {}
 let pausefalse = false
@@ -8399,6 +8399,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.rattled = 0
             }
 
+        //     if(level == 11){
+        //         floors.splice(0,floors.length)
+        //         roofs.splice(0,roofs.length)
+        //         walls.splice(0,walls.length)
+        // for(let t = 0;t<testlevel.length;t++){
+        //     if(testlevel[t].fruit == 0){
+        //         let rect = new Rectangle(testlevel[t].x*testscale, testlevel[t].y*testscale, testlevel[t].height*testscale, testlevel[t].width*testscale )
+                
+        //         floors.push(rect)
+        //         roofs.push(rect)
+        //         walls.push(rect)
+        //     }else{
+        //     }
+        // }
+        // testscale+=.0001
+
+        //     }
             if (level == 1) {
                 tutorial_canvas_context.fillStyle = "black";
                 tutorial_canvas_context.font = `${30}px Arial`;
@@ -8973,6 +8990,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             }
                                         } else if (level == 11) {
                                             tutorial_canvas_context.drawImage(lvl5walling, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                        }else if (level == 12) {
+                                            tutorial_canvas_context.drawImage(lvl5walling, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                        }else if (level == 13) {
+                                            tutorial_canvas_context.drawImage(lvl4fwallimg, 0, 0, Math.min(lvl4fwallimg.width, floors[t].width), Math.min(lvl4fwallimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }
                                     }
                                 } else {
@@ -9054,6 +9075,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                     } else if (level == 11) {
                                         tutorial_canvas_context.drawImage(lvl5floorimg, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    }else if (level == 12) {
+                                        tutorial_canvas_context.drawImage(lvl4fwallimg, 0, 0, Math.min(lvl4fwallimg.width, floors[t].width), Math.min(lvl4fwallimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    }else if (level == 13) {
+                                        tutorial_canvas_context.drawImage(lvl4floorimg, 0, 0, Math.min(lvl4floorimg.width, floors[t].width), Math.min(lvl4floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }
                                 }
                             } else {
@@ -9152,6 +9177,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                 } else if (level == 11) {
                                     tutorial_canvas_context.drawImage(lvl5floorimg, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                }else if (level == 12) {
+                                    tutorial_canvas_context.drawImage(lvl5floorimg, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                }else if (level == 13) {
+                                    tutorial_canvas_context.drawImage(lvl4floorimg, 0, 0, Math.min(lvl4floorimg.width, floors[t].width), Math.min(lvl4floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }
                             }
                             if (floors[t].block == 1) {
@@ -17864,7 +17893,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     //abracadabra
-    loadlvl1()
+    // loadlvl1()
     // loadlvl2()
     // loadlvl3()
     // loadlvl4()
@@ -17876,6 +17905,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // loadlvl10()
     // loadlvl11()
     // loadlvl12()
+    loadlvl13()
 
     // for(let t=0;t<10;t++){
     //     chafer.draw()
@@ -22606,6 +22636,241 @@ cavelevelrects.push(rect)
 floors.push(rect)
 roofs.push(rect)
 walls.push(rect)
+
+    }
+
+    function loadlvl13(){
+
+        pomao.tonguex = 0
+        pomao.tonguey = 0
+        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
+        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
+        springs = []
+        objsprings = []
+        
+
+        // objsprings.push(pin2)
+
+        // let spring = new Spring(pin)
+        // springs.push(spring)
+        // for(let k = 0; k<33;k++){
+        //     spring = new Spring(spring.anchor)
+        //     if(k < 32){
+        //         springs.push(spring)
+        //     }else if(k == 32 ){
+        //         spring.anchor = pin2
+        //         springs.push(spring)
+        //     }
+        // }
+
+        beamrocks = []
+        pomao.cutscene = 0
+        level = 13
+
+
+        pomao.body.x = 0
+        pomao.body.y = -100
+
+        tutorial_canvas_context.translate(pomao.body.x + 640, pomao.body.y + 560)
+        spinnys.splice(0, spinnys.length)
+        ramps90 = []
+        swimmers = []
+        bats = []
+        floors.splice(0, floors.length)
+        ramps = []
+        boys.splice(0, boys.length)
+        deadboys.splice(0, deadboys.length)
+        fruits.splice(0, fruits.length)
+        walls.splice(0, walls.length)
+        invisblocks = []
+        ungrapplable = []
+        jellys = []
+        roofs.splice(0, roofs.length)
+        switches = []
+        blocks = []
+        nails = []
+        chats = []
+        orbs = []
+        links = []
+        worms.splice(0, worms.length)
+        debris.splice(0, debris.length)
+        magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
+
+        floppers.splice(0, floppers.length)
+        lavas.splice(0, lavas.length)
+        snowfloors.splice(0, snowfloors.length)
+        pomao.thrown = []
+
+        boss = new Circle(0, 0, 0, "transparent")
+        let cavelevelrects = []
+        for(let t = 0;t<testlevel.length;t++){
+            if(testlevel[t].fruit == 0){
+                let rect = new Rectangle(testlevel[t].x*testscale, testlevel[t].y*testscale, testlevel[t].height*testscale, testlevel[t].width*testscale )
+                cavelevelrects.push(rect)
+                floors.push(rect)
+                roofs.push(rect)
+                walls.push(rect)
+            }else{
+                for (let k = 0; k < ((testlevel[t].height*testlevel[t].width)/960); k++) {
+                    const fruit = new Fruit(testlevel[t].x*testscale + (Math.random()*testscale * testlevel[t].width), testlevel[t].y*testscale + (Math.random()*testscale * testlevel[t].height), 60, 60, "red")
+                    let wet = 0
+                    for (let k = 0; k < fruits.length; k++) {
+                        if (fruit.body.repelCheck(fruits[k].body)) {
+                            wet = 1
+                            break
+                        }
+                    }
+                    if (wet == 0) {
+                        fruits.push(fruit)
+                    }
+                }
+            }
+        }
+
+
+
+        for (let k = 0; k < ((3000*2400)/960); k++) {
+            const fruit = new Fruit(-3900 + (Math.random()* 3000), -2400+ (Math.random()*2400), 60, 60, "red")
+            let wet = 0
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
+
+        let rect = new Rectangle(-1182, -2800, 300,300)
+        cavelevelrects.push(rect)
+        floors.push(rect)
+        roofs.push(rect)
+        walls.push(rect)
+
+    }
+
+    function loadlvl13(){
+
+        pomao.tonguex = 0
+        pomao.tonguey = 0
+        pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
+        pin2 = new Circle((-1950 + (30 * 180)), (-9800 - (30 * 57)) + (7 * 220), 100, "transparent")
+        springs = []
+        objsprings = []
+        
+
+        // objsprings.push(pin2)
+
+        // let spring = new Spring(pin)
+        // springs.push(spring)
+        // for(let k = 0; k<33;k++){
+        //     spring = new Spring(spring.anchor)
+        //     if(k < 32){
+        //         springs.push(spring)
+        //     }else if(k == 32 ){
+        //         spring.anchor = pin2
+        //         springs.push(spring)
+        //     }
+        // }
+
+        beamrocks = []
+        pomao.cutscene = 0
+        level = 13
+
+
+        pomao.body.x = 0
+        pomao.body.y = -100
+
+        tutorial_canvas_context.translate(pomao.body.x + 640, pomao.body.y + 560)
+        spinnys.splice(0, spinnys.length)
+        ramps90 = []
+        swimmers = []
+        bats = []
+        floors.splice(0, floors.length)
+        ramps = []
+        boys.splice(0, boys.length)
+        deadboys.splice(0, deadboys.length)
+        fruits.splice(0, fruits.length)
+        walls.splice(0, walls.length)
+        invisblocks = []
+        ungrapplable = []
+        jellys = []
+        roofs.splice(0, roofs.length)
+        switches = []
+        blocks = []
+        nails = []
+        chats = []
+        orbs = []
+        links = []
+        worms.splice(0, worms.length)
+        debris.splice(0, debris.length)
+        magnets.splice(0, magnets.length)
+        seaweed.splice(0, seaweed.length)
+        hookbots.splice(0, hookbots.length)
+
+        floppers.splice(0, floppers.length)
+        lavas.splice(0, lavas.length)
+        snowfloors.splice(0, snowfloors.length)
+        pomao.thrown = []
+
+        boss = new Circle(0, 0, 0, "transparent")
+        let cavelevelrects = []
+        for(let t = 0;t<ramplevel.length;t++){
+            if(typeof ramplevel[t].radius == 'number'){
+                let circ = new Circle(ramplevel[t].x, ramplevel[t].y, ramplevel[t].radius, "green")
+                ramps.push(circ)
+                continue
+            }
+            if(ramplevel[t].fruit == 0){
+                let rect = new Rectangle(ramplevel[t].x*testscale, ramplevel[t].y*testscale, ramplevel[t].height*testscale, ramplevel[t].width*testscale )
+                cavelevelrects.push(rect)
+                floors.push(rect)
+                roofs.push(rect)
+                walls.push(rect)
+            }else{
+                for (let k = 0; k < ((ramplevel[t].height*ramplevel[t].width)/960); k++) {
+                    const fruit = new Fruit(ramplevel[t].x*testscale + (Math.random()*testscale * ramplevel[t].width), ramplevel[t].y*testscale + (Math.random()*testscale * ramplevel[t].height), 60, 60, "red")
+                    let wet = 0
+                    for (let k = 0; k < fruits.length; k++) {
+                        if (fruit.body.repelCheck(fruits[k].body)) {
+                            wet = 1
+                            break
+                        }
+                    }
+                    if (wet == 0) {
+                        fruits.push(fruit)
+                    }
+                }
+            }
+        }
+
+
+
+        for (let k = 0; k < ((3000*2400)/960); k++) {
+            const fruit = new Fruit(-3900 + (Math.random()* 3000), -2400+ (Math.random()*2400), 60, 60, "red")
+            let wet = 0
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
+
+        let rect = new Rectangle(-1182, -2800, 300,300)
+        cavelevelrects.push(rect)
+        floors.push(rect)
+        roofs.push(rect)
+        walls.push(rect)
 
     }
 
