@@ -362,6 +362,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     const cloudimg = new Image()
     cloudimg.src = "cloudlist.png"
+    const icloudimg = new Image()
+    icloudimg.src = "invcloudlist.png"
     cloudimg.onload = function () {
         cloudimg.decode()
     }
@@ -417,6 +419,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const eyeimgred = new Image()
     eyeimgred.src = "eyepaintred.png"
 
+    const lvl4fifthsbasemusic = new Audio('baeao.mp3');
     const lvl1basemusic = new Audio('lvl1base.mp3');
     const lvl2basemusic = new Audio('lvl2base.mp3');
     const lvl9basemusic = new Audio('beastlyatomslap.mp3');
@@ -8659,11 +8662,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 door.draw()
 
                 if (door.isPointInside(pomao.body)) {
-                    loadlvl5()
+                    loadlvl13()
                 }
             } else {
                 lvl4basemusic.pause()
                 lvl4bossmusic.pause()
+            }
+            if(level == 13){
+                lvl4fifthsbasemusic.play()
+                door.draw()
+                if (door.isPointInside(pomao.body)) {
+                    loadlvl5()
+                }
+            }else{
+
+                lvl4fifthsbasemusic.pause()
             }
 
             if (level == 5) {
@@ -8697,6 +8710,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             } else {
                 lvl6music.pause()
+                lvl6bossmusic.pause()
             }
 
 
@@ -9441,6 +9455,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if (level == 5) {
                 chafer.draw()
+            }else{
+                spidermusic.pause()
             }
             if (level == 7) {
                 boss.draw()
@@ -11720,6 +11736,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.frame = Math.floor(Math.random() * 14)
             this.click = 0
             this.clean()
+            if(level != 4){
+                this.body.radius = 10
+            }
         }
         draw() {
 
@@ -11736,7 +11755,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // this.move()
                 this.bodydraw = new Circlec(this.body.x, this.body.y, this.body.radius + 7, "#AA00DD")
                 this.bodydrawhuge = new Circlec(this.body.x, this.body.y, this.body.radius + 17, "#AA00DD")
+                if(level == 4){
                 tutorial_canvas_context.drawImage(cloudimg, this.frame * 48, 0, 48, 48, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 48 * (this.body.radius * .06666666666), 48 * (this.body.radius * .06666666666))
+            }else{
+                tutorial_canvas_context.drawImage(icloudimg, this.frame * 48, 0, 48, 48, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 48 * (this.body.radius * .06666666666), 48 * (this.body.radius * .06666666666))
+            }
 
             }
 
@@ -11813,8 +11836,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             if (this.body.radius <= 1.5) {
-                this.out = 1
+                this.out = 1 
+                 if(level == 4){
                 pomao.hits += 1
+                 }
                 if (pomao.hits > 9) {
                     pomao.hits = 9
                 }
@@ -11835,10 +11860,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         yank() {
 
-            this.body.x += (this.bodyanchor.x - this.body.x) / (60 - (this.frame * 2))
-            this.body.y += (this.bodyanchor.y - this.body.y) / (60 - (this.frame * 2))
-            this.bodyanchor.x -= (this.bodyanchor.x - pomao.body.x) / (16 - this.frame)
-            this.bodyanchor.y -= (this.bodyanchor.y - pomao.body.y) / (16 - this.frame)
+            if(level == 4){
+                this.body.x += (this.bodyanchor.x - this.body.x) / (60 - (this.frame * 2))
+                this.body.y += (this.bodyanchor.y - this.body.y) / (60 - (this.frame * 2))
+                this.bodyanchor.x -= (this.bodyanchor.x - pomao.body.x) / (16 - this.frame)
+                this.bodyanchor.y -= (this.bodyanchor.y - pomao.body.y) / (16 - this.frame)
+            }else{
+            this.body.x += ((this.bodyanchor.x - this.body.x) / (60 - (this.frame * 2)))*.35
+            this.body.y +=( (this.bodyanchor.y - this.body.y) / (60 - (this.frame * 2)))*.35
+            this.bodyanchor.x -=( (this.bodyanchor.x - pomao.body.x) / (16 - this.frame))*.35
+            this.bodyanchor.y -=( (this.bodyanchor.y - pomao.body.y) / (16 - this.frame))*.35
+            }
             if (Math.random() < .1) {
                 this.bodyanchor = new Circle(this.bodyanchor.x + ((Math.random() - .5) * 1200), this.bodyanchor.y + ((Math.random() - .5) * 1200), 100, "transparent")
             }
@@ -11873,19 +11905,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.bump = -1
                 }
                 //   if(pomao.body.ymom == 0){
-                if (this.body.radius >= 15) {
+                if (this.body.radius >= 15 || (level !== 4 && this.body.radius >= 10)) {
                     if (pomao.disabled != 1) {
                         if (pomao.pounding != 10) {
                             pomao.body.xmom = -3 * (this.bump)
+                            if(level == 4){
                             pomao.disabled = 1
                             pomao.hits--
                             pomao.body.ymom = -1.8
+                            }else{
+                                pomao.body.xmom = -1.1 * (this.bump)
+                                pomao.body.ymom = -.5
+                                pomao.hits-=.005
+                            }
                             this.body.xmom = -pomao.body.xmom
                         }
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
+                            if(level == 4){
                             pomao.body.xmom = -1.8 * (this.bump)
                             pomao.body.ymom = -1.8
+                            }else{
+                                // pomao.body.xmom = -1.1 * (this.bump)
+                                // pomao.body.ymom = -.5
+                                pomao.hits-=.005
+                            }
                             this.body.xmom = -pomao.body.xmom
                         }
                     }
@@ -12287,10 +12331,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
     tutorial_canvas_context.scale(.5,.5)
     tutorial_canvas_context.translate(640,360)
         }
+        cheat(){
+            this.megamao = 0
+            this.harmless = 1
+            this.ruthless = 0
+            this.nowear = 1
+            this.shockandawe = 1
+            this.clip = 1
+            this.warpspeed = 1
+            this.megg = 1
+        }
     }
 
     let cheats = new Cheatcodes()
     // cheats.zoomout()
+    // cheats.cheat()
     const pomao = new Pomao()
 
     let loadlvl1button
@@ -17893,7 +17948,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     //abracadabra
-    // loadlvl1()
+    loadlvl1()
     // loadlvl2()
     // loadlvl3()
     // loadlvl4()
@@ -17904,8 +17959,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // loadlvl9()
     // loadlvl10()
     // loadlvl11()
-    // loadlvl12()
-    loadlvl13()
+    // loadlvl13()
+    // loadlvl13()
 
     // for(let t=0;t<10;t++){
     //     chafer.draw()
@@ -18346,6 +18401,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 loadlvl3()
                             }
                             if (level == 4) {
+                                loadlvl4()
+                            }
+                            if (level == 13) {
                                 loadlvl4()
                             }
                             if (level == 5) {
@@ -22557,7 +22615,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         markRectangles()
     }
 
-    function loadlvl12(){
+    function loadlvl13(){
 
         pomao.tonguex = 0
         pomao.tonguey = 0
@@ -22583,13 +22641,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         beamrocks = []
         pomao.cutscene = 0
-        level = 11
+        level = 13
 
 
+
+        tutorial_canvas_context.translate(pomao.body.x + 0, pomao.body.y + 0)
         pomao.body.x = 0
         pomao.body.y = 0
-
-        tutorial_canvas_context.translate(pomao.body.x + 640, pomao.body.y + 360)
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -22621,6 +22679,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         snowfloors.splice(0, snowfloors.length)
         pomao.thrown = []
 
+
+
+
         boss = new Circle(0, 0, 0, "transparent")
 let cavelevelrects = []
 for(let t = 0;t<cavelevel.length;t++){
@@ -22637,9 +22698,20 @@ floors.push(rect)
 roofs.push(rect)
 walls.push(rect)
 
+
+
+for(let k = 0;k<floors.length;k++){
+    for(let t = 0;t<8;t++){
+        const bat = new Cloud(floors[k].x + (Math.random() * floors[k].width), floors[k].y - (Math.random() * 400))
+        bats.push(bat)
+    }
+    
+}
+
+door = new Rectangle(-1872, -3000, 200, 200, "#090909")
     }
 
-    function loadlvl13(){
+    function loadlvl14(){
 
         pomao.tonguex = 0
         pomao.tonguey = 0
@@ -22754,7 +22826,7 @@ walls.push(rect)
 
     }
 
-    function loadlvl13(){
+    function loadlvl15(){
 
         pomao.tonguex = 0
         pomao.tonguey = 0
