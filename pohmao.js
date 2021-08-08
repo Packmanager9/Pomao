@@ -18404,7 +18404,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 loadlvl4()
                             }
                             if (level == 13) {
-                                loadlvl4()
+                                loadlvl13()
                             }
                             if (level == 5) {
                                 loadlvl5()
