@@ -67,7 +67,7 @@ counterfrac.ymom = (Math.random() - .5) * .01
 let snowfloor = {}
 let lvl9rotationalvariable = 0
 let level = 1
-// const zimgs = []
+const zimgs = []
 let pmarinedisp = 0
 let jailswitch = 0
 let loader = 1
@@ -87,9 +87,9 @@ const assortedDraw = []
 let floormpf = []
 // const gamepads
 
-// for (let i = 1; i < 44; i++) {
-// zimgs.push(Object.assign(new Image(), { 'src': `z - ${i} copy-min.png` }));
-// }
+for (let i = 1; i < 44; i++) {
+zimgs.push(Object.assign(new Image(), { 'src': `z - ${i} copy-min.png` }));
+}
 // for (let t = 42; t > 0; t--) {
 // zimgs.push(zimgs[t])
 // }
@@ -18540,39 +18540,39 @@ window.addEventListener('DOMContentLoaded', (event) => {
             lvl9rotationalvariable++
             // positionUpdate()
 
-            if (pomao.tripping > 0) {
+            // if (pomao.tripping > 0) {
 
-                if (pomao.tripping == 410) {
-                    counterfrac.ymom *= -1
-                    counterfrac.xmom *= -1
-                }
-                if (pomao.tripping % 5 == 0) {
-                    FLEX_engine = fractal_canvas.getBoundingClientRect();
-                    XS_engine = 320 + counterfrac.y
-                    YS_engine = 180 + counterfrac.x
-                    TIP_engine.x = XS_engine
-                    TIP_engine.y = YS_engine
-                    TIP_engine.body = TIP_engine
-                    rect.color = "black"
-                    // rect.draw()
+            //     if (pomao.tripping == 410) {
+            //         counterfrac.ymom *= -1
+            //         counterfrac.xmom *= -1
+            //     }
+            //     if (pomao.tripping % 5 == 0) {
+            //         FLEX_engine = fractal_canvas.getBoundingClientRect();
+            //         XS_engine = 320 + counterfrac.y
+            //         YS_engine = 180 + counterfrac.x
+            //         TIP_engine.x = XS_engine
+            //         TIP_engine.y = YS_engine
+            //         TIP_engine.body = TIP_engine
+            //         rect.color = "black"
+            //         // rect.draw()
 
-                    counterfrac.x += counterfrac.xmom * 70
-                    counterfrac.y += counterfrac.ymom * 70
-
-
-                    halfCanvasW = fractal_canvas.width * .5
-                    halfCanvasH = fractal_canvas.height * .5
+            //         counterfrac.x += counterfrac.xmom * 70
+            //         counterfrac.y += counterfrac.ymom * 70
 
 
-                    imgOffset = punch.imaginary - XS_engine / halfCanvasW + 1
-                    realOffset = punch.real * punch.imaginary + YS_engine / halfCanvasH - 1
-                    punch.x +=
-
-                        continued_stimulis()
-                }
+            //         halfCanvasW = fractal_canvas.width * .5
+            //         halfCanvasH = fractal_canvas.height * .5
 
 
-            }
+            //         imgOffset = punch.imaginary - XS_engine / halfCanvasW + 1
+            //         realOffset = punch.real * punch.imaginary + YS_engine / halfCanvasH - 1
+            //         punch.x +=
+
+            //             continued_stimulis()
+            //     }
+
+
+            // }
             // for(let t =0;t<3;t++){
             //     tutorial_canvas_context.drawImage(tutorial_canvas, 0, 0, 1280, 720, pomao.body.x - 320, pomao.body.y - 180, 640, 360)
             // }
@@ -18933,41 +18933,46 @@ window.addEventListener('DOMContentLoaded', (event) => {
     function drawFractal() {
         if (pomao.tripping > 0) {
             // if(Math.random()<.5){
-            // //////console.time("frac")
-            // const sheetwidtht = zimgs[0].width
-            // const sheetheightt = zimgs[0].height
-            // const colst = 3
-            // const rowst = 3
-            // const widtht = sheetwidtht / colst
-            // const heightt = sheetheightt / rowst
-            // const srcxt = Math.floor(fractal.runnerx % colst) * widtht
-            // const srcyt = Math.floor(fractal.runnery % rowst) * heightt
+            //////console.time("frac")
+            const sheetwidtht = zimgs[0].width
+            const sheetheightt = zimgs[0].height
+            const colst = 3
+            const rowst = 3
+            const widtht = sheetwidtht / colst
+            const heightt = sheetheightt / rowst
+            const srcxt = Math.floor(fractal.runnerx % colst) * widtht
+            const srcyt = Math.floor(fractal.runnery % rowst) * heightt
 
             if (fractal.sheet < 0) {
                 fractal.sheet = 0
             }
             // ////console.log(fractal.sheet, zimgs[fractal.sheet%zimgs.length])
-            // tutorial_canvas_context.drawImage(zimgs[fractal.sheet % zimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            tutorial_canvas_context.drawImage(zimgs[fractal.sheet % zimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
 
-            tutorial_canvas_context.imageSmoothingEnabled = true
             // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 640, 360, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 639, pomao.body.y - 359, 1280, 720)
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 639, pomao.body.y - 360, 1280, 720)
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 359, 1280, 720)
 
-            tutorial_canvas_context.globalAlpha = 0.5
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 639.5, pomao.body.y - 360.5, 1280, 720)
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 639.5, pomao.body.y - 360, 1280, 720)
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 360.5, 1280, 720)
 
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640.5, pomao.body.y - 359.5, 1280, 720)
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640.5, pomao.body.y - 360, 1280, 720)
-            tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 359.5, 1280, 720)
-            tutorial_canvas_context.globalAlpha = 1
-            tutorial_canvas_context.imageSmoothingEnabled = false
+            // tutorial_canvas_context.imageSmoothingEnabled = true
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 639, pomao.body.y - 359, 1280, 720)
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 639, pomao.body.y - 360, 1280, 720)
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 359, 1280, 720)
+
+            // tutorial_canvas_context.globalAlpha = 0.5
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 639.5, pomao.body.y - 360.5, 1280, 720)
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 639.5, pomao.body.y - 360, 1280, 720)
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 360.5, 1280, 720)
+
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640.5, pomao.body.y - 359.5, 1280, 720)
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640.5, pomao.body.y - 360, 1280, 720)
+            // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 1280, 720, pomao.body.x - 640, pomao.body.y - 359.5, 1280, 720)
+            // tutorial_canvas_context.globalAlpha = 1
+            // tutorial_canvas_context.imageSmoothingEnabled = false
+
+
+
             // tutorial_canvas_context.drawImage(tutorial_canvas, 0, 0, 1280, 720, pomao.body.x - 320, pomao.body.y - 180, 640, 360)
             // tutorial_canvas_context.drawImage(fractal_canvas, 1, 0, 320, 180, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
             // tutorial_canvas_context.drawImage(fractal_canvas, 2, 0, 320, 180, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
