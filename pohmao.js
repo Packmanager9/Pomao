@@ -5641,6 +5641,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.color = color
             this.width = width
         }
+        angle() {
+            return Math.atan2(this.y1 - this.y2, this.x1 - this.x2)
+        }
         squareDistance() {
             let xdif = this.x1 - this.x2
             let ydif = this.y1 - this.y2
@@ -8130,10 +8133,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // const x2dis = this.footspot.x-ramps[t].x
 
                 if (ramps[t].isPointInside(this.footspot)) {
-                    for (let k = 0; k < 10000; k++) {
+                    for (let k = 0; k < 20; k++) { //10000
 
                         this.footspot = new Circle(this.body.x, this.body.y + (this.body.radius - 1), 3, "red")
-                        if (ramps[t].isPointInside(this.footspot)) {
+                        if(typeof ramps[t].metapoint  !== "undefined"){
+                            this.feetspot = new Circle(this.body.x, this.body.y + (this.body.radius - 7), 3, "red")
+                        }
+                        if (ramps[t].isPointInside(this.footspot) || (typeof ramps[t].metapoint  !== "undefined" && ramps[t].isPointInside(this.feetspot))) {
                             if (objsprings.includes(ramps[t])) {
                                 pomao.rooted = ramps[t]
                                 pomao.rootedframe = 10
@@ -8898,6 +8904,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 floors[t].clean()
             }
 
+
+            if (level == 9) {
+                for(let t = 0;t<ramps.length;t++){
+                    ramps[t].draw()
+                }
+            }
             if (level == 10) {
                 for (let t = 0; t < snowfloors.length; t++) {
                     // snowfloors[t].draw()
@@ -17909,6 +17921,181 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
+    class Disang {
+        constructor(dis, ang) {
+            this.dis = dis
+            this.angle = ang
+        }
+    }
+
+    class Bezzy {
+        constructor() {
+        }
+        construct(x, y, cx, cy, ex, ey, color) {
+            // this.color = "red"
+            this.x = x
+            this.y = y
+            this.cx = cx
+            this.cy = cy
+            this.ex = ex
+            this.ey = ey
+            this.metapoint = new Circle((x + cx + ex) / 3, (y + cy + ey) / 3, 3, "#FFFFFF")
+            this.granularity = 100
+            this.body = [...castBetweenPoints((new Point(this.x, this.y)), (new Point(this.ex, this.ey)), this.granularity, 0)]
+
+            let angle = (new Line(this.x, this.y, this.ex, this.ey)).angle()
+
+            this.angles = []
+            for(let t = 0;t<this.granularity;t++){
+                this.angles.push(angle)
+            }
+            for (let t = 0; t <= 1; t += 1/this.granularity) {
+                this.body.push(this.getQuadraticXY(t))
+                this.angles.push(this.getQuadraticAngle(t))
+            }
+            this.hitbox = []
+            for (let t = 0; t < this.body.length; t++) {
+                let link = new LineOP(this.body[t], this.metapoint)
+                let disang = new Disang(link.hypotenuse(), link.angle() + (Math.PI * 2))
+                this.hitbox.push(disang)
+            }
+            this.constructed = 1
+            this.color = color
+
+
+            // for (let t = 0; t < 10; t++) {
+            //     let bezarray = []
+            //     for (let t = 0; t < this.hitbox.length - 1; t++) {
+            //         let obj = {}
+            //         obj.angle = (this.hitbox[t].angle + this.hitbox[t + 1].angle) * .5
+            //         obj.dis = (this.hitbox[t].dis + this.hitbox[t + 1].dis) * .5
+            //         bezarray.push(this.hitbox[t])
+            //         bezarray.push(obj)
+            //     }
+            //     this.hitbox = [...bezarray]
+            // }
+
+
+
+            // let zero = Math.PI
+            // this.angleincrement = (Math.PI * 2) / this.hitbox.length
+
+
+            // for (let t = 0; t < this.hitbox.length; t++) {
+            //     this.hitbox[t].angle = zero
+            //     this.hitbox[t].dis = this.hitbox[t].dis
+            //     zero += this.angleincrement
+            // }
+
+        }
+        check(t, num){
+            let obj = {}
+            console.log(t)
+            if(num.between(this.hitbox[t].angle, this.hitbox[t].angle)){
+                obj.t = t
+                obj.fact = true
+                return obj
+            }
+            obj.fact = false
+            if(this.hitbox[t].angle < num){
+                obj.dir = 1
+            }
+            if(this.hitbox[t].angle > num){
+                obj.dir = -1
+            }
+            return obj
+        }
+        search(num){
+            let t = Math.floor(this.hitbox.length*.5)
+            let ojb = this.check(t, num)
+            let step =  Math.floor(this.hitbox.length*.5)
+            while(ojb.fact == false){
+                    t += ojb.dir * step
+                    step*= .5
+                    if(step < 1){
+                        step = 1
+                    }
+                    if(t > this.hitbox.length){
+                        t = this.hitbox.length -1
+                    }
+                    if(t < 0){
+                        t = 0
+                    }
+                ojb = this.check(t, num)
+            }
+            return ojb.t
+        }
+        isPointInside(point) {
+
+
+            let link = new LineOP(point, this.metapoint)
+            let angle = (link.angle()) + (Math.PI * 2)
+            let dis = link.hypotenuse()
+            for (let t = 1; t < this.hitbox.length; t++) {
+                // angle = (link.angle() + (Math.PI * 2))
+                if (Math.abs(this.hitbox[t].angle - this.hitbox[t - 1].angle) > 3) {
+                    continue
+                }
+                if (angle.between(this.hitbox[t].angle, this.hitbox[t - 1].angle)) {
+                    if (dis < (this.hitbox[t].dis + this.hitbox[t - 1].dis) * .5) {
+                        return true
+                    }
+                }
+            }
+            return false
+        }
+        repelCheck(point) {
+            let link = new LineOP(point, this.metapoint)
+            let angle = (link.angle() + (Math.PI * 2))
+            let dis = link.hypotenuse()
+            for (let t = 1; t < this.hitbox.length; t++) {
+                if (Math.abs(this.hitbox[t].angle - this.hitbox[t - 1].angle) > 1) {
+                    continue
+                }
+                if (angle.between(this.hitbox[t].angle, this.hitbox[t - 1].angle)) {
+                    if (dis < ((this.hitbox[t].dis + this.hitbox[t - 1].dis) * .5) + point.radius) {
+                        return this.angles[t]
+                    }
+                }
+            }
+            return false
+        }
+        draw() {
+            // for (let t = 1; t < this.hitbox.length; t++) {
+            //     let point = new Circle(this.metapoint.x + (Math.cos(this.hitbox[t - 1].angle) * this.hitbox[t - 1].dis), this.metapoint.y + (Math.sin(this.hitbox[t - 1].angle) * this.hitbox[t - 1].dis), 1, `rgb(0,${255 - (t * .01) * (t * .05)},${t / 2})`)
+            //     point.draw()
+            // }
+            this.metapoint.draw()
+           let tline = new Line(this.x, this.y, this.ex, this.ey, this.color, 3)
+            tline.draw()
+            tutorial_canvas_context.beginPath()
+            this.median = new Point((this.x + this.ex) * .5, (this.y + this.ey) * .5)
+            let angle = (new LineOP(this.median, this.metapoint)).angle()
+            let dis = (new LineOP(this.median, this.metapoint)).hypotenuse()
+            tutorial_canvas_context.bezierCurveTo(this.x, this.y, this.cx - (Math.cos(angle) * dis * .38), this.cy - (Math.sin(angle) * dis * .38), this.ex, this.ey)
+
+            tutorial_canvas_context.fillStyle = this.color
+            tutorial_canvas_context.strokeStyle = this.color
+            tutorial_canvas_context.lineWidth = 3
+            tutorial_canvas_context.fill()
+            tutorial_canvas_context.stroke()
+        }
+        getQuadraticXY(t) {
+            return new Point((((1 - t) * (1 - t)) * this.x) + (2 * (1 - t) * t * this.cx) + (t * t * this.ex), (((1 - t) * (1 - t)) * this.y) + (2 * (1 - t) * t * this.cy) + (t * t * this.ey))
+        }
+        getQuadraticAngle(t) {
+            var dx = 2 * (1 - t) * (this.cx - this.x) + 2 * t * (this.ex - this.cx);
+            var dy = 2 * (1 - t) * (this.cy - this.y) + 2 * t * (this.ey - this.cy);
+            return -Math.atan2(dx, dy) + 0.5 * Math.PI;
+        }
+    }
+    Number.prototype.between = function (a, b, inclusive) {
+        var min = Math.min(a, b),
+            max = Math.max(a, b);
+        return inclusive ? this >= min && this <= max : this > min && this < max;
+    }
+
+
 
     const tutorialholo = new Tutorial()
     // const seep
@@ -17960,7 +18147,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // loadlvl10()
     // loadlvl11()
     // loadlvl13()
-    // loadlvl13()
+    // loadlvl14()
 
     // for(let t=0;t<10;t++){
     //     chafer.draw()
@@ -22098,6 +22285,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
 
+        // for(let t = 0;t<1;t++){
+        //     let x = Math.random()*1000
+        //     let y = (Math.random()*1000)-900
+        //     let x2 = Math.random()*1000
+        //     let y2 = (Math.random()*1000)-900
+        //     let x3 = Math.random()*1000
+        //     let y3 = (Math.random()*1000)-900
+        //     let bezzy = new Bezzy()
+        //     bezzy.construct(x,y, x2,y2, x3, y3)
+        //     ramps.push(bezzy)
+        // }
+
 
         floormpf = [...floors]
 
@@ -22829,6 +23028,22 @@ door = new Rectangle(-1872, -3000, 200, 200, "#090909")
         roofs.push(rect)
         walls.push(rect)
 
+
+
+
+        for(let t = 0;t<1;t++){
+            let x = 100// Math.random()*1000
+            let y = -350//(Math.random()*1000)-900
+            let x2 = 100
+            let y2 = -700
+            let x3 = 900
+            let y3 = -350
+            let bezzy = new Bezzy()
+            bezzy.construct(x,y, x2,y2, x3, y3, "purple")
+            ramps.push(bezzy)
+        }
+
+
     }
 
     function loadlvl15(){
@@ -22971,6 +23186,22 @@ door = new Rectangle(-1872, -3000, 200, 200, "#090909")
         return (new Shape(shape_array))
     }
 
+
+
+    function castBetweenPoints(from, to, granularity = 10, radius = 1) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
+        let limit = granularity
+        let shape_array = []
+        for (let t = 0; t < limit; t++) {
+            let circ = new Circle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, "red")
+            circ.toRatio = t / limit
+            circ.fromRatio = (limit - t) / limit
+            shape_array.push(circ)
+        }
+        return shape_array
+    }
+
+
+    
     function markRectangles() {
         for (let t = 0; t < floors.length; t++) {
             if (walls.includes(floors[t])) {
