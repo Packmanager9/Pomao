@@ -8408,6 +8408,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.rattled = 0
             }
 
+
+            if(level == 11){
+                for(let  t =0;t<ramps.length;t++){
+                    ramps[t].draw()
+                }
+            }
         //     if(level == 11){
         //         floors.splice(0,floors.length)
         //         roofs.splice(0,roofs.length)
@@ -18065,7 +18071,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     let point = new Circle(this.metapoint.x + (Math.cos(this.hitbox[t - 1].angle) * this.hitbox[t - 1].dis), this.metapoint.y + (Math.sin(this.hitbox[t - 1].angle) * this.hitbox[t - 1].dis), 1, `rgb(0,${255 - (t * .01) * (t * .05)},${t / 2})`)
             //     point.draw()
             // }
-            this.metapoint.draw()
+
+
+            if(typeof this.parent != "undefined"){
+                this.parent.angle += (Math.PI/1000)
+                this.y += Math.sin(this.parent.angle)/10
+                this.cy += Math.sin(this.parent.angle)/10
+                this.ey += Math.sin(this.parent.angle)/10
+                this.x -= .3
+                this.cx -= .3
+                this.ex -= .3
+                this.metapoint.y += Math.sin(this.parent.angle)/10
+                this.metapoint.x -= .3
+            }
+
+
+
+            // this.metapoint.draw()
            let tline = new Line(this.x, this.y, this.ex, this.ey, this.color, 3)
             tline.draw()
             tutorial_canvas_context.beginPath()
@@ -18079,6 +18101,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.lineWidth = 3
             tutorial_canvas_context.fill()
             tutorial_canvas_context.stroke()
+
+            if(typeof this.parent != "undefined"){
+                this.metapoint.radius = 5
+                this.metapoint.color = "black"
+                if(this.cy < this.y){
+                    let megapoint = new Circle(this.metapoint.x-200, this.metapoint.y+30, 5, "Black")
+                    megapoint.draw()
+                }
+            }
         }
         getQuadraticXY(t) {
             return new Point((((1 - t) * (1 - t)) * this.x) + (2 * (1 - t) * t * this.cx) + (t * t * this.ex), (((1 - t) * (1 - t)) * this.y) + (2 * (1 - t) * t * this.cy) + (t * t * this.ey))
@@ -18095,6 +18126,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
         return inclusive ? this >= min && this <= max : this > min && this < max;
     }
 
+
+    class Whaliad{
+        constructor(x, y, cx, cy, ex, ey, color) {
+            this.body = new Bezzy()
+            this.body.construct(x,y,cx,cy,ex,ey+50, color)
+            this.body.parent = this
+            this.basin = new Bezzy()
+            this.basin.construct(x,y,cx,((y-cy)*.5)+y,ex,ey+50, color)
+            this.basin.parent = this
+            this.tail = new Bezzy()
+            this.tail.construct(ex+50,ey+100,ex-100, ey+50 ,ex+50,ey-50, color)
+            this.tail.parent = this
+            ramps.push(this.body)
+            ramps.push(this.basin)
+            ramps.push(this.tail)
+            this.angle = Math.random()*Math.PI*2
+        }
+    }
 
 
     const tutorialholo = new Tutorial()
@@ -22800,6 +22849,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             hookbots.push(fingerflyer)
 
         }
+
+        for(let t = 0;t<15;t++){
+            let whaloid = new Whaliad(t*1000, -1000, (t*1000)+200, -1300, (t*1000)+700, -1000,  "#678990")
+        }
+
+        
 
 
 // floors = [...cavelevelrects]
