@@ -1,5 +1,10 @@
 
 
+let ziglink = {}
+ziglink.draw = empty
+
+function empty(){
+}
 let testscale = 1
 let imageData =  {}
 let data =  {}
@@ -6000,6 +6005,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     class Pomao {
         constructor() {
+            this.hngResetConstant = 11
             this.wingcheck = 0
             this.cutscene = 0
             this.grounded = 0
@@ -7457,7 +7463,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 if ((floors[t].doesPerimeterTouch(pomao.tongue) || pomao.tonguebox.isInsideOf(floors[t])) && !this.body.repelCheck(this.tongue)) {
                     //   //console.log("43dss")  //hits this on thin floors?  while clipping?
+
+                    // let downvec = pomao.body.ymom + pomao.body.symom
+                    // ziglink = new Line(pomao.body.x, pomao.body.y, pomao.body.x, pomao.body.y+(downvec*pomao.hngResetConstant), "red", 10)
                     if (floors[t].ungrapplable != 1) {
+                        //dangerous change
+                        if(floors[t].y > pomao.body.y){
+                            let downvec = pomao.body.ymom + pomao.body.symom
+                            if(downvec > 0){
+                                if(downvec*pomao.hngResetConstant > (floors[t].y-pomao.body.y)){
+                                    pomao.hng = 0
+                                }
+                            }
+                        }
+                        //end danger
                         // tutorial_canvas_context.translate(0,  this.body.y-(floors[t].y-this.body.radius))
                         // this.body.y = floors[t].y-this.body.radius
                         if (this.tongueymom < 0) {
@@ -8003,6 +8022,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             for (let t = 0; t < ramps.length; t++) {
+                //danger
+                if (ramps[t].isPointInside(pomao.tongue) || ((typeof ramps[t].radius == "number") && (pomao.tonguebox.isInsideOf(ramps[t]) || ramps[t].repelCheck(pomao.tongue)))) {
+                     let downvec = pomao.body.ymom + pomao.body.symom
+                     if(downvec > 0){
+                         let point = new Point(pomao.body.x, pomao.body.y+(downvec*pomao.hngResetConstant))
+                         if(ramps[t].isPointInside(point)){
+                             pomao.hng = 0
+                         }
+                     }
+                }
+                //end danger
 
                 if (t > 0 && (keysPressed['s'] || (gamepadAPI.axesStatus[1] > .5)) && !walls.includes(ramps[t])) {
 
@@ -8073,7 +8103,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                         }
                     } else if (ramps[t].isPointInside(pomao.tongue) || ((typeof ramps[t].radius == "number") && (pomao.tonguebox.isInsideOf(ramps[t]) || ramps[t].repelCheck(pomao.tongue)))) {
-
+                       //danger
+                        // let downvec = pomao.body.ymom + pomao.body.symom
+                        // if(downvec > 0){
+                        //     let point = new Point(pomao.body.x, pomao.body.y+(downvec*pomao.hngResetConstant))
+                        //     if(ramps[t].isPointInside(point)){
+                        //         pomao.hng = 0
+                        //     }
+                        // }
+                        //end danger
                         // tutorial_canvas_context.translate(0,  this.body.y-(ramps[t].y-this.body.radius))
                         // this.body.y = ramps[t].y-this.body.radius
                         if (this.tongueymom < 0) {
@@ -17518,6 +17556,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
     }
+    
     function control(object, speed = 1) { // basic control for objects
         if (typeof object.body != 'undefined') {
             if (keysPressed['w']) {
@@ -17947,7 +17986,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.ey = ey
             this.metapoint = new Circle((x + cx + ex) / 3, (y + cy + ey) / 3, 3, "#FFFFFF")
             this.granularity = 100
-            this.body = [...castBetweenPoints((new Point(this.x, this.y)), (new Point(this.ex, this.ey)), this.granularity, 0)]
+            this.body = [...castBetweenPoints((new Point(this.ex, this.ey)), (new Point(this.x, this.y)), this.granularity, 0)]
 
             let angle = (new Line(this.x, this.y, this.ex, this.ey)).angle()
 
@@ -17969,17 +18008,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.color = color
 
 
-            // for (let t = 0; t < 10; t++) {
-            //     let bezarray = []
-            //     for (let t = 0; t < this.hitbox.length - 1; t++) {
-            //         let obj = {}
-            //         obj.angle = (this.hitbox[t].angle + this.hitbox[t + 1].angle) * .5
-            //         obj.dis = (this.hitbox[t].dis + this.hitbox[t + 1].dis) * .5
-            //         bezarray.push(this.hitbox[t])
-            //         bezarray.push(obj)
-            //     }
-            //     this.hitbox = [...bezarray]
-            // }
+            for (let t = 0; t < 1; t++) {
+                let bezarray = []
+                for (let t = 0; t < this.hitbox.length - 1; t++) {
+                    let obj = {}
+                    if (Math.abs(this.hitbox[t].angle - this.hitbox[t + 1].angle) > .13) {
+                        continue
+                    }
+                    obj.angle = (this.hitbox[t].angle + this.hitbox[t + 1].angle) * .5
+                    obj.dis = (this.hitbox[t].dis + this.hitbox[t + 1].dis) * .5
+                    bezarray.push(this.hitbox[t])
+                    bezarray.push(obj)
+                }
+                this.hitbox = [...bezarray]
+            }
 
 
 
@@ -18039,7 +18081,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let dis = link.hypotenuse()
             for (let t = 1; t < this.hitbox.length; t++) {
                 // angle = (link.angle() + (Math.PI * 2))
-                if (Math.abs(this.hitbox[t].angle - this.hitbox[t - 1].angle) > 3) {
+                if (Math.abs(this.hitbox[t].angle - this.hitbox[t - 1].angle) > .13) {
                     continue
                 }
                 if (angle.between(this.hitbox[t].angle, this.hitbox[t - 1].angle)) {
@@ -18813,6 +18855,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     tutorial_canvas_context.drawImage(tutorial_canvas, 0, 0, 1280, 720, pomao.body.x - 320, pomao.body.y - 180, 640, 360)
             // }
             // console.log(roughSizeOfObject(pomao))
+
+            // let downvec = pomao.body.ymom + pomao.body.symom
+            // ziglink = new Line(pomao.body.x, pomao.body.y, pomao.body.x, pomao.body.y+(downvec*pomao.hngResetConstant), "red", 3)
+            // ziglink.draw()
         }, 11)
 
 
