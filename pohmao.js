@@ -12740,7 +12740,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             const pomlinedis = this.pomline.hypotenuse()
-            console.log(pomlinedis, (this.rayrange*.5)*this.beamspeed)
+            // console.log(pomlinedis, (this.rayrange*.5)*this.beamspeed)
             for (let f = 3; f < ((this.rayrange * .5)*5.5)/this.beamspeed; f++) {  //5.5 was calibrated
                 for (let t = 0; t < this.ray.length; t++) {
                     if (this.ray[t].collided < 1) {
@@ -18054,7 +18054,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         check(t, num){
             let obj = {}
-            console.log(t)
+            // console.log(t)
             if(num.between(this.hitbox[t].angle, this.hitbox[t].angle)){
                 obj.t = t
                 obj.fact = true
