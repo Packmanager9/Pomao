@@ -8695,6 +8695,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (level == 4) {
 
                 if (boss.getdrawn != 1) {
+                    lvl4bossmusic.pause()
                     lvl4basemusic.play()
                 }
 
@@ -9504,7 +9505,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     lvl4bossmusic.play()
                 } else if (pomao.body.y < (-10300 - 6550) + 350) {
                     lvl4basemusic.play()
-                    boss.getdrawn = 1
+                    if(boss.getdrawn == 0 && boss.neverdrawn == 1){
+                        boss.getdrawn = 1
+                        boss.neverdrawn = 0
+                    }
                 }
                 //     }  
                 // }
@@ -12599,6 +12603,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         constructor(x, y, z = 0) {
             if (z == 0) {
                 this.getdrawn = 0
+                this.neverdrawn = 1
                 this.body = new Circlec(x, y, 80, "cyan")
                 this.ray = []
                 this.rayrange = 420
@@ -12606,7 +12611,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.gapangle = Math.PI / 8
                 this.currentangle = 0
                 this.obstacles = []
-                this.raymake = 37 // 19
+                this.raymake = 27 // 19 //37
                 this.health = 1200
                 this.maxhealth = 1200
                 this.shook = 0
@@ -12626,7 +12631,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 floormpf.push(this.wall1)
                 this.obstacles.push(this.wall1)
                 this.obstaclesstorage = []
-
+                this.pomline = new LineOP(this.body, pomao.body)
+                this.beamspeed = 7.999
+                this.checkout = 10
+                this.checkin = -1
             }
         }
         pop() {
@@ -12672,6 +12680,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.pops.splice(t, 1)
                 }
             }
+            if(this.pops.length == 0){
+                this.getdrawn = 0
+            }
         }
 
         beam() {
@@ -12697,13 +12708,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (this.beamcut <= 0) {
                     if (this.raymake > 1) {
                         this.raymake -= 1
-                        this.beamcut = 2 // 5
-                        this.gapangle -= (Math.PI / 8) / 37
+                        this.beamcut = 3 // 5 // 2
+                        this.gapangle -= (Math.PI / 8) / 27
                     }
                 }
 
             } else {
-                this.raymake = 37
+                this.raymake = 27
                 this.gapangle = Math.PI / 8
                 this.beamdisp = 0
             }
@@ -12711,27 +12722,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.currentangle = this.gapangle / 2
             for (let k = 0; k < this.raymake; k++) {
                 this.currentangle += (this.gapangle / Math.ceil(this.raymake / 2))
-                const ray = new Circle(this.body.x, this.body.y, 1, "white", ((this.rayrange * (Math.cos(this.globalangle + this.currentangle)))) / this.rayrange * 5.5, ((this.rayrange * (Math.sin(this.globalangle + this.currentangle)))) / this.rayrange * 5.5)
+                const ray = new Circle(this.body.x, this.body.y, 1, "white", ((this.rayrange * (Math.cos(this.globalangle + this.currentangle)))) / this.rayrange * this.beamspeed, ((this.rayrange * (Math.sin(this.globalangle + this.currentangle)))) / this.rayrange * this.beamspeed)
                 ray.collided = 0
                 ray.lifespan = this.rayrange - 1
                 this.ray.push(ray)
             }
 
-
-            if (Math.random() < .1) {
+            this.checkin++
+            if (this.checkin%this.checkout == 0) {
                 this.obstaclesstorage = []
-
-
                 for (let q = 0; q < this.obstacles.length; q++) {
-                    let linker = new Line(this.body.x, this.body.y, this.obstacles[q].x, this.obstacles[q].y, "black", 2)
-                    const obsdist = ((this.obstacles[q].width + this.obstacles[q].height) + (this.rayrange * 5.5)) * ((this.obstacles[q].width + this.obstacles[q].height) + (this.rayrange * 5.5))
+                    let linker = new LineOP(this.body, this.obstacles[q], "black", 2)
+                    const obsdist = ((this.obstacles[q].width + this.obstacles[q].height) + (this.rayrange *this.beamspeed)) * ((this.obstacles[q].width + this.obstacles[q].height) + (this.rayrange *this.beamspeed))
                     if (linker.squareDistance() < obsdist) {
                         this.obstaclesstorage.push(this.obstacles[q])
                     }
                 }
             }
-
-            for (let f = 3; f < this.rayrange / 2; f++) {
+            const pomlinedis = this.pomline.hypotenuse()
+            console.log(pomlinedis, (this.rayrange*.5)*this.beamspeed)
+            for (let f = 3; f < ((this.rayrange * .5)*5.5)/this.beamspeed; f++) {  //5.5 was calibrated
                 for (let t = 0; t < this.ray.length; t++) {
                     if (this.ray[t].collided < 1) {
                         this.ray[t].move()
@@ -12743,6 +12753,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     this.ray[t].collided = 1
                                 }
                                 if (this.obstaclesstorage[q] == pomao.body) {
+                                    if(pomlinedis > (this.rayrange * .5)*this.beamspeed){
+                                        continue
+                                    }
+
                                     if (pomao.checkInsidePomao(this.ray[t]) == true) {
                                         this.ray[t].collided = 1
                                         this.shook = 1
@@ -12901,6 +12915,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 }
             } else {
+                lvl4bossmusic.pause()
+                lvl4basemusic.play()
                 if (this.bopped == 0) {
                     this.pop()
                 }
