@@ -3,8 +3,13 @@
 let ziglink = {}
 ziglink.draw = empty
 
+let anglemegacount = 0
+let framemegacount = 0
 function empty(){
 }
+let globalVecPoint = {}
+globalVecPoint.x = 0
+globalVecPoint.y = 0
 let testscale = 1
 let imageData =  {}
 let data =  {}
@@ -18,13 +23,18 @@ let greenflip = 0
 let greentic = 0
 let redtic = 0
 let bluetic = 0
-let squaretable = {}
+let squaretable = {} //lets assume I can store this in a script as a variable
 for(let t = 0;t<10000000;t++){
     squaretable[`${t}`] = Math.sqrt(t)
     if(t > 999){
         t+=9
     }
 }
+    let angletable = {} //lets assume I can store this in a script as a variable
+    for(let t = 0;t<1000000;t++){
+        angletable[`${Math.floor((Math.cos((t/1000000)*Math.PI*2)*100))*.01},${Math.floor((Math.sin((t/1000000)*Math.PI*2)*100))*.01}`] = Math.atan2(Math.cos((t/1000000)*Math.PI*2), Math.sin((t/1000000)*Math.PI*2))
+    }   
+    // console.log(angletable)
 
 function roughSizeOfObject(object) {
 
@@ -3441,7 +3451,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this !== swimmers[f]) {
                         if (this.bodydraw.repelCheck(swimmers[f].bodydraw)) {
                             const distance = ((new Line(swimmers[f].body.x, swimmers[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - ((swimmers[f].bodydraw.radius + this.bodydraw.radius))
-                            const angleRadians = Math.atan2(swimmers[f].body.y - this.body.y, swimmers[f].body.x - this.body.x);
+                            const angleRadians = angleGrasp(swimmers[f].body.y - this.body.y, swimmers[f].body.x - this.body.x);
                             this.xrepel += (Math.cos(angleRadians) * distance) / 2
                             this.yrepel += (Math.sin(angleRadians) * distance) / 2
                             // swimmers[f].xrepelled = 1
@@ -3679,7 +3689,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (this !== boys[f]) {
                     if (this.body.repelCheck(boys[f].body)) {
                         const distance = ((new Line(boys[f].body.x, boys[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - ((boys[f].body.radius + this.body.radius))
-                        const angleRadians = Math.atan2(boys[f].body.y - this.body.y, boys[f].body.x - this.body.x);
+                        const angleRadians = angleGrasp(boys[f].body.y - this.body.y, boys[f].body.x - this.body.x);
                         this.xrepel += (Math.cos(angleRadians) * distance) / 1.25
                         this.yrepel += (Math.sin(angleRadians) * distance) / 1.25
                     }
@@ -4287,7 +4297,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this !== boys[f]) {
                         if (this.body.repelCheck(boys[f].body)) {
                             const distance = ((new Line(boys[f].body.x, boys[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - ((boys[f].body.radius + this.body.radius))
-                            const angleRadians = Math.atan2(boys[f].body.y - this.body.y, boys[f].body.x - this.body.x);
+                            const angleRadians = angleGrasp(boys[f].body.y - this.body.y, boys[f].body.x - this.body.x);
                             this.xrepel += (Math.cos(angleRadians) * distance) / 1.25
                             this.yrepel += (Math.sin(angleRadians) * distance) / 1.25
                         }
@@ -4415,7 +4425,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this !== boys[f]) {
                         if (this.body.repelCheck(boys[f].body)) {
                             const distance = ((new Line(boys[f].body.x, boys[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - ((boys[f].body.radius + this.body.radius))
-                            const angleRadians = Math.atan2(boys[f].body.y - this.body.y, boys[f].body.x - this.body.x);
+                            const angleRadians = angleGrasp(boys[f].body.y - this.body.y, boys[f].body.x - this.body.x);
                             this.xrepel += (Math.cos(angleRadians) * distance) / 1.25
                             this.yrepel += (Math.sin(angleRadians) * distance) / 1.25
                         }
@@ -4971,7 +4981,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.width = width
         }
         angle() {
-            return Math.atan2(this.object.y - this.target.y, this.object.x - this.target.x)
+            return angleGrasp(this.object.y - this.target.y, this.object.x - this.target.x)
         }
         hypotenuse() {
             let xdif = this.object.x - this.target.x
@@ -5019,7 +5029,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.width = width
         }
         angle() {
-            return Math.atan2(this.object.y - this.target.y, this.object.x - this.target.x)
+            return angleGrasp(this.object.y - this.target.y, this.object.x - this.target.x)
         }
         hypotenuse() {
             let xdif = this.object.x - this.target.x
@@ -5647,7 +5657,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.width = width
         }
         angle() {
-            return Math.atan2(this.y1 - this.y2, this.x1 - this.x2)
+            return angleGrasp(this.y1 - this.y2, this.x1 - this.x2)
         }
         squareDistance() {
             let xdif = this.x1 - this.x2
@@ -10264,7 +10274,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-                        const hurtle = (Rax(Math.atan2(((gamepadAPI.axesStatus[3])), ((gamepadAPI.axesStatus[2])))))
+                        const hurtle = (Rax(angleGrasp(((gamepadAPI.axesStatus[3])), ((gamepadAPI.axesStatus[2])))))
 
 
                         if ((hurtle > 0 && hurtle < 22.5) || (hurtle > (360 - 22.5))) {
@@ -11749,7 +11759,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this !== bats[f]) {
                         if (this.bodydraw.repelCheck(bats[f].bodydraw)) {
                             const distance = ((new Line(bats[f].body.x, bats[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - ((bats[f].bodydraw.radius + this.bodydraw.radius))
-                            const angleRadians = Math.atan2(bats[f].body.y - this.body.y, bats[f].body.x - this.body.x);
+                            const angleRadians = angleGrasp(bats[f].body.y - this.body.y, bats[f].body.x - this.body.x);
                             this.xrepel += (Math.cos(angleRadians) * distance) / 2
                             this.yrepel += (Math.sin(angleRadians) * distance) / 2
                             // bats[f].xrepelled = 1
@@ -12013,7 +12023,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this !== bats[f]) {
                         if (this.bodydraw.repelCheck(bats[f].bodydraw)) {
                             const distance = ((new Line(bats[f].body.x, bats[f].body.y, this.body.x, this.body.y, 1, "red")).hypotenuse()) - ((bats[f].bodydraw.radius + this.bodydraw.radius))
-                            const angleRadians = Math.atan2(bats[f].body.y - this.body.y, bats[f].body.x - this.body.x);
+                            const angleRadians = angleGrasp(bats[f].body.y - this.body.y, bats[f].body.x - this.body.x);
                             this.xrepel += (Math.cos(angleRadians) * distance) / 2
                             this.yrepel += (Math.sin(angleRadians) * distance) / 2
                             // bats[f].xrepelled = 1
@@ -12195,7 +12205,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (this.body3anchor.repelCheck(this.body1anchor)) {
                 const distance = ((new Line(this.body1anchor.x, this.body1anchor.y, this.body3anchor.x, this.body3anchor.y, 1, "red")).hypotenuse()) - ((this.body1anchor.radius + this.body3anchor.radius))
-                const angleRadians = Math.atan2(this.body1anchor.y - this.body3anchor.y, this.body1anchor.x - this.body3anchor.x);
+                const angleRadians = angleGrasp(this.body1anchor.y - this.body3anchor.y, this.body1anchor.x - this.body3anchor.x);
                 this.xrepel += (Math.cos(angleRadians) * distance) / 2
                 this.yrepel += (Math.sin(angleRadians) * distance) / 2
             }
@@ -12692,7 +12702,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.body.color = "cyan"
             }
             if (this.shook == 1) {
-                let angleRadians = Math.atan2(pomao.body.y - this.body.y, pomao.body.x - this.body.x);
+                let angleRadians = angleGrasp(pomao.body.y - this.body.y, pomao.body.x - this.body.x);
                 // angleRadians+= (this.globalangle)/19
 
                 this.globalangle = ((angleRadians - (this.gapangle * 1.5)))
@@ -12850,7 +12860,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.body.repelCheck(pomao.thrown[t])) {
                         this.health -= 1.9
                         this.rayrange -= .4
-                        let angleRadians = Math.atan2(pomao.body.y - this.body.y, pomao.body.x - this.body.x);
+                        let angleRadians = angleGrasp(pomao.body.y - this.body.y, pomao.body.x - this.body.x);
                         this.globalangle = ((angleRadians - (this.gapangle * 1.5)))
                     }
                 }
@@ -13759,7 +13769,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             this.box = new Shape(this.joints)
-            this.angle = Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
+            this.angle = angleGrasp(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
             // //console.log(this)
 
             this.joints[this.joints.length - 2].radius = 23  //20
@@ -13955,8 +13965,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.joints[0].xmom *= .3
                         this.joints[0].ymom *= .3
                     }
-                    // // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
-                    // this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x );
+                    // // let angleRadians = angleGrasp(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
+                    // this.angleRadians = angleGrasp(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x );
 
                     // if(this.angleRadians - this.angle  > .17){
                     //     this.angle +=.07
@@ -13967,9 +13977,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     // }
 
 
-                    // this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x ); //look at this seriously, why did I let this last this long? been working on this dangler for like... wait let me check, 8 hours and 20 minutes and I just figured this ou
+                    // this.angleRadians = angleGrasp(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x ); //look at this seriously, why did I let this last this long? been working on this dangler for like... wait let me check, 8 hours and 20 minutes and I just figured this ou
 
-                    this.angleRadians = Math.atan2(pomao.body.y - this.joints[this.joints.length - 2].y, pomao.body.x - this.joints[this.joints.length - 2].x);
+                    this.angleRadians = angleGrasp(pomao.body.y - this.joints[this.joints.length - 2].y, pomao.body.x - this.joints[this.joints.length - 2].x);
                     this.angle = (this.angleRadians + this.angle * 2) / 3
                     this.puncher++
                     this.yeet = 0
@@ -14165,7 +14175,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             this.box = new Shape(this.joints)
-            this.angle = Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
+            this.angle = angleGrasp(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
             // //console.log(this)
 
             this.joints[this.joints.length - 2].radius = 20
@@ -14357,8 +14367,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.joints[0].xmom *= .3
                         this.joints[0].ymom *= .3
                     }
-                    // // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
-                    // this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x );
+                    // // let angleRadians = angleGrasp(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
+                    // this.angleRadians = angleGrasp(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x );
 
                     // if(this.angleRadians - this.angle  > .17){
                     //     this.angle +=.07
@@ -14369,9 +14379,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     // }
 
 
-                    // this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x ); //look at this seriously, why did I let this last this long? been working on this dangler for like... wait let me check, 8 hours and 20 minutes and I just figured this ou
+                    // this.angleRadians = angleGrasp(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x ); //look at this seriously, why did I let this last this long? been working on this dangler for like... wait let me check, 8 hours and 20 minutes and I just figured this ou
 
-                    this.angleRadians = Math.atan2(pomao.body.y - this.joints[this.joints.length - 2].y, pomao.body.x - this.joints[this.joints.length - 2].x);
+                    this.angleRadians = angleGrasp(pomao.body.y - this.joints[this.joints.length - 2].y, pomao.body.x - this.joints[this.joints.length - 2].x);
                     this.angle = (this.angleRadians + this.angle * 2) / 3
                     this.puncher++
                     this.yeet = 0
@@ -14569,7 +14579,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             this.box = new Shape(this.joints)
-            this.angle = Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
+            this.angle = angleGrasp(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
             // //console.log(this)
 
             // this.joints[this.joints.length - 2].radius = 20
@@ -14757,8 +14767,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.joints[0].xmom *= .3
                     this.joints[0].ymom *= .3
                 }
-                // // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
-                // this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x );
+                // // let angleRadians = angleGrasp(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
+                // this.angleRadians = angleGrasp(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x );
 
                 // if(this.angleRadians - this.angle  > .17){
                 //     this.angle +=.07
@@ -14769,9 +14779,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // }
 
 
-                // this.angleRadians = Math.atan2(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x ); //look at this seriously, why did I let this last this long? been working on this dangler for like... wait let me check, 8 hours and 20 minutes and I just figured this ou
+                // this.angleRadians = angleGrasp(pomao.body.y-this.joints[0].y ,  pomao.body.x-this.joints[0].x ); //look at this seriously, why did I let this last this long? been working on this dangler for like... wait let me check, 8 hours and 20 minutes and I just figured this ou
 
-                this.angleRadians = Math.atan2(pomao.body.y - this.joints[this.joints.length - 2].y, pomao.body.x - this.joints[this.joints.length - 2].x);
+                this.angleRadians = angleGrasp(pomao.body.y - this.joints[this.joints.length - 2].y, pomao.body.x - this.joints[this.joints.length - 2].x);
                 this.angle = (this.angleRadians + this.angle * 2) / 3
                 this.puncher++
                 this.yeet = 0
@@ -14970,7 +14980,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             this.box = new Shape(this.joints)
-            this.angle = Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
+            this.angle = angleGrasp(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
             // //console.log(this)
             this.bopped = 0
         }
@@ -15110,8 +15120,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.segments[t].wmove(t)
             }
 
-            // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
-            this.angleRadians = Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
+            // let angleRadians = angleGrasp(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
+            this.angleRadians = angleGrasp(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
 
             // if(this.angleRadians - this.angle  > .17){
             //     this.angle +=.07
@@ -15289,7 +15299,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             this.box = new Shape(this.joints)
-            this.angle = Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
+            this.angle = angleGrasp(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
             // //console.log(this)
             this.bopped = 0
         }
@@ -15526,8 +15536,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for (let t = 1; t < this.joints.length; t++) {
                     this.castBetween(this.joints[t], this.joints[t - 1])
                 }
-                // let angleRadians = Math.atan2(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
-                this.angleRadians = Math.atan2(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
+                // let angleRadians = angleGrasp(this.joints[0].y-pomao.body.y ,  this.joints[0].x-pomao.body.x );
+                this.angleRadians = angleGrasp(pomao.body.y - this.joints[0].y, pomao.body.x - this.joints[0].x);
 
                 // if(this.angleRadians - this.angle  > .17){
                 //     this.angle +=.07
@@ -16535,7 +16545,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
 
             // if(this.spin != 0){
-            this.angleRadians = Math.atan2(this.lump.y - this.body.y, this.lump.x - this.body.x);
+            this.angleRadians = angleGrasp(this.lump.y - this.body.y, this.lump.x - this.body.x);
 
             this.lump.xmom += Math.cos(this.angleRadians + (Math.PI * .5)) * this.spin
             this.lump.ymom += Math.sin(this.angleRadians + (Math.PI * .5)) * this.spin
@@ -16698,7 +16708,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (this !== floppers[f]) {
                     if (this.lump.repelCheck(floppers[f].lump)) {
                         const distance = ((new Line(floppers[f].lump.x, floppers[f].lump.y, this.lump.x, this.lump.y, 1, "red")).hypotenuse()) - ((this.lump.radius * 2))
-                        const angleRadians = Math.atan2(floppers[f].lump.y - this.lump.y, floppers[f].lump.x - this.lump.x);
+                        const angleRadians = angleGrasp(floppers[f].lump.y - this.lump.y, floppers[f].lump.x - this.lump.x);
                         this.lump.xrepel += (Math.cos(angleRadians) * distance) / 2
                         this.lump.yrepel += (Math.sin(angleRadians) * distance) / 2
                         // floppers[f].xrepelled = 1
@@ -17201,7 +17211,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (this !== floppers[f]) {
                     if (this.lump.repelCheck(floppers[f].lump)) {
                         const distance = ((new Line(floppers[f].lump.x, floppers[f].lump.y, this.lump.x, this.lump.y, 1, "red")).hypotenuse()) - ((this.lump.radius * 2))
-                        const angleRadians = Math.atan2(floppers[f].lump.y - this.lump.y, floppers[f].lump.x - this.lump.x);
+                        const angleRadians = angleGrasp(floppers[f].lump.y - this.lump.y, floppers[f].lump.x - this.lump.x);
                         this.lump.xrepel += (Math.cos(angleRadians) * distance) / 2
                         this.lump.yrepel += (Math.sin(angleRadians) * distance) / 2
                         // floppers[f].xrepelled = 1
@@ -17740,12 +17750,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
 
                 if (this.observer2.health > 0) {
-                    this.observer2.globalangle -= 0.00725  //((this.observer2.globalangle*9)+(Math.PI*1)+(Math.atan2(this.observer2.body.y-pomao.body.y,this.observer2.body.x-pomao.body.x)))/10
+                    this.observer2.globalangle -= 0.00725  //((this.observer2.globalangle*9)+(Math.PI*1)+(angleGrasp(this.observer2.body.y-pomao.body.y,this.observer2.body.x-pomao.body.x)))/10
                 }
 
 
                 if (this.observer3.health > 0) {
-                    this.observer3.globalangle = ((this.observer3.globalangle * 99) + (Math.PI * 1) + (Math.atan2(this.observer3.body.y - pomao.body.y, this.observer3.body.x - pomao.body.x))) / 100
+                    this.observer3.globalangle = ((this.observer3.globalangle * 99) + (Math.PI * 1) + (angleGrasp(this.observer3.body.y - pomao.body.y, this.observer3.body.x - pomao.body.x))) / 100
                 }
 
 
@@ -18175,7 +18185,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         getQuadraticAngle(t) {
             var dx = 2 * (1 - t) * (this.cx - this.x) + 2 * t * (this.ex - this.cx);
             var dy = 2 * (1 - t) * (this.cy - this.y) + 2 * t * (this.ey - this.cy);
-            return -Math.atan2(dx, dy) + 0.5 * Math.PI;
+            return -angleGrasp(dx, dy) + 0.5 * Math.PI;
         }
     }
     Number.prototype.between = function (a, b, inclusive) {
@@ -18875,6 +18885,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // let downvec = pomao.body.ymom + pomao.body.symom
             // ziglink = new Line(pomao.body.x, pomao.body.y, pomao.body.x, pomao.body.y+(downvec*pomao.hngResetConstant), "red", 3)
             // ziglink.draw()
+            // framemegacount++
+            // if(keysPressed['p']){
+            //     console.log(`Saved ${anglemegacount*.00006} miliseconds so far in ${framemegacount*11} miliseconds`)
+            // }
         }, 11)
 
 
@@ -23886,6 +23900,75 @@ door = new Rectangle(-1872, -3000, 200, 200, "#090909")
             return true
         }
         return false
+    }
+    function FastArcTan(x)
+    {
+        // return M_PI_4*x - x*(fabs(x) - 1)*(0.2447 + 0.0663*fabs(x));
+    }
+
+
+    class Vector{ // vector math and physics if you prefer this over vector components on circles
+        constructor(object = (new Point(0,0)), xmom = 0, ymom = 0){
+            this.xmom = xmom
+            this.ymom = ymom
+            this.object = object
+        }
+        isToward(point){
+            let link = new LineOP(this.object, point)
+            let dis1 = link.squareDistance()
+            let dummy = new Point(this.object.x+this.xmom, this.object.y+this.ymom)
+            let link2 = new LineOP(dummy, point)
+            let dis2 = link2.squareDistance()
+            if(dis2 < dis1){
+                return true
+            }else{
+                return false
+            }
+        }
+        rotate(angleGoal){
+            let link = new Line(this.xmom, this.ymom, 0,0)
+            let length = link.hypotenuse()
+            let x = (length * Math.cos(angleGoal))
+            let y = (length * Math.sin(angleGoal))
+            this.xmom = x
+            this.ymom = y
+        }
+        magnitude(){
+            return (new Line(this.xmom, this.ymom, 0,0)).hypotenuse()
+        }
+        normalize(size = 1){
+            let magnitude = this.magnitude()
+            this.xmom/=magnitude
+            this.ymom/=magnitude
+            this.xmom*=size
+            this.ymom*=size
+        }
+        multiply(vect){
+            let point = new Point(0,0)
+            let end = new Point(this.xmom+vect.xmom, this.ymom+vect.ymom)
+            return point.pointDistance(end)
+        }
+        add(vect){
+            return new Vector(this.object, this.xmom+vect.xmom, this.ymom+vect.ymom)
+        }
+        subtract(vect){
+            return new Vector(this.object, this.xmom-vect.xmom, this.ymom-vect.ymom)
+        }
+        divide(vect){
+            return new Vector(this.object, this.xmom/vect.xmom, this.ymom/vect.ymom) //be careful with this, I don't think this is right
+        }
+        draw(){
+            let dummy = new Point(this.object.x+this.xmom, this.object.y+this.ymom)
+            let link = new LineOP(this.object, dummy, "#FFFFFF", 1)
+            link.draw()
+        }
+    }
+
+    function angleGrasp(x,y){
+        let vec = new Vector(globalVecPoint, x, y)
+        vec.normalize(1)
+        // anglemegacount++
+        return angletable[`${Math.floor(vec.xmom*100)*.01},${Math.floor(vec.ymom*100)*.01}`]
     }
 
 })
