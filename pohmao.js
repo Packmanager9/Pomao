@@ -18605,7 +18605,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     //abracadabra
-    // loadlvl1()
+    loadlvl1()
     // loadlvl2()
     // loadlvl3()
     // loadlvl4()
@@ -18615,7 +18615,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // loadlvl8()
     // loadlvl9()
     // loadlvl10()
-    loadlvl11()
+    // loadlvl11()
     // loadlvl13()
     // loadlvl14()
 
