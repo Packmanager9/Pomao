@@ -82,7 +82,6 @@ counterfrac.ymom = (Math.random() - .5) * .01
 let snowfloor = {}
 let lvl9rotationalvariable = 0
 let level = 1
-const zimgs = []
 let pmarinedisp = 0
 let jailswitch = 0
 let loader = 1
@@ -102,8 +101,14 @@ const assortedDraw = []
 let floormpf = []
 // const gamepads
 
+const zimgs = []
 for (let i = 1; i < 44; i++) {
 zimgs.push(Object.assign(new Image(), { 'src': `z - ${i} copy-min.png` }));
+}
+
+const izimgs = []
+for (let i = 1; i < 44; i++) {
+izimgs.push(Object.assign(new Image(), { 'src': `iz - ${i}.png` }));
 }
 // for (let t = 42; t > 0; t--) {
 // zimgs.push(zimgs[t])
@@ -434,6 +439,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const eyeimgred = new Image()
     eyeimgred.src = "eyepaintred.png"
 
+    const volcanobootupmusic = new Audio('volcanobootup.wav');
     const lvl4fifthsbasemusic = new Audio('baeao.mp3');
     const lvl1basemusic = new Audio('lvl1base.mp3');
     const lvl2basemusic = new Audio('lvl2base.mp3');
@@ -4877,6 +4883,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.type2 == 9) {
                         fractal_canvas_context.clearRect(0, 0, fractal_canvas.width, fractal_canvas.height)
                         pomao.tripping = 820
+                        pomao.triptype = 0
+                        if(Math.random()<.5){
+                            pomao.triptype++
+                        }
                         redx = (Math.random() - .5) + .6
                         greenx = (Math.random() - .5) + .6
                         bluex = (Math.random() - .5) + .6
@@ -8188,6 +8198,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                         this.footspot = new Circle(this.body.x, this.body.y + (this.body.radius - 1), 3, "red")
                         if(typeof ramps[t].metapoint  !== "undefined"){
+                            pomao.grounded = 1
                             this.feetspot = new Circle(this.body.x, this.body.y + (this.body.radius - 7), 3, "red")
                         }
                         if (ramps[t].isPointInside(this.footspot) || (typeof ramps[t].metapoint  !== "undefined" && ramps[t].isPointInside(this.feetspot))) {
@@ -9533,6 +9544,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if (level == 7) {
                 boss.draw()
+            }else{
+                lvl7bosssong.pause()
+                volcanobootupmusic.pause()
             }
 
             // for(let t = 0; t<fruits.length; t++){
@@ -17717,6 +17731,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.pops.splice(t, 1)
                 }
             }
+            if(this.pops.length == 0){
+
+                // lvl7bosssong.pause()
+            }
         }
         draw() {
             // this.body.draw()
@@ -17751,11 +17769,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 this.dead++
                 lvl7bosssong.pause()
+                volcanobootupmusic.play()
             } else {
                 if (this.rockets.length > 0) {
-
                     lvl7bosssong.playbackRate = .5 + (1 - (.5 * ((this.observer.health + this.observer2.health + this.observer3.health) / (3 * this.maxhealth))));
                     lvl7bosssong.play()
+                }else{
+
+                volcanobootupmusic.play()
                 }
             }
 
@@ -18139,7 +18160,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let dis = link.hypotenuse()
             for (let t = 1; t < this.hitbox.length; t++) {
                 // angle = (link.angle() + (Math.PI * 2))
-                if (Math.abs(this.hitbox[t].angle - this.hitbox[t - 1].angle) > .13) {
+                if (Math.abs(this.hitbox[t].angle - this.hitbox[t - 1].angle) > 1) {
                     continue
                 }
                 if (angle.between(this.hitbox[t].angle, this.hitbox[t - 1].angle)) {
@@ -18206,8 +18227,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.metapoint.radius = 5
                 this.metapoint.color = "black"
                 if(this.cy < this.y){
+                    if(this.cy < this.ey){
                     let megapoint = new Circle(this.metapoint.x-200, this.metapoint.y+30, 5, "Black")
                     megapoint.draw()
+                    }
                 }
             }
         }
@@ -19291,7 +19314,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 fractal.sheet = 0
             }
             // //////console.log(fractal.sheet, zimgs[fractal.sheet%zimgs.length])
-            tutorial_canvas_context.drawImage(zimgs[fractal.sheet % zimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            if(pomao.triptype == 1){
+                tutorial_canvas_context.drawImage(zimgs[fractal.sheet % zimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            }else{
+                tutorial_canvas_context.drawImage(izimgs[fractal.sheet % izimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+            }
 
             // tutorial_canvas_context.drawImage(fractal_canvas, 0, 0, 640, 360, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
 
@@ -22827,17 +22854,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //  pomao.eggmake = 161
         // boss = new Bossbeam()
 
-        let floorlvl11 = new Rectangle(-2100, 33, 500, 22000)
+        let floorlvl11 = new Rectangle(-2100, 33, 500, 32000)
         floors.push(floorlvl11)
         walls.push(floorlvl11)
         roofs.push(floorlvl11)
 
-        for (let t = 0; t < 100; t++) {
+        for (let t = 0; t < 150; t++) {
             let weed = new Flower(-500 + (t * 100), 33, 15 + (Math.random() * 15))
             seaweed.push(weed)
         }
 
-        let jelly = new Rectangle(-2100, -1000, 1033, 22000, "#00ffff88")
+        let jelly = new Rectangle(-2100, -1000, 1033, 32000, "#00ffff88")
         floors.push(jelly)
         jellys.push(jelly)
 
@@ -22847,7 +22874,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floors.push(wall1)
         roofs.push(wall1)
 
-        const wall2 = new Rectangle(11600, -30000, 30033, 50, "cyan")
+        const wall2 = new Rectangle(21600, -30000, 30033, 50, "cyan")
         walls.push(wall2)
         floors.push(wall2)
         roofs.push(wall2)
@@ -22958,7 +22985,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         }
 
-        for(let t = 0;t<15;t++){
+        for(let t = 0;t<25;t++){
             let whaloid = new Whaliad(t*1000, -1000, (t*1000)+200, -1300, (t*1000)+700, -1000,  "#678990")
         }
 
@@ -24008,12 +24035,12 @@ door = new Rectangle(-1872, -3000, 200, 200, "#090909")
     }
 
     function angleGrasp(x,y){
-        let vec = new Vector(globalVecPoint, x, y)
-        vec.normalize(1)
+        // let vec = new Vector(globalVecPoint, x, y)
+        // vec.normalize(1)
         //console.log(vec)
         // anglemegacount++
         //console.log(`${Math.floor(vec.xmom*10000)*.0001},${Math.floor(vec.ymom*10000)*.0001}`)
-        return angletable[`${Number.parseFloat(Math.floor(vec.xmom*10000)*.0001).toPrecision(4)},${Number.parseFloat(Math.floor(vec.ymom*10000)*.0001).toPrecision(4)}`]
+        return Math.atan2(x,y) //angletable[`${Number.parseFloat(Math.floor(vec.xmom*10000)*.0001).toPrecision(4)},${Number.parseFloat(Math.floor(vec.ymom*10000)*.0001).toPrecision(4)}`]
     }
 
 })
