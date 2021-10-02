@@ -2,7 +2,7 @@
 
 let ziglink = {}
 ziglink.draw = empty
-
+let islandsong = Math.round(Math.random())
 let anglemegacount = 0
 let framemegacount = 0
 function empty(){
@@ -451,7 +451,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const eyeimgred = new Image()
     eyeimgred.src = "eyepaintred.png"
 
+    const rebelbasemusic =  new Audio('rebelslong.mp3');
+    const islandsongmusic1 =  new Audio('longislandsong.mp3');
+    const islandsongmusic2 =  new Audio('jungle.mp3');
     const volcanobootupmusic = new Audio('volcanobootup.wav');
+    // const ambientseaside = new Audio('ambientseaside.mp3');
+    const risingseaside = new Audio('longsea.mp3');
     const lvl4fifthsbasemusic = new Audio('baeao.mp3');
     const lvl1basemusic = new Audio('lvl1base.mp3');
     const lvl2basemusic = new Audio('lvl2base.mp3');
@@ -8740,7 +8745,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
+
             if(level == 11){
+                risingseaside.play()
                 door.x = 21000
                 door.y = 0
                 door.height =100
@@ -8753,7 +8760,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for(let  t =0;t<ramps.length;t++){
                     ramps[t].draw()
                 }
+            }else{
+                risingseaside.pause()
+
             }
+
+            if(level == 12){
+                if(islandsong == 0){
+                    islandsongmusic2.play()
+                    islandsongmusic1.pause()
+                }else{
+                    islandsongmusic2.pause()
+                    islandsongmusic1.play()
+                }
+            }else{
+                islandsongmusic2.pause()
+                islandsongmusic1.pause()
+            }
+
+
+
         //     if(level == 11){
         //         floors.splice(0,floors.length)
         //         roofs.splice(0,roofs.length)
@@ -9069,7 +9095,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
             if (level == 8) {
-
+                rebelbasemusic.play()
                 door.x = 1200
                 door.y = 100 - door.height
                 door.height = 400
@@ -9119,6 +9145,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 } else {
                     tutorial_canvas_context.drawImage(treemaoimgl, 0, 0, treemaoimgl.width, treemaoimgl.height, -1050, -424 - (Math.sin(((pomao.timeloop * .5) + 5.14)) * 1.9), treemaoxpos, treemaoheight)
                 }
+            }else{
+                rebelbasemusic.pause()
             }
 
             if (level == 9) {
@@ -18848,6 +18876,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         }else if (level == 11) {
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                        }else if (level == 12) {
+                            tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         }
                         // if(keysPressed['p']){
                         //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
@@ -19791,6 +19821,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -20497,6 +20528,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -20762,6 +20794,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -20934,6 +20967,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -21481,6 +21515,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -21756,6 +21791,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -22128,6 +22164,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -22485,6 +22522,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -22651,6 +22689,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
 
         floppers.splice(0, floppers.length)
         lavas.splice(0, lavas.length)
@@ -22852,6 +22891,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -23135,6 +23175,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -23162,6 +23203,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     }
     function loadIslandLevel(){
+        islandsong = Math.round(Math.random())
         levelBoilerplate()
         level = 12
         tutorial_canvas_context.translate(pomao.body.x + 8570, pomao.body.y - 800)
@@ -23253,6 +23295,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -23476,6 +23519,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -23572,6 +23616,7 @@ door = new Rectangle(-1872, -3000, 200, 200, "#090909")
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
@@ -23703,6 +23748,7 @@ door = new Rectangle(-1872, -3000, 200, 200, "#090909")
         worms.splice(0, worms.length)
         debris.splice(0, debris.length)
         magnets.splice(0, magnets.length)
+assortedDraw.splice(0, assortedDraw.length)
         seaweed.splice(0, seaweed.length)
         hookbots.splice(0, hookbots.length)
 
