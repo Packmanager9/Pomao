@@ -451,7 +451,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const eyeimgred = new Image()
     eyeimgred.src = "eyepaintred.png"
 
-    const rebelbasemusic =  new Audio('rebelslong.mp3');
+    const rebelbasemusic =  new Audio('truerebellong.mp3');
     const islandsongmusic1 =  new Audio('longislandsong.mp3');
     const islandsongmusic2 =  new Audio('jungle.mp3');
     const volcanobootupmusic = new Audio('volcanobootup.wav');
