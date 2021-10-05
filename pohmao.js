@@ -670,6 +670,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
     pomarine.src = 'pomarine.png'
 
 
+
+    const shinymeat = new Image()
+    shinymeat.src = 'shinymeat.png'
+
+
+    const shinymeatgreen = new Image()
+    shinymeatgreen.src = 'shinymeatgreen.png'
+
     const pomarinel = new Image()
     pomarinel.src = 'pomarinel.png'
 
@@ -8795,7 +8803,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 islandsongmusic2.pause()
                 islandsongmusic1.pause()
             }
-
 
 
         //     if(level == 11){
@@ -18886,6 +18893,43 @@ window.addEventListener('DOMContentLoaded', (event) => {
             return false
         }
     }
+
+    class Rainstorm{
+        constructor(){
+            this.center = pomao.body
+            this.drops = []
+            this.drift = (Math.random()-.5)*3
+            this.gravity = 3
+        }
+        draw(){
+            if(level == 14){
+                pomao.hits-=.002
+            }
+            let x = this.center.x + ((Math.random()-.5)*2600)
+            let y = this.center.y - 400 -(this.center.ymom+this.center.symom) + (Math.random()*-100)
+            let streak = new Line(x, y, x+this.drift, y+6, "#55AA00", 3 )
+            this.drops.push(streak)
+             x = this.center.x + ((Math.random()-.5)*1600)
+            y = this.center.y - 400 -(this.center.ymom+this.center.symom) + (Math.random()*-100)
+             streak = new Line(x, y, x+this.drift, y+6, "#99AA00", 3 )
+            this.drops.push(streak)
+            for(let t = 0;t<this.drops.length;t++){
+                this.drops[t].x1 += this.drift
+                this.drops[t].x2 += this.drift
+                this.drops[t].y1 += this.gravity
+                this.drops[t].y2 += this.gravity
+                this.drops[t].draw()
+            }
+            for(let t = 0;t<this.drops.length;t++){
+                for(let k = 0;k<floors.length;k++){
+                if(floors[k].isPointInside(new Point(this.drops[t].x2, this.drops[t].y2))){
+                    this.drops.splice(t,1)
+                    t--
+                }
+                }
+            }
+        }
+    }
     class Entangler {
         constructor(x,y){
             this.points = []
@@ -18896,7 +18940,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.metaangle = 0
             this.smack = 0
             for(let t = 0;t<25;t++){
-                let circle = new Bosscircle(x, y+(t*this.seglength)-(25*this.seglength), t+5, `rgb(0, ${255-(t*10)}, 0)`)
+                let circle = new Bosscircle(x, y+(t*this.seglength)-(25*this.seglength), (t*1.2)+6, `rgb(0, ${255-(t*10)}, 0)`)
                 circle.touched = []
                 circle.friction = (1-(t*.001))
                 this.points.push(circle)
@@ -18973,7 +19017,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.disabled = 1
                                 pomao.hits--
                                 pomao.body.ymom = -1.8
-                                this.shots[t].xmom = -pomao.body.xmom
+                                this.shots[t].xmom = -pomao.body.xmom*.1
+                                this.shots[t].collapse = 1
                             }else{
                                 if(this.shots[t].redirected != 1){
                                     this.shots[t].xmom *= -3.5
@@ -18993,12 +19038,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
                 this.shots[t].radius*=.995
+                if(this.shots[t].collapse == 1){
+                    this.shots[t].radius*=.96
+                }
                 this.shots[t].xmom*=.9875
                 this.shots[t].ymom*=.9875
             }
             for(let t = 0;t<this.springs.length;t++){
+                if(this.points.includes(this.springs[t].body)){
                 this.springs[t].balance()
+                }
             }
+            
             for(let t = 0;t<this.points.length;t++){
 
                 for (let k = 0; k < pomao.thrown.length; k++) {
@@ -19013,6 +19064,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if(this.points[0].repelCheck(this.shots[k])){
                         if(this.points.length > 1){
                             this.points.splice(0,1)
+                            this.shots[k].radius -=4
+                            this.pomline = new LineOP(pomao.body, this.points[0])
                         }
                     }
                 }
@@ -19020,11 +19073,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if(t<this.points.length-1){
                     // this.points[t].xmom += Math.cos(this.metaangle+((Math.PI/12)*t))/(50-t)
                     // this.points[t].ymom += Math.sin(this.metaangle+((Math.PI/12)*t))/(50-t)
+
+                    if(t > this.points.length-16){
+                        this.points[t].ymom -=(2.4/(this.points.length*this.points.length))*t//Math.sin(this.metaangle+((Math.PI/12)*t))/(27-t)
+                    }
                     if(Math.random()<.01){
                         if(t > 10){
 
                     this.points[t].xmom += (Math.random()-.5)*7
-                    this.points[t].ymom += (Math.random()-.5)*7//Math.sin(this.metaangle+((Math.PI/12)*t))/(27-t)
+                    this.points[t].ymom += (Math.random()-.5)*7
                         }
                     }
                     this.points[t].move()
@@ -19062,14 +19119,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                         }
                 }
-
-
-                this.points[t].draw()
             }
+
+            for(let t = 0;t<this.springs.length;t++){
+                if(this.points.includes(this.springs[t].body)){
+                    this.springs[t].draw()
+                }
+            }
+            for(let t = 0;t<this.points.length;t++){
+
+
+                if(this.counter >= 250-t*4  && this.counter < 250-(t-1)*4){
+                this.points[t].radius += 15
+                }
+                this.points[t].draw()
+                tutorial_canvas_context.drawImage(shinymeat, 0, 0, shinymeat.width, shinymeat.height, this.points[t].x-this.points[t].radius, this.points[t].y-this.points[t].radius, this.points[t].radius * 2, this.points[t].radius * 2)
+
+                // tutorial_canvas_context.drawImage(redcircleimg, 0, 0, redcircleimg.width, redcircleimg.height, this.points[t].x-this.points[t].radius, this.points[t].y-this.points[t].radius, this.points.radius*2, this.points.radius*2 )
+                console.log(redcircleimg)
+                if(this.counter >= 250-t*4  && this.counter < 250-(t-1)*4){
+                this.points[t].radius  -= 15
+                }
+            }
+
+
+
             this.metaangle += Math.PI/25
-            // for(let t = 0;t<this.springs.length;t++){
-            //     this.springs[t].draw()
-            // }
             if(this.pomline.hypotenuse()<720 && this.pomline.hypotenuse()>0){
                 this.points[0].xmom += ((pomao.body.x - this.points[0].x)/this.pomline.hypotenuse())*.6
                 this.points[0].ymom += ((pomao.body.y - this.points[0].y)/this.pomline.hypotenuse())*.6
@@ -19386,6 +19461,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         }else if (level == 12) {
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                        }else if (level == 13) {
+                            tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                        } else if (level == 14) {
+                            tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
                         }
                         // if(keysPressed['p']){
                         //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
@@ -23781,6 +23860,8 @@ assortedDraw.splice(0, assortedDraw.length)
             assortedDraw.push(tangler)
         }
 
+        let rain = new Rainstorm()
+        assortedDraw.push(rain)
         // let jelly = new Rectangle(-12100, 900, 1033, 42000, "#00ffff88")
         // jellys.push(jelly)
         // floors.push(jelly)
