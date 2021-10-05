@@ -421,6 +421,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     // const lvl4floorimg = new Image()
     // lvl4floorimg.src = "floor7.png"
+    const lvlmarshfloorimg = new Image()
+    lvlmarshfloorimg.src = "invdesertfloor.png"
     const lvl4floorimg = new Image()
     lvl4floorimg.src = "floorpaintlvl4-3.png"
     lvl4floorimg.onload = function () {
@@ -450,6 +452,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
     eyeimg.src = "eyepaint.png"
     const eyeimgred = new Image()
     eyeimgred.src = "eyepaintred.png"
+
+    const islander1 = new Image()
+    islander1.src = "islandpomaoshort.png"
+    const islander1l = new Image()
+    islander1l.src = "islandpomaoshortl.png"
+    const islander2 = new Image()
+    islander2.src = "islandpomaomid.png"
+    const islander2l = new Image()
+    islander2l.src = "islandpomaomidl.png"
+    const islander3 = new Image()
+    islander3.src = "islandpomaotall.png"
+    const islander3l = new Image()
+    islander3l.src = "islandpomaotalll.png"
+
+
 
     const rebelbasemusic =  new Audio('truerebellong.mp3');
     const islandsongmusic1 =  new Audio('longislandsong.mp3');
@@ -8766,6 +8783,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             if(level == 12){
+
                 if(islandsong == 0){
                     islandsongmusic2.play()
                     islandsongmusic1.pause()
@@ -9400,6 +9418,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             tutorial_canvas_context.drawImage(lvl5walling, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }else if (level == 13) {
                                             tutorial_canvas_context.drawImage(lvl4fwallimg, 0, 0, Math.min(lvl4fwallimg.width, floors[t].width), Math.min(lvl4fwallimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                        }else if (level == 14) {
+                                            tutorial_canvas_context.drawImage(lvlmarshfloorimg, 0, 0, Math.min(lvlmarshfloorimg.width, floors[t].width), Math.min(lvlmarshfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }
                                     }
                                 } else {
@@ -9485,6 +9505,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         tutorial_canvas_context.drawImage(lvl4fwallimg, 0, 0, Math.min(lvl4fwallimg.width, floors[t].width), Math.min(lvl4fwallimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }else if (level == 13) {
                                         tutorial_canvas_context.drawImage(lvl4floorimg, 0, 0, Math.min(lvl4floorimg.width, floors[t].width), Math.min(lvl4floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    }else if (level == 14) {
+                                        tutorial_canvas_context.drawImage(lvlmarshfloorimg, 0, 0, Math.min(lvlmarshfloorimg.width, floors[t].width), Math.min(lvlmarshfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }
                                 }
                             } else {
@@ -9587,6 +9609,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     tutorial_canvas_context.drawImage(lvl5floorimg, 0, 0, Math.min(lvl5floorimg.width, floors[t].width), Math.min(lvl5floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }else if (level == 13) {
                                     tutorial_canvas_context.drawImage(lvl4floorimg, 0, 0, Math.min(lvl4floorimg.width, floors[t].width), Math.min(lvl4floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                }else if (level == 14) {
+                                    tutorial_canvas_context.drawImage(lvlmarshfloorimg, 0, 0, Math.min(lvlmarshfloorimg.width, floors[t].width), Math.min(lvlmarshfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }
                             }
                             if (floors[t].block == 1) {
@@ -9712,6 +9736,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
 
+            for(let t = 0;t<assortedDraw.length;t++){
+                assortedDraw[t].draw()
+            }
+
             if(cheats.megamao == 1){
                 this.tongue.radius = 12
             }
@@ -9801,10 +9829,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             } else {
                 level10basemusic.pause()
             }
-            for(let t = 0;t<assortedDraw.length;t++){
-                assortedDraw[t].draw()
-            }
-
             for (let t = 0; t < fruits.length; t++) {
                 if (fruits[t].x > this.body.x - ((tutorial_canvas.width / 2) + fruits[t].width) && fruits[t].x < this.body.x + ((tutorial_canvas.width / 2) + fruits[t].width)) {
                     if (fruits[t].y > this.body.y - ((tutorial_canvas.height / 2) + fruits[t].height) && fruits[t].y < this.body.y + ((tutorial_canvas.height / 2) + fruits[t].height)) {
@@ -10899,6 +10923,35 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     }
 
+
+    class IslanderWrapper{
+        constructor(){
+            
+        }
+        draw(){
+        let islander1height = 72 + (Math.sin(((pomao.timeloop * 1) + 3.14)) * 3)
+        if (pomao.body.x < -900) {
+            tutorial_canvas_context.drawImage(islander1l, 0, 0, islander1.width, islander1.height, -945, -112 - islander1height, 92, islander1height)
+        } else {
+            tutorial_canvas_context.drawImage(islander1, 0, 0, islander1l.width, islander1l.height, -945, -112 -islander1height, 92, islander1height)
+        }
+
+        let islander2height = 72 + (Math.sin(((pomao.timeloop * 2) + 3.14)) * 3)
+        if (pomao.body.x < -700) {
+            tutorial_canvas_context.drawImage(islander2l, 0, 0, islander2.width, islander2.height, -725, -112 -islander2height, 72, islander2height)
+        } else {
+            tutorial_canvas_context.drawImage(islander2, 0, 0, islander2l.width, islander2l.height, -725, -112 - islander2height, 72, islander2height)
+        }
+
+        let islander3height = 72 + (Math.sin(((pomao.timeloop * 4) + 3.14)) * 3)
+        if (pomao.body.x < -500) {
+            tutorial_canvas_context.drawImage(islander3l, 0, 0, islander3.width, islander3.height, -525, -112 - islander3height, 72, islander3height)
+        } else {
+            tutorial_canvas_context.drawImage(islander3, 0, 0, islander3l.width, islander3l.height, -525, -112 - islander3height, 72, islander3height)
+        }
+
+        }
+    }
     class Flower {
         constructor(x, y, length) {
             this.timer = 0
@@ -18576,6 +18629,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
 
+
     class Whaliad{
         constructor(x, y, cx, cy, ex, ey, color) {
             this.body = new Bezzy()
@@ -18593,6 +18647,444 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.angle = Math.random()*Math.PI*2
         }
     }
+
+    class SpringOP {
+        constructor(body, anchor, length, width = 3, color = body.color) {
+            this.body = body
+            this.anchor = anchor
+            this.beam = new LineOP(body, anchor, color, width)
+            this.length = length
+        }
+        balance() {
+            if (this.beam.hypotenuse() < this.length) {
+                this.body.xmom += ((this.body.x - this.anchor.x) / this.length)
+                this.body.ymom += ((this.body.y - this.anchor.y) / this.length)
+                this.anchor.xmom -= ((this.body.x - this.anchor.x) / this.length)
+                this.anchor.ymom -= ((this.body.y - this.anchor.y) / this.length)
+            } else if (this.beam.hypotenuse() > this.length) {
+                this.body.xmom -= (this.body.x - this.anchor.x) / (this.length)
+                this.body.ymom -= (this.body.y - this.anchor.y) / (this.length)
+                this.anchor.xmom += (this.body.x - this.anchor.x) / (this.length)
+                this.anchor.ymom += (this.body.y - this.anchor.y) / (this.length)
+            }
+
+            let xmomentumaverage = (this.body.xmom + this.anchor.xmom) / 2
+            let ymomentumaverage = (this.body.ymom + this.anchor.ymom) / 2
+            this.body.xmom = (this.body.xmom + xmomentumaverage) / 2
+            this.body.ymom = (this.body.ymom + ymomentumaverage) / 2
+            this.anchor.xmom = (this.anchor.xmom + xmomentumaverage) / 2
+            this.anchor.ymom = (this.anchor.ymom + ymomentumaverage) / 2
+        }
+        draw() {
+            this.beam.draw()
+        }
+        move() {
+            //movement of SpringOP objects should be handled separate from their linkage, to allow for many connections, balance here with this object, move nodes independently
+        }
+    }
+
+    class Shot {
+        constructor(x, y, radius, color, xmom = 0, ymom = 0, friction = 1, marked = 0, fired = 0, reflect = 0, strokeWidth = 0, strokeColor = "transparent") {
+            this.x = parseFloat(x)
+            this.id = parseFloat(Math.random().toFixed(5))
+            this.y = parseFloat(y)
+            this.marked = parseFloat(marked)
+            this.radius = parseFloat(radius)
+            this.color = color
+            this.xmom = parseInt(xmom)
+            this.ymom = parseInt(ymom)
+            this.friction = parseFloat(friction)
+            this.reflect = parseInt(reflect)
+            this.strokeWidth = parseFloat(strokeWidth)
+            this.strokeColor = strokeColor
+            this.anchored = 0
+            this.anchor = {}
+            this.sxmom = 0
+            this.symom = 0
+            this.fired = parseFloat(fired)
+        }
+        smove() {
+            this.x += this.sxmom
+            this.y += this.symom
+        }
+        reversePointinside(point) {
+
+            this.areaY = point.y - this.y
+            this.areaX = point.x - this.x
+            if (((this.areaX * this.areaX) + (this.areaY * this.areaY)) <= (point.radius * point.radius)) {
+                return true
+            }
+            return false
+        }
+        draw() {
+            if (typeof this.radius !== 'number') {
+                return
+            }
+            tutorial_canvas_context.lineWidth = 5
+            tutorial_canvas_context.strokeStyle = this.color
+            tutorial_canvas_context.beginPath();
+            if (this.radius > 0) {
+                tutorial_canvas_context.arc(this.x, this.y, this.radius, 0, (Math.PI * 2), true)
+                tutorial_canvas_context.fillStyle = this.color
+
+
+                if (isFinite(this.x) && isFinite(this.y) && isFinite(this.radius)) {
+                    var gard = tutorial_canvas_context.createRadialGradient(Math.round(this.x), Math.round(this.y), 0, Math.round(this.x), Math.round(this.y), Math.max(this.radius - tutorial_canvas_context.lineWidth, 0))
+                    this.string = this.color
+                    if (typeof this.string !== "string") {
+                        this.string = "#FF0000"
+                    }
+                    gard.addColorStop(0, this.string + `ff`)
+                    gard.addColorStop(0.01, this.string + "a1")
+                    gard.addColorStop(0.41, this.string + "94")
+                    gard.addColorStop(1, this.string + "51")
+                    tutorial_canvas_context.fillStyle = gard
+                    tutorial_canvas_context.fill()
+                    tutorial_canvas_context.stroke();
+                }
+            } else {
+                // //////////////////////////// //////////////////////////////////console.log("The circle is below a radius of 0, and has not been drawn. The circle is:", this)
+            }
+            // canvas_context.closePath()
+        }
+        move() {
+            if (this.reflect == 1) {
+                if (this.x + this.radius > canvas.width) {
+                    if (this.xmom > 0) {
+                        this.xmom *= -1
+                    }
+                }
+                if (this.y + this.radius > canvas.height) {
+                    if (this.ymom > 0) {
+                        this.ymom *= -1
+                    }
+                }
+                if (this.x - this.radius < 0) {
+                    if (this.xmom < 0) {
+                        this.xmom *= -1
+                    }
+                }
+                if (this.y - this.radius < 0) {
+                    if (this.ymom < 0) {
+                        this.ymom *= -1
+                    }
+                }
+            }
+            if (this.anchored !== 1) {
+                this.x += this.xmom
+                this.y += this.ymom
+            } else {
+                this.x = this.anchor.x
+                this.y = this.anchor.y
+                this.xmom = 0
+                this.ymom = 0
+            }
+        }
+        unmove() {
+            if (this.reflect == 1) {
+                if (this.x + this.radius > canvas.width) {
+                    if (this.xmom > 0) {
+                        this.xmom *= -1
+                    }
+                }
+                if (this.y + this.radius > canvas.height) {
+                    if (this.ymom > 0) {
+                        this.ymom *= -1
+                    }
+                }
+                if (this.x - this.radius < 0) {
+                    if (this.xmom < 0) {
+                        this.xmom *= -1
+                    }
+                }
+                if (this.y - this.radius < 0) {
+                    if (this.ymom < 0) {
+                        this.ymom *= -1
+                    }
+                }
+            }
+            this.x -= this.xmom
+            this.y -= this.ymom
+        }
+        frictiveMove() {
+            if (this.reflect == 1) {
+                if (this.x + this.radius > canvas.width) {
+                    if (this.xmom > 0) {
+                        this.xmom *= -1
+                    }
+                }
+                if (this.y + this.radius > canvas.height) {
+                    if (this.ymom > 0) {
+                        this.ymom *= -1
+                    }
+                }
+                if (this.x - this.radius < 0) {
+                    if (this.xmom < 0) {
+                        this.xmom *= -1
+                    }
+                }
+                if (this.y - this.radius < 0) {
+                    if (this.ymom < 0) {
+                        this.ymom *= -1
+                    }
+                }
+            }
+            if (this.anchored !== 1) {
+                this.x += this.xmom
+                this.y += this.ymom
+            } else {
+                this.x = this.anchor.x
+                this.y = this.anchor.y
+                this.xmom = 0
+                this.ymom = 0
+            }
+            this.xmom *= this.friction
+            this.ymom *= this.friction
+        }
+        frictiveunMove() {
+            if (this.reflect == 1) {
+                if (this.x + this.radius > canvas.width) {
+                    if (this.xmom > 0) {
+                        this.xmom *= -1
+                    }
+                }
+                if (this.y + this.radius > canvas.height) {
+                    if (this.ymom > 0) {
+                        this.ymom *= -1
+                    }
+                }
+                if (this.x - this.radius < 0) {
+                    if (this.xmom < 0) {
+                        this.xmom *= -1
+                    }
+                }
+                if (this.y - this.radius < 0) {
+                    if (this.ymom < 0) {
+                        this.ymom *= -1
+                    }
+                }
+            }
+            this.xmom /= this.friction
+            this.ymom /= this.friction
+            this.x -= this.xmom
+            this.y -= this.ymom
+        }
+        isPointInside(point) {
+            this.areaY = point.y - this.y
+            this.areaX = point.x - this.x
+            if (((this.areaX * this.areaX) + (this.areaY * this.areaY)) <= (this.radius * this.radius)) {
+                return true
+            }
+            return false
+        }
+        doesPerimeterTouch(point) {
+            this.areaY = point.y - this.y
+            this.areaX = point.x - this.x
+            if (((this.areaX * this.areaX) + (this.areaY * this.areaY)) <= ((this.radius + point.radius) * (this.radius + point.radius))) {
+                return true
+            }
+            return false
+        }
+    }
+    class Entangler {
+        constructor(x,y){
+            this.points = []
+            this.springs = []
+            this.counter = 0
+            this.shots = []
+            this.seglength = 25
+            this.metaangle = 0
+            this.smack = 0
+            for(let t = 0;t<25;t++){
+                let circle = new Bosscircle(x, y+(t*this.seglength)-(25*this.seglength), t+5, `rgb(0, ${255-(t*10)}, 0)`)
+                circle.touched = []
+                circle.friction = (1-(t*.001))
+                this.points.push(circle)
+            }
+            this.pomline = new LineOP(pomao.body, this.points[0])
+            for(let t = 0;t<this.points.length;t++){
+                for(let k = 0;k<this.points.length;k++){
+                    if(t!=k){
+                        if(this.points[t].touched.includes(k) || this.points[k].touched.includes(t)){
+
+                        }else{
+                            let link = new LineOP(this.points[t],this.points[k])
+                            if(link.hypotenuse() <= this.seglength){
+                                let spring = new SpringOP(this.points[t], this.points[k], this.points[k].radius, this.points[k].radius)
+                                this.springs.push(spring)
+                                this.points[k].touched.push(t)
+                                this.points[t].touched.push(k)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        draw(){
+
+            for(let t = 0;t<this.shots.length;t++){
+                this.shots[t].move()
+                this.shots[t].draw()
+
+                for(let h = 0;h<shockfriendly.shocksl.length;h++){
+                    if(shockfriendly.shocksl[h].repelCheck(this.shots[t])){
+                        if(this.shots[t].redirected != 1){
+                            this.shots[t].xmom *= -3.5
+                            this.shots[t].ymom *= -3.5
+                            this.shots[t].redirected = 1
+                            this.shots[t].radius += 8
+                        }
+                    }
+                }
+
+                for(let h = 0;h<shockfriendly.shocksr.length;h++){
+                    if(shockfriendly.shocksr[h].repelCheck(this.shots[t])){
+                        if(this.shots[t].redirected != 1){
+                            this.shots[t].xmom *= -3.5
+                            this.shots[t].ymom *= -3.5
+                            this.shots[t].redirected = 1
+                            this.shots[t].radius += 8
+                        }
+                    }
+                }
+
+
+                if (pomao.checkRepelPomao(this.shots[t])) {
+                    if (this.shots[t].x > pomao.body.x) {
+                        this.bump = 1
+                    } else {
+                        this.bump = -1
+                    }
+                        if (pomao.disabled != 1) {
+                            if (pomao.pounding != 10) {
+                                pomao.body.xmom = -3 * (this.bump)
+                                pomao.disabled = 1
+                                pomao.hits--
+                                pomao.body.ymom = -1.8
+                                this.shots[t].xmom = -pomao.body.xmom
+                            }else{
+                                if(this.shots[t].redirected != 1){
+                                    this.shots[t].xmom *= -3.5
+                                    this.shots[t].ymom *= -3.5
+                                    this.shots[t].redirected = 1
+                                    this.shots[t].radius += 8
+                                }
+                            }
+                        } else {
+                            if (this.bump * pomao.body.xmom > 0) {
+                                pomao.body.xmom = -1.8 * (this.bump)
+                                pomao.body.ymom = -1.8
+                                this.shots[t].xmom = -pomao.body.xmom
+                            }
+                        }
+                }
+
+
+                this.shots[t].radius*=.995
+                this.shots[t].xmom*=.9875
+                this.shots[t].ymom*=.9875
+            }
+            for(let t = 0;t<this.springs.length;t++){
+                this.springs[t].balance()
+            }
+            for(let t = 0;t<this.points.length;t++){
+
+                for (let k = 0; k < pomao.thrown.length; k++) {
+                    if (this.points[t].repelCheck(pomao.thrown[k])) {
+                        pomao.thrown[k].xmom = 0
+                        pomao.thrown[k].ymom += .1
+                    }
+                }
+
+            for(let k = 0;k<this.shots.length;k++){
+                if(this.shots[k].redirected == 1){
+                    if(this.points[0].repelCheck(this.shots[k])){
+                        if(this.points.length > 1){
+                            this.points.splice(0,1)
+                        }
+                    }
+                }
+            }
+                if(t<this.points.length-1){
+                    // this.points[t].xmom += Math.cos(this.metaangle+((Math.PI/12)*t))/(50-t)
+                    // this.points[t].ymom += Math.sin(this.metaangle+((Math.PI/12)*t))/(50-t)
+                    if(Math.random()<.01){
+                        if(t > 10){
+
+                    this.points[t].xmom += (Math.random()-.5)*7
+                    this.points[t].ymom += (Math.random()-.5)*7//Math.sin(this.metaangle+((Math.PI/12)*t))/(27-t)
+                        }
+                    }
+                    this.points[t].move()
+                    this.points[t].xmom *= this.points[t].friction
+                    this.points[t].ymom *= this.points[t].friction
+                }else{
+                    this.points[t].xmom = 0
+                    this.points[t].ymom = 0
+                }
+                if(this.points[t].repelCheck(pomao.tongue)){
+                    pomao.tongueymom *= .8
+                    pomao.tonguexmom *= .8
+                    pomao.tonguey *= .8
+                    pomao.tonguex *= .8
+                }
+                if (pomao.checkRepelPomao(this.points[t])) {
+                    if (this.points[t].x > pomao.body.x) {
+                        this.bump = 1
+                    } else {
+                        this.bump = -1
+                    }
+                        if (this.smack == 0) {
+                            // if (pomao.pounding != 10) {
+                                pomao.pounding = 0
+                                pomao.body.xmom = -16 * (this.bump)
+                                // pomao.disabled = 1
+                                this.smack = 18
+                                pomao.hits--
+                                pomao.body.ymom = -1.8
+                            // }
+                        } else {
+                            if (this.bump * pomao.body.xmom > 0) {
+                                pomao.body.xmom = -7.8 * (this.bump)
+                                pomao.body.ymom = -1.8
+                            }
+                        }
+                }
+
+
+                this.points[t].draw()
+            }
+            this.metaangle += Math.PI/25
+            // for(let t = 0;t<this.springs.length;t++){
+            //     this.springs[t].draw()
+            // }
+            if(this.pomline.hypotenuse()<720 && this.pomline.hypotenuse()>0){
+                this.points[0].xmom += ((pomao.body.x - this.points[0].x)/this.pomline.hypotenuse())*.6
+                this.points[0].ymom += ((pomao.body.y - this.points[0].y)/this.pomline.hypotenuse())*.6
+            }
+            let vec = new Vector(this.points[0], this.points[0].xmom, this.points[0].ymom)
+            if(vec.isToward(pomao.body)){
+                this.counter++
+            }
+            // vec.normalize(2)
+            if(this.counter == 250){
+                this.counter = 0
+                this.shots.push(new Shot(this.points[0].x, this.points[0].y, 28, "#FF00AA", ((pomao.body.x - this.points[0].x)/this.pomline.hypotenuse())*4.5,  ((pomao.body.y - this.points[0].y)/this.pomline.hypotenuse())*4.5))
+                this.points[0].xmom -= vec.xmom
+                this.points[0].ymom -= vec.ymom
+            }
+            for(let t = 0;t<this.shots.length;t++){
+                if(this.shots[t].radius < 8){
+                    this.shots.splice(t,1)
+                }
+            }
+            if(this.smack > 0){
+                this.smack--
+            }
+        }
+    }
+
+
 
 
     const tutorialholo = new Tutorial()
@@ -18646,6 +19138,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // loadlvl11()
     // loadlvl13()
     // loadlvl14()
+    // loadIslandLevel()
+    // loadMarshLevel()
 
     // for(let t=0;t<10;t++){
     //     chafer.draw()
@@ -21439,6 +21933,24 @@ assortedDraw.splice(0, assortedDraw.length)
         }
 
 
+
+        const bossfloorice = new Rectangle(-2100, (-10300 - 6550) + 395, 45, 10100)
+        floors.push(bossfloorice)
+        walls.push(bossfloorice)
+        roofs.push(bossfloorice)
+        ungrapplable.push(bossfloorice)
+
+
+        const platformcaketop = new Rectangle(-1000, -16100, 20, 200)
+        floors.push(platformcaketop)
+
+
+        const cake2 = new Fruit(-955, -16152, 60, 60, "red")
+        cake2.type = 11
+        cake2.type2 = 11
+        fruits.push(cake2)
+
+
         floormpf = [...floors]
         for (let t = 0; t < 5; t++) {
 
@@ -23231,16 +23743,55 @@ assortedDraw.splice(0, assortedDraw.length)
                 if(Math.random()<.3){
                     let tree = new PalmTree(glober.x, glober.y-glober.radius, 1+(Math.random()-.5))
                     assortedDraw.push(tree)
+                }else{
                 }
             }
             ramps.push(glober)
         }
 
-
+        assortedDraw.push(new IslanderWrapper())
 
 
     }
 
+    function loadMarshLevel(){
+        islandsong = Math.round(Math.random())
+        levelBoilerplate()
+        level = 14
+        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
+        pomao.body.x = -1000
+        pomao.body.y = 0
+
+        for(let t = 0;t<5;t++){
+            let tangler = new Entangler(t*1000, 50)
+            assortedDraw.push(tangler)
+        }
+
+        // let jelly = new Rectangle(-12100, 900, 1033, 42000, "#00ffff88")
+        // jellys.push(jelly)
+        // floors.push(jelly)
+        let floor = new Rectangle(-3000, 50, 1000, 10000)
+        floors.push(floor)
+        walls.push(floor)
+        roofs.push(floor)
+        markRectangles()
+
+        for (let k = 0; k < ((200*2400)/960); k++) {
+            const fruit = new Fruit(-2000 + (Math.random()* 5000), -2400+ (Math.random()*2400), 60, 60, "red")
+            let wet = 0
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
+
+    }
     function loadlvl11() {
 
         pomao.tonguex = 0
