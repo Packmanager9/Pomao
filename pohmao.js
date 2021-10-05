@@ -18926,6 +18926,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.shots[t].move()
                 this.shots[t].draw()
 
+
+                for (let h = 0; h < pomao.thrown.length; h++) {
+                    if(this.shots[t].doesPerimeterTouch(pomao.thrown[h])){
+                        if(this.shots[t].redirected != 1){
+                            this.shots[t].xmom *= -3.5
+                            this.shots[t].ymom *= -3.5
+                            this.shots[t].redirected = 1
+                            this.shots[t].radius += 8
+                        }
+                    }
+                }
+
                 for(let h = 0;h<shockfriendly.shocksl.length;h++){
                     if(shockfriendly.shocksl[h].repelCheck(this.shots[t])){
                         if(this.shots[t].redirected != 1){
@@ -19069,9 +19081,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // vec.normalize(2)
             if(this.counter == 250){
                 this.counter = 0
-                this.shots.push(new Shot(this.points[0].x, this.points[0].y, 28, "#FF00AA", ((pomao.body.x - this.points[0].x)/this.pomline.hypotenuse())*4.5,  ((pomao.body.y - this.points[0].y)/this.pomline.hypotenuse())*4.5))
-                this.points[0].xmom -= vec.xmom
-                this.points[0].ymom -= vec.ymom
+                if(this.points.length > 1){
+                    this.shots.push(new Shot(this.points[0].x, this.points[0].y, 28, "#FF00AA", ((pomao.body.x - this.points[0].x)/this.pomline.hypotenuse())*4.5,  ((pomao.body.y - this.points[0].y)/this.pomline.hypotenuse())*4.5))
+                    this.points[0].xmom -= vec.xmom
+                    this.points[0].ymom -= vec.ymom
+                }
             }
             for(let t = 0;t<this.shots.length;t++){
                 if(this.shots[t].radius < 8){
