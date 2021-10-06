@@ -19452,7 +19452,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw(){
 
             if (this.linker.squareDistance() < 1.5*2) {
-            pomao.hits += 1
+            pomao.hits += 2
             if (pomao.hits > 9) {
                 pomao.hits = 9
             }
