@@ -19538,6 +19538,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.center.radius = 0
 
                     for(let e = 0; e<this.edges.length; e++){
+                        this.edges[e].xmom += (pomao.thrown[h].xmom)*.25
+                        this.edges[e].ymom += (pomao.thrown[h].ymom)*.25
                         this.edges[e].xmom *= 1.2
                         this.edges[e].ymom *= 1.2
                         this.edges[e].xmom += (Math.random()-.5)*2
