@@ -686,6 +686,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     paintedbackground.src = 'bg5.png'
     const paintedbackgroundlvl3 = new Image()
     paintedbackgroundlvl3.src = 'bg7.png'
+    const paintedbackgroundlvlMarsh = new Image()
+    paintedbackgroundlvlMarsh.src = 'b15.png'
     const paintedbackgroundlvl4 = new Image()
     paintedbackgroundlvl4.src = 'bg6.png'
     const wallpaperimg = new Image()
@@ -19451,7 +19453,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         draw(){
 
-            if (this.linker.squareDistance() < 1.5*2) {
+            if (this.linker.squareDistance() < 3*2) {
             pomao.hits += 2
             if (pomao.hits > 9) {
                 pomao.hits = 9
@@ -20277,7 +20279,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }else if (level == 13) {
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         } else if (level == 14) {
-                            tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                         }
                         // if(keysPressed['p']){
                         //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
