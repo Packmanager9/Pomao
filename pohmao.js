@@ -106,6 +106,12 @@ for (let i = 1; i < 44; i++) {
 zimgs.push(Object.assign(new Image(), { 'src': `z - ${i} copy-min.png` }));
 }
 
+
+const pb = []
+for (let i = 1; i < 1331; i++) {
+    pb.push(Object.assign(new Image(), { 'src': `pb${i}.png` }));
+}
+
 const izimgs = []
 for (let i = 1; i < 44; i++) {
 izimgs.push(Object.assign(new Image(), { 'src': `iz - ${i}.png` }));
@@ -20322,7 +20328,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }else if (level == 13) {
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         } else if (level == 14) {
-                            tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
+                            // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
+                            let index = Math.min(Math.max((Math.round((pomao.body.x+3000)/11.9)),0), 1330)
+                            tutorial_canvas_context.drawImage(pb[index],0,0,pb[index].width, pb[index].height,  pomao.body.x - 640, pomao.body.y - 360, 1280,720)
                         }
                         // if(keysPressed['p']){
                         //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
