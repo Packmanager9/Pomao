@@ -20213,6 +20213,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 1;
+                        }else if (level == 14) {
+                            // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.globalAlpha = 0.2;
+                            let index = Math.min(Math.max((Math.round((pomao.body.x+3000)/11.9)),0), 1330)
+                            tutorial_canvas_context.drawImage(pb[index],0,0,pb[index].width, pb[index].height,  pomao.body.x - 640, pomao.body.y - 360, 1280,720)
+                            tutorial_canvas_context.globalAlpha = 1;
                         }
                         // tutorial_canvas_context.fillStyle = `rgba(153, 153, 230,${63 / 255})`
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
@@ -20267,6 +20273,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 10) {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.globalAlpha = 1;
+                        }else if (level == 14) {
+                            // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.globalAlpha = 0.2;
+                            let index = Math.min(Math.max((Math.round((pomao.body.x+3000)/11.9)),0), 1330)
+                            tutorial_canvas_context.drawImage(pb[index],0,0,pb[index].width, pb[index].height,  pomao.body.x - 640, pomao.body.y - 360, 1280,720)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
