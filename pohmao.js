@@ -18949,6 +18949,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // if (this.life > 100) {
             //     this.eye.draw()
             // }
+            if(typeof this.lines == "undefined"){
+                this.lines = []
+                for (let t = 1; t < this.points.length; t++) {
+                let link = new LineOPL(this.points[t - 1], this.points[t])
+                this.lines.push(link)
+                }
+            }
+
+
             tutorial_canvas_context.beginPath()
             if (this.nerf == 1) {
                 // this.alphadrag-=.16
@@ -18958,44 +18967,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.alphadrag *= 1.21
             }
             if (this.points.length > 0) {
-
-                let alpha = 1 - (this.alphadrag * (1 / this.points.length))
-
-                if (this.nerf == 1) {
-                    alpha = this.alphadrag
-                }
                 let link = new LineL(this.x, this.y, this.points[0].x, this.points[0].y)
-                // if(this.nerf == 1){
-                //     link.width = 13
-                // }
                 link.draw()
-                // if(this.nerf == 1){
-                //     link.width = 2
-                //     link.draw()
-                // }
-                for (let t = 1; t < this.points.length; t++) {
+                for (let t = 0; t < this.lines.length; t++) {
                     let alpha = (1 - (this.alphadrag * ((this.points.length - t) / this.points.length)))
-
-                    // if(this.nerf == 1){
-                    //     alpha = this.alphadrag
-                    // }
                     if (alpha <= .16) {
                         continue
                     }
-
-                    // if(this.nerf == 1){
-                    //     alpha = this.alphadrag
-                    // }
-                    let link = new LineOPL(this.points[t - 1], this.points[t],)
-
-                    // if(this.nerf == 1){
-                    //     link.width =  10-(t/2)
-                    // }
-                    link.draw()
-                    // if(this.nerf == 1){
-                    //     link.width = 2
-                    //     link.draw()
-                    // }
+                    this.lines[t].draw()
                 }
                 tutorial_canvas_context.stroke()
                 tutorial_canvas_context.closePath();
@@ -19855,6 +19834,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let y = this.center.y - 400 - (this.center.ymom + this.center.symom) + (Math.random() * -100)
             this.zap = new Lightning(x, y, this)
             this.zap.make()
+            this.counter = 0
         }
         draw() {
             let nudge = 0
@@ -19895,10 +19875,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             y = this.center.y - 400 - (this.center.ymom + this.center.symom) + (Math.random() * -100)
             let streak = new Line(x, y, x + this.drift, y + 6, "#008800", 3)
             this.drops.push(streak)
-            x = this.center.x + ((Math.random() - .5) * 1600)
-            y = this.center.y - 400 - (this.center.ymom + this.center.symom) + (Math.random() * -100)
-            streak = new Line(x, y, x + this.drift, y + 6, "#99AA00", 3)//007700
-            this.drops.push(streak)
+            if(Math.random()<.3){
+                x = this.center.x + ((Math.random() - .5) * 1600)
+                y = this.center.y - 400 - (this.center.ymom + this.center.symom) + (Math.random() * -100)
+                streak = new Line(x, y, x + this.drift, y + 6, "#99AA00", 3)//007700
+                this.drops.push(streak)
+            }
             for (let t = 0; t < this.drops.length; t++) {
                 this.drops[t].x1 += this.drift
                 this.drops[t].x2 += this.drift
@@ -19906,13 +19888,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.drops[t].y2 += this.gravity
                 this.drops[t].draw()
             }
-            for (let t = 0; t < this.drops.length; t++) {
-                for (let k = 0; k < floors.length; k++) {
-                    if (floors[k].isPointInside(new Point(this.drops[t].x2, this.drops[t].y2)) || this.drops[t].y2 > 50) {
-                        this.drops[t].marked = 1
+            this.counter++
+            if(this.counter%10==0){
+                for (let t = 0; t < this.drops.length; t++) {
+                    for (let k = 0; k < floors.length; k++) {
+                        if (floors[k].isPointInside(new Point(this.drops[t].x2, this.drops[t].y2)) || this.drops[t].y2 > 50) {
+                            this.drops[t].marked = 1
+                        }
                     }
                 }
             }
+
             for (let t = 0; t < this.drops.length; t++) {
                 if (this.drops[t].marked > 0) {
                     this.drops.splice(t, 1)
@@ -25195,6 +25181,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         for(let t = 0;t<10;t++){
             let floor2x = new Rectangle(7050 - ((t+1)*700), -3000-((t%2)*100)-((t%3)*150), 250-(t*10), 200-(t*10))
+            floors.push(floor2x)
+            walls.push(floor2x)
+            roofs.push(floor2x)
+        }
+
+
+        for(let t = 0;t<12;t++){
+            let floor2x = new Rectangle(7050 - ((10+1)*666) -((t%2)*55)-((t%3)*75) , -3000-((t+1)*300), 90-(t*3), 50)
             floors.push(floor2x)
             walls.push(floor2x)
             roofs.push(floor2x)
