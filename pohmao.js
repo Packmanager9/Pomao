@@ -695,6 +695,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     paintedbackgroundlvl3.src = 'bg7.png'
     const paintedbackgroundlvlMarsh = new Image()
     paintedbackgroundlvlMarsh.src = 'b15.png'
+    let paintedAcid = new Image()
+    paintedAcid.src = 'b9.png'
     const paintedbackgroundlvl4 = new Image()
     paintedbackgroundlvl4.src = 'bg6.png'
     const wallpaperimg = new Image()
@@ -5351,6 +5353,56 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.closePath();
         }
     }
+    class LineOPL {
+        constructor(object, target, color, width) {
+            this.object = object
+            this.target = target
+            this.color = color
+            this.width = width
+        }
+        angle() {
+            return angleGrasp(this.object.y - this.target.y, this.object.x - this.target.x)
+        }
+        m_angle() {
+            return Math.atan2(this.object.y - this.target.y, this.object.x - this.target.x)
+        }
+        hypotenuse() {
+            let xdif = this.object.x - this.target.x
+            let ydif = this.object.y - this.target.y
+            let hypotenuse = (xdif * xdif) + (ydif * ydif)
+            if (hypotenuse < 10000000 - 1) {
+                if (hypotenuse > 1000) {
+                    return squaretable[`${Math.round(10 * Math.round((hypotenuse * .1)))}`]
+                } else {
+                    return squaretable[`${Math.round(hypotenuse)}`]
+                }
+            } else {
+                return Math.sqrt(hypotenuse)
+            }
+        }
+        m_hypotenuse() {
+            let xdif = this.object.x - this.target.x
+            let ydif = this.object.y - this.target.y
+            let hypotenuse = (xdif * xdif) + (ydif * ydif)
+            return Math.sqrt(hypotenuse)
+        }
+        squareDistance() {
+            let xdif = this.object.x - this.target.x
+            let ydif = this.object.y - this.target.y
+            let hypotenuse = (xdif * xdif) + (ydif * ydif)
+            return (hypotenuse)
+        }
+        draw() {
+            tutorial_canvas_context.strokeStyle = "cyan"
+            tutorial_canvas_context.lineWidth = 4
+            // tutorial_canvas_context.beginPath()
+            tutorial_canvas_context.moveTo(this.object.x, this.object.y)
+            tutorial_canvas_context.lineTo(this.target.x, this.target.y)
+            // tutorial_canvas_context.stroke()
+            // tutorial_canvas_context.lineWidth = linewidthstorage
+            // tutorial_canvas_context.closePath();
+        }
+    }
     class LineCHOP {
         constructor(object, target, color, width) {
             this.object = object
@@ -6010,6 +6062,41 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.stroke()
             tutorial_canvas_context.lineWidth = 1
             tutorial_canvas_context.closePath();
+        }
+    }
+
+
+    class LineL {
+        constructor(x, y, x2, y2, color, width) {
+            this.x1 = x
+            this.y1 = y
+            this.x2 = x2
+            this.y2 = y2
+        }
+        angle() {
+            return angleGrasp(this.y1 - this.y2, this.x1 - this.x2)
+        }
+        squareDistance() {
+            let xdif = this.x1 - this.x2
+            let ydif = this.y1 - this.y2
+            let hypotenuse = (xdif * xdif) + (ydif * ydif)
+            return (hypotenuse)
+        }
+        hypotenuse() {
+            const xdif = this.x1 - this.x2
+            const ydif = this.y1 - this.y2
+            const hypotenuse = (xdif * xdif) + (ydif * ydif)
+            return Math.sqrt(hypotenuse)
+        }
+        draw() {
+            tutorial_canvas_context.strokeStyle = "cyan"
+            tutorial_canvas_context.lineWidth = 4
+            // tutorial_canvas_context.beginPath()
+            tutorial_canvas_context.moveTo(this.x1, this.y1)
+            tutorial_canvas_context.lineTo(this.x2, this.y2)
+            // tutorial_canvas_context.stroke()
+            // tutorial_canvas_context.lineWidth = 1
+            // tutorial_canvas_context.closePath();
         }
     }
 
@@ -18728,6 +18815,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.life = 50000
             this.parent = parent
             this.liferat = liferat
+            this.pomlink = new LineOP(this.body, pomao.body)
+            // this.storeFloor = floors[0]
         }
         make() {
 
@@ -18751,9 +18840,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.body = new Circle(this.x, this.y, 2, "cyan")
                 this.points = []
                 for (let t = 0; !this.body.repelCheck(this.targets[this.targets.length - 1]) && this.life > 0; t++) {
-                    if (pomao.checkInsidePomao(this.body)) {
-                        pomao.hits--
-                        break
+
+
+                    if(Math.random()<.05){
+                        for(let k = 0;k<floors.length;k++){
+                            if (floors[k].isPointInside(this.body) && floors[k].jelly != 1) {
+                                this.life = 0
+                                break
+                            }
+                        }
+                    }
+
+
+                    if(this.pomlink.hypotenuse() < 50){
+                        if (pomao.checkInsidePomao(this.body)) {
+                            pomao.hits--
+                            break
+                        }
                     }
 
                     if (this.body.repelCheck(this.targets[this.target])) {
@@ -18767,7 +18870,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     let j = 0
                     while ((Math.abs(this.body.xmom)) + (Math.abs(this.body.ymom)) > 16.5) {
                         j++
-                        if (j > 1000) {
+                        if (j > 100) {
                             break
                         }
                         this.body.xmom *= .9
@@ -18846,7 +18949,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // if (this.life > 100) {
             //     this.eye.draw()
             // }
-            // tutorial_canvas_context.beginPath()
+            tutorial_canvas_context.beginPath()
             if (this.nerf == 1) {
                 // this.alphadrag-=.16
                 // this.alphadrag*=.16
@@ -18861,7 +18964,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (this.nerf == 1) {
                     alpha = this.alphadrag
                 }
-                let link = new Line(this.x, this.y, this.points[0].x, this.points[0].y, `rgba(0,255,255,${alpha})`, 3)
+                let link = new LineL(this.x, this.y, this.points[0].x, this.points[0].y)
                 // if(this.nerf == 1){
                 //     link.width = 13
                 // }
@@ -18883,7 +18986,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     // if(this.nerf == 1){
                     //     alpha = this.alphadrag
                     // }
-                    let link = new LineOP(this.points[t - 1], this.points[t], `rgba(0,255,255,${alpha})`, 7 - (4.9 * (t / this.points.length)))
+                    let link = new LineOPL(this.points[t - 1], this.points[t],)
 
                     // if(this.nerf == 1){
                     //     link.width =  10-(t/2)
@@ -18894,7 +18997,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     //     link.draw()
                     // }
                 }
-                // tutorial_canvas_context.stroke()
+                tutorial_canvas_context.stroke()
+                tutorial_canvas_context.closePath();
             }
 
         }
@@ -19389,14 +19493,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 } else {
                     this.center.ymom = vec.ymom
                 }
+
+
                 this.center.x += this.center.xmom
                 this.center.y += this.center.ymom
-
                 for (let e = 0; e < this.edges.length; e++) {
-                    // this.edges[e].move()
                     this.edges[e].x += this.center.xmom
                     this.edges[e].y += this.center.ymom
                 }
+
 
                 this.center.radius *= 4
                 if (this.center.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.center)) {
@@ -19505,6 +19610,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         draw() {
 
+            let xdrift = (Math.random()-.5)*4
+            let ydrift = (Math.random()-.5)*4
+            this.center.x += xdrift
+            this.center.y += ydrift
+            for (let e = 0; e < this.edges.length; e++) {
+                this.edges[e].x += xdrift
+                this.edges[e].y += ydrift
+            }
+
+
             if (this.linker.squareDistance() < 3 * 2) {
                 pomao.hits += 2
                 if (pomao.hits > 9) {
@@ -19547,6 +19662,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             this.center.radius *= 2
 
+            for(let t = 0;t<jellys.length;t++){
+                if(jellys[t].isPointInside(this.center)){
+                    this.center.radius = 0
+                }
+            }
+
             for (let h = 0; h < pomao.thrown.length; h++) {
                 if (this.center.repelCheck(pomao.thrown[h])) {
                     this.center.radius = 0
@@ -19580,7 +19701,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (this.linker.squareDistance() > 900 * 900) {
                 // // this.edges = []
-                // return
+                return
             } else {
                 this.move()
                 this.center.draw()
@@ -19736,16 +19857,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.zap.make()
         }
         draw() {
+            let nudge = 0
             if (level == 14) {
                 pomao.hits -= .002
+                for(let t = 0;t<jellys.length;t++){
+                    if(jellys[t].isPointInside(pomao.body)){
+                        pomao.hits -= .006
+                        nudge+=.003
+                    }
+                }
             }
 
             let x = this.center.x + ((Math.random() - .5) * 2600)
             let y = this.center.y - 400 - (this.center.ymom + this.center.symom) + (Math.random() * -100)
             if (true) {
-                if (Math.random() < .005) {
-                    let x = this.center.x + ((Math.random() - .5) * 2600)
-                    let y = this.center.y - 400 - (this.center.ymom + this.center.symom) + (Math.random() * -100)
+                if (Math.random() < .003+nudge) {
+                    let x = this.center.x + ((Math.random() - .5) * 1280)
+                    let y = this.center.y - 900 - (this.center.ymom + this.center.symom) + (Math.random() * -100)
                     this.zap = new Lightning(x, y, this)
                     this.zaps = []
                     this.zap.make()
@@ -19834,7 +19962,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
         draw() {
-            if (this.pomline.hypotenuse() > 900) { // 720+(this.seglength*this.points.length)
+            if (this.pomline.hypotenuse() > 1300) { // 720+(this.seglength*this.points.length)
                 return
             }
 
@@ -19957,6 +20085,267 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                             this.points[t].xmom += (Math.random() - .5) * 7
                             this.points[t].ymom += (Math.random() - .5) * 7
+                        }
+                    }
+                    this.points[t].move()
+                    this.points[t].xmom *= this.points[t].friction
+                    this.points[t].ymom *= this.points[t].friction
+                } else {
+                    this.points[t].xmom = 0
+                    this.points[t].ymom = 0
+                }
+                if (this.points[t].repelCheck(pomao.tongue)) {
+                    pomao.tongueymom *= .8
+                    pomao.tonguexmom *= .8
+                    pomao.tonguey *= .8
+                    pomao.tonguex *= .8
+                }
+                if (pomao.checkRepelPomao(this.points[t])) {
+                    if (this.points[t].x > pomao.body.x) {
+                        this.bump = 1
+                    } else {
+                        this.bump = -1
+                    }
+                    if (this.smack == 0) {
+                        // if (pomao.pounding != 10) {
+                        pomao.pounding = 0
+                        pomao.body.xmom = -16 * (this.bump)
+                        // pomao.disabled = 1
+                        this.smack = 18
+                        pomao.hits--
+                        pomao.body.ymom = -1.8
+                        // }
+                    } else {
+                        if (this.bump * pomao.body.xmom > 0) {
+                            pomao.body.xmom = -7.8 * (this.bump)
+                            pomao.body.ymom = -1.8
+                        }
+                    }
+                }
+            }
+
+            for (let t = 0; t < this.springs.length; t++) {
+                if (this.points.includes(this.springs[t].body)) {
+                    this.springs[t].draw()
+                }
+            }
+            for (let t = 0; t < this.points.length; t++) {
+
+
+                if (this.counter >= 250 - t * 4 && this.counter < 250 - (t - 1) * 4) {
+                    this.points[t].radius += 15
+                }
+                this.points[t].draw()
+                if (this.type == 1) {
+                    tutorial_canvas_context.drawImage(shinymeatgreen, 0, 0, shinymeatgreen.width, shinymeatgreen.height, this.points[t].x - this.points[t].radius, this.points[t].y - this.points[t].radius, this.points[t].radius * 2, this.points[t].radius * 2)
+                } else {
+                    tutorial_canvas_context.drawImage(shinymeat, 0, 0, shinymeat.width, shinymeat.height, this.points[t].x - this.points[t].radius, this.points[t].y - this.points[t].radius, this.points[t].radius * 2, this.points[t].radius * 2)
+                }
+
+                // tutorial_canvas_context.drawImage(redcircleimg, 0, 0, redcircleimg.width, redcircleimg.height, this.points[t].x-this.points[t].radius, this.points[t].y-this.points[t].radius, this.points.radius*2, this.points.radius*2 )
+                // console.log(redcircleimg)
+                if (this.counter >= 250 - t * 4 && this.counter < 250 - (t - 1) * 4) {
+                    this.points[t].radius -= 15
+                }
+            }
+
+
+
+            this.metaangle += Math.PI / 25
+            if (this.pomline.hypotenuse() < 720 && this.pomline.hypotenuse() > 0) {
+                this.points[0].xmom += ((pomao.body.x - this.points[0].x) / this.pomline.hypotenuse()) * .6
+                this.points[0].ymom += ((pomao.body.y - this.points[0].y) / this.pomline.hypotenuse()) * .6
+            }
+            let vec = new Vector(this.points[0], this.points[0].xmom, this.points[0].ymom)
+            if (vec.isToward(pomao.body)) {
+                this.counter++
+            }
+            // vec.normalize(2)
+            if (this.counter == 250) {
+                this.counter = 0
+                if (this.points.length > 1) {
+                    this.shots.push(new Shot(this.points[0].x, this.points[0].y, 28, "#FF00AA", ((pomao.body.x - this.points[0].x) / this.pomline.hypotenuse()) * 4.5, ((pomao.body.y - this.points[0].y) / this.pomline.hypotenuse()) * 4.5))
+                    this.points[0].xmom -= vec.xmom
+                    this.points[0].ymom -= vec.ymom
+                }
+            }
+            for (let t = 0; t < this.shots.length; t++) {
+                if (this.shots[t].radius < 8) {
+                    this.shots.splice(t, 1)
+                }
+            }
+            if (this.smack > 0) {
+                this.smack--
+            }
+        }
+    }
+
+
+    class MegaEntangler {
+        constructor(x, y) {
+            this.points = []
+            this.springs = []
+            this.counter = 0
+            this.shots = []
+            this.seglength = 20
+            this.metaangle = 0
+            this.smack = 0
+            this.type = Math.round(Math.random())
+            if (Math.random() < .6) {
+                this.type = 0
+            }
+            for (let t = 0; t < 45; t++) {
+                let circle = new Bosscircle(x, y + (t * this.seglength) - (45 * this.seglength), (t * .4) + 6, `rgb(0, ${255 - (t * 5.1)}, 0)`)
+                if (this.type == 1) {
+                    circle.color = `rgb(${255 - (t * 5)}, ${160 - (t * 3)}, ${160 - (t * 3)})`
+                }
+                circle.touched = []
+                circle.friction = (1 - (t * .0005))
+                this.points.push(circle)
+            }
+            this.pomline = new LineOP(pomao.body, this.points[0])
+            for (let t = 0; t < this.points.length; t++) {
+                for (let k = 0; k < this.points.length; k++) {
+                    if (t != k) {
+                        if (this.points[t].touched.includes(k) || this.points[k].touched.includes(t)) {
+
+                        } else {
+                            let link = new LineOP(this.points[t], this.points[k])
+                            if (link.hypotenuse() <= this.seglength) {
+                                let spring = new SpringOP(this.points[t], this.points[k], this.points[k].radius, this.points[k].radius)
+                                this.springs.push(spring)
+                                this.points[k].touched.push(t)
+                                this.points[t].touched.push(k)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        draw() {
+            if (this.pomline.hypotenuse() > 1800) { // 720+(this.seglength*this.points.length)
+                return
+            }
+
+            for (let t = 0; t < this.shots.length; t++) {
+                this.shots[t].move()
+                this.shots[t].draw()
+
+
+                for (let h = 0; h < pomao.thrown.length; h++) {
+                    if (this.shots[t].doesPerimeterTouch(pomao.thrown[h])) {
+                        if (this.shots[t].redirected != 1) {
+                            this.shots[t].xmom *= -3.5
+                            this.shots[t].ymom *= -3.5
+                            this.shots[t].redirected = 1
+                            this.shots[t].radius += 8
+                        }
+                    }
+                }
+
+                for (let h = 0; h < shockfriendly.shocksl.length; h++) {
+                    if (shockfriendly.shocksl[h].repelCheck(this.shots[t])) {
+                        if (this.shots[t].redirected != 1) {
+                            this.shots[t].xmom *= -3.5
+                            this.shots[t].ymom *= -3.5
+                            this.shots[t].redirected = 1
+                            this.shots[t].radius += 8
+                        }
+                    }
+                }
+
+                for (let h = 0; h < shockfriendly.shocksr.length; h++) {
+                    if (shockfriendly.shocksr[h].repelCheck(this.shots[t])) {
+                        if (this.shots[t].redirected != 1) {
+                            this.shots[t].xmom *= -3.5
+                            this.shots[t].ymom *= -3.5
+                            this.shots[t].redirected = 1
+                            this.shots[t].radius += 8
+                        }
+                    }
+                }
+
+
+                if (pomao.checkRepelPomao(this.shots[t])) {
+                    if (this.shots[t].x > pomao.body.x) {
+                        this.bump = 1
+                    } else {
+                        this.bump = -1
+                    }
+                    if (pomao.disabled != 1) {
+                        if (pomao.pounding != 10) {
+                            pomao.body.xmom = -3 * (this.bump)
+                            pomao.disabled = 1
+                            pomao.hits--
+                            pomao.body.ymom = -1.8
+                            this.shots[t].xmom = -pomao.body.xmom * .1
+                            this.shots[t].collapse = 1
+                        } else {
+                            if (this.shots[t].redirected != 1) {
+                                this.shots[t].xmom *= -3.5
+                                this.shots[t].ymom *= -3.5
+                                this.shots[t].redirected = 1
+                                this.shots[t].radius += 8
+                            }
+                        }
+                    } else {
+                        if (this.bump * pomao.body.xmom > 0) {
+                            pomao.body.xmom = -1.8 * (this.bump)
+                            pomao.body.ymom = -1.8
+                            this.shots[t].xmom = -pomao.body.xmom
+                        }
+                    }
+                }
+
+
+                this.shots[t].radius *= .995
+                if (this.shots[t].collapse == 1) {
+                    this.shots[t].radius *= .96
+                }
+                this.shots[t].xmom *= .9875
+                this.shots[t].ymom *= .9875
+            }
+            for (let t = 0; t < this.springs.length; t++) {
+                if (this.points.includes(this.springs[t].body)) {
+                    this.springs[t].balance()
+                }
+            }
+
+            for (let t = 0; t < this.points.length; t++) {
+
+                for (let k = 0; k < pomao.thrown.length; k++) {
+                    if (this.points[t].repelCheck(pomao.thrown[k])) {
+                        pomao.thrown[k].xmom = 0
+                        pomao.thrown[k].ymom += .1
+                    }
+                }
+
+                for (let k = 0; k < this.shots.length; k++) {
+                    if (this.shots[k].redirected == 1) {
+                        if (this.points[0].repelCheck(this.shots[k])) {
+                            if (this.points.length > 1) {
+                                this.points.splice(0, 1)
+                                this.shots[k].radius -= 4
+                                this.pomline = new LineOP(pomao.body, this.points[0])
+                            }
+                        }
+                    }
+                }
+                if (typeof this.points[t] == 'undefined') {
+                    continue
+                }
+                if (t < this.points.length - 1) {
+                    // this.points[t].xmom += Math.cos(this.metaangle+((Math.PI/12)*t))/(50-t)
+                    // this.points[t].ymom += Math.sin(this.metaangle+((Math.PI/12)*t))/(50-t)
+
+                    if (t > this.points.length - 16) {
+                        this.points[t].ymom -= (2.4 / (this.points.length * this.points.length)) * t//Math.sin(this.metaangle+((Math.PI/12)*t))/(27-t)
+                    }
+                    if (Math.random() < .015) {
+                        if (t > 15) {
+
+                            this.points[t].xmom += (Math.random() - .5) * 9
+                            this.points[t].ymom += (Math.random() - .5) * 9
                         }
                     }
                     this.points[t].move()
@@ -20482,8 +20871,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                             // jellys[t].draw()
                             tutorial_canvas_context.globalAlpha = 0.5
-                            tutorial_canvas_context.drawImage(paintedbackground, jellys[t].x, jellys[t].y, jellys[t].width, jellys[t].height)
-
+                            if(level != 14){
+                                tutorial_canvas_context.drawImage(paintedbackground, jellys[t].x, jellys[t].y, jellys[t].width, jellys[t].height)
+                            }else{
+                                tutorial_canvas_context.drawImage(paintedAcid, jellys[t].x, jellys[t].y, jellys[t].width, jellys[t].height)
+                            }
                             tutorial_canvas_context.globalAlpha = 0.3
                             jellys[t].draw()
                             tutorial_canvas_context.globalAlpha = 1
@@ -24754,35 +25146,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.body.x = -1000
         pomao.body.y = 0
 
-        for (let t = 0; t < 5; t++) {
-            let tangler = new Entangler(t * 2000, 50)
-            assortedDraw.push(tangler)
-        }
-
-        // for(let t = 0;t<50;t++){
-        //     let tangler = new Entangler(5000+ (t*100), 50)
-        //     assortedDraw.push(tangler)
-        // }
-
-
-
-        for (let t = 0; t < 30; t++) {
-            let center = new Circle(-2000 + (Math.random() * 12000), -(Math.random() * 700), 10, "black")
-            let sc = new Scuttlefly(center)
-            swimmers.push(sc)
-        }
-
-
-
-        let rain = new Rainstorm()
-        assortedDraw.push(rain)
-        // let jelly = new Rectangle(-12100, 900, 1033, 42000, "#00ffff88")
-        // jellys.push(jelly)
-        // floors.push(jelly)
         let floor = new Rectangle(-3640, 50, 1000, 14280)
         floors.push(floor)
         walls.push(floor)
         roofs.push(floor)
+
+
 
         const wall1 = new Rectangle(-2950, -30000, 30053, 50, "cyan")
         walls.push(wall1)
@@ -24796,13 +25165,113 @@ window.addEventListener('DOMContentLoaded', (event) => {
         roofs.push(wall2)
         ungrapplable.push(wall2)
 
+
+        let tangler = new Entangler(0, 38)
+        assortedDraw.push(tangler)
+        let entanglerWall0 = new Rectangle(-600,-100, 150, 100)
+        floors.push(entanglerWall0)
+        walls.push(entanglerWall0)
+        roofs.push(entanglerWall0)
+
+        let entanglerJelly0 = new Rectangle(-500,-90, 140, 1100)
+        floors.push(entanglerJelly0)
+        jellys.push(entanglerJelly0)
+
+        let entanglerJelly1 = new Rectangle(2600,-140, 190, wall2.x-2600)
+        floors.push(entanglerJelly1)
+        jellys.push(entanglerJelly1)
+
+        let entanglerJelly2 = new Rectangle(9500,-3000, 3000-140, 450)
+        floors.push(entanglerJelly2)
+        jellys.push(entanglerJelly2)
+
+
+        let floor2 = new Rectangle(7050, -3000, 250, 2450)
+        floors.push(floor2)
+        walls.push(floor2)
+        roofs.push(floor2)
+
+
+
+        for(let t = 0;t<10;t++){
+            let floor2x = new Rectangle(7050 - ((t+1)*700), -3000-((t%2)*100)-((t%3)*150), 250-(t*10), 200-(t*10))
+            floors.push(floor2x)
+            walls.push(floor2x)
+            roofs.push(floor2x)
+        }
+
+
+
+
+
+        const wall3 = new Rectangle(9450, -2750, 3000-390, 50, "cyan")
+        walls.push(wall3)
+        floors.push(wall3)
+        roofs.push(wall3)
+        ungrapplable.push(wall3)
+
+        let entanglerWall2 = new Rectangle(600,-100, 150, 100)
+        floors.push(entanglerWall2)
+        walls.push(entanglerWall2)
+        roofs.push(entanglerWall2)
+
+        let tangler2 = new Entangler(2500, -438)
+        assortedDraw.push(tangler2)
+        let entanglerWall1 = new Rectangle(2400,-450, 500, 200)
+        floors.push(entanglerWall1)
+        walls.push(entanglerWall1)
+        roofs.push(entanglerWall1)
+
+
+
+        let tangler3 = new Entangler(6570, 38)
+        assortedDraw.push(tangler3)
+
+        let tangler4 = new Entangler(6500, 38)
+        assortedDraw.push(tangler4)
+
+
+
+        // let tangler5 = new Entangler(9500, 50)
+        // assortedDraw.push(tangler5)
+        // for (let t = 0; t < 5; t++) {
+        //     let tangler = new Entangler(t * 2000, 50)
+        //     assortedDraw.push(tangler)
+        // }
+
+        // for(let t = 0;t<50;t++){
+        //     let tangler = new Entangler(5000+ (t*100), 50)
+        //     assortedDraw.push(tangler)
+        // }
+
+
+
+        for (let t = 0; t < 22; t++) {
+            let center = new Circle(-2000 + (Math.random() * 12000), -(Math.random() * 700), 10, "black")
+            let sc = new Scuttlefly(center)
+            swimmers.push(sc)
+        }
+
+
+
+        let rain = new Rainstorm()
+        assortedDraw.push(rain)
+        // let jelly = new Rectangle(-12100, 900, 1033, 42000, "#00ffff88")
+        // jellys.push(jelly)
+        // floors.push(jelly)
         markRectangles()
 
-        for (let k = 0; k < ((400 * 2400) / 960); k++) {
-            const fruit = new Fruit(-2000 + (Math.random() * 16000), -2400 + (Math.random() * 2400), 60, 60, "red")
+        for (let k = 0; k < ((100 * 2400) / 960); k++) {
+            const fruit = new Fruit(-2000 + (Math.random() * 16000), -1500 + (Math.random() * 1500), 60, 60, "red")
             let wet = 0
             for (let k = 0; k < fruits.length; k++) {
                 if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < floors.length; k++) {
+                if (floors[k].doesPerimeterTouch(fruit.body)) {
                     wet = 1
                     break
                 }
@@ -24812,7 +25281,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
 
-
+        for (let k = 0; k < ((100 * 2400) / 960); k++) {
+            const fruit = new Fruit(-2000 + (Math.random() * 16000), -4500 + (Math.random() * 1500), 60, 60, "red")
+            let wet = 0
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < floors.length; k++) {
+                if (floors[k].doesPerimeterTouch(fruit.body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
     }
     function loadlvl11() {
 
