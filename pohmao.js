@@ -19930,6 +19930,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
+            if(typeof this.points[t] == 'undefined'){
+                continue
+            }
                 if(t<this.points.length-1){
                     // this.points[t].xmom += Math.cos(this.metaangle+((Math.PI/12)*t))/(50-t)
                     // this.points[t].ymom += Math.sin(this.metaangle+((Math.PI/12)*t))/(50-t)
