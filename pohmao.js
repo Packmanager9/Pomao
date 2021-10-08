@@ -25579,7 +25579,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         roofs.push(wall1)
         ungrapplable.push(wall1)
 
-        const wall2 = new Rectangle(9950, -30000, 30053, 50, "cyan")
+        const wall2 = new Rectangle(9950, -6950, 7003, 50, "cyan")
         walls.push(wall2)
         floors.push(wall2)
         roofs.push(wall2)
@@ -25614,7 +25614,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
         for(let t = 0;t<10;t++){
-            let floor2x = new Rectangle(7050 - ((t+1)*700), -3000-((t%2)*100)-((t%3)*150), 250-(t*10), 200-(t*10))
+            let floor2x = new Rectangle(7050 - ((t+1)*666), -3000-((t%2)*80)-((t%3)*120), 250-(t*10), 200-(t*10))
             floors.push(floor2x)
             walls.push(floor2x)
             roofs.push(floor2x)
@@ -25622,14 +25622,68 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
         for(let t = 0;t<12;t++){
-            let floor2x = new Rectangle(7050 - ((10+1)*666) -((t%2)*55)-((t%3)*75) , -3000-((t+1)*300), 90-(t*3), 50)
+            let floor2x = new Rectangle(7050 - ((10+1)*622) -((t%2)*55)-((t%3)*75) , -3000-((t+1)*300), 90-(t*3), 50)
+            floors.push(floor2x)
+            walls.push(floor2x)
+            roofs.push(floor2x)
+
+
+            if(t%3 == 0){
+                let center = new Circle(floor2x.x+25, floor2x.y-40, 10, "black")
+                let sc = new Scuttlefly(center)
+                swimmers.push(sc)
+            }
+
+
+        }
+
+
+        for(let t = 0;t<10;t++){
+            let floor2x = new Rectangle(6850 - ((t+1)*666), -6900-((t%2)*80)-((t%3)*120), 250-(t*10), 200-(t*10))
             floors.push(floor2x)
             walls.push(floor2x)
             roofs.push(floor2x)
         }
 
+            let floor3x = new Rectangle(6900, -7000, 50, 7100)
+            floors.push(floor3x)
+            walls.push(floor3x)
+            roofs.push(floor3x)
+
+            for(let t = 0;t<11;t++){
+                let floor2x = new Rectangle(6900+(t*500), -7000-((t+1)*300),( (t+1)*300) + 10, 50)
+                floors.push(floor2x)
+                walls.push(floor2x)
+                roofs.push(floor2x)
+                if(t<10){
+
+                    if((t+1) %2== 0){
+                        let tangler2 = new Entangler(floor2x.x+25, floor2x.y-12)
+                        assortedDraw.push(tangler2)
+                    }
+                    floor2x = new Rectangle((6900+(t*500))+50, (-7000-((t+1)*300))+40,( (t+1)*300)-40, 450)
+                    floors.push(floor2x)
+                    jellys.push(floor2x)
+                }
 
 
+        for (let k = 0; k < 19; k++) {
+            let wet = 0
+            const fruit = new Fruit(floor2x.x+(Math.random()*(floor2x.width-30))+30, floor2x.y-((Math.random()-.5)*(floor2x.height*1.8)), 60, 60, "red")
+
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }     
+        }
+
+
+            }
 
 
         const wall3 = new Rectangle(9450, -2750, 3000-390, 50, "cyan")
@@ -25697,7 +25751,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         markRectangles()
 
         for (let k = 0; k < ((100 * 2400) / 960); k++) {
-            const fruit = new Fruit(-2000 + (Math.random() * 16000), -1500 + (Math.random() * 1500), 60, 60, "red")
+            const fruit = new Fruit(-2000 + (Math.random() * 12000), -1500 + (Math.random() * 1500), 60, 60, "red")
             let wet = 0
             for (let k = 0; k < fruits.length; k++) {
                 if (fruit.body.repelCheck(fruits[k].body)) {
@@ -25717,7 +25771,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
         for (let k = 0; k < ((100 * 2400) / 960); k++) {
-            const fruit = new Fruit(-2000 + (Math.random() * 16000), -4500 + (Math.random() * 1500), 60, 60, "red")
+            const fruit = new Fruit(-2000 + (Math.random() * 12000), -4500 + (Math.random() * 1500), 60, 60, "red")
+            let wet = 0
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < floors.length; k++) {
+                if (floors[k].doesPerimeterTouch(fruit.body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
+        for (let k = 0; k < ((60 * 2400) / 960); k++) {
+            const fruit = new Fruit((Math.random() * 10000), -8000 + (Math.random() * 2000), 60, 60, "red")
             let wet = 0
             for (let k = 0; k < fruits.length; k++) {
                 if (fruit.body.repelCheck(fruits[k].body)) {
