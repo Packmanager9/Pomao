@@ -908,7 +908,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // tutorial_canvas_context.translate(2000,8000) //lvl4
     // tutorial_canvas_context.translate(3300,9000)//lvl6
     // tutorial_canvas_context.translate(640,360)
-    // tutorial_canvas_context.translate(1000,720)//level marsh
+    // tutorial_canvas_context.translate(1000,3720)//level marsh
 
     tutorial_canvas.style.background = `rgba(170, 170, 255,${1})` //"#664613"
 
@@ -20586,6 +20586,265 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
     }
+    class MiniEntangler {
+        constructor(x, y) {
+            this.points = []
+            this.springs = []
+            this.counter = 0
+            this.shots = []
+            this.seglength = 25
+            this.metaangle = 0
+            this.smack = 0
+            this.type = Math.round(Math.random())
+            if (Math.random() < .6) {
+                this.type = 0
+            }
+            for (let t = 0; t < 13; t++) {
+                let circle = new Bosscircle(x, y + (t * this.seglength) - (13 * this.seglength), (t * 1.2) + 10, `rgb(0, ${255 - (t * 21)}, 0)`)
+                if (this.type == 1) {
+                    circle.color = `rgb(${255 - (t * 21)}, ${160 - (t * 11)}, ${160 - (t * 11)})`
+                }
+                circle.touched = []
+                circle.friction = (1 - (t * .001))
+                this.points.push(circle)
+            }
+            this.pomline = new LineOP(pomao.body, this.points[0])
+            for (let t = 0; t < this.points.length; t++) {
+                for (let k = 0; k < this.points.length; k++) {
+                    if (t != k) {
+                        if (this.points[t].touched.includes(k) || this.points[k].touched.includes(t)) {
+
+                        } else {
+                            let link = new LineOP(this.points[t], this.points[k])
+                            if (link.hypotenuse() <= this.seglength) {
+                                let spring = new SpringOP(this.points[t], this.points[k], this.points[k].radius, this.points[k].radius)
+                                this.springs.push(spring)
+                                this.points[k].touched.push(t)
+                                this.points[t].touched.push(k)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        draw() {
+            if (this.pomline.hypotenuse() > 1300) { // 720+(this.seglength*this.points.length)
+                return
+            }
+
+            for (let t = 0; t < this.shots.length; t++) {
+                this.shots[t].move()
+                this.shots[t].draw()
+
+
+                for (let h = 0; h < pomao.thrown.length; h++) {
+                    if (this.shots[t].doesPerimeterTouch(pomao.thrown[h])) {
+                        if (this.shots[t].redirected != 1) {
+                            this.shots[t].xmom *= -3.5
+                            this.shots[t].ymom *= -3.5
+                            this.shots[t].redirected = 1
+                            this.shots[t].radius += 8
+                        }
+                    }
+                }
+
+                for (let h = 0; h < shockfriendly.shocksl.length; h++) {
+                    if (shockfriendly.shocksl[h].repelCheck(this.shots[t])) {
+                        if (this.shots[t].redirected != 1) {
+                            this.shots[t].xmom *= -3.5
+                            this.shots[t].ymom *= -3.5
+                            this.shots[t].redirected = 1
+                            this.shots[t].radius += 8
+                        }
+                    }
+                }
+
+                for (let h = 0; h < shockfriendly.shocksr.length; h++) {
+                    if (shockfriendly.shocksr[h].repelCheck(this.shots[t])) {
+                        if (this.shots[t].redirected != 1) {
+                            this.shots[t].xmom *= -3.5
+                            this.shots[t].ymom *= -3.5
+                            this.shots[t].redirected = 1
+                            this.shots[t].radius += 8
+                        }
+                    }
+                }
+
+
+                if (pomao.checkRepelPomao(this.shots[t])) {
+                    if (this.shots[t].x > pomao.body.x) {
+                        this.bump = 1
+                    } else {
+                        this.bump = -1
+                    }
+                    if (pomao.disabled != 1) {
+                        if (pomao.pounding != 10) {
+                            pomao.body.xmom = -3 * (this.bump)
+                            pomao.disabled = 1
+                            pomao.hits--
+                            pomao.body.ymom = -1.8
+                            this.shots[t].xmom = -pomao.body.xmom * .1
+                            this.shots[t].collapse = 1
+                        } else {
+                            if (this.shots[t].redirected != 1) {
+                                this.shots[t].xmom *= -3.5
+                                this.shots[t].ymom *= -3.5
+                                this.shots[t].redirected = 1
+                                this.shots[t].radius += 8
+                            }
+                        }
+                    } else {
+                        if (this.bump * pomao.body.xmom > 0) {
+                            pomao.body.xmom = -1.8 * (this.bump)
+                            pomao.body.ymom = -1.8
+                            this.shots[t].xmom = -pomao.body.xmom
+                        }
+                    }
+                }
+
+
+                this.shots[t].radius *= .995
+                if (this.shots[t].collapse == 1) {
+                    this.shots[t].radius *= .96
+                }
+                this.shots[t].xmom *= .9875
+                this.shots[t].ymom *= .9875
+            }
+            for (let t = 0; t < this.springs.length; t++) {
+                if (this.points.includes(this.springs[t].body)) {
+                    this.springs[t].balance()
+                }
+            }
+
+            for (let t = 0; t < this.points.length; t++) {
+
+                for (let k = 0; k < pomao.thrown.length; k++) {
+                    if (this.points[t].repelCheck(pomao.thrown[k])) {
+                        pomao.thrown[k].xmom = 0
+                        pomao.thrown[k].ymom += .1
+                    }
+                }
+
+                for (let k = 0; k < this.shots.length; k++) {
+                    if (this.shots[k].redirected == 1) {
+                        if (this.points[0].repelCheck(this.shots[k])) {
+                            if (this.points.length > 1) {
+                                this.points.splice(0, 1)
+                                this.shots[k].radius -= 4
+                                this.pomline = new LineOP(pomao.body, this.points[0])
+                            }
+                        }
+                    }
+                }
+                if (typeof this.points[t] == 'undefined') {
+                    continue
+                }
+                if (t < this.points.length - 1) {
+                    // this.points[t].xmom += Math.cos(this.metaangle+((Math.PI/12)*t))/(50-t)
+                    // this.points[t].ymom += Math.sin(this.metaangle+((Math.PI/12)*t))/(50-t)
+
+                    if (t > this.points.length - 16) {
+                        this.points[t].ymom -= (2.4 / (this.points.length * this.points.length)) * t//Math.sin(this.metaangle+((Math.PI/12)*t))/(27-t)
+                    }
+                    if (Math.random() < .01) {
+                        if (t > 10) {
+
+                            this.points[t].xmom += (Math.random() - .5) * 7
+                            this.points[t].ymom += (Math.random() - .5) * 7
+                        }
+                    }
+                    this.points[t].move()
+                    this.points[t].xmom *= this.points[t].friction
+                    this.points[t].ymom *= this.points[t].friction
+                } else {
+                    this.points[t].xmom = 0
+                    this.points[t].ymom = 0
+                }
+                if (this.points[t].repelCheck(pomao.tongue)) {
+                    pomao.tongueymom *= .8
+                    pomao.tonguexmom *= .8
+                    pomao.tonguey *= .8
+                    pomao.tonguex *= .8
+                }
+                if (pomao.checkRepelPomao(this.points[t])) {
+                    if (this.points[t].x > pomao.body.x) {
+                        this.bump = 1
+                    } else {
+                        this.bump = -1
+                    }
+                    if (this.smack == 0) {
+                        // if (pomao.pounding != 10) {
+                        pomao.pounding = 0
+                        pomao.body.xmom = -16 * (this.bump)
+                        // pomao.disabled = 1
+                        this.smack = 18
+                        pomao.hits--
+                        pomao.body.ymom = -1.8
+                        // }
+                    } else {
+                        if (this.bump * pomao.body.xmom > 0) {
+                            pomao.body.xmom = -7.8 * (this.bump)
+                            pomao.body.ymom = -1.8
+                        }
+                    }
+                }
+            }
+
+            for (let t = 0; t < this.springs.length; t++) {
+                if (this.points.includes(this.springs[t].body)) {
+                    this.springs[t].draw()
+                }
+            }
+            for (let t = 0; t < this.points.length; t++) {
+
+
+                if (this.counter >= 250 - t * 4 && this.counter < 250 - (t - 1) * 4) {
+                    this.points[t].radius += 15
+                }
+                this.points[t].draw()
+                if (this.type == 1) {
+                    tutorial_canvas_context.drawImage(shinymeatgreen, 0, 0, shinymeatgreen.width, shinymeatgreen.height, this.points[t].x - this.points[t].radius, this.points[t].y - this.points[t].radius, this.points[t].radius * 2, this.points[t].radius * 2)
+                } else {
+                    tutorial_canvas_context.drawImage(shinymeat, 0, 0, shinymeat.width, shinymeat.height, this.points[t].x - this.points[t].radius, this.points[t].y - this.points[t].radius, this.points[t].radius * 2, this.points[t].radius * 2)
+                }
+
+                // tutorial_canvas_context.drawImage(redcircleimg, 0, 0, redcircleimg.width, redcircleimg.height, this.points[t].x-this.points[t].radius, this.points[t].y-this.points[t].radius, this.points.radius*2, this.points.radius*2 )
+                // console.log(redcircleimg)
+                if (this.counter >= 250 - t * 4 && this.counter < 250 - (t - 1) * 4) {
+                    this.points[t].radius -= 15
+                }
+            }
+
+
+
+            this.metaangle += Math.PI / 25
+            if (this.pomline.hypotenuse() < 720 && this.pomline.hypotenuse() > 0) {
+                this.points[0].xmom += ((pomao.body.x - this.points[0].x) / this.pomline.hypotenuse()) * .6
+                this.points[0].ymom += ((pomao.body.y - this.points[0].y) / this.pomline.hypotenuse()) * .6
+            }
+            let vec = new Vector(this.points[0], this.points[0].xmom, this.points[0].ymom)
+            if (vec.isToward(pomao.body)) {
+                this.counter++
+            }
+            // vec.normalize(2)
+            if (this.counter == 250) {
+                this.counter = 0
+                if (this.points.length > 1) {
+                    this.shots.push(new Shot(this.points[0].x, this.points[0].y, 28, "#FF00AA", ((pomao.body.x - this.points[0].x) / this.pomline.hypotenuse()) * 4.5, ((pomao.body.y - this.points[0].y) / this.pomline.hypotenuse()) * 4.5))
+                    this.points[0].xmom -= vec.xmom
+                    this.points[0].ymom -= vec.ymom
+                }
+            }
+            for (let t = 0; t < this.shots.length; t++) {
+                if (this.shots[t].radius < 8) {
+                    this.shots.splice(t, 1)
+                }
+            }
+            if (this.smack > 0) {
+                this.smack--
+            }
+        }
+    }
 
 
     class MegaEntangler {
@@ -21027,7 +21286,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 14) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 1330)
+                            let index = Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 9999999)%1330
                             tutorial_canvas_context.drawImage(pb[index], 0, 0, pb[index].width, pb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
@@ -21088,7 +21347,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 14) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             // tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 1330)
+                            let index = Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 9999999)%1330
                             tutorial_canvas_context.drawImage(pb[index], 0, 0, pb[index].width, pb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             // tutorial_canvas_context.globalAlpha = 1;
                         }
@@ -25645,10 +25904,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
             roofs.push(floor2x)
         }
 
-            let floor3x = new Rectangle(6900, -7000, 50, 7100)
+            let floor3x = new Rectangle(6900, -7000, 50, 9100)
             floors.push(floor3x)
             walls.push(floor3x)
             roofs.push(floor3x)
+
+        for (let k = 0; k < ((90 * 2400) / 960); k++) {
+            const fruit = new Fruit(10000 + (Math.random() * 6100), -8500 + (Math.random() * 1500), 60, 60, "red")
+            let wet = 0
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < floors.length; k++) {
+                if (floors[k].doesPerimeterTouch(fruit.body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
+
 
             for(let t = 0;t<11;t++){
                 let floor2x = new Rectangle(6900+(t*500), -7000-((t+1)*300),( (t+1)*300) + 10, 50)
@@ -25658,7 +25939,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if(t<10){
 
                     if((t+1) %2== 0){
-                        let tangler2 = new Entangler(floor2x.x+25, floor2x.y-12)
+                        let tangler2 = new MiniEntangler(floor2x.x+25, floor2x.y)
                         assortedDraw.push(tangler2)
                     }
                     floor2x = new Rectangle((6900+(t*500))+50, (-7000-((t+1)*300))+40,( (t+1)*300)-40, 450)
