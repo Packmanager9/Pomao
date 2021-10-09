@@ -1888,22 +1888,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.point2.draw()
             if(this.shape.repelCheck(pomao.body)){
                 if (pomao.disabled != 1) {
-                    if (pomao.pounding != 10) {
-                        pomao.body.xmom = this.point1.xmom
-                        pomao.body.ymom = this.point1.ymom
+                    // if (pomao.pounding != 10) {
+                        pomao.body.xmom = this.point1.xmom*2
+                        pomao.body.ymom = this.point1.ymom*2
                         pomao.disabled = 1
-                        pomao.hits-=2
+                        pomao.hits-=3
                         pomao.body.ymom = -1.8
 
-                    this.shape.adjustByFromDisplacement(this.point1.xmom*10, this.point1.ymom*10)
-                    this.shape.adjustByToDisplacement(this.point2.xmom*10, this.point2.ymom*10)
-                    }
+                    this.shape.adjustByFromDisplacement(this.point1.xmom*100000, this.point1.ymom*100000)
+                    this.shape.adjustByToDisplacement(this.point2.xmom*100000, this.point2.ymom*100000)
+                    // }
                 } else {
                     if (this.bump * pomao.body.xmom > 0) {
-                        pomao.body.xmom =  this.point1.xmom*.5
-                        pomao.body.ymom = this.point1.ymom*.5 
-                        this.shape.adjustByFromDisplacement(this.point1.xmom*10, this.point1.ymom*10)
-                        this.shape.adjustByToDisplacement(this.point2.xmom*10, this.point2.ymom*10)
+                        pomao.body.xmom = this.point1.xmom
+                        pomao.body.ymom = this.point1.ymom
+                        this.shape.adjustByFromDisplacement(this.point1.xmom*100000, this.point1.ymom*100000)
+                        this.shape.adjustByToDisplacement(this.point2.xmom*100000, this.point2.ymom*100000)
                     }
                 }
             }
@@ -1915,124 +1915,224 @@ window.addEventListener('DOMContentLoaded', (event) => {
         constructor(x, y) {
             this.body = new Circle(x, y, 60, "white")
             this.shapes = []
-            this.point1 = new Circle(x, y, 3, "#00FF00")
-            this.point2 = new Circle(x, y, 3, "#00FF00")
+            this.point1 = new Circle(x, y, 3, "pink")
+            this.point2 = new Circle(x, y, 3, "pink")
             this.firing = 0
             this.width = 2
             this.beamcolor = "#FFFFFF"
             this.flag = 0
-            this.angleDelay = 20
+            this.angleDelay = 12
             this.angle = 0
             this.angrange = .6
             this.dis = 180
             this.pomlink = new LineOP(pomao.body, this.body)
-            this.link1 = new LineOP(this.body, this.point1, "#00FF00", 3)
-            this.link2 = new LineOP(this.body, this.point2, "#00FF00", 3)
+            this.link1 = new LineOP(this.body, this.point1, "pink", 3)
+            this.link2 = new LineOP(this.body, this.point2, "pink", 3)
             this.link3 = new LineOP(this.point1, this.point2, "#ff00bb88", 7)
-            this.rundown = 180
+            this.rundown = 150
             this.beam = {}
+            this.health = 8910
+            this.popped = 0
+            this.pops = []
+        }
+
+        popdraw() {
+            for (let t = 0; t < this.pops.length; t++) {
+                if (this.pops[t].radius < .1) {
+                    this.pops.splice(t, 1)
+                }
+            }
+            for (let t = 0; t < this.pops.length; t++) {
+                this.pops[t].radius *= .98
+                this.pops[t].xmom *= 1.02
+                this.pops[t].ymom *= 1.02
+                this.pops[t].move()
+                this.pops[t].draw()
+            }
+            for (let t = 0; t < this.pops.length; t++) {
+                if (this.pops[t].radius < .1) {
+                    this.pops.splice(t, 1)
+                }
+            }
+        }
+        pop() {
+            let rotx = 0
+            let roty = 0
+
+            for (let g = 0; g < 17; g++) {
+                let color = "magenta"
+                const dot1 = new Circlec(this.body.x, this.body.y, 20, color, Math.cos(rotx) * 6.1, Math.sin(roty) * 6.1)
+                this.pops.push(dot1)
+                rotx += 2 * Math.PI / 17
+                roty += 2 * Math.PI / 17
+            }
+            this.popped++
         }
         draw() {
-            if (this.beam.launch > 0) {
-                this.angle = (((this.pomlink.angle() + (Math.PI * 2)) / this.angleDelay) + ((this.angle) * ((this.angleDelay - 1) / this.angleDelay)))
-                if(this.pomlink.hypotenuse() < 1100){
-                this.rundown--
-                }
-                if (this.rundown < 0) {
-                    this.flag = 0
-                }
-            } else {
-            }
-            this.point1.x = (Math.cos(this.angle - this.angrange) * this.dis) + this.body.x
-            this.point1.y = (Math.sin(this.angle - this.angrange) * this.dis) + this.body.y
-            this.point2.x = (Math.cos(this.angle + this.angrange) * this.dis) + this.body.x
-            this.point2.y = (Math.sin(this.angle + this.angrange) * this.dis) + this.body.y
-            this.point1.draw()
-            this.point2.draw()
-            this.link1.draw()
-            this.link2.draw()
-            let vec = new Vector(this.body, (this.body.x-pomao.body.x),  (this.body.y-pomao.body.y))
-            vec.normalize(9)
-            if(Math.abs(vec.xmom) + Math.abs(vec.ymom) > 0){
-                if(this.pomlink.hypotenuse() > 600 && this.pomlink.hypotenuse() < 1100){
-                    this.body.x-=vec.xmom
-                    this.body.y-=vec.ymom
-                    if (this.beam.launch <= 0) {
-                        this.beam.point1.x-=vec.xmom
-                        this.beam.point1.y-=vec.ymom
-                        this.beam.point2.x-=vec.xmom
-                        this.beam.point2.y-=vec.ymom
-                    }
-                }else{
-                    if(this.pomlink.hypotenuse() < 600 && this.pomlink.hypotenuse() > 350){
-                    this.body.x-=vec.xmom*.3
-                    this.body.y-=vec.ymom*.3
-                    if (this.beam.launch <= 0) {
 
-                        this.beam.shape.adjustByFromDisplacement(-vec.xmom*.3, -vec.ymom*.3)
-                        this.beam.shape.adjustByToDisplacement(-vec.xmom*.3, -vec.ymom*.3)
-                        this.beam.point1.x-=vec.xmom*.3
-                        this.beam.point1.y-=vec.ymom*.3
-                        this.beam.point2.x-=vec.xmom*.3
-                        this.beam.point2.y-=vec.ymom*.3
+            this.popdraw()
+
+            for (let t = 0; t < shockfriendly.shocksl.length; t++) {
+                if (this.body.repelCheck(shockfriendly.shocksl[t])) {
+                    this.body.radius*= .99975
+                    this.dis*= 1.0001
+                    this.health-=4
+                }
+            }
+            for (let t = 0; t < shockfriendly.shocksr.length; t++) {
+                if (this.body.repelCheck(shockfriendly.shocksr[t])) {
+                    this.body.radius*= .99975
+                    this.dis*= 1.0001
+                    this.health-=4
+                }
+            }
+
+            for (let h = 0; h < pomao.thrown.length; h++) {
+                if (this.body.repelCheck(pomao.thrown[h])) {
+                    this.body.radius*= .99975
+                    this.dis*= 1.0001
+                    this.health-=4
+                }   
+            }
+            if(this.health < 0){
+                if(this.popped < 7){
+                    // this.body.draw()
+                    tutorial_canvas_context.drawImage(shinymeat, 0, 0, shinymeat.width, shinymeat.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
+
+                    this.point1.draw()
+                    this.point2.draw()
+                    this.link1.draw()
+                    this.link2.draw()
+                    this.body.radius*= .97
+                    this.dis *= .97
+                    if(this.body.radius < 10){
+                        this.body.radius = 20
+                        this.dis = 60
+                    this.point1.x = (Math.cos(this.angle - this.angrange) * this.dis) + this.body.x
+                    this.point1.y = (Math.sin(this.angle - this.angrange) * this.dis) + this.body.y
+                    this.point2.x = (Math.cos(this.angle + this.angrange) * this.dis) + this.body.x
+                    this.point2.y = (Math.sin(this.angle + this.angrange) * this.dis) + this.body.y
+                    this.pop()
                     }
                 }
-                }
-            }
-            if(this.body.repelCheck(pomao.body)){
+            }else{
 
-            if (this.body.x > pomao.body.x) {
-                this.bump = 1
-            } else {
-                this.bump = -1
-            }
-                if (pomao.disabled != 1) {
-                    if (pomao.pounding != 10) {
-                        pomao.body.xmom = -3 * (this.bump)
-                        if (this.body.y > pomao.body.y) {
-                            pomao.body.ymom = 3 
-                        } else {
-                            pomao.body.ymom = -3 
-                        }
-                        pomao.disabled = 1
-                        pomao.hits--
-                        pomao.body.ymom = -1.8
+                if (this.beam.launch > 0) {
+                    this.angle = (((this.pomlink.angle() + (Math.PI * 2)) / this.angleDelay) + ((this.angle) * ((this.angleDelay - 1) / this.angleDelay)))
+                    if(this.pomlink.hypotenuse() < 1100){
+                    this.rundown--
+                    }
+                    if (this.rundown < 0) {
+                        this.flag = 0
                     }
                 } else {
-                    if (this.bump * pomao.body.xmom > 0) {
-                        
-                        pomao.body.xmom = -1.5 * (this.bump)
-                        if (this.body.y > pomao.body.y) {
-                            pomao.body.ymom = 1.5
-                        } else {
-                            pomao.body.ymom = -1.5
+                }
+                this.point1.x = (Math.cos(this.angle - this.angrange) * this.dis) + this.body.x
+                this.point1.y = (Math.sin(this.angle - this.angrange) * this.dis) + this.body.y
+                this.point2.x = (Math.cos(this.angle + this.angrange) * this.dis) + this.body.x
+                this.point2.y = (Math.sin(this.angle + this.angrange) * this.dis) + this.body.y
+                while(this.point1.y > -7000 || this.point2.y > -7000){
+                    this.body.y--
+                    this.point1.x = (Math.cos(this.angle - this.angrange) * this.dis) + this.body.x
+                    this.point1.y = (Math.sin(this.angle - this.angrange) * this.dis) + this.body.y
+                    this.point2.x = (Math.cos(this.angle + this.angrange) * this.dis) + this.body.x
+                    this.point2.y = (Math.sin(this.angle + this.angrange) * this.dis) + this.body.y
+                    if (this.beam.launch <= 0) {
+                        this.beam.shape.adjustByFromDisplacement(0, -1)
+                        this.beam.shape.adjustByToDisplacement(0, -1)
+                        this.beam.point1.y-=1
+                        this.beam.point2.y-=1
+                    }
+                }
+                this.point1.draw()
+                this.point2.draw()
+                this.link1.draw()
+                this.link2.draw()
+                let vec = new Vector(this.body, (this.body.x-pomao.body.x),  (this.body.y-pomao.body.y))
+                vec.normalize(9)
+                if(Math.abs(vec.xmom) + Math.abs(vec.ymom) > 0){
+                    if(this.pomlink.hypotenuse() > 600 && this.pomlink.hypotenuse() < 1100){
+                        this.body.x-=vec.xmom
+                        this.body.y-=vec.ymom
+                        if (this.beam.launch <= 0) {
+                            this.beam.point1.x-=vec.xmom
+                            this.beam.point1.y-=vec.ymom
+                            this.beam.point2.x-=vec.xmom
+                            this.beam.point2.y-=vec.ymom
+                        }
+                    }else{
+                        if(this.pomlink.hypotenuse() < 600 && this.pomlink.hypotenuse() > 350){
+                        this.body.x-=vec.xmom*.3
+                        this.body.y-=vec.ymom*.3
+                        if (this.beam.launch <= 0) {
+    
+                            this.beam.shape.adjustByFromDisplacement(-vec.xmom*.3, -vec.ymom*.3)
+                            this.beam.shape.adjustByToDisplacement(-vec.xmom*.3, -vec.ymom*.3)
+                            this.beam.point1.x-=vec.xmom*.3
+                            this.beam.point1.y-=vec.ymom*.3
+                            this.beam.point2.x-=vec.xmom*.3
+                            this.beam.point2.y-=vec.ymom*.3
+                        }
+                    }
+                    }
+                }
+                if(this.body.repelCheck(pomao.body)){
+    
+                if (this.body.x > pomao.body.x) {
+                    this.bump = 1
+                } else {
+                    this.bump = -1
+                }
+                    if (pomao.disabled != 1) {
+                        if (pomao.pounding != 10) {
+                            pomao.body.xmom = -3 * (this.bump)
+                            if (this.body.y > pomao.body.y) {
+                                pomao.body.ymom = 3 
+                            } else {
+                                pomao.body.ymom = -3 
+                            }
+                            pomao.disabled = 1
+                            pomao.hits--
+                            pomao.body.ymom = -1.8
+                        }
+                    } else {
+                        if (this.bump * pomao.body.xmom > 0) {
+                            
+                            pomao.body.xmom = -1.5 * (this.bump)
+                            if (this.body.y > pomao.body.y) {
+                                pomao.body.ymom = 1.5
+                            } else {
+                                pomao.body.ymom = -1.5
+                            }
                         }
                     }
                 }
-            }
-            this.body.draw()
-            if (this.flag == 0) {
-                this.flag = 1
-                this.rundown = 180
-                this.beam = new BeamShape(this.point1.x, this.point1.y, this.point2.x, this.point2.y, this.angle)
-                this.shapes.push(this.beam)
-            }
-            for (let t = 0; t < this.shapes.length; t++) {
-                this.shapes[t].draw()
-                if(Math.abs(this.body.x-this.shapes[t].point1.x) > 1900 ||Math.abs(this.body.y-this.shapes[t].point1.y) > 1900) {
-                    this.shapes[t].marked = 1
+                // this.body.draw()
+
+                tutorial_canvas_context.drawImage(shinymeat, 0, 0, shinymeat.width, shinymeat.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
+                if (this.flag == 0) {
+                    this.flag = 1
+                    this.rundown = 180
+                    this.beam = new BeamShape(this.point1.x, this.point1.y, this.point2.x, this.point2.y, this.angle)
+                    this.shapes.push(this.beam)
+                }
+                for (let t = 0; t < this.shapes.length; t++) {
+                    this.shapes[t].draw()
+                    if(Math.abs(this.body.x-this.shapes[t].point1.x) > 1900 ||Math.abs(this.body.y-this.shapes[t].point1.y) > 1900) {
+                        this.shapes[t].marked = 1
+                    }
+                }
+                for (let t = 0; t < this.shapes.length; t++) {
+                    if(this.shapes[t].marked == 1)[
+                        this.shapes.splice(t,1)
+                    ]
+                }
+                if (this.rundown % 25 <= 5) {
+                    this.link3.width = 10 - (this.rundown / 20)
+                    this.link3.draw()
                 }
             }
-            for (let t = 0; t < this.shapes.length; t++) {
-                if(this.shapes[t].marked == 1)[
-                    this.shapes.splice(t,1)
-                ]
             }
-            if (this.rundown % 30 <= 5) {
-                this.link3.width = 10 - (this.rundown / 50)
-                this.link3.draw()
-            }
-        }
     }
 
 
@@ -21934,7 +22034,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 14) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 9999999)%1330)+4
+                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 14.92345)), 0), 9999999)%1330)+4
                             tutorial_canvas_context.drawImage(pb[index], 0, 0, pb[index].width, pb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
@@ -21995,7 +22095,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 14) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             // tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 9999999)%1330)+4
+                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 14.92345)), 0), 9999999)%1330)+4
                             tutorial_canvas_context.drawImage(pb[index], 0, 0, pb[index].width, pb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             // tutorial_canvas_context.globalAlpha = 1;
                         }
@@ -22059,7 +22159,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         } else if (level == 14) {
                             tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
-                            // let index = Math.min(Math.max((Math.round((pomao.body.x+3000)/11.9)),0), 1330)
+                            // let index = Math.min(Math.max((Math.round((pomao.body.x+3000)/14.92345)),0), 1330)
                             // tutorial_canvas_context.drawImage(pb[index],0,0,pb[index].width, pb[index].height,  pomao.body.x - 640, pomao.body.y - 360, 1280,720)
                         }
                         // if(keysPressed['p']){
