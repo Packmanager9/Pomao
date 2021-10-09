@@ -21732,7 +21732,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 14) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 9999999)%1330
+                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 9999999)%1330)+5
                             tutorial_canvas_context.drawImage(pb[index], 0, 0, pb[index].width, pb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
@@ -21793,7 +21793,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 14) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             // tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 9999999)%1330
+                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 9999999)%1330)+5
                             tutorial_canvas_context.drawImage(pb[index], 0, 0, pb[index].width, pb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             // tutorial_canvas_context.globalAlpha = 1;
                         }
@@ -26396,12 +26396,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         for (let k = 0; k < 19; k++) {
             let wet = 0
-            const fruit = new Fruit(floor2x.x+(Math.random()*(floor2x.width-30))+30, floor2x.y-((Math.random()-.5)*(floor2x.height*1.8)), 60, 60, "red")
+            const fruit = new Fruit(floor2x.x+(Math.random()*(floor2x.width-60))+30, floor2x.y-((Math.random()-.5)*(floor2x.height*1.6)), 60, 60, "red")
 
             for (let k = 0; k < fruits.length; k++) {
                 if (fruit.body.repelCheck(fruits[k].body)) {
                     wet = 1
                     break
+                }
+            }
+
+            for (let n = 0; n < floors.length; n++) {
+                if (floors[n].doesPerimeterTouch(fruit.body)) {
+                    if(floors[n].jelly != 1){
+                        wet = 1
+                        break
+                    }
                 }
             }
             if (wet == 0) {
