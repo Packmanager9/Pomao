@@ -320,6 +320,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
     volcbg.onload = function () {
         volcbg.decode()
     }
+    const facfloorimg = new Image()
+    facfloorimg.src = "facfloor.png"
+    facfloorimg.onload = function () {
+        facfloorimg.decode()
+    }
+    const facbg = new Image()
+    facbg.src = "bgfac.png"
+    facbg.onload = function () {
+        facbg.decode()
+    }
     const redcircleimg = new Image()
     redcircleimg.src = "smallredcircle.png"
     redcircleimg.onload = function () {
@@ -984,6 +994,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             loadlvl11button = new Rectangle(-100 + 640 + 500, 360, 50, 50, "#FF5500")
             loadlvl12button = new Rectangle(-100 + 640 + 600, 360, 50, 50, "#00FF00")
             loadlvl13button = new Rectangle(-100 + 640 + 700, 360, 50, 50, "#7788ff")
+            loadlvl14button = new Rectangle(-100 + 640 - 500, 460, 50, 50, "tan")
+
 
             if (loadlvl1button.isPointInside(tip)) {
                 pomao.paused = 10
@@ -1047,6 +1059,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if (loadlvl13button.isPointInside(tip)) {
                 loadMarshLevel()
+                pomao.paused = 10
+                pomao.pausetimer = 10
+            }
+            if (loadlvl14button.isPointInside(tip)) {
+                loadFactoryLevel()
                 pomao.paused = 10
                 pomao.pausetimer = 10
             }
@@ -1934,6 +1951,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.health = 4455
             this.popped = 0
             this.pops = []
+
+            this.wall1 = new Rectangle(16000, -15500, 8550, 50, "blue")
+            this.wallbreak = 0
+            floors.push(this.wall1)
+            walls.push(this.wall1)
+            roofs.push(this.wall1)
         }
 
         popdraw() {
@@ -1995,6 +2018,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }   
             }
             if(this.health < 0){
+
+                if(this.wallbreak != 1){
+                    this.wallbreak = 1
+                    walls.splice(walls.indexOf(this.wall1), 1)
+                    floors.splice(floors.indexOf(this.wall1), 1)
+                    roofs.splice(roofs.indexOf(this.wall1), 1)
+                }
                 if(this.popped < 7){
                     // this.body.draw()
                     tutorial_canvas_context.drawImage(shinymeat, 0, 0, shinymeat.width, shinymeat.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
@@ -9287,6 +9317,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (level == 14) {
                 boss.draw()
                 marshMusic.play()
+                door.x = 16150
+                door.y = -7300
+                door.height = 300
+                door.width = 200
+                door.draw()
+                if (door.isPointInside(pomao.body)) {
+                    loadFactoryLevel()
+                }
             }else{
                 marshMusic.pause()
             }
@@ -9912,6 +9950,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             tutorial_canvas_context.drawImage(lvl4fwallimg, 0, 0, Math.min(lvl4fwallimg.width, floors[t].width), Math.min(lvl4fwallimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         } else if (level == 14) {
                                             tutorial_canvas_context.drawImage(lvlmarshfloorimg, 0, 0, Math.min(lvlmarshfloorimg.width, floors[t].width), Math.min(lvlmarshfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                        }else if (level == 15) {
+                                            tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(floorimg.width, floors[t].width), Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }
                                     }
                                 } else {
@@ -9999,6 +10039,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         tutorial_canvas_context.drawImage(lvl4floorimg, 0, 0, Math.min(lvl4floorimg.width, floors[t].width), Math.min(lvl4floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     } else if (level == 14) {
                                         tutorial_canvas_context.drawImage(lvlmarshfloorimg, 0, 0, Math.min(lvlmarshfloorimg.width, floors[t].width), Math.min(lvlmarshfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    }else if (level == 15) {
+                                        tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(floorimg.width, floors[t].width), Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }
                                 }
                             } else {
@@ -10103,6 +10145,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     tutorial_canvas_context.drawImage(lvl4floorimg, 0, 0, Math.min(lvl4floorimg.width, floors[t].width), Math.min(lvl4floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 } else if (level == 14) {
                                     tutorial_canvas_context.drawImage(lvlmarshfloorimg, 0, 0, Math.min(lvlmarshfloorimg.width, floors[t].width), Math.min(lvlmarshfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                }else if (level == 15) {
+                                    tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(floorimg.width, floors[t].width), Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }
                             }
                             if (floors[t].block == 1) {
@@ -13319,6 +13363,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let loadlvl11button
     let loadlvl12button
     let loadlvl13button
+    let loadlvl14button
 
     class Seed {
         constructor(target) {
@@ -21911,6 +21956,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // loadlvl14()
     // loadIslandLevel()
     // loadMarshLevel()
+    // loadFactoryLevel()
 
     // for(let t=0;t<10;t++){
     //     chafer.draw()
@@ -22034,8 +22080,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 14) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 14.92345)), 0), 9999999)%1330)+4
+                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 15.92345)), 0), 9999999)%1330)+4
                             tutorial_canvas_context.drawImage(pb[index], 0, 0, pb[index].width, pb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+                            tutorial_canvas_context.globalAlpha = 1;
+                        }else if (level == 15) {
+                            tutorial_canvas_context.globalAlpha = 0.2;
+                            tutorial_canvas_context.drawImage(facbg, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
                         // tutorial_canvas_context.fillStyle = `rgba(153, 153, 230,${63 / 255})`
@@ -22095,9 +22145,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 14) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             // tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 14.92345)), 0), 9999999)%1330)+4
+                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 15.92345)), 0), 9999999)%1330)+4
                             tutorial_canvas_context.drawImage(pb[index], 0, 0, pb[index].width, pb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             // tutorial_canvas_context.globalAlpha = 1;
+                        }else if (level == 15) {
+                            tutorial_canvas_context.drawImage(facbg, pomao.body.x - 640, pomao.body.y - 360)
                         }
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
 
@@ -22159,8 +22211,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         } else if (level == 14) {
                             tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
-                            // let index = Math.min(Math.max((Math.round((pomao.body.x+3000)/14.92345)),0), 1330)
+                            // let index = Math.min(Math.max((Math.round((pomao.body.x+3000)/15.92345)),0), 1330)
                             // tutorial_canvas_context.drawImage(pb[index],0,0,pb[index].width, pb[index].height,  pomao.body.x - 640, pomao.body.y - 360, 1280,720)
+                        }else if (level == 15) {
+                            tutorial_canvas_context.drawImage(facbg, pomao.body.x - 640, pomao.body.y - 360)
                         }
                         // if(keysPressed['p']){
                         //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
@@ -22411,6 +22465,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             if (level == 14) {
                                 loadMarshLevel()
                             }
+                            if (level == 15) {
+                                loadFactoryLevel()
+                            }
                             
                         }
 
@@ -22486,6 +22543,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl11button = new Rectangle(-100 + pomao.body.x + 500, pomao.body.y, 50, 50, "#FF5500")
                     loadlvl12button = new Rectangle(-100 + pomao.body.x + 600, pomao.body.y, 50, 50, "#00FF00")
                     loadlvl13button = new Rectangle(-100 + pomao.body.x + 700, pomao.body.y, 50, 50, "#7788FF")
+                    loadlvl14button = new Rectangle(-100 + pomao.body.x - 500, pomao.body.y+100, 50, 50, "tan")
 
                     loadlvl1button.draw()
                     loadlvl2button.draw()
@@ -22500,6 +22558,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl11button.draw()
                     loadlvl12button.draw()
                     loadlvl13button.draw()
+                    loadlvl14button.draw()
                 }
 
                 // for(let t =0;t<ungrapplable.length;t++){
@@ -22578,7 +22637,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             //     //console.log(`Saved ${anglemegacount*.00006} miliseconds so far in ${framemegacount*11} miliseconds`)
             // }
         }, 11)
-
+        //try17?
 
     }, 1);  //6969
 
@@ -26566,7 +26625,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function loadMarshLevel() {
-        islandsong = Math.round(Math.random())
         levelBoilerplate()
         level = 14
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
@@ -26655,7 +26713,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             roofs.push(floor2x)
         }
 
-            let floor3x = new Rectangle(6900, -7000, 50, 9100)
+            let floor3x = new Rectangle(6900, -7000, 50, 11100)
             floors.push(floor3x)
             walls.push(floor3x)
             roofs.push(floor3x)
@@ -26880,6 +26938,94 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 fruits.push(fruit)
             }
         }
+    }
+    function loadFactoryLevel() {
+        levelBoilerplate()
+        level = 15
+        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
+        pomao.body.x = -1000
+        pomao.body.y = 0
+        // tutorial_canvas_context.translate(pomao.body.x - 13000, pomao.body.y+7050)
+        // pomao.body.x = 13000
+        // pomao.body.y = -7050
+
+        let floor = new Rectangle(-3640, 50, 1000, 14280)
+        floors.push(floor)
+        walls.push(floor)
+        roofs.push(floor)
+
+        const wall1 = new Rectangle(-2950, -30000, 30053, 50, "cyan")
+        walls.push(wall1)
+        floors.push(wall1)
+        roofs.push(wall1)
+        ungrapplable.push(wall1)
+
+        for(let t = 0;t<20;t++){
+            let floorfacladder = new Rectangle(-700 + (((t%5)-2)*100),-200-(300*t), 20, 170)
+            floors.push(floorfacladder)
+        }
+
+        markRectangles()
+
+        // for (let k = 0; k < ((100 * 2400) / 960); k++) {
+        //     const fruit = new Fruit(-2000 + (Math.random() * 12000), -1500 + (Math.random() * 1500), 60, 60, "red")
+        //     let wet = 0
+        //     for (let k = 0; k < fruits.length; k++) {
+        //         if (fruit.body.repelCheck(fruits[k].body)) {
+        //             wet = 1
+        //             break
+        //         }
+        //     }
+        //     for (let k = 0; k < floors.length; k++) {
+        //         if (floors[k].doesPerimeterTouch(fruit.body)) {
+        //             wet = 1
+        //             break
+        //         }
+        //     }
+        //     if (wet == 0) {
+        //         fruits.push(fruit)
+        //     }
+        // }
+
+        // for (let k = 0; k < ((100 * 2400) / 960); k++) {
+        //     const fruit = new Fruit(-2000 + (Math.random() * 12000), -4500 + (Math.random() * 1500), 60, 60, "red")
+        //     let wet = 0
+        //     for (let k = 0; k < fruits.length; k++) {
+        //         if (fruit.body.repelCheck(fruits[k].body)) {
+        //             wet = 1
+        //             break
+        //         }
+        //     }
+        //     for (let k = 0; k < floors.length; k++) {
+        //         if (floors[k].doesPerimeterTouch(fruit.body)) {
+        //             wet = 1
+        //             break
+        //         }
+        //     }
+        //     if (wet == 0) {
+        //         fruits.push(fruit)
+        //     }
+        // }
+
+        // for (let k = 0; k < ((60 * 2400) / 960); k++) {
+        //     const fruit = new Fruit((Math.random() * 10000), -8000 + (Math.random() * 2000), 60, 60, "red")
+        //     let wet = 0
+        //     for (let k = 0; k < fruits.length; k++) {
+        //         if (fruit.body.repelCheck(fruits[k].body)) {
+        //             wet = 1
+        //             break
+        //         }
+        //     }
+        //     for (let k = 0; k < floors.length; k++) {
+        //         if (floors[k].doesPerimeterTouch(fruit.body)) {
+        //             wet = 1
+        //             break
+        //         }
+        //     }
+        //     if (wet == 0) {
+        //         fruits.push(fruit)
+        //     }
+        // }
     }
     function loadlvl11() {
 
