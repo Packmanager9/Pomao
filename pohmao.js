@@ -1931,7 +1931,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.link3 = new LineOP(this.point1, this.point2, "#ff00bb88", 7)
             this.rundown = 150
             this.beam = {}
-            this.health = 8910
+            this.health = 4455
             this.popped = 0
             this.pops = []
         }
@@ -1974,23 +1974,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             for (let t = 0; t < shockfriendly.shocksl.length; t++) {
                 if (this.body.repelCheck(shockfriendly.shocksl[t])) {
-                    this.body.radius*= .99975
-                    this.dis*= 1.0001
+                    this.body.radius*= .9995
+                    this.dis*= 1.0002
                     this.health-=4
                 }
             }
             for (let t = 0; t < shockfriendly.shocksr.length; t++) {
                 if (this.body.repelCheck(shockfriendly.shocksr[t])) {
-                    this.body.radius*= .99975
-                    this.dis*= 1.0001
+                    this.body.radius*= .9995
+                    this.dis*= 1.0002
                     this.health-=4
                 }
             }
 
             for (let h = 0; h < pomao.thrown.length; h++) {
                 if (this.body.repelCheck(pomao.thrown[h])) {
-                    this.body.radius*= .99975
-                    this.dis*= 1.0001
+                    this.body.radius*= .9995
+                    this.dis*= 1.0002
                     this.health-=4
                 }   
             }
