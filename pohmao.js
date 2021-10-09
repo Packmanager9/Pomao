@@ -1851,6 +1851,193 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     }
 
+
+    class BeamShape {
+        constructor(x1, y1, x2, y2, angle) {
+            this.point1 = new Circle(x1, y1, 6, "white", Math.cos(angle) * 6.1, Math.sin(angle) * 6.1)
+            this.point2 = new Circle(x2, y2, 6, "white", Math.cos(angle) * 6.1, Math.sin(angle) * 6.1)
+            this.link = new LineOP(this.point1, this.point2, "#ff009966", 3)
+            this.link2 = new LineOP(this.point1, this.point2, "#ff00bb66", 5)
+            this.link3 = new LineOP(this.point1, this.point2, "#ff00bb66", 1)
+            this.timer = 0
+            this.shape = castBetween(this.point1, this.point2, 30, 13)
+            this.launch = 0
+        }
+        draw() {
+            this.timer++
+            if (this.timer <= 20 && this.timer % 2 == 0) {
+                this.link.width++
+                this.link2.width++
+                this.link3.width++
+                this.point1.radius += .5
+                this.point2.radius += .5
+            } else {
+                if (this.timer > 20) {
+                    this.launch = 1
+                    this.point1.move()
+                    this.point2.move()
+                    this.shape.adjustByFromDisplacement(this.point1.xmom, this.point1.ymom)
+                    this.shape.adjustByToDisplacement(this.point2.xmom, this.point2.ymom)
+                }
+            }
+            this.link2.draw()
+            this.link.draw()
+            this.link3.draw()
+            // this.shape.draw()
+            this.point1.draw()
+            this.point2.draw()
+            if(this.shape.repelCheck(pomao.body)){
+                if (pomao.disabled != 1) {
+                    if (pomao.pounding != 10) {
+                        pomao.body.xmom = this.point1.xmom
+                        pomao.body.ymom = this.point1.ymom
+                        pomao.disabled = 1
+                        pomao.hits-=2
+                        pomao.body.ymom = -1.8
+
+                    this.shape.adjustByFromDisplacement(this.point1.xmom*10, this.point1.ymom*10)
+                    this.shape.adjustByToDisplacement(this.point2.xmom*10, this.point2.ymom*10)
+                    }
+                } else {
+                    if (this.bump * pomao.body.xmom > 0) {
+                        pomao.body.xmom =  this.point1.xmom*.5
+                        pomao.body.ymom = this.point1.ymom*.5 
+                        this.shape.adjustByFromDisplacement(this.point1.xmom*10, this.point1.ymom*10)
+                        this.shape.adjustByToDisplacement(this.point2.xmom*10, this.point2.ymom*10)
+                    }
+                }
+            }
+        }
+    }
+
+
+    class SwampBoss {
+        constructor(x, y) {
+            this.body = new Circle(x, y, 60, "white")
+            this.shapes = []
+            this.point1 = new Circle(x, y, 3, "#00FF00")
+            this.point2 = new Circle(x, y, 3, "#00FF00")
+            this.firing = 0
+            this.width = 2
+            this.beamcolor = "#FFFFFF"
+            this.flag = 0
+            this.angleDelay = 20
+            this.angle = 0
+            this.angrange = .6
+            this.dis = 180
+            this.pomlink = new LineOP(pomao.body, this.body)
+            this.link1 = new LineOP(this.body, this.point1, "#00FF00", 3)
+            this.link2 = new LineOP(this.body, this.point2, "#00FF00", 3)
+            this.link3 = new LineOP(this.point1, this.point2, "#ff00bb88", 7)
+            this.rundown = 180
+            this.beam = {}
+        }
+        draw() {
+            if (this.beam.launch > 0) {
+                this.angle = (((this.pomlink.angle() + (Math.PI * 2)) / this.angleDelay) + ((this.angle) * ((this.angleDelay - 1) / this.angleDelay)))
+                if(this.pomlink.hypotenuse() < 1100){
+                this.rundown--
+                }
+                if (this.rundown < 0) {
+                    this.flag = 0
+                }
+            } else {
+            }
+            this.point1.x = (Math.cos(this.angle - this.angrange) * this.dis) + this.body.x
+            this.point1.y = (Math.sin(this.angle - this.angrange) * this.dis) + this.body.y
+            this.point2.x = (Math.cos(this.angle + this.angrange) * this.dis) + this.body.x
+            this.point2.y = (Math.sin(this.angle + this.angrange) * this.dis) + this.body.y
+            this.point1.draw()
+            this.point2.draw()
+            this.link1.draw()
+            this.link2.draw()
+            let vec = new Vector(this.body, (this.body.x-pomao.body.x),  (this.body.y-pomao.body.y))
+            vec.normalize(9)
+            if(Math.abs(vec.xmom) + Math.abs(vec.ymom) > 0){
+                if(this.pomlink.hypotenuse() > 600 && this.pomlink.hypotenuse() < 1100){
+                    this.body.x-=vec.xmom
+                    this.body.y-=vec.ymom
+                    if (this.beam.launch <= 0) {
+                        this.beam.point1.x-=vec.xmom
+                        this.beam.point1.y-=vec.ymom
+                        this.beam.point2.x-=vec.xmom
+                        this.beam.point2.y-=vec.ymom
+                    }
+                }else{
+                    if(this.pomlink.hypotenuse() < 600 && this.pomlink.hypotenuse() > 350){
+                    this.body.x-=vec.xmom*.3
+                    this.body.y-=vec.ymom*.3
+                    if (this.beam.launch <= 0) {
+
+                        this.beam.shape.adjustByFromDisplacement(-vec.xmom*.3, -vec.ymom*.3)
+                        this.beam.shape.adjustByToDisplacement(-vec.xmom*.3, -vec.ymom*.3)
+                        this.beam.point1.x-=vec.xmom*.3
+                        this.beam.point1.y-=vec.ymom*.3
+                        this.beam.point2.x-=vec.xmom*.3
+                        this.beam.point2.y-=vec.ymom*.3
+                    }
+                }
+                }
+            }
+            if(this.body.repelCheck(pomao.body)){
+
+            if (this.body.x > pomao.body.x) {
+                this.bump = 1
+            } else {
+                this.bump = -1
+            }
+                if (pomao.disabled != 1) {
+                    if (pomao.pounding != 10) {
+                        pomao.body.xmom = -3 * (this.bump)
+                        if (this.body.y > pomao.body.y) {
+                            pomao.body.ymom = 3 
+                        } else {
+                            pomao.body.ymom = -3 
+                        }
+                        pomao.disabled = 1
+                        pomao.hits--
+                        pomao.body.ymom = -1.8
+                    }
+                } else {
+                    if (this.bump * pomao.body.xmom > 0) {
+                        
+                        pomao.body.xmom = -1.5 * (this.bump)
+                        if (this.body.y > pomao.body.y) {
+                            pomao.body.ymom = 1.5
+                        } else {
+                            pomao.body.ymom = -1.5
+                        }
+                    }
+                }
+            }
+            this.body.draw()
+            if (this.flag == 0) {
+                this.flag = 1
+                this.rundown = 180
+                this.beam = new BeamShape(this.point1.x, this.point1.y, this.point2.x, this.point2.y, this.angle)
+                this.shapes.push(this.beam)
+            }
+            for (let t = 0; t < this.shapes.length; t++) {
+                this.shapes[t].draw()
+                if(Math.abs(this.body.x-this.shapes[t].point1.x) > 1900 ||Math.abs(this.body.y-this.shapes[t].point1.y) > 1900) {
+                    this.shapes[t].marked = 1
+                }
+            }
+            for (let t = 0; t < this.shapes.length; t++) {
+                if(this.shapes[t].marked == 1)[
+                    this.shapes.splice(t,1)
+                ]
+            }
+            if (this.rundown % 30 <= 5) {
+                this.link3.width = 10 - (this.rundown / 50)
+                this.link3.draw()
+            }
+        }
+    }
+
+
+
+
     class Spinwheel {
         constructor(x, y) {
             this.body = new Circle(x, y, 2, "red")
@@ -6252,7 +6439,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
         constructor(shapes) {
             this.shapes = shapes
         }
-
+        adjustByFromDisplacement(x, y) {
+            for (let t = 0; t < this.shapes.length; t++) {
+                if (typeof this.shapes[t].fromRatio == "number") {
+                    this.shapes[t].x += x * this.shapes[t].fromRatio
+                    this.shapes[t].y += y * this.shapes[t].fromRatio
+                }
+            }
+        }
+        adjustByToDisplacement(x, y) {
+            for (let t = 0; t < this.shapes.length; t++) {
+                if (typeof this.shapes[t].toRatio == "number") {
+                    this.shapes[t].x += x * this.shapes[t].toRatio
+                    this.shapes[t].y += y * this.shapes[t].toRatio
+                }
+            }
+        }
         arcXInc(val) {
             for (let t = 0; t < this.shapes.length; t++) {
                 this.shapes[t].x += val * this.shapes[t].fromrat
@@ -8983,6 +9185,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
             if (level == 14) {
+                boss.draw()
                 marshMusic.play()
             }else{
                 marshMusic.pause()
@@ -9964,7 +10167,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         snows[t].drift()
                     }
                 }
-
                 if (level == 10) {
                     // boss.draw()
                     // for(let t = 0;t<floors.length;t+=3){
@@ -21732,7 +21934,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 14) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 9999999)%1330)+5
+                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 9999999)%1330)+4
                             tutorial_canvas_context.drawImage(pb[index], 0, 0, pb[index].width, pb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             tutorial_canvas_context.globalAlpha = 1;
                         }
@@ -21793,7 +21995,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 14) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             // tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 9999999)%1330)+5
+                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.9)), 0), 9999999)%1330)+4
                             tutorial_canvas_context.drawImage(pb[index], 0, 0, pb[index].width, pb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             // tutorial_canvas_context.globalAlpha = 1;
                         }
@@ -26270,6 +26472,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
         pomao.body.x = -1000
         pomao.body.y = 0
+        // tutorial_canvas_context.translate(pomao.body.x - 13000, pomao.body.y+7050)
+        // pomao.body.x = 13000
+        // pomao.body.y = -7050
 
         let floor = new Rectangle(-3640, 50, 1000, 14280)
         floors.push(floor)
@@ -26355,6 +26560,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             walls.push(floor3x)
             roofs.push(floor3x)
 
+        boss = new SwampBoss(13000, -7600)
+
+
+
         for (let k = 0; k < ((90 * 2400) / 960); k++) {
             const fruit = new Fruit(10000 + (Math.random() * 6100), -8500 + (Math.random() * 1500), 60, 60, "red")
             let wet = 0
@@ -26427,6 +26636,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floors.push(wall3)
         roofs.push(wall3)
         ungrapplable.push(wall3)
+
+
+
+
 
         let entanglerWall2 = new Rectangle(600,-100, 150, 100)
         floors.push(entanglerWall2)
@@ -27158,6 +27371,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let shape_array = []
         for (let t = 0; t < limit; t++) {
             let circ = new Bosscircle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, color)
+            // circ.target = target
+            // circ.angle = to.angle
+            circ.toRatio = t / limit
+            circ.fromRatio = (limit - t) / limit
             shape_array.push(circ)
         }
         return (new Shape(shape_array))
