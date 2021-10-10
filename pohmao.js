@@ -9331,7 +9331,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (level == 11) {
                 risingseaside.play()
-                door.x = 21000
+                door.x = 19600
                 door.y = -100
                 door.height = 200
                 door.width = 100
@@ -19702,6 +19702,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.scuttleratio = .96
             this.takingdamage = 0
             this.pomline = new LineOP(this.center, pomao.body)
+
+            this.wall1 = new Rectangle(19500, -3000, 5500, 50, "cyan")
+            this.wallbreak = 0
+            floors.push(this.wall1)
+            walls.push(this.wall1)
+            roofs.push(this.wall1)
+            ungrapplable.push(this.wall1)
+
+
         }
         clean() {
 
@@ -19818,6 +19827,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         scuttle() {
             if(this.health<0){
+                if(this.wallbreak == 0){
+                    this.wallbreak = 1
+                    walls.splice(walls.indexOf(this.wall1), 1)
+                    floors.splice(floors.indexOf(this.wall1), 1)
+                    roofs.splice(roofs.indexOf(this.wall1), 1)
+                    ungrapplable.splice(ungrapplable.indexOf(this.wall1), 1)
+                }
                 return
             }
             this.runner -= 0.03
