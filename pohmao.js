@@ -5619,6 +5619,58 @@ window.addEventListener('DOMContentLoaded', (event) => {
             return (new LineOP(this, point, "transparent", 0)).hypotenuse()
         }
     }
+    
+
+    class LineShock {
+        constructor(object, target, color, width) {
+            this.object = object
+            this.target = target
+            this.color = color
+            this.width = width
+        }
+        angle() {
+            return angleGrasp(this.object.y - this.target.y, this.object.x - this.target.x)
+        }
+        m_angle() {
+            return Math.atan2(this.object.y - this.target.y, this.object.x - this.target.x)
+        }
+        hypotenuse() {
+            let xdif = this.object.x - this.target.x
+            let ydif = this.object.y - this.target.y
+            let hypotenuse = (xdif * xdif) + (ydif * ydif)
+            if (hypotenuse < 10000000 - 1) {
+                if (hypotenuse > 1000) {
+                    return squaretable[`${Math.round(10 * Math.round((hypotenuse * .1)))}`]
+                } else {
+                    return squaretable[`${Math.round(hypotenuse)}`]
+                }
+            } else {
+                return Math.sqrt(hypotenuse)
+            }
+        }
+        m_hypotenuse() {
+            let xdif = this.object.x - this.target.x
+            let ydif = this.object.y - this.target.y
+            let hypotenuse = (xdif * xdif) + (ydif * ydif)
+            return Math.sqrt(hypotenuse)
+        }
+        squareDistance() {
+            let xdif = this.object.x - this.target.x
+            let ydif = this.object.y - this.target.y
+            let hypotenuse = (xdif * xdif) + (ydif * ydif)
+            return (hypotenuse)
+        }
+        draw(shift) {
+            tutorial_canvas_context.strokeStyle = "cyan"
+            tutorial_canvas_context.lineWidth = this.width
+            tutorial_canvas_context.beginPath()
+            tutorial_canvas_context.moveTo(this.object.x, this.object.y+shift)
+            tutorial_canvas_context.lineTo(this.target.x, this.target.y+shift)
+            tutorial_canvas_context.stroke()
+            // tutorial_canvas_context.lineWidth = linewidthstorage
+            tutorial_canvas_context.closePath();
+        }
+    }
     class LineOP {
         constructor(object, target, color, width) {
             this.object = object
@@ -9951,7 +10003,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         } else if (level == 14) {
                                             tutorial_canvas_context.drawImage(lvlmarshfloorimg, 0, 0, Math.min(lvlmarshfloorimg.width, floors[t].width), Math.min(lvlmarshfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }else if (level == 15) {
-                                            tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(floorimg.width, floors[t].width), Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                            tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, floors[t].width), Math.min(facfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }
                                     }
                                 } else {
@@ -10040,7 +10092,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     } else if (level == 14) {
                                         tutorial_canvas_context.drawImage(lvlmarshfloorimg, 0, 0, Math.min(lvlmarshfloorimg.width, floors[t].width), Math.min(lvlmarshfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }else if (level == 15) {
-                                        tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(floorimg.width, floors[t].width), Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                        tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, floors[t].width), Math.min(facfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }
                                 }
                             } else {
@@ -10146,7 +10198,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 } else if (level == 14) {
                                     tutorial_canvas_context.drawImage(lvlmarshfloorimg, 0, 0, Math.min(lvlmarshfloorimg.width, floors[t].width), Math.min(lvlmarshfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }else if (level == 15) {
-                                    tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(floorimg.width, floors[t].width), Math.min(floorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, floors[t].width), Math.min(facfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }
                             }
                             if (floors[t].block == 1) {
@@ -13235,6 +13287,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.shocksr = []
             this.shock()
             // ////////console.log(this)
+            this.color = "#00FFFF88"
 
         }
         draw() {
@@ -13254,6 +13307,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
+            this.height = 64 + (Math.sin(pomao.timeloop) * (3 + pomao.pounding))
+            if (pomao.jumping == 1) {
+                if (pomao.body.ymom < 0) {
+                    this.height = 68 + pomao.pounding + Math.round((Math.min(Math.abs(pomao.body.ymom), 15) + Math.abs(Math.min(pomao.hng, .217)) + Math.abs(pomao.body.symom)) * 1.9)
+                } else {
+                    this.height = 68 + pomao.pounding
+                }
+            }
+
+
+            let shift = this.height * .45
+
             for (let n = 0; n < this.shocksl.length; n++) {
                 if (this.shocksl[n].radius < 3.5) {
                     this.shocksl.splice(n, 4)
@@ -13269,7 +13334,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (this.shocksl.length > 0) {
                 if (this.shocksr.length > 0) {
-                    for (let n = 0; n < this.shocksl.length - 1; n++) {
+                    for (let n = 0; n < this.shocksl.length; n++) {
 
 
                         if (cheats.megamao == 1) {
@@ -13279,19 +13344,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             link2.draw()
                         } else {
 
-
-                            this.height = 64 + (Math.sin(pomao.timeloop) * (3 + pomao.pounding))
-                            if (pomao.jumping == 1) {
-                                if (pomao.body.ymom < 0) {
-                                    this.height = 68 + pomao.pounding + Math.round((Math.min(Math.abs(pomao.body.ymom), 15) + Math.abs(Math.min(pomao.hng, .217)) + Math.abs(pomao.body.symom)) * 1.9)
-                                } else {
-                                    this.height = 68 + pomao.pounding
-                                }
-                            }
-                            const link2 = new Line(this.shocksl[n].x, this.shocksl[n].y + this.height * .45, this.shocksl[n + 1].x, this.shocksl[n + 1].y + this.height * .45, "#00FFFF88", this.shocksl[n].radius / 10)
-                            const link = new Line(this.shocksr[n].x, this.shocksr[n].y + this.height * .45, this.shocksr[n + 1].x, this.shocksr[n + 1].y + this.height * .45, "#00FFFF88", this.shocksr[n].radius / 10)
-                            link.draw()
-                            link2.draw()
+                            let rad = this.shocksl[n].radius * .1
+                            this.shocksl[n].link.width = rad
+                            this.shocksr[n].link.width = rad
+                            this.shocksl[n].link.draw(shift)
+                            this.shocksr[n].link.draw(shift)
+                            // link.draw()
+                            // link2.draw()
                         }
                     }
                 }
@@ -13301,21 +13360,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (pomao.body.ymom > 10.2 || cheats.shockandawe == 1) {
                 const shockright = new Circlec(this.center.x - 3, this.center.y + 2, this.center.radius, "yellow", 20.5, 2) // no +2 before
                 const shockleft = new Circlec(this.center.x + 3, this.center.y + 2, this.center.radius, "yellow", -20.5, 2)
-                // const shockrightxz = new Circlec(this.center.x-3, this.center.y-17, this.center.radius, "yellow", 20.5, 2)
-                // const shockleftxz = new Circlec(this.center.x+3, this.center.y-17, this.center.radius, "yellow", -20.5, 2)
-                // const shockrightx = new Circlec(this.center.x-3, this.center.y+17, this.center.radius, "yellow", 20.5, 2)
-                // const shockleftx = new Circlec(this.center.x+3, this.center.y+17, this.center.radius, "yellow", -20.5, 2)
-                // const shockrightx2 = new Circlec(this.center.x-3, this.center.y+34, this.center.radius, "yellow", 20.5, 2)
-                // const shockleftx2 = new Circlec(this.center.x+3, this.center.y+34, this.center.radius, "yellow", -20.5, 2)
+                if(this.shocksr.length > 0){
+                    shockright.link = new LineShock(this.shocksr[this.shocksr.length-1], shockright, this.color, 4)
+                }else{
+                    shockright.link = {}
+                    shockright.link.draw = this.skip
+                }
+                if(this.shocksl.length > 0){
+                    shockleft.link = new LineShock(this.shocksl[this.shocksl.length-1], shockleft, this.color, 4)
+                }else{
+                    shockleft.link = {}
+                    shockleft.link.draw = this.skip
+                }
                 this.shocksl.push(shockleft)
                 this.shocksr.push(shockright)
-                // this.shocksl.push(shockleftxz)
-                // this.shocksr.push(shockrightxz)
-                // this.shocksl.push(shockleftx)
-                // this.shocksr.push(shockrightx)
-                // this.shocksl.push(shockleftx2)
-                // this.shocksr.push(shockrightx2)
             }
+        }
+        skip(){
         }
     }
     class Cheatcodes {
@@ -26949,7 +27010,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // pomao.body.x = 13000
         // pomao.body.y = -7050
 
-        let floor = new Rectangle(-3640, 50, 1000, 14280)
+        let floor = new Rectangle(-3640, 50, 1000, 7000)
         floors.push(floor)
         walls.push(floor)
         roofs.push(floor)
@@ -26964,6 +27025,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let floorfacladder = new Rectangle(-700 + (((t%5)-2)*100),-200-(300*t), 20, 170)
             floors.push(floorfacladder)
         }
+
+        const wall2 = new Rectangle(-2950+3560, -5900, 5953, 50, "cyan")
+        walls.push(wall2)
+        floors.push(wall2)
+        roofs.push(wall2)
+        ungrapplable.push(wall2)
+
+
+        let floor2 = new Rectangle(-410, -5900, 50, 7000)
+        floors.push(floor2)
+        walls.push(floor2)
+        roofs.push(floor2)
+        let floor2a = new Rectangle(-3640, -5900, 50, 3140)
+        floors.push(floor2a)
+        walls.push(floor2a)
+        roofs.push(floor2a)
 
         markRectangles()
 
