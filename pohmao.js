@@ -1072,6 +1072,51 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     });
 
+    class Crusher{
+        constructor(x,y, rad){
+            this.body = new Circle(x,y, rad, "white")
+            this.anchor = new Circle(x,y, rad, "white")
+            this.cast = castBetweenCrush(this.body, this.anchor, 25, rad)
+            this.cycle = 0
+            this.rad = rad
+        }
+        draw(){
+            this.cycle += .02
+            if(this.body.y + (Math.cos(this.cycle)*3.95) > this.anchor.y){
+                this.body.y += Math.cos(this.cycle)*3.95
+                this.cast.adjustByFromDisplacement(0,Math.cos(this.cycle)*3.95)
+            }
+            this.cycle += .02
+            if(this.body.y + (Math.cos(this.cycle)*3.95) > this.anchor.y){
+                this.body.y += Math.cos(this.cycle)*3.95
+                this.cast.adjustByFromDisplacement(0,Math.cos(this.cycle)*3.95)
+            }
+            // this.cast.draw()
+            this.link = new Line(this.anchor.x, this.anchor.y, this.body.x, this.body.y+this.rad,  "#2d0500", this.rad*2)
+            this.link.draw()
+            if(this.cast.repelCheck(pomao.body)){
+                if (pomao.disabled != 1) {
+                    if (pomao.pounding != 10) {
+                        pomao.body.xmom = -11 * Math.sign(this.anchor.x-pomao.body.x)
+                        pomao.body.sxmom =  0
+                        pomao.body.symom =  0
+                        pomao.disabled = 1
+                        pomao.hits--
+                        pomao.body.ymom = 1.8
+                        this.body.xmom = -pomao.body.xmom
+                    }
+                } else {
+                    if (this.bump * pomao.body.xmom > 0) {
+                        pomao.body.xmom = -7.8 * Math.sign(this.anchor.x-pomao.body.x)
+                        pomao.body.sxmom =  0
+                        pomao.body.symom =  0
+                        pomao.body.ymom = 1.8
+                        this.body.xmom = -pomao.body.xmom
+                    }
+                }
+            }
+        }
+    }
     class Snowboss {
         constructor(x, y) {
             this.ring1 = []
@@ -27070,8 +27115,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
         pomao.body.x = -1000
         pomao.body.y = 0
-        // tutorial_canvas_context.translate(pomao.body.x - 13000, pomao.body.y+7050)
-        // pomao.body.x = 13000
+        // tutorial_canvas_context.translate(pomao.body.x -0, pomao.body.y+7050)
+        // pomao.body.x = 0
         // pomao.body.y = -7050
 
         let floor = new Rectangle(-3640, 50, 1000, 7000)
@@ -27134,7 +27179,33 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(floor3d)
         roofs.push(floor3d)
 
+        let crusher = new Crusher(1000, -6871, 40)
+        assortedDraw.push(crusher)
         markRectangles()
+
+        for (let k = 0; k < 36; k++) {
+            const fruit = new Fruit((Math.random() * 3000)-1000, -7000 + (Math.random() * 1100), 60, 60, "red")
+            let wet = 0
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < floors.length; k++) {
+                if (floors[k].doesPerimeterTouch(fruit.body)) {
+                    if(floors[k].jelly != 1){
+                    wet = 1
+                    break
+                    }
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
+
 
         // for (let k = 0; k < ((100 * 2400) / 960); k++) {
         //     const fruit = new Fruit(-2000 + (Math.random() * 12000), -1500 + (Math.random() * 1500), 60, 60, "red")
@@ -27812,6 +27883,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function castBetween(from, to, granularity = 10, radius = 1, color = "gray") { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
+        let limit = granularity
+        let shape_array = []
+        for (let t = 0; t < limit; t++) {
+            let circ = new Bosscircle((from.x * (t / limit)) + (to.x * ((limit - t) / limit)), (from.y * (t / limit)) + (to.y * ((limit - t) / limit)), radius, color)
+            // circ.target = target
+            // circ.angle = to.angle
+            circ.toRatio = t / limit
+            circ.fromRatio = (limit - t) / limit
+            shape_array.push(circ)
+        }
+        return (new Shape(shape_array))
+    }
+
+
+    function castBetweenCrush(from, to, granularity = 10, radius = 1, color = "#333333") { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
         let limit = granularity
         let shape_array = []
         for (let t = 0; t < limit; t++) {
