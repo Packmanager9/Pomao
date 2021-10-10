@@ -27097,7 +27097,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         ungrapplable.push(wall2)
 
 
-        let floor2 = new Rectangle(-410, -5900, 50, 7000)
+        let floor2 = new Rectangle(-330, -5900, 50, 7000)
         floors.push(floor2)
         walls.push(floor2)
         roofs.push(floor2)
@@ -27105,6 +27105,34 @@ window.addEventListener('DOMContentLoaded', (event) => {
         floors.push(floor2a)
         walls.push(floor2a)
         roofs.push(floor2a)
+
+
+        const factoryEnterSwitch = new Switchfloor(2000, -6020, 1700, -7020, 50, 420)
+
+        let floor3 = new Rectangle(510, -6500, 50, 1610)
+        floors.push(floor3)
+        walls.push(floor3)
+        roofs.push(floor3)
+
+        let floor3a = new Rectangle(2120, -7900, 2000, 69)
+        floors.push(floor3a)
+        walls.push(floor3a)
+        roofs.push(floor3a)
+
+        let floor3b = new Rectangle(200, -7900, 1800, 69)
+        floors.push(floor3b)
+        walls.push(floor3b)
+        roofs.push(floor3b)
+
+        let floor3c = new Rectangle(269, -6200, 69, 169)
+        floors.push(floor3c)
+        walls.push(floor3c)
+        roofs.push(floor3c)
+
+        let floor3d = new Rectangle(269, -7020, 169, 2000-(420))
+        floors.push(floor3d)
+        walls.push(floor3d)
+        roofs.push(floor3d)
 
         markRectangles()
 
