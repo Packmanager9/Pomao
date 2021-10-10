@@ -9332,8 +9332,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (level == 11) {
                 risingseaside.play()
                 door.x = 21000
-                door.y = 0
-                door.height = 100
+                door.y = -100
+                door.height = 200
                 door.width = 100
 
                 if (door.isPointInside(pomao.body)) {
@@ -19701,56 +19701,49 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.hitstun = 0
             this.scuttleratio = .96
             this.takingdamage = 0
-        }
-        eye() {
-
-            tutorial_canvas_context.strokeStyle = "#FFFFFF"
-            tutorial_canvas_context.lineWidth = .33
-
-            tutorial_canvas_context.beginPath();
-            tutorial_canvas_context.arc(this.center.x, this.center.y, this.center.radius / 1.41, 0, (Math.PI * 2), true)
-            tutorial_canvas_context.fill()
-            tutorial_canvas_context.stroke();
-
-            tutorial_canvas_context.stroke();
-            tutorial_canvas_context.beginPath();
-            tutorial_canvas_context.arc(this.center.x, this.center.y, this.center.radius / 2, 0, (Math.PI * 2), true)
-            tutorial_canvas_context.fill()
-            tutorial_canvas_context.stroke();
-
-            tutorial_canvas_context.stroke();
-            tutorial_canvas_context.beginPath();
-            tutorial_canvas_context.arc(this.center.x, this.center.y, this.center.radius / 4, 0, (Math.PI * 2), true)
-            tutorial_canvas_context.fillStyle = "red"
-            tutorial_canvas_context.fill()
-            tutorial_canvas_context.stroke();
-
+            this.pomline = new LineOP(this.center, pomao.body)
         }
         clean() {
 
         }
         move() {
             this.scuttle()
-            if (this.takingdamage == 0) {
-
-                // this.center.ymom = (circ.y-this.center.y)/275
-                // this.center.xmom = (circ.x-this.center.x)/275
-            } else {
-
-
-                if (this.hitstun == 22) {
-
-                    // this.center.ymom = (-(circ.y-this.center.y)/80)+((Math.random()-.5)*10)
-                    // this.center.xmom = (-(circ.x-this.center.x)/80)
-
-                }
-            }
             this.center.x += this.center.xmom
             this.center.y += this.center.ymom
             for (let e = 0; e < this.edges.length; e++) {
+                let vec = new Vector(this.edges[e],this.edges[e].xmom, this.edges[e].ymom)
+                if(vec.isToward(pomao.body)){
+
+                    this.edges[e].xmom *= 1.01
+                    this.edges[e].ymom *= 1.01
+                    this.edges[e].move()
+                }
                 this.edges[e].move()
                 this.edges[e].x += this.center.xmom
                 this.edges[e].y += this.center.ymom
+                if(this.edges[e].y > 33-this.edges[e].radius){
+                    this.edges[e].y = 33-this.edges[e].radius
+                }
+                if(pomao.checkInsidePomao(this.edges[e])){
+                    if (pomao.disabled != 1) {
+                        if (pomao.pounding != 10) {
+                            pomao.body.xmom = (this.edges[e].xmom + this.center.xmom)*1.1
+                            pomao.body.ymom = (this.edges[e].ymom + this.center.ymom)*1.1
+                            pomao.disabled = 1
+                            pomao.hits-=2
+                            pomao.body.ymom = -1.8
+                        } else {
+                            pomao.pounding = 0
+                            pomao.body.ymom = -1.8
+                        }
+                    } else {
+                        if (this.bump * pomao.body.xmom > 0) {
+                            pomao.body.xmom = this.edges[e].xmom + this.center.xmom
+                            pomao.body.ymom = this.edges[e].ymom + this.center.ymom
+                            pomao.body.ymom = -1.8
+                        }
+                    }
+                }
             }
             for (let e = 0; e < this.edges.length; e++) {
 
@@ -19763,6 +19756,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
         draw() {
+            if(this.pomline.hypotenuse() > 1280){
+                return
+            }
             this.move()
             this.center.draw()
             for (let e = 15; e < this.edges.length; e++) {
@@ -19770,8 +19766,60 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 link.draw()
                 // this.edges[e].draw()
             }
+            this.center.radius*=3
+
+            if(this.pomline.hypotenuse() < 700 && this.pomline.hypotenuse() > 200){
+                if(this.center.y > -1000){
+                    let vec = new Vector(this.center, this.center.x-pomao.body.x, this.center.y-pomao.body.y )
+                    vec.normalize(4)
+                    if (Number.isNaN(vec.xmom)) {
+                    } else {
+                        this.center.xmom = -vec.xmom
+                    }
+                    if (Number.isNaN(vec.ymom)) {
+                    } else {
+                        this.center.ymom = -vec.ymom
+                    }
+                    // this.center.move()
+
+                if(this.center.y > 33-this.center.radius){
+                    this.center.y = 33-this.center.radius
+                }
+                }else{
+                    this.center.y +=1
+                    if(this.center.ymom < 0){
+                        this.center.ymom *=-1
+                    }
+                }
+
+            }else{
+                this.center.xmom = (Math.random()-.5)*2
+                this.center.ymom =  (Math.random()-.5)*2
+            }
+            for (let h = 0; h < pomao.thrown.length; h++) {
+                if (this.center.repelCheck(pomao.thrown[h])) {
+                    // this.center.radius = 0
+                    this.health -= 60
+                    for (let e = 0; e < this.edges.length; e++) {
+                        this.edges[e].xmom += (pomao.thrown[h].xmom) * .25
+                        this.edges[e].ymom += (pomao.thrown[h].ymom) * .25
+                        this.edges[e].xmom *= 1.05
+                        this.edges[e].ymom *= 1.05
+                        this.edges[e].xmom += (Math.random() - .5) * 2
+                        this.edges[e].ymom += (Math.random() - .5) * 2
+                        if (Math.random() < .2) {
+                            this.edges[e].color = invertColor(this.edges[e].color)
+                        }
+                    }
+                }
+            }
+            this.center.radius/=3
+
         }
         scuttle() {
+            if(this.health<0){
+                return
+            }
             this.runner -= 0.03
             let rotx = this.runner
             let roty = this.runner
@@ -27135,6 +27183,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x + 2000, pomao.body.y + 1500)
         pomao.body.x = -2000
         pomao.body.y = -1500
+        // tutorial_canvas_context.translate(pomao.body.x  -17000, pomao.body.y + 1500)
+        // pomao.body.x = 17000
+        // pomao.body.y = -1500
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -27271,6 +27322,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         let center = new Circle(18000, -400, 10, "black")
         let sc = new Scuttlefish(center)
+
+
         swimmers.push(sc)
 
         let fingerflyer = new Knocktapus(4200, -500, "#aa00FF")
@@ -27327,6 +27380,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // spinnys.push(spinny3)
 
         markRectangles()
+
+        for (let k = 0; k < 96; k++) {
+            const fruit = new Fruit((Math.random() * 2000)+17000, -1000 + (Math.random() * 1000), 60, 60, "red")
+            let wet = 0
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < floors.length; k++) {
+                if (floors[k].doesPerimeterTouch(fruit.body)) {
+                    if(floors[k].jelly != 1){
+                    wet = 1
+                    break
+                    }
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
+
+
     }
 
     function loadlvl13() {
