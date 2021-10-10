@@ -1074,14 +1074,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class Treadmill{
         constructor(line){
             this.line = line
-            this.body = castBetween(this.line.object, this.line.target, this.line.hypotenuse()/10, 10)
+            this.body = castBetween(this.line.object, this.line.target, this.line.hypotenuse()/14, 10)
             this.speed = 2
             this.click = 10
             this.clock = 0
         }
         draw(){ 
             this.clock++
-            if(this.clock%Math.floor(10/Math.abs(this.speed)) == 0){
+            if(this.clock%Math.floor(14/Math.abs(this.speed)) == 0){
                 this.click--
                 if(this.click < 0){
                     this.click = 10
@@ -1097,6 +1097,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if(this.body.repelCheck(pomao.body)){
                 pomao.body.x += this.speed
+                for (let t = 1; t < pomao.eggs.length; t++) {
+                    if (pomao.eggs[t].marked == 0) {
+                        pomao.eggs[t].steer()
+                    }
+                }
                 tutorial_canvas_context.translate(-this.speed, 0)
                 pomao.grounded = 1
                 if(pomao.body.ymom > 1){
@@ -1109,14 +1114,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class UpTreadmill{
         constructor(line){
             this.line = line
-            this.body = castBetween(this.line.object, this.line.target, this.line.hypotenuse()/10, 10)
+            this.body = castBetween(this.line.object, this.line.target, this.line.hypotenuse()/14, 10)
             this.speed = -2
             this.click = 10
             this.clock = 0
         }
         draw(){ 
             this.clock++
-            if(this.clock%Math.floor(10/Math.abs(this.speed)) == 0){
+            if(this.clock%Math.floor(14/Math.abs(this.speed)) == 0){
                 this.click--
                 if(this.click < 0){
                     this.click = 10
@@ -27185,12 +27190,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     function loadFactoryLevel() {
         levelBoilerplate()
         level = 15
-        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
-        pomao.body.x = -1000
-        pomao.body.y = 0
-        // tutorial_canvas_context.translate(pomao.body.x -0, pomao.body.y+7050)
-        // pomao.body.x = 0
-        // pomao.body.y = -7050
+        // tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
+        // pomao.body.x = -1000
+        // pomao.body.y = 0
+        tutorial_canvas_context.translate(pomao.body.x -0, pomao.body.y+7050)
+        pomao.body.x = 0
+        pomao.body.y = -7050
 
         let floor = new Rectangle(-3640, 50, 1000, 7000)
         floors.push(floor)
@@ -27237,7 +27242,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(floor3a)
         roofs.push(floor3a)
 
-        let floor3b = new Rectangle(200, -7900, 1800, 69)
+        let floor3b = new Rectangle(200, -8220, 2120, 69)
         floors.push(floor3b)
         walls.push(floor3b)
         roofs.push(floor3b)
@@ -27266,6 +27271,36 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let track = new LineOP(point1, point2)
         let mill = new Treadmill(track)
         assortedDraw.push(mill)
+
+        
+
+        let floor3dx = new Rectangle(569, -7720, 169, 2000-(420))
+        floors.push(floor3dx)
+        walls.push(floor3dx)
+        roofs.push(floor3dx)
+
+        crusher = new Crusher(1300, -8071, 35)
+        assortedDraw.push(crusher)
+         crusher = new Crusher(1600, -8071, 35)
+        assortedDraw.push(crusher)
+         crusher = new Crusher(1000, -8071, 35)
+        assortedDraw.push(crusher)
+         crusher = new Crusher(1900, -8071, 35)
+        assortedDraw.push(crusher)
+
+
+
+        let floor3dy = new Rectangle(269, -8220, 169, 3900)
+        floors.push(floor3dy)
+        walls.push(floor3dy)
+        roofs.push(floor3dy)
+
+        let point1x = new Point(583, -7724)
+        let point2x = new Point(2090, -7724)
+        let trackx = new LineOP(point2x, point1x)
+        let millx = new Treadmill(trackx)
+        millx.speed = -2
+        assortedDraw.push(millx)
 
          point1 = new Point(269, -7024)
          point2 = new Point(269, -7824)
