@@ -1071,6 +1071,74 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     });
+    class Treadmill{
+        constructor(line){
+            this.line = line
+            this.body = castBetween(this.line.object, this.line.target, this.line.hypotenuse()/10, 10)
+            this.speed = 2
+            this.click = 10
+            this.clock = 0
+        }
+        draw(){ 
+            this.clock++
+            if(this.clock%Math.floor(10/Math.abs(this.speed)) == 0){
+                this.click--
+                if(this.click < 0){
+                    this.click = 10
+                }
+            }
+            for(let t = 0;t<this.body.shapes.length;t++){
+                if(t%11 == this.click){
+                    this.body.shapes[t].color = 'black'
+                }else{
+                    this.body.shapes[t].color = 'gray'
+                }
+                this.body.shapes[t].draw()
+            }
+            if(this.body.repelCheck(pomao.body)){
+                pomao.body.x += this.speed
+                tutorial_canvas_context.translate(-this.speed, 0)
+                pomao.grounded = 1
+                if(pomao.body.ymom > 1){
+                    pomao.body.symom = 0
+                }
+                pomao.body.sxmom = 0
+            }
+        }
+    }
+    class UpTreadmill{
+        constructor(line){
+            this.line = line
+            this.body = castBetween(this.line.object, this.line.target, this.line.hypotenuse()/10, 10)
+            this.speed = -2
+            this.click = 10
+            this.clock = 0
+        }
+        draw(){ 
+            this.clock++
+            if(this.clock%Math.floor(10/Math.abs(this.speed)) == 0){
+                this.click--
+                if(this.click < 0){
+                    this.click = 10
+                }
+            }
+            for(let t = 0;t<this.body.shapes.length;t++){
+                if(t%11 == this.click){
+                    this.body.shapes[t].color = 'black'
+                }else{
+                    this.body.shapes[t].color = 'gray'
+                }
+                this.body.shapes[t].draw()
+            }
+            if(this.body.repelCheck(pomao.body)){
+                pomao.body.y += this.speed
+                tutorial_canvas_context.translate(0,-this.speed)
+                pomao.grounded = 1
+                pomao.body.symom = 0
+                pomao.body.sxmom = 0
+            }
+        }
+    }
 
     class Crusher{
         constructor(x,y, rad){
@@ -1081,6 +1149,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.rad = rad
         }
         draw(){
+            if(Math.abs(this.body.x-pomao.body.x) > 900){
+                return
+            }
             this.cycle += .02
             if(this.body.y + (Math.cos(this.cycle)*3.95) > this.anchor.y){
                 this.body.y += Math.cos(this.cycle)*3.95
@@ -1092,26 +1163,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.cast.adjustByFromDisplacement(0,Math.cos(this.cycle)*3.95)
             }
             // this.cast.draw()
-            this.link = new Line(this.anchor.x, this.anchor.y, this.body.x, this.body.y+this.rad,  "#2d0500", this.rad*2)
-            this.link.draw()
-            if(this.cast.repelCheck(pomao.body)){
-                if (pomao.disabled != 1) {
-                    if (pomao.pounding != 10) {
-                        pomao.body.xmom = -11 * Math.sign(this.anchor.x-pomao.body.x)
-                        pomao.body.sxmom =  0
-                        pomao.body.symom =  0
-                        pomao.disabled = 1
-                        pomao.hits--
-                        pomao.body.ymom = 1.8
-                        this.body.xmom = -pomao.body.xmom
-                    }
-                } else {
-                    if (this.bump * pomao.body.xmom > 0) {
-                        pomao.body.xmom = -7.8 * Math.sign(this.anchor.x-pomao.body.x)
-                        pomao.body.sxmom =  0
-                        pomao.body.symom =  0
-                        pomao.body.ymom = 1.8
-                        this.body.xmom = -pomao.body.xmom
+            this.link = new Line(this.anchor.x, this.anchor.y, this.body.x, this.body.y+this.rad,  "#2d0500", this.rad*2.1)
+            tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, this.rad*2.1), Math.min(facfloorimg.height, this.link.hypotenuse()), this.anchor.x-(this.rad*1.05), this.anchor.y, this.rad*2.1, this.link.hypotenuse())
+                                     
+            // this.link.draw()
+            if(Math.abs(this.body.x-pomao.body.x) < (this.rad*3)){
+                if(this.cast.repelCheck(pomao.body)){
+                    if (pomao.disabled != 1) {
+                        if (pomao.pounding != 10) {
+                            pomao.body.xmom = -11 * Math.sign(this.anchor.x-pomao.body.x)
+                            pomao.body.sxmom =  0
+                            pomao.body.symom =  0
+                            pomao.disabled = 1
+                            pomao.hits--
+                            pomao.body.ymom = 1.8
+                            this.body.xmom = -pomao.body.xmom
+                        }
+                    } else {
+                            pomao.body.xmom = -7.8 * Math.sign(this.anchor.x-pomao.body.x)
+                            pomao.body.sxmom =  0
+                            pomao.body.symom =  0
+                            pomao.body.ymom = 1.8
+                            this.body.xmom = -pomao.body.xmom
                     }
                 }
             }
@@ -27181,6 +27254,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         let crusher = new Crusher(1000, -6871, 40)
         assortedDraw.push(crusher)
+         crusher = new Crusher(1300, -6871, 40)
+        assortedDraw.push(crusher)
+         crusher = new Crusher(700, -6871, 40)
+        assortedDraw.push(crusher)
+         crusher = new Crusher(1600, -6871, 40)
+        assortedDraw.push(crusher)
+
+        let point1 = new Point(269, -7024)
+        let point2 = new Point(1700, -7024)
+        let track = new LineOP(point1, point2)
+        let mill = new Treadmill(track)
+        assortedDraw.push(mill)
+
+         point1 = new Point(269, -7024)
+         point2 = new Point(269, -7824)
+         track = new LineOP(point1, point2)
+         mill = new UpTreadmill(track)
+        assortedDraw.push(mill)
         markRectangles()
 
         for (let k = 0; k < 36; k++) {
