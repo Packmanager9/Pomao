@@ -120,7 +120,7 @@ for (let i = 1; i < 1103; i++) {
 
 const gb = []
 for (let i = 1; i < 305; i++) {
-    gb.push(Object.assign(new Image(), { 'src': `gear${Number(i).toLocaleString()}.png` }));
+    gb.push(Object.assign(new Image(), { 'src': `Sgear${Number(i).toLocaleString()}.png` }));
 }
 
 const pub = []
