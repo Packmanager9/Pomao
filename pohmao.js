@@ -27190,12 +27190,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     function loadFactoryLevel() {
         levelBoilerplate()
         level = 15
-        // tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
-        // pomao.body.x = -1000
-        // pomao.body.y = 0
-        tutorial_canvas_context.translate(pomao.body.x -0, pomao.body.y+7050)
-        pomao.body.x = 0
-        pomao.body.y = -7050
+        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
+        pomao.body.x = -1000
+        pomao.body.y = 0
+        // tutorial_canvas_context.translate(pomao.body.x -0, pomao.body.y+7050)
+        // pomao.body.x = 0
+        // pomao.body.y = -7050
 
         let floor = new Rectangle(-3640, 50, 1000, 7000)
         floors.push(floor)
