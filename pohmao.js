@@ -10,6 +10,7 @@ function empty() {
 let globalVecPoint = {}
 globalVecPoint.x = 0
 globalVecPoint.y = 0
+let songangle = 0
 let testscale = 1
 let imageData = {}
 let data = {}
@@ -115,6 +116,44 @@ for (let i = 1; i < 1331; i++) {
 const wb = []
 for (let i = 1; i < 1103; i++) {
     wb.push(Object.assign(new Image(), { 'src': `wave${Number(i).toLocaleString()}.png` }));
+}
+
+const spnb = []
+for (let i = 1; i < 499; i++) {
+    spnb.push(Object.assign(new Image(), { 'src': `slopo${Number(i).toLocaleString()}.png` }));
+}
+
+
+const snb = []
+for (let i = 1; i < 4603; i++) {
+    snb.push(Object.assign(new Image(), { 'src': `snowfrac${Number(i).toLocaleString()}.png` }));
+}
+
+const vb = []
+for (let i = 1; i < 999; i++) {
+    // let imgf = new Image()
+    // imgf.src = `vave${Number(i).toLocaleString()}.png`
+    // console.log(imgf)
+    // if((new Image(), { 'src': `vave${Number(i).toLocaleString()}.png` }).height == 360){
+        vb.push(Object.assign(new Image(), { 'src': `vave${Number(i).toLocaleString()}.png` }));
+    // }
+}
+
+const sprb = []
+for (let i = 1; i < 750; i++) {
+    sprb.push(Object.assign(new Image(), { 'src': `spart${Number(i).toLocaleString()}.png` }));
+}
+
+
+const rpb = []
+for (let i = 1; i < 443; i++) {
+    rpb.push(Object.assign(new Image(), { 'src': `ripple${Number(i).toLocaleString()}.png` }));
+}
+
+
+const splt = []
+for (let i = 1; i < 508; i++) {
+    splt.push(Object.assign(new Image(), { 'src': `splatter${Number(i).toLocaleString()}.png` }));
 }
 
 
@@ -7018,9 +7057,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     class Pomao {
         constructor() {
+            this.snowcounter = 0
             this.wavecounter = 0
             this.gearcounter = 0
             this.pulsecounter = 0
+            this.slopocounter = 0
+            this.ripplecounter = 0
+            this.splatcounter = 0
+            this.spartcounter = 2
+            this.spartdir = 1
             this.hngResetConstant = 11
             this.wingcheck = 0
             this.cutscene = 0
@@ -10481,12 +10526,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             this.tongue.draw()
 
-            this.wavecounter+=11
-            this.wavecounter%=wb.length
+            this.wavecounter++
+            this.wavecounter%=vb.length
+            this.snowcounter+=5
+            this.snowcounter%=snb.length
             this.gearcounter+=1
             this.gearcounter%=gb.length
             this.pulsecounter++
             this.pulsecounter%=pub.length
+            this.ripplecounter++
+            this.ripplecounter%=rpb.length
+            this.splatcounter++
+            this.splatcounter%=splt.length
+            this.slopocounter++
+            this.slopocounter%=spnb.length
+            this.spartcounter+=this.spartdir
+            if(this.spartcounter >= sprb.length-1){
+                this.spartdir*=-1
+            }else if(this.spartcounter <= 1){
+                this.spartdir*=-1
+            }
 
             this.link = new Line(this.body.x, 3 + this.body.y - (Math.sin(this.timeloop) * 1), this.tongue.x, this.tongue.y, "blue", 3) // radius 3 // this.tongue.radius*1.1
 
@@ -10587,6 +10646,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         boss.fight = 1
                     }
                 } else {
+                    // songangle+=.05
+                    // lvl1basemusic.playbackRate = (1.5)+Math.cos(songangle)
                     lvl1basemusic.play()
                 }
                 if (boss.fight == 1) {
@@ -22275,6 +22336,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280 * 1.54, (720 * 3) + 10)
                             tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280 * 2.35, (720 * 2) - 12)
                             tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500, 525)
+                            
+                            tutorial_canvas_context.globalAlpha = 0.7;
+
+                            let index = pomao.spartcounter
+                            tutorial_canvas_context.drawImage(sprb[index], 0, 0, sprb[index].width, sprb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 3) {
                             tutorial_canvas_context.globalAlpha = 0.2;
@@ -22283,15 +22350,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 4) {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackgroundlvl4, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.globalAlpha = 0.4;
+                            let index = pomao.splatcounter
+                            tutorial_canvas_context.drawImage(splt[index], 0, 0, splt[index].width, splt[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 5) {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.globalAlpha = 0.4;
+                            let index = pomao.ripplecounter
+                            tutorial_canvas_context.drawImage(rpb[index], 0, 0, rpb[index].width, rpb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 6) {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.globalAlpha = 0.4;
+                            let index = pomao.slopocounter
+                            tutorial_canvas_context.drawImage(spnb[index], 0, 0, spnb[index].width, spnb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 7) {
                             tutorial_canvas_context.globalAlpha = 0.2;
@@ -22306,6 +22382,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas.style.background = `rgba(0, 0, 0,${1})` // "#8888CC"
                             tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${31 / 255})`
                             tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
+                        }else if(level == 10){
+
+                            tutorial_canvas_context.globalAlpha = 0.2;
+                            tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.globalAlpha = 1;
+                            let index = pomao.snowcounter
+                            tutorial_canvas_context.drawImage(snb[index], 0, 0, snb[index].width, snb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                         }
                         // tutorial_canvas_context.fillStyle = `rgba(85, 85, 128,${15 / 255})`
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
@@ -22365,14 +22448,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 11) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
-                            tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = pomao.wavecounter
-                            tutorial_canvas_context.drawImage(wb[index], 0, 0, wb[index].width, wb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
-                            tutorial_canvas_context.globalAlpha = 1;
+                            // tutorial_canvas_context.globalAlpha = 0.2;
+                            // let index = pomao.wavecounter
+                            // tutorial_canvas_context.drawImage(vb[index], 0, 0, vb[index].width, vb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+                            // tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 14) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.92345)), 0), 9999999)%1330)+4
+                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 14.92345)), 0), 9999999)%1330)+4
                             tutorial_canvas_context.drawImage(pb[index], 0, 0, pb[index].width, pb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             tutorial_canvas_context.globalAlpha = 1;
                         }else if (level == 15) {
@@ -22402,6 +22485,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280 * 1.54, (720 * 3) + 10)
                             tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280 * 2.35, (720 * 2) - 12)
                             tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500, 525)
+
+                            tutorial_canvas_context.globalAlpha = 0.5;
+                            let index = pomao.spartcounter
+                            tutorial_canvas_context.drawImage(sprb[index], 0, 0, sprb[index].width, sprb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 3) {
                             tutorial_canvas_context.globalAlpha = 0.2;
@@ -22409,17 +22496,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 4) {
                             tutorial_canvas_context.globalAlpha = 0.2;
-                            tutorial_canvas_context.drawImage(paintedbackgroundlvl4, pomao.body.x - 640, pomao.body.y - 360)
+                            // tutorial_canvas_context.drawImage(paintedbackgroundlvl4, pomao.body.x - 640, pomao.body.y - 360)
+
+                            let index = pomao.splatcounter
+                            tutorial_canvas_context.drawImage(splt[index], 0, 0, splt[index].width, splt[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 5) {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                            let index = pomao.ripplecounter
+                            tutorial_canvas_context.drawImage(rpb[index], 0, 0, rpb[index].width, rpb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             tutorial_canvas_context.drawImage(dessertimg, -2075, -800, 15000, 1300)
                             tutorial_canvas_context.globalAlpha = 1;
                         } else if (level == 6) {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
-                            tutorial_canvas_context.globalAlpha = 1;
+                            let index = pomao.slopocounter
+                             tutorial_canvas_context.globalAlpha = 1;
+                            tutorial_canvas_context.drawImage(spnb[index], 0, 0, spnb[index].width, spnb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+                           
                         } else if (level == 7) {
                             tutorial_canvas_context.globalAlpha = 0.2;
                             tutorial_canvas_context.fillStyle = `rgba(205, 105, 85,${14 / 255})`
@@ -22437,19 +22532,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${31 / 255})`
                             tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
                         } else if (level == 10) {
-                            tutorial_canvas_context.globalAlpha = 0.2;
-                            tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
-                            tutorial_canvas_context.globalAlpha = 1;
+                            // tutorial_canvas_context.globalAlpha = 0.2;
+                            // tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
+                            // tutorial_canvas_context.globalAlpha = 1;
+                        tutorial_canvas_context.fillStyle = `rgba(190, 190, 255,${15 / 255})`
+                                let index = pomao.snowcounter
+                                tutorial_canvas_context.drawImage(snb[index], 0, 0, snb[index].width, snb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                         }else if (level == 11) {
+                            tutorial_canvas_context.fillStyle = `rgba(190, 190, 255,${255 / 255})`
+
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             // tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = pomao.wavecounter
-                            tutorial_canvas_context.drawImage(wb[index], 0, 0, wb[index].width, wb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             // tutorial_canvas_context.globalAlpha = 1;
                         }  else if (level == 14) {
                             // tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
                             // tutorial_canvas_context.globalAlpha = 0.2;
-                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 11.92345)), 0), 9999999)%1330)+4
+                            let index = (Math.min(Math.max((Math.round((pomao.body.x + 3000) / 14.92345)), 0), 9999999)%1330)+4
                             tutorial_canvas_context.drawImage(pb[index], 0, 0, pb[index].width, pb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                             // tutorial_canvas_context.globalAlpha = 1;
                         }else if (level == 15) {
@@ -22460,11 +22558,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                         tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
                         if (level == 15) {
-
-                            // tutorial_canvas_context.fillStyle = `rgba(190, 190, 255,${255 / 255})`
                                 let index = pomao.gearcounter
                                 tutorial_canvas_context.drawImage(gb[index], 0, 0, gb[index].width, gb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
-                            }
+                        }
+                        if (level == 11) {
+                            let index = pomao.wavecounter
+                            tutorial_canvas_context.drawImage(vb[index], 0, 0, vb[index].width, vb[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+                        }
                         //tutorial_canvas_context.clearRect(-1000000,680,tutorial_canvas.width*1000000, tutorial_canvas.height)
                     } else {
                         tutorial_canvas_context.fillStyle = `rgba(170, 170, 255,${1})`
@@ -22523,7 +22623,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         } else if (level == 14) {
                             tutorial_canvas_context.drawImage(paintedbackgroundlvlMarsh, pomao.body.x - 640, pomao.body.y - 360)
-                            // let index = Math.min(Math.max((Math.round((pomao.body.x+3000)/11.92345)),0), 1330)
+                            // let index = Math.min(Math.max((Math.round((pomao.body.x+3000)/14.92345)),0), 1330)
                             // tutorial_canvas_context.drawImage(pb[index],0,0,pb[index].width, pb[index].height,  pomao.body.x - 640, pomao.body.y - 360, 1280,720)
                         }else if (level == 15) {
                             tutorial_canvas_context.drawImage(facbg, pomao.body.x - 640, pomao.body.y - 360)
@@ -23303,6 +23403,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     function drawFractal() {
         if (pomao.tripping > 0) {
+            // ////////console.log(fractal.sheet, zimgs[fractal.sheet%zimgs.length])
+            if (level == 14 || level == 15 || level == 11 || level == 7|| level == 10|| level == 5|| level == 4|| level == 6|| level == 2) {
+
+            } else {
+
             // if(Math.random()<.5){
             ////////console.time("frac")
             const sheetwidtht = zimgs[0].width
@@ -23317,10 +23422,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (fractal.sheet < 0) {
                 fractal.sheet = 0
             }
-            // ////////console.log(fractal.sheet, zimgs[fractal.sheet%zimgs.length])
-            if (level == 14 || level == 15 || level == 11 || level == 7) {
-
-            } else {
                 if (pomao.triptype == 1) {
                     tutorial_canvas_context.drawImage(zimgs[fractal.sheet % zimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                 } else {
