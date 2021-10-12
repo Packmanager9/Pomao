@@ -357,7 +357,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         palmtreeimg.decode()
     }
 
-
+    const magentaball = new Image()
+    magentaball.src = "magentaball.png"
     const snowflakeimg = new Image()
     snowflakeimg.src = "snowflakes.png"
     const bossflake = new Image()
@@ -1133,6 +1134,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
     class Treadmill{
         constructor(line){
+            this.mill = 1
             this.line = line
             this.body = castBetween(this.line.object, this.line.target, this.line.hypotenuse()/10, 10)
             this.speed = 2
@@ -1176,6 +1178,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     class UpTreadmill{
         constructor(line){
+            this.mill = 1
             this.line = line
             this.body = castBetween(this.line.object, this.line.target, this.line.hypotenuse()/10, 10)
             this.speed = -2
@@ -1203,7 +1206,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.fillRect(Math.min(this.line.target.x, this.line.object.x)-5, Math.min(this.line.target.y,this.line.object.y),10, Math.max(this.line.target.y, this.line.object.y)-Math.min(this.line.target.y, this.line.object.y))
 
 
-            if(this.body.repelCheckPomao()){
+            if(this.body.repelCheckPomao()){ //|| this.body.repelCheck(pomao.tongue) <- make it not reset sxmom
                 pomao.body.y += this.speed
 
                 for (let t = 1; t < pomao.eggs.length; t++) {
@@ -1269,6 +1272,92 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
     }
+    class BallDrop{
+        constructor(x,y){
+            this.body = new Circle(x,y, 30, "orange")
+            this.balls = []
+            this.counter = 0
+            this.rate = 100
+            this.rate2 = 1000
+            this.gravity = .1
+        }
+        draw(){
+            this.counter++
+            if(this.counter%this.rate2 == 0){
+                let ball = new Bosscircle(this.body.x, this.body.y, 12, "cyan", 0, 2)
+                ball.radius*=1.2
+                ball.bounce = 1
+                this.balls.push(ball)
+            }else if(this.counter%this.rate == 0){
+                let ball = new Bosscircle(this.body.x, this.body.y, 12, "magenta", 0, 2)
+                this.balls.push(ball)
+            }
+            for(let t = 0;t<this.balls.length;t++){
+                this.balls[t].ymom+=this.gravity
+                if(this.balls[t].bounce == 1){
+                }else{
+                    this.balls[t].xmom*=.98
+                }
+                this.balls[t].move()
+                // this.balls[t].draw()
+
+                if(this.balls[t].bounce == 1){
+                    tutorial_canvas_context.drawImage(bluecircleimg, 0, 0, bluecircleimg.width, bluecircleimg.height, this.balls[t].x - this.balls[t].radius, this.balls[t].y - this.balls[t].radius, this.balls[t].radius * 2, this.balls[t].radius * 2)
+                }else{
+                    tutorial_canvas_context.drawImage(magentaball, 0, 0, magentaball.width, magentaball.height, this.balls[t].x - this.balls[t].radius, this.balls[t].y - this.balls[t].radius, this.balls[t].radius * 2, this.balls[t].radius * 2)
+                }
+
+                if(this.balls[t].repelCheck(pomao.body)){
+                    if (pomao.disabled != 1) {
+                        if (pomao.pounding != 10) {
+                            pomao.body.xmom = -3 * Math.sign(this.balls[t].x-pomao.body.x)
+                            pomao.body.sxmom =  0
+                            pomao.body.symom =  0
+                            pomao.disabled = 1
+                            pomao.hits-=.5
+                            pomao.body.ymom = 1.8
+                            this.body.xmom = -pomao.body.xmom
+                        }
+                    } else {
+                            pomao.body.xmom = -3 * Math.sign(this.balls[t].x-pomao.body.x)
+                            pomao.body.sxmom =  0
+                            pomao.body.symom =  0
+                            pomao.body.ymom = 1.8
+                            this.body.xmom = -pomao.body.xmom
+                    }
+                }
+                
+                for(let k = 0;k<assortedDraw.length;k++){
+                    if(assortedDraw[k].mill == 1){
+                        if(this.balls[t].bounce == 1){
+                            if(assortedDraw[k].body.repelCheck(this.balls[t])){
+                                this.balls[t].x += assortedDraw[k].speed*.9
+                                this.balls[t].xmom += assortedDraw[k].speed*.05
+                                if(this.balls[t].ymom > 1){
+                                    this.balls[t].ymom *= -1.2
+                                    this.balls[t].xmom = assortedDraw[k].speed*1.5
+                                }else{
+                                    if(this.balls[t].ymom != 0){
+                                    this.balls[t].xmom = 0
+                                    }
+                                    this.balls[t].ymom = -this.gravity
+                                }
+                            }
+                        }else{
+                        if(assortedDraw[k].body.repelCheck(this.balls[t])){
+                            this.balls[t].x += assortedDraw[k].speed
+                            this.balls[t].xmom += assortedDraw[k].speed*.05
+                            this.balls[t].ymom = -this.gravity
+                        }
+                        }
+                    }
+                }
+
+            }
+
+            this.body.draw()
+        }
+    }
     class UpCrusher{
         constructor(x,y, rad){
             this.body = new Circle(x,y, rad, "white")
@@ -1300,14 +1389,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.symom =  0
                             pomao.disabled = 1
                             pomao.hits--
-                            pomao.body.ymom = 1.8
+                            pomao.body.ymom = -1.8
                             this.body.xmom = -pomao.body.xmom
                         }
                     } else {
                             pomao.body.xmom = -7.8 * Math.sign(this.anchor.x-pomao.body.x)
                             pomao.body.sxmom =  0
                             pomao.body.symom =  0
-                            pomao.body.ymom = 1.8
+                            pomao.body.ymom = -1.8
                             this.body.xmom = -pomao.body.xmom
                     }
                 }
@@ -1800,6 +1889,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.y += this.ymom
             this.ymom *= .98
             this.xmom *= .98
+        }
+        softmove() {
+            this.x += this.xmom
+            this.y += this.ymom
         }
         unmove() {
             this.x -= this.xmom * .01
@@ -22379,7 +22472,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         window.setInterval(function () {
 
-            if (started == 1 || gamepadAPI.buttonsStatus.includes('A') || keysPressed['a']) {
+            
+            if (started == 1 || gamepadAPI.buttonsStatus.length > 0 || keysPressed['a']) {
                 started = 1
             } else {
 
@@ -27452,7 +27546,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             floors.push(floorfacladder)
         }
 
-        const wall2 = new Rectangle(-2950+3560, -5900, 5953, 50, "cyan")
+        const wall2 = new Rectangle(-2950+3560, -5850, 5853, 50, "cyan")
         walls.push(wall2)
         floors.push(wall2)
         roofs.push(wall2)
@@ -27554,6 +27648,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(floor4a)
         roofs.push(floor4a)
 
+
+        let floor4c = new Rectangle(2570, -6550, 69, 900)
+        floors.push(floor4c)
+        walls.push(floor4c)
+        roofs.push(floor4c)
+
+        let floor4d = new Rectangle(3470, -6550, 900, 69)
+        floors.push(floor4d)
+        walls.push(floor4d)
+        roofs.push(floor4d)
+
+        let point1xy22 = new Point(2570, -6481)
+        let point2xy22 = new Point(3470, -6481)
+        let trackx22y = new LineOP(point2xy22, point1xy22)
+        let milly22 = new Treadmill(trackx22y)
+        milly22.speed = -6
+        assortedDraw.push(milly22)
+
+
+
         let flop = 2
         for(let t = 0;t<4;t++){
             if(flop == 2){
@@ -27608,6 +27722,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         milly.speed = -6
         assortedDraw.push(milly)
 
+        let point1xyz = new Point(2420, -6200)
+        let point2xyz = new Point(3200, -6200)
+        let trackxyz = new LineOP(point1xyz, point2xyz)
+        let millyz = new Treadmill(trackxyz)
+        millyz.speed = 3.1
+        assortedDraw.push(millyz)
+
         let upcrusher = new UpCrusher(2420, -5860, 20)
         assortedDraw.push(upcrusher)
 
@@ -27617,6 +27738,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
          upcrusher = new UpCrusher(3120, -5860, 20)
         assortedDraw.push(upcrusher)
 
+
+        let dropper1 = new BallDrop(2450, -8000)
+        assortedDraw.push(dropper1)
 
         markRectangles()
 
