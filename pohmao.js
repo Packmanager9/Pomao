@@ -129,6 +129,11 @@ for (let i = 1; i < 4603; i++) {
     snb.push(Object.assign(new Image(), { 'src': `snowfrac${Number(i).toLocaleString()}.png` }));
 }
 
+const vab = []
+for (let i = 1; i < 175; i++) {
+    vab.push(Object.assign(new Image(), { 'src': `vall${Number(i).toLocaleString()}.png` }));
+}
+
 const vb = []
 for (let i = 1; i < 999; i++) {
     // let imgf = new Image()
@@ -1129,28 +1134,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class Treadmill{
         constructor(line){
             this.line = line
-            this.body = castBetween(this.line.object, this.line.target, this.line.hypotenuse()/14, 10)
+            this.body = castBetween(this.line.object, this.line.target, this.line.hypotenuse()/10, 10)
             this.speed = 2
             this.click = 10
             this.clock = 0
         }
         draw(){ 
+            if(Math.abs(this.line.object.y-pomao.body.y) > 400){
+                return
+            }
             this.clock++
-            if(this.clock%Math.floor(14/Math.abs(this.speed)) == 0){
+            if(this.clock%Math.floor(10/Math.abs(this.speed)) == 0){
                 this.click--
                 if(this.click < 0){
                     this.click = 10
                 }
             }
-            for(let t = 0;t<this.body.shapes.length;t++){
-                if(t%11 == this.click){
-                    this.body.shapes[t].color = 'black'
-                }else{
-                    this.body.shapes[t].color = 'gray'
-                }
-                this.body.shapes[t].draw()
+            var gradient = tutorial_canvas_context.createLinearGradient(this.line.target.x,this.line.target.y, this.line.object.x,this.line.object.y);
+            for(let t = 0;t<1;t+=.05){
+                gradient.addColorStop((t+(this.click*.01))%1, 'white');
+                gradient.addColorStop(((t+.025)+(this.click*.01))%1, 'black');
             }
-            if(this.body.repelCheck(pomao.body)){
+            tutorial_canvas_context.fillStyle = gradient
+            tutorial_canvas_context.fillRect(Math.min(this.line.target.x, this.line.object.x), Math.min(this.line.target.y,this.line.object.y)-5, Math.max(this.line.target.x, this.line.object.x)-Math.min(this.line.target.x, this.line.object.x), 10)
+
+            if(this.body.repelCheckPomao()){
                 pomao.body.x += this.speed
                 for (let t = 1; t < pomao.eggs.length; t++) {
                     if (pomao.eggs[t].marked == 0) {
@@ -1169,28 +1177,33 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class UpTreadmill{
         constructor(line){
             this.line = line
-            this.body = castBetween(this.line.object, this.line.target, this.line.hypotenuse()/14, 10)
+            this.body = castBetween(this.line.object, this.line.target, this.line.hypotenuse()/10, 10)
             this.speed = -2
             this.click = 10
             this.clock = 0
         }
         draw(){ 
+            if(Math.abs(this.line.object.x-pomao.body.x) > 700){
+                return
+            }
             this.clock++
-            if(this.clock%Math.floor(14/Math.abs(this.speed)) == 0){
+            if(this.clock%Math.floor(10/Math.abs(this.speed)) == 0){
                 this.click--
                 if(this.click < 0){
                     this.click = 10
                 }
             }
-            for(let t = 0;t<this.body.shapes.length;t++){
-                if(t%11 == this.click){
-                    this.body.shapes[t].color = 'black'
-                }else{
-                    this.body.shapes[t].color = 'gray'
-                }
-                this.body.shapes[t].draw()
+
+            var gradient = tutorial_canvas_context.createLinearGradient(this.line.target.x,this.line.target.y, this.line.object.x,this.line.object.y);
+            for(let t = 0;t<1;t+=.05){
+                gradient.addColorStop((t+(this.click*.01))%1, 'white');
+                gradient.addColorStop(((t+.025)+(this.click*.01))%1, 'black');
             }
-            if(this.body.repelCheck(pomao.body)){
+            tutorial_canvas_context.fillStyle = gradient
+            tutorial_canvas_context.fillRect(Math.min(this.line.target.x, this.line.object.x)-5, Math.min(this.line.target.y,this.line.object.y),10, Math.max(this.line.target.y, this.line.object.y)-Math.min(this.line.target.y, this.line.object.y))
+
+
+            if(this.body.repelCheckPomao()){
                 pomao.body.y += this.speed
 
                 for (let t = 1; t < pomao.eggs.length; t++) {
@@ -1227,6 +1240,51 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if(this.body.y + (Math.cos(this.cycle)*3.95) > this.anchor.y){
                 this.body.y += Math.cos(this.cycle)*3.95
                 this.cast.adjustByFromDisplacement(0,Math.cos(this.cycle)*3.95)
+            }
+            // this.cast.draw()
+            this.link = new Line(this.anchor.x, this.anchor.y, this.body.x, this.body.y+this.rad,  "#2d0500", this.rad*2.1)
+            tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, this.rad*2.1), Math.min(facfloorimg.height, this.link.hypotenuse()), this.anchor.x-(this.rad*1.05), this.anchor.y, this.rad*2.1, this.link.hypotenuse())
+                                     
+            // this.link.draw()
+            if(Math.abs(this.body.x-pomao.body.x) < (this.rad*3)){
+                if(this.cast.repelCheck(pomao.body)){
+                    if (pomao.disabled != 1) {
+                        if (pomao.pounding != 10) {
+                            pomao.body.xmom = -11 * Math.sign(this.anchor.x-pomao.body.x)
+                            pomao.body.sxmom =  0
+                            pomao.body.symom =  0
+                            pomao.disabled = 1
+                            pomao.hits--
+                            pomao.body.ymom = 1.8
+                            this.body.xmom = -pomao.body.xmom
+                        }
+                    } else {
+                            pomao.body.xmom = -7.8 * Math.sign(this.anchor.x-pomao.body.x)
+                            pomao.body.sxmom =  0
+                            pomao.body.symom =  0
+                            pomao.body.ymom = 1.8
+                            this.body.xmom = -pomao.body.xmom
+                    }
+                }
+            }
+        }
+    }
+    class UpCrusher{
+        constructor(x,y, rad){
+            this.body = new Circle(x,y, rad, "white")
+            this.anchor = new Circle(x,y, rad, "white")
+            this.cast = castBetweenCrush(this.body, this.anchor, 25, rad)
+            this.cycle = 0
+            this.rad = rad
+        }
+        draw(){
+            if(Math.abs(this.body.x-pomao.body.x) > 900){
+                return
+            }
+            this.cycle += .04
+            if(this.body.y + (Math.cos(this.cycle)*3.95) < this.anchor.y){
+                this.body.y -= Math.cos(this.cycle)*3.95
+                this.cast.adjustByFromDisplacement(0,-(Math.cos(this.cycle)*3.95))
             }
             // this.cast.draw()
             this.link = new Line(this.anchor.x, this.anchor.y, this.body.x, this.body.y+this.rad,  "#2d0500", this.rad*2.1)
@@ -6998,6 +7056,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             return false
         }
+        repelCheckPomao() {
+            for (let t = 0; t < this.shapes.length; t++) {
+                if (pomao.checkRepelPomao(this.shapes[t])) {
+                    return true
+                }
+            }
+
+            return false
+        }
         isInsideOf(box) {
 
             for (let t = 0; t < this.shapes.length; t++) {
@@ -7058,6 +7125,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class Pomao {
         constructor() {
             this.snowcounter = 0
+            this.wallcounter = 0
             this.wavecounter = 0
             this.gearcounter = 0
             this.pulsecounter = 0
@@ -10528,6 +10596,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             this.wavecounter++
             this.wavecounter%=vb.length
+            this.wallcounter++
+            this.wallcounter%=vab.length
             this.snowcounter+=5
             this.snowcounter%=snb.length
             this.gearcounter+=1
@@ -22530,6 +22600,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else if (level == 9) {
                             tutorial_canvas.style.background = `rgba(0, 0, 0,${1})` // "#8888CC"
                             tutorial_canvas_context.fillStyle = `rgba(0, 0, 0,${31 / 255})`
+                            let index = pomao.wallcounter
+                            tutorial_canvas_context.globalAlpha = 0.2;
+                            tutorial_canvas_context.drawImage(vab[index], 0, 0, vab[index].width, vab[index].height, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
+                            tutorial_canvas_context.globalAlpha = 1
                             tutorial_canvas_context.fillRect(-1000000000, -1000000000, tutorial_canvas.width * 100000000, tutorial_canvas.height * 100000000)
                         } else if (level == 10) {
                             // tutorial_canvas_context.globalAlpha = 0.2;
@@ -23404,7 +23478,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     function drawFractal() {
         if (pomao.tripping > 0) {
             // ////////console.log(fractal.sheet, zimgs[fractal.sheet%zimgs.length])
-            if (level == 14 || level == 15 || level == 11 || level == 7|| level == 10|| level == 5|| level == 4|| level == 6|| level == 2) {
+            if (level == 14 || level == 15 || level == 11 || level == 7|| level == 10|| level == 5|| level == 4|| level == 6|| level == 2|| level == 9) {
 
             } else {
 
@@ -27472,6 +27546,72 @@ window.addEventListener('DOMContentLoaded', (event) => {
          track = new LineOP(point1, point2)
          mill = new UpTreadmill(track)
         assortedDraw.push(mill)
+
+
+
+        let floor4a = new Rectangle(2320, -8100, 2000, 69)
+        floors.push(floor4a)
+        walls.push(floor4a)
+        roofs.push(floor4a)
+
+        let flop = 2
+        for(let t = 0;t<4;t++){
+            if(flop == 2){
+                point1 = new Point(2320, -7900+(t*450))
+                point2 = new Point(2320, -7450+(t*450))
+                track = new LineOP(point1, point2)
+                mill = new UpTreadmill(track)
+                mill.speed = flop
+                flop*=-1
+               assortedDraw.push(mill)
+            }else{
+                point2 = new Point(2320, -7900+(t*450))
+                point1 = new Point(2320, -7450+(t*450))
+                track = new LineOP(point1, point2)
+                mill = new UpTreadmill(track)
+                mill.speed = flop
+                flop*=-1
+               assortedDraw.push(mill)
+            }
+        }
+         flop = -2
+        for(let t = 0;t<4;t++){
+            if(flop == 2){
+            point1 = new Point(2189, -7800+(t*450))
+            point2 = new Point(2189, -7350+(t*450))
+            track = new LineOP(point1, point2)
+            mill = new UpTreadmill(track)
+            mill.speed = flop
+            flop*=-1
+           assortedDraw.push(mill)
+            }else{
+            point2 = new Point(2189, -7800+(t*450))
+            point1 = new Point(2189, -7350+(t*450))
+            track = new LineOP(point1, point2)
+            mill = new UpTreadmill(track)
+            mill.speed = flop
+            flop*=-1
+           assortedDraw.push(mill)
+            }
+        }
+
+
+        let floor4b = new Rectangle(2320, -6200, 69, 600)
+        floors.push(floor4b)
+        walls.push(floor4b)
+        roofs.push(floor4b)
+
+
+        let upcrusher = new UpCrusher(2420, -5900, 20)
+        assortedDraw.push(upcrusher)
+
+         upcrusher = new UpCrusher(2620, -5900, 20)
+        assortedDraw.push(upcrusher)
+
+         upcrusher = new UpCrusher(2820, -5900, 20)
+        assortedDraw.push(upcrusher)
+
+
         markRectangles()
 
         for (let k = 0; k < 36; k++) {
