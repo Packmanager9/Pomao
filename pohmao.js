@@ -1282,13 +1282,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 return
             }
             this.cycle += .04
-            if(this.body.y + (Math.cos(this.cycle)*3.95) < this.anchor.y){
+            if(this.body.y - (Math.cos(this.cycle)*3.95) < this.anchor.y){
                 this.body.y -= Math.cos(this.cycle)*3.95
                 this.cast.adjustByFromDisplacement(0,-(Math.cos(this.cycle)*3.95))
             }
             // this.cast.draw()
             this.link = new Line(this.anchor.x, this.anchor.y, this.body.x, this.body.y+this.rad,  "#2d0500", this.rad*2.1)
-            tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, this.rad*2.1), Math.min(facfloorimg.height, this.link.hypotenuse()), this.anchor.x-(this.rad*1.05), this.anchor.y, this.rad*2.1, this.link.hypotenuse())
+            tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, this.rad*2.1), Math.min(facfloorimg.height, this.link.hypotenuse()), this.anchor.x-(this.rad*1.05), this.body.y, this.rad*2.1, this.link.hypotenuse())
                                      
             // this.link.draw()
             if(Math.abs(this.body.x-pomao.body.x) < (this.rad*3)){
@@ -27596,19 +27596,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
 
-        let floor4b = new Rectangle(2320, -6200, 69, 600)
+        let floor4b = new Rectangle(2320, -6200, 69, 900)
         floors.push(floor4b)
         walls.push(floor4b)
         roofs.push(floor4b)
 
+        let point1xy = new Point(2420, -6131)
+        let point2xy = new Point(3200, -6131)
+        let trackxy = new LineOP(point2xy, point1xy)
+        let milly = new Treadmill(trackxy)
+        milly.speed = -6
+        assortedDraw.push(milly)
 
-        let upcrusher = new UpCrusher(2420, -5900, 20)
+        let upcrusher = new UpCrusher(2420, -5860, 20)
         assortedDraw.push(upcrusher)
 
-         upcrusher = new UpCrusher(2620, -5900, 20)
+         upcrusher = new UpCrusher(2770, -5860, 20)
         assortedDraw.push(upcrusher)
 
-         upcrusher = new UpCrusher(2820, -5900, 20)
+         upcrusher = new UpCrusher(3120, -5860, 20)
         assortedDraw.push(upcrusher)
 
 
