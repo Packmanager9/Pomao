@@ -359,6 +359,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const magentaball = new Image()
     magentaball.src = "magentaball.png"
+
+    const cubeassetimg = new Image()
+    cubeassetimg.src = "cubeasset.png"
+    const cubeassetimgl = new Image()
+    cubeassetimgl.src = "cubeassetl.png"
     const snowflakeimg = new Image()
     snowflakeimg.src = "snowflakes.png"
     const bossflake = new Image()
@@ -1273,17 +1278,114 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     }
     class BallDrop{
-        constructor(x,y){
+        constructor(x,y, posx, posy){
             this.body = new Circle(x,y, 30, "orange")
+            this.catch = new Rectangle(posx,posy, 100, 100,  "white")
             this.balls = []
             this.counter = 0
             this.rate = 100
             this.rate2 = 1000
             this.gravity = .1
+            this.locked = -1
+            this.countdown = 30
+            this.catchhold = 0
+            this.cubes = []
+            this.pomlink = new LineOP(pomao.body, this.body)
         }
         draw(){
+            for(let t = 0;t<this.cubes.length;t++){
+                // this.cubes[t].width *= .999
+                // this.cubes[t].height *= .999
+                // if(this.cubes[t].width <=0){
+                //     this.cubes[t].width = .999
+                //     this.cubes[t].height= .999
+                // }
+                let wet = 0
+                this.cubes[t].countdown--
+                // if(this.cubes[t].doesPerimeterTouch(pomao.body)){
+                //     if(Math.abs((this.cubes[t].x+30)-pomao.body.x) <= pomao.body.radius){
+                //         this.cubes[t].x += (Math.sign((this.cubes[t].x+30)-pomao.body.x)*.1)
+                //     }
+                // }
+                if(this.cubes[t].doesPerimeterTouch(pomao.tongue) && !this.cubes[t].doesPerimeterTouch(pomao.body)){
+                    let vec = new Vector(pomao.tongue, pomao.tonguexmom, pomao.tongueymom)
+                    if(vec.isToward(pomao.body)){
+                        this.cubes[t].xmom = pomao.tonguexmom
+                        this.cubes[t].x += pomao.tonguexmom
+                    }
+                    if(this.cubes[t].countdown <= 0 ){
+                        this.cubes[t].locked*=-1
+                        if(this.cubes[t].locked == 1){
+                            this.cubes[t].wall = 1
+                        }else{
+                            this.cubes[t].wall = 0
+                        }
+                        this.cubes[t].countdown = this.countdown
+                    }else{
+                    }
+                }
+
+                if(this.cubes[t].doesPerimeterTouch(pomao.body)){
+                    this.cubes[t].xmom = 0
+                }
+                for(let k = 0;k<floors.length;k++){
+                    if(floors[k] == this.cubes[t]){
+                        continue
+                    }
+                    let point1 = new Point(this.cubes[t].x, this.cubes[t].y+this.cubes[t].height)
+                    let point2 = new Point(this.cubes[t].x+this.cubes[t].width, this.cubes[t].y+this.cubes[t].height)
+                    if(this.cubes[t].y <= floors[k].y+1){
+                    if(floors[k].isPointInside(point1)){
+                        this.cubes[t].y = floors[k].y-this.cubes[t].height
+                        if(floors[k].xmom != 0){
+                            this.cubes[t].xmom = floors[k].xmom*.9
+                        }
+                        if(floors[k].ymom < 0){
+                            floors[k].ymom = 0
+                        }
+                        // break
+                        // this.cubes[t].ymom *= -1
+                        wet = 1
+                    }
+                    if(floors[k].isPointInside(point2)){
+                        // this.cubes[t].ymom *= -1
+                        this.cubes[t].y = floors[k].y-this.cubes[t].height
+                        if(floors[k].xmom != 0){
+                        this.cubes[t].xmom = floors[k].xmom*.9
+                        }
+                        if(floors[k].ymom < 0){
+                            floors[k].ymom = 0
+                        }
+                        // break
+                        wet = 1
+                    }
+                }
+                }
+                if(this.cubes[t].locked == -1){
+                    tutorial_canvas_context.drawImage(cubeassetimg, 0, 0, cubeassetimg.width, cubeassetimg.height, this.cubes[t].x, this.cubes[t].y, this.cubes[t].width, this.cubes[t].height)
+                   
+                }else{
+                tutorial_canvas_context.drawImage(cubeassetimgl, 0, 0, cubeassetimgl.width, cubeassetimgl.height, this.cubes[t].x, this.cubes[t].y, this.cubes[t].width, this.cubes[t].height)
+           
+                }
+                if(wet == 0){
+                    if(!this.cubes[t].doesPerimeterTouch(pomao.body)){
+
+                // if(this.cubes[t].locked == -1){
+                // }else{ 
+                    this.cubes[t].y += 2
+                // }
+                    }
+                }
+            }
+            if(this.pomlink.hypotenuse() > 4500){
+                return
+            }
+
+            this.catch.draw()
             this.counter++
-            if(this.counter%this.rate2 == 0){
+            this.catchhold = 0
+            if(this.counter%this.rate2 == 0 && this.pomlink.hypotenuse() < 2800){
                 let ball = new Bosscircle(this.body.x, this.body.y, 12, "cyan", 0, 2)
                 ball.radius*=1.2
                 ball.bounce = 1
@@ -1352,9 +1454,45 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                 }
-
+                if(this.catch.doesPerimeterTouch(this.balls[t])){
+                    this.balls[t].xmom += (((this.catch.x+(this.catch.width*.5)))-this.balls[t].x)*.03
+                    this.balls[t].ymom += (((this.catch.y+(this.catch.height*.5)))-this.balls[t].y)*.03
+                    this.balls[t].xmom *= .96
+                    this.balls[t].ymom *= .96
+                    this.balls[t].marked = -1
+                    this.catchhold++
+                }
             }
 
+            if(this.catchhold == 10){
+                for(let k = 0;k<this.balls.length;k++){
+                    if(this.balls[k].marked == -1){
+                        this.balls[k].marked = 1
+                    }
+                }
+                this.stagecube = 1
+            }
+            if(this.stagecube == 1){
+                this.stagecube = 0
+                const block = new Rectangle(((this.catch.x+(this.catch.width*.5))-30) + 400,( (this.catch.y+(this.catch.height*.5))-30) - 1000, 70, 70, "magenta")
+                floors.push(block)
+                walls.push(block)
+                blocks.push(block)
+                this.cubes.push(block)
+                block.countdown = this.countdown
+                block.locked = -1
+                markRectangles()
+            }
+
+
+
+
+
+            for(let t = 0;t<this.balls.length;t++){
+                if(this.balls[t].marked == 1){
+                    this.balls.splice(t,1)
+                }
+            }
             this.body.draw()
         }
     }
@@ -10357,7 +10495,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         } else if (level == 14) {
                                             tutorial_canvas_context.drawImage(lvlmarshfloorimg, 0, 0, Math.min(lvlmarshfloorimg.width, floors[t].width), Math.min(lvlmarshfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }else if (level == 15) {
+
+                                    if (!floors[t].block == 1) {
                                             tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, floors[t].width), Math.min(facfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    }
                                         }
                                     }
                                 } else {
@@ -10446,7 +10587,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     } else if (level == 14) {
                                         tutorial_canvas_context.drawImage(lvlmarshfloorimg, 0, 0, Math.min(lvlmarshfloorimg.width, floors[t].width), Math.min(lvlmarshfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }else if (level == 15) {
+                                        if (!floors[t].block == 1) {
                                         tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, floors[t].width), Math.min(facfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                        }
                                     }
                                 }
                             } else {
@@ -10552,11 +10695,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 } else if (level == 14) {
                                     tutorial_canvas_context.drawImage(lvlmarshfloorimg, 0, 0, Math.min(lvlmarshfloorimg.width, floors[t].width), Math.min(lvlmarshfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                 }else if (level == 15) {
+                                    if (!floors[t].block == 1) {
                                     tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, floors[t].width), Math.min(facfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    }
                                 }
                             }
                             if (floors[t].block == 1) {
-                                tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                if(level != 15){
+                                    tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                }
                             }
                         } else {
 
@@ -10565,7 +10712,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             } else {
 
                                 if (floors[t].block == 1) {
+                                    if(level != 15){
                                     tutorial_canvas_context.drawImage(blockimg, floors[t].x, floors[t].y, floors[t].width, floors[t].height)
+                                    }
                                 }
                             }
                             if (floors[t].ungrapplable == 1) {
@@ -11402,6 +11551,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                                 if (!blocks[t].isBlocked) {
                                     blocks[t].x -= 2.9999
+                                    if(level == 15){
+                                        blocks[t].x += pomao.body.sxmom+pomao.body.xmom
+                                    }
                                 }
                             }
                             // blocks[t].xmom-=.1
@@ -11433,6 +11585,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             if (!nails.includes(blocks[t])) {
                                 if (!blocks[t].isBlocked) {
                                     blocks[t].x += 2.9999
+                                    if(level == 15){
+                                        blocks[t].x += pomao.body.sxmom+pomao.body.xmom
+                                    }
                                 }
                             }
                             // blocks[t].xmom+=.1
@@ -11460,6 +11615,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         if (!nails.includes(blocks[t])) {
                                             if (!blocks[t].isBlocked) {
                                                 blocks[t].x += gamepadAPI.axesStatus[0] * 2.999
+                                                if(level == 15){
+                                                    blocks[t].x += pomao.body.sxmom+pomao.body.xmom
+                                                }
                                             }
                                         }
                                         // blocks[t].xmom+=.1
@@ -11475,6 +11633,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         if (!nails.includes(blocks[t])) {
                                             if (!blocks[t].isBlocked) {
                                                 blocks[t].x += gamepadAPI.axesStatus[0] * 2.999
+                                                if(level == 15){
+                                                    blocks[t].x += pomao.body.sxmom+pomao.body.xmom
+                                                }
                                             }
                                         }
                                         // blocks[t].xmom+=.1
@@ -11491,6 +11652,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     if (!nails.includes(blocks[t])) {
                                         if (!blocks[t].isBlocked) {
                                             blocks[t].x += gamepadAPI.axesStatus[0] * 2.999
+                                            if(level == 15){
+                                                blocks[t].x += pomao.body.sxmom+pomao.body.xmom
+                                            }
                                         }
                                     }
                                     // blocks[t].xmom+=.1
@@ -22876,13 +23040,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     blocks[t].isBlocked = false
                                 } else {
                                     blocks[t].isBlocked = true
+                                    if(level != 15){
                                     if (!walls.includes(blocks[t])) {
                                         walls.push(blocks[t])
                                     }
                                     if (!roofs.includes(blocks[t])) {
                                         roofs.push(blocks[t])
                                     }
-                                    blocks.splice(t, 1)
+                                        blocks.splice(t, 1)
+                                    }
                                 }
                                 if (!blocks[t].isBlocked) {
                                     blocks[t].move()
@@ -27526,8 +27692,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
         pomao.body.x = -1000
         pomao.body.y = 0
-        // tutorial_canvas_context.translate(pomao.body.x -0, pomao.body.y+7050)
-        // pomao.body.x = 0
+        // tutorial_canvas_context.translate(pomao.body.x -3950, pomao.body.y+7050)
+        // pomao.body.x = 3950
         // pomao.body.y = -7050
 
         let floor = new Rectangle(-3640, 50, 1000, 7000)
@@ -27659,6 +27825,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(floor4d)
         roofs.push(floor4d)
 
+        let floor4e = new Rectangle(4970, -6750, 900-50, 69, "cyan")
+        floors.push(floor4e)
+        walls.push(floor4e)
+        roofs.push(floor4e)
+        ungrapplable.push(floor4e)
+        
+
         let point1xy22 = new Point(2570, -6481)
         let point2xy22 = new Point(3470, -6481)
         let trackx22y = new LineOP(point2xy22, point1xy22)
@@ -27739,7 +27912,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         assortedDraw.push(upcrusher)
 
 
-        let dropper1 = new BallDrop(2450, -8000)
+        let dropper1 = new BallDrop(2450, -8000, 3250, -5850)
         assortedDraw.push(dropper1)
 
         markRectangles()
