@@ -7,6 +7,7 @@ let anglemegacount = 0
 let framemegacount = 0
 function empty() {
 }
+let dropper1 = {}
 let globalVecPoint = {}
 globalVecPoint.x = 0
 globalVecPoint.y = 0
@@ -1227,6 +1228,140 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
+
+    class GearPlatform{
+        constructor(x,y, radius, sides, color, color2){
+            this.color = color
+            this.color2 = color2
+            this.rays = []
+            this.size = radius
+            // this.center = new Circle(100+((gres.length%12)*70), 100+(Math.floor(gres.length/12)*100), 1, getRandomLightColor())
+            this.center = new Circle(x, y, this.size*.35, "brown")
+            this.angle =0//Math.random()*Math.PI*2
+            this.anticenter = new Circle(this.center.x-((Math.cos(this.angle))*this.size), this.center.y-((Math.sin(this.angle))*this.size), this.size*.35,  "brown")
+            // this.anticenter = new Circle(100+((gres.length%12)*70),  150+(Math.floor(gres.length/12)*100), 1, invertColor(this.center.color))
+            this.lengths = []
+            this.antilengths = []
+            this.angles  = [this.angle]
+            this.angles  = [this.angle]
+            this.spin = 0
+            this.rate = (Math.random()-.5)/20
+            this.rate += Math.sign(this.rate)*.02
+            this.bodybox1 = []
+            this.bodybox2 = []
+            for(let t = 0;t<180;t++){
+                let a1 = this.angle+this.angles[t]+(Math.PI/90)
+                this.angles.push(a1)
+                let l1 = (this.size*.3)+Math.min(Math.max(((Math.cos(Math.sin(this.angle +this.angles[t]*(.5+((sides)*.5))))*(this.size*.3))), 0),this.size)
+                this.lengths.push(l1)  //let the one gear be the template
+                let l2 = this.size-this.lengths[t]
+                this.antilengths.push(l2) // and the other be the response
+
+                this.bodybox1.push((new Circle(this.center.x + Math.cos(this.angles[t])*this.lengths[t],  this.center.y + Math.sin(this.angles[t])*this.lengths[t], 4, "yellow")))
+                this.bodybox2.push((new Circle(this.anticenter.x + Math.cos(this.angles[t])*this.antilengths[t],  this.anticenter.y + Math.sin(this.angles[t])*this.antilengths[t], 4, "red")))
+            }
+            this.body1 = new Shape(this.bodybox1)
+            this.body2 = new Shape(this.bodybox2)
+
+            ramps.push(this.body1)
+            ramps.push(this.body2)
+            ramps.push(this.center)
+            ramps.push(this.anticenter)
+            
+            // let wet = 0
+            // for(let t = 0;t<gres.length;t++){
+            //     let link1 = new LineOP(this.center, gres[t].center)
+            //     let link2 = new LineOP(this.anticenter, gres[t].anticenter)
+            //     let link3 = new LineOP(this.anticenter, gres[t].center)
+            //     let link4 = new LineOP(this.center, gres[t].anticenter)
+
+            //     if(link1.hypotenuse() < .7*(this.size+gres[t].size)){
+            //         wet = 1
+            //     }
+            //     if(link2.hypotenuse() <.7* (this.size+gres[t].size)){
+            //         wet = 1
+            //     }
+            //     if(link3.hypotenuse() < .7*(this.size+gres[t].size)){
+            //         wet = 1
+            //     }
+            //     if(link4.hypotenuse() < .7*(this.size+gres[t].size)){
+            //         wet = 1
+            //     }
+
+            // }
+            // if(wet == 0){
+            //     gres.push(this)
+            // }
+        }
+        draw(){
+            tutorial_canvas_context.fillStyle = this.color
+            tutorial_canvas_context.strokeStyle = this.color2
+            tutorial_canvas_context.lineWidth = this.body1.shapes[0].radius*2
+            this.body1.filldraw()
+            this.body2.filldraw()
+            // this.center.draw()
+            // this.anticenter.draw()
+
+            let wet = 0
+            for(let t = 0;t<dropper1.cubes.length;t++){
+                for(let k = 0;k<this.body1.shapes.length;k++){
+                    if(dropper1.cubes[t].doesPerimeterTouch(this.body1.shapes[k])){
+                        wet++
+                        k = 100000000000
+                        dropper1.cubes[t].ymom = -dropper1.gravity
+                    }
+                }
+                for(let k = 0;k<this.body2.shapes.length;k++){
+                    if(dropper1.cubes[t].doesPerimeterTouch(this.body2.shapes[k])){
+                        wet++
+                        k = 100000000000
+                        dropper1.cubes[t].ymom = -dropper1.gravity
+                    }
+                }
+                if(wet == 2){
+                    dropper1.cubes[t].isJammed = 1
+                    break
+                }else{
+                    dropper1.cubes[t].isJammed = 0
+                    wet = 0
+                }
+            }
+
+            if(wet <= 1){
+                this.spin+=this.rate
+            }
+          
+            for(let t = 0;t<this.body1.shapes.length;t++){
+                this.body1.shapes[t].x  =  this.center.x + Math.cos(this.angles[t]+this.spin)*this.lengths[t]
+                this.body1.shapes[t].y  =  this.center.y + Math.sin(this.angles[t]+this.spin)*this.lengths[t]
+            }
+            for(let t = 0;t<this.body2.shapes.length;t++){
+                this.body2.shapes[t].x  =  this.anticenter.x + Math.cos(this.angles[t]-this.spin)*this.antilengths[t]
+                this.body2.shapes[t].y  =  this.anticenter.y + Math.sin(this.angles[t]-this.spin)*this.antilengths[t]
+            }
+
+
+            
+
+            // this.spin+=this.rate
+            // this.center.draw()
+            // this.anticenter.draw()
+            // for(let t = 0;t<this.lengths.length;t++){
+            //     let point = new Point(this.center.x+(Math.cos(this.spin+this.angles[t])*this.lengths[t]),   this.center.y+(Math.sin(this.spin+this.angles[t])*this.lengths[t]))
+            //     let link = new LineOP(this.center, point, this.center.color, 1)
+            //     link.draw()
+            // }
+            // for(let t = 0;t<this.antilengths.length;t++){
+            //     let point = new Point(this.anticenter.x+(Math.cos(this.angles[t]-this.spin)*this.antilengths[t]),   this.anticenter.y+(Math.sin(this.angles[t]-this.spin)*this.antilengths[t]))
+            //     let link = new LineOP(this.anticenter, point, this.anticenter.color, 1)
+            //     link.draw()
+            // }
+        }
+    }
+
+    
+            
+
     class Crusher{
         constructor(x,y, rad){
             this.body = new Circle(x,y, rad, "white")
@@ -1390,7 +1525,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 // if(this.cubes[t].locked == -1){
                 // }else{ 
+                 if(this.cubes[t].isJammed != 1){
                     this.cubes[t].y += 2
+                 }
                 // }
                     }
                 }
@@ -7386,6 +7523,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             // //////console.log(this)
         }
+        filldraw() {
+            tutorial_canvas_context.beginPath()
+            tutorial_canvas_context.moveTo(this.shapes[0].x, this.shapes[0].y)
+            for (let t = 0; t < this.shapes.length; t++) {
+                tutorial_canvas_context.lineTo(this.shapes[t].x, this.shapes[t].y)
+            }
+            tutorial_canvas_context.lineTo(this.shapes[0].x, this.shapes[0].y)
+            tutorial_canvas_context.fill()
+            tutorial_canvas_context.stroke()
+            tutorial_canvas_context.closePath()
+            // //////console.log(this)
+        }
     }
     class Pomao {
         constructor() {
@@ -10390,7 +10539,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                         // tutorial_canvas_context.drawImage(hilllump, ramps[t].x, ramps[t].y, ramps[t].x - ramps[t].radius, ramps[t].y - ramps[t].radius)
                     } else {
-                        ramps[t].draw()
+                        if(level != 15){
+                            ramps[t].draw()
+                        }
                     }
                 }
             }
@@ -23085,7 +23236,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     }
                                 }
                                 if (!blocks[t].isBlocked) {
-                                    blocks[t].move()
+                                    if(blocks[t].isJammed != 1){
+                                        blocks[t].move()
+                                    }
                                 }
 
                                 blocks[t].ymove()
@@ -27730,6 +27883,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // pomao.body.x = 3950
         // pomao.body.y = -7050
 
+        // let gearzo = new GearPlatform(-1200, -300, 300, 7, "gray", "#444444")
+        // assortedDraw.push(gearzo)
+
         let floor = new Rectangle(-3640, 50, 1000, 7000)
         floors.push(floor)
         walls.push(floor)
@@ -27746,7 +27902,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             floors.push(floorfacladder)
         }
 
-        const wall2 = new Rectangle(-2950+3560, -5850, 5853, 50, "cyan")
+        const wall2 = new Rectangle(-2950+3560, -5850, 5903, 50, "cyan")
         walls.push(wall2)
         floors.push(wall2)
         roofs.push(wall2)
@@ -27864,6 +28020,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(floor4e)
         roofs.push(floor4e)
         ungrapplable.push(floor4e)
+
+        let floor5a = new Rectangle(5339, -6250, 20, 369)
+        floors.push(floor5a)
+
+
+        let gearzo = new GearPlatform(6539, -6250, 320, 7, "#646464", "#444444")
+        assortedDraw.push(gearzo)
+
         
 
         let point1xy22 = new Point(2570, -6481)
@@ -27946,7 +28110,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         assortedDraw.push(upcrusher)
 
 
-        let dropper1 = new BallDrop(2450, -8000, 3250, -5850)
+        dropper1 = new BallDrop(2450, -8000, 3250, -5850)
         assortedDraw.push(dropper1)
 
         markRectangles()
