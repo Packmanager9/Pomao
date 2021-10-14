@@ -1281,6 +1281,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         constructor(x,y, posx, posy){
             this.body = new Circle(x,y, 30, "orange")
             this.catch = new Rectangle(posx,posy, 100, 100,  "white")
+            this.pipe1 = new Rectangle(posx+100,posy+40, 20, 130,  "gray")
+            this.pipe2  = new Rectangle(posx+100+129,(posy+40)-700, 720, 20,  "gray")
+            this.pipe3  = new Rectangle(posx+100+128+20,(posy+40)-700, 20, 190,  "gray")
+            floors.push(this.pipe3)
+            this.pipe3.floor = 1
+            // this.pipe3.pipe = 1
             this.balls = []
             this.counter = 0
             this.rate = 100
@@ -1300,6 +1306,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 //     this.cubes[t].width = .999
                 //     this.cubes[t].height= .999
                 // }
+
+
+                if(this.cubes[t].width <70){
+                this.cubes[t].width *= 1.02
+                this.cubes[t].height *= 1.02
+                }else{
+                    this.cubes[t].width =70
+                    this.cubes[t].height =70
+                }
+
+
                 let wet = 0
                 this.cubes[t].countdown--
                 // if(this.cubes[t].doesPerimeterTouch(pomao.body)){
@@ -1381,7 +1398,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if(this.pomlink.hypotenuse() > 4500){
                 return
             }
-
+            this.pipe1.draw()
+            this.pipe2.draw()
+            this.pipe3.draw()
+            // this.pipe2.draw()
             this.catch.draw()
             this.counter++
             this.catchhold = 0
@@ -1455,9 +1475,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
                 if(this.catch.doesPerimeterTouch(this.balls[t])){
-                    this.balls[t].xmom += (((this.catch.x+(this.catch.width*.5)))-this.balls[t].x)*.03
+                    this.balls[t].xmom += (((this.catch.x+(this.catch.width*.5)))-this.balls[t].x)*.1
                     this.balls[t].ymom += (((this.catch.y+(this.catch.height*.5)))-this.balls[t].y)*.03
-                    this.balls[t].xmom *= .96
+                    // this.balls[t].xmom *= .96
                     this.balls[t].ymom *= .96
                     this.balls[t].marked = -1
                     this.catchhold++
@@ -1474,14 +1494,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if(this.stagecube == 1){
                 this.stagecube = 0
-                const block = new Rectangle(((this.catch.x+(this.catch.width*.5))-30) + 400,( (this.catch.y+(this.catch.height*.5))-30) - 1000, 70, 70, "magenta")
-                floors.push(block)
-                walls.push(block)
-                blocks.push(block)
-                this.cubes.push(block)
-                block.countdown = this.countdown
-                block.locked = -1
-                markRectangles()
+                // const block = new Rectangle(((this.catch.x+(this.catch.width*.5))-30) + 400,( (this.catch.y+(this.catch.height*.5))-30) - 1000, 70, 70, "magenta")
+                let point = new Circle((this.pipe3.x+this.pipe3.width+2),this.pipe3.y+10, 10, "red")
+                point.draw()
+                let wet = 0
+                for(let t = 0;t<this.cubes.length;t++){
+                    if(this.cubes[t].doesPerimeterTouch(point)){
+                        wet = 1
+                    }
+                }
+                if(wet == 0){
+                    const block = new Rectangle(this.pipe3.x+this.pipe3.width,this.pipe3.y, 20, 20, "magenta")
+                    floors.push(block)
+                    walls.push(block)
+                    blocks.push(block)
+                    this.cubes.push(block)
+                    block.countdown = this.countdown
+                    block.locked = -1
+                    markRectangles()
+                }
             }
 
 
@@ -1494,6 +1525,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             this.body.draw()
+
+
+
         }
     }
     class UpCrusher{
@@ -27825,7 +27859,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(floor4d)
         roofs.push(floor4d)
 
-        let floor4e = new Rectangle(4970, -6750, 900-50, 69, "cyan")
+        let floor4e = new Rectangle(5270, -6750, 900-50, 69, "cyan")
         floors.push(floor4e)
         walls.push(floor4e)
         roofs.push(floor4e)
@@ -27917,6 +27951,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         markRectangles()
 
+        for (let k = 0; k < 56; k++) {
+            const fruit = new Fruit(4270+ (Math.random() * 2000)-1000, -8000 + (Math.random() * 2100), 60, 60, "red")
+            let wet = 0
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < floors.length; k++) {
+                if (floors[k].doesPerimeterTouch(fruit.body)) {
+                    if(floors[k].jelly != 1){
+                    wet = 1
+                    break
+                    }
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+
+        }
         for (let k = 0; k < 36; k++) {
             const fruit = new Fruit((Math.random() * 3000)-1000, -7000 + (Math.random() * 1100), 60, 60, "red")
             let wet = 0
