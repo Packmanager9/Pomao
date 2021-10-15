@@ -22284,7 +22284,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
            this.spin = 0
            this.rate = .01
            this.gravity = .4
-           this.health = 1000
+           this.health = 1569
            this.chunk = this.dis/15
            this.hittimer = 0
             for(let t = 0;t<60;t++){
@@ -22316,11 +22316,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw(){
             this.spin += this.rate
 
+        let vec = new Vector(this.center, this.center.xmom, this.center.ymom)
+        if(vec.isToward(pomao.body)){
             if(pomao.body.x > this.center.x){
-                this.center.xmom += .009
+                this.center.xmom += .0169
             }else if(pomao.body.x < this.center.x){
-                this.center.xmom -= .009
+                this.center.xmom -= .0169
             }
+        }
 
             this.center.ymom += this.gravity
             this.center.softmove()
@@ -22365,18 +22368,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.center.ymom += pomao.thrown[h].ymom 
                     pomao.thrown[h].xmom = 0
                     pomao.thrown[h].ymom = 0
-                    this.health--
+                    this.health-=2
                     for(let t = 0;t<this.dots.length;t++){
-                        this.dist[t]*= .995
-                        this.megacenter.radius*=.995
+                        this.dist[t]*= .9982
+                        this.megacenter.radius*=.9982
                     }
                 } else if (this.megacenter.repelCheck(pomao.thrown[h])) {
                     this.center.xmom += pomao.thrown[h].xmom *.05
                     this.center.ymom += pomao.thrown[h].ymom *.05
-                    this.health-=.5
+                    this.health-=1
                     for(let t = 0;t<this.dots.length;t++){
-                        this.dist[t]*= .9975
-                        this.megacenter.radius*=.9975
+                        this.dist[t]*= .9992
+                        this.megacenter.radius*=.9992
                     }
                 }
             }
@@ -22406,12 +22409,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.hits--
                             this.health -= 50
                             for(let t = 0;t<this.dots.length;t++){
-                                this.dist[t]*= .975
-                                this.megacenter.radius*=.975
+                                this.dist[t]*= .985
+                                this.megacenter.radius*=.985
                             }
+                            pomao.runner = 0
                             }else{
                                 if(this.hittimer <= 0){
-                                    pomao.hits-=2
+                                    pomao.hits-=4
                                     this.hittimer = 20
                                 }
                             }
@@ -28820,12 +28824,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
      walls.push(floor6c)
      roofs.push(floor6c)
 
-      floor6cx  = new Rectangle(12900, -5900, 69, 5400)
+      floor6cx  = new Rectangle(12900, -5900, 169, 5400)
      floors.push(floor6cx)
      walls.push(floor6cx)
      roofs.push(floor6cx)
 
-     lvl15bosswall  = new Rectangle(12900+3900, -9900, 4069, 569)
+     lvl15bosswall  = new Rectangle(12900+3691, -9900, 4069, 569)
      floors.push(lvl15bosswall)
      walls.push(lvl15bosswall)
      roofs.push(lvl15bosswall)
@@ -28983,7 +28987,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 fruits.push(fruit)
             }
         }
-        for (let k = 0; k < 336; k++) {
+        for (let k = 0; k < 269; k++) {
             const fruit = new Fruit(13000+(Math.random() * 6000), -9000 + (Math.random() * 3100), 60, 60, "red")
             let wet = 0
             for (let k = 0; k < fruits.length; k++) {
