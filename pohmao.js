@@ -28987,7 +28987,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 fruits.push(fruit)
             }
         }
-        for (let k = 0; k < 269; k++) {
+        for (let k = 0; k < 369; k++) {
             const fruit = new Fruit(13000+(Math.random() * 6000), -9000 + (Math.random() * 3100), 60, 60, "red")
             let wet = 0
             for (let k = 0; k < fruits.length; k++) {
