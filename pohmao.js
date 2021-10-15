@@ -8,6 +8,9 @@ let framemegacount = 0
 function empty() {
 }
 let dropper1 = {}
+let floor6cx = {}
+let lvl15bosswall = {}
+let lvl15bosswallenter = {}
 let globalVecPoint = {}
 globalVecPoint.x = 0
 globalVecPoint.y = 0
@@ -1526,6 +1529,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class BallDrop{
         constructor(x,y, posx, posy){
             this.body = new Circle(x,y, 30, "orange")
+            this.entrypipe = new Rectangle(x-10,y-100, 100, 20,  "gray")
             this.catch = new Rectangle(posx,posy, 100, 100,  "white")
             this.pipe1 = new Rectangle(posx+100,posy+40, 20, 130,  "gray")
             this.pipe2  = new Rectangle(posx+100+129,(posy+40)-700, 720, 20,  "gray")
@@ -1774,7 +1778,267 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.balls.splice(t,1)
                 }
             }
-            this.body.draw()
+            this.entrypipe.draw()
+            // this.body.draw()
+
+
+
+        }
+    }
+    class BallDrop2{
+        constructor(x,y, posx, posy){
+            this.body = new Circle(x,y, 30, "orange")
+            this.entrypipe = new Rectangle(x-10,y-100, 100, 20,  "gray")
+            this.catch = new Rectangle(posx,posy, 100, 100,  "white")
+            this.pipe1 = new Rectangle(posx+100,posy+40, 20, 130,  "gray")
+            this.pipe2  = new Rectangle(posx+100+129,(posy+40)-580, 600, 20,  "gray")
+            this.pipe3  = new Rectangle(posx+100+129,(posy+40)-580, 20, 590,  "gray")
+            floors.push(this.pipe3)
+            this.pipe3.floor = 1
+            // this.pipe3.pipe = 1
+            this.balls = []
+            this.counter = 0
+            this.rate = 400
+            this.rate2 = 2000
+            this.gravity = .1
+            this.locked = -1
+            this.countdown = 30
+            this.catchhold = 0
+            this.cubes = []
+            this.pomlink = new LineOP(pomao.body, this.body)
+        }
+        draw(){
+            for(let t = 0;t<this.cubes.length;t++){
+                // this.cubes[t].width *= .999
+                // this.cubes[t].height *= .999
+                // if(this.cubes[t].width <=0){
+                //     this.cubes[t].width = .999
+                //     this.cubes[t].height= .999
+                // }
+
+
+                if(this.cubes[t].width <70){
+                this.cubes[t].width *= 1.02
+                this.cubes[t].height *= 1.02
+                }else{
+                    this.cubes[t].width =70
+                    this.cubes[t].height =70
+                }
+
+
+                let wet = 0
+                this.cubes[t].countdown--
+                // if(this.cubes[t].doesPerimeterTouch(pomao.body)){
+                //     if(Math.abs((this.cubes[t].x+30)-pomao.body.x) <= pomao.body.radius){
+                //         this.cubes[t].x += (Math.sign((this.cubes[t].x+30)-pomao.body.x)*.1)
+                //     }
+                // }
+                if(this.cubes[t].doesPerimeterTouch(pomao.tongue) && !this.cubes[t].doesPerimeterTouch(pomao.body)){
+                    let vec = new Vector(pomao.tongue, pomao.tonguexmom, pomao.tongueymom)
+                    if(vec.isToward(pomao.body)){
+                        this.cubes[t].xmom = pomao.tonguexmom
+                        this.cubes[t].x += pomao.tonguexmom
+                    }
+                    if(this.cubes[t].countdown <= 0 ){
+                        this.cubes[t].locked*=-1
+                        if(this.cubes[t].locked == 1){
+                            this.cubes[t].wall = 1
+                        }else{
+                            this.cubes[t].wall = 0
+                        }
+                        this.cubes[t].countdown = this.countdown
+                    }else{
+                    }
+                }
+
+                if(this.cubes[t].doesPerimeterTouch(pomao.body)){
+                    this.cubes[t].xmom = 0
+                }
+                for(let k = 0;k<floors.length;k++){
+                    if(floors[k] == this.cubes[t]){
+                        continue
+                    }
+                    let point1 = new Point(this.cubes[t].x, this.cubes[t].y+this.cubes[t].height)
+                    let point2 = new Point(this.cubes[t].x+this.cubes[t].width, this.cubes[t].y+this.cubes[t].height)
+                    if(this.cubes[t].y <= floors[k].y+1){
+                    if(floors[k].isPointInside(point1)){
+                        this.cubes[t].y = floors[k].y-this.cubes[t].height
+                        if(floors[k].xmom != 0){
+                            this.cubes[t].xmom = floors[k].xmom*.9
+                        }
+                        if(floors[k].ymom < 0){
+                            floors[k].ymom = 0
+                        }
+                        // break
+                        // this.cubes[t].ymom *= -1
+                        wet = 1
+                    }
+                    if(floors[k].isPointInside(point2)){
+                        // this.cubes[t].ymom *= -1
+                        this.cubes[t].y = floors[k].y-this.cubes[t].height
+                        if(floors[k].xmom != 0){
+                        this.cubes[t].xmom = floors[k].xmom*.9
+                        }
+                        if(floors[k].ymom < 0){
+                            floors[k].ymom = 0
+                        }
+                        // break
+                        wet = 1
+                    }
+                }
+                }
+                if(this.cubes[t].locked == -1){
+                    tutorial_canvas_context.drawImage(cubeassetimg, 0, 0, cubeassetimg.width, cubeassetimg.height, this.cubes[t].x, this.cubes[t].y, this.cubes[t].width, this.cubes[t].height)
+                   
+                }else{
+                tutorial_canvas_context.drawImage(cubeassetimgl, 0, 0, cubeassetimgl.width, cubeassetimgl.height, this.cubes[t].x, this.cubes[t].y, this.cubes[t].width, this.cubes[t].height)
+           
+                }
+                if(wet == 0){
+                    if(!this.cubes[t].doesPerimeterTouch(pomao.body)){
+
+                // if(this.cubes[t].locked == -1){
+                // }else{ 
+                 if(this.cubes[t].isJammed != 1){
+                    this.cubes[t].y += 2
+                 }
+                // }
+                    }
+                }
+
+                this.cubes[t].isJammed = 0
+            }
+            if(this.pomlink.hypotenuse() > 4500){
+                return
+            }
+            this.pipe1.draw()
+            this.pipe2.draw()
+            this.pipe3.draw()
+            // this.pipe2.draw()
+            this.catch.draw()
+            this.counter++
+            this.catchhold = 0
+            if(this.counter%this.rate2 == 0 && this.pomlink.hypotenuse() < 2800){
+                let ball = new Bosscircle(this.body.x, this.body.y, 12, "cyan", 0, 2)
+                ball.radius*=1.2
+                ball.bounce = 1
+                this.balls.push(ball)
+            }else if(this.counter%this.rate == 0){
+                let ball = new Bosscircle(this.body.x, this.body.y, 12, "magenta", 0, 2)
+                this.balls.push(ball)
+            }
+            for(let t = 0;t<this.balls.length;t++){
+                this.balls[t].ymom+=this.gravity
+                if(this.balls[t].bounce == 1){
+                }else{
+                    this.balls[t].xmom*=.98
+                }
+                this.balls[t].move()
+                // this.balls[t].draw()
+
+                if(this.balls[t].bounce == 1){
+                    tutorial_canvas_context.drawImage(bluecircleimg, 0, 0, bluecircleimg.width, bluecircleimg.height, this.balls[t].x - this.balls[t].radius, this.balls[t].y - this.balls[t].radius, this.balls[t].radius * 2, this.balls[t].radius * 2)
+                }else{
+                    tutorial_canvas_context.drawImage(magentaball, 0, 0, magentaball.width, magentaball.height, this.balls[t].x - this.balls[t].radius, this.balls[t].y - this.balls[t].radius, this.balls[t].radius * 2, this.balls[t].radius * 2)
+                }
+
+                if(this.balls[t].repelCheck(pomao.body)){
+                    if (pomao.disabled != 1) {
+                        if (pomao.pounding != 10) {
+                            pomao.body.xmom = -3 * Math.sign(this.balls[t].x-pomao.body.x)
+                            pomao.body.sxmom =  0
+                            pomao.body.symom =  0
+                            pomao.disabled = 1
+                            pomao.hits-=.5
+                            pomao.body.ymom = 1.8
+                            this.body.xmom = -pomao.body.xmom
+                        }
+                    } else {
+                            pomao.body.xmom = -3 * Math.sign(this.balls[t].x-pomao.body.x)
+                            pomao.body.sxmom =  0
+                            pomao.body.symom =  0
+                            pomao.body.ymom = 1.8
+                            this.body.xmom = -pomao.body.xmom
+                    }
+                }
+                
+                for(let k = 0;k<assortedDraw.length;k++){
+                    if(assortedDraw[k].mill == 1){
+                        if(this.balls[t].bounce == 1){
+                            if(assortedDraw[k].body.repelCheck(this.balls[t])){
+                                this.balls[t].x += assortedDraw[k].speed*.9
+                                this.balls[t].xmom += assortedDraw[k].speed*.05
+                                if(this.balls[t].ymom > 1){
+                                    this.balls[t].ymom *= -1.2
+                                    this.balls[t].xmom = assortedDraw[k].speed*1.5
+                                }else{
+                                    if(this.balls[t].ymom != 0){
+                                    this.balls[t].xmom = 0
+                                    }
+                                    this.balls[t].ymom = -this.gravity
+                                }
+                            }
+                        }else{
+                        if(assortedDraw[k].body.repelCheck(this.balls[t])){
+                            this.balls[t].x += assortedDraw[k].speed
+                            this.balls[t].xmom += assortedDraw[k].speed*.05
+                            this.balls[t].ymom = -this.gravity
+                        }
+                        }
+                    }
+                }
+                if(this.catch.doesPerimeterTouch(this.balls[t])){
+                    this.balls[t].xmom += (((this.catch.x+(this.catch.width*.5)))-this.balls[t].x)*.1
+                    this.balls[t].ymom += (((this.catch.y+(this.catch.height*.5)))-this.balls[t].y)*.03
+                    // this.balls[t].xmom *= .96
+                    this.balls[t].ymom *= .96
+                    this.balls[t].marked = -1
+                    this.catchhold++
+                }
+            }
+
+            if(this.catchhold == 10){
+                for(let k = 0;k<this.balls.length;k++){
+                    if(this.balls[k].marked == -1){
+                        this.balls[k].marked = 1
+                    }
+                }
+                this.stagecube = 1
+            }
+            if(this.stagecube == 1){
+                this.stagecube = 0
+                // const block = new Rectangle(((this.catch.x+(this.catch.width*.5))-30) + 400,( (this.catch.y+(this.catch.height*.5))-30) - 1000, 70, 70, "magenta")
+                let point = new Circle((this.pipe3.x+this.pipe3.width+2),this.pipe3.y+10, 10, "red")
+                point.draw()
+                let wet = 0
+                for(let t = 0;t<this.cubes.length;t++){
+                    if(this.cubes[t].doesPerimeterTouch(point)){
+                        wet = 1
+                    }
+                }
+                if(wet == 0){
+                    const block = new Rectangle(this.pipe3.x+this.pipe3.width,this.pipe3.y, 20, 20, "magenta")
+                    floors.push(block)
+                    walls.push(block)
+                    blocks.push(block)
+                    this.cubes.push(block)
+                    block.countdown = this.countdown
+                    block.locked = -1
+                    markRectangles()
+                }
+            }
+
+
+
+
+
+            for(let t = 0;t<this.balls.length;t++){
+                if(this.balls[t].marked == 1){
+                    this.balls.splice(t,1)
+                }
+            }
+            this.entrypipe.draw()
+            // this.body.draw()
 
 
 
@@ -7580,6 +7844,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             return false
         }
+        insideCheckPomao() {
+            for (let t = 0; t < this.shapes.length; t++) {
+                if (pomao.body.repelCheck(this.shapes[t])) {
+                    return true
+                }
+            }
+
+            return false
+        }
+        repelCheckPomaoReturnObject() {
+            for (let t = 0; t < this.shapes.length; t++) {
+                if (pomao.body.repelCheck(this.shapes[t])) {
+                    return this.shapes[t]
+                }
+            }
+
+            return this.shapes[0]
+        }
         isInsideOf(box) {
 
             for (let t = 0; t < this.shapes.length; t++) {
@@ -10216,6 +10498,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if(level == 15){
                 factorymusic.play()
+                if(pomao.body.x > 10000){
+                    boss.draw()
+                }
             }else{
                 factorymusic.pause()
             }
@@ -14272,8 +14557,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if(this.shocksr.length > 0){
                     shockright.link = new LineShock(this.shocksr[this.shocksr.length-1], shockright, this.color, 4)
                     if(shockright.link.hypotenuse() > 50){
-                        shockleft.link = {}
-                        shockleft.link.draw = this.skip
+                        shockright.link = {}
+                        shockright.link.draw = this.skip
                     }
                 }else{
                     shockright.link = {}
@@ -21986,6 +22271,180 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     }
 
+    class Metacube{
+        constructor(){
+            this.center = new Bosscircle(14500, -6500, 70, "blue")
+            this.megacenter = new Bosscircle(14500, -6500, 250, "blue")
+            this.dots = []
+           this.dis = 200
+           this.angle = 0
+           this.pulseangle = 0
+           this.angles = []
+           this.dist = []
+           this.spin = 0
+           this.rate = .01
+           this.gravity = .4
+           this.health = 1000
+           this.chunk = this.dis/15
+           this.hittimer = 0
+            for(let t = 0;t<60;t++){
+                let circ = new Circle(this.center.x, this.center.y, 5, "blue", Math.cos(this.angle), Math.sin(this.angle))
+                while(Math.abs(circ.xmom) + Math.abs(circ.ymom) < 10){
+                    circ.xmom*=1.1
+                    circ.ymom*=1.1
+                }
+                for(let k = 0;k<25;k++){
+                    circ.move()
+                }
+                this.angle += Math.PI/30
+                this.dots.push(circ)
+                let link = new LineOP(circ, this.center)
+                this.dist.push(link.hypotenuse())
+                this.angles.push(link.angle())
+            }   
+            this.metashape = new Shape(this.dots)
+
+            this.angle = 0
+        }
+
+        dhypotenuse(point) {
+            let xdif = this.center.x - point.x
+            let ydif = this.center.y - point.y
+            let hypotenuse =   (xdif*xdif)+(ydif*ydif)   //(Math.min(Math.abs(xdif),Math.abs(ydif)) * Math.min(Math.abs(xdif),Math.abs(ydif))) + (Math.min(Math.abs(xdif),Math.abs(ydif)) * Math.min(Math.abs(xdif),Math.abs(ydif)))
+            return Math.sqrt(hypotenuse)
+        }
+        draw(){
+            this.spin += this.rate
+
+            if(pomao.body.x > this.center.x){
+                this.center.xmom += .009
+            }else if(pomao.body.x < this.center.x){
+                this.center.xmom -= .009
+            }
+
+            this.center.ymom += this.gravity
+            this.center.softmove()
+            this.center.xmom *= .996
+            this.center.ymom *= .989
+            this.pulseangle += this.rate*10
+            for(let t = 0;t<this.dots.length;t++){
+                this.dots[t].x = this.center.x+(Math.cos(this.angles[t]+this.spin)*this.dist[t] +((Math.cos(this.spin*t)*10)))
+                this.dots[t].y = this.center.y+(Math.sin(this.angles[t]+ this.spin)*this.dist[t] +((Math.sin(this.spin*t)*10)))
+                // this.dots[t].draw()
+                if(floor6cx.isPointInside(this.dots[t])){
+                    this.center.ymom += (floor6cx.y - this.dots[t].y)*2
+                }
+                if(lvl15bosswall.isPointInside(this.dots[t])){
+                    this.center.xmom += (lvl15bosswall.x - this.dots[t].x)*.7
+                }
+                if(lvl15bosswallenter.isPointInside(this.dots[t])){
+                    this.center.xmom += (this.dots[t].x-lvl15bosswallenter.x )*.7
+                }
+                
+            }
+            let j = 0
+
+            while(Math.abs(this.center.ymom) > 30){
+                j++
+                if(j == 100){
+                    break
+                }
+                this.center.ymom *= .95
+            }
+            j = 0
+            while(Math.abs(this.center.xmom) > 20){
+                if(j == 100){
+                    break
+                }
+                this.center.xmom *= .95
+            }
+
+            for (let h = 0; h < pomao.thrown.length; h++) {
+                if (this.center.repelCheck(pomao.thrown[h])) {
+                    this.center.xmom += pomao.thrown[h].xmom 
+                    this.center.ymom += pomao.thrown[h].ymom 
+                    pomao.thrown[h].xmom = 0
+                    pomao.thrown[h].ymom = 0
+                    this.health--
+                    for(let t = 0;t<this.dots.length;t++){
+                        this.dist[t]*= .995
+                        this.megacenter.radius*=.995
+                    }
+                } else if (this.megacenter.repelCheck(pomao.thrown[h])) {
+                    this.center.xmom += pomao.thrown[h].xmom *.05
+                    this.center.ymom += pomao.thrown[h].ymom *.05
+                    this.health-=.5
+                    for(let t = 0;t<this.dots.length;t++){
+                        this.dist[t]*= .9975
+                        this.megacenter.radius*=.9975
+                    }
+                }
+            }
+            if(this.health <= 0){
+                for(let t = 0;t<this.dots.length;t++){
+                    this.dist[t] = 0
+                    this.megacenter.radius = 1
+                    this.center.radius = 20
+                    this.center.xmom = 0
+                }
+            }
+
+
+            tutorial_canvas_context.fillStyle = "magenta"
+            tutorial_canvas_context.strokeStyle = "blue"
+            this.metashape.filldraw()
+            this.center.draw()
+            this.hittimer--
+                // console.log(this)
+            for(let t = 0;t<this.dots.length;t++){
+                if(pomao.checkRepelPomao(this.dots[t])){
+                    let link = new LineOP(this.dots[t], this.center)
+                    if (pomao.disabled != 1) {
+                            pomao.body.xmom =  (5*(Math.cos(link.angle())))+(this.center.xmom*1.01)
+                            pomao.disabled = 1
+                            if(pomao.pounding == 10){
+                            pomao.hits--
+                            this.health -= 50
+                            for(let t = 0;t<this.dots.length;t++){
+                                this.dist[t]*= .975
+                                this.megacenter.radius*=.975
+                            }
+                            }else{
+                                if(this.hittimer <= 0){
+                                    pomao.hits-=2
+                                    this.hittimer = 20
+                                }
+                            }
+                            pomao.body.ymom = (5*(Math.sin(link.angle())))+(this.center.ymom*1.01)
+                            j = 0
+                            while(Math.abs(pomao.body.ymom) > 11){
+                                if(j == 100){
+                                    break
+                                }
+                                pomao.body.ymom*=.95
+                            }
+
+                    } else {
+                            // pomao.hits--
+                            pomao.body.xmom = (3.55*(Math.cos(link.angle())))+(this.center.xmom*1.01)
+                            pomao.body.ymom =   (3.55*(Math.sin(link.angle())))+(this.center.ymom*1.01)
+
+                            j = 0
+                            while(Math.abs(pomao.body.ymom) > 11){
+                                if(j == 100){
+                                    break
+                                }
+                                pomao.body.ymom*=.95
+                            }
+                    }
+                    if(pomao.pounding == 10){
+                        this.center.ymom += 4.5
+                    }
+                }
+            }
+        }
+    }
+
 
     class Vector { // vector math and physics if you prefer this over vector components on circles
         constructor(object = (new Point(0, 0)), xmom = 0, ymom = 0) {
@@ -28077,6 +28536,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // tutorial_canvas_context.translate(pomao.body.x -6539, pomao.body.y+7050)
         // pomao.body.x = 6539
         // pomao.body.y = -7050
+        // tutorial_canvas_context.translate(pomao.body.x -11000, pomao.body.y+6000)
+        // pomao.body.x = 11000
+        // pomao.body.y = -6000
 
         
         // tutorial_canvas_context.translate(pomao.body.x -0, pomao.body.y+7050)
@@ -28085,6 +28547,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         // let gearzo = new GearPlatform(-1200, -300, 300, 7, "gray", "#444444")
         // assortedDraw.push(gearzo)
+
+
+
+        boss = new Metacube()
 
         let floor = new Rectangle(-3640, 50, 1000, 7000)
         floors.push(floor)
@@ -28248,10 +28714,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(floor5b)
         roofs.push(floor5b)
 
+
+
+        let gearzot3 = new GearPlatform(10700, -7069, 390, 1, "#646464", "#444444")
+        assortedDraw.push(gearzot3)
+
         let floor5c = new Rectangle(6600, -5900, 69, 4900)
         floors.push(floor5c)
         walls.push(floor5c)
         roofs.push(floor5c)
+
+        let floor5d = new Rectangle(7900+1900, -7300, (7300-5900), 69)
+        floors.push(floor5d)
+        walls.push(floor5d)
+        roofs.push(floor5d)
+
+        let floor5e  = new Rectangle(7900+1900+69, -6400, 69, 900)
+        floors.push(floor5e)
+        walls.push(floor5e)
+        roofs.push(floor5e)
 
 
         point1 = new Point(7950, -7300)
@@ -28261,8 +28742,117 @@ window.addEventListener('DOMContentLoaded', (event) => {
         mill.speed = 7
        assortedDraw.push(mill)
 
+       point1 = new Point(7950, -5900)
+       point2 = new Point(9700, -5900)
+       track = new LineOP(point2, point1)
+       mill = new Treadmill(track)
+       mill.speed = -4
+      assortedDraw.push(mill)
 
-        
+
+
+      let floor6a  = new Rectangle(11000, -6400, 69, 2500)
+      floors.push(floor6a)
+      walls.push(floor6a)
+      roofs.push(floor6a)
+
+      point1 = new Point(11000, -6400)
+      point2 = new Point(13500, -6400)
+      track = new LineOP(point1, point2)
+      mill = new Treadmill(track)
+      mill.speed = -3
+     assortedDraw.push(mill)
+
+     crusher = new Crusher(11700, -7541, 20)
+     assortedDraw.push(crusher)
+     crusher = new Crusher(11200, -7541, 20)
+     assortedDraw.push(crusher)
+     crusher = new Crusher(12200, -7541, 20)
+     assortedDraw.push(crusher)
+     crusher = new Crusher(12700, -7541, 20)
+     assortedDraw.push(crusher)
+
+     let floor6b  = new Rectangle(11000, -7000, 69, 1970)
+     floors.push(floor6b)
+     walls.push(floor6b)
+     roofs.push(floor6b)
+
+     let floor6d  = new Rectangle(11100, -7600, 69, 2970)
+     floors.push(floor6d)
+     walls.push(floor6d)
+     roofs.push(floor6d)
+
+     let floor6dx  = new Rectangle(11100, -8600, 1000, 69, "cyan")
+     floors.push(floor6dx)
+     walls.push(floor6dx)
+     roofs.push(floor6dx)
+     ungrapplable.push(floor6dx)
+
+     let floor6dy  = new Rectangle(13500, -8600, 1000, 69, "cyan")
+     floors.push(floor6dy)
+     walls.push(floor6dy)
+     roofs.push(floor6dy)
+     ungrapplable.push(floor6dy)
+
+     let floor6e  = new Rectangle(13500, -7600, 1269, 69)
+     floors.push(floor6e)
+     walls.push(floor6e)
+     roofs.push(floor6e)
+
+
+      point1 = new Point(11000, -7000)
+      point2 = new Point(12970, -7000)
+      track = new LineOP(point1, point2)
+      mill = new Treadmill(track)
+      mill.speed = 3
+    assortedDraw.push(mill)
+
+
+     crusher = new Crusher(11700, -6941, 40)
+     assortedDraw.push(crusher)
+     crusher = new Crusher(12200, -6941, 30)
+     assortedDraw.push(crusher)
+     crusher = new Crusher(11200, -6941, 20)
+     assortedDraw.push(crusher)
+
+     let floor6c  = new Rectangle(10500, -5900, 69, 2400)
+     floors.push(floor6c)
+     walls.push(floor6c)
+     roofs.push(floor6c)
+
+      floor6cx  = new Rectangle(12900, -5900, 69, 5400)
+     floors.push(floor6cx)
+     walls.push(floor6cx)
+     roofs.push(floor6cx)
+
+     lvl15bosswall  = new Rectangle(12900+3900, -9900, 4069, 569)
+     floors.push(lvl15bosswall)
+     walls.push(lvl15bosswall)
+     roofs.push(lvl15bosswall)
+     
+
+     lvl15bosswallenter = new Rectangle(13000, -9900, 4069, 569)
+    //  floors.push(lvl15bosswallenter)
+    //  walls.push(lvl15bosswallenter)
+    //  roofs.push(lvl15bosswallenter)
+
+      point1 = new Point(10200, -5900)
+      point2 = new Point(12900, -5900)
+      track = new LineOP(point1, point2)
+      mill = new Treadmill(track)
+      mill.speed = 1
+     assortedDraw.push(mill)
+
+     crusher = new Crusher(11200, -6341, 50)
+     assortedDraw.push(crusher)
+
+
+
+
+
+      let dropper2 = new BallDrop2(11050, -8000, 12900, -5850)
+      assortedDraw.push(dropper2)
+
 
         let point1xy22 = new Point(2570, -6481)
         let point2xy22 = new Point(3470, -6481)
@@ -28374,6 +28964,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         for (let k = 0; k < 36; k++) {
             const fruit = new Fruit((Math.random() * 3000)-1000, -7000 + (Math.random() * 1100), 60, 60, "red")
+            let wet = 0
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < floors.length; k++) {
+                if (floors[k].doesPerimeterTouch(fruit.body)) {
+                    if(floors[k].jelly != 1){
+                    wet = 1
+                    break
+                    }
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+        for (let k = 0; k < 336; k++) {
+            const fruit = new Fruit(13000+(Math.random() * 6000), -9000 + (Math.random() * 3100), 60, 60, "red")
             let wet = 0
             for (let k = 0; k < fruits.length; k++) {
                 if (fruit.body.repelCheck(fruits[k].body)) {
