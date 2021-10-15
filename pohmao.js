@@ -556,6 +556,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const rebelbasemusic = new Audio('truerebellong.mp3');
     const factorymusic = new Audio('factorylong.mp3');
+    const factorybossmusic = new Audio('metacubebeat.mp3')
     const marshMusic = new Audio('trueswamp.mp3');
     const islandsongmusic1 = new Audio('longislandsong.mp3');
     const islandsongmusic2 = new Audio('jungle.mp3');
@@ -10501,11 +10502,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             if(level == 15){
-                factorymusic.play()
                 if(pomao.body.x > 10000){
                     boss.draw()
+
+                    factorybossmusic.playbackRate = 1 + (.4-(.4*(boss.health/boss.maxhealth)))
+                    factorybossmusic.play()
+                    factorymusic.pause()
+                }else{
+                factorymusic.play()
                 }
             }else{
+                factorybossmusic.pause()
                 factorymusic.pause()
             }
 
@@ -22289,6 +22296,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
            this.rate = .01
            this.gravity = .4
            this.health = 1569
+           this.maxhealth = 1569
            this.chunk = this.dis/15
            this.hittimer = 0
             for(let t = 0;t<60;t++){
