@@ -22316,6 +22316,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw(){
             this.spin += this.rate
 
+    if(this.health > 0){
         let vec = new Vector(this.center, this.center.xmom, this.center.ymom)
         if(vec.isToward(pomao.body)){
             if(pomao.body.x > this.center.x){
@@ -22324,6 +22325,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.center.xmom -= .0169
             }
         }
+    }
 
             this.center.ymom += this.gravity
             this.center.softmove()
@@ -22399,6 +22401,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.center.draw()
             this.hittimer--
                 // console.log(this)
+
+            if(this.health > 0){
             for(let t = 0;t<this.dots.length;t++){
                 if(pomao.checkRepelPomao(this.dots[t])){
                     let link = new LineOP(this.dots[t], this.center)
@@ -22446,6 +22450,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
+        }
         }
     }
 
