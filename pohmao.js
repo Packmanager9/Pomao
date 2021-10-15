@@ -10354,12 +10354,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.tongueymom += .5
                 }
             }
-            if (this.tongue.y > this.body.y && ((!keysPressed['l'] && !keysPressed['j']) || this.tongue.y > this.body.y + 5)) {
+
+            //straightout tongue glitch? // yes
+            if (this.tongue.y > this.body.y){ //} && ((!keysPressed['l'] && !keysPressed['j']) || this.tongue.y > this.body.y + 5)) {  //yes
                 this.tongueymom -= .5
             }
-            if (this.tongue.y < this.body.y && ((!keysPressed['l'] && !keysPressed['j']) || this.tongue.y < this.body.y - 5)) {
+            if (this.tongue.y < this.body.y){ // && ((!keysPressed['l'] && !keysPressed['j']) || this.tongue.y < this.body.y - 5)) { // these tonguelock
                 this.tongueymom += .5
             }
+            //straightout tongue glitch?
+
             this.fired--
             if (this.bodytight.isPointInside(this.tongue)) {
                 // if(!keysPressed[' ']){
@@ -12382,12 +12386,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     if (this.xdir == 0 && this.ydir == 0) {
                         if (this.dir == 1) {
-                            this.tonguey = 0
-                            this.tongueymom = 0
+                           this.tonguey = 0 // test disable // no
+                            this.tongueymom = 0// test disable 10/15/2021 /locktongue
                             this.tonguexmom = 34 / 2
                         } else {
-                            this.tonguey = 0
-                            this.tongueymom = 0
+                            this.tonguey = 0// test disable 10/15/2021 /locktongue
+                            this.tongueymom = 0// test disable 10/15/2021 /locktongue
                             this.tonguexmom = -34 / 2
                         }
                     }
@@ -22411,6 +22415,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.disabled = 1
                             if(pomao.pounding == 10){
                             pomao.hits--
+                            this.hittimer = 20
                             this.health -= 50
                             for(let t = 0;t<this.dots.length;t++){
                                 this.dist[t]*= .985
