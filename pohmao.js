@@ -552,6 +552,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     const rebelbasemusic = new Audio('truerebellong.mp3');
+    const factorymusic = new Audio('factorylong.mp3');
     const marshMusic = new Audio('trueswamp.mp3');
     const islandsongmusic1 = new Audio('longislandsong.mp3');
     const islandsongmusic2 = new Audio('jungle.mp3');
@@ -589,6 +590,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const rampcurveimg1 = new Image()
     rampcurveimg1.src = 'paintrampcurve.png'
+
+    const cameraimg = new Image()
+    cameraimg.src = 'camera.png'
+
+    const cameraimgl = new Image()
+    cameraimgl.src = 'cameral.png'
 
     const wormimg = new Image()
     wormimg.src = 'wormimg.png'
@@ -1239,6 +1246,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.center = new Circle(x, y, this.size*.35, "brown")
             this.angle =0//Math.random()*Math.PI*2
             this.anticenter = new Circle(this.center.x-((Math.cos(this.angle))*this.size), this.center.y-((Math.sin(this.angle))*this.size), this.size*.35,  "brown")
+
+            this.pomlink1 = new LineOP(pomao.body, this.center)
+            this.pomlink2 = new LineOP(pomao.body, this.anticenter)
             // this.anticenter = new Circle(100+((gres.length%12)*70),  150+(Math.floor(gres.length/12)*100), 1, invertColor(this.center.color))
             this.lengths = []
             this.antilengths = []
@@ -1257,8 +1267,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 let l2 = this.size-this.lengths[t]
                 this.antilengths.push(l2) // and the other be the response
 
-                this.bodybox1.push((new Circle(this.center.x + Math.cos(this.angles[t])*this.lengths[t],  this.center.y + Math.sin(this.angles[t])*this.lengths[t], 4, "yellow")))
-                this.bodybox2.push((new Circle(this.anticenter.x + Math.cos(this.angles[t])*this.antilengths[t],  this.anticenter.y + Math.sin(this.angles[t])*this.antilengths[t], 4, "red")))
+                this.bodybox1.push((new Circle(this.center.x + Math.cos(this.angles[t])*this.lengths[t],  this.center.y + Math.sin(this.angles[t])*this.lengths[t], 11.5, "yellow")))
+                this.bodybox2.push((new Circle(this.anticenter.x + Math.cos(this.angles[t])*this.antilengths[t],  this.anticenter.y + Math.sin(this.angles[t])*this.antilengths[t], 11.5, "red")))
             }
             this.body1 = new Shape(this.bodybox1)
             this.body2 = new Shape(this.bodybox2)
@@ -1294,11 +1304,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // }
         }
         draw(){
+            if(this.pomlink1.hypotenuse() > (900+this.size) && this.pomlink2.hypotenuse() > (900+this.size)){
+                this.body1.hitflag = 0
+                this.body2.hitflag = 0
+                return
+            }else{
+                this.body1.hitflag = 1
+                this.body2.hitflag = 1
+            }
             tutorial_canvas_context.fillStyle = this.color
             tutorial_canvas_context.strokeStyle = this.color2
             tutorial_canvas_context.lineWidth = this.body1.shapes[0].radius*2
             this.body1.filldraw()
             this.body2.filldraw()
+            
+            this.body1.gear = 100
+            this.body2.gear = 100
             // this.center.draw()
             // this.anticenter.draw()
 
@@ -1308,21 +1329,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if(dropper1.cubes[t].doesPerimeterTouch(this.body1.shapes[k])){
                         wet++
                         k = 100000000000
-                        dropper1.cubes[t].ymom = -dropper1.gravity
+                        dropper1.cubes[t].ymom = -dropper1.gravity*2
                     }
                 }
                 for(let k = 0;k<this.body2.shapes.length;k++){
                     if(dropper1.cubes[t].doesPerimeterTouch(this.body2.shapes[k])){
                         wet++
                         k = 100000000000
-                        dropper1.cubes[t].ymom = -dropper1.gravity
+                        dropper1.cubes[t].ymom = -dropper1.gravity*2
                     }
                 }
                 if(wet == 2){
                     dropper1.cubes[t].isJammed = 1
                     break
+                }else if(wet == 1){
+                    dropper1.cubes[t].isJammed = 1
+                    dropper1.cubes[t].y -= dropper1.gravity*2
+                    break
                 }else{
-                    dropper1.cubes[t].isJammed = 0
+                    // dropper1.cubes[t].isJammed = 0
                     wet = 0
                 }
             }
@@ -1412,6 +1437,92 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
     }
+
+    class CameraObserver {
+        constructor(x, y, range = 700, rays = 30, angle = (Math.PI * .125)) {
+            this.body = new Circle(x, y, .3, "transparent")
+            this.color = "red"
+            this.ray = []
+            this.rayrange = range*.3333
+            this.globalangle = Math.PI
+            this.gapangle = angle
+            this.currentangle = 0
+            this.obstacles = []
+            this.raymake = rays
+        }
+        beam() {
+            this.currentangle = this.gapangle / 2
+            for (let k = 0; k < this.raymake; k++) {
+                this.currentangle += (this.gapangle / Math.ceil(this.raymake / 2))
+                let ray = new Circle(this.body.x, this.body.y, 1, "white", 3*(((Math.cos(this.globalangle + this.currentangle)))), 3*(((Math.sin(this.globalangle + this.currentangle)))))
+                ray.collided = 0
+                ray.lifespan = this.rayrange - 1
+                this.ray.push(ray)
+            }
+            let wet = 0
+            for (let f = 0; f < this.rayrange; f++) {
+                for (let t = 0; t < this.ray.length; t++) {
+                    if (this.ray[t].collided < 1) {
+                        this.ray[t].move()
+                        for (let q = 0; q < this.obstacles.length; q++) {
+                            if (this.obstacles[q].isPointInside(this.ray[t])) {
+                                this.ray[t].collided = 1
+                            }
+                        }
+                        if (pomao.checkInsidePomao(this.ray[t])) {
+                            wet = 1
+                            this.ray[t].collided = 1
+                        }
+                    }
+                }
+            }
+            if(wet == 1){
+                this.color = "red"
+            }else{
+                this.color = "#00ff00"
+            }
+        }
+        draw() {
+            this.beam()
+            this.body.draw()
+            tutorial_canvas_context.lineWidth = 1
+            tutorial_canvas_context.fillStyle = this.color
+            tutorial_canvas_context.strokeStyle = this.color
+            tutorial_canvas_context.beginPath()
+            tutorial_canvas_context.moveTo(this.body.x, this.body.y)
+            for (let y = 0; y < this.ray.length; y++) {
+                tutorial_canvas_context.lineTo(this.ray[y].x, this.ray[y].y)
+                tutorial_canvas_context.lineTo(this.body.x, this.body.y)
+            }
+            tutorial_canvas_context.stroke()
+            tutorial_canvas_context.fill()
+            this.ray = []
+        }
+    }
+    class CameraBot{
+        constructor(x,y, x2,y2){
+            this.body = new Rectangle(x,y, 1193*.05, 1381*.05)
+            // this.cast = new Observer //broke the obeserver, gotta get another copy to make this woek
+            this.cast = new CameraObserver(x2,y2+10)
+            this.angle =(Math.PI/14)*8.2
+            // this.angle = (new Line(x+this.body.width, y, x2,y2)).angle()
+            this.cast.globalangle = this.angle
+            this.dir = 1
+            this.swing = 0
+        }
+        draw(){
+            if(this.dir == 1){
+                tutorial_canvas_context.drawImage(cameraimg, 0, 0, cameraimg.width, cameraimg.height, this.body.x, this.body.y, this.body.width, this.body.height)
+            }else{
+                tutorial_canvas_context.drawImage(cameraimgl, 0, 0, cameraimgl.width, cameraimgl.height, this.body.x, this.body.y, this.body.width, this.body.height)
+            }
+            this.swing+=.01
+            this.cast.globalangle += (Math.cos(this.swing)*.005)
+            this.cast.draw()
+        }
+
+    }
+
     class BallDrop{
         constructor(x,y, posx, posy){
             this.body = new Circle(x,y, 30, "orange")
@@ -1531,6 +1642,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // }
                     }
                 }
+
+                this.cubes[t].isJammed = 0
             }
             if(this.pomlink.hypotenuse() > 4500){
                 return
@@ -9704,7 +9817,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             }
             this.footspot = new Circle(this.body.x, this.body.y + (this.body.radius - .01), 3, "red")
+            this.headspot = new Circle(this.body.x, this.body.y - (this.body.radius + .01), 3, "red")
             for (let t = 0; t < ramps.length; t++) {
+                if(ramps[t].hitflag == 0){
+                    continue
+                }
 
                 // this.accept1 = (this.y-this.tip)/(this.x1-this.x)
                 // this.accept2 = (this.y-this.tip)/(this.x2-this.x)
@@ -9713,7 +9830,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // const x1dis = ramps[t].x1-ramps[t].x
                 // const x2dis = this.footspot.x-ramps[t].x
 
-                if (ramps[t].isPointInside(this.footspot)) {
+                if (ramps[t].isPointInside(this.footspot) && ramps[t].gear != 100) {
                     for (let k = 0; k < 20; k++) { //10000
 
                         this.footspot = new Circle(this.body.x, this.body.y + (this.body.radius - 1), 3, "red")
@@ -9756,7 +9873,66 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     pomao.grounded = 1
                     // break
+                }else if (ramps[t].isPointInside(this.footspot) && ramps[t].gear == 100) {
+                    for (let k = 0; k < 120; k++) { //10000
+
+                        this.footspot = new Circle(this.body.x, this.body.y + (this.body.radius - 1), 3, "red")
+                        if (ramps[t].isPointInside(this.footspot) || (typeof ramps[t].metapoint !== "undefined" && ramps[t].isPointInside(this.feetspot))) {
+                            if (objsprings.includes(ramps[t])) {
+                                pomao.rooted = ramps[t]
+                                pomao.rootedframe = 10
+                            }
+
+                            ramps[t].xmom += (this.body.xmom + this.body.sxmom) / 3
+                            if (pomao.body.ymom > 0) {
+                                ramps[t].ymom += (this.body.ymom + this.body.symom) / 8
+                            }
+                            if (ramps[t].ymom > 5) {
+                                ramps[t].ymom = 5
+                            }
+                            if (ramps[t].ymom < -5) {
+                                ramps[t].ymom = -5
+                            }
+                            this.body.sxmom = 0
+                            this.body.symom = 0
+                            // this.body.xmom = 0 // counter 123232
+                            this.body.ymom = 0
+                            if (k == 0) {
+                                if (this.pounding > 0) {
+                                    this.pounding--
+                                }
+                            }
+                            this.jumping = 0
+                            this.hng = 0
+                            tutorial_canvas_context.translate(0, this.body.y - (this.footspot.y - this.body.radius))
+                            this.body.y = this.footspot.y - this.body.radius
+
+                        }
+                    }
+
+                    pomao.grounded = 1
+                    // break
+                }else if (ramps[t].isPointInside(this.headspot) && (ramps[t].gear == 100 || ramps[t].fish == 1)) {
+                    for (let k = 0; k < 120; k++) { //10000
+
+                        this.headspot = new Circle(this.body.x, this.body.y - (this.body.radius - 1), 3, "red")
+                        if (ramps[t].isPointInside(this.headspot)) {
+                            if(pomao.body.symom < 0){
+                                pomao.body.symom *=-1
+                            }
+                            if(pomao.body.ymom < 0){
+                                pomao.body.ymom *=-1
+                            }
+                            tutorial_canvas_context.translate(0, this.body.y - (this.headspot.y + this.body.radius))
+                            this.body.y = this.headspot.y + this.body.radius
+
+                        }
+                    }
+
+                    pomao.grounded = 1
+                    // break
                 }
+
             }
 
             for (let t = 1; t < this.eggs.length; t++) {
@@ -10038,6 +10214,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 islandsongmusic1.pause()
             }
 
+            if(level == 15){
+                factorymusic.play()
+            }else{
+                factorymusic.pause()
+            }
 
 
 
@@ -14090,12 +14271,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 const shockleft = new Circlec(this.center.x + 3, this.center.y + 2, this.center.radius, "yellow", -20.5, 2)
                 if(this.shocksr.length > 0){
                     shockright.link = new LineShock(this.shocksr[this.shocksr.length-1], shockright, this.color, 4)
+                    if(shockright.link.hypotenuse() > 50){
+                        shockleft.link = {}
+                        shockleft.link.draw = this.skip
+                    }
                 }else{
                     shockright.link = {}
                     shockright.link.draw = this.skip
                 }
                 if(this.shocksl.length > 0){
                     shockleft.link = new LineShock(this.shocksl[this.shocksl.length-1], shockleft, this.color, 4)
+                    if(shockleft.link.hypotenuse() > 50){
+                    shockleft.link = {}
+                    shockleft.link.draw = this.skip
+                    }
                 }else{
                     shockleft.link = {}
                     shockleft.link.draw = this.skip
@@ -19976,12 +20165,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
         constructor(x, y, cx, cy, ex, ey, color) {
             this.body = new Bezzy()
             this.body.construct(x, y, cx, cy, ex, ey + 50, color)
+            this.body.fish = 1
             this.body.parent = this
             this.basin = new Bezzy()
             this.basin.construct(x, y, cx, ((y - cy) * .5) + y, ex, ey + 50, color)
+            this.basin.fish = 1
             this.basin.parent = this
             this.tail = new Bezzy()
             this.tail.construct(ex + 50, ey + 100, ex - 100, ey + 50, ex + 50, ey - 50, color)
+            this.tail.fish = 1
             this.tail.parent = this
             ramps.push(this.body)
             ramps.push(this.basin)
@@ -27882,6 +28074,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // tutorial_canvas_context.translate(pomao.body.x -3950, pomao.body.y+7050)
         // pomao.body.x = 3950
         // pomao.body.y = -7050
+        // tutorial_canvas_context.translate(pomao.body.x -6539, pomao.body.y+7050)
+        // pomao.body.x = 6539
+        // pomao.body.y = -7050
+
+        
+        // tutorial_canvas_context.translate(pomao.body.x -0, pomao.body.y+7050)
+        // pomao.body.x = 0
+        // pomao.body.y = -7050
 
         // let gearzo = new GearPlatform(-1200, -300, 300, 7, "gray", "#444444")
         // assortedDraw.push(gearzo)
@@ -27921,10 +28121,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         const factoryEnterSwitch = new Switchfloor(2000, -6020, 1700, -7020, 50, 420)
 
+        let camera1 = new CameraBot(2100-(1193*.05), -6450, 2057, -6418)
+        camera1.dir = -1
+        camera1.cast.obstacles.push(floor2)
+        assortedDraw.push(camera1)
+
         let floor3 = new Rectangle(510, -6500, 50, 1610)
         floors.push(floor3)
         walls.push(floor3)
         roofs.push(floor3)
+        camera1.cast.obstacles.push(floor3)
 
         let floor3a = new Rectangle(2120, -7900, 2000, 69)
         floors.push(floor3a)
@@ -28028,6 +28234,34 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let gearzo = new GearPlatform(6539, -6250, 320, 7, "#646464", "#444444")
         assortedDraw.push(gearzo)
 
+        let gearzot = new GearPlatform(7000, -6569, 220, 3, "#646464", "#444444")
+        assortedDraw.push(gearzot)
+
+        let gearzot2 = new GearPlatform(7500, -7069, 190, 4, "#646464", "#444444")
+        gearzot2.anticenter.y+=50
+        assortedDraw.push(gearzot2)
+
+
+
+        let floor5b = new Rectangle(7900, -7300, 69, 1900)
+        floors.push(floor5b)
+        walls.push(floor5b)
+        roofs.push(floor5b)
+
+        let floor5c = new Rectangle(6600, -5900, 69, 4900)
+        floors.push(floor5c)
+        walls.push(floor5c)
+        roofs.push(floor5c)
+
+
+        point1 = new Point(7950, -7300)
+        point2 = new Point(9700, -7300)
+        track = new LineOP(point1, point2)
+        mill = new Treadmill(track)
+        mill.speed = 7
+       assortedDraw.push(mill)
+
+
         
 
         let point1xy22 = new Point(2570, -6481)
@@ -28042,16 +28276,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let flop = 2
         for(let t = 0;t<4;t++){
             if(flop == 2){
-                point1 = new Point(2320, -7900+(t*450))
-                point2 = new Point(2320, -7450+(t*450))
+                point1 = new Point(2320, -7950+(t*450))
+                point2 = new Point(2320, -7500+(t*450))
                 track = new LineOP(point1, point2)
                 mill = new UpTreadmill(track)
                 mill.speed = flop
                 flop*=-1
                assortedDraw.push(mill)
             }else{
-                point2 = new Point(2320, -7900+(t*450))
-                point1 = new Point(2320, -7450+(t*450))
+                point2 = new Point(2320, -7950+(t*450))
+                point1 = new Point(2320, -7500+(t*450))
                 track = new LineOP(point1, point2)
                 mill = new UpTreadmill(track)
                 mill.speed = flop
@@ -28086,7 +28320,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(floor4b)
         roofs.push(floor4b)
 
-        let point1xy = new Point(2420, -6131)
+        let point1xy = new Point(2480, -6131)
         let point2xy = new Point(3200, -6131)
         let trackxy = new LineOP(point2xy, point1xy)
         let milly = new Treadmill(trackxy)
@@ -28112,6 +28346,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         dropper1 = new BallDrop(2450, -8000, 3250, -5850)
         assortedDraw.push(dropper1)
+
 
         markRectangles()
 
