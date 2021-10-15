@@ -10502,7 +10502,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             if(level == 15){
-                if(pomao.body.x > 10000){
+                if(pomao.body.x > 12700){
                     boss.draw()
 
                     factorybossmusic.playbackRate = 1 + (.4-(.4*(boss.health/boss.maxhealth)))
