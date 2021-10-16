@@ -22399,6 +22399,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
             if(this.health <= 0){
+                door.x = 15000
+                door.y = -6500
+                door.width = 300
+                door.height = 600
+                door.draw()
+                if(door.isPointInside(pomao.body)){
+                    // load lvl16 level == 16
+                }
                 for(let t = 0;t<this.dots.length;t++){
                     this.dist[t] = 0
                     this.megacenter.radius = 1
