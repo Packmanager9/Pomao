@@ -10509,7 +10509,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     factorybossmusic.play()
                     factorymusic.pause()
                 }else{
-                factorymusic.play()
+                factorymusic.play()    
+                factorybossmusic.pause()
                 }
             }else{
                 factorybossmusic.pause()
