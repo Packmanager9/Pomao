@@ -914,7 +914,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const ramp90l = new Image()
     ramp90l.src = 'paintramp90l.png'
     const cityfolk = new Image()
-    cityfolk.src = 'citypomaos.png'
+    cityfolk.src = 'cityfolk5.png'
 
     const jomaoholoimg = new Image()
     jomaoholoimg.src = 'jomaostripholo.png'
@@ -1082,6 +1082,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             loadlvl12button = new Rectangle(-100 + 640 + 600, 360, 50, 50, "#00FF00")
             loadlvl13button = new Rectangle(-100 + 640 + 700, 360, 50, 50, "#7788ff")
             loadlvl14button = new Rectangle(-100 + 640 - 500, 460, 50, 50, "tan")
+            loadlvl15button = new Rectangle(-100 + 640 - 400, 460, 50, 50, "#AAAAAA")
+            
 
 
             if (loadlvl1button.isPointInside(tip)) {
@@ -1151,6 +1153,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if (loadlvl14button.isPointInside(tip)) {
                 loadFactoryLevel()
+                pomao.paused = 10
+                pomao.pausetimer = 10
+            }
+            if (loadlvl15button.isPointInside(tip)) {
+                loadCapitalCity()
                 pomao.paused = 10
                 pomao.pausetimer = 10
             }
@@ -2101,13 +2108,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     class NPomC{
         constructor(x,y){
-            this.type = Math.floor(Math.random()*17)
-            this.width = 82
-            this.height = 82
+            this.width = 60+(Math.random()*40)
+            this.height = this.width
+            this.type = Math.floor(Math.random()*(44*7))
             this.x =x
-            this.y =y
+            this.y =y-this.height
             this.dir = 0
-            this.dialogue = new Dialogue(x+(this.width*.5), this.y)
+            this.dialogue = new Dialogue(x+(this.width*.5), y-this.height*.9)
             this.box = new Rectangle(this.x, this.y, this.width, this.height)
             floors.push(this.box)
             roofs.push(this.box)
@@ -2162,22 +2169,113 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.dialogue.words.push("Oh! you're real!")
             }else if(this.type == 16){
                 this.dialogue.words.push("Gnassaw?")
+            }else if(this.type == 17){
+                this.dialogue.words.push("Fascinatingly, 37 is the square root of 1369.")
+                this.dialogue.words.push("Pomao: Wow! I didn't even know 1369 was a tree!")
+            }else if(this.type == 18){
+                this.dialogue.words.push("I lost my job at the cube factory.")
+            }else if(this.type == 19){
+                this.dialogue.words.push("Do you ever wonder what is under the floor?")
+                this.dialogue.words.push("Pomao: I think so.")
+                this.dialogue.words.push("Well, it's probably nothing.")
+                this.dialogue.words.push("Of course, who's to say, it could be some giant with hands pushing a bunch of buttons.")
+                this.dialogue.words.push("Pomao: I bet it is.")
+            }else if(this.type == 20){
+                this.dialogue.words.push("My favorite fruit is eggplant, but I can't be seen with them.")
+            }else if(this.type == 21){
+                this.dialogue.words.push("Red, green? Who cares... I'm only in it for the food.")
+            }else if(this.type == 22){
+                this.dialogue.words.push("Blue, purple, coconuts...")
+                this.dialogue.words.push("Not now kid, I'm trying to remember my password.")
+            }else if(this.type == 23){
+                this.dialogue.words.push("I'm the won-tom-bah three times running.")
+                this.dialogue.words.push("Don't believe me? Ask anyone.")
+            }else if(this.type == 24){
+                this.dialogue.words.push("We are free, in the sense that you don't have to pay for talking to us.")
+                this.dialogue.words.push("Pomao: Well, that's good I guess. Me too!")
+            }else if(this.type == 25){
+                this.dialogue.words.push("I like living in this new city, the rent is unbeatable, too bad they had to flatten that swamp.")
+            }else if(this.type == 26){
+                this.dialogue.words.push("I saw a backdoor, but I can't remember where.")
+                this.dialogue.words.push("Pomao: Me either.")
+            }else if(this.type == 27){
+                this.dialogue.words.push("I can tell your fortune.")
+                this.dialogue.words.push("Pomao: Sure, ok.")
+                this.dialogue.words.push("Alright, stand still...")
+                this.dialogue.words.push("Your fortune is...")
+                this.dialogue.words.push("Coming to me now...")
+                this.dialogue.words.push("Across time and space...")
+                this.dialogue.words.push("Yes... Yes.. It's taking form...")
+                this.dialogue.words.push("You will have...")
+                this.dialogue.words.push("A charmed life!")
+                this.dialogue.words.push("Pomao: Thank you!")
+            }else if(this.type == 28){
+                this.dialogue.words.push("I heard there's such a thing as cake, but I've never seen one.")
+            }else if(this.type == 29){
+                this.dialogue.words.push("Don't forget where you come from kid, your parents love you.")
+                this.dialogue.words.push("Get home safe.")
+            }else if(this.type == 30){
+                this.dialogue.words.push("I've seen you bouncing around, what drives you down with such force?")
+                this.dialogue.words.push("Pomao: My desire to get home, of course!")
+            }else if(this.type == 31){
+                this.dialogue.words.push("Have you seen the mushrooms?")
+                this.dialogue.words.push("Give them a try. What are you, square?")
+                this.dialogue.words.push("Pomao: I think I'm shaped like a bean actually.")
+            }else if(this.type == 32){
+                this.dialogue.words.push("I am so glad I haven't been filed away, being flattened for long periods is so uncomfortable.")
+            }else if(this.type == 33){
+                this.dialogue.words.push("I've heard there's a rebellion against the king, could it really be true?")
+                this.dialogue.words.push("Pomao: Yes.")
+            }else if(this.type == 34){
+                this.dialogue.words.push("Good morning, can I help you with something?")
+                this.dialogue.words.push("Pomao: How do I get of town?")
+                this.dialogue.words.push("Head right, turn up at the megatower, and... well actually, I don't know how to leave this place.")
+            }else if(this.type == 35){
+                this.dialogue.words.push("I've never seen the ocean, now I live in this city, maybe I will see it someday.")
+            }else if(this.type == 36){
+                this.dialogue.words.push("It's me, Bormao, let me tell you the story of my life.")
+                this.dialogue.words.push("Pomao: Sure.")
+                this.dialogue.words.push("Hmm... You called my bluff, I don't have a story.")
+            }else if(this.type == 37){
+                this.dialogue.words.push("It's me, Intmao, I'm much too busy to tell you the story of my life.")
+            }else if(this.type == 38){
+                this.dialogue.words.push("I heard someone has been taking out the hostile royalty one by one.")
+                this.dialogue.words.push("Maybe we don't need...")
+                this.dialogue.words.push("Forget I said that!")
+            }else if(this.type == 38){
+                this.dialogue.words.push("I heard someone has been taking out the hostile royalty one by one.")
+                this.dialogue.words.push("Maybe we don't need...")
+                this.dialogue.words.push("Forget I said that!")
+            }else if(this.type == 39){
+                this.dialogue.words.push("A broken clock with hands that don't turn is right twice a day.")
+                this.dialogue.words.push("Pomao: I never thought about a clock before.")
+                this.dialogue.words.push("Well, allow me to continue then.")
+                this.dialogue.words.push("A clock with hands that spin backwards at a normal speed is right four times a day.")
+                this.dialogue.words.push("Pomao: It's less wrong?")
+                this.dialogue.words.push("Perhaps.")
+                this.dialogue.words.push("Even more so, a clock spinning backwards at infinite speed...")
+                this.dialogue.words.push("Is right an infinite number of times over any interval.")
+                this.dialogue.words.push("Pomao: Wow, thanks, I never knew that!")
             }else if(this.type == 0){
                 this.dialogue.words.push("Wassang!")
             }else{
+                this.dialogue.words.push("Po!")
             }
             chats.push(this.dialogue)
         }
         draw(){
+            if(Math.abs(this.x-pomao.body.x) > 900){
+                return
+            }
             if(pomao.body.x > this.x + this.width){
-                this.dir = 1
-            }else{
                 this.dir = 0
+            }else{
+                this.dir = 1
             }
 
 
             let grandpoheight = this.height + (Math.sin(((pomao.timeloop * this.rate) + 3.14)) * 1.7)
-            tutorial_canvas_context.drawImage(cityfolk, this.dir*256, this.type*256, 256,256, this.x, this.y - (Math.sin(((pomao.timeloop * this.rate) + 3.14)) * 1.7), this.width, grandpoheight)
+            tutorial_canvas_context.drawImage(cityfolk, this.dir*256,(this.type*256) + 1, 255,255, this.x, this.y - (Math.sin(((pomao.timeloop * this.rate) + 3.14)) * 1.7), this.width, grandpoheight)
         }
     }
 
@@ -2199,7 +2297,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     floors.push(floor)
                     for(let k = 0;k<3;k++){
                         if(Math.random()<1.3){
-                            let pomplayer = new NPomC(floor.x+50 + ((floor.width/3)*k), floor.y-82)
+                            let pomplayer = new NPomC(floor.x+50 + ((floor.width/3)*k), floor.y)
                             this.pomaos.push(pomplayer)
                         }
                         
@@ -2429,6 +2527,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.nodes = []
             this.angle = Math.random()
             this.pulse = 0
+            this.pomlink = new LineOP(pomao.body, this.body)
             for (let t = 0; t < 9; t++) {
                 let leg = []
                 for (let k = 0; k < 5; k++) {
@@ -2443,6 +2542,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
         draw() {
+            if(this.pomlink.hypotenuse() > 900){
+                return
+            }
             for (let t = 0; t < swimmers.length; t++) {
                 if (typeof swimmers[t].body == "undefined") {
                     continue
@@ -14788,6 +14890,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let loadlvl12button
     let loadlvl13button
     let loadlvl14button
+    let loadlvl15button
 
     class Seed {
         constructor(target) {
@@ -19920,9 +20023,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         canvas = canvas_pass
         canvas_context = canvas.getContext('2d');
         canvas.style.background = style
-        window.setInterval(function () {
-            main()
-        }, 50)
+        // window.setInterval(function () {
+        //     main()
+        // }, 50)
         // document.addEventListener('keydown', (event) => {
         //     keysPressed[event.key] = true;
         // });
@@ -20336,7 +20439,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     class Dialogue {
         constructor(x, y) {
-            this.timerbase = 120
+            this.timerbase = 180 // 120
             this.timer = 200
             this.body = new Circle(x, y, 100, "transparent")
             this.words = ["Talk"]
@@ -20558,7 +20661,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.metapoint.x -= .3
             }
             // //console.log(this.metamax)
-            if (this.metaline.hypotenuse() > 1280 + this.metamax) {
+            if (this.metaline.hypotenuse() > 700 + this.metamax) {
                 // this.metaline.draw()
                 return
             }
@@ -20807,6 +20910,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                     this.lines[t].draw()
                 }
+                tutorial_canvas_context.lineWidth = 1
                 tutorial_canvas_context.stroke()
                 tutorial_canvas_context.closePath();
             }
@@ -21082,6 +21186,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         }
         move() {
+
+            if(this.pomline.hypotenuse() > 1280){
+                return
+            }
             this.scuttle()
             this.center.x += this.center.xmom
             this.center.y += this.center.ymom
@@ -22744,15 +22852,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             this.zapflag = 0
-            x = this.center.x + ((Math.random() - .5) * 2600)
-            y = this.center.y - 400 - (this.center.ymom + this.center.symom) + (Math.random() * -100)
-            let streak = new LineR(x, y, x + this.drift, y + 6)
-            this.drops.push(streak)
-            if(Math.random()<.3){
-                x = this.center.x + ((Math.random() - .5) * 1600)
+            for(let t = 0;t<2;t++){
+                x = this.center.x + ((Math.random() - .5) * 2600)
                 y = this.center.y - 400 - (this.center.ymom + this.center.symom) + (Math.random() * -100)
-                streak = new LineR2(x, y, x + this.drift, y + 6)//007700
-                this.drops2.push(streak)
+                let streak = new LineR(x, y, x + this.drift, y + 6)
+                this.drops.push(streak)
+                if(Math.random()<.66){
+                    x = this.center.x + ((Math.random() - .5) * 1600)
+                    y = this.center.y - 400 - (this.center.ymom + this.center.symom) + (Math.random() * -100)
+                    streak = new LineR2(x, y, x + this.drift, y + 6)//007700
+                    this.drops2.push(streak)
+                }
             }
             
             tutorial_canvas_context.beginPath()
@@ -22763,6 +22873,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.drops[t].y2 += this.gravity
                 this.drops[t].draw()
             }
+
+            tutorial_canvas_context.lineWidth = 1
             tutorial_canvas_context.stroke()
             tutorial_canvas_context.closePath();
             tutorial_canvas_context.beginPath()
@@ -22773,6 +22885,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.drops2[t].y2 += this.gravity
                 this.drops2[t].draw()
             }
+
+            tutorial_canvas_context.lineWidth = 1
             tutorial_canvas_context.stroke()
             tutorial_canvas_context.closePath();
             this.counter++
@@ -24315,6 +24429,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl12button = new Rectangle(-100 + pomao.body.x + 600, pomao.body.y, 50, 50, "#00FF00")
                     loadlvl13button = new Rectangle(-100 + pomao.body.x + 700, pomao.body.y, 50, 50, "#7788FF")
                     loadlvl14button = new Rectangle(-100 + pomao.body.x - 500, pomao.body.y+100, 50, 50, "tan")
+                    loadlvl15button = new Rectangle(-100 + pomao.body.x - 400, pomao.body.y+100, 50, 50, "#AAAAAA")
 
                     loadlvl1button.draw()
                     loadlvl2button.draw()
@@ -24330,6 +24445,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl12button.draw()
                     loadlvl13button.draw()
                     loadlvl14button.draw()
+                    loadlvl15button.draw()
                 }
 
                 // for(let t =0;t<ungrapplable.length;t++){
@@ -29359,8 +29475,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(floorlvl11)
         roofs.push(floorlvl11)
 
-        for (let t = 0; t < 150; t++) {
-            let weed = new Flower(-500 + (t * 100), 33, 15 + (Math.random() * 15))
+        for (let t = 0; t < 35; t++) {
+            let weed = new Flower(-500 + (t * 400), 33, 15 + (Math.random() * 15))
             seaweed.push(weed)
         }
 
@@ -29380,9 +29496,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         roofs.push(wall2)
 
 
-        for (let t = 0; t < 127; t++) {
+        for (let t = 0; t < 13; t++) {
 
-            const beach = new Rectangle(-2100 + (t * 12), -1400 + (t * 3), 30033, 13, "cyan")
+            const beach = new Rectangle(-2100 + (t * 129), -1400 + (t * 30), 30033, 130, "cyan")
             walls.push(beach)
             floors.push(beach)
             roofs.push(beach)
@@ -29490,8 +29606,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         }
 
-        for (let t = 0; t < 25; t++) {
-            let whaloid = new Whaliad(t * 1000, -1000, (t * 1000) + 200, -1300, (t * 1000) + 700, -1000, "#678990")
+        for (let t = 0; t < 13; t++) {
+            let whaloid = new Whaliad(t * 2000, -1000, (t * 2000) + 200, -1300, (t * 2000) + 700, -1000, "#678990")
         }
 
 
