@@ -366,6 +366,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const cubeassetimg = new Image()
     cubeassetimg.src = "cubeasset.png"
+    const citybg = new Image()
+    citybg.src = "citybg.png"
     const cubeassetimgl = new Image()
     cubeassetimgl.src = "cubeassetl.png"
     const snowflakeimg = new Image()
@@ -394,6 +396,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     facfloorimg.src = "facfloor.png"
     facfloorimg.onload = function () {
         facfloorimg.decode()
+    }
+    const citystreet = new Image()
+    citystreet.src = "citystreet.png"
+    citystreet.onload = function () {
+        citystreet.decode()
     }
     const facbg = new Image()
     facbg.src = "bgfac.png"
@@ -906,6 +913,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     ramp90.src = 'paintramp90.png'
     const ramp90l = new Image()
     ramp90l.src = 'paintramp90l.png'
+    const cityfolk = new Image()
+    cityfolk.src = 'citypomaos.png'
 
     const jomaoholoimg = new Image()
     jomaoholoimg.src = 'jomaostripholo.png'
@@ -2090,6 +2099,140 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
     }
+    class NPomC{
+        constructor(x,y){
+            this.type = Math.floor(Math.random()*17)
+            this.width = 82
+            this.height = 82
+            this.x =x
+            this.y =y
+            this.dir = 0
+            this.dialogue = new Dialogue(x+(this.width*.5), this.y)
+            this.box = new Rectangle(this.x, this.y, this.width, this.height)
+            floors.push(this.box)
+            roofs.push(this.box)
+            walls.push(this.box)
+            invisblocks.push(this.box)
+            this.rate = Math.random()+1
+            
+    
+            if(this.type == 1){
+                this.dialogue.words.push("This place may seem underfurnished, but the moving cubes are held up.")
+            }else if(this.type == 2){
+                this.dialogue.words.push("I wonder what keeps the fruit around here in the air.")
+                this.dialogue.words.push("I remember asking in the state mandated courses, but they beat me mercilessly.")
+            }else if(this.type == 3){
+                this.dialogue.words.push("I wonder what keeps the fruit around here fresh.")
+            }else if(this.type == 4){
+                this.dialogue.words.push("Hey kid... what color is your tongue?")
+                this.dialogue.words.push("Pomao: Blue, I think.")
+                this.dialogue.words.push("Mmm... Nice.")
+            }else if(this.type == 5){
+                this.dialogue.words.push("They say you should eat fruits and vegetables to stay healthy.")
+                this.dialogue.words.push("How many have you eaten today?")
+                this.dialogue.words.push("Pomao: Some.")
+                this.dialogue.words.push("It's a good start, but kids these days aren't eating enough produce.")
+            }else if(this.type == 6){
+                this.dialogue.words.push("Knock Knock.")
+                this.dialogue.words.push("Pomao: Come In!")
+                this.dialogue.words.push("Ahh geez, you ruined my joke.")
+            }else if(this.type == 7){
+                this.dialogue.words.push("I had a pet targoy once, I wonder what happened to him.")
+            }else if(this.type == 8){
+                this.dialogue.words.push("Psst, I'm with the rebellion, try to get out of town if you can.")
+            }else if(this.type == 9){
+                this.dialogue.words.push("I had a pet targoy once, really hit the spot!")
+            }else if(this.type == 10){
+                this.dialogue.words.push("It's already Poasday and I still haven't moved from this spot.")
+            }else if(this.type == 11){
+                this.dialogue.words.push("No time to talk kid, early tongue licks the fruit.")
+            }else if(this.type == 12){
+                this.dialogue.words.push("Did you hear about the overfishing.")
+                this.dialogue.words.push("Pomao: No.")
+                this.dialogue.words.push("Apparently the western sea is collapsing.")
+            }else if(this.type == 13){
+                this.dialogue.words.push("Please don't touch me, you smell like you just escaped from prison through a marsh.")
+            }else if(this.type == 14){
+                this.dialogue.words.push("Say what you want about our king, but at least he keeps the other royalty at bay.")
+                this.dialogue.words.push("Pomao: I can say what I want?")
+                this.dialogue.words.push("Well, no, not really.")
+            }else if(this.type == 15){
+                this.dialogue.words.push("Woah...")
+                this.dialogue.words.push("Pomao: Yes?")
+                this.dialogue.words.push("Oh! you're real!")
+            }else if(this.type == 16){
+                this.dialogue.words.push("Gnassaw?")
+            }else if(this.type == 0){
+                this.dialogue.words.push("Wassang!")
+            }else{
+            }
+            chats.push(this.dialogue)
+        }
+        draw(){
+            if(pomao.body.x > this.x + this.width){
+                this.dir = 1
+            }else{
+                this.dir = 0
+            }
+
+
+            let grandpoheight = this.height + (Math.sin(((pomao.timeloop * this.rate) + 3.14)) * 1.7)
+            tutorial_canvas_context.drawImage(cityfolk, this.dir*256, this.type*256, 256,256, this.x, this.y - (Math.sin(((pomao.timeloop * this.rate) + 3.14)) * 1.7), this.width, grandpoheight)
+        }
+    }
+
+    class Building{
+        constructor(x,y, h, w){
+            this.leftwall = new Rectangle(x,y, h-300, 50)
+            floors.push(this.leftwall)
+            walls.push(this.leftwall)
+            roofs.push(this.leftwall)
+            this.rightwall = new Rectangle(x+w,y, h-300, 50)
+            floors.push(this.rightwall)
+            walls.push(this.rightwall)
+            roofs.push(this.rightwall)
+            // console.log(h/300)
+            this.pomaos = []
+            for(let t = 0;t<(h/300); t++){
+                let floor = new Rectangle(x+50,y+(t*300), 20, w-50)
+                if(floor.y <=( y+h-300)){
+                    floors.push(floor)
+                    for(let k = 0;k<3;k++){
+                        if(Math.random()<1.3){
+                            let pomplayer = new NPomC(floor.x+50 + ((floor.width/3)*k), floor.y-82)
+                            this.pomaos.push(pomplayer)
+                        }
+                        
+                    }
+                }
+            }
+            this.skin = new Rectangle(x+50,y+20,h-20,w-50)
+            this.color = getRandomLightColor()
+ 
+        }
+        draw(){
+            //cityfolk
+            for(let t = 0;t<this.pomaos.length;t++){
+                this.pomaos[t].draw()
+            }
+            // if(this.skin.doesPerimeterTouch(pomao.body)){
+     
+                this.graduate = tutorial_canvas_context.createRadialGradient(pomao.body.x, pomao.body.y, 0, pomao.body.x, pomao.body.y, 630);
+                this.graduate.addColorStop(0, "transparent")
+                this.graduate.addColorStop(.49, "transparent")
+                this.graduate.addColorStop(.51, this.color)
+                this.graduate.addColorStop(1, this.color)
+                tutorial_canvas_context.fillStyle = this.graduate
+                tutorial_canvas_context.fillRect(this.skin.x,this.skin.y, this.skin.width, this.skin.height)
+            // }else{
+            // tutorial_canvas_context.fillStyle = this.color
+            tutorial_canvas_context.fillRect(this.skin.x,this.skin.y, this.skin.width, this.skin.height)
+            // }
+            
+        }
+
+    }
+
     class Snowboss {
         constructor(x, y) {
             this.ring1 = []
@@ -11162,6 +11305,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     if (!floors[t].block == 1) {
                                             tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, floors[t].width), Math.min(facfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }
+                                        }else if (level == 16) {
+                                            tutorial_canvas_context.drawImage(citystreet, 0, 0, Math.min(citystreet.width, floors[t].width), Math.min(citystreet.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)        
                                         }
                                     }
                                 } else {
@@ -11253,6 +11398,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         if (!floors[t].block == 1) {
                                         tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, floors[t].width), Math.min(facfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                         }
+                                    }else if (level == 16) {
+                                        tutorial_canvas_context.drawImage(citystreet, 0, 0, Math.min(citystreet.width, floors[t].width), Math.min(citystreet.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)        
                                     }
                                 }
                             } else {
@@ -11361,6 +11508,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     if (!floors[t].block == 1) {
                                     tutorial_canvas_context.drawImage(facfloorimg, 0, 0, Math.min(facfloorimg.width, floors[t].width), Math.min(facfloorimg.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)
                                     }
+                                }else if (level == 16) {
+                                    tutorial_canvas_context.drawImage(citystreet, 0, 0, Math.min(citystreet.width, floors[t].width), Math.min(citystreet.height, floors[t].height), floors[t].x, floors[t].y, floors[t].width, floors[t].height)        
                                 }
                             }
                             if (floors[t].block == 1) {
@@ -22406,6 +22555,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 door.draw()
                 if(door.isPointInside(pomao.body)){
                     // load lvl16 level == 16
+                    loadCapitalCity()
                 }
                 for(let t = 0;t<this.dots.length;t++){
                     this.dist[t] = 0
@@ -23492,6 +23642,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // loadIslandLevel()
     // loadMarshLevel()
     // loadFactoryLevel()
+    // loadCapitalCity()
+    // loadABigPileOfGarbage()
 
     // for(let t=0;t<10;t++){
     //     chafer.draw()
@@ -23826,7 +23978,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             // tutorial_canvas_context.drawImage(pb[index],0,0,pb[index].width, pb[index].height,  pomao.body.x - 640, pomao.body.y - 360, 1280,720)
                         }else if (level == 15) {
                             tutorial_canvas_context.drawImage(facbg, pomao.body.x - 640, pomao.body.y - 360)
+                        } else if (level == 16) {
+                            tutorial_canvas_context.drawImage(citybg, pomao.body.x - 640, pomao.body.y - 360)
                         }
+
+                        
                         // if(keysPressed['p']){
                         //     tutorial_canvas_context.clearRect(-100000,-100000,tutorial_canvas.width*1000, tutorial_canvas.height*1000)
                         // }
@@ -28554,6 +28710,36 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 fruits.push(fruit)
             }
         }
+    }
+    function loadCapitalCity(){
+        levelBoilerplate()
+        level = 16
+        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
+        pomao.body.x = -1000
+        pomao.body.y = 0
+        
+
+        let floor = new Rectangle(-3640, 50, 1000, 17000)
+        floors.push(floor)
+        walls.push(floor)
+        roofs.push(floor)
+
+        for(let t = 0;t<10;t++){
+            let buidl = new Building(t*1300, 50-(1000+(t*300)), 1000+(t*300), 1000)
+            assortedDraw.push(buidl)
+        }
+
+
+        markRectangles()
+
+    }
+    function loadABigPileOfGarbage(){
+        levelBoilerplate()
+        level = 17
+        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
+        pomao.body.x = -1000
+        pomao.body.y = 0
+        
     }
     function loadFactoryLevel() {
         levelBoilerplate()
