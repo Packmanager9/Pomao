@@ -561,6 +561,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
+    const cityscapemusic = new Audio('cityscape.mp3');
     const rebelbasemusic = new Audio('truerebellong.mp3');
     const factorymusic = new Audio('factorylong.mp3');
     const factorybossmusic = new Audio('metacubebeat.mp3')
@@ -10744,6 +10745,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             } else {
                 islandsongmusic2.pause()
                 islandsongmusic1.pause()
+            }
+            if(level == 16){
+                cityscapemusic.play()
+            }else{
+                cityscapemusic.pause()
             }
 
             if(level == 15){
