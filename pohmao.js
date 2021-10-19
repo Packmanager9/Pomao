@@ -2257,6 +2257,33 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.dialogue.words.push("Even more so, a clock spinning backwards at infinite speed...")
                 this.dialogue.words.push("Is right an infinite number of times over any interval.")
                 this.dialogue.words.push("Pomao: Wow, thanks, I never knew that!")
+            }else if(this.type == 40){
+                this.dialogue.words.push("Don't waste your time, waste your time, waste your time.")
+                this.dialogue.words.push("Pomao: Ok thanks.")
+                this.dialogue.words.push("I apologize for my condition., condition, condition.")
+                this.dialogue.words.push("Pomao: No problem.")
+            }else if(this.type == 41){
+                this.dialogue.words.push("Someone told me that four of the richest kings have been defeated.")
+                this.dialogue.words.push("Maybe even five by now.")
+                this.dialogue.words.push("I wonder who could be doing it.")
+                this.dialogue.words.push("Pomao: Me!")
+                this.dialogue.words.push("Good one, kid!")
+                this.dialogue.words.push("That would make you king of like half this dimension!")
+            }else if(this.type == 42){
+                this.dialogue.words.push("Oh my goodness you're healthy looking. I bet you'd smash an 11 on the pound-o-meter")
+                this.dialogue.words.push("Pomao: I have spent a lot of time hopping lately.")
+            }else if(this.type == 43){
+                this.dialogue.words.push("I saw several lumpy creatures once. Someone should make up a system to name the creatures that inhabit this world.")
+                this.dialogue.words.push("Pomao: How about you?")
+                this.dialogue.words.push("Hmm, yes. Now that I own this unit outright I can spend some time coming up with names.")
+                this.dialogue.words.push("I'll call the naming system Feeoffayou.")
+            }else if(this.type == 44){
+                this.dialogue.words.push("I heard there's an island out in the western sea. I checked the official map, but it's not charted.")
+                this.dialogue.words.push("It must not be real.")
+                this.dialogue.words.push("Pomao: It is.")
+                this.dialogue.words.push("Well ok, but you shouldn't say that out loud.")
+            }else if(this.type == 45){
+                this.dialogue.words.push("Hi.")
             }else if(this.type == 0){
                 this.dialogue.words.push("Wassang!")
             }else{
@@ -10746,6 +10773,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 islandsongmusic2.pause()
                 islandsongmusic1.pause()
             }
+            
             if(level == 16){
                 cityscapemusic.play()
             }else{
