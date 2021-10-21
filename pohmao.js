@@ -6063,7 +6063,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // }
         }
         draw() {
-            this.body = castBetween(this.positron, this.electron, this.linkhyp / (this.electron.radius * .4), this.electron.radius * .2)
+            this.body = castBetween(this.positron, this.electron, this.linkhyp / (this.electron.radius * .4), this.electron.radius * .2) //wow fix this
             this.body.shapes.push(this.positron)
             this.body.shapes.push(this.electron)
             // this.body.draw()
@@ -6929,6 +6929,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.x = x
             this.y = y
             this.radius = 0
+        }
+        pointDistance(point) {
+            return (new LineOP(this, point, "transparent", 0)).hypotenuse()
+        }
+    }
+    class SnowPoint {
+        constructor(x, y, xmom, ymom) {
+            this.x = x
+            this.y = y
+            this.xmom = xmom
+            this.ymom = ymom
+            this.radius = 9 + Math.random()
+        }
+        fmove() {
+            this.x += this.xmom
+            this.y += this.ymom
         }
         pointDistance(point) {
             return (new LineOP(this, point, "transparent", 0)).hypotenuse()
@@ -11843,8 +11859,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     //     snows.push(snow)
                     // }
                 } else {
-                    let snow = new Snowflake((pomao.body.x - 5040) + Math.random() * 10080, (pomao.body.y - 360) - Math.random() * 360)
+                    if (Math.random() < .6) {
+                    let snow = new Snowflake((pomao.body.x - 3000) + Math.random() * 6000, (pomao.body.y - 360) - Math.random() * 360)
                     snows.push(snow)
+                    }
                 }
                 for (let t = 0; t < snows.length; t++) {
                     if (Math.abs(snows[t].body.x - pomao.body.x) < 650) {
@@ -13148,7 +13166,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class Snowflake {
         constructor(x, y) {
-            this.body = new Bosscircle(x, y, 9 + Math.random(), "red", 0, 1)
+            this.body = new SnowPoint(x, y, 0, 1)
 
             this.loopoffset = Math.random() * Math.PI * 2
             this.anchor = {}
@@ -13266,7 +13284,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         colide() {
 
 
-            if (this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) {
+            if (pomao.tongue.repelCheck(this.body) || pomao.tonguebox.isPointInside(this.body)) {
                 this.marked = 2
                 this.body.radius *= .975
                 if (this.anchor.xdif + this.anchor.ydif == 0) {
@@ -13280,7 +13298,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }
-            if (this.body.repelCheck(pomao.body) && (this.body.repelCheck(pomao.tongue) || (this.marked == 3 || this.marked == 2))) {
+            if (pomao.body.repelCheck(this.body)  && (pomao.tongue.repelCheck(this.body)  || (this.marked == 3 || this.marked == 2))) {
                 this.body.radius *= .9
                 this.marked = 3
                 pomao.diry = 1
@@ -13357,7 +13375,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.angler %= Math.PI * 2
         }
         castBetween(from, to, granularity = 10, radius = 1, target) {
-            let limit = new LineOP(from, to).hypotenuse() / (to.radius * .5)
+            let limit = new LineOP(from, to).hypotenuse() / (to.radius * .9)
             radius = to.radius
             let shape_array = []
             for (let t = 0; t < limit; t++) {
@@ -13374,9 +13392,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         collideSnowheight(point) {
             let link = new LineOP(point, this.body)
             point.angle = link.angle()
-            if (link.squareDistance() < (this.size * this.size)) {
-                point.angle += (((this.size * this.size) - link.squareDistance()) / ((this.size * this.size) * 10)) * this.dir
-                point.liner = squaretable[`${Math.round(10 * Math.round(link.squareDistance() * .1))}`]
+            if (link.hypotenuse() < (this.size)) {
+                let linksqr =  link.squareDistance()
+                point.angle += (((this.size * this.size) -linksqr) / ((this.size * this.size) * 10)) * this.dir
+                point.liner = squaretable[`${Math.round(10 * Math.round(linksqr * .1))}`]
                 point.y = (Math.sin(point.angle) * point.liner) + this.body.y
                 point.x = (Math.cos(point.angle) * point.liner) + this.body.x
                 const lhyp = 1 / (point.liner * point.liner * .5)
@@ -28141,13 +28160,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         roofs.push(wall2)
         ungrapplable.push(wall2)
 
-        for (let t = 0; t < 5000; t++) {
+        for (let t = 0; t < 3000; t++) {
             let atom = new Atomdebris(-2150 + (Math.random() * 13700), -5000 + (Math.random() * 6000), "purple")
             debris.push(atom)
         }
 
 
-        for (let t = 0; t < 154; t++) {
+        for (let t = 0; t < 101; t++) {
             let magnet = new Magneato(-100 + (t * 400), -100 - (t * 200))
             let runner = Math.random() * 10000
             for (let k = 0; k < runner; k++) {
@@ -28155,7 +28174,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             magnets.push(magnet)
         }
-        for (let t = 0; t < 154; t++) {
+        for (let t = 0; t < 101; t++) {
             let magnet = new Magneato(600 + (t * 400), -200 - (t * 200))
             let runner = Math.random() * 10000
             for (let k = 0; k < runner; k++) {
@@ -28180,7 +28199,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             magnets.push(magnet)
         }
 
-        for (let t = 0; t < 240; t++) {
+        for (let t = 0; t < 120; t++) {
             let radiator = new Radiator(-2050 + (Math.random() * 13700), -5000 + (Math.random() * 6000))
             debris.push(radiator)
         }
@@ -28189,8 +28208,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-        for (let t = 0; t < 900; t++) {
-            const fruit = new Fruit(-2050 + (Math.random() * 13700), -8000 + (Math.random() * 9000), 60, 60, "red")
+        for (let t = 0; t < 600; t++) {
+            const fruit = new Fruit(-2050 + (Math.random() * 13700), -5000 + (Math.random() * 5500), 60, 60, "red")
             let wet = 0
             // for (let s = 0; s < floors.length; s++) {
             //     if (squarecircleedges(floors[s], fruit.body)) {
