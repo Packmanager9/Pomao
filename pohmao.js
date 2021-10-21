@@ -19087,7 +19087,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
         castBetween(from, to) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
-            let limit = (new LineOP(from, to)).hypotenuse() / (from.radius / 1.5)
+            let limit = 12// (new LineOP(from, to)).hypotenuse() / (from.radius / 1.5)
             ////console.log(from,to)
             ////console.log( (from.radius / 1.5), (new LineOP(from, to)).hypotenuse())
             // //////console.log(from, to, target)
@@ -19867,8 +19867,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             } else {
                 this.bump = -1
             }
-            this.metashape = []
-            this.castBetween(this.body, this.lump)
+            // this.metashape = []
+            // this.castBetween(this.body, this.lump)
+            this.metashape.adjustByFromDisplacement(this.body.xmom, this.body.ymom)
             if (this.lump.repelCheck(pomao.body)) {
                 if (pomao.disabled != 1) {
                     if (pomao.pounding != 10) {
