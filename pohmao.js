@@ -265,6 +265,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (c.buttons) {
                 for (var b = 0, t = c.buttons.length; b < t; b++) {
                     if (c.buttons[b].pressed) {
+                        // console.log(gamepadAPI.buttons[b])
+                        if(gamepadAPI.buttons[b]== 'RB'){
+                            pausefalse = false
+                        }
                         pressed.push(gamepadAPI.buttons[b]);
                         // //////console.log(gamepadAPI.buttons[b])
                     }
@@ -915,10 +919,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const ramp90l = new Image()
     ramp90l.src = 'paintramp90l.png'
     const cityfolk = new Image()
-    cityfolk.src = 'cityfolk5.png'
+    cityfolk.src = 'cityfolk6.png'
 
     const jomaoholoimg = new Image()
     jomaoholoimg.src = 'jomaostripholo.png'
+
+    const volcanosign = new Image()
+    volcanosign.src = 'sign.png'
 
     const jomaoholoimgl = new Image()
     jomaoholoimgl.src = 'jomaostripholol.png'
@@ -2107,13 +2114,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
     }
+    let pomtype = 0
     class NPomC{
         constructor(x,y){
             this.width = 60+(Math.random()*40)
             this.height = this.width
-            this.type = Math.floor(Math.random()*(44*7))
+            this.type = pomtype//Math.floor(Math.random()*(44*7))
+            pomtype++
+            pomtype%=308
             this.x =x
-            this.y =y-this.height
+            this.y =y-(this.height-1)
             this.dir = 0
             this.dialogue = new Dialogue(x+(this.width*.5), y-this.height*.9)
             this.box = new Rectangle(this.x, this.y, this.width, this.height)
@@ -2230,7 +2240,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }else if(this.type == 34){
                 this.dialogue.words.push("Good morning, can I help you with something?")
                 this.dialogue.words.push("Pomao: How do I get of town?")
-                this.dialogue.words.push("Head right, turn up at the megatower, and... well actually, I don't know how to leave this place.")
+                this.dialogue.words.push("Go right, turn up at the megatower, and... well actually, I don't know how to leave this place.")
             }else if(this.type == 35){
                 this.dialogue.words.push("I've never seen the ocean, now I live in this city, maybe I will see it someday.")
             }else if(this.type == 36){
@@ -2260,7 +2270,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }else if(this.type == 40){
                 this.dialogue.words.push("Don't waste your time, waste your time, waste your time.")
                 this.dialogue.words.push("Pomao: Ok thanks.")
-                this.dialogue.words.push("I apologize for my condition., condition, condition.")
+                this.dialogue.words.push("I apologize for my condition, condition, condition.")
                 this.dialogue.words.push("Pomao: No problem.")
             }else if(this.type == 41){
                 this.dialogue.words.push("Someone told me that four of the richest kings have been defeated.")
@@ -2273,7 +2283,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.dialogue.words.push("Oh my goodness you're healthy looking. I bet you'd smash an 11 on the pound-o-meter")
                 this.dialogue.words.push("Pomao: I have spent a lot of time hopping lately.")
             }else if(this.type == 43){
-                this.dialogue.words.push("I saw several lumpy creatures once. Someone should make up a system to name the creatures that inhabit this world.")
+                this.dialogue.words.push("I saw several lumpy creatures once.")
+                this.dialogue.words.push("Someone should make up a system to name the creatures that inhabit this world.")
                 this.dialogue.words.push("Pomao: How about you?")
                 this.dialogue.words.push("Hmm, yes. Now that I own this unit outright I can spend some time coming up with names.")
                 this.dialogue.words.push("I'll call the naming system Feeoffayou.")
@@ -2284,6 +2295,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.dialogue.words.push("Well ok, but you shouldn't say that out loud.")
             }else if(this.type == 45){
                 this.dialogue.words.push("Hi.")
+                this.dialogue.words.push("Pomao: Hi.")
+            }else if(this.type == 46){
+                this.dialogue.words.push("Greetings, I'm Pomerror.")
+            }else if(this.type == 47){
+                this.dialogue.words.push("Hello, I'm Pombagu.")
+            }else if(this.type == 48){
+                this.dialogue.words.push("Hello, I'm Pomglych.")
             }else if(this.type == 0){
                 this.dialogue.words.push("Wassang!")
             }else{
@@ -2303,7 +2321,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
             let grandpoheight = this.height + (Math.sin(((pomao.timeloop * this.rate) + 3.14)) * 1.7)
-            tutorial_canvas_context.drawImage(cityfolk, this.dir*256,(this.type*256) + 1, 255,255, this.x, this.y - (Math.sin(((pomao.timeloop * this.rate) + 3.14)) * 1.7), this.width, grandpoheight)
+            tutorial_canvas_context.drawImage(cityfolk, this.dir*128,(this.type*128) + 1, 128,128, this.x, this.y - (Math.sin(((pomao.timeloop * this.rate) + 3.14)) * 1.7), this.width, grandpoheight)
         }
     }
 
@@ -2325,13 +2343,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     floors.push(floor)
                     for(let k = 0;k<3;k++){
                         if(Math.random()<1.3){
-                            let pomplayer = new NPomC(floor.x+50 + ((floor.width/3)*k), floor.y)
+                            let pomplayer = new NPomC(floor.x+120 + ((floor.width/3)*k), floor.y)
                             this.pomaos.push(pomplayer)
                         }
                         
                     }
                 }
             }
+
             this.skin = new Rectangle(x+50,y+20,h-20,w-50)
             this.color = getRandomLightColor()
  
@@ -2342,7 +2361,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.pomaos[t].draw()
             }
             // if(this.skin.doesPerimeterTouch(pomao.body)){
-     
+            if(Math.abs(this.skin.x - pomao.body.x) <= (640+this.skin.width)){
                 this.graduate = tutorial_canvas_context.createRadialGradient(pomao.body.x, pomao.body.y, 0, pomao.body.x, pomao.body.y, 630);
                 this.graduate.addColorStop(0, "transparent")
                 this.graduate.addColorStop(.49, "transparent")
@@ -2355,6 +2374,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.fillRect(this.skin.x,this.skin.y, this.skin.width, this.skin.height)
             // }
             
+            }
         }
 
     }
@@ -14949,6 +14969,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.hot = 0
             this.timer = 0
         }
+        realign(){
+            this.pos = [this.target.x-30]
+            this.x = this.target.x-30
+            this.posy = [this.target.y]
+            this.y = this.target.y
+            this.count = 0
+            this.county = 0
+            pomao.tongue.x = pomao.body.x
+            pomao.tongue.y = pomao.body.y
+            pomao.tonguey = 0
+            pomao.tonguex = 0
+            pomao.tongueymom = 0
+            pomao.tonguexmom = 0
+        }
         steer() {
 
 
@@ -20494,8 +20528,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.active > 0) {
                 this.timer--
                 if (this.timer < 0) {
-                    this.timer = this.timerbase
                     this.active += 1
+                    //this.timerbase
+                    if (this.active < this.words.length) {
+                        this.timer = (this.words[this.active].length*8.5)+40///this.timerbase
+                    }else{
+                        this.timer = 200
+                    }
                     if (this.active >= this.words.length) {
                         this.active = this.words.length - 1
                         this.complete = 1
@@ -20512,6 +20551,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 tutorial_canvas_context.font = "30px Arial";
                 tutorial_canvas_context.fillText(`${this.words[this.active]}`, this.box.x + 40, this.box.y + 40);
             } else if (this.active == 0) {
+                this.timer = 200
                 this.box = new Rectangle(this.body.x - 50, this.body.y - 50, 20, 38, "white")
                 this.box.draw()
                 tutorial_canvas_context.fillStyle = "black";
@@ -22662,6 +22702,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             j = 0
             while(Math.abs(this.center.xmom) > 20){
+                j++
                 if(j == 100){
                     break
                 }
@@ -22740,6 +22781,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.ymom = (5*(Math.sin(link.angle())))+(this.center.ymom*1.01)
                             j = 0
                             while(Math.abs(pomao.body.ymom) > 11){
+                                j++
                                 if(j == 100){
                                     break
                                 }
@@ -22753,6 +22795,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                             j = 0
                             while(Math.abs(pomao.body.ymom) > 11){
+                                j++
                                 if(j == 100){
                                     break
                                 }
@@ -23803,7 +23846,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         window.setInterval(function () {
 
-            
+            gamepadAPI.update()
             if (started == 1 || gamepadAPI.buttonsStatus.length > 0 || keysPressed['a']) {
                 started = 1
             } else {
@@ -24103,6 +24146,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             tutorial_canvas_context.drawImage(paintedbackground, pomao.body.x - 640, pomao.body.y - 360)
                         } else if (level == 7) {
                             tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
+                            tutorial_canvas_context.drawImage(volcanosign, 0,0,volcanosign.width, volcanosign.height, -550, -400, 500,500)
+
+
                         } else if (level == 8) {
                             tutorial_canvas_context.globalAlpha = 0.5;
                             tutorial_canvas_context.drawImage(volcbg, pomao.body.x - 640, pomao.body.y - 360)
@@ -24489,6 +24535,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // encoder.add(tutorial_canvas_context)
             }
             if (level == 7) {
+                // tutorial_canvas_context.drawImage(volcanosign, 0,0,volcanosign.width, volcanosign.height, -100, -400, 400,400)
+
+                
                 for (let t = 0; t < lavas.length; t++) {
                     if (pomao.paused == 10) {
                         lavas[t].y -= .5
@@ -25082,6 +25131,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x - 640, pomao.body.y - 360)
         pomao.body.x = 640
         pomao.body.y = 360
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
         ramps90 = []
         swimmers = []
         bats = []
@@ -25790,6 +25844,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
         pomao.body.x = 0
         pomao.body.y = 0
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
         ramps90 = []
         swimmers = []
         bats = []
@@ -26057,6 +26116,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
         pomao.body.x = 0
         pomao.body.y = 0
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
+
         ramps90 = []
         swimmers = []
         bats = []
@@ -26230,6 +26295,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)//+18000)
         pomao.body.x = 0
         pomao.body.y = 0//-18000
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -26796,6 +26866,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.body.x = 0 //0
         // pomao.body.x = 8000
         pomao.body.y = 0
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
+
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -27072,6 +27148,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y + 0)
         pomao.body.x = -1000
         pomao.body.y = 0
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -27445,6 +27526,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x + 1, pomao.body.y + 0)
         pomao.body.x = -1
         pomao.body.y = 0
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -27803,6 +27889,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
         pomao.body.x = -1000
         pomao.body.y = 0
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -27970,6 +28061,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
         pomao.body.x = -1000
         pomao.body.y = 0
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -28172,6 +28268,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
         pomao.body.x = -1000
         pomao.body.y = 0
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
+
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -28432,7 +28534,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function levelBoilerplate() {
-
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
@@ -28514,6 +28615,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.body.x = -8570
         pomao.body.y = 800
 
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
 
         let jelly = new Rectangle(-12100, 900, 1033, 42000, "#00ffff88")
         jellys.push(jelly)
@@ -28556,6 +28660,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // pomao.body.x = 13000
         // pomao.body.y = -7050
 
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
         let floor = new Rectangle(-3640, 50, 1000, 14280)
         floors.push(floor)
         walls.push(floor)
@@ -28868,13 +28976,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.body.x = -1000
         pomao.body.y = 0
         
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
 
-        let floor = new Rectangle(-3640, 50, 1000, 17000)
+        let floor = new Rectangle(-3640, 50, 1000, 34000)
         floors.push(floor)
         walls.push(floor)
         roofs.push(floor)
 
-        for(let t = 0;t<10;t++){
+        for(let t = 0;t<20;t++){
             let buidl = new Building(t*1300, 50-(1000+(t*300)), 1000+(t*300), 1000)
             assortedDraw.push(buidl)
         }
@@ -28890,6 +29001,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.body.x = -1000
         pomao.body.y = 0
         
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
     }
     function loadFactoryLevel() {
         levelBoilerplate()
@@ -28906,11 +29020,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // tutorial_canvas_context.translate(pomao.body.x -11000, pomao.body.y+6000)
         // pomao.body.x = 11000
         // pomao.body.y = -6000
-
-        
         // tutorial_canvas_context.translate(pomao.body.x -0, pomao.body.y+7050)
         // pomao.body.x = 0
         // pomao.body.y = -7050
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
 
         // let gearzo = new GearPlatform(-1200, -300, 300, 7, "gray", "#444444")
         // assortedDraw.push(gearzo)
@@ -29468,6 +29585,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // tutorial_canvas_context.translate(pomao.body.x  -17000, pomao.body.y + 1500)
         // pomao.body.x = 17000
         // pomao.body.y = -1500
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
+
+        
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -29722,6 +29846,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         tutorial_canvas_context.translate(pomao.body.x + 0, pomao.body.y + 0)
         pomao.body.x = 0
         pomao.body.y = 0
+
+
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
+
         spinnys.splice(0, spinnys.length)
         ramps90 = []
         swimmers = []
@@ -29818,6 +29948,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.body.x = 0
         pomao.body.y = -100
 
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
+
+        
         tutorial_canvas_context.translate(pomao.body.x + 640, pomao.body.y + 560)
         spinnys.splice(0, spinnys.length)
         ramps90 = []
@@ -29950,6 +30085,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.body.x = 0
         pomao.body.y = -100
 
+        for (let t = 1; t < pomao.eggs.length; t++) {
+            pomao.eggs[t].realign()
+        }
         tutorial_canvas_context.translate(pomao.body.x + 640, pomao.body.y + 560)
         spinnys.splice(0, spinnys.length)
         ramps90 = []
