@@ -5911,15 +5911,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.positron.ymom = -30 * Math.random()
             this.electron.xmom = 25 * Math.random()
             this.positron.xmom = -25 * Math.random()
+            this.electron.fromRatio = 0
+            this.electron.toRatio = 0
+            this.positron.fromRatio = 0
+            this.positron.toRatio = 0
             this.body = {}
             this.flipper = -1
             this.counter = 0
-
+            this.link = new LineOP(this.positron, this.electron)
+            this.linkhyp = this.link.m_hypotenuse()
+            this.body = castBetween(this.positron, this.electron, 30, this.electron.radius * .2) // this.linkhyp / (this.electron.radius * .4) not 30?
+            this.body.shapes.push(this.electron)
+            this.body.shapes.push(this.positron)
         }
         physics() {
 
             if (this.counter % 1 == 0) {
-                this.link = new LineOP(this.positron, this.electron)
                 this.linkhyp = this.link.m_hypotenuse()
                 this.positron.xmom -= (this.positron.x - this.electron.x) / (this.linkhyp * .5) * .10
                 this.electron.xmom -= (this.electron.x - this.positron.x) / (this.linkhyp * .5) * .10
@@ -5928,6 +5935,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 this.positron.movenofric()
                 this.electron.movenofric()
+
+            this.body.adjustByFromDisplacement(this.positron.xmom*.1, this.positron.ymom*.1)
+            this.body.adjustByToDisplacement(this.electron.xmom*.1, this.electron.ymom*.1)
                 if (this.electron.x > 7000) {
                     if (this.electron.xmom > 0) {
                         this.electron.xmom *= -1
@@ -5972,14 +5982,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.counter++
             this.link = new LineOP(this.positron, this.electron)
             this.linkhyp = this.link.m_hypotenuse()
-            this.body = castBetween(this.positron, this.electron, this.linkhyp / (this.electron.radius * .4), this.electron.radius * .2)
-            this.body.shapes.push(this.positron)
-            this.body.shapes.push(this.electron)
+            // this.body = castBetween(this.positron, this.electron, this.linkhyp / (this.electron.radius * .4), this.electron.radius * .2)
+            // this.body.shapes.push(this.positron)
+            // this.body.shapes.push(this.electron)
             let tonguelink = new LineOP(pomao.body, pomao.tongue)
 
 
-            let link1 = new LineOP(pomao.body, this.positron)
-            let link2 = new LineOP(pomao.body, this.electron)
+            // let link1 = new LineOP(pomao.body, this.positron)
+            // let link2 = new LineOP(pomao.body, this.electron)
 
             // if(Math.max(link1.hypotenuse(),link2.hypotenuse()) >= Math.max(this.linkhyp, tonguelink)){
             if (this.body.isPointInside(pomao.body)) {
@@ -6063,9 +6073,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // }
         }
         draw() {
-            this.body = castBetween(this.positron, this.electron, this.linkhyp / (this.electron.radius * .4), this.electron.radius * .2) //wow fix this
-            this.body.shapes.push(this.positron)
-            this.body.shapes.push(this.electron)
+            // this.body.draw()
+            // this.body = castBetween(this.positron, this.electron, this.linkhyp / (this.electron.radius * .4), this.electron.radius * .2) //wow fix this
+            // this.body.shapes.push(this.positron)
+            // this.body.shapes.push(this.electron)
             // this.body.draw()
             this.link = new LineOP(this.positron, this.electron, "gray", Math.min((((this.electron.radius * .4) / this.linkhyp) * 64), 100))
             this.link.draw()
