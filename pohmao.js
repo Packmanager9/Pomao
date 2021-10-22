@@ -593,6 +593,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const targoymusic = new Audio('pomo3.mp3');
     const lvl6music = new Audio('mountainsong.mp3');
 
+    let songs = [lvl6music,targoymusic,level10basemusic,spidermusic,lvl6bossmusic,lvl5basemusic,lvl4bossmusic,level3basemusic,lvl4basemusic,lvl7bosssong, lvl9basemusic, lvl2basemusic, lvl1basemusic, lvl4fifthsbasemusic, risingseaside, volcanobootupmusic, islandsongmusic2, islandsongmusic1, marshMusic, factorybossmusic, factorymusic, rebelbasemusic, cityscapemusic]
+    let mute = -1
+    let mutetimer = 1
+
     const jailswitchimgl = new Image()
     jailswitchimgl.src = 'switchl.png'
     const jailswitchimg = new Image()
@@ -973,7 +977,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     if (event.key != "ArrowLeft") {
                         if (event.key != "q") {
-
+                            if(event.key.toLocaleLowerCase() == 't'){
+                                mutetimer = 1
+                            }
+                            
                             delete keysPressed[event.key.toLocaleLowerCase()];
                         } else {
 
@@ -19654,7 +19661,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.dead = 1
         }
         castBetween(from, to) { //creates a sort of beam hitbox between two points, with a granularity (number of members over distance), with a radius defined as well
-            let limit = new LineOP(from, to).hypotenuse() / (from.radius * 2)
+            let limit =  12//new LineOP(from, to).hypotenuse() / (from.radius * 2)
             // //////console.log(from, to, target)
             let radius = from.radius
             let shape_array = []
@@ -23876,6 +23883,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
         window.setInterval(function () {
+            if(keysPressed['t']){
+                if(mute== 1){
+                    if(mutetimer == 1){
+                        mute*=-1
+                        mutetimer = 0
+                    }
+                }else{
+                    if(mutetimer == 1){
+                    mute*=-1
+                    mutetimer = 0
+                    }
+                }
+            if(mute == 1){
+                for(let t = 0;t<songs.length;t++){
+                    songs[t].volume = 0
+                }
+            }
+            if(mute == -1){
+                for(let t = 0;t<songs.length;t++){
+                    songs[t].volume = 1
+                }
+            }
+            }
 
             gamepadAPI.update()
             if (started == 1 || gamepadAPI.buttonsStatus.length > 0 || keysPressed['a']) {
