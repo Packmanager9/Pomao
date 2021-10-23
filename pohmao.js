@@ -192,6 +192,9 @@ const rimgs = []
 for (let i = 1; i < 4; i++) {
     rimgs.push(Object.assign(new Image(), { 'src': `targoy${i}.png` }));
 }
+for (let i = 1; i < 4; i++) {
+    rimgs.push(Object.assign(new Image(), { 'src': `targoy${i}a.png` }));
+}
 
 window.addEventListener('DOMContentLoaded', (event) => {
 
@@ -1104,6 +1107,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             loadlvl13button = new Rectangle(-100 + 640 + 700, 360, 50, 50, "#7788ff")
             loadlvl14button = new Rectangle(-100 + 640 - 500, 460, 50, 50, "tan")
             loadlvl15button = new Rectangle(-100 + 640 - 400, 460, 50, 50, "#AAAAAA")
+            loadlvl16button = new Rectangle(-100 + 640 - 300, 460, 50, 50, "#FFFFAA")
 
 
 
@@ -1179,6 +1183,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if (loadlvl15button.isPointInside(tip)) {
                 loadCapitalCity()
+                pomao.paused = 10
+                pomao.pausetimer = 10
+            }
+            if (loadlvl16button.isPointInside(tip)) {
+                loadABigPileOfGarbage()
                 pomao.paused = 10
                 pomao.pausetimer = 10
             }
@@ -5270,6 +5279,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.bopped = 0
             this.xrepelled = 0
             this.yrepelled = 0
+            this.angleradiansholder = 0
             this.linker = new LineOP(pomao.body, this.body)
         }
 
@@ -5299,6 +5309,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     } else {
                         color = "#00FF00"
                     }
+                }
+                if (this.type >= 3) {
+                    color = "#090909"
                 }
                 const dot1 = new Circlec(this.body.x, this.body.y, this.body.radius / 4, color, Math.cos(rotx) * 4, Math.sin(roty) * 4)
                 this.pops.push(dot1)
@@ -5334,24 +5347,46 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if (this.type == 0) {
                     this.body.xmom += (pomao.body.x - this.body.x) / 1200
                     this.body.ymom += (pomao.body.y - this.body.y) / 1200
-                }
-                if (this.type == 1) {
+                }else if (this.type == 1) {
                     this.body.xmom += (pomao.body.x - this.body.x) / 1000
                     this.body.ymom += (pomao.body.y - this.body.y) / 1200
-                }
-                if (this.type == 2) {
+                }else if (this.type == 2) {
                     this.body.xmom += (pomao.body.x - this.body.x) / 1200
                     this.body.ymom += (pomao.body.y - this.body.y) / 1000
+                }else if (this.type == 3) {
+                    this.body.xmom += (pomao.body.x - this.body.x) / 900
+                    this.body.ymom += (pomao.body.y - this.body.y) / 700
+                }else if (this.type == 4) {
+                    this.body.xmom += (pomao.body.x - this.body.x) / 900
+                    this.body.ymom += (pomao.body.y - this.body.y) / 700
+                }else if (this.type == 5) {
+                    this.body.xmom += (pomao.body.x - this.body.x) / 900
+                    this.body.ymom += (pomao.body.y - this.body.y) / 700
+                }else if (this.type == 6) {
+                    this.body.xmom += (pomao.body.x - this.body.x) / 900
+                    this.body.ymom += (pomao.body.y - this.body.y) / 700
                 }
-                for (let t = 0; (Math.abs(this.body.xmom) + Math.abs(this.body.ymom)) < 2; t++) {
-                    this.body.ymom *= 1.01
-                    this.body.xmom *= 1.01
+                let j = 0
+                if(this.type <= 2){
+                    for (let t = 0; (Math.abs(this.body.xmom) + Math.abs(this.body.ymom)) < 2; t++) {
+                        this.body.ymom *= 1.01
+                        this.body.xmom *= 1.01
+                        j++
+                        if(j > 100){
+                            break
+                        }
+                    }
                 }
                 this.body.x += this.body.xmom
                 this.body.y += this.body.ymom
             }
-            this.body.xmom *= .955
-            this.body.ymom *= .955
+            if(this.type <= 2){
+                this.body.xmom *= .955
+                this.body.ymom *= .955
+            }else{
+            // this.body.xmom *= .9855
+            // this.body.ymom *= .9855
+            }
 
             this.xrepel = 0
             this.yrepel = 0
@@ -5409,15 +5444,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.body.y -= ((this.body.y - pomao.tongue.y) / 1) + (this.anchor.ydif * .9)
                 this.anchor.xdif *= .97
                 this.anchor.ydif *= .97
-            }
-            if (this.marked == 2) {
+            }else if (this.marked == 2) {
                 this.body.x -= ((this.body.x - pomao.body.x) / 1.1)
                 this.body.y -= ((this.body.y - pomao.body.y) / 1.1)
                 this.marked = 2
                 pomao.diry = 1
-            }
-
-            if (this.marked == 0) {
+            }else if (this.marked == 0) {
                 for (let f = 0; f < swimmers.length; f++) {
                     if (this !== swimmers[f]) {
                         if (this.bodydraw.repelCheck(swimmers[f].bodydraw)) {
@@ -5425,6 +5457,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             const angleRadians = angleGrasp(swimmers[f].body.y - this.body.y, swimmers[f].body.x - this.body.x);
                             this.xrepel += (Math.cos(angleRadians) * distance) / 2
                             this.yrepel += (Math.sin(angleRadians) * distance) / 2
+                            this.angleradiansholder = angleRadians
                             // swimmers[f].xrepelled = 1
                         }
                     }
@@ -5438,6 +5471,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.body.x += this.xrepel
                         this.body.x += this.yrepel / 2
                     } else if (this.type == 2) {
+                        this.body.y += this.xrepel / 2
+                        this.body.y += this.yrepel
+                    } else if (this.type == 3) {
+                        this.body.y += this.xrepel 
+                        this.body.y += this.yrepel  / 1.3+(Math.sin(this.angleradiansholder))
+                    } else if (this.type == 4) {
+                        this.body.y += this.xrepel / 1.3+(Math.cos(this.angleradiansholder))
+                        this.body.y += this.yrepel 
+                    } else if (this.type == 5) {
+                        this.body.y += this.xrepel / 1.3+(Math.cos(this.angleradiansholder))
+                        this.body.y += this.yrepel  / 1.3+(Math.sin(this.angleradiansholder))
+                    } else if (this.type == 6) {
                         this.body.y += this.xrepel / 2
                         this.body.y += this.yrepel
                     }
@@ -5508,11 +5553,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (this.out <= 0) {
 
                 this.move()
-                this.bodydraw = new Circlec(this.body.x, this.body.y, this.body.radius + 7, "#AA00DD")
+                this.bodydraw = new Circlec(this.body.x, this.body.y, this.body.radius + 7, "f#AA00DD")
                 this.bodydrawhuge = new Circlec(this.body.x, this.body.y, this.body.radius + 17, "#AA00DD")
                 // tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, rimgs[0].width, rimgs[0].height, this.body.x - (24 * (this.body.radius * .06666666666)), this.body.y - (24 * (this.body.radius * .06666666666)), 52 * (this.body.radius * .06666666666), 52 * (this.body.radius * .06666666666))
 
-                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, rimgs[0].width, rimgs[0].height, this.bodydraw.x - this.bodydraw.radius, this.body.y - this.bodydraw.radius, this.bodydraw.radius * 2, this.bodydraw.radius * 2)
+                tutorial_canvas_context.drawImage(rimgs[this.type], 0, 0, rimgs[this.type].width, rimgs[this.type].height, this.bodydraw.x - this.bodydraw.radius, this.body.y - this.bodydraw.radius, this.bodydraw.radius * 2, this.bodydraw.radius * 2)
 
             }
         }
@@ -6633,7 +6678,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class Fruitbox {
         constructor(x, y) {
             this.center = new Circle(x, y, 0, "transparent")
-            this.body = new Rectangle(x, y, 60, 60, "#FFFFFF25")
+            this.body = new Rectangle(x, y, 90, 90, "#FFFFFF25")
+            this.body.skip = 1 //for the dump
             this.fruit = []
             for (let t = 0; t < 20; t++) {
                 let fruit = new Fruit(x, y, 60, 60, "transparent")
@@ -6660,8 +6706,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (this.broken == 0) {
                 for (let t = 0; t < this.fruit.length; t++) {
-                    this.fruit[t].x = this.x
-                    this.fruit[t].y = this.y
+                    this.fruit[t].x = this.x+15
+                    this.fruit[t].y = this.y+15
                 }
                 this.body.x = this.x
                 this.body.y = this.y
@@ -14994,6 +15040,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let loadlvl13button
     let loadlvl14button
     let loadlvl15button
+    let loadlvl16button
 
     class Seed {
         constructor(target) {
@@ -22872,7 +22919,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // this.body.fish = 1
             ramps.push(this.body)
             for (let t = 0; t < 230; t++) {
-                let node = new Circle(-1000 + (Math.random() * 6000), -(Math.random() * 700), 20, "red")
+                let node = new Circle(-1000 + (Math.random() * 6000), -(Math.random() * 700), 21, "red")
                 node.angle = 0
                 node.dis = 0
                 node.active = 0
@@ -22937,21 +22984,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // control(this.body, 3)
 
             if (pomao.tongue.repelCheck(this.body)) {
-                this.body.xmom -= Math.cos(this.link.angle()) * .1
-                this.body.ymom -= Math.sin(this.link.angle()) * .1
+                this.body.xmom -= Math.cos(this.link.angle()) * .5
+                this.body.ymom -= Math.sin(this.link.angle()) * .5
             }
             if (pomao.body.repelCheck(this.body)) {
-                this.body.xmom -= Math.cos(this.pomlink.angle()) * .1
-                this.body.ymom -= Math.sin(this.pomlink.angle()) * .1
+                this.body.xmom -= Math.cos(this.pomlink.angle()) * .5
+                this.body.ymom -= Math.sin(this.pomlink.angle()) * .5
             }
             this.body.ymom += .3
             this.body.move()
             this.body.xmom *= .9901
             this.body.ymom *= .98
             // this.body.draw()
-            tutorial_canvas_context.drawImage(trashball3, 0, 0, trashball3.width, trashball3.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
 
-            this.angle -= (x - this.body.x) * (1 / this.max)
             // this.angle+= (y-this.body.y)*.07
             let j = 0
             for (let t = 0; t < floors.length; t++) {
@@ -23065,15 +23110,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.activenodes[t].y = this.body.y + (Math.sin(this.angle + this.activenodes[t].angle) * this.activenodes[t].dis)
                 // this.activenodes[t].draw()
                 if (this.activenodes[t].type == 1) {
-                    tutorial_canvas_context.drawImage(trashball1, 0, 0, trashball1.width, trashball1.height, this.activenodes[t].x - this.activenodes[t].radius, this.activenodes[t].y - this.activenodes[t].radius, this.activenodes[t].radius * 2, this.activenodes[t].radius * 2)
+                    tutorial_canvas_context.drawImage(trashball1, 0, 0, trashball1.width, trashball1.height, this.activenodes[t].x - (this.activenodes[t].radius*1.1), this.activenodes[t].y - (this.activenodes[t].radius*1.1), this.activenodes[t].radius * 2.2, this.activenodes[t].radius * 2.2)
                 } else if (this.activenodes[t].type == 0) {
-                    tutorial_canvas_context.drawImage(trashball3, 0, 0, trashball3.width, trashball3.height, this.activenodes[t].x - this.activenodes[t].radius, this.activenodes[t].y - this.activenodes[t].radius, this.activenodes[t].radius * 2, this.activenodes[t].radius * 2)
+                    tutorial_canvas_context.drawImage(trashball3, 0, 0, trashball3.width, trashball3.height, this.activenodes[t].x - (this.activenodes[t].radius*1.1), this.activenodes[t].y - (this.activenodes[t].radius*1.1), this.activenodes[t].radius * 2.2, this.activenodes[t].radius * 2.2)
                 } else if (this.activenodes[t].type == 2) {
-                    tutorial_canvas_context.drawImage(trashball2, 0, 0, trashball2.width, trashball2.height, this.activenodes[t].x - this.activenodes[t].radius, this.activenodes[t].y - this.activenodes[t].radius, this.activenodes[t].radius * 2, this.activenodes[t].radius * 2)
+                    tutorial_canvas_context.drawImage(trashball2, 0, 0, trashball2.width, trashball2.height, this.activenodes[t].x - (this.activenodes[t].radius*1.1), this.activenodes[t].y - (this.activenodes[t].radius*1.1), this.activenodes[t].radius * 2.2, this.activenodes[t].radius * 2.2)
                 }
 
 
             }
+
+            this.angle -= (x - this.body.x) * (1 / this.max)
+            tutorial_canvas_context.drawImage(trashball3, 0, 0, trashball3.width, trashball3.height, this.body.x - this.body.radius, this.body.y - this.body.radius, this.body.radius * 2, this.body.radius * 2)
+
         }
     }
 
@@ -24800,6 +24849,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl13button = new Rectangle(-100 + pomao.body.x + 700, pomao.body.y, 50, 50, "#7788FF")
                     loadlvl14button = new Rectangle(-100 + pomao.body.x - 500, pomao.body.y + 100, 50, 50, "tan")
                     loadlvl15button = new Rectangle(-100 + pomao.body.x - 400, pomao.body.y + 100, 50, 50, "#AAAAAA")
+                    loadlvl16button = new Rectangle(-100 + pomao.body.x - 300, pomao.body.y + 100, 50, 50, "#FFFFAA")
 
                     loadlvl1button.draw()
                     loadlvl2button.draw()
@@ -24816,6 +24866,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     loadlvl13button.draw()
                     loadlvl14button.draw()
                     loadlvl15button.draw()
+                    loadlvl16button.draw()
                 }
 
                 // for(let t =0;t<ungrapplable.length;t++){
@@ -29287,11 +29338,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     function loadABigPileOfGarbage() {
         levelBoilerplate()
         level = 17
-        tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
-        pomao.body.x = -1000
+        tutorial_canvas_context.translate(pomao.body.x + 1200, pomao.body.y)
+        pomao.body.x = -1200
         pomao.body.y = 0
 
-        let sticky = new Sticky(-700, -400)
+        let sticky = new Sticky(-700, -70)
         assortedDraw.push(sticky)
 
 
@@ -29300,22 +29351,89 @@ window.addEventListener('DOMContentLoaded', (event) => {
         walls.push(floor)
         roofs.push(floor)
 
+
         let wall = new Rectangle(-1400, -10000, 10050, 50)
         wall.skip = 1
         floors.push(wall)
         walls.push(wall)
         roofs.push(wall)
+        ungrapplable.push(wall)
 
         let wall2 = new Rectangle(5000, -10000, 10050, 50)
         wall2.skip = 1
         floors.push(wall2)
         walls.push(wall2)
         roofs.push(wall2)
+        ungrapplable.push(wall2)
 
 
+        // for (let t = 0; t < 10; t++) {
+        // }
+
+
+        for (let t = 0; t < 9; t++) {
+        let floorup = new Rectangle(4300-(t*700), -1300-(t*85), 20, 400)
+        floorup.skip = 1
+        floors.push(floorup)
+        let fruitbox = new Fruitbox(4300-(t*700), (-1300-(t*85)) - 200)
+        fruitbox.angle = 0
+        fruitbox.speed = 0
+        assortedDraw.push(fruitbox)
+        for (let k = 0; k < 5; k++) {
+            const swimmer = new Swimmer(4300-(t*700) +(Math.random()*400), (-1300-(t*85)) - 500 +(Math.random()*400))
+            swimmer.type = 3+Math.floor(Math.random()*3)
+            // swimmer.radius = 33
+            swimmers.push(swimmer)
+        }
+        }
+
+        for (let t = 0; t < 9; t++) {
+        let floorup = new Rectangle(4300-(8*700)+(t*700), -1300-(11*85)-(t*85), 20, 400)
+        floorup.skip = 1
+        floors.push(floorup)
+        let fruitbox = new Fruitbox(4300-(8*700)+(t*700), ((-1300-(11*85)-(t*85))- 200))
+        fruitbox.angle = 0
+        fruitbox.speed = 0
+        assortedDraw.push(fruitbox)
+        }
+        for (let t = 0; t < 9; t++) {
+        let floorup = new Rectangle(4300-(8*700)+(8*700)-(t*700), -1300-(11*85)-(11*85)-(t*85), 20, 400)
+        floorup.skip = 1
+        floors.push(floorup)
+        let fruitbox = new Fruitbox(4300-(8*700)+(8*700)-(t*700), (-1300-(11*85)-(11*85)-(t*85))-200)
+        fruitbox.angle = 0
+        fruitbox.speed = 0
+        assortedDraw.push(fruitbox)
+        }
+
+
+        
         for (let t = 1; t < pomao.eggs.length; t++) {
             pomao.eggs[t].realign()
         }
+
+        markRectangles()
+
+        for (let k = 0; k < (6400/270); k++) {
+            const fruit = new Fruit(-1400+ (k*270),  -60, 60, 60, "red")
+            let wet = 0
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < floors.length; k++) {
+                if (floors[k].doesPerimeterTouch(fruit.body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
     }
     function loadFactoryLevel() {
         levelBoilerplate()
@@ -30557,6 +30675,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             if (ungrapplable.includes(floors[t])) {
                 floors[t].ungrapplable = 1
+                floors[t].color = "#FFFFFF48"
             }
             if (blocks.includes(floors[t])) {
                 floors[t].block = 1
