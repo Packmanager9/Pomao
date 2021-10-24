@@ -5474,16 +5474,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.body.y += this.xrepel / 2
                         this.body.y += this.yrepel
                     } else if (this.type == 3) {
-                        this.body.y += this.xrepel 
-                        this.body.y += this.yrepel  / 1.3+(Math.sin(this.angleradiansholder))
+                        this.body.x += this.xrepel 
+                        this.body.y += this.yrepel  / (1.3+(Math.sin(this.angleradiansholder)))
                     } else if (this.type == 4) {
-                        this.body.y += this.xrepel / 1.3+(Math.cos(this.angleradiansholder))
+                        this.body.x += this.xrepel / (1.3+(Math.cos(this.angleradiansholder)))
                         this.body.y += this.yrepel 
                     } else if (this.type == 5) {
-                        this.body.y += this.xrepel / 1.3+(Math.cos(this.angleradiansholder))
-                        this.body.y += this.yrepel  / 1.3+(Math.sin(this.angleradiansholder))
+                        this.body.x += this.xrepel / (1.3+(Math.cos(this.angleradiansholder)))
+                        this.body.y += this.yrepel  / (1.3+(Math.sin(this.angleradiansholder)))
                     } else if (this.type == 6) {
-                        this.body.y += this.xrepel / 2
+                        this.body.x += this.xrepel / 2
                         this.body.y += this.yrepel
                     }
                 }
@@ -5497,21 +5497,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             for (let t = 0; t < shockfriendly.shocksl.length; t++) {
                 if (this.bodydrawhuge.repelCheck(shockfriendly.shocksl[t])) {
+
+            if(this.type <= 2){
                     if (this.out <= 0) {
                         this.pop()
                     }
                     this.out = 45
                     break
+                }else{
+                    this.body.xmom += (shockfriendly.shocksl[t].xmom*.1)
+                    this.body.ymom += (shockfriendly.shocksl[t].ymom*.1)
                 }
-
+            }
             }
             for (let t = 0; t < shockfriendly.shocksr.length; t++) {
                 if (this.bodydrawhuge.repelCheck(shockfriendly.shocksr[t])) {
+
+            if(this.type <= 2){
                     if (this.out <= 0) {
                         this.pop()
                     }
                     this.out = 45
                     break
+                }else{
+                    this.body.xmom += (shockfriendly.shocksr[t].xmom*.1)
+                    this.body.ymom += (shockfriendly.shocksr[t].ymom*.1)
+                }
                 }
 
             }
@@ -5531,7 +5542,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             if (this.body.radius <= 1.5) {
                 this.out = 1
+
+            if(this.type <= 2){
                 pomao.hits += 1
+            }
                 if (pomao.hits > 9) {
                     pomao.hits = 9
                 }
@@ -10902,6 +10916,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 factorymusic.pause()
             }
 
+            if(level == 17){
+                if(boss.pomline.hypotenuse() < 3000){
+                boss.draw()
+                }
+                // boss17_2.draw()
+                // boss17_3.draw()
+            }
 
 
             if (level == 14) {
@@ -22908,6 +22929,250 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
+
+    class Xboss{
+        constructor(x,y, size){
+            this.body = new Circle(x, y, 20, "red")
+            this.nodes = []
+            this.activenodes = []
+            this.angle = 0
+            this.max = 20
+           this.dis = size
+           this.body.dis = 20
+           this.size = size 
+           this.health = 5000
+           this.maxhealth = this.health
+           this.healrat = 0
+           this.hittimer = 0
+           this.pomline = new LineOP(this.body, pomao.body)
+            for(let t = 0;t<20;t++){
+                let node = new Circle(this.body.x+(Math.cos(this.angle)*(((this.dis*.1)*Math.floor(t/4))+this.body.radius+(size*.05))),   this.body.y+(Math.sin(this.angle)*(((this.dis*.1)*Math.floor(t/4))+this.body.radius+(size*.05))),  (size*.3), "red" )
+                node.angle = this.angle
+                node.dis = (new LineOP(this.body, node)).hypotenuse()
+                node.rat = ((node.dis)/(size+this.body.radius))
+                // ramps.push(node)
+                this.activenodes.push(node)
+                this.angle += (Math.PI*2)*.25
+            }
+
+            this.angle = 0
+            this.max = size+this.body.radius
+        }
+        ai(){
+            this.body.xmom -= (Math.sign(this.body.x-pomao.body.x))*.09
+            if(this.health <= 0){
+                for(let t = 0;t<this.activenodes.length;t++){
+                    this.activenodes[t].dis *= 1.01
+                    this.size *= .99
+                    this.body.xmom = 0
+                    this.body.ymom = 0
+                }
+            }
+
+        }
+        draw(){ 
+            this.hittimer++
+                if(this.health <=0){
+                    this.health = 0
+                }
+                this.healrat = ((this.health/this.maxhealth)-1)*1.9
+
+            // if(keysPressed['p']){
+            //     this.health-=10
+            // }
+            let x = this.body.x
+            let y = this.body.y
+            this.body.ymom+=.5
+            this.ai()
+            this.body.move()
+            // this.body.draw()
+            this.angle-= (x-this.body.x)*(1.57/this.max)
+            // this.angle+= (y-this.body.y)*.07
+                let j = 0
+                for(let t = 0;t<floors.length;t++){
+                    if(floors[t].skip != 1){
+                    while(floors[t].doesPerimeterTouch(this.body)){
+                        this.body.y--
+
+                            if(this.body.ymom > 0){
+                                this.body.ymom = 0
+                            }
+                        j++
+                        if(j > 100){
+                            break
+                        }
+                    }
+                    }
+                }
+                for(let t = 0;t<ramps.length;t++){
+
+                    if (!this.activenodes.includes(ramps[t])) {
+                    while(ramps[t].repelCheck(this.body)){
+                        this.body.y--
+                       
+                            if(this.body.ymom > 0){
+                                this.body.ymom = 0
+                            }
+                        j++
+                        if(j > 100){
+                            break
+                        }
+                    }
+                    }
+                }
+            for (let t = 0; t < walls.length; t++) {
+                if (walls[t].skip == 1) {
+                    while (walls[t].doesPerimeterTouch(this.body)) {
+                        if(walls[t].x < this.body.x){
+                            this.body.x++
+                                this.body.xmom+=.1
+                            // this.body.xmom = 0
+                        }else if(walls[t].x > this.body.x){
+                            this.body.x--
+                                this.body.xmom-=.1
+                            // this.body.xmom = 0
+                        }
+                        j++
+                        if (j > 100) {
+                            break
+                        }
+
+                            if(this.body.ymom > -5){
+                                this.body.ymom -= .5
+                            }
+                    }
+                }
+            }
+
+
+
+            for(let t = 0;t<this.activenodes.length;t++){
+                if (pomao.body.repelCheck(this.activenodes[t])) {
+                    let link = new LineOP(this.activenodes[t], pomao.body)
+                    this.bump = Math.cos(link.angle())
+                    if (pomao.disabled != 1) {
+                        if (pomao.pounding != 10) {
+                            pomao.body.xmom = -3 * (this.bump)
+                            pomao.disabled = 1
+                            if(this.hittimer > 35){
+                                pomao.hits-=2
+                                this.hittimer = 0
+                            }
+                            pomao.body.ymom -=  Math.sin(link.angle())*3
+                            this.body.xmom = 3 * (this.bump)
+                            this.body.ymom =  -5
+                        } 
+                    } else {
+                        if (this.bump * pomao.body.xmom > 0) {
+                            pomao.body.xmom = -1.8 * (this.bump)
+                            pomao.body.ymom -= Math.sin(link.angle())*1.8
+
+                            this.body.xmom =  1.8 * (this.bump)
+                            // this.body.ymom =  -5
+                            this.activenodes[t].xmom = -pomao.body.xmom
+                        }
+                    }
+                    break
+                }
+            }
+            for(let t = 0;t<this.activenodes.length;t++){
+                for (let h = 0; h < pomao.thrown.length; h++) {
+                    if (this.activenodes[t].repelCheck(pomao.thrown[h])) {
+                            this.body.xmom += (pomao.thrown[h].xmom * .01)
+                            this.health -= .7
+                    }
+                }
+
+
+
+
+                this.activenodes[t].x = this.body.x+(Math.cos(this.angle + this.activenodes[t].angle)*this.activenodes[t].dis)
+                this.activenodes[t].y = this.body.y+(Math.sin(this.angle + this.activenodes[t].angle)*this.activenodes[t].dis)
+                // this.activenodes[t].draw()
+                let j = 0
+
+                for(let r = 0;r<floors.length;r++){
+
+                    if(floors[r].skip != 1){
+                    while(floors[r].doesPerimeterTouch(this.activenodes[t])){
+                        this.body.y--
+                    
+                            if(this.body.ymom > 0){
+                                this.body.ymom = 0
+                            }
+    
+                    this.activenodes[t].x = this.body.x+(Math.cos(this.angle + this.activenodes[t].angle)*this.activenodes[t].dis)
+                    this.activenodes[t].y = this.body.y+(Math.sin(this.angle + this.activenodes[t].angle)*this.activenodes[t].dis)
+                        j++
+                        if(j > 100){
+                            break
+                        }
+                    }
+                    }
+                }
+                j = 0
+                for(let r = 0;r<ramps.length;r++){
+
+                    if (!this.activenodes.includes(ramps[r])) {
+                while(ramps[r].repelCheck(this.activenodes[t])){
+
+                    this.body.y--
+                    
+                            if(this.body.ymom > 0){
+                                this.body.ymom = 0
+                            }
+
+                this.activenodes[t].x = this.body.x+(Math.cos(this.angle + this.activenodes[t].angle)*this.activenodes[t].dis)
+                this.activenodes[t].y = this.body.y+(Math.sin(this.angle + this.activenodes[t].angle)*this.activenodes[t].dis)
+                    j++
+                    if(j > 100){
+                        break
+                    }
+                    }
+                }
+
+                j = 0
+                for (let r = 0; r < walls.length; r++) {
+                    if (walls[r].skip == 1) {
+                        while (walls[r].doesPerimeterTouch(this.activenodes[t])) {
+                            if(walls[r].x < this.body.x){
+                                this.body.xmom+=.1
+                                this.body.x++
+                            }else{
+                                this.body.x--
+                                this.body.xmom-=.1
+                            }
+                            // this.body.xmom = 0
+
+                            this.activenodes[t].x = this.body.x + (Math.cos(this.angle + this.activenodes[t].angle) * this.activenodes[t].dis)
+                            this.activenodes[t].y = this.body.y + (Math.sin(this.angle + this.activenodes[t].angle) * this.activenodes[t].dis)
+                            j++
+                            if (j > 100) {
+                                break
+                            }
+                            if(this.body.ymom > -5){
+                                this.body.ymom -= .5
+                            }
+
+                        }
+                    }
+                }
+            }
+            }
+            for(let t = 0;t<this.activenodes.length;t++){
+                this.activenodes[t].x = this.body.x+(Math.cos(this.angle + this.activenodes[t].angle)*this.activenodes[t].dis)
+                this.activenodes[t].y = this.body.y+(Math.sin(this.angle + this.activenodes[t].angle)*this.activenodes[t].dis)
+                this.activenodes[t].radius =  (this.size*.2) +((this.size*(7-Math.floor((t+12)/4))*.1)*(this.activenodes[t].rat*(this.healrat)))
+                // this.activenodes[t].draw()
+
+                tutorial_canvas_context.drawImage(rimgs[4], 0, 0, rimgs[4].width, rimgs[4].height, this.activenodes[t].x - this.activenodes[t].radius, this.activenodes[t].y - this.activenodes[t].radius, this.activenodes[t].radius * 2, this.activenodes[t].radius * 2)
+
+
+            }
+        }
+    }
+
+
     class Sticky {
         constructor(x, y) {
             this.body = new Circle(x, y, 70, "red")
@@ -24116,6 +24381,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     let chafer
     let boss = new Bossbeam()
+    let boss17_2
+    let boss17_3
     let pin
     let pin2
     const fractal = new Fractal(7)
@@ -24771,6 +25038,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                             if (level == 15) {
                                 loadFactoryLevel()
+                            }
+                            if (level == 16) {
+                                loadCapitalCity()
+                            }
+                            if (level == 17) {
+                                loadABigPileOfGarbage()
                             }
 
                         }
@@ -29366,6 +29639,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         roofs.push(wall2)
         ungrapplable.push(wall2)
 
+        boss = new Xboss(-900, -5000, 500)
+        // boss17_2 = new Xboss(-600, -400, 400)
+        // boss17_3 = new Xboss(-300, -400, 400)
 
         // for (let t = 0; t < 10; t++) {
         // }
@@ -29395,6 +29671,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         fruitbox.angle = 0
         fruitbox.speed = 0
         assortedDraw.push(fruitbox)
+        for (let k = 0; k < 6; k++) {
+            const swimmer = new Swimmer(4300-(8*700)+(t*700) +(Math.random()*400), (-1300-(11*85)-(t*85)) - 500 +(Math.random()*400))
+            swimmer.type = 3+Math.floor(Math.random()*3)
+            // swimmer.radius = 33
+            swimmers.push(swimmer)
+        }
         }
         for (let t = 0; t < 9; t++) {
         let floorup = new Rectangle(4300-(8*700)+(8*700)-(t*700), -1300-(11*85)-(11*85)-(t*85), 20, 400)
@@ -29404,7 +29686,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
         fruitbox.angle = 0
         fruitbox.speed = 0
         assortedDraw.push(fruitbox)
+        for (let k = 0; k < 7; k++) {
+            const swimmer = new Swimmer(4300-(8*700)+(8*700)-(t*700) +(Math.random()*400), (-1300-(11*85)-(11*85)-(t*85)) - 500 +(Math.random()*400))
+            swimmer.type = 3+Math.floor(Math.random()*3)
+            // swimmer.radius = 33
+            swimmers.push(swimmer)
         }
+        }
+
+        let bloosfloor = new Rectangle(-1400, -1300-(11*85)-(11*85)-(11*85), 20, 6400)
+        floors.push(bloosfloor)
 
 
         
@@ -29413,6 +29704,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
 
         markRectangles()
+
+
+        for (let t = 0; t < 200; t++) {
+            const fruit = new Fruit(-1400+(Math.random() * 6400), -5000 + (Math.random() * 800), 60, 60, "red")
+            let wet = 0
+            for (let k = 0; k < fruits.length; k++) {
+                if (fruit.body.repelCheck(fruits[k].body)) {
+                    wet = 1
+                    break
+                }
+            }
+            for (let k = 0; k < floors.length; k++) {
+                if (floors[k].doesPerimeterTouch(fruit.body)) {
+                    wet = 1
+                    break
+                }
+            }
+            if (wet == 0) {
+                fruits.push(fruit)
+            }
+        }
+
+
 
         for (let k = 0; k < (6400/270); k++) {
             const fruit = new Fruit(-1400+ (k*270),  -60, 60, 60, "red")
