@@ -22944,6 +22944,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
            this.maxhealth = this.health
            this.healrat = 0
            this.hittimer = 0
+           this.hurting = 0
            this.pomline = new LineOP(this.body, pomao.body)
             for(let t = 0;t<20;t++){
                 let node = new Circle(this.body.x+(Math.cos(this.angle)*(((this.dis*.1)*Math.floor(t/4))+this.body.radius+(size*.05))),   this.body.y+(Math.sin(this.angle)*(((this.dis*.1)*Math.floor(t/4))+this.body.radius+(size*.05))),  (size*.3), "red" )
@@ -23051,7 +23052,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     let link = new LineOP(this.activenodes[t], pomao.body)
                     this.bump = Math.cos(link.angle())
                     if (pomao.disabled != 1) {
-                        if (pomao.pounding != 10) {
+                        // if (pomao.pounding != 10) {
                             pomao.body.xmom = -3 * (this.bump)
                             pomao.disabled = 1
                             if(this.hittimer > 35){
@@ -23061,7 +23062,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.ymom -=  Math.sin(link.angle())*3
                             this.body.xmom = 3 * (this.bump)
                             this.body.ymom =  -5
-                        } 
+                        // } 
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
                             pomao.body.xmom = -1.8 * (this.bump)
@@ -23080,6 +23081,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.activenodes[t].repelCheck(pomao.thrown[h])) {
                             this.body.xmom += (pomao.thrown[h].xmom * .01)
                             this.health -= .7
+                            this.hurting = 10
                     }
                 }
 
@@ -23164,11 +23166,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.activenodes[t].y = this.body.y+(Math.sin(this.angle + this.activenodes[t].angle)*this.activenodes[t].dis)
                 this.activenodes[t].radius =  (this.size*.2) +((this.size*(7-Math.floor((t+12)/4))*.1)*(this.activenodes[t].rat*(this.healrat)))
                 // this.activenodes[t].draw()
-
-                tutorial_canvas_context.drawImage(rimgs[4], 0, 0, rimgs[4].width, rimgs[4].height, this.activenodes[t].x - this.activenodes[t].radius, this.activenodes[t].y - this.activenodes[t].radius, this.activenodes[t].radius * 2, this.activenodes[t].radius * 2)
+                 if(this.hurting >= 0){
+                    tutorial_canvas_context.drawImage(rimgs[3], 0, 0, rimgs[3].width, rimgs[3].height, this.activenodes[t].x - this.activenodes[t].radius, this.activenodes[t].y - this.activenodes[t].radius, this.activenodes[t].radius * 2, this.activenodes[t].radius * 2)
+                }else  if(this.hittimer <= 35){
+                    tutorial_canvas_context.drawImage(rimgs[5], 0, 0, rimgs[5].width, rimgs[5].height, this.activenodes[t].x - this.activenodes[t].radius, this.activenodes[t].y - this.activenodes[t].radius, this.activenodes[t].radius * 2, this.activenodes[t].radius * 2)
+                }else{
+                    tutorial_canvas_context.drawImage(rimgs[4], 0, 0, rimgs[4].width, rimgs[4].height, this.activenodes[t].x - this.activenodes[t].radius, this.activenodes[t].y - this.activenodes[t].radius, this.activenodes[t].radius * 2, this.activenodes[t].radius * 2)
+                }
 
 
             }
+
+            this.hurting--
         }
     }
 
