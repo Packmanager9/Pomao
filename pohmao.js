@@ -10918,6 +10918,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 factorymusic.pause()
             }
 
+ 
             if(level == 17){
                 if(boss.pomline.hypotenuse() < 3000 && (pomao.body.y < -3200)){
                 boss.draw()
@@ -10931,8 +10932,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 // boss17_2.draw()
                 // boss17_3.draw()
+            }else{
+                trashheapmusic.pause()
+                trashbossmusic.pause()
             }
-
 
             if (level == 14) {
                 boss.draw()
