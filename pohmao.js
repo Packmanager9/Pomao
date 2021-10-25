@@ -568,6 +568,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
+    const trashheapmusic = new Audio('trashheap.mp3');
     const cityscapemusic = new Audio('cityscape.mp3');
     const rebelbasemusic = new Audio('truerebellong.mp3');
     const factorymusic = new Audio('factorylong.mp3');
@@ -10917,8 +10918,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
 
             if(level == 17){
-                if(boss.pomline.hypotenuse() < 3000){
+                if(boss.pomline.hypotenuse() < 3000 && (pomao.body.y < -3200)){
                 boss.draw()
+                trashheapmusic.pause()
+                }else{
+                    trashheapmusic.play()
                 }
                 // boss17_2.draw()
                 // boss17_3.draw()
