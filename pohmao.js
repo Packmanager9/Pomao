@@ -2326,6 +2326,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.dialogue.words.push("Hello, I'm Pombagu.")
             } else if (this.type == 48) {
                 this.dialogue.words.push("Hello, I'm Pomglych.")
+            } else if (this.type == 49) {
+                this.dialogue.words.push("I'm a famous model.")
+            } else if (this.type == 50) {
+                this.dialogue.words.push("|||||| | | || |||| | ||| ||| || | | |||.")
+            } else if (this.type == 51) {
+                this.dialogue.words.push("I'm so tired, I think I will sleep.")
+            } else if (this.type == 52) {
+                this.dialogue.words.push("My whole family went missing.")
+            }else if (this.type == 53) {
+                this.dialogue.words.push("My family hole went missing.")
+            }else if (this.type == 54) {
+                this.dialogue.words.push("This place smells like burning paper.")
+            } else if (this.type == 55) {
+                this.dialogue.words.push("Drop down, reverse order, increase speed.")
+            } else if (this.type == 56) {
+                this.dialogue.words.push("Drop down, reverse order, increase speed.")
             } else if (this.type == 0) {
                 this.dialogue.words.push("Wassang!")
             } else {
@@ -5386,6 +5402,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.body.xmom *= .955
                 this.body.ymom *= .955
             }else{
+                let snapback = Math.sqrt((1-(link.squareDistance() / (450 * 450)))*.0001)
+               
+                if(Math.random()<snapback){
+                    this.body.xmom *= -1
+                    this.body.ymom *= -1
+                }
             // this.body.xmom *= .9855
             // this.body.ymom *= .9855
             }
@@ -23060,7 +23082,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
             for(let t = 0;t<this.activenodes.length;t++){
-                if (pomao.body.repelCheck(this.activenodes[t])) {
+                if (pomao.checkRepelPomao(this.activenodes[t])) {
                     let link = new LineOP(this.activenodes[t], pomao.body)
                     this.bump = Math.cos(link.angle())
                     if (pomao.disabled != 1) {
@@ -23071,14 +23093,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.hits-=2
                                 this.hittimer = 0
                             }
-                            pomao.body.ymom -=  Math.sin(link.angle())*3
+                            pomao.body.ymom =  -Math.sin(link.angle())*3
                             this.body.xmom = 3 * (this.bump)
                             this.body.ymom =  -5
+                            pomao.pounding = 0
                         // } 
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
                             pomao.body.xmom = -1.8 * (this.bump)
-                            pomao.body.ymom -= Math.sin(link.angle())*1.8
+                            pomao.body.ymom = -Math.sin(link.angle())*1.8
 
                             this.body.xmom =  1.8 * (this.bump)
                             // this.body.ymom =  -5
