@@ -929,6 +929,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     ramp90l.src = 'paintramp90l.png'
     const cityfolk = new Image()
     cityfolk.src = 'cityfolk6.png'
+    const rainbowmao = new Image()
+    rainbowmao.src = 'rainbowmao.png'
+    const rainbowmaol = new Image()
+    rainbowmaol.src = 'rainbowmaol.png'
     const trashball1 = new Image()
     trashball1.src = 'trashball1.png'
     const trashball2 = new Image()
@@ -2341,7 +2345,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             } else if (this.type == 55) {
                 this.dialogue.words.push("Drop down, reverse order, increase speed.")
             } else if (this.type == 56) {
-                this.dialogue.words.push("Drop down, reverse order, increase speed.")
+                this.click = 0
+                this.slicksnap = 20
+                this.dialogue.words.push("Waaah.")
             } else if (this.type == 0) {
                 this.dialogue.words.push("Wassang!")
             } else {
@@ -2361,7 +2367,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
             let grandpoheight = this.height + (Math.sin(((pomao.timeloop * this.rate) + 3.14)) * 1.7)
+            if(this.type == 56){
+                this.click++
+                this.click%=this.slicksnap
+                if(this.dir == 0){
+                    tutorial_canvas_context.drawImage(rainbowmaol, this.click*256,0, 256, 256, this.x, this.y - (Math.sin(((pomao.timeloop * this.rate) + 3.14)) * 1.7), this.width, grandpoheight)
+                }else{
+                    tutorial_canvas_context.drawImage(rainbowmao, this.click*256,0, 256, 256, this.x, this.y - (Math.sin(((pomao.timeloop * this.rate) + 3.14)) * 1.7), this.width, grandpoheight)
+                }
+            }else{
             tutorial_canvas_context.drawImage(cityfolk, this.dir * 128, (this.type * 128) + 1, 128, 128, this.x, this.y - (Math.sin(((pomao.timeloop * this.rate) + 3.14)) * 1.7), this.width, grandpoheight)
+            }
         }
     }
 
@@ -25264,7 +25280,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             // if(keysPressed['p']){
             //     //console.log(`Saved ${anglemegacount*.00006} miliseconds so far in ${framemegacount*11} miliseconds`)
             // }
-        }, 11)
+        }, 11) //11
         //try17?
 
     }, 1);  //6969
