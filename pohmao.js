@@ -15,6 +15,8 @@ trainbox.src = 'compbox.png'
 
 
 
+const wallman = new Image()
+wallman.src = 'ledgefrogx.png'
 const pomarinel = new Image()
 pomarinel.src = 'pomarinel.png'
 const trainenemy = new Image()
@@ -5925,7 +5927,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             }
 
-            this.body = new Circle(this.x + this.width / 2, this.y + this.height / 2 + (this.width / 5), this.width / 1.8, "blue")
+            this.body = new Circle(this.x + this.width / 2, this.y + this.height / 2 + (this.width / 5), this.width*.65 , "blue") //1.8
             if (this.body.repelCheck(pomao.bodytight) && ((this.body.repelCheck(pomao.tongue) || pomao.tonguebox.isPointInside(this.body)) || (this.marked == 1 || this.marked == 2))) {
                 // this.x  -= (((this.body.x-(this.width/2))-pomao.body.x)/100)
                 // this.y -= (((this.body.y-(this.height/2))-pomao.body.y)/100)
@@ -11405,13 +11407,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     // }
                 }
                 pomao.train *= .97 //95
-                for (let t = 0; t < 10; t++) {
-                    floors[t].x -= assortedDraw[0].speed
-                    if(floors[t].doesPerimeterTouch(pomao.body)){
-                        pomao.train = 0
-                    }
-                    if (floors[t].x < -30000) {
-                        floors[t].x += 60000
+                for (let t = 0; t < 10+fcar; t++) {
+                    if(t < 10){
+                        floors[t].x -= assortedDraw[0].speed
+                        if(floors[t].doesPerimeterTouch(pomao.body)){
+                            pomao.train = 0
+                        }
+                        if (floors[t].x < -30000) {
+                            floors[t].x += 60000
+                        }
+                    }else{
+                        assortedDraw[t-10].shift(-assortedDraw[0].speed)
                     }
                 }
             }else{
@@ -21472,6 +21478,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.angle = 0
             this.speed = (3 / 50) * Math.PI
         }
+        shift(num){
+            this.wheel1.x += num //(x, y, 50, "gray")
+            this.wheel2.x += num //(x1, y1, 50, "gray")
+            this.wheel1g.x += num //(x, y, 30, "#333333")
+            this.wheel2g.x += num //(x1, y1, 30, "#333333")
+            this.wheel1x.x += num //(x, y - 100, 50, "gray")
+            this.wheel2x.x += num //(x1, y1 - 100, 50, "gray")
+            this.wheel1x1.x += num //(x - 100, y - 100, 50, "gray")
+            this.wheel2x2.x += num //(x1 + 100, y1 - 100, 50, "gray")
+            this.sub1.x += num //(this.wheel1.x + 40, this.wheel1.y, 10, "#333333")
+            this.sub2.x += num //(this.wheel2.x + 40, this.wheel2.y, 10, "#333333")
+        }
         draw() {
             this.angle += this.speed
             this.linkw = new LineOP(this.wheel1, this.wheel1x, "#333333", 10)
@@ -21495,12 +21513,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
+    let tcar = 1
+    let fcar = 0
     class Carriage {
         constructor(x, y, x1, y1, f) {
+            this.car = tcar
+            tcar++
             this.speed = 3
             this.wheels = new Trainwheels(x, y, x1, y1)
             let chunk = Math.floor(Math.random() * 200)
             this.box = new Rectangle(x - 20, y - (240 + chunk), 150 + chunk, Math.abs(x - x1) + 40, getRandomColor())
+            this.ball = new Circlec(this.box.x+this.box.width+50, this.box.y+this.box.height-30, 45, "#008800")
+            ramps.push(this.ball)
             // this.box.train = 1
             floors.push(this.box)
             walls.push(this.box)
@@ -21547,7 +21571,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
         }
+        shift(num){
+            this.box.x+=num
+            this.ball.x+=num
+            this.wheels.shift(num)
+            this.wheels.speed *=.9
+        }
         draw() {
+            
+            for (let h = 0; h < pomao.thrown.length; h++) {
+                if (this.ball.repelCheck(pomao.thrown[h])) {
+                    if(fcar < this.car){
+                        fcar = this.car
+                        this.ball.color = "#880000"
+                        assortedDraw[0].speed = 3 + (fcar/60)
+                        this.connected = -1
+                        for(let k  = 0;k<fcar;k++){
+                            assortedDraw[k].connected = -1
+                        }
+                    }
+                }
+            }
+
+
+
             for(let t = 0;t<this.boys.length;t++){
                 if(this.boys[t].marked != 1 && this.boys[t].marked != 2 && this.boys[t].marked != 3){
                     if(this.boys[t].x < this.box.x){
@@ -21570,11 +21617,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             this.wheels.draw()
             // this.box.draw()
-            if (this.box.doesPerimeterTouch(pomao.body) || this.box.doesPerimeterTouch(pomao.tongue)) {
-                pomao.train = 1
+            if(this.connected != -1){
+                if (this.box.doesPerimeterTouch(pomao.body) || this.box.doesPerimeterTouch(pomao.tongue)) {
+                    pomao.train = 1
+                }
+            }else if(this.connected == -1){
+                if (this.box.doesPerimeterTouch(pomao.body) || this.box.doesPerimeterTouch(pomao.tongue)) {
+                    pomao.train = 0
+                }
             }
             tutorial_canvas_context.drawImage(trainbox, this.offsetx, this.offsety, this.box.width, this.box.height, this.box.x, this.box.y, this.box.width, this.box.height)
-
+            this.ball.draw()
         }
     }
     class WideCarriage {
@@ -21606,29 +21659,105 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     class TallCarriage {
         constructor(x, y, x1, y1) {
+            this.car = tcar
+            tcar++
             this.speed = 3
             this.wheels = new Trainwheels(x, y, x1, y1)
             let chunk = Math.floor(Math.random() * 200)
             this.box = new Rectangle(x - 20, y - (2400 + chunk), 2310 + chunk, Math.abs(x - x1) + 40, getRandomColor())
+            this.ball = new Circlec(this.box.x+this.box.width+50, this.box.y+this.box.height-30, 45, "#008800")
+            ramps.push(this.ball)
             // this.box.train = 1
             floors.push(this.box)
             walls.push(this.box)
             roofs.push(this.box)
             this.offsetx = (Math.random() * 2000)
             this.offsety = (Math.random() * 50)
+            this.frog = new Ledgefrog(this.box.x, this.box.y+(this.box.height*.5), 60)
+        }
+        shift(num){
+            this.box.x+=num
+            this.ball.x+=num
+            this.wheels.shift(num)
+            this.wheels.speed *=.9
+
         }
         draw() {
+
+            for (let h = 0; h < pomao.thrown.length; h++) {
+                if (this.ball.repelCheck(pomao.thrown[h])) {
+                    if(fcar < this.car){
+                        fcar = this.car
+                        assortedDraw[0].speed = 3 + (fcar/60)
+                        this.ball.color = "#880000"
+                        this.connected = -1
+                        for(let k  = 0;k<fcar;k++){
+                            assortedDraw[k].connected = -1
+                        }
+                    }
+                }
+            }
+
+
+
             this.wheels.draw()
             // this.box.draw()
-            if (this.box.doesPerimeterTouch(pomao.body) || this.box.doesPerimeterTouch(pomao.tongue)) {
-                pomao.train = 1
+            if(this.connected != -1){
+                if (this.box.doesPerimeterTouch(pomao.body) || this.box.doesPerimeterTouch(pomao.tongue)) {
+                    pomao.train = 1
+                }
+            }else if(this.connected == -1){
+                if (this.box.doesPerimeterTouch(pomao.body) || this.box.doesPerimeterTouch(pomao.tongue)) {
+                    pomao.train = 0
+                }
             }
             tutorial_canvas_context.drawImage(trainbox, this.offsetx, this.offsety, this.box.width, this.box.height * .5, this.box.x, this.box.y, this.box.width, this.box.height)
-
+            this.ball.draw()
+            this.frog.draw()
+            // console.log(this.frog)
         }
     }
 
 
+    class Ledgefrog{
+        constructor(x, y, size){
+            this.body = new Rectangle(x-size, y, size,size)
+            this.anchor = new Circle(x+(size*.5), y+(size*.5))
+            this.count = 0
+            this.rate = 3
+            this.rcount = 0
+        }
+        draw(){
+            this.rcount++
+            if(this.rcount%this.rate == 0){
+                this.count++
+                this.count%=10
+            }
+            tutorial_canvas_context.drawImage(wallman, (this.count*(wallman.width*.1)+1),0, wallman.width*.1, wallman.height, this.body.x, this.body.y, this.body.width, this.body.height)
+            if (this.body.doesPerimeterTouch(pomao.body)) {
+                if (pomao.disabled != 1) {
+                    // if (pomao.pounding != 10) {
+                        pomao.body.xmom = -11 //* Math.sign(this.anchor.x - pomao.body.x)
+                        pomao.body.sxmom = 0
+                        pomao.body.symom = 0
+                        pomao.disabled = 1
+                        pomao.hits--
+                        pomao.body.ymom = -1.8 * Math.sign(this.anchor.y - pomao.body.y)
+                        this.body.xmom = -pomao.body.xmom
+                        pomao.pounding = 0
+                    // }
+                } else {
+                    pomao.body.xmom = -7.8 //* Math.sign(this.anchor.x - pomao.body.x)
+                    pomao.body.sxmom = 0
+                    pomao.body.symom = 0
+                    pomao.body.ymom = -1.8 * Math.sign(this.anchor.y - pomao.body.y)
+                    this.body.xmom = -pomao.body.xmom
+                }
+            }
+            // console.log(this)
+
+        }
+    }
 
     class Train {
         constructor() {
