@@ -1047,6 +1047,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const tutorial_canvas = document.getElementById("tutorial");
     const tutorial_canvas_context = tutorial_canvas.getContext('2d', { alpha: false });
 
+
     // tutorial_canvas_context.scale(.075,.075)
 
     // tutorial_canvas_context.scale(.1,.1)
@@ -15569,6 +15570,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             tutorial_canvas_context.scale(.5, .5)
             tutorial_canvas_context.translate(640, 360)
         }
+        flip(){
+            tutorial_canvas_context.scale(1, -1.);
+            tutorial_canvas_context.translate(0, -720);
+        }
         cheat() {
             this.megamao = 0
             this.harmless = 1
@@ -15584,6 +15589,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let cheats = new Cheatcodes()
     // cheats.zoomout()
     // cheats.cheat()
+    // cheats.flip()
     const pomao = new Pomao()
 
     let loadlvl1button
