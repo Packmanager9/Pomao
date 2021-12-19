@@ -15,8 +15,51 @@
         const dodecahedron = new Image()
         dodecahedron.src = 'dodec3sheet.png'
     
+        const flowerAudio = new Audio()
+        flowerAudio.src = "lastflower.mp3"
+    
+
+const trashbossmusic = new Audio('trashboss.mp3');
+const trainmusic = new Audio('trainlevel.mp3');
+const trashheapmusic = new Audio('trashheap.mp3');
+const cityscapemusic = new Audio('cityscape.mp3');
+const rebelbasemusic = new Audio('truerebellong.mp3');
+const factorymusic = new Audio('factorylong.mp3');
+const factorybossmusic = new Audio('metacubebeat.mp3')
+const marshMusic = new Audio('trueswamp.mp3');
+const islandsongmusic1 = new Audio('longislandsong.mp3');
+const islandsongmusic2 = new Audio('jungle.mp3');
+const volcanobootupmusic = new Audio('volcanobootup.wav');
+// const ambientseaside = new Audio('ambientseaside.mp3');
+const risingseaside = new Audio('longsea.mp3');
+const lvl4fifthsbasemusic = new Audio('baeao.mp3');
+const lvl1basemusic = new Audio('lvl1base.mp3');
+const lvl2basemusic = new Audio('lvl2base.mp3');
+const lvl9basemusic = new Audio('beastlyatomslap.mp3');
+const pipelevelbasemusic = new Audio('pipevault.mp3');
+const lvl7bosssong = new Audio('lvl7bosssong.mp3');
+const lvl4basemusic = new Audio('voidx.mp3');
+const level3basemusic = new Audio('lvl3basemusic.mp3');
+const lvl4bossmusic = new Audio('eyelowdiff.mp3');
+const lvl5basemusic = new Audio('lvl5basedrop.mp3');
+const lvl6bossmusic = new Audio('wormsign.mp3');
+const jazz = new Audio('gulpnoise.mp3');
+const jazz2 = new Audio('gulpnoise2.mp3');
+const spidermusic = new Audio('Mopao.mp3');
+const level10basemusic = new Audio('snow.mp3');
+const targoymusic = new Audio('pomo3.mp3');
+const lvl6music = new Audio('mountainsong.mp3');
+
+let songs = [lvl6music, targoymusic, level10basemusic, spidermusic, lvl6bossmusic, lvl5basemusic, lvl4bossmusic, level3basemusic, lvl4basemusic, lvl7bosssong, lvl9basemusic, lvl2basemusic, lvl1basemusic, lvl4fifthsbasemusic, risingseaside, volcanobootupmusic, islandsongmusic2, islandsongmusic1, marshMusic, factorybossmusic, factorymusic, rebelbasemusic, cityscapemusic]
+let mute = -1
+let mutetimer = 1
+    
         const icosohedron = new Image()
         icosohedron.src = 'icosheet.png'
+    
+    
+        const gardencrystal = new Image()
+        gardencrystal.src = 'gardencrystal.png'
     
 let gardening = 0
 const title = new Image()
@@ -246,41 +289,6 @@ const islander3l = new Image()
 islander3l.src = "islandpomaotalll.png"
 
 
-
-const trashbossmusic = new Audio('trashboss.mp3');
-const trainmusic = new Audio('trainlevel.mp3');
-const trashheapmusic = new Audio('trashheap.mp3');
-const cityscapemusic = new Audio('cityscape.mp3');
-const rebelbasemusic = new Audio('truerebellong.mp3');
-const factorymusic = new Audio('factorylong.mp3');
-const factorybossmusic = new Audio('metacubebeat.mp3')
-const marshMusic = new Audio('trueswamp.mp3');
-const islandsongmusic1 = new Audio('longislandsong.mp3');
-const islandsongmusic2 = new Audio('jungle.mp3');
-const volcanobootupmusic = new Audio('volcanobootup.wav');
-// const ambientseaside = new Audio('ambientseaside.mp3');
-const risingseaside = new Audio('longsea.mp3');
-const lvl4fifthsbasemusic = new Audio('baeao.mp3');
-const lvl1basemusic = new Audio('lvl1base.mp3');
-const lvl2basemusic = new Audio('lvl2base.mp3');
-const lvl9basemusic = new Audio('beastlyatomslap.mp3');
-const pipelevelbasemusic = new Audio('pipevault.mp3');
-const lvl7bosssong = new Audio('lvl7bosssong.mp3');
-const lvl4basemusic = new Audio('voidx.mp3');
-const level3basemusic = new Audio('lvl3basemusic.mp3');
-const lvl4bossmusic = new Audio('eyelowdiff.mp3');
-const lvl5basemusic = new Audio('lvl5basedrop.mp3');
-const lvl6bossmusic = new Audio('wormsign.mp3');
-const jazz = new Audio('gulpnoise.mp3');
-const jazz2 = new Audio('gulpnoise2.mp3');
-const spidermusic = new Audio('Mopao.mp3');
-const level10basemusic = new Audio('snow.mp3');
-const targoymusic = new Audio('pomo3.mp3');
-const lvl6music = new Audio('mountainsong.mp3');
-
-let songs = [lvl6music, targoymusic, level10basemusic, spidermusic, lvl6bossmusic, lvl5basemusic, lvl4bossmusic, level3basemusic, lvl4basemusic, lvl7bosssong, lvl9basemusic, lvl2basemusic, lvl1basemusic, lvl4fifthsbasemusic, risingseaside, volcanobootupmusic, islandsongmusic2, islandsongmusic1, marshMusic, factorybossmusic, factorymusic, rebelbasemusic, cityscapemusic]
-let mute = -1
-let mutetimer = 1
 
 const jailswitchimgl = new Image()
 jailswitchimgl.src = 'switchl.png'
@@ -917,6 +925,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         zimgs.push(Object.assign(new Image(), { 'src': `z - ${i} copy-min.png` }));
     }
 
+    const izimgs = []
+    for (let i = 1; i < 44; i++) {
+        izimgs.push(Object.assign(new Image(), { 'src': `iz - ${i}.png` }));
+    }
 
     const pb = []
     for (let i = 1; i < 1331; i++) {
@@ -982,10 +994,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pub.push(Object.assign(new Image(), { 'src': `pulseM${Number(i).toLocaleString()}.png` }));
     }
 
-    const izimgs = []
-    for (let i = 1; i < 44; i++) {
-        izimgs.push(Object.assign(new Image(), { 'src': `iz - ${i}.png` }));
-    }
 
 
 
@@ -4833,15 +4841,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.disabled = 1
                                 pomao.hits--
                                 pomao.body.ymom = -1.8
-                                this.anchor.xmom += -pomao.body.xmom * 5
-                                this.body.xmom += -pomao.body.xmom * 5
+                                // this.anchor.xmom += -pomao.body.xmom * 5
+                                // this.body.xmom += -pomao.body.xmom * 5
                             }
                         } else {
                             if (this.bump * pomao.body.xmom > 0) {
                                 pomao.body.xmom = -1.8 * (this.bump)
                                 pomao.body.ymom = -1.8
-                                this.anchor.xmom += -pomao.body.xmom * 5
-                                this.body.xmom += -pomao.body.xmom * 5
+                                // this.anchor.xmom += -pomao.body.xmom * 5
+                                // this.body.xmom += -pomao.body.xmom * 5
                             }
                         }
                     }
@@ -8034,6 +8042,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
             return false
         }
     }
+
+    class GardenCrystal{
+        constructor(x,y){
+            this.body = new Circle(x,y, 64, "transparent")
+            this.touched = 0
+        }
+        draw(){
+            if(this.touched == 0){
+                tutorial_canvas_context.drawImage(gardencrystal, 0,0, 128,128, this.body.x-32, this.body.y-32,64,64)
+                if(this.body.isPointInside(pomao.body)){
+                    pomao.crystal = 1
+                    this.touched = 1
+                    flowerAudio.play()
+                }
+            }
+        }
+    }
     class Circlec {
         constructor(x, y, radius, color, xmom = 0, ymom = 0) {
 
@@ -8808,7 +8833,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     class Pomao {
         constructor() {
-            this.crystal = 1
+            this.crystal = 0
             this.snowcounter = 0
             this.wallcounter = 0
             this.wavecounter = 0
@@ -11344,7 +11369,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 door.height = 200
                 door.width = 100
                 if (door.isPointInside(pomao.body)) {
+                    if(pomao.crystal == 1){
+                        gardening = 1
+                        tutorial_canvas_context.save()
+                    }else{
                     loadlvl11()
+                    }
                 }
                 door.draw()
             }
@@ -11358,7 +11388,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 door.width = 100
 
                 if (door.isPointInside(pomao.body)) {
+                    if(pomao.crystal == 1){
+                        gardening = 1
+                        tutorial_canvas_context.save()
+                    }else{
                     loadIslandLevel()
+                    }
                 }
                 door.draw()
                 for (let t = 0; t < ramps.length; t++) {
@@ -11474,7 +11509,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 door.width = 200
                 door.draw()
                 if (door.isPointInside(pomao.body)) {
+
+                    if(pomao.crystal == 1){
+                        gardening = 1
+                        tutorial_canvas_context.save()
+                    }else{
                     loadFactoryLevel()
+                    }
                 }
             } else {
                 marshMusic.pause()
@@ -11542,6 +11583,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.cutscene = 0
                         pomao.disabled = 0
                     }
+                }else{
+                    pomao.disabled = 0
+                    pomao.cutscene = 0
                 }
                 if (fruits.length == 0) {
 
@@ -11562,8 +11606,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
                 if (chats[2].complete == 1) {
-                    pmarinedisp = 0
-                    loadlvl3()
+                    if(pomao.crystal == 1){
+                        gardening = 1
+                        tutorial_canvas_context.save()
+                    }else{
+                        pmarinedisp = 0
+                        loadlvl3()
+                    }
                 }
 
 
@@ -11719,8 +11768,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 door.draw()
                 if (door.isPointInside(pomao.body)) {
+                    if(pomao.crystal == 1){
+                        gardening = 1
+                        tutorial_canvas_context.save()
+                    }else{
                     loadlvl4()
                     pmarinedisp = 0
+                    }
                 }
             } else {
                 level3basemusic.pause()
@@ -11746,7 +11800,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 door.draw()
 
                 if (door.isPointInside(pomao.body)) {
+                    if(pomao.crystal == 1){
+                        gardening = 1
+                        tutorial_canvas_context.save()
+                    }else{
                     loadlvl13()
+                    }
                 }
             } else {
                 lvl4basemusic.pause()
@@ -11756,7 +11815,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 lvl4fifthsbasemusic.play()
                 door.draw()
                 if (door.isPointInside(pomao.body)) {
+                    if(pomao.crystal == 1){
+                        gardening = 1
+                        tutorial_canvas_context.save()
+                    }else{
                     loadlvl5()
+                    }
                 }
             } else {
 
@@ -11776,7 +11840,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 door.draw()
                 if (door.isPointInside(pomao.body)) {
+                    if(pomao.crystal == 1){
+                        gardening = 1
+                        tutorial_canvas_context.save()
+                    }else{
                     loadlvl6()
+                    }
                 }
             } else {
                 lvl5basemusic.pause()
@@ -11790,7 +11859,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 door.y = -9170 - door.height
                 door.draw()
                 if (door.isPointInside(pomao.body)) {
+                    if(pomao.crystal == 1){
+                        gardening = 1
+                        tutorial_canvas_context.save()
+                    }else{
                     loadlvl7()
+                    }
                 }
             } else {
                 lvl6music.pause()
@@ -11806,7 +11880,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 door.height = 400
                 door.draw()
                 if (door.isPointInside(pomao.body)) {
+                    if(pomao.crystal == 1){
+                        gardening = 1
+                        tutorial_canvas_context.save()
+                    }else{
                     loadlvl9()
+                    }
                 }
                 floors.splice(0, floors.length)
                 for (let t = 0; t < floormpf.length; t++) {
@@ -11893,7 +11972,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 door.height = 400
                 door.draw()
                 if (door.isPointInside(pomao.body)) {
+                    if(pomao.crystal == 1){
+                        gardening = 1
+                        tutorial_canvas_context.save()
+                    }else{
                     loadlvl10()
+                    }
                 }
 
             } else {
@@ -13744,7 +13828,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             door.height = 400
             door.width = 100
             if (door.isPointInside(pomao.body)) {
+                if(pomao.crystal == 1){
+                    gardening = 1
+                    tutorial_canvas_context.save()
+                }else{
                 loadMarshLevel()
+                }
             }
 
         }
@@ -15619,6 +15708,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // cheats.flip()
     const pomao = new Pomao()
 
+
+
     let loadlvl1button
     let loadlvl2button
     let loadlvl3button
@@ -17168,6 +17259,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
 
                     if (this.joints[this.joints.length - 2].marked == 0) {
+                        if(typeof this.joints[0].xlock == "undefined"){
+                            this.joints[0].xlock = this.joints[0].x
+                            this.joints[0].ylock = this.joints[0].y
+                        }else{
+                          this.joints[0].x = this.joints[0].xlock 
+                          this.joints[0].y =  this.joints[0].ylock 
+                        }
                         this.joints[0].xmom = 0
                         this.joints[0].ymom = 0
                     } else {
@@ -17179,6 +17277,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
 
                     if (this.joints[this.joints.length - 2].marked == 0) {
+                        if(typeof this.joints[0].xlock == "undefined"){
+                            this.joints[0].xlock = this.joints[0].x
+                            this.joints[0].ylock = this.joints[0].y
+                        }else{
+                          this.joints[0].x = this.joints[0].xlock 
+                          this.joints[0].y =  this.joints[0].ylock 
+                        }
                         this.joints[0].xmom = 0
                         this.joints[0].ymom = 0
                     } else {
@@ -17221,6 +17326,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
                                 if (this.joints[this.joints.length - 2].marked == 0) {
+                                    if(typeof this.joints[0].xlock == "undefined"){
+                                        this.joints[0].xlock = this.joints[0].x
+                                        this.joints[0].ylock = this.joints[0].y
+                                    }else{
+                                      this.joints[0].x = this.joints[0].xlock 
+                                      this.joints[0].y =  this.joints[0].ylock 
+                                    }
                                     this.joints[0].xmom = 0
                                     this.joints[0].ymom = 0
                                 }
@@ -17246,6 +17358,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
                                 if (this.joints[this.joints.length - 2].marked == 0) {
+                                    if(typeof this.joints[0].xlock == "undefined"){
+                                        this.joints[0].xlock = this.joints[0].x
+                                        this.joints[0].ylock = this.joints[0].y
+                                    }else{
+                                      this.joints[0].x = this.joints[0].xlock 
+                                      this.joints[0].y =  this.joints[0].ylock 
+                                    }
                                     this.joints[0].xmom = 0
                                     this.joints[0].ymom = 0
                                 }
@@ -17262,6 +17381,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
 
                             } else {
+
+                                if(typeof this.joints[0].xlock == "undefined"){
+                                    this.joints[0].xlock = this.joints[0].x
+                                    this.joints[0].ylock = this.joints[0].y
+                                }else{
+                                  this.joints[0].x = this.joints[0].xlock 
+                                  this.joints[0].y =  this.joints[0].ylock 
+                                }
                                 this.joints[0].xmom = 0
                                 this.joints[0].ymom = 0
 
@@ -17570,6 +17697,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
 
                     if (this.joints[this.joints.length - 2].marked == 0) {
+                        if(typeof this.joints[0].xlock == "undefined"){
+                            this.joints[0].xlock = this.joints[0].x
+                            this.joints[0].ylock = this.joints[0].y
+                        }else{
+                          this.joints[0].x = this.joints[0].xlock 
+                          this.joints[0].y =  this.joints[0].ylock 
+                        }
                         this.joints[0].xmom = 0
                         this.joints[0].ymom = 0
                     } else {
@@ -17581,6 +17715,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
 
                     if (this.joints[this.joints.length - 2].marked == 0) {
+                        if(typeof this.joints[0].xlock == "undefined"){
+                            this.joints[0].xlock = this.joints[0].x
+                            this.joints[0].ylock = this.joints[0].y
+                        }else{
+                          this.joints[0].x = this.joints[0].xlock 
+                          this.joints[0].y =  this.joints[0].ylock 
+                        }
                         this.joints[0].xmom = 0
                         this.joints[0].ymom = 0
                     } else {
@@ -17623,6 +17764,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
                                 if (this.joints[this.joints.length - 2].marked == 0) {
+                                    if(typeof this.joints[0].xlock == "undefined"){
+                                        this.joints[0].xlock = this.joints[0].x
+                                        this.joints[0].ylock = this.joints[0].y
+                                    }else{
+                                      this.joints[0].x = this.joints[0].xlock 
+                                      this.joints[0].y =  this.joints[0].ylock 
+                                    }
                                     this.joints[0].xmom = 0
                                     this.joints[0].ymom = 0
                                 }
@@ -17648,6 +17796,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
                                 if (this.joints[this.joints.length - 2].marked == 0) {
+                                    if(typeof this.joints[0].xlock == "undefined"){
+                                        this.joints[0].xlock = this.joints[0].x
+                                        this.joints[0].ylock = this.joints[0].y
+                                    }else{
+                                      this.joints[0].x = this.joints[0].xlock 
+                                      this.joints[0].y =  this.joints[0].ylock 
+                                    }
                                     this.joints[0].xmom = 0
                                     this.joints[0].ymom = 0
                                 }
@@ -17664,6 +17819,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 }
 
                             } else {
+                                if(typeof this.joints[0].xlock == "undefined"){
+                                    this.joints[0].xlock = this.joints[0].x
+                                    this.joints[0].ylock = this.joints[0].y
+                                }else{
+                                  this.joints[0].x = this.joints[0].xlock 
+                                  this.joints[0].y =  this.joints[0].ylock 
+                                }
                                 this.joints[0].xmom = 0
                                 this.joints[0].ymom = 0
 
@@ -21187,7 +21349,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     door.y = (-14172 + 33) - door.height
                     door.draw()
                     if (door.isPointInside(pomao.body)) {
+                        if(pomao.crystal == 1){
+                            gardening = 1
+                            tutorial_canvas_context.save()
+                        }else{
                         loadlvl8()
+                        }
                     }
                 }
             }
@@ -23730,7 +23897,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 door.draw()
                 if (door.isPointInside(pomao.body)) {
                     // load lvl16 level == 16
+                    if(pomao.crystal == 1){
+                        gardening = 1
+                        tutorial_canvas_context.save()
+                    }else{
                     loadCapitalCity()
+                    }
                 }
                 for (let t = 0; t < this.dots.length; t++) {
                     this.dist[t] = 0
@@ -26660,6 +26832,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function loadlvl1() {
+        pomao.crystal = 0
 
         pomao.tonguex = 0
         pomao.tonguey = 0
@@ -26715,6 +26888,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         snowfloors.splice(0, snowfloors.length)
         pomao.thrown = []
         door = new Rectangle(4550, 450, 200, 200, "#090909")
+
+        let crystal = new GardenCrystal(1660, -530)
+        assortedDraw.push(crystal)
 
         const floor = new Rectangle(-100000000, 650, 500, 100000000 - 12000, "red")
         walls.push(floor)
@@ -27374,6 +27550,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function loadlvl2() {
+        pomao.crystal = 0
         pmarinedisp = 0
         pomao.tonguex = 0
         pomao.tonguey = 0
@@ -27434,6 +27611,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         boss = new Circle(0, 0, 0, "transparent")
 
+        let crystal = new GardenCrystal(2347, -3032)
+        assortedDraw.push(crystal)
         // boss = new Bossbeam()
 
         const lvl2wall1 = new Rectangle(-83, -1000, 1033, 50)
@@ -27647,7 +27826,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function loadlvl3() {
-
+        pmarinedisp = 0
+        pomao.crystal = 0
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle(9900, -8100, 10, "transparent")
@@ -27807,6 +27987,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // pomao.eggmake = 161
     function loadlvl4() {
 
+        pomao.crystal = 0
+        pmarinedisp = 0
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
@@ -27878,6 +28060,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         //  pomao.eggmake = 161
 
+
+        let crystal = new GardenCrystal(-1970, 1)
+        assortedDraw.push(crystal)
 
 
         ramps.push(pin2)
@@ -28378,6 +28563,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl5() {
 
+        pomao.crystal = 0
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
@@ -28451,6 +28637,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //  pomao.eggmake = 161
         boss = new Circle(0, 0, 0, "transparent")
 
+
+        let crystal = new GardenCrystal(753, -2019)
+        assortedDraw.push(crystal)
 
         const wall1 = new Rectangle(-2100, -30000, 30033, 50, "cyan")
         walls.push(wall1)
@@ -28662,6 +28851,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl6() {
 
+        pomao.crystal = 0
         lvl6bossmusic.pause()
         pomao.tonguex = 0
         pomao.tonguey = 0
@@ -28733,6 +28923,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //  pomao.eggmake = 161
         // boss = new Bossbeam()
 
+        let crystal = new GardenCrystal(-1272, -1032)
+        assortedDraw.push(crystal)
 
         const floor = new Rectangle(-10000, 33, 103000, 28400)
         floors.push(floor)
@@ -29041,6 +29233,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl7() {
 
+        pomao.crystal = 0
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
@@ -29404,6 +29597,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl8() {
 
+        pomao.crystal = 0
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
@@ -29576,6 +29770,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl9() {
 
+        pomao.crystal = 0
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
@@ -29783,6 +29978,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl10() {
 
+        pomao.crystal = 0
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
@@ -30152,6 +30348,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     }
     function loadIslandLevel() {
+        pomao.crystal = 0
         islandsong = Math.round(Math.random())
         levelBoilerplate()
         level = 12
@@ -30195,6 +30392,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function loadMarshLevel() {
+        pomao.crystal = 0
         levelBoilerplate()
         level = 14
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
@@ -30514,6 +30712,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     }
     function loadCapitalCity() {
+        pomao.crystal = 0
         levelBoilerplate()
         level = 16
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
@@ -30540,6 +30739,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function loadCargoTrain() {
+        pomao.crystal = 0
         levelBoilerplate()
         level = 18
         tutorial_canvas_context.translate(pomao.body.x + 1200, pomao.body.y)
@@ -30578,6 +30778,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         markRectangles()
     }
     function loadABigPileOfGarbage() {
+        pomao.crystal = 0
         levelBoilerplate()
         level = 17
         tutorial_canvas_context.translate(pomao.body.x + 1200, pomao.body.y)
@@ -30719,6 +30920,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     }
     function loadFactoryLevel() {
+
+        pomao.crystal = 0
         levelBoilerplate()
         level = 15
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
@@ -31266,6 +31469,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     function loadlvl11() {
 
+        pomao.crystal = 0
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
@@ -31437,7 +31641,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //     }
         // }
 
-
+        let crystal = new GardenCrystal(-261, 1)
+        assortedDraw.push(crystal)
 
         let center = new Circle(18000, -400, 10, "black")
         let sc = new Scuttlefish(center)
@@ -31528,6 +31733,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl13() {
 
+        pomao.crystal = 0
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
@@ -31631,6 +31837,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl14() {
 
+        pomao.crystal = 0
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
@@ -31768,6 +31975,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function loadlvl15() {
 
+        pomao.crystal = 0
         pomao.tonguex = 0
         pomao.tonguey = 0
         pin = new Circle((-1950 + (30 * 180)), (-9100 - (30 * 57)), 10, "transparent")
@@ -32836,6 +33044,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 return false
             }
         } 
+
+    
         class GardenCircleRing {
             constructor(x, y, radius, color, xmom = 0, ymom = 0, friction = 1, reflect = 0, strokeWidth = 0, strokeColor = "transparent") {
                 this.x = x
@@ -33614,7 +33824,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if(pomaos[t].centrix.doesPerimeterTouch(this.body)){
                         if(this.body.radius != .1){
                             let k = (this.type+this.type2)%6
-                            pomaos[t].exps[k] += Math.floor(Math.random()*50)
+                            pomaos[t].exps[k] += 10
                             if(pomaos[t].exps[k]  >= 100){
                                 pomaos[t].exps[k] -=100
                                 pomaos[t].stats[k] +=1
@@ -34420,6 +34630,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
     
+        
     
         
         let tet = new GardenFighter()
@@ -34636,6 +34847,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                     if(gardenmenu.leavebutton.isPointInside(TIP_engine)){
                       gardening = 0
+                      gardenmenu.display = 0
 
                       tutorial_canvas_context.restore()
                 // tutorial_canvas_context.translate(pomao.body.x - 640, pomao.body.y - 360)
@@ -34733,6 +34945,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
     
         }
+
     })
     
 
