@@ -1,5 +1,10 @@
 
 
+        let savefile = {}
+        savefile.pomao = {}
+        savefile.pomaos = []
+        savefile.level = 1
+        savefile.levelReached = 1
         const spinsheet = new Image()
         spinsheet.src = '128spim.png'
         const pointerimg = new Image()
@@ -21,6 +26,8 @@
     
         const flowerAudio = new Audio()
         flowerAudio.src = "lastflower.mp3"
+
+        
     
 
 const trashbossmusic = new Audio('trashboss.mp3');
@@ -26941,6 +26948,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function loadlvl1() {
+        if(savefile.levelReached < 1){
+            savefile.levelReached = 1
+        }
+        savefile.level = 1
         pomao.crystal = 0
 
         pomao.tonguex = 0
@@ -27659,6 +27670,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function loadlvl2() {
+        if(savefile.levelReached < 2){
+            savefile.levelReached = 2
+        }
+        savefile.level = 2
         pomao.crystal = 0
         pmarinedisp = 0
         pomao.tonguex = 0
@@ -27946,6 +27961,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.eggs = [pomao.body]
         pomao.cutscene = 0
         level = 3
+        if(savefile.levelReached < 3){
+            savefile.levelReached = 3
+        }
+        savefile.level = 3
         tutorial_canvas_context.translate(pomao.body.x, pomao.body.y)
         pomao.body.x = 0
         pomao.body.y = 0
@@ -28123,7 +28142,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         pomao.cutscene = 0
         level = 4
+        if(savefile.levelReached < 4){
+            savefile.levelReached = 4
+        }
 
+        savefile.level = 4
         // tutorial_canvas_context.translate(pomao.body.x-640, pomao.body.y+17360)
         // pomao.body.x = 640
         // pomao.body.y = -17360
@@ -28697,6 +28720,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         beamrocks = []
         pomao.cutscene = 0
         level = 5
+        if(savefile.levelReached < 5){
+            savefile.levelReached = 5
+        }
+        savefile.level = 5
 
 
 
@@ -28986,6 +29013,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         beamrocks = []
         pomao.cutscene = 0
         level = 6
+        if(savefile.levelReached < 6){
+            savefile.levelReached = 6
+        }
+
+        savefile.level = 6
 
 
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y + 0)
@@ -29368,6 +29400,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.cutscene = 0
         level = 7
 
+        if(savefile.levelReached < 7){
+            savefile.levelReached = 7
+        }
+        savefile.level = 7
 
         tutorial_canvas_context.translate(pomao.body.x + 1, pomao.body.y + 0)
         pomao.body.x = -1
@@ -29731,6 +29767,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         beamrocks = []
         pomao.cutscene = 0
         level = 8
+        if(savefile.levelReached < 8){
+            savefile.levelReached = 8
+        }
+        savefile.level = 8
 
 
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
@@ -29905,6 +29945,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.cutscene = 0
         level = 9
 
+        if(savefile.levelReached < 9){
+            savefile.levelReached = 9
+        }
+        savefile.level = 9
 
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
         pomao.body.x = -1000
@@ -30112,7 +30156,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         beamrocks = []
         pomao.cutscene = 0
         level = 10
+        if(savefile.levelReached < 10){
+            savefile.levelReached = 10
+        }
 
+        savefile.level = 10
 
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
         pomao.body.x = -1000
@@ -30461,6 +30509,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         islandsong = Math.round(Math.random())
         levelBoilerplate()
         level = 12
+        if(savefile.levelReached < 12){
+            savefile.levelReached = 12
+        }
+        savefile.level = 12
         tutorial_canvas_context.translate(pomao.body.x + 8570, pomao.body.y - 800)
         pomao.body.x = -8570
         pomao.body.y = 800
@@ -30504,6 +30556,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.crystal = 0
         levelBoilerplate()
         level = 14
+        if(savefile.levelReached < 14){
+            savefile.levelReached = 14
+        }
+        savefile.level = 14
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
         pomao.body.x = -1000
         pomao.body.y = 0
@@ -30824,6 +30880,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.crystal = 0
         levelBoilerplate()
         level = 16
+        if(savefile.levelReached < 16){
+            savefile.levelReached = 16
+        }
+        savefile.level = 16
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
         pomao.body.x = -1000
         pomao.body.y = 0
@@ -30851,6 +30911,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.crystal = 0
         levelBoilerplate()
         level = 18
+        if(savefile.levelReached < 18){
+            savefile.levelReached = 18
+        }
+        savefile.level = 18
         tutorial_canvas_context.translate(pomao.body.x + 1200, pomao.body.y)
         pomao.body.x = -1200
         pomao.body.y = 0
@@ -30890,6 +30954,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.crystal = 0
         levelBoilerplate()
         level = 17
+        if(savefile.levelReached < 17){
+            savefile.levelReached = 17
+        }
+        savefile.level = 17
         tutorial_canvas_context.translate(pomao.body.x + 1200, pomao.body.y)
         pomao.body.x = -1200
         pomao.body.y = 0
@@ -31033,6 +31101,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.crystal = 0
         levelBoilerplate()
         level = 15
+        if(savefile.levelReached < 15){
+            savefile.levelReached = 15
+        }
+        savefile.level = 15
         tutorial_canvas_context.translate(pomao.body.x + 1000, pomao.body.y)
         pomao.body.x = -1000
         pomao.body.y = 0
@@ -31603,7 +31675,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         beamrocks = []
         pomao.cutscene = 0
         level = 11
+        if(savefile.levelReached < 11){
+            savefile.levelReached = 11
+        }
 
+        savefile.level = 11
 
         tutorial_canvas_context.translate(pomao.body.x + 2000, pomao.body.y + 1500)
         pomao.body.x = -2000
@@ -31868,7 +31944,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         beamrocks = []
         pomao.cutscene = 0
         level = 13
+        if(savefile.levelReached < 4.5){
+            savefile.levelReached = 4.5
+        }
 
+        savefile.level = 13
 
 
         tutorial_canvas_context.translate(pomao.body.x + 0, pomao.body.y + 0)
@@ -31972,6 +32052,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
         beamrocks = []
         pomao.cutscene = 0
         level = 13
+
+        // if(savefile.levelReached < 1){
+        //     savefile.levelReached = 1
+        // }
 
 
         pomao.body.x = 0
@@ -32111,6 +32195,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         pomao.cutscene = 0
         level = 13
 
+        // if(savefile.levelReached < 1){
+        //     savefile.levelReached = 1
+        // }
 
         pomao.body.x = 0
         pomao.body.y = -100
@@ -34019,6 +34106,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 tutorial_canvas_context.fillStyle = "black"
                 tutorial_canvas_context.font = "10px arial"
                 tutorial_canvas_context.fillText("Poney: " + Math.floor(this.poney), 1180, 20)
+                tutorial_canvas_context.fillText("Fruit: " + Math.floor(fruitlist.length), 1180, 40)
     
                 this.timer--
                 this.toggle.draw()
