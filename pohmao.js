@@ -642,6 +642,8 @@ wallpaperimg.src = 'wallpaper.jpg'
 // dealwithit.src = 'dealwithit.png'
 const redwallpaperimg = new Image()
 redwallpaperimg.src = 'redwall.png'
+const shippainting = new Image()
+shippainting.src = 'shippainting.png'
 const dessertimg = new Image()
 dessertimg.src = 'desertfloor2.png'
 
@@ -8930,6 +8932,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.timeloopx = 0
             this.thrown = []
             this.pounding = 0
+                                        // vibrate(gamepadAPI, 100, 15)
             this.eggs = [this.body]
             this.disabled = 0
             this.hits = 9
@@ -10240,6 +10243,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.timeloopx = 0
                 }
                 if (this.pounding > 0) {
+                    vibrate(gamepadAPI, 100, 5+((Math.abs(pomao.body.ymom) + Math.abs(pomao.body.symom))*3))
                     this.pounding--
                 }
                 this.jumping = 0
@@ -10573,6 +10577,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         pomao.body.sxmom = 0
                                         pomao.dry = 1
                                         this.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                                     }
                                 } else {
                                     if (floors[t + 1].y > floors[t].y - this.body.radius) {
@@ -10586,6 +10591,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         pomao.body.sxmom = 0
                                         pomao.dry = 1
                                         this.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                                     }
 
                                 }
@@ -10767,7 +10773,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 floors[t].active = 1
                                 if (nails.includes(floors[t])) {
                                     if (this.pounding == 10) {
-                                        this.pounding = 0 // floor clip?
+                                        this.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15) // floor clip?
                                         floors[t].ymom = this.body.radius
                                         // if(floors[t].isBlocked == false){
                                         floors[t].move()
@@ -11182,6 +11189,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         }
         draw() {
+
+
+            if(this.pounding == 10){
+                // vibrate(gamepadAPI, 30, 5)
+            }
+
+
             if (cheats.ruthless == 1) {
                 this.eggs.push(this.body)
             }
@@ -14411,6 +14425,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                             pomao.jumping = 0
                                             pomao.hng = 0
                                             pomao.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                                         }
                                     }
                                 } else {
@@ -20296,6 +20311,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         vibrate(gamepadAPI, 44, 22)
                         pomao.body.ymom = -1.8
                         pomao.pounding = 0
+                        vibrate(gamepadAPI, 100, 15)
                         this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
                         this.lump.ymom += 2.8
                         if (this.dead != 1) {
@@ -20387,6 +20403,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             // pomao.hits--
                             pomao.body.ymom = -1.1
                             pomao.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                             this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
                             // this.lump.ymom += 1.8
                             if (this.dead != 1) {
@@ -20782,6 +20799,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         vibrate(gamepadAPI, 44, 22)
                         pomao.body.ymom = -1.8
                         pomao.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                         this.lump.xmom += -pomao.body.xmom * 3
                         if (this.dead != 1) {
                             this.body.xmom += -pomao.body.xmom * 3
@@ -20840,6 +20858,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             // pomao.hits--
                             pomao.body.ymom = -1.1
                             pomao.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                             this.lump.xmom += -pomao.body.xmom * 3
                             if (this.dead != 1) {
                                 this.body.xmom += -pomao.body.xmom * 3
@@ -21303,6 +21322,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.body.ymom = -1.8
                             } else {
                                 pomao.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                                 vibrate(gamepadAPI, 22, 15)
                                 pomao.body.ymom = -1.8
                             }
@@ -22024,6 +22044,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.ymom = -1.8 * Math.sign(this.anchor.y - pomao.body.y)
                         this.body.xmom = -pomao.body.xmom
                         pomao.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                     // }
                 } else {
                     vibrate(gamepadAPI, 22, 15)
@@ -22532,6 +22553,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.ymom = -1.8
                         } else {
                             pomao.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                             pomao.body.ymom = -1.8
                         }
                     } else {
@@ -24207,6 +24229,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.body.xmom = 3 * (this.bump)
                         this.body.ymom = -5
                         pomao.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                         // } 
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
@@ -24922,6 +24945,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.smack == 0) {
                         // if (pomao.pounding != 10) {
                         pomao.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                         pomao.body.xmom = -16 * (this.bump)
                         // pomao.disabled = 1
                         this.smack = 18
@@ -25185,6 +25209,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.smack == 0) {
                         // if (pomao.pounding != 10) {
                         pomao.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                         pomao.body.xmom = -16 * (this.bump)
                         // pomao.disabled = 1
                         this.smack = 18
@@ -25450,6 +25475,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.smack == 0) {
                         // if (pomao.pounding != 10) {
                         pomao.pounding = 0
+                                        vibrate(gamepadAPI, 100, 15)
                         pomao.body.xmom = -16 * (this.bump)
                         // pomao.disabled = 1
                         this.smack = 18
@@ -25656,6 +25682,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280 * 1.54, (720 * 3) + 10)
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280 * 2.35, (720 * 2) - 12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500, 525)
+                        tutorial_canvas_context.drawImage(shippainting, 2442+200, -3475+200, 100, 111)
 
                         tutorial_canvas_context.globalAlpha = 0.7;
 
@@ -25727,6 +25754,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280 * 1.54, (720 * 3) + 10)
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280 * 2.35, (720 * 2) - 12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500, 525)
+                        tutorial_canvas_context.drawImage(shippainting, 2442+200, -3475+200, 100, 111)
                         tutorial_canvas_context.globalAlpha = 1;
                     } else if (level == 3) {
                         tutorial_canvas_context.globalAlpha = 0.2;
@@ -25805,6 +25833,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280 * 1.54, (720 * 3) + 10)
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280 * 2.35, (720 * 2) - 12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500, 525)
+                        tutorial_canvas_context.drawImage(shippainting, 2442+200, -3475+200, 100, 111)
 
                         tutorial_canvas_context.globalAlpha = 0.5;
                         let index = pomao.spartcounter
@@ -25916,6 +25945,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(wallpaperimg, 955, -2970, 1280 * 1.54, (720 * 3) + 10)
                         tutorial_canvas_context.drawImage(wallpaperimg, -75, -990, 1280 * 2.35, (720 * 2) - 12)
                         tutorial_canvas_context.drawImage(redwallpaperimg, 2442, -3475, 500, 525)
+                        tutorial_canvas_context.drawImage(shippainting, 2442+200, -3475+200, 100, 111)
                         // tutorial_canvas_context.globalAlpha = 1;
                     } else if (level == 3) {
                         tutorial_canvas_context.drawImage(paintedbackgroundlvl3, pomao.body.x - 640, pomao.body.y - 360)
@@ -35368,7 +35398,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let tet = new GardenFighter()
         let pointer = new GardenPointer()
         function main() {
-            if(keysPressed["Escape"] || keysPressed['0']){
+            if(keysPressed["escape"] || keysPressed['0']){
                 gardening = 0
 
                 tutorial_canvas_context.restore()
@@ -36078,13 +36108,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     function vibrate(gamepad, magnitude, timelimit) {
-        gamepad.controller.vibrationActuator.playEffect('dual-rumble', {
-          duration: timelimit*2.5,
-          strongMagnitude: Math.min(1, magnitude/40),
-          weakMagnitude: Math.min(1, magnitude/66)
-        })
-      }
-
+        if(gamepad.controller){
+            gamepad.controller.vibrationActuator.playEffect('dual-rumble', {
+                duration: timelimit*2.5,
+                strongMagnitude: Math.min(1, magnitude/40),
+                weakMagnitude: Math.min(1, magnitude/66)
+              })
+            }
+        }
 
     })
     
