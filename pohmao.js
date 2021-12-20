@@ -1536,6 +1536,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.symom = 0
                             pomao.disabled = 1
                             pomao.hits--
+                            vibrate(gamepadAPI, 50, 17)
                             pomao.body.ymom = 1.8
                             this.body.xmom = -pomao.body.xmom
                         }
@@ -1544,6 +1545,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.sxmom = 0
                         pomao.body.symom = 0
                         pomao.body.ymom = 1.8
+                        vibrate(gamepadAPI, 22, 15)
                         this.body.xmom = -pomao.body.xmom
                     }
                 }
@@ -2060,6 +2062,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.symom = 0
                             pomao.disabled = 1
                             pomao.hits -= .5
+                            vibrate(gamepadAPI, 5, 11)
                             pomao.body.ymom = 1.8
                             this.body.xmom = -pomao.body.xmom
                         }
@@ -2068,6 +2071,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.sxmom = 0
                         pomao.body.symom = 0
                         pomao.body.ymom = 1.8
+                        vibrate(gamepadAPI, 3, 11)
                         this.body.xmom = -pomao.body.xmom
                     }
                 }
@@ -2185,6 +2189,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.symom = 0
                             pomao.disabled = 1
                             pomao.hits--
+                            vibrate(gamepadAPI, 50, 17)
                             pomao.body.ymom = -1.8
                             this.body.xmom = -pomao.body.xmom
                         }
@@ -2193,6 +2198,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.sxmom = 0
                         pomao.body.symom = 0
                         pomao.body.ymom = -1.8
+                        vibrate(gamepadAPI, 22, 15)
                         this.body.xmom = -pomao.body.xmom
                     }
                 }
@@ -2908,6 +2914,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                         pomao.body.xmom = -3 * (this.bump)
                                         pomao.disabled = 1
                                         pomao.hits--
+                                        vibrate(gamepadAPI, 50, 17)
                                         pomao.body.ymom = -1.8
                                         this.body.xmom = -pomao.body.xmom
                                     }
@@ -2915,6 +2922,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     if (this.bump * pomao.body.xmom > 0) {
                                         pomao.body.xmom = -1.8 * (this.bump)
                                         pomao.body.ymom = -1.8
+                                        vibrate(gamepadAPI, 22, 15)
                                         this.body.xmom = -pomao.body.xmom
                                     }
                                 }
@@ -3338,6 +3346,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     pomao.body.ymom = this.point1.ymom * 2
                     pomao.disabled = 1
                     pomao.hits -= 3
+                    vibrate(gamepadAPI, 66, 22)
                     pomao.body.ymom = -1.8
 
                     this.shape.adjustByFromDisplacement(this.point1.xmom * 100000, this.point1.ymom * 100000)
@@ -3345,6 +3354,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     // }
                 } else {
                     if (this.bump * pomao.body.xmom > 0) {
+                        vibrate(gamepadAPI, 22, 15)
                         pomao.body.xmom = this.point1.xmom
                         pomao.body.ymom = this.point1.ymom
                         this.shape.adjustByFromDisplacement(this.point1.xmom * 100000, this.point1.ymom * 100000)
@@ -3551,11 +3561,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                             pomao.disabled = 1
                             pomao.hits--
+                            vibrate(gamepadAPI, 50, 17)
                             pomao.body.ymom = -1.8
                         }
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
 
+                            vibrate(gamepadAPI, 22, 15)
                             pomao.body.xmom = -1.5 * (this.bump)
                             if (this.body.y > pomao.body.y) {
                                 pomao.body.ymom = 1.5
@@ -4231,12 +4243,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.body.xmom = -3 * (this.bump)
                                 pomao.disabled = 1
                                 pomao.hits--
+                                vibrate(gamepadAPI, 50, 17)
                                 pomao.body.ymom = -1.8
                                 this.anchor.xmom += -pomao.body.xmom * 5
                                 this.body.xmom += -pomao.body.xmom * 5
                             }
                         } else {
                             if (this.bump * pomao.body.xmom > 0) {
+                                vibrate(gamepadAPI, 22, 15)
                                 pomao.body.xmom = -1.8 * (this.bump)
                                 pomao.body.ymom = -1.8
                                 this.anchor.xmom += -pomao.body.xmom * 5
@@ -4265,6 +4279,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom = -3 * (this.bump)
                             pomao.disabled = 1
                             pomao.hits--
+                            vibrate(gamepadAPI, 50, 17)
                             pomao.body.ymom = -1.8
                             this.anchor.xmom += -pomao.body.xmom * 5
                             this.body.xmom += -pomao.body.xmom * 5
@@ -4273,6 +4288,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if (this.bump * pomao.body.xmom > 0) {
                             pomao.body.xmom = -1.8 * (this.bump)
                             pomao.body.ymom = -1.8
+                            vibrate(gamepadAPI, 22, 15)
                             this.anchor.xmom += -pomao.body.xmom * 5
                             this.body.xmom += -pomao.body.xmom * 5
                         }
@@ -4437,6 +4453,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.body.xmom = -3 * (this.bump)
                                 pomao.disabled = 1
                                 pomao.hits -= 3
+                                vibrate(gamepadAPI, 66, 22)
                                 pomao.body.ymom = -1.8
                                 this.anchor.xmom += -pomao.body.xmom * 5
                                 this.body.xmom += -pomao.body.xmom * 5
@@ -4444,6 +4461,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         } else {
                             if (this.bump * pomao.body.xmom > 0) {
                                 pomao.body.xmom = -1.8 * (this.bump)
+                                vibrate(gamepadAPI, 22, 15)
                                 pomao.body.ymom = -1.8
                                 this.anchor.xmom += -pomao.body.xmom * 5
                                 this.body.xmom += -pomao.body.xmom * 5
@@ -4696,6 +4714,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     pomao.body.xmom = -3 * (this.bump)
                                     pomao.disabled = 1
                                     pomao.hits -= 3
+                                    vibrate(gamepadAPI, 66, 22)
                                     pomao.body.ymom = -1.8
                                     this.anchor.xmom += -pomao.body.xmom * 5
                                     this.body.xmom += -pomao.body.xmom * 5
@@ -4703,6 +4722,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             } else {
                                 if (this.bump * pomao.body.xmom > 0) {
                                     pomao.body.xmom = -1.8 * (this.bump)
+                                    vibrate(gamepadAPI, 22, 15)
                                     pomao.body.ymom = -1.8
                                     this.anchor.xmom += -pomao.body.xmom * 5
                                     this.body.xmom += -pomao.body.xmom * 5
@@ -4844,6 +4864,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.body.xmom = -3 * (this.bump)
                                 pomao.disabled = 1
                                 pomao.hits--
+                                vibrate(gamepadAPI, 50, 17)
                                 pomao.body.ymom = -1.8
                                 // this.anchor.xmom += -pomao.body.xmom * 5
                                 // this.body.xmom += -pomao.body.xmom * 5
@@ -4852,6 +4873,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             if (this.bump * pomao.body.xmom > 0) {
                                 pomao.body.xmom = -1.8 * (this.bump)
                                 pomao.body.ymom = -1.8
+                                vibrate(gamepadAPI, 22, 15)
                                 // this.anchor.xmom += -pomao.body.xmom * 5
                                 // this.body.xmom += -pomao.body.xmom * 5
                             }
@@ -5522,11 +5544,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.body.xmom = -3 * (this.bump)
                                 pomao.disabled = 1
                                 pomao.hits--
+                                vibrate(gamepadAPI, 50, 17)
                                 pomao.body.ymom = -1.8
                                 this.body.xmom = -pomao.body.xmom * .9 // wasn't .9
                             }
                         } else {
                             if (this.bump * pomao.body.xmom > 0) {
+                                vibrate(gamepadAPI, 22, 15)
                                 pomao.body.xmom = -1.8 * (this.bump)
                                 pomao.body.ymom = -1.8
                                 this.body.xmom = -pomao.body.xmom * .9// wasn't .9 new hitbox on pomao
@@ -5982,6 +6006,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom = -(3 + Math.abs(this.xmom)) * (this.bump)
                             pomao.disabled = 1
                             pomao.hits--
+                            vibrate(gamepadAPI, 50, 17)
                             pomao.body.sxmom = 0
                             pomao.body.symom = 0
                             pomao.body.ymom = -1.8
@@ -5989,6 +6014,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
+                            vibrate(gamepadAPI, 22, 15)
                             pomao.body.xmom = -1.8 * (this.bump)
                             pomao.body.ymom = -1.8
                             this.body.xmom = -pomao.body.xmom
@@ -6377,6 +6403,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom = -(3 + Math.abs(this.xmom)) * (this.bump)
                             pomao.disabled = 1
                             pomao.hits--
+                            vibrate(gamepadAPI, 50, 17)
                             pomao.body.sxmom = 0
                             pomao.body.symom = 0
                             pomao.body.ymom = -1.8
@@ -6384,6 +6411,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
+                            vibrate(gamepadAPI, 22, 15)
                             pomao.body.xmom = -1.8 * (this.bump)
                             pomao.body.ymom = -1.8
                             this.body.xmom = -pomao.body.xmom
@@ -7093,6 +7121,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom = -(3 + Math.abs(this.xmom)) * (this.bump)
                             pomao.disabled = 1
                             pomao.hits -= 2
+                            vibrate(gamepadAPI, 44, 22)
                             pomao.body.sxmom = 0
                             pomao.body.symom = 0
                             pomao.body.ymom = -1.8
@@ -7100,6 +7129,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
+                            vibrate(gamepadAPI, 22, 15)
                             pomao.body.xmom = -1.8 * (this.bump)
                             pomao.body.ymom = -1.8
                             this.body.xmom = -pomao.body.xmom
@@ -8059,6 +8089,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     pomao.crystal = 1
                     this.touched = 1
                     flowerAudio.play()
+                    vibrate(gamepadAPI, 100, 18)
                 }
             }
         }
@@ -13745,6 +13776,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 this.eggs[this.eggs.length - 1].hot = 1
                             }
                             this.thrown.push(this.eggs[this.eggs.length - 1])
+                            vibrate(gamepadAPI, 44, 10)
                             for (let t = 0; t < pomao.eggs.length; t++) {
                                 if (pomao.thrown.includes(pomao.eggs[t])) {
                                     pomao.eggs.splice(t, 1)
@@ -13764,6 +13796,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 this.eggs[this.eggs.length - 1].hot = 1
                             }
                             this.thrown.push(this.eggs[this.eggs.length - 1])
+                            vibrate(gamepadAPI, 44, 10)
                             for (let t = 0; t < pomao.eggs.length; t++) {
                                 if (pomao.thrown.includes(pomao.eggs[t])) {
                                     pomao.eggs.splice(t, 1)
@@ -14650,11 +14683,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.xmom = -3 * (this.bump)
                         pomao.disabled = 1
                         pomao.hits--
+                        vibrate(gamepadAPI, 50, 17)
                         pomao.body.ymom = -1.8
                         this.body.xmom = -pomao.body.xmom
                     }
                 } else {
                     if (this.bump * pomao.body.xmom > 0) {
+                        vibrate(gamepadAPI, 22, 15)
                         pomao.body.xmom = -1.8 * (this.bump)
                         pomao.body.ymom = -1.8
                         this.body.xmom = -pomao.body.xmom
@@ -14789,6 +14824,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.xmom = -3 * (this.bump)
                         pomao.disabled = 1
                         pomao.hits--
+                        vibrate(gamepadAPI, 50, 17)
                         pomao.body.ymom = -1.8
                         this.body.xmom = -pomao.body.xmom
                     }
@@ -14796,6 +14832,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.bump * pomao.body.xmom > 0) {
                         pomao.body.xmom = -1.8 * (this.bump)
                         pomao.body.ymom = -1.8
+                        vibrate(gamepadAPI, 22, 15)
                         this.body.xmom = -pomao.body.xmom
                     }
                 }
@@ -15001,11 +15038,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom = -3 * (this.bump)
                             pomao.disabled = 1
                             pomao.hits--
+                            vibrate(gamepadAPI, 50, 17)
                             pomao.body.ymom = -1.8
                             this.body.xmom = -pomao.body.xmom
                         }
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
+                            vibrate(gamepadAPI, 22, 15)
                             pomao.body.xmom = -1.8 * (this.bump)
                             pomao.body.ymom = -1.8
                             this.body.xmom = -pomao.body.xmom
@@ -15254,11 +15293,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             if (level == 4) {
                                 pomao.disabled = 1
                                 pomao.hits--
+                                vibrate(gamepadAPI, 50, 17)
                                 pomao.body.ymom = -1.8
                             } else {
                                 pomao.body.xmom = -1.1 * (this.bump)
                                 pomao.body.ymom = -.5
                                 pomao.hits -= .005
+                                vibrate(gamepadAPI, 22, 15)
                             }
                             this.body.xmom = -pomao.body.xmom
                         }
@@ -15271,6 +15312,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 // pomao.body.xmom = -1.1 * (this.bump)
                                 // pomao.body.ymom = -.5
                                 pomao.hits -= .005
+                                vibrate(gamepadAPI, 22, 15)
                             }
                             this.body.xmom = -pomao.body.xmom
                         }
@@ -15395,11 +15437,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.body.xmom = -3 * (this.bump)
                                 pomao.disabled = 1
                                 pomao.hits -= 2
+                                vibrate(gamepadAPI, 44, 22)
                                 pomao.body.ymom = -1.8
                                 //  this.body.xmom = -pomao.body.xmom
                             }
                         } else {
                             if (this.bump * pomao.body.xmom > 0) {
+                                vibrate(gamepadAPI, 22, 15)
                                 pomao.body.xmom = -1.8 * (this.bump)
                                 pomao.body.ymom = -1.8
                                 // this.body.xmom = -pomao.body.xmom
@@ -16126,6 +16170,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom = -4 * (this.bump)
                             pomao.disabled = 1
                             pomao.hits -= 2
+                            vibrate(gamepadAPI, 44, 22)
                             pomao.body.ymom = -1.8
                             this.health -= 10
                             this.rayrange -= 1
@@ -16787,13 +16832,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     pomao.disabled = 1
                                     if (this.hashit <= 0) {
                                         pomao.hits -= 3
+                                        vibrate(gamepadAPI, 66, 22)
                                         this.hashit = 4
+                                    }else{
+                                        vibrate(gamepadAPI, 22, 15)
                                     }
                                     pomao.body.ymom = -1.8
                                     this.legs[f].anchor.xmom = pomao.body.xmom * -5
                                 }
                             } else {
                                 if (this.bump * pomao.body.xmom > 0) {
+                                    vibrate(gamepadAPI, 22, 15)
                                     pomao.body.xmom = -.8 * (this.bump)
                                     pomao.body.ymom = -1.8
                                     this.legs[f].anchor.xmom = pomao.body.xmom * -5
@@ -16814,13 +16863,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     pomao.disabled = 1
                                     if (this.hashit <= 0) {
                                         pomao.hits -= 3
+                                        vibrate(gamepadAPI, 66, 22)
                                         this.hashit = 4
+                                    }else{
+                                        vibrate(gamepadAPI, 22, 15)
                                     }
                                     pomao.body.ymom = -1.8
                                     this.legs[f].body.xmom = pomao.body.xmom * -5
                                 }
                             } else {
                                 if (this.bump * pomao.body.xmom > 0) {
+                                    vibrate(gamepadAPI, 22, 15)
                                     pomao.body.xmom = -.8 * (this.bump)
                                     pomao.body.ymom = -1.8
                                     this.legs[f].body.xmom = pomao.body.xmom * -5
@@ -20217,6 +20270,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.xmom = -3 * (this.bump)
                         pomao.disabled = 1
                         pomao.hits -= 2
+                        vibrate(gamepadAPI, 44, 22)
                         pomao.body.ymom = -1.8
                         this.lump.xmom += -pomao.body.xmom * 5 * this.ratio
                         this.lump.ymom += 2.8  //1.8
@@ -20228,6 +20282,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.xmom = -3 * (this.bump)
                         pomao.disabled = 1
                         pomao.hits -= 2
+                        vibrate(gamepadAPI, 44, 22)
                         pomao.body.ymom = -1.8
                         pomao.pounding = 0
                         this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
@@ -20241,6 +20296,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.bump * pomao.body.xmom > 0) {
                         pomao.body.xmom = -1.8 * (this.bump)
                         pomao.body.ymom = -1.8
+                        vibrate(gamepadAPI, 22, 15)
                         this.lump.xmom += -pomao.body.xmom * 3 * this.ratio
                         this.lump.ymom += 2.8
                         if (this.dead != 1) {
@@ -20702,6 +20758,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.xmom = -3 * (this.bump)
                         pomao.disabled = 1
                         pomao.hits -= 2
+                        vibrate(gamepadAPI, 44, 22)
                         pomao.body.ymom = -1.8
                         this.lump.xmom += -pomao.body.xmom * 5
                         if (this.dead != 1) {
@@ -20711,6 +20768,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.xmom = -3 * (this.bump)
                         pomao.disabled = 1
                         pomao.hits -= 2
+                        vibrate(gamepadAPI, 44, 22)
                         pomao.body.ymom = -1.8
                         pomao.pounding = 0
                         this.lump.xmom += -pomao.body.xmom * 3
@@ -20722,6 +20780,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.bump * pomao.body.xmom > 0) {
                         pomao.body.xmom = -1.8 * (this.bump)
                         pomao.body.ymom = -1.8
+                        vibrate(gamepadAPI, 22, 15)
                         this.lump.xmom += -pomao.body.xmom * 3
                         if (this.dead != 1) {
                             this.body.xmom += -pomao.body.xmom * 3
@@ -20764,6 +20823,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 this.body.xmom += -pomao.body.xmom * 5
                             }
                         } else {
+                            vibrate(gamepadAPI, 22, 15)
                             pomao.body.xmom = -2 * (this.bump)
                             // pomao.disabled = 1
                             // pomao.hits--
@@ -21228,15 +21288,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 pomao.body.xmom = -4 * (this.bump)
                                 pomao.disabled = 1
                                 pomao.hits--
+                                vibrate(gamepadAPI, 50, 17)
                                 pomao.body.ymom = -1.8
                             } else {
                                 pomao.pounding = 0
+                                vibrate(gamepadAPI, 22, 15)
                                 pomao.body.ymom = -1.8
                             }
                         } else {
                             if (this.bump * pomao.body.xmom > 0) {
                                 pomao.body.xmom = -2.8 * (this.bump)
                                 pomao.body.ymom = -1.8
+                                vibrate(gamepadAPI, 22, 15)
                             }
                         }
 
@@ -21946,11 +22009,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.symom = 0
                         pomao.disabled = 1
                         pomao.hits--
+                        vibrate(gamepadAPI, 50, 17)
                         pomao.body.ymom = -1.8 * Math.sign(this.anchor.y - pomao.body.y)
                         this.body.xmom = -pomao.body.xmom
                         pomao.pounding = 0
                     // }
                 } else {
+                    vibrate(gamepadAPI, 22, 15)
                     pomao.body.xmom = -7.8 //* Math.sign(this.anchor.x - pomao.body.x)
                     pomao.body.sxmom = 0
                     pomao.body.symom = 0
@@ -22026,6 +22091,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if (this.pomlink.hypotenuse() < 50) {
                         if (pomao.checkInsidePomao(this.body)) {
                             pomao.hits--
+                            vibrate(gamepadAPI, 50, 17)
                             break
                         }
                     }
@@ -22451,6 +22517,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.ymom = (this.edges[e].ymom + this.center.ymom) * 1.1
                             pomao.disabled = 1
                             pomao.hits -= 2
+                            vibrate(gamepadAPI, 44, 22)
                             pomao.body.ymom = -1.8
                         } else {
                             pomao.pounding = 0
@@ -22866,6 +22933,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.center.x -= -4 * (this.bump)
                         pomao.disabled = 1
                         pomao.hits--
+                        vibrate(gamepadAPI, 50, 17)
                         pomao.body.ymom = -1.8
                     } else {
                     }
@@ -22874,6 +22942,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.xmom = -2.8 * (this.bump)
                         this.center.x -= -4 * (this.bump)
                         pomao.body.ymom = -1.8
+                        vibrate(gamepadAPI, 22, 15)
                     }
                 }
             }
@@ -23115,6 +23184,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                     pomao.body.xmom = -3 * (this.bump)
                                     pomao.disabled = 1
                                     pomao.hits--
+                                    vibrate(gamepadAPI, 50, 17)
                                     pomao.body.ymom = -1.8
                                     this.body.xmom = -pomao.body.xmom * .9 // wasn't .9
                                 }
@@ -23122,6 +23192,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 if (this.bump * pomao.body.xmom > 0) {
                                     pomao.body.xmom = -1.8 * (this.bump)
                                     pomao.body.ymom = -1.8
+                                    vibrate(gamepadAPI, 22, 15)
                                     this.body.xmom = -pomao.body.xmom * .9// wasn't .9 new hitbox on pomao
                                 }
                             }
@@ -23206,6 +23277,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.center.x -= -4 * (this.bump)
                         pomao.disabled = 1
                         pomao.hits--
+                        vibrate(gamepadAPI, 50, 17)
                         pomao.body.ymom = -1.8
                     } else {
                     }
@@ -23214,6 +23286,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.xmom = -2.8 * (this.bump)
                         this.center.x -= -4 * (this.bump)
                         pomao.body.ymom = -1.8
+                        vibrate(gamepadAPI, 22, 15)
                     }
                 }
             }
@@ -23592,6 +23665,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             this.center.x -= -4 * (this.bump)
                             pomao.disabled = 1
                             pomao.hits--
+                            vibrate(gamepadAPI, 50, 17)
                             pomao.body.ymom = -1.8
                         } else {
                         }
@@ -23600,6 +23674,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom = -2.8 * (this.bump)
                             this.center.x -= -4 * (this.bump)
                             pomao.body.ymom = -1.8
+                            vibrate(gamepadAPI, 22, 15)
                         }
                     }
                 }
@@ -23633,6 +23708,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.center.x -= -4 * (this.bump)
                         pomao.disabled = 1
                         pomao.hits--
+                        vibrate(gamepadAPI, 50, 17)
                         pomao.body.ymom = -1.8
                     } else {
                     }
@@ -23641,6 +23717,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.body.xmom = -2.8 * (this.bump)
                         this.center.x -= -4 * (this.bump)
                         pomao.body.ymom = -1.8
+                        vibrate(gamepadAPI, 22, 15)
                     }
                 }
             }
@@ -23933,6 +24010,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.disabled = 1
                             if (pomao.pounding == 10) {
                                 pomao.hits--
+                                vibrate(gamepadAPI, 50, 17)
                                 this.hittimer = 20
                                 this.health -= 50
                                 for (let t = 0; t < this.dots.length; t++) {
@@ -23943,6 +24021,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             } else {
                                 if (this.hittimer <= 0) {
                                     pomao.hits -= 4
+                                    vibrate(gamepadAPI, 88, 33)
                                     this.hittimer = 20
                                 }
                             }
@@ -23960,6 +24039,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             // pomao.hits--
                             pomao.body.xmom = (3.55 * (Math.cos(link.angle()))) + (this.center.xmom * 1.01)
                             pomao.body.ymom = (3.55 * (Math.sin(link.angle()))) + (this.center.ymom * 1.01)
+                            vibrate(gamepadAPI, 22, 15)
 
                             j = 0
                             while (Math.abs(pomao.body.ymom) > 11) {
@@ -24107,7 +24187,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         pomao.disabled = 1
                         if (this.hittimer > 35) {
                             pomao.hits -= 2
+                            vibrate(gamepadAPI, 66, 22)
                             this.hittimer = 0
+                        }else{
+                            vibrate(gamepadAPI, 22, 15)
                         }
                         pomao.body.ymom = -Math.sin(link.angle()) * 3
                         this.body.xmom = 3 * (this.bump)
@@ -24119,6 +24202,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom = -1.8 * (this.bump)
                             pomao.body.ymom = -Math.sin(link.angle()) * 1.8
 
+                            vibrate(gamepadAPI, 22, 15)
                             this.body.xmom = 1.8 * (this.bump)
                             // this.body.ymom =  -5
                             this.activenodes[t].xmom = -pomao.body.xmom
@@ -24536,6 +24620,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         draw() {
             let nudge = 0
             if (level == 14) {
+                vibrate(gamepadAPI, 1, 11)
                 pomao.hits -= .002
                 for (let t = 0; t < jellys.length; t++) {
                     if (jellys[t].isPointInside(pomao.body)) {
@@ -24731,11 +24816,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom = -3 * (this.bump)
                             pomao.disabled = 1
                             pomao.hits--
+                            vibrate(gamepadAPI, 50, 17)
                             pomao.body.ymom = -1.8
                             this.shots[t].xmom = -pomao.body.xmom * .1
                             this.shots[t].collapse = 1
                         } else {
                             if (this.shots[t].redirected != 1) {
+                                vibrate(gamepadAPI, 22, 15)
                                 this.shots[t].xmom *= -3.5
                                 this.shots[t].ymom *= -3.5
                                 this.shots[t].redirected = 1
@@ -24828,12 +24915,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         // pomao.disabled = 1
                         this.smack = 18
                         pomao.hits--
+                        vibrate(gamepadAPI, 50, 17)
                         pomao.body.ymom = -1.8
                         // }
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
                             pomao.body.xmom = -7.8 * (this.bump)
                             pomao.body.ymom = -1.8
+                            vibrate(gamepadAPI, 22, 15)
                         }
                     }
                 }
@@ -24990,6 +25079,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom = -3 * (this.bump)
                             pomao.disabled = 1
                             pomao.hits--
+                            vibrate(gamepadAPI, 50, 17)
                             pomao.body.ymom = -1.8
                             this.shots[t].xmom = -pomao.body.xmom * .1
                             this.shots[t].collapse = 1
@@ -24999,6 +25089,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 this.shots[t].ymom *= -3.5
                                 this.shots[t].redirected = 1
                                 this.shots[t].radius += 8
+                                vibrate(gamepadAPI, 22, 15)
                             }
                         }
                     } else {
@@ -25087,12 +25178,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         // pomao.disabled = 1
                         this.smack = 18
                         pomao.hits--
+                        vibrate(gamepadAPI, 50, 17)
                         pomao.body.ymom = -1.8
                         // }
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
                             pomao.body.xmom = -7.8 * (this.bump)
                             pomao.body.ymom = -1.8
+                            vibrate(gamepadAPI, 22, 15)
                         }
                     }
                 }
@@ -25251,6 +25344,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             pomao.body.xmom = -3 * (this.bump)
                             pomao.disabled = 1
                             pomao.hits--
+                            vibrate(gamepadAPI, 50, 17)
                             pomao.body.ymom = -1.8
                             this.shots[t].xmom = -pomao.body.xmom * .1
                             this.shots[t].collapse = 1
@@ -25260,6 +25354,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                                 this.shots[t].ymom *= -3.5
                                 this.shots[t].redirected = 1
                                 this.shots[t].radius += 8
+                                vibrate(gamepadAPI, 22, 15)
                             }
                         }
                     } else {
@@ -25348,12 +25443,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         // pomao.disabled = 1
                         this.smack = 18
                         pomao.hits--
+                        vibrate(gamepadAPI, 21, 11)
                         pomao.body.ymom = -1.8
                         // }
                     } else {
                         if (this.bump * pomao.body.xmom > 0) {
                             pomao.body.xmom = -7.8 * (this.bump)
                             pomao.body.ymom = -1.8
+                            vibrate(gamepadAPI, 22, 15)
                         }
                     }
                 }
@@ -25519,6 +25616,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         gamepadAPI.update()
         if (started == 1 || gamepadAPI.buttonsStatus.length > 0 || keysPressed['a']) {
+            if(started != 1){
+                vibrate(gamepadAPI, 100, 18)
+            }
             started = 1
         } else {
 
@@ -26266,6 +26366,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                     pomao.body.ymom -= 5
                     pomao.hits -= 3
+                    vibrate(gamepadAPI, 66, 22)
                     pomao.body.move()
                     pomao.body.smove()
                     pomao.disabled = 1
@@ -34521,8 +34622,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
 
-                this.stats = [1,1,1,1,1,1]
-                // this.stats = [999,999,999,999,999,999]
+                // this.stats = [1,1,1,1,1,1]
+                this.stats = [999,999,999,999,999,999]
                 this.exps = [0,0,0,0,0,0]
                 this.count = 0
                 this.rate = 4
@@ -35131,7 +35232,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.frame = 0
                 this.health = 40000
                 this.maxhealth = this.health
-                this.damage = 150
+                this.damage = 140
             }
             draw(){
                 this.tick++
@@ -35880,6 +35981,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
     
         }
+
+
+    function vibrate(gamepad, magnitude, timelimit) {
+        gamepad.controller.vibrationActuator.playEffect('dual-rumble', {
+          duration: timelimit*2.5,
+          strongMagnitude: Math.min(1, magnitude/40),
+          weakMagnitude: Math.min(1, magnitude/66)
+        })
+      }
+
 
     })
     
