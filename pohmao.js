@@ -15781,7 +15781,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     let cheats = new Cheatcodes()
     // cheats.zoomout()
-    cheats.cheat()
+    // cheats.cheat()
     // cheats.flip()
     const pomao = new Pomao()
 
@@ -34002,14 +34002,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         global.rt = false
     
         let fruitlist = []
-        for(let k = 0;k<89;k++){
-        for(let t = 0;t<89;t++){
-            let ypers = {}
-            ypers.type = t%10
-            ypers.type2 = Math.floor(t/10)
-            fruitlist.push(ypers)
-        }
-    }
+    //     for(let k = 0;k<89;k++){
+    //     for(let t = 0;t<89;t++){
+    //         let ypers = {}
+    //         ypers.type = t%10
+    //         ypers.type2 = Math.floor(t/10)
+    //         fruitlist.push(ypers)
+    //     }
+    // }
     
         class GardenHottub{
             constructor(x,y){
