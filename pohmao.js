@@ -34133,10 +34133,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             draw(){
                 this.poney+=(pomaos.length/1000)
-                tutorial_canvas_context.fillStyle = "black"
-                tutorial_canvas_context.font = "10px arial"
-                tutorial_canvas_context.fillText("Poney: " + Math.floor(this.poney), 1180, 20)
-                tutorial_canvas_context.fillText("Fruit: " + Math.floor(fruitlist.length), 1180, 40)
+                tutorial_canvas_context.font = "18px Arial";
+                tutorial_canvas_context.fillStyle = 'yellow'
+                tutorial_canvas_context.strokeStyle = 'black'
+                tutorial_canvas_context.strokeText("Poney: " + Math.floor(this.poney), 1120, 20)
+                tutorial_canvas_context.strokeText("Fruit: " + Math.floor(fruitlist.length), 1120, 40)
+                tutorial_canvas_context.fillText("Poney: " + Math.floor(this.poney), 1120, 20)
+                tutorial_canvas_context.fillText("Fruit: " + Math.floor(fruitlist.length), 1120, 40)
     
                 this.timer--
                 this.toggle.draw()
