@@ -13774,9 +13774,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             }
                             if (pomao.blush > 1) {
                                 this.eggs[this.eggs.length - 1].hot = 1
+                                vibrate(gamepadAPI, 54, 13)
+                            }else{
+                                vibrate(gamepadAPI, 44, 10)
                             }
                             this.thrown.push(this.eggs[this.eggs.length - 1])
-                            vibrate(gamepadAPI, 44, 10)
                             for (let t = 0; t < pomao.eggs.length; t++) {
                                 if (pomao.thrown.includes(pomao.eggs[t])) {
                                     pomao.eggs.splice(t, 1)
@@ -13794,9 +13796,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if (keysPressed['m']) {
                             if (pomao.blush > 1) {
                                 this.eggs[this.eggs.length - 1].hot = 1
+                                vibrate(gamepadAPI, 54, 13)
+                            }else{
+                                vibrate(gamepadAPI, 44, 10)
                             }
                             this.thrown.push(this.eggs[this.eggs.length - 1])
-                            vibrate(gamepadAPI, 44, 10)
                             for (let t = 0; t < pomao.eggs.length; t++) {
                                 if (pomao.thrown.includes(pomao.eggs[t])) {
                                     pomao.eggs.splice(t, 1)
@@ -34622,8 +34626,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
 
-                // this.stats = [1,1,1,1,1,1]
-                this.stats = [999,999,999,999,999,999]
+                this.stats = [1,1,1,1,1,1]
+                // this.stats = [999,999,999,999,999,999]
                 this.exps = [0,0,0,0,0,0]
                 this.count = 0
                 this.rate = 4
@@ -34813,6 +34817,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         this.health += (Math.log10(this.stats[4])*Math.log10(this.stats[4])*Math.log10(this.stats[4]))
                         this.lick(this.target.agent.body)
                         this.turn = false
+                        vibrate(gamepadAPI, 66, 20)
                         this.target.agent.health -= UI.pomao.stats[1]*(1+(UI.pomao.stats[1]/999))
                         if(Math.random()*3<Math.log10(UI.pomao.stats[5])){
                             this.target.agent.health -= UI.pomao.stats[1]*(1+(UI.pomao.stats[1]/999))
@@ -35165,6 +35170,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.agent.origin = new Point(x,y)
             }
             fight(){
+                vibrate(gamepadAPI, 44, 10)
                 this.agent.body.xmom = -6
                 UI.pomao.health -= this.agent.damage/(1+Math.log10(UI.pomao.stats[2]))
             }
@@ -35230,9 +35236,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.tick = 0
                 this.tock = 5
                 this.frame = 0
-                this.health = 40000
+                this.health = 34000
                 this.maxhealth = this.health
-                this.damage = 140
+                this.damage = 130
             }
             draw(){
                 this.tick++
