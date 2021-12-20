@@ -6,6 +6,10 @@
         pointerimg.src = 'pointer.png'
         const grabberimg = new Image()
         grabberimg.src = 'grabber.png'
+        const hottubimg = new Image()
+        hottubimg.src = 'hottubase.png'
+        const hottubimgtop = new Image()
+        hottubimgtop.src = 'hottubtop.png'
     
         const placessheet = new Image()
         placessheet.src = 'places.png'
@@ -15704,7 +15708,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     let cheats = new Cheatcodes()
     // cheats.zoomout()
-    cheats.cheat()
+    // cheats.cheat()
     // cheats.flip()
     const pomao = new Pomao()
 
@@ -33706,7 +33710,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 TIP_engine.x = XS_engine
                 TIP_engine.y = YS_engine
                 TIP_engine.body = TIP_engine
-                interact()
+
+                
+                if(global.displayRaceUI == 1){
+                    raceInteract()
+                }else  if(global.displayFightUI == 1){
+                    fightInteract()
+                }else{               
+                     interact()
+                }
                 // //console.log(pomaos[index])
                 // example usage: if(object.isPointInside(TIP_engine)){ take action }
             window.addEventListener('pointermove', continued_stimuli);
@@ -33765,14 +33777,51 @@ window.addEventListener('DOMContentLoaded', (event) => {
         global.rt = false
     
         let fruitlist = []
-        // for(let t = 0;t<89;t++){
-        //     let ypers = {}
-        //     ypers.type = t%10
-        //     ypers.type2 = Math.floor(t/10)
-        //     fruitlist.push(ypers)
-        // }
+    //     for(let k = 0;k<89;k++){
+    //     for(let t = 0;t<89;t++){
+    //         let ypers = {}
+    //         ypers.type = t%10
+    //         ypers.type2 = Math.floor(t/10)
+    //         fruitlist.push(ypers)
+    //     }
+    // }
     
-        
+        class GardenHottub{
+            constructor(x,y){
+                this.body = new GardenCircle(x,y, 128,"transparent")
+            }
+            draw(){
+                let tubcap = 0
+                for(let t = 0;t<pomaos.length;t++){
+                    if(this.body.doesPerimeterTouch(pomaos[t].body) && pomaos[t].tublike == 1){
+                        pomaos[t].tubbed = 1
+                        pomaos[t].tubbedx = 1
+                        pomaos[t].tub = this
+                        tubcap++
+                    }else{
+                        if( this.body.doesPerimeterTouch(pomaos[t].body) && pomaos[t].tublike == 0){
+                            pomaos[t].ydir = -1
+                            pomaos[t].xdir = 0
+                            pomaos[t].tubbedx = 1
+                            pomaos[t].tub = this
+                        }else{
+                            pomaos[t].tubbedx = 0
+                            pomaos[t].tub = {}
+                        }
+                        pomaos[t].tubbed = 0
+                    }
+                    if(tubcap>1){
+                        break
+                    }
+                }
+                tutorial_canvas_context.drawImage(hottubimgtop, 0, 0, 256, 256, this.body.x-this.body.radius, this.body.y-this.body.radius, this.body.radius*2, this.body.radius*2)
+            }
+            finish(){
+                tutorial_canvas_context.drawImage(hottubimg, 0, 0, 256, 256, this.body.x-this.body.radius, this.body.y-this.body.radius, this.body.radius*2, this.body.radius*2)
+            }
+        }
+
+        let tub = new GardenHottub(128,720-128)
     
         // let type = 0
         // let type2 = 0
@@ -33793,6 +33842,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // }
             }
             draw(){
+                if(this.body.radius == .1){
+                    return
+                }
                 if(this.body.y > 800){
                     this.body.y = 0
                     this.body.xmom = (Math.random()-.5)*5
@@ -33905,10 +33957,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
                 goToRace(){
+                    if(typeof UI.pomao == "undefined"){
+                        UI.pomao = pomaos[0]
+                    }
+                    if(typeof UI.pomao.health == "undefined"){
+                        UI.pomao = pomaos[0]
+                    }
                     global.racing = 1
                     global.startup = 100
                     global.race = -1
                     global.raceplaced = 0
+                    global.displayRaceUI = 1
                     global.challengers = []
                     for(let t = 0;t<5;t++){
                         global.challengers.push(new GardenPomaoranian(100, 200+(t*100)))
@@ -33916,6 +33975,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
                 goToFight(){
+
+                    if(typeof UI.pomao == "undefined"){
+                        UI.pomao = pomaos[0]
+                    }
+                    if(typeof UI.pomao.health == "undefined"){
+                        UI.pomao = pomaos[0]
+                    }
     
                     UI.pomao.tongue.x = 350
                     UI.pomao.tongue.y = 350
@@ -33923,33 +33989,443 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     global.startup = 100
                     global.fight = -1
                     global.opponentsbeat = 0
-                    global.challengers = []
-                    UI.pomao.turn = true
-                    for(let t = 0;t<6;t++){
-                        if(t<1 ||t>4){
-                            global.challengers.push(new GardenFighter(1000, 50+(t*110)))
-                        }else if(t == 3 || t== 2){
-                            global.challengers.push(new GardenFighter(800, 50+(t*110)))
-                        }else{
-                            global.challengers.push(new GardenFighter(900, 50+(t*110)))
-                        }
-                    }
                 }
                 goToDance(){
+                    if(typeof UI.pomao != "undefined"){
+                        UI.pomao = pomaos[0]
+                    }
     
                 }
                 goToSchool(){
+                    if(typeof UI.pomao != "undefined"){
+                        UI.pomao = pomaos[0]
+                    }
     
                 }
                 goToDoctor(){
+                    if(typeof UI.pomao != "undefined"){
+                        UI.pomao = pomaos[0]
+                    }
     
                 }
                 goToMarket(){
+                    if(typeof UI.pomao != "undefined"){
+                        UI.pomao = pomaos[0]
+                    }
     
                 }
         }
+    
+        class RaceMenu{
+            constructor(){
+                this.poney = 0
+                this.toggle = new GardenRectangle(1240, 700, 40,20, "gray")
+                this.display = 1
+                this.body = new GardenRectangle(360, 100, 640,520, "#88888888")
+                this.racebutton = new GardenRectangle(this.body.x+20, this.body.y + 4, 600,48, "#FFFF0088")
+                this.fightbutton = new GardenRectangle(this.body.x+20, this.body.y + 56, 600,48, "#FF000088")
+                this.dancebutton = new GardenRectangle(this.body.x+20, this.body.y + 108, 600,48, "#00FFFF88")
+                this.schoolbutton = new GardenRectangle(this.body.x+20, this.body.y + 160, 600,48, "#FFFFFF88")
+                this.doctorbutton = new GardenRectangle(this.body.x+20, this.body.y + 212, 600,48, "#FF00FF88")
+                this.marketbutton = new GardenRectangle(this.body.x+20, this.body.y + 264, 600,48, "#0000FF88")
+                this.leavebutton = new GardenRectangle(this.body.x+20, this.body.y + 316, 600,48, "#abcdef88")
+                this.closebutton = new GardenRectangle(this.body.x+20, this.body.y + 468, 600,48, "#88888888")
+                this.timer = 10
+            }
+            draw(){
+                this.timer--
+                this.toggle.draw()
+                tutorial_canvas_context.fillStyle = "black"
+                tutorial_canvas_context.font = "10px arial"
+                tutorial_canvas_context.fillText("Menu", this.toggle.x+4, this.toggle.y+13)
+                // if(this.display == 1){
+                    this.body.draw()
+                    this.racebutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Beginner Race", this.racebutton.x+270, this.racebutton.y+33)
+                    this.fightbutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Learners Race", this.fightbutton.x+268, this.fightbutton.y+33)
+                    this.dancebutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Medium Race", this.dancebutton.x+265, this.dancebutton.y+33)
+                    this.schoolbutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Big Race", this.schoolbutton.x+260, this.schoolbutton.y+33)
+                    this.doctorbutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Hard Race", this.doctorbutton.x+260, this.doctorbutton.y+33)
+                    this.marketbutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Extreme Race", this.marketbutton.x+260, this.marketbutton.y+33)
+                    this.leavebutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Leave", this.leavebutton.x+260, this.leavebutton.y+33)
+                    this.closebutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Close", this.closebutton.x+260, this.closebutton.y+33)
+                // }
+            }
+                setBeginnerRace(){
+                    if(aRelease !== true){
+                        return
+                    }
+                global.race = 0
+                global.challengers = []
+                for(let t = 0;t<5;t++){
+                    global.challengers.push(new GardenPomaoranian(100, 200+(t*100)))
+                    global.challengers[t].stats[3] = (Math.random()*5)
+                }
+                global.displayRaceUI = 0
+                }
+                setLearnersRace(){
+                    if(aRelease !== true){
+                        return
+                    }
+                    global.race = 0
+                    global.challengers = []
+                    for(let t = 0;t<5;t++){
+                        global.challengers.push(new GardenPomaoranian(100, 200+(t*100)))
+                        global.challengers[t].stats[3] = (Math.random()*15)+15
+                    }
+                    global.displayRaceUI = 0
+                }
+                setMediumRace(){
+                    if(aRelease !== true){
+                        return
+                    }
+                    global.race = 0
+                    global.challengers = []
+                    for(let t = 0;t<5;t++){
+                        global.challengers.push(new GardenPomaoranian(100, 200+(t*100)))
+                        global.challengers[t].stats[3] = (Math.random()*25)+35
+                    }
+                    global.displayRaceUI = 0
+                }
+                setBigRace(){
+                    if(aRelease !== true){
+                        return
+                    }
+                    global.race = 0
+                    global.challengers = []
+                    for(let t = 0;t<5;t++){
+                        global.challengers.push(new GardenPomaoranian(100, 200+(t*100)))
+                        global.challengers[t].stats[3] = (Math.random()*50)+100
+                    }
+                    global.displayRaceUI = 0
+    
+                }
+                setHardRace(){
+                    if(aRelease !== true){
+                        return
+                    }
+                    global.race = 0
+                    global.challengers = []
+                    for(let t = 0;t<5;t++){
+                        global.challengers.push(new GardenPomaoranian(100, 200+(t*100)))
+                        global.challengers[t].stats[3] = (Math.random()*100)+250
+                    }
+                    global.displayRaceUI = 0
+    
+                }
+                setExtremeRace(){
+                    if(aRelease !== true){
+                        return
+                    }
+                    global.race = 0
+                    global.challengers = []
+                    for(let t = 0;t<5;t++){
+                        global.challengers.push(new GardenPomaoranian(100, 200+(t*100)))
+                        global.challengers[t].stats[3] = (Math.random()*110)+899
+                    }
+                    global.displayRaceUI = 0
+    
+                }
+        }
+        class FightMenu{
+            constructor(){
+                this.poney = 0
+                this.toggle = new GardenRectangle(1240, 700, 40,20, "gray")
+                this.display = 1
+                this.body = new GardenRectangle(360, 100, 640,520, "#88888888")
+                
+                this.racebutton = new GardenRectangle(this.body.x+20, this.body.y + 4, 290,48, "#FFFF0088")
+                this.fightbutton = new GardenRectangle(this.body.x+20, this.body.y + 56, 290,48, "#FF000088")
+                this.dancebutton = new GardenRectangle(this.body.x+20, this.body.y + 108, 290,48, "#00FFFF88")
+                this.schoolbutton = new GardenRectangle(this.body.x+20, this.body.y + 160, 290,48, "#FFFFFF88")
+                this.doctorbutton = new GardenRectangle(this.body.x+20, this.body.y + 212, 290,48, "#FF00FF88")
+                this.marketbutton = new GardenRectangle(this.body.x+20, this.body.y + 264, 290,48, "#0000FF88")
+
+
+                this.racebutton2 = new GardenRectangle(this.body.x+320, this.body.y + 4, 290,48, "#FFF00088")
+                this.fightbutton2 = new GardenRectangle(this.body.x+320, this.body.y + 56, 290,48, "#FFD00088")
+                this.dancebutton2 = new GardenRectangle(this.body.x+320, this.body.y + 108, 290,48, "#FFB00088")
+                this.schoolbutton2 = new GardenRectangle(this.body.x+320, this.body.y + 160, 290,48, "#FFA00088")
+                this.doctorbutton2 = new GardenRectangle(this.body.x+320, this.body.y + 212, 290,48, "#FF800088")
+                this.marketbutton2 = new GardenRectangle(this.body.x+320, this.body.y + 264, 290,48, "#FF000088")
+
+                this.leavebutton = new GardenRectangle(this.body.x+20, this.body.y + 316, 290,48, "#abcdef88")
+                this.closebutton = new GardenRectangle(this.body.x+20, this.body.y + 468, 290,48, "#88888888")
+
+                this.timer = 10
+            }
+            draw(){
+                this.timer--
+                this.toggle.draw()
+                tutorial_canvas_context.fillStyle = "black"
+                tutorial_canvas_context.font = "10px arial"
+                tutorial_canvas_context.fillText("Menu", this.toggle.x+4, this.toggle.y+13)
+                // if(this.display == 1){
+                    this.body.draw()
+                    this.racebutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Beginner Fight", this.racebutton.x+70, this.racebutton.y+33)
+                    this.fightbutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Learners Fight", this.fightbutton.x+68, this.fightbutton.y+33)
+                    this.dancebutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Medium Fight", this.dancebutton.x+65, this.dancebutton.y+33)
+                    this.schoolbutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Big Fight", this.schoolbutton.x+60, this.schoolbutton.y+33)
+                    this.doctorbutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Hard Fight", this.doctorbutton.x+60, this.doctorbutton.y+33)
+                    this.marketbutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Extreme Fight", this.marketbutton.x+60, this.marketbutton.y+33)
+
+
+                    this.racebutton2.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Hyper Fight", this.racebutton2.x+70, this.racebutton2.y+33)
+                    this.fightbutton2.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Mega Fight", this.fightbutton2.x+68, this.fightbutton2.y+33)
+                    this.dancebutton2.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Giga Fight", this.dancebutton2.x+65, this.dancebutton2.y+33)
+                    this.schoolbutton2.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Bizzare Fight", this.schoolbutton2.x+60, this.schoolbutton2.y+33)
+                    this.doctorbutton2.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Ultra Fight", this.doctorbutton2.x+60, this.doctorbutton2.y+33)
+                    this.marketbutton2.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Endless Fight", this.marketbutton2.x+60, this.marketbutton2.y+33)
+                    this.leavebutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Leave", this.leavebutton.x+60, this.leavebutton.y+33)
+                    this.closebutton.draw()
+                    tutorial_canvas_context.fillStyle = "black"
+                    tutorial_canvas_context.font = "30px arial"
+                    tutorial_canvas_context.fillText("Close", this.closebutton.x+60, this.closebutton.y+33)
+                // }
+            }
+            setBeginnerRace(){
+                console.log("div")
+                if(global.aFight == true){
+                    return
+                }
+            global.challengers = []
+            UI.pomao.turn = true
+            for(let t = 0;t<1;t++){
+                    global.challengers.push(new GardenFighter(1000, 360, 0))
+            }
+            global.displayFightUI = 0
+            }
+            setBizarreRace(){
+                console.log("div")
+                if(global.aFight == true){
+                    return
+                }
+            global.challengers = []
+            UI.pomao.turn = true
+            for(let t = 0;t<1;t++){
+                    global.challengers.push(new GardenFighter(1000, 360, 0))
+            }
+            global.displayFightUI = 0
+            }
+            setHyperFight(){
+                console.log("div")
+                if(global.aFight == true){
+                    return
+                }
+            global.challengers = []
+            UI.pomao.turn = true
+            // let point = new Point(1000,360)
+            // let angle = 
+            for(let t = 0;t<10;t++){
+                    global.challengers.push(new GardenFighter(1000-(t*43), 60+(64*t), 0))
+            }
+            global.displayFightUI = 0
+            }
+            setMegaFight(){
+                console.log("div")
+                if(global.aFight == true){
+                    return
+                }
+            global.challengers = []
+            UI.pomao.turn = true
+            // let point = new Point(1000,360)
+            // let angle = 
+            for(let t = 0;t<10;t++){
+                if(t%2 ==0 ){
+                    global.challengers.push(new GardenFighter(1000-(t*43), 60+(64*t), 0))
+                }else{
+                    global.challengers.push(new GardenFighter(1000-(t*43), 60+(64*t), 1))
+                }
+            }
+            global.displayFightUI = 0
+            }
+            setGigaFight(){
+                console.log("div")
+                if(global.aFight == true){
+                    return
+                }
+            global.challengers = []
+            UI.pomao.turn = true
+            // let point = new Point(1000,360)
+            // let angle = 
+            for(let t = 0;t<10;t++){
+                if(t%2 ==0 ){
+                    global.challengers.push(new GardenFighter(1000-(t*43), 60+(64*t), 2))
+                }else{
+                    global.challengers.push(new GardenFighter(1000-(t*43), 60+(64*t), 1))
+                }
+            }
+            global.displayFightUI = 0
+            }
+            setUltraFight(){
+                console.log("div")
+                if(global.aFight == true){
+                    return
+                }
+            global.challengers = []
+            UI.pomao.turn = true
+            // let point = new Point(1000,360)
+            // let angle = 
+            for(let t = 0;t<10;t++){
+                if(t%2 ==0 ){
+                    global.challengers.push(new GardenFighter(1000-(t*43), 60+(64*t), 2))
+                }else{
+                    global.challengers.push(new GardenFighter(1000-(t*43), 60+(64*t), 2))
+                }
+            }
+            global.displayFightUI = 0
+            }
+            setEndlessFight(){
+                console.log("div")
+                if(global.aFight == true){
+                    return
+                }
+            global.challengers = []
+            UI.pomao.turn = true
+            // let point = new Point(1000,360)
+            // let angle = 
+            for(let t = 0;t<10;t++){
+                if(t%2 ==0 ){
+                    global.challengers.push(new GardenFighter(1000-(t*43), 60+(64*t), 2))
+                }else{
+                    global.challengers.push(new GardenFighter(1000-(t*43), 60+(64*t), 2))
+                }
+            }
+            global.displayFightUI = 0
+            }
+                setLearnersRace(){
+                    console.log("fiv")
+                    if(global.aFight == true){
+                        return
+                    }
+                global.challengers = []
+                UI.pomao.turn = true
+                for(let t = 0;t<2;t++){
+                        global.challengers.push(new GardenFighter(1000, 260+(t*200), 0))
+                }
+                global.displayFightUI = 0
+                }
+                setMediumRace(){
+                    console.log("kiv")
+                    if(global.aFight == true){
+                        return
+                    }
+                global.challengers = []
+                UI.pomao.turn = true
+                for(let t = 0;t<1;t++){
+                        global.challengers.push(new GardenFighter(1000, 360, 1))
+                }
+                global.displayFightUI = 0
+                }
+                setBigRace(){
+                    console.log("ziv")
+                    if(global.aFight == true){
+                        return
+                    }
+                global.challengers = []
+                UI.pomao.turn = true
+                for(let t = 0;t<2;t++){
+                        global.challengers.push(new GardenFighter(1000, 260+(t*200), 1))
+                }
+                global.displayFightUI = 0
+                }
+                setHardRace(){
+                    console.log("wiv")
+                    if(global.aFight == true){
+                        return
+                    }
+                global.challengers = []
+                UI.pomao.turn = true
+                for(let t = 0;t<2;t++){
+                        global.challengers.push(new GardenFighter(1000, 260+(t*200), 2))
+                }
+                global.displayFightUI = 0
+                }
+                setExtremeRace(){
+
+                    console.log("giv")
+                    if(global.aFight == true){
+                        return
+                    }
+                global.challengers = []
+                UI.pomao.turn = true
+                    for(let t = 0;t<6;t++){
+                        if(t<1 ||t>4){
+                            global.challengers.push(new GardenFighter(1000, 50+(t*110),1))
+                        }else if(t == 3 || t== 2){
+                            global.challengers.push(new GardenFighter(800, 50+(t*110),0))
+                        }else{
+                            global.challengers.push(new GardenFighter(900, 50+(t*110),2))
+                        }
+                    }
+                    global.displayFightUI = 0
+                }
+        }
         let gardenmenu = new GardenMenu()
-        let raceUI = new GardenMenu()
+        let raceUI = new RaceMenu()
+        let fightUI = new FightMenu()
     
     
         class GardenStatUI{
@@ -34033,11 +34509,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.link = new GardenLineOP(this.centrix, this.tongue, this.tonguecolor, 3)
                 this.xdir = 0
                 this.ydir = 0
+                this.tublike = Math.floor(Math.random()*2)
                 this.type = typez//Math.floor(Math.random()*16) //typez//
                 typez++
+                typez%=32
                 this.type += (1/64)
-                this.rarity = Math.floor(Math.random()*4)
+                this.rarity =  0 //Math.floor(Math.random()*4)
+                for(let t = 0;t<4;t++){
+                    if(Math.random()<.2){
+                        this.rarity++
+                    }
+                }
+
                 this.stats = [1,1,1,1,1,1]
+                // this.stats = [999,999,999,999,999,999]
                 this.exps = [0,0,0,0,0,0]
                 this.count = 0
                 this.rate = 4
@@ -34158,7 +34643,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 return name
             }
             draw(){
-                this.health = (this.stats[0]*3)+1
+                if(Math.random()<.001){
+                    this.tublike = Math.floor(Math.random()*2)
+                }
+                this.health = (this.stats[0]*10)+1
                 this.maxhealth = this.health
                 this.victor = 0
                 this.count++
@@ -34221,20 +34709,49 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 if(keysPressed['g'] || gamepadBPI.buttonsCache.includes("B") ){
                     if(this.turn == true){
+                        this.health += (Math.log10(this.stats[4])*Math.log10(this.stats[4])*Math.log10(this.stats[4]))
                         this.lick(this.target.agent.body)
                         this.turn = false
-                        this.target.agent.health -= this.target.agent.maxhealth*.2
+                        this.target.agent.health -= UI.pomao.stats[1]*(1+(UI.pomao.stats[1]/999))
+                        if(Math.random()*3<Math.log10(UI.pomao.stats[5])){
+                            this.target.agent.health -= UI.pomao.stats[1]*(1+(UI.pomao.stats[1]/999))
+                            if(Math.random()*6<Math.log10(UI.pomao.stats[5])){
+                                this.target.agent.health -= UI.pomao.stats[1]*(1+(UI.pomao.stats[1]/999))
+                            }
+                        }
                         this.attacktimeout = 0
                     }
                 }
                 this.attacktimeout++
                 if(this.attacktimeout>30){
+
+                for(let t = 0;t<global.challengers.length;t++){
+                    if(this.attacktimeout==31+(t*10)){
+                        global.challengers[t].fight()
+                    }
+                }
+                if(this.attacktimeout>32+(global.challengers.length*(10-(Math.log10(this.stats[3]-1))))){
                     this.turn = true
+                }
                 }
     
         
                 this.healthbar = new GardenRectangleStroke(this.body.x-32, this.body.y+39, this.body.radius*2*(this.health/this.maxhealth), 10, `rgb( ${255-(this.health*25)*3},${this.health*25*3}, 0)`)
                 this.healthbar.draw()
+                if(this.health <= 0){
+                    global.challengers = []
+
+                    if(global.challengers.length <= 0){
+                        setTimeout(() => {
+                            global.fighting = 0
+                            this.attacktimeout = 1000000
+                        }, 100);
+                    }else{
+                        if(UI.pomao.target == this){
+                            UI.pomao.target = global.challengers[0]
+                        }
+                    }
+                }
                 this.victor = 0
                 //console.log(this)
                 this.count++
@@ -34448,7 +34965,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     
         let pomaos = []
     
-        for(let t = 0;t<1;t++){
+        for(let t = 0;t<2;t++){
             pomaos[t] = new GardenPomaoranian(50+Math.random()*1180, 50+Math.random()*620)
         }
     
@@ -34477,12 +34994,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 if(gamepadBPI.buttonsCache.includes("A") ||   gamepadBPI.buttonsCache.includes("B")){
                     let point = new GardenPoint(this.body.x-16, this.body.y-16)
+
+                    if(global.displayRaceUI == 1){
+                        raceInteract(point)
+                    }else  if(global.displayFightUI == 1){
+                        fightInteract(point)
+                    }
                     aRelease = false
                     if(global.fighting == 0){
                     if(global.racing == 0){
                     interact(point)
                     }
                     }
+
                 }else{
                     aRelease = true
                 }
@@ -34494,6 +35018,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         if(global.racing == 0){
                         interact(point)
                         }
+                    }
+                    if(global.displayRaceUI == 1){
+                        raceInteract(point)
+                    }else  if(global.displayFightUI == 1){
+                        fightInteract(point)
                     }
                     }
                     this.grip = 1
@@ -34523,17 +35052,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     
         class GardenFighter{
-            constructor(x,y){
+            constructor(x,y,type){
                 this.selected = 0
-                if(Math.random() < .3){
+                if(type == 0){
                     this.agent = new GardenTetrahedron(x,y)
-                    }else if(Math.random() < .5){
-                        this.agent = new GardenIcosahedron(x,y)
-                        }else{
+                }else if(type == 1){
                     this.agent = new GardenDodecahedron(x,y)
+                 }else{
+                    this.agent = new GardenIcosahedron(x,y)
                 }
+                this.agent.origin = new Point(x,y)
+            }
+            fight(){
+                this.agent.body.xmom = -6
+                UI.pomao.health -= this.agent.damage/(1+Math.log10(UI.pomao.stats[2]))
             }
             draw(){
+                this.agent.body.move()
+                this.agent.body.xmom *= .9
+                this.agent.body.x += (this.agent.origin.x-this.agent.body.x)/40
                 this.agent.draw()
                 if(UI.pomao.target == this){
 
@@ -34571,9 +35108,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.tick = 0
                 this.tock = 5
                 this.frame = 0
-                this.health = 100
+                this.health = 500
                 this.maxhealth = this.health
-                this.damage = 10
+                this.damage = 50
             }
             draw(){
                 this.tick++
@@ -34592,9 +35129,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.tick = 0
                 this.tock = 5
                 this.frame = 0
-                this.health = 100
+                this.health = 40000
                 this.maxhealth = this.health
-                this.damage = 10
+                this.damage = 150
             }
             draw(){
                 this.tick++
@@ -34614,9 +35151,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 this.tick = 0
                 this.tock = 1
                 this.frame = 0
-                this.health = 100
+                this.health = 10000
                 this.maxhealth = this.health
-                this.damage = 10
+                this.damage = 50
             }
             draw(){
                 this.tick++
@@ -34685,66 +35222,164 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 tutorial_canvas_context.resetTransform()
 
             if(global.racing == 0 && global.fighting == 0){
+                if(gamepadBPI.buttonsCache.includes("Start")){
+                    gardenmenu.display = 1
+                }
             global.timeloop+=.1
             tutorial_canvas_context.fillStyle = "#AAFFAA"
              tutorial_canvas_context.fillRect(0, 0, tutorial_canvas.width, tutorial_canvas.height)  // refreshes the image
             gamepadBPI.update() //checks for button presses/stick movement on the connected controller)
+            tub.draw()
             // // game code goes here]
             // tet.draw()
             for(let t = 0;t<gfruits.length;t++){
                 gfruits[t].draw()
             }
+            let tubcount = 0
             for(let t = 0;t<pomaos.length;t++){
-                pomaos[t].draw()
+                if(pomaos[t].tubbed == 1 && UI.pomao != pomaos[t]){  
+                    if(tubcount == 0){
+                        pomaos[t].body.x = pomaos[t].tub.body.x+47
+                        pomaos[t].body.y = pomaos[t].tub.body.y-95
+                        pomaos[t].centrix.x = pomaos[t].tub.body.x+47
+                        pomaos[t].centrix.y = pomaos[t].tub.body.y-95
+                        pomaos[t].tongue.x = pomaos[t].tub.body.x+47
+                        pomaos[t].tongue.y = pomaos[t].tub.body.y-95
+                        pomaos[t].draw()
+                        tubcount++
+                    }else{
+                        pomaos[t].body.x = pomaos[t].tub.body.x-47
+                        pomaos[t].body.y = pomaos[t].tub.body.y-95
+                        pomaos[t].centrix.x = pomaos[t].tub.body.x-47
+                        pomaos[t].centrix.y = pomaos[t].tub.body.y-95
+                        pomaos[t].tongue.x = pomaos[t].tub.body.x-47
+                        pomaos[t].tongue.y = pomaos[t].tub.body.y-95
+                        pomaos[t].draw()
+                    }
+                }else{
+                    if(pomaos[t].tubbedx == 1){
+                        if(pointer.grip != 1){  
+                            if(pomaos[t].body.y >  pomaos[t].tub.body.y-95 ){
+                                pomaos[t].body.y = pomaos[t].tub.body.y-95
+                                pomaos[t].centrix.y = pomaos[t].tub.body.y-95
+                                pomaos[t].tongue.y = pomaos[t].tub.body.y-95
+                            }
+                        }
+                        pomaos[t].xdir = 0
+                        pomaos[t].ydir = - 1
+                    }
+                    pomaos[t].draw()
+                }
             }
+
+    if(gamepadBPI.buttonsCache.includes("A") ||   gamepadBPI.buttonsCache.includes("B")){
+        global.aFight = true
+    }else{
+        // global.aFight = false
+    }
+    tub.finish()
             UI.draw()
             gardenmenu.draw()
             pointer.draw()
         }else if(global.racing == 1){
-            tutorial_canvas_context.fillStyle = "#AAFFAA"
-             tutorial_canvas_context.fillRect(0, 0, tutorial_canvas.width, tutorial_canvas.height) 
-            gamepadBPI.update() //checks for button presses/stick movement on the connected controller)
-            raceUI.draw()
-            if(keysPressed['r'] || gamepadBPI.buttonsCache.includes("Left-Trigger") ){
-                global.race = 0
-            }
-            for(let t = 0;t<global.challengers.length;t++){
-                    global.challengers[t].race()
-            }
-            for(let t = 0;t<pomaos.length;t++){
-    
-                if(pomaos[t].selected == 1){
-                    if(global.race == -1){
-                        pomaos[t].xdir = 1
-                        pomaos[t].ydir = 0
-                        pomaos[t].body.x = 100
-                        pomaos[t].body.y = 100
-                        pomaos[t].centrix.x = 100
-                        pomaos[t].centrix.y = 100
-                        pomaos[t].tongue.x = 100
-                        pomaos[t].tongue.y = 100
-                    }
-                    pomaos[t].race()
-                }
-            }
-            if(global.race > -1){
-                global.startup--
-            }
-            if(global.raceplaced == global.challengers.length+1){
-                if(global.startup == 0){
-                    global.racing = 0
-                    for(let t = 0;t<pomaos.length;t++){
-                            pomaos[t].selected = 0
+            if(global.displayRaceUI == 1){
+                tutorial_canvas_context.fillStyle = "#AAFFAA"
+                tutorial_canvas_context.fillRect(0, 0, tutorial_canvas.width, tutorial_canvas.height) 
+                gamepadBPI.update() //checks for button presses/stick movement on the connected controller)
+                raceUI.draw()
+                pointer.draw()
+
+                for(let t = 0;t<pomaos.length;t++){
+                    if(pomaos[t] == UI.pomao){ //selected == 1
+                        if(global.race == -1){
+                            pomaos[t].xdir = 1
+                            pomaos[t].ydir = 0
+                            pomaos[t].body.x = 100
+                            pomaos[t].body.y = 100
+                            pomaos[t].centrix.x = 100
+                            pomaos[t].centrix.y = 100
+                            pomaos[t].tongue.x = 100
+                            pomaos[t].tongue.y = 100
                         }
+                        pomaos[t].draw()
+                    }
                 }
+            
+            }else{
+
+                tutorial_canvas_context.fillStyle = "#AAFFAA"
+                tutorial_canvas_context.fillRect(0, 0, tutorial_canvas.width, tutorial_canvas.height) 
+               gamepadBPI.update() //checks for button presses/stick movement on the connected controller)
+            //    if(keysPressed['r'] || gamepadBPI.buttonsCache.includes("Left-Trigger") ){
+            //        global.race = 0
+            //    }
+               for(let t = 0;t<global.challengers.length;t++){
+                       global.challengers[t].race()
+               }
+               for(let t = 0;t<pomaos.length;t++){
+       
+                   if(pomaos[t] == UI.pomao){ //selected == 1
+                       if(global.race == -1){
+                           pomaos[t].xdir = 1
+                           pomaos[t].ydir = 0
+                           pomaos[t].body.x = 100
+                           pomaos[t].body.y = 100
+                           pomaos[t].centrix.x = 100
+                           pomaos[t].centrix.y = 100
+                           pomaos[t].tongue.x = 100
+                           pomaos[t].tongue.y = 100
+                       }
+                       pomaos[t].race()
+                   }
+               }
+               if(global.race > -1){
+                   global.startup--
+               }
+               if(global.raceplaced == global.challengers.length+1){
+                   if(global.startup == 0){
+                       global.racing = 0
+                       for(let t = 0;t<pomaos.length;t++){
+                               pomaos[t].selected = 0
+                           }
+                   }
+               }
+
+
             }
         }else if(global.fighting == 1){
+
+    if(gamepadBPI.buttonsCache.includes("A") ||   gamepadBPI.buttonsCache.includes("B")){
+        // global.aFight = false
+    }else{
+        global.aFight = false
+    }
     
+            if(global.displayFightUI == 1){
+                tutorial_canvas_context.fillStyle = "#AAFFAA"
+                tutorial_canvas_context.fillRect(0, 0, tutorial_canvas.width, tutorial_canvas.height) 
+                gamepadBPI.update() //checks for button presses/stick movement on the connected controller)
+                fightUI.draw()
+                pointer.draw()
+
+                for(let t = 0;t<pomaos.length;t++){
+                    if(pomaos[t] == UI.pomao){ //selected == 1
+                            pomaos[t].xdir = 1
+                            pomaos[t].ydir = 0
+                            pomaos[t].body.x = 300
+                            pomaos[t].body.y = 350
+                            pomaos[t].centrix.x = 300
+                            pomaos[t].centrix.y = 350
+                            pomaos[t].tongue.x = 300
+                            pomaos[t].tongue.y = 350
+                        pomaos[t].draw()
+                    }
+                }
+            
+            }else{
             pointer.draw()
             tutorial_canvas_context.fillStyle = "#AAFFAA"
              tutorial_canvas_context.fillRect(0, 0, tutorial_canvas.width, tutorial_canvas.height) 
             gamepadBPI.update() //checks for button presses/stick movement on the connected controller)
-            raceUI.draw()
             if(keysPressed['r']){
                 global.fight = 0
             }
@@ -34757,12 +35392,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let index = 0
             for(let t = 0;t<pomaos.length;t++){
     
-                if(pomaos[t].selected == 1){
+                if(pomaos[t] == UI.pomao){ //selected == 1
                     pomaos[t].xdir = 1
                     pomaos[t].ydir = 0
-                        pomaos[t].body.x = 350
+                        pomaos[t].body.x = 300
                         pomaos[t].body.y = 350
-                        pomaos[t].centrix.x = 350
+                        pomaos[t].centrix.x = 300
                         pomaos[t].centrix.y = 350
                         // pomaos[t].tongue.x = 350
                         // pomaos[t].tongue.y = 350
@@ -34776,6 +35411,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if(global.opponentsbeat == global.challengers.length){
                 if(global.startup == 0){
                     global.fighting = 0
+                    UI.pomao.attacktimeout = 1000000
                     for(let t = 0;t<pomaos.length;t++){
                             pomaos[t].selected = 0
                         }
@@ -34783,7 +35419,305 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
         }
     }
+    }
     
+    if(gamepadBPI.buttonsCache.includes("A") ||   gamepadBPI.buttonsCache.includes("B")){
+        aRelease = false
+    }else{
+        aRelease = true
+    }
+        }
+        function raceInteract(point = 0){
+            // console.log("in")
+            if(global.racing == 1){
+                // console.log("in2")
+                
+            if(point != 0){
+                TIP_engine = point
+            }
+            let wet = 0
+    
+            if(raceUI.toggle.isPointInside(TIP_engine)){
+                wet = 1
+            }
+            if(false){
+            }else{
+                for(let t = 0;t<pomaos.length;t++){
+                    if(pomaos[t].body.isPointInside(TIP_engine)){
+                        UI = new GardenStatUI(pomaos[t])
+                        wet = 1
+                    }
+                }
+                if(raceUI.display == 1 || raceUI.display == 0){
+                    if(raceUI.racebutton.isPointInside(TIP_engine)){
+                        raceUI.display = 0
+                        raceUI.setBeginnerRace()
+                        console.log("in3")
+                        wet = 1
+                    }
+                    if(raceUI.fightbutton.isPointInside(TIP_engine)){
+                        raceUI.display = 0
+                        raceUI.setLearnersRace()
+                        wet = 1
+                    }
+                    if(raceUI.dancebutton.isPointInside(TIP_engine)){
+                        raceUI.display = 0
+                        raceUI.setMediumRace()
+                    }
+                    if(raceUI.schoolbutton.isPointInside(TIP_engine)){
+                        raceUI.display = 0
+                        raceUI.setBigRace()
+                    }
+                    if(raceUI.doctorbutton.isPointInside(TIP_engine)){
+                        raceUI.display = 0
+                        raceUI.setHardRace()
+                    }
+                    if(raceUI.marketbutton.isPointInside(TIP_engine)){
+                        raceUI.display = 0
+                        raceUI.setExtremeRace()
+                    }
+                    if(raceUI.leavebutton.isPointInside(TIP_engine)){
+                      gardening = 0
+                      raceUI.display = 0
+
+                      tutorial_canvas_context.restore()
+                // tutorial_canvas_context.translate(pomao.body.x - 640, pomao.body.y - 360)
+                if (level == 1) {
+                    loadlvl2()
+                }else if (level == 2) {
+                    loadlvl3()
+                }else if (level == 3) {
+                    loadlvl4()
+                }else if (level == 4) {
+                    loadlvl13()
+                }else  if (level == 13) {
+                    loadlvl5()
+                }else if (level == 5) {
+                    loadlvl6()
+                }else if (level == 6) {
+                    loadlvl7()
+                }else  if (level == 7) {
+                    loadlvl8()
+                }else if (level == 8) {
+                    loadlvl9()
+                }else if (level == 9) {
+                    loadlvl10()
+                }else if (level == 10) {
+                    loadlvl11()
+                }else  if (level == 11) {
+                    loadIslandLevel()
+                }else if (level == 12) {
+                    loadlvl13()
+                }else  if (level == 13) {
+                    loadMarshLevel()
+                }else  if (level == 14) {
+                    loadFactoryLevel()
+                }else if (level == 15) {
+                    loadCapitalCity()
+                }else if (level == 16) {
+                    loadABigPileOfGarbage()
+                }else  if (level == 17) {
+                    // loadCargoTrain()
+                }else  if (level == 18) {
+
+                }
+                    }
+                    if(raceUI.closebutton.isPointInside(TIP_engine)){
+                        raceUI.display = 0
+                    }
+    
+                    if(raceUI.timer <=0 ){
+                        if(raceUI.toggle.isPointInside(TIP_engine)){
+                            raceUI.display = 0
+                            raceUI.timer = 20
+                        }
+                    }
+                }else{
+    
+                    if(raceUI.timer <=0){
+                    if(raceUI.toggle.isPointInside(TIP_engine)){
+                        wet = 1
+                        raceUI.display = 1
+                        raceUI.timer = 20
+                    }
+                }else{
+                    wet = 1
+                }
+                }
+            }
+            
+            // if(wet == 0){
+            //     if(typeof UI.pomao != 'undefined'){
+            //         if(global.racing == 0 && global.fighting == 0 && aRelease == true ){ //nodraw?
+            //             UI.pomao.selected = 0
+            //         }
+            //     }
+            //     UI = {}
+            //     UI.draw = empty
+            // }
+            }
+    
+        }
+        function fightInteract(point = 0){
+            // console.log("in")
+            if(global.fighting == 1){
+                // console.log("in2")
+                
+            if(point != 0){
+                TIP_engine = point
+            }
+            let wet = 0
+    
+            if(fightUI.toggle.isPointInside(TIP_engine)){
+                wet = 1
+            }
+            if(false){
+            }else{
+                for(let t = 0;t<pomaos.length;t++){
+                    if(pomaos[t].body.isPointInside(TIP_engine)){
+                        UI = new GardenStatUI(pomaos[t])
+                        wet = 1
+                    }
+                }
+                if(fightUI.display == 1 || fightUI.display == 0){
+                    if(fightUI.racebutton.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                        fightUI.setBeginnerRace()
+                        // console.log("in3")
+                        wet = 1
+                    }
+                    if(fightUI.racebutton2.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                        fightUI.setHyperFight()
+                        // console.log("in3")
+                        wet = 1
+                    }
+
+                    
+                    if(fightUI.fightbutton.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                        fightUI.setLearnersRace()
+                        wet = 1
+                    }                    
+                    if(fightUI.fightbutton2.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                        fightUI.setMegaFight()
+                        wet = 1
+                    }
+                    if(fightUI.dancebutton.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                        fightUI.setMediumRace()
+                    }
+                    if(fightUI.dancebutton2.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                        fightUI.setGigaFight()
+                    }
+                    if(fightUI.schoolbutton.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                        fightUI.setBigRace()
+                    }
+                    if(fightUI.schoolbutton2.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                        fightUI.SetBizzareRace()
+                    }
+                    if(fightUI.doctorbutton.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                        fightUI.setHardRace()
+                    }
+                    if(fightUI.doctorbutton2.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                        fightUI.setUltraFight()
+                    }
+                    if(fightUI.marketbutton.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                        fightUI.setExtremeRace()
+                    }
+                    if(fightUI.marketbutton2.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                        fightUI.setEndlessFight()
+                    }
+                    if(fightUI.leavebutton.isPointInside(TIP_engine)){
+                      gardening = 0
+                      fightUI.display = 0
+
+                      tutorial_canvas_context.restore()
+                // tutorial_canvas_context.translate(pomao.body.x - 640, pomao.body.y - 360)
+                if (level == 1) {
+                    loadlvl2()
+                }else if (level == 2) {
+                    loadlvl3()
+                }else if (level == 3) {
+                    loadlvl4()
+                }else if (level == 4) {
+                    loadlvl13()
+                }else  if (level == 13) {
+                    loadlvl5()
+                }else if (level == 5) {
+                    loadlvl6()
+                }else if (level == 6) {
+                    loadlvl7()
+                }else  if (level == 7) {
+                    loadlvl8()
+                }else if (level == 8) {
+                    loadlvl9()
+                }else if (level == 9) {
+                    loadlvl10()
+                }else if (level == 10) {
+                    loadlvl11()
+                }else  if (level == 11) {
+                    loadIslandLevel()
+                }else if (level == 12) {
+                    loadlvl13()
+                }else  if (level == 13) {
+                    loadMarshLevel()
+                }else  if (level == 14) {
+                    loadFactoryLevel()
+                }else if (level == 15) {
+                    loadCapitalCity()
+                }else if (level == 16) {
+                    loadABigPileOfGarbage()
+                }else  if (level == 17) {
+                    // loadCargoTrain()
+                }else  if (level == 18) {
+
+                }
+                    }
+                    if(fightUI.closebutton.isPointInside(TIP_engine)){
+                        fightUI.display = 0
+                    }
+    
+                    if(fightUI.timer <=0 ){
+                        if(fightUI.toggle.isPointInside(TIP_engine)){
+                            fightUI.display = 0
+                            fightUI.timer = 20
+                        }
+                    }
+                }else{
+    
+                    if(fightUI.timer <=0){
+                    if(fightUI.toggle.isPointInside(TIP_engine)){
+                        wet = 1
+                        fightUI.display = 1
+                        fightUI.timer = 20
+                    }
+                }else{
+                    wet = 1
+                }
+                }
+            }
+            
+            // if(wet == 0){
+            //     if(typeof UI.pomao != 'undefined'){
+            //         if(global.racing == 0 && global.fighting == 0 && aRelease == true ){ //nodraw?
+            //             UI.pomao.selected = 0
+            //         }
+            //     }
+            //     UI = {}
+            //     UI.draw = empty
+            // }
+            }
+    
+            console.log(global, UI)
         }
     
         function interact(point = 0){
@@ -34826,6 +35760,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                     if(gardenmenu.fightbutton.isPointInside(TIP_engine)){
                         gardenmenu.display = 0
+                        global.displayFightUI = 1
                         gardenmenu.goToFight()
                         wet = 1
                     }
