@@ -9,6 +9,8 @@
         spinsheet.src = '128spim.png'
         const pointerimg = new Image()
         pointerimg.src = 'pointer.png'
+        const pointerimgs = new Image()
+        pointerimgs.src = 'pointers.png'
         const grabberimg = new Image()
         grabberimg.src = 'grabber.png'
         const hottubimg = new Image()
@@ -15773,12 +15775,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.clip = 1
             this.warpspeed = 1
             this.megg = 1
+            // pomao.crystal = 1
         }
     }
 
     let cheats = new Cheatcodes()
     // cheats.zoomout()
-    // cheats.cheat()
+    cheats.cheat()
     // cheats.flip()
     const pomao = new Pomao()
 
@@ -33999,14 +34002,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         global.rt = false
     
         let fruitlist = []
-    //     for(let k = 0;k<89;k++){
-    //     for(let t = 0;t<89;t++){
-    //         let ypers = {}
-    //         ypers.type = t%10
-    //         ypers.type2 = Math.floor(t/10)
-    //         fruitlist.push(ypers)
-    //     }
-    // }
+        for(let k = 0;k<89;k++){
+        for(let t = 0;t<89;t++){
+            let ypers = {}
+            ypers.type = t%10
+            ypers.type2 = Math.floor(t/10)
+            fruitlist.push(ypers)
+        }
+    }
     
         class GardenHottub{
             constructor(x,y){
@@ -34957,11 +34960,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         global.challengers[t].fight()
                     }
                 }
-                if(this.attacktimeout>32+(global.challengers.length*(10-(Math.log10(this.stats[3]-1))))){
+                if(this.attacktimeout>32+(global.challengers.length*(10-(Math.max(Math.log10(this.stats[3]-1),0))))){
                     this.turn = true
                 }
                 }
-    
+                if(this.attacktimeout>170){
+                    this.turn = true
+                }
         
                 this.healthbar = new GardenRectangleStroke(this.body.x-32, this.body.y+39, this.body.radius*2*(this.health/this.maxhealth), 10, `rgb( ${255-(this.health*25)*3},${this.health*25*3}, 0)`)
                 this.healthbar.draw()
@@ -35261,15 +35266,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 }
                 gamepad_control(this.body,5)
                 if(this.grip == 0){
-                     tutorial_canvas_context.drawImage(pointerimg, 0,0, 32, 32, this.body.x-16, this.body.y-16, 32,32)
+                    if(fruitlist.length > 0){
+                        tutorial_canvas_context.drawImage(pointerimgs, 32*((fruitlist[0].type+fruitlist[0].type2)%6),0, 32, 32, this.body.x-16, this.body.y-16, 32,32)
+                    }else{
+                        tutorial_canvas_context.drawImage(pointerimg, 0,0, 32, 32, this.body.x-16, this.body.y-16, 32,32)
+                    }
                 }else{
                     if(typeof UI.pomao != "undefined"){
-                        UI.pomao.body.y = pointer.body.y+30
-                        UI.pomao.body.x = pointer.body.x-9
-                        UI.pomao.centrix.y = pointer.body.y+30
-                        UI.pomao.centrix.x = pointer.body.x-9
-                        UI.pomao.tongue.y = pointer.body.y+30
-                        UI.pomao.tongue.x = pointer.body.x-9
+                        if(global.fighting == 0 && global.racing == 0){
+                            UI.pomao.body.y = pointer.body.y+30
+                            UI.pomao.body.x = pointer.body.x-9
+                            UI.pomao.centrix.y = pointer.body.y+30
+                            UI.pomao.centrix.x = pointer.body.x-9
+                            UI.pomao.tongue.y = pointer.body.y+30
+                            UI.pomao.tongue.x = pointer.body.x-9
+                        }
                     }
                      tutorial_canvas_context.drawImage(grabberimg, 0,0, 32, 32, this.body.x-16, this.body.y-16, 32,32)
     
@@ -35453,6 +35464,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 if(gamepadBPI.buttonsCache.includes("Start")){
                     gardenmenu.display = 1
                 }
+                if(typeof global.fruitgoal == "undefined"){
+                    global.fruitgoal = 0
+                }
+                if(gamepadBPI.buttonsCache.includes("Left-Trigger")){
+                
+                    if(typeof global.countfruit == "undefined"){
+                        global.countfruit = 0
+                    }
+                    global.countfruit++
+                    if(global.countfruit%10 == 0){
+                    global.fruitgoal++
+                    global.fruitgoal%=6
+                    }
+
+                }
+                fruitlist.sort((a,b) => (((a.type+a.type2)%6) == global.fruitgoal) && (((b.type+b.type2)%6) !== global.fruitgoal) ? -1 : 1)
             global.timeloop+=.1
             tutorial_canvas_context.fillStyle = "#AAFFAA"
              tutorial_canvas_context.fillRect(0, 0, tutorial_canvas.width, tutorial_canvas.height)  // refreshes the image
