@@ -35508,7 +35508,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         global.countfruit = 0
                     }
                     global.countfruit++
-                    if(global.countfruit%10 == 0){
+                    if(global.countfruit%16 == 0){
                     global.fruitgoal++
                     global.fruitgoal%=6
                     }
