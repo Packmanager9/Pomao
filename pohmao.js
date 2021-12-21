@@ -25,6 +25,8 @@
         tetrahedron.src = 'gq-sheet.png'
         const dodecahedron = new Image()
         dodecahedron.src = 'dodec3sheet.png'
+        const jobotimg = new Image()
+        jobotimg.src = 'jobotfloor.png'
     
         const flowerAudio = new Audio()
         flowerAudio.src = "lastflower.mp3"
@@ -11690,13 +11692,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 tutorial_canvas_context.drawImage(pawmaoimg, 0, 0, pawmaoimg.width, pawmaoimg.height, 2500, -3040 - (Math.sin(((pomao.timeloop * .75) + 3.14)) * 1.9), 70, pawheight)
 
                 let jawheight = 70 + (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 2)
-                if (pomao.body.x < 1260) {
-                    tutorial_canvas_context.drawImage(jomaoimgl, 0, 0, pawmaoimg.width, pawmaoimg.height, 1225, -1070 - (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 1.9), 70, jawheight)
+                if (pomao.body.x < 1360) {
+                    tutorial_canvas_context.drawImage(jomaoimgl, 0, 0, pawmaoimg.width, pawmaoimg.height, 1325, -1070 - (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 1.9), 70, jawheight)
 
                 } else {
 
-                    tutorial_canvas_context.drawImage(jomaoimg, 0, 0, pawmaoimg.width, pawmaoimg.height, 1225, -1070 - (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 1.9), 70, jawheight)
+                    tutorial_canvas_context.drawImage(jomaoimg, 0, 0, pawmaoimg.width, pawmaoimg.height, 1325, -1070 - (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 1.9), 70, jawheight)
                 }
+
+                tutorial_canvas_context.drawImage(jobotimg, 0, 0, jobotimg.width, jobotimg.height, 975,( (-1070 - (Math.sin(((pomao.timeloop * 1.75) + 3.14)) * 1.9))+jawheight)-jobotimg.height/10, jobotimg.width/10, jobotimg.height/10)
+                
 
 
                 let jawheight2 = 70 + (Math.sin(((pomao.timeloop * 3.75) + 3.14)) * 2)
@@ -21490,7 +21495,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     this.active += 1
                     //this.timerbase
                     if (this.active < this.words.length) {
-                        this.timer = (this.words[this.active].length * 8.5) + 40///this.timerbase
+                        if(this.timerbase != 45){//blur catch
+                            this.timer = (this.words[this.active].length * 8.5) + 40///this.timerbase
+                        }else{
+                            this.timer = this.timerbase
+                        }
                     } else {
                         this.timer = 200
                     }
@@ -21512,6 +21521,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             } else if (this.active == 0) {
                 this.timer = 200
                 this.box = new Rectangle(this.body.x - 50, this.body.y - 50, 20, 38, "white")
+
+            if(this.words[0] == 'INTERACT'){
+                this.body.radius = 130
+                this.box.width = 90
+            }
                 this.box.draw()
                 tutorial_canvas_context.fillStyle = "black";
                 tutorial_canvas_context.font = "14px Arial";
@@ -26833,6 +26847,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                 // if(Math.random()<.5){
                 ////////console.time("frac")
+                if (fractal.sheet < 0) {
+                    fractal.sheet = 0
+                }
+                if (pomao.triptype == 1) {
+
                 const sheetwidtht = zimgs[0].width
                 const sheetheightt = zimgs[0].height
                 const colst = 3
@@ -26842,12 +26861,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 const srcxt = Math.floor(fractal.runnerx % colst) * widtht
                 const srcyt = Math.floor(fractal.runnery % rowst) * heightt
 
-                if (fractal.sheet < 0) {
-                    fractal.sheet = 0
-                }
-                if (pomao.triptype == 1) {
                     tutorial_canvas_context.drawImage(zimgs[fractal.sheet % zimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                 } else {
+
+                const sheetwidtht = izimgs[0].width
+                const sheetheightt = izimgs[0].height
+                const colst = 3
+                const rowst = 3
+                const widtht = sheetwidtht / colst
+                const heightt = sheetheightt / rowst
+                const srcxt = Math.floor(fractal.runnerx % colst) * widtht
+                const srcyt = Math.floor(fractal.runnery % rowst) * heightt
+
                     tutorial_canvas_context.drawImage(izimgs[fractal.sheet % izimgs.length], srcxt, srcyt, widtht, heightt, pomao.body.x - 640, pomao.body.y - 360, 1280, 720)
                 }
             }
@@ -27839,7 +27864,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-        const joblock = new Rectangle(1225, -1070, 90, 60)
+        const joblock = new Rectangle(1325, -1070, 90, 60)
         floors.push(joblock)
         walls.push(joblock)
         roofs.push(joblock)
@@ -27920,11 +27945,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-        let jodialogue = new Dialogue(1225, -1070)
+        let jodialogue = new Dialogue(1355, -1070)
         jodialogue.words.push("Jomao: Pomao!")
         jodialogue.words.push("Jomao: I'd hug you but...")
         jodialogue.words.push("Jomao: Ya know, no arms.")
         chats.push(jodialogue)
+
+
+        let jobotdialogue = new Dialogue(1076, -1095)
+        jobotdialogue.words[0] = 'INTERACT'
+        jobotdialogue.words.push("Jobot: POMAO!")
+        jobotdialogue.words.push("Jobot: I WOULD ALSO HUG YOU AS WELL.")
+        jobotdialogue.words.push("Jobot: HOWEVER ALL OF MY LIMBS ARE CLASSIFIED AS LEGS.")
+        chats.push(jobotdialogue)
+
+
 
         let blurdial = new Dialogue(1245, -1570)
         blurdial.timerbase = 45
