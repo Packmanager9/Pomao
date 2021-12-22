@@ -21,6 +21,12 @@ hottubimgtop.src = 'hottubtop.png'
 const placessheet = new Image()
 placessheet.src = 'places.png'
 
+const stetsonhatimg = new Image()
+stetsonhatimg.src = 'stetsonhat.png'
+const bowlerhatimg = new Image()
+bowlerhatimg.src = 'bowlerhat.png'
+const partyhatimg = new Image()
+partyhatimg.src = 'partyhat.png'
 const tophatimg = new Image()
 tophatimg.src = 'tophat.png'
 const hulaskirtimg = new Image()
@@ -34813,7 +34819,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.mrate = 2
             this.victor = 0
             this.outfit = 0 //outfit
-            this.hat = Math.floor(Math.random()*2) //outfit%2
+            this.hat = Math.floor(Math.random()*5) //outfit%2
             outfit++
         }
         nameGenerator() {
@@ -35010,7 +35016,83 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     }
                 }
             }else if(this.hat == 2){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(partyhatimg,  64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(partyhatimg,  7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(partyhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(partyhatimg,  3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(partyhatimg,  5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(partyhatimg,  4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(partyhatimg,  128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(partyhatimg,  6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(partyhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                }
             }else if(this.hat == 3){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                }
+            }else if(this.hat == 4){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                }
             }
         }
         dress(){
@@ -35487,7 +35569,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     let pomaos = []
 
-    for (let t = 0; t < 2; t++) {
+    for (let t = 0; t < 10; t++) {
         pomaos[t] = new GardenPomaoranian(50 + Math.random() * 1180, 50 + Math.random() * 620)
     }
 
