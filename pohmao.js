@@ -21,6 +21,8 @@ hottubimgtop.src = 'hottubtop.png'
 const placessheet = new Image()
 placessheet.src = 'places.png'
 
+const robinhatimg = new Image()
+robinhatimg.src = 'robinhat.png'
 const stetsonhatimg = new Image()
 stetsonhatimg.src = 'stetsonhat.png'
 const bowlerhatimg = new Image()
@@ -34819,7 +34821,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             this.mrate = 2
             this.victor = 0
             this.outfit = 0 //outfit
-            this.hat = Math.floor(Math.random()*5) //outfit%2
+            this.hat = Math.floor(Math.random()*6) //outfit%2
             outfit++
         }
         nameGenerator() {
@@ -35091,6 +35093,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         tutorial_canvas_context.drawImage(stetsonhatimg,  6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
                     } else {
                         tutorial_canvas_context.drawImage(stetsonhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                }
+            }else if(this.hat == 5){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(robinhatimg,  64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(robinhatimg,  7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(robinhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(robinhatimg,  3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(robinhatimg,  5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(robinhatimg,  4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(robinhatimg,  128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(robinhatimg,  6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(robinhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
                     }
                 }
             }
