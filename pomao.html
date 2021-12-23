@@ -31,6 +31,9 @@
       <aside class="gamepage-left-aside">
         <h2>Pomao's Quest!</h2>
         <ul>
+          <!-- <a id="exportJSON" onclick="exportJson(this);" class="btn"><i class="icon-download"></i> export savefile</a> -->
+          <button id="savebutton">Save</button>
+          <input type="file" id="input" single>
           <li> T to mute or unmute the music</li> 
           <li> E/right-trigger to talk to characters</li> 
           <li> WAD to Steer</li> 
@@ -85,4 +88,16 @@
     </footer>
 
   </div>
+  <script>
+  
+    // function exportJson(){
+    //     // encoder.compile()
+    //     var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(savefile));
+    //     // what to return in order to show download window?
+    
+    //     el.setAttribute("href", "data:"+data);
+    //     el.setAttribute("download", "data.json");    
+    // }
+
+  </script>
 </html>
