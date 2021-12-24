@@ -34426,10 +34426,24 @@ function logFile (event) {
 
         }
         goToMarket() {
-            if (typeof UI.pomao != "undefined") {
+            if (typeof UI.pomao == "undefined") {
+                UI.pomao = pomaos[0]
+            }
+            if (typeof UI.pomao.health == "undefined") {
                 UI.pomao = pomaos[0]
             }
 
+            console.log('hit')
+            UI.pomao.scale = 2
+            console.log(UI.pomao)
+            UI.pomao.body.x = 1050
+            UI.pomao.body.y = 350
+            UI.pomao.centrix.x = 1050
+            UI.pomao.centrix.y = 350
+            UI.pomao.tongue.x = 1050
+            UI.pomao.tongue.y = 350
+            global.market = 1
+            global.shop = -1
         }
     }
 
@@ -34905,6 +34919,7 @@ function logFile (event) {
     let outfit = 0
     class GardenPomaoranian {
         constructor(x, y) {
+            this.scale = 1
             this.target = {}
             this.target.agent = {}
             this.target.agent.body = {}
@@ -35064,6 +35079,7 @@ function logFile (event) {
             return name
         }
         draw() {
+            // this.scale = 1
             if (Math.random() < .001) {
                 this.tublike = Math.floor(Math.random() * 2)
             }
@@ -35085,27 +35101,27 @@ function logFile (event) {
             }
             if (this.xdir == 1) {
                 if (this.ydir == 1) {
-                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 64, 0 + (this.type * 64), 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 64, 0 + (this.type * 64), 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), 64*this.scale, 64*this.scale)
                 } else if (this.ydir == -1) {
-                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 7 * 64, 0 + (this.type * 64), 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 7 * 64, 0 + (this.type * 64), 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), 64*this.scale, 64*this.scale)
                 } else {
-                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 0, 0 + (this.type * 64), 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 0, 0 + (this.type * 64), 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), 64*this.scale, 64*this.scale)
                 }
             } else if (this.xdir == -1) {
                 if (this.ydir == 1) {
-                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 3 * 64, 0 + (this.type * 64), 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 3 * 64, 0 + (this.type * 64), 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), 64*this.scale, 64*this.scale)
                 } else if (this.ydir == -1) {
-                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 5 * 64, 0 + (this.type * 64), 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 5 * 64, 0 + (this.type * 64), 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), 64*this.scale, 64*this.scale)
                 } else {
-                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 4 * 64, 0 + (this.type * 64), 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 4 * 64, 0 + (this.type * 64), 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), 64*this.scale, 64*this.scale)
                 }
             } else {
                 if (this.ydir == 1) {
-                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 128, 0 + (this.type * 64), 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 128, 0 + (this.type * 64), 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), 64*this.scale, 64*this.scale)
                 } else if (this.ydir == -1) {
-                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 6 * 64, 0 + (this.type * 64), 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 6 * 64, 0 + (this.type * 64), 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), 64*this.scale, 64*this.scale)
                 } else {
-                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 0, 0 + (this.type * 64), 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    tutorial_canvas_context.drawImage(spinsheet, (this.rarity * 512) + 0, 0 + (this.type * 64), 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), 64*this.scale, 64*this.scale)
                 }
             }
             this.dress()
@@ -35120,417 +35136,417 @@ function logFile (event) {
             }else if(this.hat == 1){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(tophatimg,  64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(tophatimg,  64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(tophatimg,  7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(tophatimg,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(tophatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(tophatimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(tophatimg,  3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(tophatimg,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(tophatimg,  5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(tophatimg,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(tophatimg,  4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(tophatimg,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(tophatimg,  128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(tophatimg,  128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(tophatimg,  6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(tophatimg,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(tophatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(tophatimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 2){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(partyhatimg,  64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(partyhatimg,  64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(partyhatimg,  7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(partyhatimg,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(partyhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(partyhatimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(partyhatimg,  3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(partyhatimg,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(partyhatimg,  5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(partyhatimg,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(partyhatimg,  4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(partyhatimg,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(partyhatimg,  128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(partyhatimg,  128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(partyhatimg,  6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(partyhatimg,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(partyhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(partyhatimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 3){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(bowlerhatimg,  64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(bowlerhatimg,  7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(bowlerhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(bowlerhatimg,  3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(bowlerhatimg,  5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(bowlerhatimg,  4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(bowlerhatimg,  128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(bowlerhatimg,  6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(bowlerhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bowlerhatimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 4){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(stetsonhatimg,  64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(stetsonhatimg,  7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(stetsonhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(stetsonhatimg,  3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(stetsonhatimg,  5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(stetsonhatimg,  4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(stetsonhatimg,  128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(stetsonhatimg,  6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(stetsonhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(stetsonhatimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 5){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(robinhatimg,  64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(robinhatimg,  64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(robinhatimg,  7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(robinhatimg,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(robinhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(robinhatimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(robinhatimg,  3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(robinhatimg,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(robinhatimg,  5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(robinhatimg,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(robinhatimg,  4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(robinhatimg,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(robinhatimg,  128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(robinhatimg,  128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(robinhatimg,  6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(robinhatimg,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(robinhatimg,  0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(robinhatimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 6){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(clownhairimg, -1.5+ 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(clownhairimg, -(1.5*this.scale)+ 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(clownhairimg, -1.5+ 7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(clownhairimg, -(1.5*this.scale)+ 7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(clownhairimg, -1.5+ 0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(clownhairimg, -(1.5*this.scale)+ 0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(clownhairimg, -1.5+ 3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(clownhairimg, -(1.5*this.scale)+ 3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(clownhairimg, -1.5+ 5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(clownhairimg, -(1.5*this.scale)+ 5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(clownhairimg, -1.5+ 4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(clownhairimg, -(1.5*this.scale)+ 4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(clownhairimg, -1.5+ 128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(clownhairimg, -(1.5*this.scale)+ 128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(clownhairimg, -1.5+ 6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(clownhairimg, -(1.5*this.scale)+ 6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(clownhairimg, -1.5+ 0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(clownhairimg, -(1.5*this.scale)+ 0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 7){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(lamphatimg, 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(lamphatimg, 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(lamphatimg, 7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(lamphatimg, 7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(lamphatimg, 0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(lamphatimg, 0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(lamphatimg, 3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(lamphatimg, 3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(lamphatimg, 5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(lamphatimg, 5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(lamphatimg, 4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(lamphatimg, 4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(lamphatimg, 128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(lamphatimg, 128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(lamphatimg, 6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(lamphatimg, 6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(lamphatimg, 0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(lamphatimg, 0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 8){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(ricehatimg, -1+ 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(ricehatimg, -(1*this.scale)+ 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(ricehatimg, -1+ 7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(ricehatimg, -(1*this.scale)+ 7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(ricehatimg, -1+ 0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(ricehatimg, -(1*this.scale)+ 0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(ricehatimg, -1+ 3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(ricehatimg, -(1*this.scale)+ 3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(ricehatimg, -1+ 5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(ricehatimg, -(1*this.scale)+ 5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(ricehatimg, -1+ 4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(ricehatimg, -(1*this.scale)+ 4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(ricehatimg, -1+ 128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(ricehatimg, -(1*this.scale)+ 128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(ricehatimg, -1+ 6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(ricehatimg, -(1*this.scale)+ 6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(ricehatimg, -1+ 0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(ricehatimg, -(1*this.scale)+ 0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 9){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(mushroomhatimg,64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(mushroomhatimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(mushroomhatimg,7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(mushroomhatimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(mushroomhatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(mushroomhatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(mushroomhatimg,3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(mushroomhatimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(mushroomhatimg,5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(mushroomhatimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(mushroomhatimg,4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(mushroomhatimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(mushroomhatimg,128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(mushroomhatimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(mushroomhatimg,6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(mushroomhatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(mushroomhatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(mushroomhatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 10){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sombrerohatimg,64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(sombrerohatimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sombrerohatimg,7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(sombrerohatimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sombrerohatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(sombrerohatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sombrerohatimg,3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(sombrerohatimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sombrerohatimg,5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(sombrerohatimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sombrerohatimg,4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(sombrerohatimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sombrerohatimg,128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(sombrerohatimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sombrerohatimg,6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(sombrerohatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sombrerohatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(sombrerohatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 11){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(fezhatimg,64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(fezhatimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(fezhatimg,7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(fezhatimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(fezhatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(fezhatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(fezhatimg,3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(fezhatimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(fezhatimg,5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(fezhatimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(fezhatimg,4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(fezhatimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(fezhatimg,128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(fezhatimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(fezhatimg,6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(fezhatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(fezhatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(fezhatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 12){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(panamahatimg,64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(panamahatimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(panamahatimg,7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(panamahatimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(panamahatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(panamahatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(panamahatimg,3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(panamahatimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(panamahatimg,5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(panamahatimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(panamahatimg,4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(panamahatimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(panamahatimg,128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(panamahatimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(panamahatimg,6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(panamahatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(panamahatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(panamahatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 13){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(pinkringshatimg,64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pinkringshatimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(pinkringshatimg,7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pinkringshatimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(pinkringshatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pinkringshatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(pinkringshatimg,3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pinkringshatimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(pinkringshatimg,5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pinkringshatimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(pinkringshatimg,4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pinkringshatimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(pinkringshatimg,128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pinkringshatimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(pinkringshatimg,6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pinkringshatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(pinkringshatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pinkringshatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 14){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(bluehairimg,64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bluehairimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(bluehairimg,7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bluehairimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(bluehairimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bluehairimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(bluehairimg,3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bluehairimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(bluehairimg,5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bluehairimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(bluehairimg,4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bluehairimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(bluehairimg,128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bluehairimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(bluehairimg,6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bluehairimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(bluehairimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(bluehairimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 15){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(pothatimg,64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pothatimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(pothatimg,7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pothatimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(pothatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pothatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(pothatimg,3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pothatimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(pothatimg,5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pothatimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(pothatimg,4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pothatimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(pothatimg,128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pothatimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(pothatimg,6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pothatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(pothatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(pothatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.hat == 16){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(whitehairimg,64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(whitehairimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(whitehairimg,7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(whitehairimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(whitehairimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(whitehairimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(whitehairimg,3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(whitehairimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(whitehairimg,5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(whitehairimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(whitehairimg,4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(whitehairimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(whitehairimg,128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(whitehairimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(whitehairimg,6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(whitehairimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(whitehairimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                        tutorial_canvas_context.drawImage(whitehairimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }
@@ -35543,209 +35559,209 @@ function logFile (event) {
             }else if(this.outfit == 1){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(hulaskirtimg,  64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(hulaskirtimg,  64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(hulaskirtimg,  7 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(hulaskirtimg,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(hulaskirtimg,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(hulaskirtimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(hulaskirtimg,  3 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(hulaskirtimg,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(hulaskirtimg,  5 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(hulaskirtimg,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(hulaskirtimg,  4 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(hulaskirtimg,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(hulaskirtimg,  128, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(hulaskirtimg,  128, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(hulaskirtimg,  6 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(hulaskirtimg,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(hulaskirtimg,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(hulaskirtimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.outfit == 2){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg,  64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg,  64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg,  7 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg,  3 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg,  5 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg,  4 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg,  128, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg,  128, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg,  6 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.outfit == 3){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(cheeseimg,  64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(cheeseimg,  64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(cheeseimg,  7 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(cheeseimg,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(cheeseimg,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(cheeseimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(cheeseimg,  3 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(cheeseimg,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(cheeseimg,  5 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(cheeseimg,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(cheeseimg,  4 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(cheeseimg,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(cheeseimg,  128, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(cheeseimg,  128, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(cheeseimg,  6 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(cheeseimg,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(cheeseimg,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(cheeseimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.outfit == 4){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg2,  64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg2,  64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg2,  7 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg2,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg2,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg2,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg2,  3 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg2,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg2,  5 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg2,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg2,  4 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg2,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg2,  128, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg2,  128, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg2,  6 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg2,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg2,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg2,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.outfit == 5){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg3,  64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg3,  64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg3,  7 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg3,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg3,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg3,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg3,  3 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg3,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg3,  5 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg3,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg3,  4 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg3,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg3,  128, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg3,  128, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg3,  6 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg3,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg3,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg3,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.outfit == 6){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg4,  64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg4,  64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg4,  7 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg4,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg4,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg4,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg4,  3 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg4,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg4,  5 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg4,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg4,  4 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg4,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg4,  128, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg4,  128, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg4,  6 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg4,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg4,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg4,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.outfit == 7){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg5,  64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg5,  64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg5,  7 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg5,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg5,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg5,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg5,  3 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg5,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg5,  5 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg5,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg5,  4 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg5,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(sweaterimg5,  128, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg5,  128, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(sweaterimg5,  6 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg5,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(sweaterimg5,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(sweaterimg5,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }else if(this.outfit == 14){
                 if (this.xdir == 1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(capeimg,  64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(capeimg,  64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(capeimg,  7 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(capeimg,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(capeimg,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(capeimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else if (this.xdir == -1) {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(capeimg,  3 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(capeimg,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(capeimg,  5 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(capeimg,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(capeimg,  4 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(capeimg,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 } else {
                     if (this.ydir == 1) {
-                        tutorial_canvas_context.drawImage(capeimg,  128, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(capeimg,  128, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else if (this.ydir == -1) {
-                        tutorial_canvas_context.drawImage(capeimg,  6 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(capeimg,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     } else {
-                        tutorial_canvas_context.drawImage(capeimg,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                        tutorial_canvas_context.drawImage(capeimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }
@@ -36090,6 +36106,7 @@ function logFile (event) {
         draw(){
 
             if(this.hatch == 2){
+                pomaos.splice(pomaos.indexOf(this), 1)
                 this.body.x = -100000
                 this.body.y = -100000
                 this.body.radius = .1
@@ -36112,7 +36129,7 @@ function logFile (event) {
 
     let pomaos = []
 
-    for (let t = 0; t < 1; t++) {
+    for (let t = 0; t < 17; t++) {
         pomaos[t] = new GardenPomaoEgg(50 + Math.random() * 1180, 50 + Math.random() * 620)
     }
 
