@@ -21,6 +21,14 @@ hottubimgtop.src = 'hottubtop.png'
 const placessheet = new Image()
 placessheet.src = 'places.png'
 
+
+
+const whitehairimg = new Image()
+whitehairimg.src = 'whitehairhat.png'
+const bluehairimg = new Image()
+bluehairimg.src = 'bluehairhat.png'
+const pothatimg = new Image()
+pothatimg.src = 'pothat.png'
 const pinkringshatimg = new Image()
 pinkringshatimg.src = 'pinkringshat.png'
 const panamahatimg = new Image()
@@ -61,6 +69,8 @@ const sweaterimg5 = new Image()
 sweaterimg5.src = 'sweater8.png'
 const cheeseimg = new Image()
 cheeseimg.src = 'cheese2.png'
+const capeimg = new Image()
+capeimg.src = 'capeoutfit.png'
 const tetrahedron = new Image()
 tetrahedron.src = 'gq-sheet.png'
 const dodecahedron = new Image()
@@ -594,6 +604,11 @@ pomaoimgb.src = 'newb.png'
 const pomaoimgbg = new Image()
 pomaoimgbg.src = 'pomaobg.png'
 
+
+const eggsimg = new Image()
+eggsimg.src = 'eggs.png'
+const gardenegg2 = new Image()
+gardenegg2.src = 'gardenegg2.png'
 const seedegg = new Image()
 seedegg.src = 'seedeggpaint3.png'
 const seedeggf = new Image()
@@ -1137,7 +1152,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const loadbutton = document.getElementById("input");
 
     savebutton.onclick = downloadsave
-    loadbutton.onchange = loadsave
+    // loadbutton.onchange = loadsave
+
+
+let form = document.querySelector('#upload');
+let file = document.querySelector('#file');
+
+form.addEventListener('submit', handleSubmit);
 
 function download(content, fileName, contentType) {
     const a = document.createElement("a");
@@ -1147,14 +1168,71 @@ function download(content, fileName, contentType) {
     a.click();
    }
 
-   
-   function loadsave(e){
-    // console.log(e)
-    // let reader = new FileReader()
-    // let data = reader.readAsText(e.target.files)
-    //    console.log(data)
-    //    savefile = JSON.parse(data)
-   }
+
+
+function handleSubmit (event) {
+
+	// Stop the form from reloading the page
+	event.preventDefault();
+
+	// If there's no file, do nothing
+	if (!file.value.length) return;
+
+	// Create a new FileReader() object
+	let reader = new FileReader();
+
+	// Setup the callback event to run when the file is read
+	reader.onload = logFile;
+
+	// Read the file
+	reader.readAsText(file.files[0]);
+
+}
+
+
+function logFile (event) {
+	let str = event.target.result;
+	let json = JSON.parse(str);
+    let pomaosto = []
+    for(let t = 0;t<json.pomaos.length;t++){
+        let dummymao = new GardenPomaoranian(json.pomaos[t].body.x, json.pomaos[t].body.y)
+        let keys = Object.keys(json.pomaos[t])
+        for(let k = 0;k<keys.length;k++){
+            if(keys[k] != 'tongue' && keys[k] != 'centrix' && keys[k] != 'body'&& keys[k] != 'link'){
+                dummymao[keys[k]] = json.pomaos[t][keys[k]] 
+            }
+        }
+        pomaosto.push(dummymao)
+    }
+    pomaos = [...pomaosto]
+}
+
+//    function readTextFile(file, callback) {
+//     var rawFile = new XMLHttpRequest();
+//     rawFile.overrideMimeType("application/json");
+//     rawFile.open("GET", file, true);
+//     rawFile.onreadystatechange = function() {
+//         if (rawFile.readyState === 4 && rawFile.status == "200") {
+//             callback(rawFile.responseText);
+//         }
+//     }
+//     rawFile.send(null);
+// }
+
+// //usage:
+// readTextFile("/Users/Documents/workspace/test.json", function(text){
+//     var data = JSON.parse(text);
+//     console.log(data);
+// });
+
+
+//    function loadsave(e){
+//     console.log(e)
+//     let reader = new FileReader()
+//     let data = reader.result(e.target.files)
+//        console.log(data)
+//        savefile = JSON.parse(data)
+//    }
 
     function downloadsave(){
         download(JSON.stringify(savefile), "PomaoSave.json", "text/plain");
@@ -34248,6 +34326,7 @@ function download(content, fileName, contentType) {
             tutorial_canvas_context.font = "18px Arial";
             tutorial_canvas_context.fillStyle = 'yellow'
             tutorial_canvas_context.strokeStyle = 'black'
+            tutorial_canvas_context.lineWidth = 4
             tutorial_canvas_context.strokeText("Poney: " + Math.floor(this.poney), 1120, 20)
             tutorial_canvas_context.strokeText("Fruit: " + Math.floor(fruitlist.length), 1120, 40)
             tutorial_canvas_context.fillText("Poney: " + Math.floor(this.poney), 1120, 20)
@@ -35376,6 +35455,84 @@ function download(content, fileName, contentType) {
                         tutorial_canvas_context.drawImage(pinkringshatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
                     }
                 }
+            }else if(this.hat == 14){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(bluehairimg,64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(bluehairimg,7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(bluehairimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(bluehairimg,3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(bluehairimg,5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(bluehairimg,4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(bluehairimg,128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(bluehairimg,6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(bluehairimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                }
+            }else if(this.hat == 15){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(pothatimg,64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(pothatimg,7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(pothatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(pothatimg,3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(pothatimg,5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(pothatimg,4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(pothatimg,128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(pothatimg,6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(pothatimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                }
+            }else if(this.hat == 16){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(whitehairimg,64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(whitehairimg,7 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(whitehairimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(whitehairimg,3 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(whitehairimg,5 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(whitehairimg,4 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(whitehairimg,128, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(whitehairimg,6 * 64, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(whitehairimg,0, 0 , 64, 64, this.body.x - 32, (this.body.y - 32) - 11, 64, 64)
+                    }
+                }
             }
             
         }
@@ -35563,6 +35720,32 @@ function download(content, fileName, contentType) {
                         tutorial_canvas_context.drawImage(sweaterimg5,  6 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
                     } else {
                         tutorial_canvas_context.drawImage(sweaterimg5,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    }
+                }
+            }else if(this.outfit == 14){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(capeimg,  64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(capeimg,  7 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(capeimg,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(capeimg,  3 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(capeimg,  5 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(capeimg,  4 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(capeimg,  128, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(capeimg,  6 * 64, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
+                    } else {
+                        tutorial_canvas_context.drawImage(capeimg,  0, 0 , 64, 64, this.body.x - 32, this.body.y - 32, 64, 64)
                     }
                 }
             }
@@ -35851,10 +36034,86 @@ function download(content, fileName, contentType) {
         // }
     }
 
+
+    let eggtype = 0
+    class GardenPomaoEgg{
+        constructor(x,y){
+            this.body = new Circle(x,y, 32, "transparent")
+            this.hatch = 0
+
+
+
+
+            this.target = {}
+            this.target.agent = {}
+            this.target.agent.body = {}
+            this.target.agent.body.y = 1200
+            this.target.agent.body.x = 1200
+            this.turn = true
+            this.name = 'Egg'
+            this.width = 35 + (Math.random() * 5)
+            this.height = this.width
+            this.body = new GardenCircle(x, y, 16, "transparent", 0, 0, 1, 1)
+            this.body.x = x
+            this.body.y = y //- (this.height - 1)
+            this.body.radius = 32 //- (this.height - 1)
+            this.dir = 0
+            this.rate = Math.random() + 1
+            this.type = Math.floor(Math.random() * 300)
+            this.tonguecolor = getRandomColor()
+            this.centrix = new GardenCircle(this.body.x, this.body.y + 5, 3, this.tonguecolor)
+            this.tongue = new GardenCircle(this.body.x, this.body.y + 5, 5, this.tonguecolor, 0, 0, .5)
+            this.link = new GardenLineOP(this.centrix, this.tongue, this.tonguecolor, 3)
+            this.xdir = 0
+            this.ydir = 0
+            this.tublike = Math.floor(Math.random() * 2)
+            this.type = eggtype
+            eggtype++
+            this.type += (1 / 64)
+            this.rarity = 0 //Math.floor(Math.random()*4)
+            for (let t = 0; t < 4; t++) {
+                if (Math.random() < .2) {
+                    this.rarity++
+                }
+            }
+
+            this.stats = [1, 1, 1, 1, 1, 1]
+            // this.stats = [999,999,999,999,999,999]
+            this.exps = [0, 0, 0, 0, 0, 0]
+            this.count = 0
+            this.rate = 4
+            this.mrate = 2
+            this.victor = 0
+            this.outfit = outfit
+            this.hat = outfit// Math.floor(Math.random()*10) //outfit%2
+        }
+        draw(){
+
+            if(this.hatch == 2){
+                this.body.x = -100000
+                this.body.y = -100000
+                this.body.radius = .1
+                return
+            }
+            tutorial_canvas_context.drawImage(eggsimg, this.type*128,this.rarity*128,128,128, this.body.x-32,this.body.y-32,64,64)
+            if(keysPressed['h']){
+                if(Math.random()<.05){
+                    this.hatch = 1
+                }
+            }
+
+            if(this.hatch == 1){
+                this.hatch = 2
+                this.pomao = new GardenPomaoranian(this.body.x,this.body.y)
+                pomaos.push(this.pomao)
+            }
+        }
+    }
+
     let pomaos = []
 
-    for (let t = 0; t < 17; t++) {
-        pomaos[t] = new GardenPomaoranian(50 + Math.random() * 1180, 50 + Math.random() * 620)
+    for (let t = 0; t < 1; t++) {
+        pomaos[t] = new GardenPomaoEgg(50 + Math.random() * 1180, 50 + Math.random() * 620)
     }
 
     let gfruits = []
