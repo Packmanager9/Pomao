@@ -23,8 +23,14 @@ placessheet.src = 'places.png'
 
 
 
+const homburghatimg = new Image()
+homburghatimg.src = 'featherhearthat.png'
+const kufihatimg = new Image()
+kufihatimg.src = 'kufihat.png'
 const whitehairimg = new Image()
 whitehairimg.src = 'whitehairhat.png'
+const santahatimg = new Image()
+santahatimg.src = 'santahat.png'
 const bluehairimg = new Image()
 bluehairimg.src = 'bluehairhat.png'
 const pothatimg = new Image()
@@ -115,7 +121,7 @@ const level10basemusic = new Audio('snow.mp3');
 const targoymusic = new Audio('pomo3.mp3');
 const lvl6music = new Audio('mountainsong.mp3');
 
-let songs = [lvl6music, targoymusic, level10basemusic, spidermusic, lvl6bossmusic, lvl5basemusic, lvl4bossmusic, level3basemusic, lvl4basemusic, lvl7bosssong, lvl9basemusic, lvl2basemusic, lvl1basemusic, lvl4fifthsbasemusic, risingseaside, volcanobootupmusic, islandsongmusic2, islandsongmusic1, marshMusic, factorybossmusic, factorymusic, rebelbasemusic, cityscapemusic]
+let songs = [trashheapmusic,trashbossmusic, lvl6music, targoymusic, level10basemusic, spidermusic, lvl6bossmusic, lvl5basemusic, lvl4bossmusic, level3basemusic, lvl4basemusic, lvl7bosssong, lvl9basemusic, lvl2basemusic, lvl1basemusic, lvl4fifthsbasemusic, risingseaside, volcanobootupmusic, islandsongmusic2, islandsongmusic1, marshMusic, factorybossmusic, factorymusic, rebelbasemusic, cityscapemusic]
 let mute = -1
 let mutetimer = 1
 
@@ -34965,6 +34971,9 @@ function logFile (event) {
             this.hat = outfit// Math.floor(Math.random()*10) //outfit%2
             outfit++
         }
+        clean(){
+
+        }
         nameGenerator() {
             let name = ''
             let random = Math.floor(Math.random() * 4) + 1
@@ -35549,6 +35558,84 @@ function logFile (event) {
                         tutorial_canvas_context.drawImage(whitehairimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
+            }else if(this.hat == 17){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(santahatimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(santahatimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(santahatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(santahatimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(santahatimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(santahatimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(santahatimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(santahatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(santahatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                }
+            }else if(this.hat == 18){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(kufihatimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(kufihatimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(kufihatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(kufihatimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(kufihatimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(kufihatimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(kufihatimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(kufihatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(kufihatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                }
+            }else if(this.hat == 19){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(homburghatimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(homburghatimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(homburghatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(homburghatimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(homburghatimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(homburghatimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(homburghatimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(homburghatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(homburghatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                }
             }
             
         }
@@ -36103,10 +36190,15 @@ function logFile (event) {
             this.outfit = outfit
             this.hat = outfit// Math.floor(Math.random()*10) //outfit%2
         }
+        clean(){
+            if(this.hatch == 2){
+                pomaos.splice(pomaos.indexOf(this), 1)
+                return
+            }
+        }
         draw(){
 
             if(this.hatch == 2){
-                pomaos.splice(pomaos.indexOf(this), 1)
                 this.body.x = -100000
                 this.body.y = -100000
                 this.body.radius = .1
@@ -36129,7 +36221,7 @@ function logFile (event) {
 
     let pomaos = []
 
-    for (let t = 0; t < 17; t++) {
+    for (let t = 0; t < 20; t++) {
         pomaos[t] = new GardenPomaoEgg(50 + Math.random() * 1180, 50 + Math.random() * 620)
     }
 
@@ -36412,6 +36504,7 @@ function logFile (event) {
 
                 }
                 fruitlist.sort((a, b) => (((a.type + a.type2) % 6) == global.fruitgoal) && (((b.type + b.type2) % 6) !== global.fruitgoal) ? -1 : 1)
+                pomaos.sort((a, b) => (a.body.y < b.body.y) ? -1 : 1)
                 global.timeloop += .1
                 tutorial_canvas_context.fillStyle = "#AAFFAA"
                 tutorial_canvas_context.fillRect(0, 0, tutorial_canvas.width, tutorial_canvas.height)  // refreshes the image
@@ -36458,7 +36551,9 @@ function logFile (event) {
                         pomaos[t].draw()
                     }
                 }
-
+                for (let t = 0; t < pomaos.length; t++) {
+                    pomaos[t].clean()
+                }
                 savefile.pomaos = [...pomaos]
                 if (gamepadBPI.buttonsCache.includes("A") || gamepadBPI.buttonsCache.includes("B")) {
                     global.aFight = true
