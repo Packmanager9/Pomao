@@ -23,6 +23,10 @@ placessheet.src = 'places.png'
 
 
 
+const flatcaphatimg = new Image()
+flatcaphatimg.src = 'flatcaphat.png'
+const sugarloafhatimg = new Image()
+sugarloafhatimg.src = 'sugarloafhat.png'
 const homburghatimg = new Image()
 homburghatimg.src = 'featherhearthat.png'
 const kufihatimg = new Image()
@@ -77,6 +81,8 @@ const cheeseimg = new Image()
 cheeseimg.src = 'cheese2.png'
 const capeimg = new Image()
 capeimg.src = 'capeoutfit.png'
+const santaimg = new Image()
+santaimg.src = 'santaoutfit.png'
 const tetrahedron = new Image()
 tetrahedron.src = 'gq-sheet.png'
 const dodecahedron = new Image()
@@ -35636,6 +35642,58 @@ function logFile (event) {
                         tutorial_canvas_context.drawImage(homburghatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
+            }else if(this.hat == 20){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(sugarloafhatimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(sugarloafhatimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(sugarloafhatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(sugarloafhatimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(sugarloafhatimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(sugarloafhatimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(sugarloafhatimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(sugarloafhatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(sugarloafhatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                }
+            }else if(this.hat == 21){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(flatcaphatimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(flatcaphatimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(flatcaphatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(flatcaphatimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(flatcaphatimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(flatcaphatimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(flatcaphatimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(flatcaphatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(flatcaphatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                }
             }
             
         }
@@ -35851,7 +35909,34 @@ function logFile (event) {
                         tutorial_canvas_context.drawImage(capeimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
+            }else if(this.outfit == 15){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(santaimg,  64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(santaimg,  7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(santaimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(santaimg,  3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(santaimg,  5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(santaimg,  4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(santaimg,  128, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(santaimg,  6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(santaimg,  0, 0 , 64, 64, this.body.x - (32*this.scale), this.body.y - (32*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                }
             }
+            
         }
         fight() {
 
@@ -36221,7 +36306,7 @@ function logFile (event) {
 
     let pomaos = []
 
-    for (let t = 0; t < 20; t++) {
+    for (let t = 0; t < 25; t++) {
         pomaos[t] = new GardenPomaoEgg(50 + Math.random() * 1180, 50 + Math.random() * 620)
     }
 
