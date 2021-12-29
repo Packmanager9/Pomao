@@ -9048,10 +9048,12 @@ function logFile (event) {
     }
     class Pomao {
         constructor() {
+            this.pote = 0 
             this.crystal = 0
             this.snowcounter = 0
             this.wallcounter = 0
             this.wavecounter = 0
+            this.potecounter = 0
             this.gearcounter = 0
             this.pulsecounter = 0
             this.slopocounter = 0
@@ -11806,6 +11808,11 @@ function logFile (event) {
                         pomao.cutscene = 1
                         chats[0].words = ["talk"]
                         chats[0].words.push("Pomao, would you mind cleaning the fruits out of the back yard?")
+                        if(pomao.pote == 1){
+                            chats[0].words.push("Looks like you have Pote with you, how about taking him for a walk?")
+                        }else{
+                            chats[0].words.push("Oh, and can you take Pote for a walk?")
+                        }
                     } else {
                         pomao.cutscene = 0
                         pomao.disabled = 0
@@ -11895,9 +11902,19 @@ function logFile (event) {
                 }
 
 
-                let poteheight = 50 + (Math.sin(((pomao.timeloop * 2.75) + 3.14)) * 2)
-                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.floor(pomao.gearcounter/10)%4), 0, poteimg.width/4, poteimg.height, 1150, -2570, 50, poteheight)
 
+                if(pomao.pote == 0){
+                    let poteheight = 50 + (Math.sin(((pomao.timeloop * 2.75) + 3.14)) * 2)
+                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.round(pomao.potecounter/12)%4), 0, poteimg.width/4, poteimg.height, 1150, -2570, 50, poteheight)
+                    let potebox = new Circle(1170, -2570, 40, "transparent")
+                    if(potebox.repelCheck(pomao.tongue) && !potebox.repelCheck(pomao.body)){
+                        pomao.pote = 1
+                        if (pomao.eggs.length < 16) {
+                            const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
+                            pomao.eggs.push(seepx)
+                        }
+                    }
+                }
 
                 
 
@@ -12791,8 +12808,8 @@ function logFile (event) {
                 this.tongue.radius = 12
             }
             this.tongue.draw()
-
-            this.wavecounter++
+            this.potecounter++
+            this.wavecounter++  
             this.wavecounter %= vb.length
             this.wallcounter++
             this.wallcounter %= vab.length
@@ -13979,10 +13996,19 @@ function logFile (event) {
                                 vibrate(gamepadAPI, 44, 10)
                             }
                             this.thrown.push(this.eggs[this.eggs.length - 1])
+                            let wet = 0
                             for (let t = 0; t < pomao.eggs.length; t++) {
+                                if(pomao.pote == 1){
+                                    if (pomao.eggs[t].pote == 1) {
+                                        wet = 1
+                                    }
+                                }
                                 if (pomao.thrown.includes(pomao.eggs[t])) {
                                     pomao.eggs.splice(t, 1)
                                 }
+                            }
+                            if(wet == 1){
+                                pomao.thrown[pomao.thrown.length-1].pote = 1
                             }
                             this.egglock = 0
                             this.eggtimer = 0
@@ -14001,10 +14027,19 @@ function logFile (event) {
                                 vibrate(gamepadAPI, 44, 10)
                             }
                             this.thrown.push(this.eggs[this.eggs.length - 1])
+                            let wet = 0
                             for (let t = 0; t < pomao.eggs.length; t++) {
+                                if(pomao.pote == 1){
+                                    if (pomao.eggs[t].pote == 1) {
+                                        wet = 1
+                                    }
+                                }
                                 if (pomao.thrown.includes(pomao.eggs[t])) {
                                     pomao.eggs.splice(t, 1)
                                 }
+                            }
+                            if(wet == 1){
+                                pomao.thrown[pomao.thrown.length-1].pote = 1
                             }
                         }
 
@@ -15985,7 +16020,8 @@ function logFile (event) {
     class Seed {
         constructor(target) {
             // ////////////console.log(pomao)
-            this.pote = 1
+            this.pote = 0
+            this.time = 0
             this.markedx = 0
             this.marked = 0
             this.target = target
@@ -16079,7 +16115,37 @@ function logFile (event) {
         draw() {
             if(pomao.eggs.indexOf(this) == 1){
                 this.pote = 1
+                    let wet = 0
+                    let index = -1
+                    for(let t = 0;t<pomao.thrown.length;t++){
+                        if(pomao.thrown[t].pote == 1){
+                            wet = 1
+                            index = t
+                        }
+                    }
+                    if(wet == 1 && pomao.thrown.indexOf(this) !== index){
+                        this.pote = 0
+                    }
             }else{
+                if(pomao.thrown.includes(this)){
+                    let wet = 0
+                    let index = -1
+                    for(let t = 0;t<pomao.thrown.length;t++){
+                        if(pomao.thrown[t].pote == 1){
+                            wet = 1
+                            index = t
+                        }
+                    }
+                    if(wet == 1 && pomao.thrown.indexOf(this) !== index){
+                        this.pote = 0
+                    }
+                }else{
+                this.pote = 0
+                }
+            }
+
+
+            if(pomao.pote == 0){
                 this.pote = 0
             }
 
@@ -16104,7 +16170,7 @@ function logFile (event) {
                 if(this.pote == 1){                    
 
                     let poteheight = 50 + (Math.sin(((pomao.timeloop * 2.75) + 3.14)) * 2)
-                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.floor(pomao.gearcounter/10)%4), 0, poteimg.width/4, poteimg.height, this.x - (this.width),  (this.y) - (this.height), 50, poteheight)
+                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.round(pomao.potecounter/12)%4), 0, poteimg.width/4, poteimg.height, this.x - (this.width),  (this.y) - (this.height), 50, poteheight)
                 }else{
                     if (cheats.megg == 1) {
                         tutorial_canvas_context.drawImage(seedegg, this.x - (this.width), (this.y + 7) - (this.height) + (7 * Math.cos(this.jiggle)), this.width * 2, this.height * 2)
@@ -16125,7 +16191,7 @@ function logFile (event) {
                 if(this.pote == 1){                    
 
                     let poteheight = 50 + (Math.sin(((pomao.timeloop * 2.75) + 3.14)) * 2)
-                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.floor(pomao.gearcounter/10)%4), 0, poteimg.width/4, poteimg.height, this.x - (this.width),  (this.y) - (this.height), 50, poteheight)
+                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.round(pomao.potecounter/12)%4), 0, poteimg.width/4, poteimg.height, this.x - (this.width),  (this.y) - (this.height), 50, poteheight)
                 }else{
 
                 if (this.hot == 0) {
@@ -16173,6 +16239,43 @@ function logFile (event) {
 
                 }
             }
+            if(pomao.thrown.includes(this) && this.pote == 1){
+                this.time++
+                if(this.time > 50){
+                    this.xmom -= (this.x-pomao.body.x)/400
+                    this.ymom -= (this.y-pomao.body.y)/400
+                }
+                if(this.time > 100){
+                    this.xmom -= (this.x-pomao.body.x)/240
+                    this.ymom -= (this.y-pomao.body.y)/240
+                }
+                if(this.time > 150){
+                    this.xmom -= (this.x-pomao.body.x)/140
+                    this.ymom -= (this.y-pomao.body.y)/140
+                }
+                if(this.time > 165){
+                if (pomao.eggs.length < 16) {
+                    const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
+                    pomao.eggs.push(seepx)
+                }
+                    for(let t = 0;t<pomao.eggs.length;t++){
+                        pomao.eggs[t].pote = 0
+                    }
+                    for(let t = 0;t<pomao.thrown.length;t++){
+                        pomao.thrown[t].pote = 0
+                    }
+                pomao.eggs[1].pote = 1
+                    pomao.thrown.splice(pomao.thrown.indexOf(this),1)
+                }
+                this.ymom*=.99
+                this.xmom*=.99
+                for(let t = 0;t<fruits.length;t++){
+                    if(fruits[t].body.repelCheck(this)){
+                        fruits[t].marked = 1
+                    }
+                }
+            }
+
 
             this.move()
 
@@ -27216,6 +27319,12 @@ function logFile (event) {
         pomao.cutscene = 0
         pomao.eggs = [pomao.body]
 
+                    if(pomao.pote == 1){
+                        if (pomao.eggs.length < 16) {
+                            const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
+                            pomao.eggs.push(seepx)
+                        }
+                    }
         beamrocks = []
         tutorial_canvas_context.translate(pomao.body.x - 640, pomao.body.y - 360)
         pomao.body.x = 640
@@ -28221,6 +28330,13 @@ function logFile (event) {
 
         beamrocks = []
         pomao.eggs = [pomao.body]
+
+                    if(pomao.pote == 1){
+                        if (pomao.eggs.length < 16) {
+                            const seepx = new Seed(pomao.eggs[pomao.eggs.length - 1])
+                            pomao.eggs.push(seepx)
+                        }
+                    }
         pomao.cutscene = 0
         level = 3
         if (savefile.levelReached < 3) {
