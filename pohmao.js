@@ -23,6 +23,8 @@ placessheet.src = 'places.png'
 
 const poteimg = new Image()
 poteimg.src = 'pote.png'
+const poteleftimg = new Image()
+poteleftimg.src = 'poteleft.png'
 
 
 const snowhatimg = new Image()
@@ -16170,7 +16172,11 @@ function logFile (event) {
                 if(this.pote == 1){                    
 
                     let poteheight = 50 + (Math.sin(((pomao.timeloop * 2.75) + 3.14)) * 2)
-                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.round(pomao.potecounter/12)%4), 0, poteimg.width/4, poteimg.height, this.x - (this.width),  (this.y) - (this.height), 50, poteheight)
+                    if(this.x < pomao.body.x){
+                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.round(pomao.potecounter/12)%4), 0, poteimg.width/4, poteimg.height, this.x - (25),  (this.y) - (this.height), 50, poteheight)
+                    }else{
+                    tutorial_canvas_context.drawImage(poteleftimg, (poteleftimg.width/4)*(Math.round(pomao.potecounter/12)%4), 0, poteleftimg.width/4, poteleftimg.height, this.x - (25),  (this.y) - (this.height), 50, poteheight)
+                    }
                 }else{
                     if (cheats.megg == 1) {
                         tutorial_canvas_context.drawImage(seedegg, this.x - (this.width), (this.y + 7) - (this.height) + (7 * Math.cos(this.jiggle)), this.width * 2, this.height * 2)
@@ -16191,7 +16197,11 @@ function logFile (event) {
                 if(this.pote == 1){                    
 
                     let poteheight = 50 + (Math.sin(((pomao.timeloop * 2.75) + 3.14)) * 2)
-                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.round(pomao.potecounter/12)%4), 0, poteimg.width/4, poteimg.height, this.x - (this.width),  (this.y) - (this.height), 50, poteheight)
+                    if(this.x > pomao.body.x){
+                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.round(pomao.potecounter/12)%4), 0, poteimg.width/4, poteimg.height, this.x - (25),  (this.y) - (this.height), 50, poteheight)
+                    }else{
+                    tutorial_canvas_context.drawImage(poteleftimg, (poteleftimg.width/4)*(Math.round(pomao.potecounter/12)%4), 0, poteleftimg.width/4, poteleftimg.height, this.x - (25),  (this.y) - (this.height), 50, poteheight)
+                    }
                 }else{
 
                 if (this.hot == 0) {
