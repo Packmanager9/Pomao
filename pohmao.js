@@ -21,8 +21,12 @@ hottubimgtop.src = 'hottubtop.png'
 const placessheet = new Image()
 placessheet.src = 'places.png'
 
+const poteimg = new Image()
+poteimg.src = 'pote.png'
 
 
+const snowhatimg = new Image()
+snowhatimg.src = 'snowhat.png'
 const flatcaphatimg = new Image()
 flatcaphatimg.src = 'flatcaphat.png'
 const sugarloafhatimg = new Image()
@@ -11891,6 +11895,11 @@ function logFile (event) {
                 }
 
 
+                let poteheight = 50 + (Math.sin(((pomao.timeloop * 2.75) + 3.14)) * 2)
+                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.floor(pomao.gearcounter/10)%4), 0, poteimg.width/4, poteimg.height, 1150, -2570, 50, poteheight)
+
+
+                
 
 
                 if (pomao.body.x > 2500) {
@@ -15976,6 +15985,7 @@ function logFile (event) {
     class Seed {
         constructor(target) {
             // ////////////console.log(pomao)
+            this.pote = 1
             this.markedx = 0
             this.marked = 0
             this.target = target
@@ -16067,6 +16077,11 @@ function logFile (event) {
             this.x += this.xmom
         }
         draw() {
+            if(pomao.eggs.indexOf(this) == 1){
+                this.pote = 1
+            }else{
+                this.pote = 0
+            }
 
             if (keysPressed['q']) {
                 this.radius = 23
@@ -16086,6 +16101,11 @@ function logFile (event) {
                 this.jiggle += .2
                 if (!keysPressed['q']) {
 
+                if(this.pote == 1){                    
+
+                    let poteheight = 50 + (Math.sin(((pomao.timeloop * 2.75) + 3.14)) * 2)
+                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.floor(pomao.gearcounter/10)%4), 0, poteimg.width/4, poteimg.height, this.x - (this.width),  (this.y) - (this.height), 50, poteheight)
+                }else{
                     if (cheats.megg == 1) {
                         tutorial_canvas_context.drawImage(seedegg, this.x - (this.width), (this.y + 7) - (this.height) + (7 * Math.cos(this.jiggle)), this.width * 2, this.height * 2)
 
@@ -16095,11 +16115,19 @@ function logFile (event) {
                     }
                 }
 
+                }
+
             } else {
 
                 // this.newboll = new Circle(this.x, this.y, 10, this.color)
 
                 // this.newboll.draw()
+                if(this.pote == 1){                    
+
+                    let poteheight = 50 + (Math.sin(((pomao.timeloop * 2.75) + 3.14)) * 2)
+                    tutorial_canvas_context.drawImage(poteimg, (poteimg.width/4)*(Math.floor(pomao.gearcounter/10)%4), 0, poteimg.width/4, poteimg.height, this.x - (this.width),  (this.y) - (this.height), 50, poteheight)
+                }else{
+
                 if (this.hot == 0) {
                     if (cheats.megg == 1) {
                         this.radius = 50
@@ -16141,6 +16169,8 @@ function logFile (event) {
                             }
                         }
                     }
+                }
+
                 }
             }
 
@@ -35692,6 +35722,32 @@ function logFile (event) {
                         tutorial_canvas_context.drawImage(flatcaphatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     } else {
                         tutorial_canvas_context.drawImage(flatcaphatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                }
+            }else if(this.hat == 22){
+                if (this.xdir == 1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(snowhatimg,64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(snowhatimg,7 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(snowhatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else if (this.xdir == -1) {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(snowhatimg,3 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(snowhatimg,5 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(snowhatimg,4 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    }
+                } else {
+                    if (this.ydir == 1) {
+                        tutorial_canvas_context.drawImage(snowhatimg,128, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else if (this.ydir == -1) {
+                        tutorial_canvas_context.drawImage(snowhatimg,6 * 64, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
+                    } else {
+                        tutorial_canvas_context.drawImage(snowhatimg,0, 0 , 64, 64, this.body.x - (32*this.scale), (this.body.y - (32*this.scale)) - (11*this.scale), (64*this.scale), (64*this.scale))
                     }
                 }
             }
